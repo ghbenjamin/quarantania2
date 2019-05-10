@@ -13,6 +13,8 @@ public:
     Window( const Window& ) = delete;
     Window& operator=( const Window& ) = delete;
 
+    SDL_Renderer* renderer() const;
+
 private:
 
     SDL_Window* m_window;

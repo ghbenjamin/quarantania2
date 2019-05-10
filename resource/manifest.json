@@ -1,0 +1,33 @@
+{
+  "spritesheet": [
+    {
+      "key": "kenney-chars",
+      "name": "kenney-roguelike-char.png",
+      "margin": 1,
+      "tileSize": 16
+    },
+    {
+      "key": "kenney-tiles",
+      "name": "kenney-roguelike-tiles.png",
+      "margin": 1,
+      "tileSize": 16
+    }
+  ],
+
+  "img": [
+  ],
+
+  "font": [
+    {
+      "key": "roboto-regular",
+      "name": "RobotoSlab-Regular.ttf",
+      "fontSize": 14
+    }
+  ],
+
+  "audio": [
+  ],
+
+  "data" : [
+  ]
+}

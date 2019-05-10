@@ -1,0 +1,19 @@
+#include <resource/Spritesheet.h>
+#include <utils/Assert.h>
+#include <utils/Logging.h>
+
+Spritesheet::Spritesheet(TexturePtr texture, int margin, int tileSize)
+: m_texture(texture), m_margin(margin), m_tileSize(tileSize)
+{
+    auto w = m_texture->size().x();
+    w -= tileSize;
+    m_tileWidth = ( w / (margin + tileSize) ) + 1;
+}
+
+const RectI Spritesheet::getRegion(int id) const
+{
+    return RectI{
+        { (id % m_tileWidth) * (m_tileSize + m_margin), (id / m_tileWidth) * (m_tileSize + m_margin) },
+        { m_tileSize, m_tileSize }
+    };
+}

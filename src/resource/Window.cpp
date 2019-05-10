@@ -45,3 +45,8 @@ Window::~Window()
     TTF_Quit();
     SDL_Quit();
 }
+
+SDL_Renderer *Window::renderer() const
+{
+    return m_renderer;
+}

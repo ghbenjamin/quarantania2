@@ -8,11 +8,13 @@
 
 #include <utils/Containers.h>
 
+class Texture;
+using TexturePtr = std::shared_ptr<Texture>;
+
 class Texture
 {
 public:
 
-    Texture();
     explicit Texture( SDL_Texture* );
     virtual ~Texture();
 
@@ -22,6 +24,9 @@ public:
     const Vector2i& size() const&;
     const SDL_Texture* raw() const;
 
+    static TexturePtr loadTexture( SDL_Renderer* renderer, std::string const& path );
+
+
 private:
 
     SDL_Texture* m_raw;
@@ -29,9 +34,3 @@ private:
 };
 
 using TexturePtr = std::shared_ptr<Texture>;
-
-
-namespace IO
-{
-    TexturePtr loadTexture( SDL_Renderer* renderer, std::string_view path );
-}

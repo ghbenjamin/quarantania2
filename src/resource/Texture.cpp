@@ -2,13 +2,7 @@
 #include <resource/Texture.h>
 #include <SDL2/SDL_image.h>
 #include <utils/Assert.h>
-
-
-Texture::Texture()
-: m_raw(nullptr), m_size( Vector2i::Null() )
-{
-    m_raw = nullptr;
-}
+#include <utils/Logging.h>
 
 Texture::Texture(SDL_Texture* t)
 {
@@ -40,9 +34,9 @@ const SDL_Texture *Texture::raw() const
     return m_raw;
 }
 
-TexturePtr IO::loadTexture( SDL_Renderer* renderer, std::string_view path )
+TexturePtr Texture::loadTexture(SDL_Renderer *renderer, std::string const &path)
 {
-    SDL_Surface* image = IMG_Load( std::string(path).c_str() );
+    SDL_Surface* image = IMG_Load( path.c_str() );
     AssertMsg( image != nullptr, "Expected loaded surface" );
 
     auto texture = SDL_CreateTextureFromSurface( renderer, image );

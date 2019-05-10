@@ -4,6 +4,9 @@
 #include <core/Engine.h>
 #include <resource/Window.h>
 #include <utils/Time.h>
+#include <resource/Manifest.h>
+#include <iostream>
+#include <resource/ResourceManager.h>
 
 void Engine::run()
 {
@@ -15,6 +18,10 @@ void Engine::run()
     const Uint32 msPerFrame = 1000 / maxFPS;
 
     auto window = std::make_unique<Window>( "Quarantania", screenSize );
+
+    ResourceManager resources;
+    resources.loadAll( window );
+
 
     while (runGame)
     {
