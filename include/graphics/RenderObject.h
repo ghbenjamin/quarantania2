@@ -4,7 +4,8 @@
 
 struct RenderObject
 {
-    TexturePtr texture;
-    RectI sourceRect;
-    RectI targetRect;
+    SDL_Texture* texture;
+    SDL_Rect* sourceRect;
+
+    SDL_Rect* targetRect;
 };

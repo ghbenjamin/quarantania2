@@ -2,6 +2,7 @@
 
 #include <string>
 #include <utils/Containers.h>
+#include <graphics/Renderer.h>
 
 class Window
 {
@@ -13,13 +14,13 @@ public:
     Window( const Window& ) = delete;
     Window& operator=( const Window& ) = delete;
 
-    SDL_Renderer* renderer() const;
+    SDL_Window* raw();
+    RendererPtr const& renderer();
 
 private:
 
     SDL_Window* m_window;
-    SDL_Renderer* m_renderer;
-
     Vector2i m_size;
 
+    RendererPtr m_renderer;
 };

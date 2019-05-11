@@ -1,5 +1,5 @@
 #include <resource/ResourceManager.h>
-#include <resource/Window.h>
+#include <graphics/Window.h>
 #include <iostream>
 #include <utils/Logging.h>
 
@@ -37,7 +37,7 @@ void ResourceManager::loadAllSpritesheets(std::unique_ptr<Window> const& ctx,
 {
     for ( auto const& d : data)
     {
-        auto ptr = Texture::loadTexture( ctx->renderer(), "../resource/img/" + d.path );
+        auto ptr = Texture::loadTexture( ctx->renderer()->raw(), "../resource/img/" + d.path );
         m_spritesheets[d.key] = std::make_shared<Spritesheet>( std::move(ptr), d.margin, d.tileSize );
     }
 }

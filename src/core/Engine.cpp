@@ -2,26 +2,29 @@
 #include <memory>
 
 #include <core/Engine.h>
-#include <resource/Window.h>
+#include <graphics/Window.h>
 #include <utils/Time.h>
 #include <resource/Manifest.h>
 #include <iostream>
 #include <resource/ResourceManager.h>
+#include <utils/GlobalConfig.h>
 
 void Engine::run()
 {
-    bool runGame = true;
-    Timer timer = Timer();
-    Uint32 ticks = 0;
-    const Vector2i screenSize = { 800, 600 };
-    const int maxFPS = 60;
-    const Uint32 msPerFrame = 1000 / maxFPS;
+    GlobalConfig::GlobalConfigInfo globalConfig = GlobalConfig::load( "../config.json" );
 
-    auto window = std::make_unique<Window>( "Quarantania", screenSize );
+    auto window = std::make_unique<Window>(
+        globalConfig.windowTitle, globalConfig.screenSize
+    );
 
     ResourceManager resources;
     resources.loadAll( window );
 
+
+    bool runGame = true;
+    Timer timer = Timer();
+    Uint32 ticks = 0;
+    const Uint32 msPerFrame = 1000 / globalConfig.maxFPS;
 
     while (runGame)
     {

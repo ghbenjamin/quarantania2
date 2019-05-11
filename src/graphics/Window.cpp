@@ -1,10 +1,13 @@
-#include <resource/Window.h>
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "hicpp-signed-bitwise"
+
+#include <graphics/Window.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <utils/Assert.h>
 
 Window::Window(std::string const &title, Vector2i bounds)
-: m_size(bounds), m_window(nullptr), m_renderer(nullptr)
+: m_size(bounds), m_window(nullptr)
 {
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
@@ -21,22 +24,11 @@ Window::Window(std::string const &title, Vector2i bounds)
 
     Assert( m_window != nullptr);
 
-    m_renderer = SDL_CreateRenderer(
-        m_window,
-        -1,
-        SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
-    );
-
-    Assert( m_renderer != nullptr );
+    m_renderer = std::make_unique<Renderer>(m_window);
 }
 
 Window::~Window()
 {
-    if ( m_renderer )
-    {
-        SDL_DestroyRenderer( m_renderer );
-    }
-
     if ( m_window )
     {
         SDL_DestroyWindow( m_window );
@@ -46,7 +38,14 @@ Window::~Window()
     SDL_Quit();
 }
 
-SDL_Renderer *Window::renderer() const
+RendererPtr const &Window::renderer()
 {
     return m_renderer;
 }
+
+SDL_Window *Window::raw()
+{
+    return m_window;
+}
+
+#pragma clang diagnostic pop

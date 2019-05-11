@@ -22,11 +22,11 @@ Sprite::operator bool()
 
 const RenderObject Sprite::renderObject(const RectI & target) const
 {
-    return {
-        m_texture,
-        m_region,
-        target
-    };
+//    return {
+//        m_texture,
+//        m_region,
+//        target
+//    };
 }
 
 

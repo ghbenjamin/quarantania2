@@ -6,20 +6,12 @@
 #include <rapidjson/document.h>
 
 #include <utils/Assert.h>
+#include <utils/Json.h>
 
 ManifestData IO::readResourceManifest( )
 {
     ManifestData md;
-    std::ifstream fstream( ManifestPath );
-
-    std::stringstream buffer;
-    buffer << fstream.rdbuf();
-
-    rapidjson::Document doc;
-    doc.Parse( buffer.str().c_str() );
-
-    Assert( doc.IsObject() );
-    Assert( !doc.ObjectEmpty() );
+    rapidjson::Document doc = JsonUtils::loadFromPath( ManifestPath );
 
     {
         auto it = doc.FindMember( "spritesheet" );
