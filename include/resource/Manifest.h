@@ -3,8 +3,6 @@
 #include <string>
 #include <vector>
 
-static const char *ManifestPath = "../resource/manifest.json";
-
 struct ManifestImageData
 {
     std::string key;
@@ -34,9 +32,3 @@ struct ManifestData
     std::vector<ManifestSpritesheetData> spriteSheets;
     std::vector<ManifestFontData> fonts;
 };
-
-
-namespace IO
-{
-ManifestData readResourceManifest();
-}

@@ -3,6 +3,8 @@
 
 int main( int argc, char** argv ) 
 {
-    Engine::run();
+    Engine e;
+    e.run();
+
     return 0;
 }

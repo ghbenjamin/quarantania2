@@ -24,3 +24,6 @@ private:
 
     RendererPtr m_renderer;
 };
+
+
+using WindowPtr = std::shared_ptr<Window>;

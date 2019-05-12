@@ -10,6 +10,8 @@ public:
 
     std::vector<RenderObject> const& renderables() const;
 
+    void clear();
+
 private:
     std::vector<RenderObject> m_renderables;
 };

@@ -8,27 +8,36 @@
 #include <iostream>
 #include <resource/ResourceManager.h>
 #include <utils/GlobalConfig.h>
+#include <graphics/RenderInterface.h>
+#include <state/State.h>
+#include <state/LevelState.h>
+#include <game/LevelConfig.h>
 
 void Engine::run()
 {
     GlobalConfig::GlobalConfigInfo globalConfig = GlobalConfig::load( "../config.json" );
+    const Uint32 msPerFrame = 1000 / globalConfig.maxFPS;
 
-    auto window = std::make_unique<Window>(
+    auto window = std::make_shared<Window>(
         globalConfig.windowTitle, globalConfig.screenSize
     );
 
-    ResourceManager resources;
-    resources.loadAll( window );
+    ResourceManager resources(window);
+    resources.loadAll( "../resource/manifest.json" );
 
+    RenderInterface renderInterface;
+    LevelConfig debugConfig;
 
-    bool runGame = true;
+    pushState<LevelState>( debugConfig );
+
     Timer timer = Timer();
     Uint32 ticks = 0;
-    const Uint32 msPerFrame = 1000 / globalConfig.maxFPS;
+    bool runGame = true;
 
     while (runGame)
     {
         timer.start();
+        renderInterface.clear();
 
         SDL_Event evt;
         while (SDL_PollEvent(&evt) != 0)
@@ -37,7 +46,13 @@ void Engine::run()
             {
                 runGame = false;
             }
+
+            m_states.back()->input(evt);
         }
+
+        m_states.back()->update(ticks, renderInterface);
+
+        window->renderer()->render(renderInterface);
 
         // Hacky framerate limiting
         ticks = timer.elapsed();
@@ -46,4 +61,11 @@ void Engine::run()
             SDL_Delay(msPerFrame - ticks);
         }
     }
+}
+
+GameStatePtr Engine::popState()
+{
+    auto ptr = std::move(m_states.back());
+    m_states.pop_back();
+    return std::move(ptr);
 }
