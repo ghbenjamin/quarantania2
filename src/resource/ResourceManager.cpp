@@ -5,25 +5,25 @@
 #include <rapidjson/document.h>
 #include <utils/Json.h>
 
-ResourceManager::ResourceManager(WindowPtr const &ctx)
-: m_context(ctx)
-{
-}
 
-void ResourceManager::loadAll( std::string const& manifest )
+void ResourceManager::registerAll(std::string const &manifest)
 {
     ManifestData data = readResourceManifest(manifest);
 
-    loadAllSpritesheets( data.spriteSheets );
-    loadAllImages( data.images );
-    loadAllFonts( data.fonts );
-}
+    for ( auto const& d : data.images )
+    {
+        addResource<ImageResource>( d.key, d.path );
+    }
 
-void ResourceManager::unloadAll()
-{
-    m_fonts.clear();
-    m_images.clear();
-    m_spritesheets.clear();
+    for ( auto const& d : data.fonts )
+    {
+        addResource<FontResource>( d.key, d.path, d.fontSize );
+    }
+
+    for ( auto const& d : data.spriteSheets )
+    {
+        addResource<SpritesheetResource>( d.key, d.path, d.margin, d.tileSize );
+    }
 }
 
 ManifestData ResourceManager::readResourceManifest( std::string const& path )
@@ -74,7 +74,9 @@ ManifestData ResourceManager::readResourceManifest( std::string const& path )
             auto fontObj = fontNode.GetObject();
             ManifestFontData mid;
 
+            mid.key = fontObj.FindMember( "key" )->value.GetString();
             mid.path = fontObj.FindMember( "name" )->value.GetString();
+            mid.fontSize = fontObj.FindMember( "fontSize" )->value.GetInt();
 
             md.fonts.push_back(mid);
         }
@@ -84,31 +86,28 @@ ManifestData ResourceManager::readResourceManifest( std::string const& path )
     return md;
 }
 
-
-
-void ResourceManager::loadAllImages(std::vector<ManifestImageData> const &data)
+void ResourceManager::setWindow(WindowPtr const &wnd)
 {
-    for ( auto const& d : data)
-    {
+    m_context = wnd;
+}
 
+WindowPtr const &ResourceManager::getWindow() const
+{
+    return m_context;
+}
+
+void ResourceManager::loadAll()
+{
+    for ( auto const &[k, v] : m_resources )
+    {
+        v->load();
     }
 }
 
-void ResourceManager::loadAllFonts(std::vector<ManifestFontData> const &data)
+void ResourceManager::unloadAll()
 {
-    for ( auto const& d : data)
-    {
-        m_fonts[d.key] = Font::loadFont( "../resource/font/" + d.path, d.fontSize );
-    }
+    m_resources.clear();
 }
 
-void ResourceManager::loadAllSpritesheets(std::vector<ManifestSpritesheetData> const &data)
-{
-    for ( auto const& d : data)
-    {
-        auto ptr = Texture::loadTexture( m_context->renderer()->raw(), "../resource/img/" + d.path );
-        m_spritesheets[d.key] = std::make_shared<Spritesheet>( std::move(ptr), d.margin, d.tileSize );
-    }
-}
 
 

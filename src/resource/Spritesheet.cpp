@@ -17,3 +17,11 @@ const RectI Spritesheet::getRegion(int id) const
         { m_tileSize, m_tileSize }
     };
 }
+
+const Vector2i Spritesheet::sheetPosFromGid(int gid) const
+{
+    int x = (gid % m_tileWidth) * (m_tileSize + m_margin);
+    int y = (gid / m_tileWidth) * (m_tileSize + m_margin);
+
+    return {x, y};
+}

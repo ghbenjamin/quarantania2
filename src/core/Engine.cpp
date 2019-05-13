@@ -22,8 +22,12 @@ void Engine::run()
         globalConfig.windowTitle, globalConfig.screenSize
     );
 
-    ResourceManager resources(window);
-    resources.loadAll( "../resource/manifest.json" );
+    ResourceManager::get().setWindow( window );
+    ResourceManager::get().registerAll("../resource/manifest.json");
+    ResourceManager::get().loadAll();
+
+    auto ptr = ResourceManager::get().getResource<SpritesheetResource>( "kenney-chars" )->get();
+    auto dbg = ptr->sheetPosFromGid( 271 );
 
     RenderInterface renderInterface;
     LevelConfig debugConfig;
@@ -61,6 +65,9 @@ void Engine::run()
             SDL_Delay(msPerFrame - ticks);
         }
     }
+
+    // Cleanup
+    ResourceManager::get().unloadAll();
 }
 
 GameStatePtr Engine::popState()

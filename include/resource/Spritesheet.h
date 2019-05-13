@@ -14,6 +14,9 @@ public:
 
     const RectI getRegion( int id ) const;
 
+
+    const Vector2i sheetPosFromGid( int gid ) const;
+
 private:
 
     int m_margin;

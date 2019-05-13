@@ -18,9 +18,10 @@ Texture::Texture(SDL_Texture* t)
 
 Texture::~Texture()
 {
-    if (m_raw)
+    if (m_raw != nullptr)
     {
         SDL_DestroyTexture(m_raw);
+        m_raw = nullptr;
     }
 }
 
@@ -44,5 +45,6 @@ TexturePtr Texture::loadTexture(SDL_Renderer *renderer, std::string const &path)
 
     SDL_FreeSurface( image );
 
-    return std::make_shared<Texture>(texture);
+    auto ptr = std::make_shared<Texture>(texture);
+    return ptr;
 }
