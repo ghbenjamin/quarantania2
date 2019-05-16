@@ -9,3 +9,8 @@ void RenderInterface::clear()
 {
     m_renderables.clear();
 }
+
+void RenderInterface::addRenderable(RenderObject const &obj)
+{
+    m_renderables.push_back(obj);
+}

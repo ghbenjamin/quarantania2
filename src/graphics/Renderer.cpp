@@ -10,6 +10,8 @@ Renderer::Renderer( SDL_Window* target )
         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
     );
 
+    SDL_RenderSetScale( m_renderer, 2.0f, 2.0f );
+
     Assert( m_renderer != nullptr );
 }
 
@@ -33,7 +35,7 @@ void Renderer::render(RenderInterface const &objs)
 
     for ( auto const& item : objs.renderables() )
     {
-        SDL_RenderCopy(m_renderer, item.texture, item.sourceRect, item.targetRect);
+        SDL_RenderCopy(m_renderer, item.texture, &item.sourceRect, &item.targetRect);
     }
 
     SDL_RenderPresent( m_renderer );

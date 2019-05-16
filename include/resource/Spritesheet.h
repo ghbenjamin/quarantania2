@@ -1,6 +1,7 @@
 #pragma once
 
 #include <resource/Texture.h>
+#include <resource/Sprite.h>
 
 class Spritesheet
 {
@@ -13,9 +14,10 @@ public:
     Spritesheet& operator=( const Spritesheet& ) = delete;
 
     const RectI getRegion( int id ) const;
-
-
     const Vector2i sheetPosFromGid( int gid ) const;
+
+    Sprite spriteFromGid( int gid );
+    Sprite spriteFromName( std::string const& name );
 
 private:
 

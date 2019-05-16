@@ -1,18 +1,20 @@
 #pragma once
 
-#include <iostream>
+#include <fmt/format.h>
+#include <utils/Containers.h>
 
-
-#define LOG_VAR(v) std::cout << #v << " " << v << std::endl
-
-
-class Logging
+namespace Logging
 {
-public:
-
     template <typename T>
-    static void log(T val)
+    void log(T const& t)
     {
-        std::cout << std::to_string(val) << std::endl;
+        fmt::print( "{}\n", t );
     }
-};
+
+    template <>
+    void log( Vector2i const& t );
+
+    template <>
+    void log( RectI const& t);
+}
+

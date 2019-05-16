@@ -17,7 +17,7 @@ public:
     virtual ~Level() = default;
 
     bool input(SDL_Event &evt);
-    void update(Uint32 ticks, RenderInterface &rInter);
+    void update(uint32_t ticks, RenderInterface &rInter);
 
 private:
 };

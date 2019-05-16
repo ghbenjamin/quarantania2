@@ -23,3 +23,6 @@ target_link_libraries(quarantania2 PRIVATE SDL2::SDL2_ttf)
 
 find_package(RapidJSON CONFIG REQUIRED)
 target_include_directories(quarantania2 PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
+
+find_package(fmt CONFIG REQUIRED)
+target_link_libraries(quarantania2 PRIVATE fmt::fmt fmt::fmt-header-only)

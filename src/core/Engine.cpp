@@ -12,11 +12,12 @@
 #include <state/State.h>
 #include <state/LevelState.h>
 #include <game/LevelConfig.h>
+#include <resource/Sprite.h>
 
 void Engine::run()
 {
     GlobalConfig::GlobalConfigInfo globalConfig = GlobalConfig::load( "../config.json" );
-    const Uint32 msPerFrame = 1000 / globalConfig.maxFPS;
+    const uint32_t msPerFrame = 1000 / globalConfig.maxFPS;
 
     auto window = std::make_shared<Window>(
         globalConfig.windowTitle, globalConfig.screenSize
@@ -26,8 +27,7 @@ void Engine::run()
     ResourceManager::get().registerAll("../resource/manifest.json");
     ResourceManager::get().loadAll();
 
-    auto ptr = ResourceManager::get().getResource<SpritesheetResource>( "kenney-chars" )->get();
-    auto dbg = ptr->sheetPosFromGid( 271 );
+    Sprite debug = ResourceManager::get().getResource<SpritesheetResource>("kenney-chars")->get()->spriteFromGid(540);
 
     RenderInterface renderInterface;
     LevelConfig debugConfig;
@@ -35,7 +35,7 @@ void Engine::run()
     pushState<LevelState>( debugConfig );
 
     Timer timer = Timer();
-    Uint32 ticks = 0;
+    uint32_t ticks = 0;
     bool runGame = true;
 
     while (runGame)
@@ -56,6 +56,7 @@ void Engine::run()
 
         m_states.back()->update(ticks, renderInterface);
 
+        renderInterface.addRenderable( debug.renderObject({100, 100})  );
         window->renderer()->render(renderInterface);
 
         // Hacky framerate limiting

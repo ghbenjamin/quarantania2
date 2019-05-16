@@ -22,7 +22,7 @@ void Timer::stop()
     m_isFixed = true;
 }
 
-Uint32 Timer::elapsed()
+uint32_t Timer::elapsed()
 {
     if (m_isFixed)
     {

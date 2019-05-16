@@ -121,7 +121,6 @@ public:
           m_x(rect.x), m_y(rect.y), m_w(rect.w), m_h(rect.h)
     {}
 
-
     T x() const
     { return m_x; }
 
@@ -158,12 +157,12 @@ public:
         m_rect.h = (int) m_h;
     }
 
-    Vector2<T> left()
+    Vector2<T> left() const
     {
         return { m_x, m_y };
     }
 
-    Vector2<T> right()
+    Vector2<T> right() const
     {
         return { m_w, m_h };
     }
@@ -215,6 +214,11 @@ public:
     bool isEmpty() const
     {
         return m_x == 0 && m_y == 0 && m_w == 0 && m_h == 0;
+    }
+
+    SDL_Rect toSDL( ) const
+    {
+        return SDL_Rect{m_x, m_y, m_w, m_h};
     }
 
     static const Rect<T> Null()

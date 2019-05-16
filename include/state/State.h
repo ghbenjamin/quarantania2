@@ -13,7 +13,7 @@ public:
     virtual ~GameState() = default;
 
     virtual bool input(SDL_Event& evt) = 0;
-    virtual void update(Uint32 ticks, RenderInterface&) = 0;
+    virtual void update(uint32_t ticks, RenderInterface&) = 0;
 };
 
 using GameStatePtr = std::unique_ptr<GameState>;

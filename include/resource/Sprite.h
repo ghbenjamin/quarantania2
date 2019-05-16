@@ -9,18 +9,18 @@ class Sprite
 public:
 
     Sprite();
-    Sprite(std::shared_ptr<Texture> const& texture, RectI const& region);
-    explicit Sprite(std::shared_ptr<Texture> const& texture );
-
+    Sprite(TexturePtr const& texture, RectI const& region);
+    explicit Sprite(TexturePtr const& texture);
     virtual ~Sprite() = default;
 
     explicit operator bool();
 
-    const RenderObject renderObject( RectI const& target ) const;
+    const RenderObject renderObject(Vector2i const& pos) const;
 
 private:
 
-    std::shared_ptr<Texture> m_texture;
-    RectI m_region;
+    TexturePtr m_texture;
+    Vector2i m_size;
+    SDL_Rect m_textureRegion;
 
 };

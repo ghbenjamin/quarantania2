@@ -11,12 +11,12 @@ public:
     void start();
     void stop();
 
-    Uint32 elapsed();
+    uint32_t elapsed();
 
 private:
 
-    Uint32 m_lastTicks;
-    Uint32 m_fixedTicks;
+    uint32_t m_lastTicks;
+    uint32_t m_fixedTicks;
 
     bool m_isFixed;
 };

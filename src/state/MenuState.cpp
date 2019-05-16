@@ -5,7 +5,7 @@ bool MenuState::input(SDL_Event &evt)
     return false;
 }
 
-void MenuState::update(Uint32 ticks, RenderInterface &rInterface)
+void MenuState::update(uint32_t ticks, RenderInterface &rInterface)
 {
 
 }

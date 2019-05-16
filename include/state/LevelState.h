@@ -2,6 +2,7 @@
 
 #include <state/State.h>
 #include <game/Level.h>
+#include <ecs/ECS.h>
 
 
 struct LevelConfig;
@@ -14,9 +15,15 @@ public:
     ~LevelState() override = default;
 
     bool input(SDL_Event &evt) override;
-    void update(Uint32 ticks, RenderInterface &anInterface) override;
+    void update(uint32_t ticks, RenderInterface &rInter) override;
 
 private:
+
+    void debugStuff();
+
+private:
+
+    ECS m_ecs;
 
     LevelPtr m_level;
     LevelContextPtr m_pContext;
