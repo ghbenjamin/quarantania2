@@ -1,9 +1,11 @@
 #pragma once
 
 #include <unordered_map>
+#include <algorithm>
 #include <type_traits>
 #include <typeindex>
 #include <set>
+#include <iterator>
 
 #include <ecs/Component.h>
 #include <ecs/Entity.h>
