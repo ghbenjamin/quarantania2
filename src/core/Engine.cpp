@@ -27,8 +27,6 @@ void Engine::run()
     ResourceManager::get().registerAll("../resource/manifest.json");
     ResourceManager::get().loadAll();
 
-    Sprite debug = ResourceManager::get().getResource<SpritesheetResource>("kenney-chars")->get()->spriteFromGid(540);
-
     RenderInterface renderInterface;
     LevelConfig debugConfig;
 
@@ -56,7 +54,6 @@ void Engine::run()
 
         m_states.back()->update(ticks, renderInterface);
 
-        renderInterface.addRenderable( debug.renderObject({100, 100})  );
         window->renderer()->render(renderInterface);
 
         // Hacky framerate limiting
