@@ -1,19 +1,38 @@
+#include <utility>
+
+
 #include <resource/Sprite.h>
 #include <utils/Assert.h>
+#include <utils/Logging.h>
 
 Sprite::Sprite()
-: m_texture(nullptr), m_textureRegion{0, 0, 0, 0}, m_size{0, 0}
+    : m_renderObj{ nullptr, {0, 0, 0, 0}, {0, 0, 0, 0}}
 {
 }
 
-Sprite::Sprite(std::shared_ptr<Texture> const &texture, RectI const &region)
-    : m_texture(texture), m_size(region.right()), m_textureRegion( region.toSDL() )
+Sprite::Sprite(std::shared_ptr<Texture> texture, RectI const &region)
+    : m_texture(std::move(texture)), m_renderObj{
+        const_cast<SDL_Texture *>(m_texture->raw()),
+        region.toSDL(),
+        {0, 0, region.w(), region.h()}
+    }
+
 {
 }
 
-Sprite::Sprite(std::shared_ptr<Texture> const &texture)
-    : m_texture(texture), m_size(m_texture->size()), m_textureRegion{0, 0, m_size.x(), m_size.y() }
+Sprite::Sprite(std::shared_ptr<Texture> texture)
+    : m_texture(std::move(texture)), m_renderObj{
+        const_cast<SDL_Texture *>(m_texture->raw()),
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}
+    }
 {
+    auto [w, h] = m_texture->size();
+
+    m_renderObj.sourceRect.w = w;
+    m_renderObj.sourceRect.h = h;
+    m_renderObj.targetRect.w = w;
+    m_renderObj.targetRect.h = h;
 }
 
 Sprite::operator bool()
@@ -24,9 +43,9 @@ Sprite::operator bool()
 const RenderObject Sprite::renderObject(Vector2i const &pos) const
 {
     Assert( !!m_texture );
-    return {
-        const_cast<SDL_Texture *>(m_texture->raw()),
-        m_textureRegion,
-        SDL_Rect{ pos.x(), pos.y(), m_size.x(), m_size.y() }
-    };
+
+    m_renderObj.targetRect.x = pos.x();
+    m_renderObj.targetRect.y = pos.y();
+
+    return m_renderObj;
 }

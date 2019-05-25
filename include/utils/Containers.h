@@ -79,6 +79,13 @@ public:
         return {i, i};
     }
 
+    template <std::size_t N>
+    decltype(auto) get() const
+    {
+        if      constexpr (N == 0) return m_x;
+        else if constexpr (N == 1) return m_y;
+    }
+
 private:
 
     T m_x;
@@ -86,6 +93,17 @@ private:
 
 };
 
+// STD Magic for structured bindings
+namespace std {
+    template <typename T>
+    struct tuple_size<Vector2<T>>
+            : std::integral_constant<std::size_t, 2> {};
+
+    template<typename T, std::size_t N>
+    struct tuple_element<N, Vector2<T>> {
+        using type = decltype(std::declval<T>());
+    };
+}
 
 template <typename T>
 struct Vector2Hash
@@ -239,6 +257,15 @@ public:
         return !(rhs == *this);
     }
 
+    template <std::size_t N>
+    decltype(auto) get() const
+    {
+        if      constexpr (N == 0) return m_x;
+        else if constexpr (N == 1) return m_y;
+        else if constexpr (N == 2) return m_w;
+        else if constexpr (N == 3) return m_h;
+    }
+
 private:
 
     T m_x;
@@ -248,6 +275,18 @@ private:
 
     SDL_Rect m_rect;
 };
+
+// STD Magic for structured bindings
+namespace std {
+    template <typename T>
+    struct tuple_size<Rect<T>>
+            : std::integral_constant<std::size_t, 4> {};
+
+    template<typename T, std::size_t N>
+    struct tuple_element<N, Rect<T>> {
+        using type = decltype(std::declval<T>());
+    };
+}
 
 
 typedef Vector2<int> Vector2i;

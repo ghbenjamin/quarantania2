@@ -9,8 +9,8 @@ class Sprite
 public:
 
     Sprite();
-    Sprite(TexturePtr const& texture, RectI const& region);
-    explicit Sprite(TexturePtr const& texture);
+    Sprite(TexturePtr  texture, RectI const& region);
+    explicit Sprite(TexturePtr  texture);
     virtual ~Sprite() = default;
 
     explicit operator bool();
@@ -20,7 +20,5 @@ public:
 private:
 
     TexturePtr m_texture;
-    Vector2i m_size;
-    SDL_Rect m_textureRegion;
-
+    mutable RenderObject m_renderObj;
 };

@@ -16,5 +16,8 @@ namespace Logging
 
     template <>
     void log( RectI const& t);
+
+    template <>
+    void log( SDL_Rect const& t );
 }
 
