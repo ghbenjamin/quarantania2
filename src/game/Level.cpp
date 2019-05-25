@@ -1,19 +1,21 @@
+#include <utility>
+
 #include <game/Level.h>
+#include <graphics/RenderInterface.h>
 
-Level::Level(LevelInitData const& ctx)
-: m_size(ctx.levelSize)
+Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
+: m_imData(imd), m_ctx(std::move(ctx))
 {
-    Assert( m_size.x() > 0 && m_size.y() > 0 );
-    m_tileCount = m_size.x() * m_size.y();
+    PassibilityData defaultPd {imd.defaultPassibility};
+    m_passibilityData = std::vector<PassibilityData>(m_imData.tileCount, defaultPd);
 
-    PassibilityData defaultPd {ctx.defaultPassibility};
-    m_passibilityData = std::vector<PassibilityData>(m_tileCount, defaultPd);
+    VisibilityData defaultVd {imd.defaultVisibility};
+    m_visibilityData = std::vector<VisibilityData>(m_imData.tileCount, defaultVd);
 
-    VisibilityData defaultVd {ctx.defaultVisibility};
-    m_visibilityData = std::vector<VisibilityData>(m_tileCount, defaultVd);
+    LightingData defaultLd {imd.defaultLightLevel};
+    m_lightingData = std::vector<LightingData>(m_imData.tileCount, defaultLd);
 
-    LightingData defaultLd {ctx.defaultLightLevel};
-    m_lightingData = std::vector<LightingData>(m_tileCount, defaultLd);
+
 }
 
 bool Level::input(SDL_Event &evt)
@@ -21,12 +23,42 @@ bool Level::input(SDL_Event &evt)
     return false;
 }
 
-void Level::update(uint32_t ticks, RenderInterface &rInterface)
+void Level::render(uint32_t ticks, RenderInterface &rInter)
 {
-    m_ecs.update(ticks, rInterface);
+    renderTiles(ticks, rInter);
 }
 
-const Vector2i &Level::getSize() const
+void Level::update(uint32_t ticks, RenderInterface &rInterface)
 {
-    return m_size;
+    // Render ourself: tiles, etc.
+    render(ticks, rInterface);
+
+    // Render everything managed by the ECS
+    m_ecs.update(ticks, rInterface);
+
+    // Render the GUI
+    // TODO Gui
 }
+
+void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
+{
+    Vector2i offset = {0, 0};
+    Vector2i currPos;
+    int row = 0;
+    int col = 0;
+    int width = m_imData.levelSize.x();
+
+    for ( auto const& ref : m_imData.mapLayout )
+    {
+        currPos = offset + Vector2i{ col * m_imData.tilePixelSize, row * m_imData.tilePixelSize };
+
+        rInter.addRenderable( m_imData.tileMap.get(ref).sprite.renderObject( currPos ) );
+        col++;
+        if ( col >= width )
+        {
+            col = 0;
+            row++;
+        }
+    }
+}
+

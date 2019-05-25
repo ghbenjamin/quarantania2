@@ -12,6 +12,14 @@ include_directories(include)
 
 add_executable(quarantania2 ${CPP_SOURCE_LIST})
 
+if(MSVC)
+    # Disable spurious warning from old version of RapidJson
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4996")
+else()
+   # Nothing yet
+endif()
+
+# VCPKG Dependencies
 find_package(SDL2 CONFIG REQUIRED)
 target_link_libraries(quarantania2 PRIVATE SDL2::SDL2main SDL2::SDL2-static)
 

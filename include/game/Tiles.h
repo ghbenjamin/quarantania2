@@ -3,19 +3,16 @@
 #include <memory>
 #include <vector>
 
+#include <resource/Spritesheet.h>
 
-struct TileInfo
+
+struct Tile
 {
+    Sprite sprite;
+    bool passible = true;
 };
 
-
-
-class Tile
-{
-public:
-private:
-};
-
+using TileRef = size_t;
 
 
 class TileMap
@@ -24,9 +21,13 @@ public:
     TileMap() = default;
     ~TileMap() = default;
 
+    TileRef addTile( const SpritesheetKey& key, bool passible );
+
+    Tile const& get( TileRef ref ) const;
+    Tile const& get( std::string const& name ) const;
+    TileRef getRef( std::string const& name ) const;
+
 private:
-    int m_nextTileId;
-    std::vector<Tile> m_tileLookup;
-
+    std::vector<Tile> m_tiles;
+    std::unordered_map<std::string, TileRef> m_names;
 };
-

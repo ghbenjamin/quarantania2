@@ -1,5 +1,7 @@
 #include <resource/Resource.h>
 #include <resource/ResourceManager.h>
+#include <utils/Json.h>
+#include <utils/Logging.h>
 
 Resource::Resource( std::string const& key, std::string const& path )
     : m_isLoaded(false), m_type(ResourceType::Null), m_key(key), m_path(path)
@@ -83,9 +85,22 @@ const SpritesheetPtr &SpritesheetResource::get() const
 
 void SpritesheetResource::load()
 {
-    auto ptr = Texture::loadTexture( ResourceManager::get().getWindow()->renderer()->raw(),
-                                     "../resource/img/" + m_path );
-    m_spritesheet = std::make_shared<Spritesheet>( ptr, m_margin, m_tileSize );
+#undef GetObject
+
+    auto tex = Texture::loadTexture(
+        ResourceManager::get().getWindow()->renderer()->raw(),
+        "../resource/spritesheet/" + m_path + ".png"
+    );
+
+    std::unordered_map<std::string, int> gidMap;
+    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/spritesheet/" + m_path + ".json" );
+
+    for ( auto& node : doc.GetObject() )
+    {
+       gidMap.emplace( node.name.GetString(), node.value.GetInt() );
+    }
+
+    m_spritesheet = std::make_shared<Spritesheet>( tex, gidMap, m_margin, m_tileSize );
 }
 
 void SpritesheetResource::unload()

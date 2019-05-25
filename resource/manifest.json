@@ -2,13 +2,13 @@
   "spritesheet": [
     {
       "key": "kenney-chars",
-      "name": "kenney-roguelike-char.png",
+      "name": "kenney-roguelike-char",
       "margin": 1,
       "tileSize": 16
     },
     {
       "key": "kenney-tiles",
-      "name": "kenney-roguelike-tiles.png",
+      "name": "kenney-roguelike-tiles",
       "margin": 1,
       "tileSize": 16
     }

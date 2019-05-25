@@ -1,6 +1,3 @@
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "hicpp-signed-bitwise"
-
 #include <graphics/Window.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -47,5 +44,3 @@ SDL_Window *Window::raw()
 {
     return m_window;
 }
-
-#pragma clang diagnostic pop

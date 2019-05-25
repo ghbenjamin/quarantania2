@@ -2,12 +2,14 @@
 #include <utils/Assert.h>
 #include <utils/Logging.h>
 
-Spritesheet::Spritesheet(TexturePtr texture, int margin, int tileSize)
+Spritesheet::Spritesheet(TexturePtr texture, SpritesheetGidMap& gidMap, int margin, int tileSize)
 : m_texture(texture), m_margin(margin), m_tileSize(tileSize)
 {
     auto w = m_texture->size().x();
     w -= tileSize;
     m_tileWidth = ( w / (margin + tileSize) ) + 1;
+
+    m_gidMap = std::move(gidMap);
 }
 
 const RectI Spritesheet::getRegion(int id) const
@@ -37,5 +39,5 @@ Sprite Spritesheet::spriteFromGid(int gid)
 
 Sprite Spritesheet::spriteFromName(std::string const &name)
 {
-    return Sprite();
+    return spriteFromGid( m_gidMap.at(name) );
 }
