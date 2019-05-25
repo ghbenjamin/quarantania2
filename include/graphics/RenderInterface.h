@@ -1,11 +1,12 @@
 #pragma once
 
 #include <graphics/RenderObject.h>
+#include <graphics/Window.h>
 
 class RenderInterface
 {
 public:
-    RenderInterface() = default;
+    explicit RenderInterface( WindowCPtr ) ;
     virtual ~RenderInterface() = default;
 
     std::vector<RenderObject> const& renderables() const;
@@ -13,6 +14,10 @@ public:
 
     void addRenderable( RenderObject const& obj );
 
+
+
 private:
+
     std::vector<RenderObject> m_renderables;
+    WindowCPtr m_window;
 };

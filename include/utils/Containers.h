@@ -25,12 +25,32 @@ public:
     const T x() const
     { return m_x; }
 
+    void x( T val )
+    { m_x = val; }
+
     const T y() const
     { return m_y; }
+
+    void y( T val )
+    { m_y = val; }
 
     Vector2 operator+(Vector2 const &other) const
     {
         return Vector2(x() + other.x(), y() + other.y());
+    }
+
+    Vector2& operator+=(const Vector2& rhs){
+
+        this->m_x += rhs.m_x;
+        this->m_y += rhs.m_y;
+        return *this;
+    }
+
+    Vector2& operator-=(const Vector2& rhs){
+
+        this->m_x -= rhs.m_x;
+        this->m_y -= rhs.m_y;
+        return *this;
     }
 
     Vector2 operator*(int other) const
@@ -151,27 +171,27 @@ public:
     T h() const
     { return m_h; }
 
-    void setX(T x)
+    void x(T val)
     {
-        m_x = x;
+        m_x = val;
         m_rect.x = (int) m_x;
     }
 
-    void setY(T y)
+    void y(T val)
     {
-        m_y = y;
+        m_y = val;
         m_rect.y = (int) m_y;
     }
 
-    void setW(T w)
+    void w(T val)
     {
-        m_w = w;
+        m_w = val;
         m_rect.w = (int) m_w;
     }
 
-    void setH(T h)
+    void h(T val)
     {
-        m_h = h;
+        m_h = val;
         m_rect.h = (int) m_h;
     }
 

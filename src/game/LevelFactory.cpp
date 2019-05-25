@@ -9,7 +9,7 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
 
     imd.tilePixelSize = 16;
 
-    imd.levelSize = {10, 10};
+    imd.levelSize = {100, 100};
     imd.tileCount = imd.levelSize.x() * imd.levelSize.y();
 
     imd.defaultVisibility = false;
@@ -25,8 +25,12 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     // Assume that tileref 0 is the default tile - construct our vector to be all default
     imd.mapLayout = std::vector<TileRef>( imd.tileCount, 0 );
 
-    // TODO actual level contstruction
+    for ( int i = 1; i < 500; i += 7 )
+    {
+        imd.mapLayout[i] = 1;
+    }
 
+    // TODO actual level contstruction
 
 
     auto ptr = std::make_unique<Level>( std::move(imd), ctx );

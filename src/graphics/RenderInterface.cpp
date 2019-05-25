@@ -1,4 +1,12 @@
+#include <utility>
+
 #include <graphics/RenderInterface.h>
+
+RenderInterface::RenderInterface(WindowCPtr window)
+: m_window(std::move(window))
+{
+
+}
 
 std::vector<RenderObject> const &RenderInterface::renderables() const
 {
@@ -14,3 +22,5 @@ void RenderInterface::addRenderable(RenderObject const &obj)
 {
     m_renderables.push_back(obj);
 }
+
+

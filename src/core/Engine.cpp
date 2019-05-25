@@ -27,7 +27,7 @@ void Engine::run()
     ResourceManager::get().registerAll("../resource/manifest.json");
     ResourceManager::get().loadAll();
 
-    RenderInterface renderInterface;
+    RenderInterface renderInterface {window};
     LevelConfig debugConfig;
 
     pushState<LevelState>( debugConfig );

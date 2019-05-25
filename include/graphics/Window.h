@@ -17,6 +17,8 @@ public:
     SDL_Window* raw();
     RendererPtr const& renderer();
 
+     const Vector2i getSize() const;
+
 private:
 
     SDL_Window* m_window;
@@ -27,3 +29,4 @@ private:
 
 
 using WindowPtr = std::shared_ptr<Window>;
+using WindowCPtr = std::shared_ptr<const Window>;

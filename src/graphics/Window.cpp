@@ -16,7 +16,7 @@ Window::Window(std::string const &title, Vector2i bounds)
         SDL_WINDOWPOS_UNDEFINED,
         m_size.x(),
         m_size.y(),
-        SDL_WINDOW_OPENGL
+        SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE
     );
 
     Assert( m_window != nullptr);
@@ -43,4 +43,15 @@ RendererPtr const &Window::renderer()
 SDL_Window *Window::raw()
 {
     return m_window;
+}
+
+const Vector2i Window::getSize() const
+{
+    int w = 0;
+    int h = 0;
+
+    SDL_GetWindowSize( m_window, &w, &h );
+    Assert( w != 0 && h != 0 );
+
+    return Vector2i{w, h};
 }

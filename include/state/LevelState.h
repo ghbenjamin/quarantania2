@@ -18,8 +18,6 @@ public:
 
 private:
 
-    ECS m_ecs;
-
     LevelPtr m_level;
     LevelContextPtr m_pContext;
 };
