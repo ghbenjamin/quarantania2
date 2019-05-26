@@ -1,6 +1,6 @@
-#include <ecs/ECS.h>
-#include <ecs/Component.h>
-#include <ecs/System.h>
+#include <game/ECS.h>
+#include <game/Component.h>
+#include <game/System.h>
 
 ECS::ECS()
 {

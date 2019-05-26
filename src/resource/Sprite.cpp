@@ -40,7 +40,7 @@ Sprite::operator bool()
     return !!m_texture;
 }
 
-const RenderObject Sprite::renderObject(Vector2i const &pos) const
+RenderObject Sprite::renderObject(Vector2i const &pos) const
 {
     Assert( !!m_texture );
 

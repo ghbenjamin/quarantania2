@@ -5,7 +5,7 @@
 
 #include <SDL2/SDL.h>
 
-#include <ecs/ECS.h>
+#include <game/ECS.h>
 #include <game/Tiles.h>
 
 class RenderInterface;

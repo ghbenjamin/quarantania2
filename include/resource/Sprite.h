@@ -15,7 +15,7 @@ public:
 
     explicit operator bool();
 
-    const RenderObject renderObject(Vector2i const& pos) const;
+    RenderObject renderObject(Vector2i const& pos) const;
 
 private:
 

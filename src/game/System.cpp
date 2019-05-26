@@ -1,6 +1,6 @@
-#include <ecs/System.h>
-#include <ecs/Component.h>
-#include <ecs/ECS.h>
+#include <game/System.h>
+#include <game/Component.h>
+#include <game/ECS.h>
 #include <graphics/RenderInterface.h>
 #include <resource/Sprite.h>
 
@@ -24,7 +24,7 @@ void Systems::Render::update(uint32_t ticks, RenderInterface &rInter)
 {
     for ( auto &[render, tile] : m_ecs->with<Components::Render, Components::TilePosition>() )
     {
-        rInter.addRenderable( render->sprite.renderObject( tile->position ) );
+        rInter.addWorldItem(render->sprite.renderObject(tile->position));
     }
 }
 

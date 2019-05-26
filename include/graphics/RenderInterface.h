@@ -2,6 +2,7 @@
 
 #include <graphics/RenderObject.h>
 #include <graphics/Window.h>
+#include <game/Camera.h>
 
 class RenderInterface
 {
@@ -10,13 +11,18 @@ public:
     virtual ~RenderInterface() = default;
 
     std::vector<RenderObject> const& renderables() const;
+    WindowCPtr const& window() const;
+
     void clear();
 
-    void addRenderable( RenderObject const& obj );
+    void addWorldItem(RenderObject &obj);
+    void addScreenItem(RenderObject const &obj);
 
-
+    Camera& camera();
 
 private:
+
+    Camera m_camera;
 
     std::vector<RenderObject> m_renderables;
     WindowCPtr m_window;

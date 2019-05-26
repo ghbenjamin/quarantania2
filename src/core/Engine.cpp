@@ -28,6 +28,8 @@ void Engine::run()
     ResourceManager::get().loadAll();
 
     RenderInterface renderInterface {window};
+    renderInterface.camera().setBounds( window->getSize() );
+
     LevelConfig debugConfig;
 
     pushState<LevelState>( debugConfig );

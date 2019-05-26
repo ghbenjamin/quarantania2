@@ -7,9 +7,9 @@
 #include <set>
 #include <iterator>
 
-#include <ecs/Component.h>
-#include <ecs/Entity.h>
-#include <ecs/System.h>
+#include <game/Component.h>
+#include <game/Entity.h>
+#include <game/System.h>
 #include <utils/IdPool.h>
 #include <utils/Assert.h>
 

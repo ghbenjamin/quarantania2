@@ -14,8 +14,6 @@ Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
 
     LightingData defaultLd {imd.defaultLightLevel};
     m_lightingData = std::vector<LightingData>(m_imData.tileCount, defaultLd);
-
-
 }
 
 bool Level::input(SDL_Event &evt)
@@ -52,7 +50,7 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
     {
         currPos = offset + Vector2i{ col * m_imData.tilePixelSize, row * m_imData.tilePixelSize };
 
-        rInter.addRenderable( m_imData.tileMap.get(ref).sprite.renderObject( currPos ) );
+        rInter.addWorldItem( m_imData.tileMap.get(ref).sprite.renderObject(currPos) );
         col++;
         if ( col >= width )
         {

@@ -17,12 +17,15 @@ public:
 
     Vector2i const& getPosition() const;
 
+    bool intersects( SDL_Rect* other );
+
 private:
 
     void enforceBounds();
 
     Vector2i m_bounds;
     Vector2i m_size;
+    SDL_Rect m_rect;
 
     Vector2f m_position;
     Vector2i m_roundedPosition;
