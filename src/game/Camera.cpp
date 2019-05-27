@@ -33,9 +33,6 @@ void Camera::setViewportSize(Vector2i size)
 
 void Camera::enforceBounds()
 {
-    Assert( m_bounds.x() >= m_size.x() );
-    Assert( m_bounds.y() >= m_size.y() );
-
     if ( m_position.x() < 0 )
         m_position.x(0);
 

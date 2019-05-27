@@ -66,6 +66,8 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
 
 void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
+    rInter.camera().setBounds( m_imData.levelSize * m_imData.tilePixelSize );
+
     float scrollSpeed = 4.0f;
 
     if ( iinter.anyHeld() )
