@@ -4,6 +4,9 @@
 #include <utils/Logging.h>
 
 
+// With help from https://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
+
+
 LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &ctx)
 {
     // Broad debug code for now follows:
@@ -138,6 +141,11 @@ LevelFactory::LevelFactory()
 : m_rd(), m_mt( m_rd() )
 {
 
+}
+
+void LevelFactory::addRooms( int maxTries )
+{
+    
 }
 
 

@@ -29,7 +29,10 @@ public:
 
 private:
     BaseTileMap generateLayout(  LevelConfig const& config, LevelContextPtr const& ctx );
+
+    void addRooms( int maxTries );
     void growMaze( Vector2i start );
+
 
     void tileSet(Vector2i tile, BaseTileType ttype);
     BaseTileType tileGet( Vector2i tile );
