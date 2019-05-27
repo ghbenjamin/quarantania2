@@ -15,8 +15,8 @@ public:
 
     void clear();
 
-    void addWorldItem(RenderObject &obj);
-    void addScreenItem(RenderObject const &obj);
+    void addWorldItem(RenderObject obj);
+    void addScreenItem(RenderObject obj);
 
     Camera& camera();
 

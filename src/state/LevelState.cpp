@@ -15,13 +15,13 @@ LevelState::LevelState( LevelConfig const& config )
 }
 
 
-bool LevelState::input(SDL_Event &evt)
+bool LevelState::input(IEvent &evt)
 {
     return m_level->input(evt);
 }
 
-void LevelState::update(uint32_t ticks, RenderInterface &rInterface)
+void LevelState::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInterface)
 {
-    m_level->update(ticks, rInterface);
+    m_level->update(ticks, iinter, rInterface);
 }
 

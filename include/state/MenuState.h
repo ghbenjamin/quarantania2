@@ -6,7 +6,7 @@ class MenuState : public GameState
 {
 
 public:
-    bool input(SDL_Event &evt) override;
-    void update(uint32_t ticks, RenderInterface &rInter) override;
+    bool input(IEvent &evt) override;
+    void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter) override;
 
 };

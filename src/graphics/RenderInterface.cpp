@@ -19,19 +19,19 @@ void RenderInterface::clear()
     m_renderables.clear();
 }
 
-void RenderInterface::addWorldItem(RenderObject& obj)
+void RenderInterface::addWorldItem(RenderObject obj)
 {
-    auto [x, y] = m_camera.getPosition();
-    obj.targetRect.x -= x;
-    obj.targetRect.y -= y;
-
     if ( m_camera.intersects(&obj.targetRect) )
     {
+        auto [x, y] = m_camera.getPosition();
+        obj.targetRect.x -= x;
+        obj.targetRect.y -= y;
+
         m_renderables.push_back(obj);
     }
 }
 
-void RenderInterface::addScreenItem(RenderObject const &obj)
+void RenderInterface::addScreenItem(RenderObject obj)
 {
     m_renderables.push_back(obj);
 }

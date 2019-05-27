@@ -10,11 +10,11 @@ class LevelState : public GameState
 {
 public:
 
-    LevelState( LevelConfig const& config );
+    explicit LevelState( LevelConfig const& config );
     ~LevelState() override = default;
 
-    bool input(SDL_Event &evt) override;
-    void update(uint32_t ticks, RenderInterface &rInter) override;
+    bool input(IEvent &evt) override;
+    void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter) override;
 
 private:
 

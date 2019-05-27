@@ -2,6 +2,7 @@
 
 #include <unordered_set>
 #include <deque>
+
 #include <SDL.h>
 
 #include <utils/Containers.h>
@@ -17,7 +18,7 @@ enum class IEventType
 struct IEventKeyPress
 {
     IEventKeyPress();
-    IEventKeyPress(SDL_Keycode key);
+    explicit IEventKeyPress(SDL_Keycode key);
 
     SDL_Keycode keyCode;
 };
@@ -25,21 +26,18 @@ struct IEventKeyPress
 struct IEventClick
 {
     IEventClick();
-    IEventClick(Vector2i sp, Vector2i wp, int btn);
+    IEventClick(Vector2i sp, int btn);
 
     Vector2i screenPos;
-    Vector2i worldPos;
-
     int button;
 };
 
 struct IEventMouseMove
 {
     IEventMouseMove();
-    IEventMouseMove(Vector2i sp, Vector2i wp);
+    IEventMouseMove(Vector2i sp);
 
     Vector2i screenPos;
-    Vector2i worldPos;
 };
 
 struct IEvent
@@ -58,16 +56,17 @@ struct IEvent
 
 
 
-class InputManager
+class InputInterface
 {
 
 public:
-    InputManager();
-    ~InputManager() = default;
+    InputInterface();
+    ~InputInterface() = default;
 
-    void input(SDL_Event& evt);
+    void input(SDL_Event& sdlEvent);
 
     std::vector<IEvent>& queue();
+    void clear();
 
     bool isHeld(SDL_Keycode keycode) const;
     bool anyHeld() const;

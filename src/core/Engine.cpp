@@ -1,18 +1,19 @@
 
 #include <memory>
+#include <iostream>
 
 #include <core/Engine.h>
 #include <graphics/Window.h>
-#include <utils/Time.h>
-#include <resource/Manifest.h>
-#include <iostream>
-#include <resource/ResourceManager.h>
-#include <utils/GlobalConfig.h>
 #include <graphics/RenderInterface.h>
+#include <resource/Manifest.h>
+#include <resource/ResourceManager.h>
+#include <resource/Sprite.h>
+#include <utils/Time.h>
+#include <utils/GlobalConfig.h>
 #include <state/State.h>
 #include <state/LevelState.h>
 #include <game/LevelConfig.h>
-#include <resource/Sprite.h>
+#include <game/InputInterface.h>
 
 void Engine::run()
 {
@@ -30,6 +31,8 @@ void Engine::run()
     RenderInterface renderInterface {window};
     renderInterface.camera().setBounds( window->getSize() );
 
+    InputInterface inputInterface;
+
     LevelConfig debugConfig;
 
     pushState<LevelState>( debugConfig );
@@ -41,7 +44,8 @@ void Engine::run()
     while (runGame)
     {
         timer.start();
-        renderInterface.clear();
+
+        // Input
 
         SDL_Event evt;
         while (SDL_PollEvent(&evt) != 0)
@@ -50,11 +54,26 @@ void Engine::run()
             {
                 runGame = false;
             }
-
-            m_states.back()->input(evt);
+            else
+            {
+                inputInterface.input(evt);
+            }
         }
 
-        m_states.back()->update(ticks, renderInterface);
+        for ( auto& ievt : inputInterface.queue() )
+        {
+            m_states.back()->input(ievt);
+        }
+
+        inputInterface.clear();
+
+
+        // Update
+
+        renderInterface.clear();
+        m_states.back()->update(ticks, inputInterface, renderInterface);
+
+        // Graphics
 
         window->renderer()->render(renderInterface);
 

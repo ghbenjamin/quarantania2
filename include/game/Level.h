@@ -9,7 +9,8 @@
 #include <game/Tiles.h>
 
 class RenderInterface;
-
+class InputInterface;
+struct IEvent;
 
 struct PassibilityData
 {
@@ -59,12 +60,13 @@ public:
     explicit Level(ImmutableLevelData&& imd, LevelContextPtr ctx);
     virtual ~Level() = default;
 
-    bool input(SDL_Event &evt);
-    void update(uint32_t ticks, RenderInterface &rInter);
+    bool input(IEvent &evt);
+    void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
 private:
 
-    void render(uint32_t ticks, RenderInterface &rInter);
+    void updateCamera(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
+    void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void renderTiles(uint32_t ticks, RenderInterface &rInter);
 
 private:

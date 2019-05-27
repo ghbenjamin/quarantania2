@@ -2,6 +2,8 @@
 
 #include <game/Level.h>
 #include <graphics/RenderInterface.h>
+#include <game/InputInterface.h>
+#include <utils/Logging.h>
 
 Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
 : m_imData(imd), m_ctx(std::move(ctx))
@@ -16,23 +18,25 @@ Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
     m_lightingData = std::vector<LightingData>(m_imData.tileCount, defaultLd);
 }
 
-bool Level::input(SDL_Event &evt)
+bool Level::input(IEvent &evt)
 {
     return false;
 }
 
-void Level::render(uint32_t ticks, RenderInterface &rInter)
+void Level::render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
 {
     renderTiles(ticks, rInter);
 }
 
-void Level::update(uint32_t ticks, RenderInterface &rInterface)
+void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
 {
+    updateCamera(ticks, iinter, rInter);
+
     // Render ourself: tiles, etc.
-    render(ticks, rInterface);
+    render(ticks, iinter, rInter);
 
     // Render everything managed by the ECS
-    m_ecs.update(ticks, rInterface);
+    m_ecs.update(ticks, rInter);
 
     // Render the GUI
     // TODO Gui
@@ -56,6 +60,31 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
         {
             col = 0;
             row++;
+        }
+    }
+}
+
+void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
+{
+    float scrollSpeed = 4.0f;
+
+    if ( iinter.anyHeld() )
+    {
+        if ( iinter.isHeld( SDLK_LEFT ) )
+        {
+            rInter.camera().moveBy({-scrollSpeed, 0});
+        }
+        if ( iinter.isHeld( SDLK_RIGHT ) )
+        {
+            rInter.camera().moveBy({scrollSpeed, 0});
+        }
+        if ( iinter.isHeld( SDLK_UP ) )
+        {
+            rInter.camera().moveBy({0, -scrollSpeed});
+        }
+        if ( iinter.isHeld( SDLK_DOWN ) )
+        {
+            rInter.camera().moveBy({0, scrollSpeed});
         }
     }
 }
