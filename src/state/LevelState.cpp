@@ -11,7 +11,9 @@ LevelState::LevelState( LevelConfig const& config )
     m_pContext = std::make_unique<LevelContext>();
 
     // Create the initial level
-    m_level = LevelFactory::create( config, m_pContext );
+
+    LevelFactory factory;
+    m_level = factory.create( config, m_pContext );
 }
 
 

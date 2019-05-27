@@ -9,6 +9,7 @@
 #include <resource/ResourceManager.h>
 #include <resource/Sprite.h>
 #include <utils/Time.h>
+#include <utils/Logging.h>
 #include <utils/GlobalConfig.h>
 #include <state/State.h>
 #include <state/LevelState.h>
@@ -29,11 +30,13 @@ void Engine::run()
     ResourceManager::get().loadAll();
 
     RenderInterface renderInterface {window};
-    renderInterface.camera().setBounds( window->getSize() );
+    renderInterface.camera().setBounds( {1000, 1000} );
+    renderInterface.camera().setViewportSize( window->getSize() );
 
     InputInterface inputInterface;
 
     LevelConfig debugConfig;
+    debugConfig.size = {100, 50};
 
     pushState<LevelState>( debugConfig );
 

@@ -13,6 +13,8 @@ enum class IEventType
     KeyPress,
     MouseClick,
     MouseMove,
+
+    WindowResize
 };
 
 struct IEventKeyPress
@@ -40,6 +42,16 @@ struct IEventMouseMove
     Vector2i screenPos;
 };
 
+struct IEventWindowResize
+{
+    IEventWindowResize();
+    IEventWindowResize(Vector2i size);
+
+    Vector2i screenSize;
+};
+
+
+
 struct IEvent
 {
     IEvent();
@@ -51,6 +63,8 @@ struct IEvent
         IEventKeyPress keyPress;
         IEventClick mouseClick;
         IEventMouseMove mouseMove;
+
+        IEventWindowResize windowResize;
     };
 };
 

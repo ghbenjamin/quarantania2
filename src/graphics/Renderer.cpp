@@ -10,7 +10,7 @@ Renderer::Renderer( SDL_Window* target )
         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
     );
 
-    SDL_RenderSetScale( m_renderer, 2.0f, 2.0f );
+//    SDL_RenderSetScale( m_renderer, 2.0f, 2.0f );
 
     Assert( m_renderer != nullptr );
 }

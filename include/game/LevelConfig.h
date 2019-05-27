@@ -2,4 +2,5 @@
 
 struct LevelConfig
 {
+    Vector2i size;
 };

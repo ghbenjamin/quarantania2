@@ -1,4 +1,5 @@
 #include <game/InputInterface.h>
+#include <utils/Logging.h>
 
 InputInterface::InputInterface()
 : m_anyHeld(false)
@@ -74,6 +75,28 @@ void InputInterface::input(SDL_Event &sdlEvent)
             break;
         }
 
+        case SDL_WINDOWEVENT:
+        {
+            switch (sdlEvent.window.event)
+            {
+                case SDL_WINDOWEVENT_RESIZED:
+                {
+                    IEvent evt;
+                    evt.type = IEventType::WindowResize;
+
+                    evt.windowResize = Vector2i{ sdlEvent.window.data1, sdlEvent.window.data2 };
+
+                    m_queue.push_back(evt);
+                    break;
+                }
+
+                default:
+                {
+                    break;
+                }
+            }
+        }
+
         default:
         {
             break;
@@ -137,6 +160,18 @@ IEventMouseMove::IEventMouseMove(Vector2i sp)
 }
 
 IEvent::IEvent()
+{
+
+}
+
+IEventWindowResize::IEventWindowResize()
+: screenSize{0, 0}
+{
+
+}
+
+IEventWindowResize::IEventWindowResize(Vector2i size)
+: screenSize(size)
 {
 
 }

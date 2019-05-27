@@ -46,4 +46,3 @@ Camera &RenderInterface::camera()
     return m_camera;
 }
 
-

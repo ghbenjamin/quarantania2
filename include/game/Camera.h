@@ -25,8 +25,9 @@ private:
 
     Vector2i m_bounds;
     Vector2i m_size;
-    SDL_Rect m_rect;
 
     Vector2f m_position;
     Vector2i m_roundedPosition;
+
+    SDL_Rect m_rect;
 };
