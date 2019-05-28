@@ -32,12 +32,16 @@ private:
 
     void addRooms( int maxTries );
     void growMaze( Vector2i start );
+    void connectRooms( );
+
 
 
     void tileSet(Vector2i tile, BaseTileType ttype);
     BaseTileType tileGet( Vector2i tile );
 
     Vector2i generateRandomRoomSize();
+
+    void setDoor( Vector2i tile );
 
     bool canFloor( Vector2i coord, CardinalDirection dir );
     bool contains( Vector2i coord );
@@ -51,4 +55,7 @@ private:
     BaseTileMap m_tilemap;
     Vector2i m_mapSize;
     std::vector<RectI> m_rooms;
+
+    int m_regionIndex;
+    std::unordered_map<Vector2i, int, Vector2Hash<int>> m_regionMap;
 };

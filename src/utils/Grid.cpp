@@ -17,3 +17,11 @@ std::unordered_map<CardinalDirection, Vector2i> Grid::CardinalNeighbours = {
         { CardinalDirection::S, {0, -1} },
         { CardinalDirection::W, {-1, 0} },
 };
+
+bool Grid::isAdjacent(Vector2i lhs, Vector2i rhs)
+{
+    int x = std::abs(rhs.x() - lhs.x());
+    int y = std::abs(rhs.y() - lhs.y());
+
+    return ( x == 0 && y < 2) || ( y == 0 && x < 2 );
+}

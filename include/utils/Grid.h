@@ -29,5 +29,7 @@ class Grid
 public:
     static std::unordered_map<Direction, Vector2i> AllNeighbours;
     static std::unordered_map<CardinalDirection, Vector2i> CardinalNeighbours;
+
+    static bool isAdjacent(Vector2i lhs, Vector2i rhs);
 };
 

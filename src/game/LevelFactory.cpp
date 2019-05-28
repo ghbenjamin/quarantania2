@@ -2,10 +2,14 @@
 
 #include <random>
 #include <utils/Logging.h>
-
+#include <utils/Random.h>
 
 // With help from https://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
+LevelFactory::LevelFactory()
+    : m_rd(), m_mt( m_rd() ), m_regionIndex(0)
+{
+}
 
 LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &ctx)
 {
@@ -67,7 +71,7 @@ BaseTileMap LevelFactory::generateLayout(LevelConfig const &config, LevelContext
     {
         for ( int x = 1; x < m_mapSize.x(); x += 2 )
         {
-            if ( tileGet({x, y}) == BaseTileType::Wall )
+            if ( tileGet({x, y}) != BaseTileType::Wall )
             {
                 continue;
             }
@@ -78,12 +82,17 @@ BaseTileMap LevelFactory::generateLayout(LevelConfig const &config, LevelContext
         }
     }
 
+    connectRooms();
+
     return m_tilemap;
 }
 
 void LevelFactory::growMaze(Vector2i start)
 {
+
     std::vector<Vector2i> cells;
+
+    m_regionIndex++;
     tileSet(start, BaseTileType::Floor);
 
     cells.push_back(start);
@@ -125,6 +134,11 @@ void LevelFactory::growMaze(Vector2i start)
 void LevelFactory::tileSet(Vector2i tile, BaseTileType ttype)
 {
     m_tilemap[indexFromCoords(tile)] = ttype;
+
+    if ( ttype == BaseTileType::Floor )
+    {
+        m_regionMap[tile] = m_regionIndex;
+    }
 }
 
 BaseTileType LevelFactory::tileGet(Vector2i tile)
@@ -150,12 +164,6 @@ bool LevelFactory::canFloor(Vector2i coord, CardinalDirection dir)
 bool LevelFactory::contains(Vector2i coord)
 {
     return coord.x() >= 0 && coord.y() >= 0 && coord.x() < m_mapSize.x() && coord.y() < m_mapSize.y();
-}
-
-LevelFactory::LevelFactory()
-: m_rd(), m_mt( m_rd() )
-{
-
 }
 
 void LevelFactory::addRooms( int maxTries )
@@ -188,7 +196,7 @@ void LevelFactory::addRooms( int maxTries )
         }
 
         m_rooms.push_back(room);
-
+        m_regionIndex++;
 
         for ( int j = room.y(); j < room.y() + room.h(); j++)
         {
@@ -214,9 +222,136 @@ Vector2i LevelFactory::generateRandomRoomSize()
         std::swap(primary, secondary);
     }
 
-    // TODO Rectangles
-
     return {primary, secondary};
+}
+
+void LevelFactory::connectRooms()
+{
+    // Find every wall tile which is adjacent to two or more different regions.
+    // Store the location of the tile against the regions it spans.
+    std::unordered_map<Vector2i, std::unordered_set<int>, Vector2Hash<int>> connectorMap;
+
+    for ( int y = 1; y < m_mapSize.y() - 2; y++ )
+    {
+        for ( int x = 1; x < m_mapSize.x() - 2; x++ )
+        {
+            auto pos = Vector2i{x, y};
+
+            // Floor tiles are in a region already
+            if ( tileGet(pos) == BaseTileType::Floor )
+            {
+                continue;
+            }
+
+            // Found a wall tile: examine all of its neighbours to determine if any of them are floor tiles,
+            // and if so, which regions they belong to.
+            std::unordered_set<int> regions;
+            for ( auto const& [dir, dir_vec] : Grid::CardinalNeighbours )
+            {
+                auto it = m_regionMap.find( pos + dir_vec );
+                if ( it != m_regionMap.end() )
+                {
+                    regions.insert( it->second );
+                }
+            }
+
+            if (regions.size() < 2)
+            {
+                continue;
+            }
+            else
+            {
+                connectorMap[pos] = std::move(regions);
+            }
+
+        }
+    }
+
+
+    // Get all of our possible connector positions as a map
+    std::vector<Vector2i> allConnectors;
+    allConnectors.reserve( connectorMap.size() );
+
+    for ( auto const& [k, v] : connectorMap )
+    {
+        allConnectors.push_back(k);
+    }
+
+    // Initialise data structures to detail which regions have not been connected yet
+    std::unordered_map<int, int> mergeMap;
+    std::unordered_set<int> openRegions;
+
+    for ( int i = 1; i <= m_regionIndex; i++ )
+    {
+        mergeMap[i] = i;
+        openRegions.insert(i);
+    }
+
+    // While we have unconnected regions, add connections.
+    while ( openRegions.size() > 1 )
+    {
+        // Select a random tile from the pool of possible connectors
+        auto rand_it = random_element( allConnectors.begin(), allConnectors.end(), m_mt );
+        setDoor( *rand_it );
+
+        // Find the regions which have been connected by this new connection
+        std::vector<int> regions;
+        for ( auto const& r : connectorMap[*rand_it])
+        {
+            regions.push_back( mergeMap[r] );
+        }
+
+        int dest = regions.back();
+        regions.pop_back();
+
+        // Walk our list of regions and mark any regions which have been newly connected.
+        for ( int i = 1; i <= m_regionIndex; i++ )
+        {
+            if ( std::find( regions.begin(), regions.end(), mergeMap[i] ) != regions.end() )
+            {
+                mergeMap[i] = dest;
+            }
+        }
+
+        // Remove newly connected regions from the unconnected list
+        for ( auto i : regions )
+        {
+            openRegions.erase(i);
+        }
+
+        // Remove any potential connector sizes from the pool which have been made invalid by our choice of
+        // connector site above
+        allConnectors.erase( std::remove_if(allConnectors.begin(), allConnectors.end(),
+        [&](auto const& pos){
+
+            // We don't want adjacent doors
+            if ( Grid::isAdjacent(*rand_it, pos) )
+            {
+                return true;
+            }
+
+            // This position connects regions which are now already connected
+            std::unordered_set<int> rlist;
+            for ( auto cr : connectorMap[pos] )
+            {
+                rlist.insert(mergeMap[cr]);
+            }
+
+            if ( rlist.size() > 1 )
+            {
+                return false;
+            }
+
+            return true;
+
+        }), allConnectors.end() );
+
+    }
+}
+
+void LevelFactory::setDoor(Vector2i tile)
+{
+    tileSet( tile, BaseTileType::Door );
 }
 
 
