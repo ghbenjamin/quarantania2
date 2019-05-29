@@ -55,7 +55,6 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
         }
     }
 
-
     auto ptr = std::make_unique<Level>( std::move(imd), ctx );
     return std::move(ptr);
 }
@@ -65,24 +64,18 @@ BaseTileMap LevelFactory::generateLayout(LevelConfig const &config, LevelContext
     m_tilemap = std::vector<BaseTileType>( config.size.x() * config.size.y(), BaseTileType::Wall );
     m_mapSize = config.size;
 
+    // Attempt to add a random selection of rooms of various sizes and locations
     addRooms( 500 );
 
-    for ( int y = 1; y < m_mapSize.y(); y += 2 )
-    {
-        for ( int x = 1; x < m_mapSize.x(); x += 2 )
-        {
-            if ( tileGet({x, y}) != BaseTileType::Wall )
-            {
-                continue;
-            }
-            else
-            {
-                growMaze({x, y});
-            }
-        }
-    }
+    // Fill all of the space not occupied by rooms with randomly generated maze trees
+    fillAllMazes();
 
+    // Find all wall tiles which bridge different rooms/corridors. Semi-randomly select from these tiles to
+    // create doors, and keep going until the graph of doors and corridors is completely connected.
     connectRooms();
+
+    // Walk over our corridors, iteratively removing dead ends from corridors. Keep going until there are no dead ends
+    // left - all corridors connect rooms.
     pruneCorridors();
 
     return m_tilemap;
@@ -90,10 +83,9 @@ BaseTileMap LevelFactory::generateLayout(LevelConfig const &config, LevelContext
 
 void LevelFactory::growMaze(Vector2i start)
 {
-
     std::vector<Vector2i> cells;
 
-    m_regionIndex++;
+    newRegion(RegionType::Corridor);
     tileSet(start, BaseTileType::Floor);
 
     cells.push_back(start);
@@ -197,7 +189,7 @@ void LevelFactory::addRooms( int maxTries )
         }
 
         m_rooms.push_back(room);
-        m_regionIndex++;
+        newRegion(RegionType::Room);
 
         for ( int j = room.y(); j < room.y() + room.h(); j++)
         {
@@ -224,6 +216,24 @@ Vector2i LevelFactory::generateRandomRoomSize()
     }
 
     return {primary, secondary};
+}
+
+void LevelFactory::fillAllMazes()
+{
+    for ( int y = 1; y < m_mapSize.y(); y += 2 )
+    {
+        for ( int x = 1; x < m_mapSize.x(); x += 2 )
+        {
+            if ( tileGet({x, y}) != BaseTileType::Wall )
+            {
+                continue;
+            }
+            else
+            {
+                growMaze({x, y});
+            }
+        }
+    }
 }
 
 void LevelFactory::connectRooms()
@@ -392,6 +402,12 @@ void LevelFactory::pruneCorridors()
     }
 
 
+}
+
+void LevelFactory::newRegion(RegionType type)
+{
+    m_regionIndex++;
+    m_regionTypeMap[m_regionIndex] = type;
 }
 
 

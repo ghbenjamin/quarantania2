@@ -16,6 +16,13 @@ enum class BaseTileType
     Door
 };
 
+enum class RegionType
+{
+    Room,
+    Corridor
+};
+
+
 using BaseTileMap = std::vector<BaseTileType>;
 
 class LevelFactory
@@ -31,10 +38,11 @@ private:
     BaseTileMap generateLayout(  LevelConfig const& config, LevelContextPtr const& ctx );
 
     void addRooms( int maxTries );
-    void growMaze( Vector2i start );
+    void fillAllMazes();
     void connectRooms();
     void pruneCorridors();
 
+    void growMaze( Vector2i start );
 
     void tileSet(Vector2i tile, BaseTileType ttype);
     BaseTileType tileGet( Vector2i tile );
@@ -47,6 +55,8 @@ private:
     bool contains( Vector2i coord );
     int indexFromCoords( Vector2i coord );
 
+    void newRegion( RegionType type );
+
 private:
 
     std::random_device m_rd;
@@ -58,4 +68,5 @@ private:
 
     int m_regionIndex;
     std::unordered_map<Vector2i, int, Vector2Hash<int>> m_regionMap;
+    std::unordered_map<int, RegionType> m_regionTypeMap;
 };
