@@ -23,10 +23,17 @@ namespace LF
         Corridor
     };
 
+    struct Door
+    {
+        Vector2i pos;
+        int region1 = -1;
+        int region2 = -1;
+    };
+
     struct Room
     {
         RectI bounds;
-        std::vector<int> doors;
+        std::vector<Door> doors;
     };
 
     using BaseTileMap = std::vector<BaseTileType>;
@@ -43,6 +50,14 @@ public:
     LevelPtr create( LevelConfig const& config, LevelContextPtr const& ctx );
 
 private:
+
+    // Level rendering methods
+
+    void constructTileMap( LevelConfig const& config, LevelContextPtr const& ctx );
+
+
+    // Base level layout methods
+
     LF::BaseTileMap generateLayout(  LevelConfig const& config, LevelContextPtr const& ctx );
 
     void addRooms( int maxTries );
@@ -57,7 +72,7 @@ private:
 
     Vector2i generateRandomRoomSize();
 
-    void setDoor( Vector2i tile );
+    void setDoor( LF::Door tile );
 
     bool canFloor( Vector2i coord, CardinalDirection dir );
     bool contains( Vector2i coord );
@@ -67,14 +82,23 @@ private:
 
 private:
 
+    // Main data structure
+    ImmutableLevelData m_imdata;
+
+    // Random
     std::random_device m_rd;
     std::mt19937 m_mt;
 
+    // Rendering
+
+
+    // Base map layout
     LF::BaseTileMap m_tilemap;
     Vector2i m_mapSize;
     std::vector<LF::Room> m_rooms;
-
     int m_regionIndex;
     std::unordered_map<Vector2i, int, Vector2Hash<int>> m_regionMap;
+    std::unordered_map<Vector2i, LF::Door, Vector2Hash<int>> m_doors;
     std::unordered_map<int, LF::RegionType> m_regionTypeMap;
+
 };

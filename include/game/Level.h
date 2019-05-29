@@ -12,23 +12,6 @@ class RenderInterface;
 class InputInterface;
 struct IEvent;
 
-struct PassibilityData
-{
-    int passibility;
-};
-
-struct VisibilityData
-{
-    bool visible;
-};
-
-struct LightingData
-{
-    int lighting;
-};
-
-
-
 struct ImmutableLevelData
 {
     ImmutableLevelData() = default;
@@ -38,10 +21,6 @@ struct ImmutableLevelData
 
     Vector2i levelSize;
     int tileCount = -1;
-
-    int defaultPassibility = 0;
-    bool defaultVisibility = false;
-    int defaultLightLevel = 0;
 
     TileMap tileMap;
     std::vector<TileRef> mapLayout;
@@ -74,10 +53,6 @@ private:
     ECS m_ecs;
     const ImmutableLevelData m_imData;
     LevelContextPtr m_ctx;
-
-    std::vector<PassibilityData> m_passibilityData;
-    std::vector<LightingData> m_lightingData;
-    std::vector<VisibilityData> m_visibilityData;
 
 };
 using LevelPtr = std::unique_ptr<Level>;

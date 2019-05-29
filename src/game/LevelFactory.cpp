@@ -15,49 +15,17 @@ LevelFactory::LevelFactory()
 
 LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &ctx)
 {
-    // Broad debug code for now follows:
-
-    ImmutableLevelData imd;
-
-    imd.tilePixelSize = 16;
-    imd.levelSize = config.size;
-    imd.tileCount = imd.levelSize.x() * imd.levelSize.y();
-    imd.defaultVisibility = false;
-    imd.defaultPassibility = 0;
-    imd.defaultLightLevel = 1;
-
-    // Construct tilemap
-    auto floorRef = imd.tileMap.addTile({"kenney-tiles", "grass-1"}, true);
-    auto wallRef = imd.tileMap.addTile({"kenney-tiles", "wall-1"}, false);
-    auto doorRef = imd.tileMap.addTile({"kenney-tiles", "door-1"}, true);
-    auto soilRef = imd.tileMap.addTile({"kenney-tiles", "soil-1"}, true);
+    m_imdata.tilePixelSize = 16;
+    m_imdata.levelSize = config.size;
+    m_imdata.tileCount = m_imdata.levelSize.x() * m_imdata.levelSize.y();
 
     // Constuct actual tiles
     m_tilemap = generateLayout( config, ctx );
+    m_imdata.mapLayout = std::vector<TileRef>( m_imdata.tileCount, 0 );
 
-    // Assume that tileref 0 is the default tile - construct our vector to be all default
-    imd.mapLayout = std::vector<TileRef>( imd.tileCount, 0 );
+    constructTileMap( config, ctx );
 
-    for ( size_t i = 0; i < m_tilemap.size(); i++ )
-    {
-        switch ( m_tilemap[i] )
-        {
-            case BaseTileType::Wall:
-                imd.mapLayout[i] = wallRef;
-                break;
-            case BaseTileType::Floor:
-                imd.mapLayout[i] = floorRef;
-                break;
-            case BaseTileType::Door:
-                imd.mapLayout[i] = doorRef;
-                break;
-            default:
-                imd.mapLayout[i] = soilRef;
-                break;
-        }
-    }
-
-    auto ptr = std::make_unique<Level>( std::move(imd), ctx );
+    auto ptr = std::make_unique<Level>( std::move(m_imdata), ctx );
     return std::move(ptr);
 }
 
@@ -301,7 +269,13 @@ void LevelFactory::connectRooms()
     {
         // Select a random tile from the pool of possible connectors
         auto rand_it = randomElement(allConnectors.begin(), allConnectors.end(), m_mt);
-        setDoor( *rand_it );
+        auto& rand_regions = connectorMap[*rand_it];
+
+        setDoor( Door{
+            *rand_it,
+            *rand_regions.begin(),
+            *(++rand_regions.begin())
+        });
 
         // Find the regions which have been connected by this new connection
         std::vector<int> regions;
@@ -358,17 +332,18 @@ void LevelFactory::connectRooms()
     }
 }
 
-void LevelFactory::setDoor(Vector2i tile)
+void LevelFactory::setDoor(Door door)
 {
+    m_doors[door.pos] = door;
+
     if ( weightedFlip(5, m_mt) )
     {
-        tileSet( tile, BaseTileType::Floor );
+        tileSet( door.pos, BaseTileType::Floor );
     }
     else
     {
-        tileSet( tile, BaseTileType::Door );
+        tileSet( door.pos, BaseTileType::Door );
     }
-
 }
 
 void LevelFactory::pruneCorridors()
@@ -418,6 +393,33 @@ void LevelFactory::newRegion(RegionType type)
 {
     m_regionIndex++;
     m_regionTypeMap[m_regionIndex] = type;
+}
+
+void LevelFactory::constructTileMap(LevelConfig const &config, LevelContextPtr const &ctx)
+{
+    auto floorRef = m_imdata.tileMap.addTile({"kenney-tiles", "grass-1"}, true);
+    auto wallRef = m_imdata.tileMap.addTile({"kenney-tiles", "wall-1"}, false);
+    auto doorRef = m_imdata.tileMap.addTile({"kenney-tiles", "door-1"}, true);
+    auto soilRef = m_imdata.tileMap.addTile({"kenney-tiles", "soil-1"}, true);
+
+    for ( size_t i = 0; i < m_tilemap.size(); i++ )
+    {
+        switch ( m_tilemap[i] )
+        {
+            case BaseTileType::Wall:
+                m_imdata.mapLayout[i] = wallRef;
+                break;
+            case BaseTileType::Floor:
+                m_imdata.mapLayout[i] = floorRef;
+                break;
+            case BaseTileType::Door:
+                m_imdata.mapLayout[i] = doorRef;
+                break;
+            default:
+                m_imdata.mapLayout[i] = soilRef;
+                break;
+        }
+    }
 }
 
 

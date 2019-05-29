@@ -8,14 +8,7 @@
 Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
 : m_imData(imd), m_ctx(std::move(ctx))
 {
-    PassibilityData defaultPd {imd.defaultPassibility};
-    m_passibilityData = std::vector<PassibilityData>(m_imData.tileCount, defaultPd);
 
-    VisibilityData defaultVd {imd.defaultVisibility};
-    m_visibilityData = std::vector<VisibilityData>(m_imData.tileCount, defaultVd);
-
-    LightingData defaultLd {imd.defaultLightLevel};
-    m_lightingData = std::vector<LightingData>(m_imData.tileCount, defaultLd);
 }
 
 bool Level::input(IEvent &evt)
