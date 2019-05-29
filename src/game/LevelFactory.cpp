@@ -6,6 +6,8 @@
 
 // With help from https://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
+using namespace LF;
+
 LevelFactory::LevelFactory()
     : m_rd(), m_mt( m_rd() ), m_regionIndex(0)
 {
@@ -36,7 +38,7 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     // Assume that tileref 0 is the default tile - construct our vector to be all default
     imd.mapLayout = std::vector<TileRef>( imd.tileCount, 0 );
 
-    for ( int i = 0; i < m_tilemap.size(); i++ )
+    for ( size_t i = 0; i < m_tilemap.size(); i++ )
     {
         switch ( m_tilemap[i] )
         {
@@ -83,18 +85,17 @@ BaseTileMap LevelFactory::generateLayout(LevelConfig const &config, LevelContext
 
 void LevelFactory::growMaze(Vector2i start)
 {
-    std::vector<Vector2i> cells;
-
     newRegion(RegionType::Corridor);
     tileSet(start, BaseTileType::Floor);
 
+    std::vector<Vector2i> cells;
     cells.push_back(start);
 
     while ( !cells.empty() )
     {
-        std::vector<CardinalDirection> dirs;
         auto currCell = cells.back();
 
+        std::vector<CardinalDirection> dirs;
         for ( auto &[k, v] : Grid::CardinalNeighbours )
         {
             if ( canFloor( currCell, k ))
@@ -105,10 +106,7 @@ void LevelFactory::growMaze(Vector2i start)
 
         if (!dirs.empty())
         {
-            std::vector<CardinalDirection> single_dir;
-            std::sample( dirs.begin(), dirs.end(), std::back_inserter(single_dir), 1, m_mt );
-
-            auto dir = single_dir.back();
+            auto dir = *randomElement(dirs.begin(), dirs.end(), m_mt);
             auto nextCell = currCell + (Grid::CardinalNeighbours[dir] * 2);
 
             tileSet( currCell + Grid::CardinalNeighbours[dir], BaseTileType::Floor);
@@ -121,7 +119,6 @@ void LevelFactory::growMaze(Vector2i start)
             cells.pop_back();
         }
     }
-
 }
 
 void LevelFactory::tileSet(Vector2i tile, BaseTileType ttype)
@@ -171,12 +168,13 @@ void LevelFactory::addRooms( int maxTries )
         int x = (mtRoomX(m_mt) / 2) * 2 + 1;
         int y = (mtRoomY(m_mt) / 2) * 2 + 1;
 
-        RectI room { x, y, roomSize.x(), roomSize.y() };
+        Room room;
+        room.bounds = { x, y, roomSize.x(), roomSize.y() };
 
         bool invalid = false;
         for ( auto const& r : m_rooms )
         {
-            if ( room.intersect(r) )
+            if ( room.bounds.intersect(r.bounds) )
             {
                 invalid = true;
                 break;
@@ -191,9 +189,9 @@ void LevelFactory::addRooms( int maxTries )
         m_rooms.push_back(room);
         newRegion(RegionType::Room);
 
-        for ( int j = room.y(); j < room.y() + room.h(); j++)
+        for ( int j = room.bounds.y(); j < room.bounds.y() + room.bounds.h(); j++)
         {
-            for ( int i = room.x(); i < room.x() + room.w(); i++ )
+            for ( int i = room.bounds.x(); i < room.bounds.x() + room.bounds.w(); i++ )
             {
                 tileSet( {i, j}, BaseTileType::Floor );
             }
@@ -302,7 +300,7 @@ void LevelFactory::connectRooms()
     while ( openRegions.size() > 1 )
     {
         // Select a random tile from the pool of possible connectors
-        auto rand_it = random_element( allConnectors.begin(), allConnectors.end(), m_mt );
+        auto rand_it = randomElement(allConnectors.begin(), allConnectors.end(), m_mt);
         setDoor( *rand_it );
 
         // Find the regions which have been connected by this new connection
@@ -362,7 +360,15 @@ void LevelFactory::connectRooms()
 
 void LevelFactory::setDoor(Vector2i tile)
 {
-    tileSet( tile, BaseTileType::Door );
+    if ( weightedFlip(5, m_mt) )
+    {
+        tileSet( tile, BaseTileType::Floor );
+    }
+    else
+    {
+        tileSet( tile, BaseTileType::Door );
+    }
+
 }
 
 void LevelFactory::pruneCorridors()
@@ -373,17 +379,20 @@ void LevelFactory::pruneCorridors()
     {
         finished = true;
 
+        // Walk over each of our tiles
         for ( int y = 1; y < m_mapSize.y() - 1; y++ )
         {
             for ( int x = 1; x < m_mapSize.x() - 1; x++ )
             {
                 auto pos = Vector2i{x, y};
 
+                // We are only interested in floor tiles
                 if ( tileGet(pos) == BaseTileType::Wall )
                 {
                     continue;
                 }
 
+                // Count the number of exits from this tile, e.g. the number of non-wall tiles adjacent to it
                 auto count = std::count_if( Grid::CardinalNeighbours.begin(), Grid::CardinalNeighbours.end(),
                 [&]( auto& v ){
                     auto c = pos + v.second;
@@ -395,6 +404,7 @@ void LevelFactory::pruneCorridors()
                     continue;
                 }
 
+                // If this tile has 3 walls around it then it is a dead end - remove the corridor section.
                 finished = false;
                 tileSet(pos, BaseTileType::Wall);
             }

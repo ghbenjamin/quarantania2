@@ -6,24 +6,32 @@
 #include <game/LevelConfig.h>
 #include <utils/Grid.h>
 
-
-enum class BaseTileType
+namespace LF
 {
-    Entrance,
-    Exit,
-    Wall,
-    Floor,
-    Door
-};
+    enum class BaseTileType
+    {
+        Entrance,
+        Exit,
+        Wall,
+        Floor,
+        Door
+    };
 
-enum class RegionType
-{
-    Room,
-    Corridor
-};
+    enum class RegionType
+    {
+        Room,
+        Corridor
+    };
 
+    struct Room
+    {
+        RectI bounds;
+        std::vector<int> doors;
+    };
 
-using BaseTileMap = std::vector<BaseTileType>;
+    using BaseTileMap = std::vector<BaseTileType>;
+}
+
 
 class LevelFactory
 {
@@ -35,7 +43,7 @@ public:
     LevelPtr create( LevelConfig const& config, LevelContextPtr const& ctx );
 
 private:
-    BaseTileMap generateLayout(  LevelConfig const& config, LevelContextPtr const& ctx );
+    LF::BaseTileMap generateLayout(  LevelConfig const& config, LevelContextPtr const& ctx );
 
     void addRooms( int maxTries );
     void fillAllMazes();
@@ -44,8 +52,8 @@ private:
 
     void growMaze( Vector2i start );
 
-    void tileSet(Vector2i tile, BaseTileType ttype);
-    BaseTileType tileGet( Vector2i tile );
+    void tileSet(Vector2i tile, LF::BaseTileType ttype);
+    LF::BaseTileType tileGet( Vector2i tile );
 
     Vector2i generateRandomRoomSize();
 
@@ -55,18 +63,18 @@ private:
     bool contains( Vector2i coord );
     int indexFromCoords( Vector2i coord );
 
-    void newRegion( RegionType type );
+    void newRegion( LF::RegionType type );
 
 private:
 
     std::random_device m_rd;
     std::mt19937 m_mt;
 
-    BaseTileMap m_tilemap;
+    LF::BaseTileMap m_tilemap;
     Vector2i m_mapSize;
-    std::vector<RectI> m_rooms;
+    std::vector<LF::Room> m_rooms;
 
     int m_regionIndex;
     std::unordered_map<Vector2i, int, Vector2Hash<int>> m_regionMap;
-    std::unordered_map<int, RegionType> m_regionTypeMap;
+    std::unordered_map<int, LF::RegionType> m_regionTypeMap;
 };
