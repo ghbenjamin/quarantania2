@@ -32,8 +32,8 @@ private:
 
     void addRooms( int maxTries );
     void growMaze( Vector2i start );
-    void connectRooms( );
-
+    void connectRooms();
+    void pruneCorridors();
 
 
     void tileSet(Vector2i tile, BaseTileType ttype);

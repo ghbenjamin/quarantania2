@@ -83,6 +83,7 @@ BaseTileMap LevelFactory::generateLayout(LevelConfig const &config, LevelContext
     }
 
     connectRooms();
+    pruneCorridors();
 
     return m_tilemap;
 }
@@ -231,9 +232,9 @@ void LevelFactory::connectRooms()
     // Store the location of the tile against the regions it spans.
     std::unordered_map<Vector2i, std::unordered_set<int>, Vector2Hash<int>> connectorMap;
 
-    for ( int y = 1; y < m_mapSize.y() - 2; y++ )
+    for ( int y = 1; y < m_mapSize.y() - 1; y++ )
     {
-        for ( int x = 1; x < m_mapSize.x() - 2; x++ )
+        for ( int x = 1; x < m_mapSize.x() - 1; x++ )
         {
             auto pos = Vector2i{x, y};
 
@@ -352,6 +353,45 @@ void LevelFactory::connectRooms()
 void LevelFactory::setDoor(Vector2i tile)
 {
     tileSet( tile, BaseTileType::Door );
+}
+
+void LevelFactory::pruneCorridors()
+{
+    bool finished = false;
+
+    while (!finished)
+    {
+        finished = true;
+
+        for ( int y = 1; y < m_mapSize.y() - 1; y++ )
+        {
+            for ( int x = 1; x < m_mapSize.x() - 1; x++ )
+            {
+                auto pos = Vector2i{x, y};
+
+                if ( tileGet(pos) == BaseTileType::Wall )
+                {
+                    continue;
+                }
+
+                auto count = std::count_if( Grid::CardinalNeighbours.begin(), Grid::CardinalNeighbours.end(),
+                [&]( auto& v ){
+                    auto c = pos + v.second;
+                    return tileGet(c) != BaseTileType::Wall;
+                });
+
+                if (count != 1)
+                {
+                    continue;
+                }
+
+                finished = false;
+                tileSet(pos, BaseTileType::Wall);
+            }
+        }
+    }
+
+
 }
 
 
