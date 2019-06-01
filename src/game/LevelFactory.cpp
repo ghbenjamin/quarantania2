@@ -400,8 +400,7 @@ void LevelFactory::newRegion(RegionType type)
 void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContextPtr const &ctx)
 {
     // Add some tiles to the tilemap - this is debug for now
-    auto floorRef = m_imdata.tileMap.addTile({"kenney-tiles", "grass-1"}, true);
-    auto wallRef = m_imdata.tileMap.addTile({"kenney-tiles", "wall-1"}, false);
+    auto floorRef = m_imdata.tileMap.addTile({"kenney-tiles", "soil-1"}, true);
     auto doorRef = m_imdata.tileMap.addTile({"kenney-tiles", "door-1"}, true);
     auto soilRef = m_imdata.tileMap.addTile({"kenney-tiles", "soil-1"}, true);
 

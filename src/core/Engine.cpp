@@ -36,7 +36,7 @@ void Engine::run()
     InputInterface inputInterface;
 
     LevelConfig debugConfig;
-    debugConfig.size = {63, 51};
+    debugConfig.size = {61, 49};
 
     pushState<LevelState>( debugConfig );
 
