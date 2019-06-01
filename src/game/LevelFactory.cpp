@@ -18,21 +18,10 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     m_imdata.tilePixelSize = 16;
     m_imdata.levelSize = config.size;
     m_imdata.tileCount = m_imdata.levelSize.x() * m_imdata.levelSize.y();
-
-    // Constuct actual tiles
-    m_tilemap = generateLayout( config, ctx );
     m_imdata.mapLayout = std::vector<TileRef>( m_imdata.tileCount, 0 );
 
-    constructTileMap( config, ctx );
-
-    auto ptr = std::make_unique<Level>( std::move(m_imdata), ctx );
-    return std::move(ptr);
-}
-
-BaseTileMap LevelFactory::generateLayout(LevelConfig const &config, LevelContextPtr const &ctx)
-{
+    // Start off with a map full of walls
     m_tilemap = std::vector<BaseTileType>( config.size.x() * config.size.y(), BaseTileType::Wall );
-    m_mapSize = config.size;
 
     // Attempt to add a random selection of rooms of various sizes and locations
     addRooms( 500 );
@@ -48,7 +37,10 @@ BaseTileMap LevelFactory::generateLayout(LevelConfig const &config, LevelContext
     // left - all corridors connect rooms.
     pruneCorridors();
 
-    return m_tilemap;
+    constructMapRendering(config, ctx);
+
+    auto ptr = std::make_unique<Level>( std::move(m_imdata), ctx );
+    return std::move(ptr);
 }
 
 void LevelFactory::growMaze(Vector2i start)
@@ -106,7 +98,7 @@ BaseTileType LevelFactory::tileGet(Vector2i tile)
 
 int LevelFactory::indexFromCoords(Vector2i coord)
 {
-    return coord.x() + (coord.y() * m_mapSize.x());
+    return coord.x() + (coord.y() * m_imdata.levelSize.x());
 }
 
 bool LevelFactory::canFloor(Vector2i coord, CardinalDirection dir)
@@ -121,7 +113,7 @@ bool LevelFactory::canFloor(Vector2i coord, CardinalDirection dir)
 
 bool LevelFactory::contains(Vector2i coord)
 {
-    return coord.x() >= 0 && coord.y() >= 0 && coord.x() < m_mapSize.x() && coord.y() < m_mapSize.y();
+    return coord.x() >= 0 && coord.y() >= 0 && coord.x() < m_imdata.levelSize.x() && coord.y() < m_imdata.levelSize.y();
 }
 
 void LevelFactory::addRooms( int maxTries )
@@ -130,8 +122,8 @@ void LevelFactory::addRooms( int maxTries )
     {
         auto roomSize = generateRandomRoomSize();
 
-        std::uniform_int_distribution<> mtRoomX(1, m_mapSize.x() - roomSize.x() - 1);
-        std::uniform_int_distribution<> mtRoomY(1, m_mapSize.y() - roomSize.y() - 1);
+        std::uniform_int_distribution<> mtRoomX(1, m_imdata.levelSize.x() - roomSize.x() - 1);
+        std::uniform_int_distribution<> mtRoomY(1, m_imdata.levelSize.y() - roomSize.y() - 1);
 
         int x = (mtRoomX(m_mt) / 2) * 2 + 1;
         int y = (mtRoomY(m_mt) / 2) * 2 + 1;
@@ -186,9 +178,9 @@ Vector2i LevelFactory::generateRandomRoomSize()
 
 void LevelFactory::fillAllMazes()
 {
-    for ( int y = 1; y < m_mapSize.y(); y += 2 )
+    for ( int y = 1; y < m_imdata.levelSize.y(); y += 2 )
     {
-        for ( int x = 1; x < m_mapSize.x(); x += 2 )
+        for ( int x = 1; x < m_imdata.levelSize.x(); x += 2 )
         {
             if ( tileGet({x, y}) != BaseTileType::Wall )
             {
@@ -208,9 +200,9 @@ void LevelFactory::connectRooms()
     // Store the location of the tile against the regions it spans.
     std::unordered_map<Vector2i, std::unordered_set<int>, Vector2Hash<int>> connectorMap;
 
-    for ( int y = 1; y < m_mapSize.y() - 1; y++ )
+    for ( int y = 1; y < m_imdata.levelSize.y() - 1; y++ )
     {
-        for ( int x = 1; x < m_mapSize.x() - 1; x++ )
+        for ( int x = 1; x < m_imdata.levelSize.x() - 1; x++ )
         {
             auto pos = Vector2i{x, y};
 
@@ -271,7 +263,7 @@ void LevelFactory::connectRooms()
         auto rand_it = randomElement(allConnectors.begin(), allConnectors.end(), m_mt);
         auto& rand_regions = connectorMap[*rand_it];
 
-        setDoor( Door{
+        addJunction(Junction{
             *rand_it,
             *rand_regions.begin(),
             *(++rand_regions.begin())
@@ -332,17 +324,17 @@ void LevelFactory::connectRooms()
     }
 }
 
-void LevelFactory::setDoor(Door door)
+void LevelFactory::addJunction(Junction jc)
 {
-    m_doors[door.pos] = door;
+    m_junctions[jc.pos] = jc;
 
     if ( weightedFlip(5, m_mt) )
     {
-        tileSet( door.pos, BaseTileType::Floor );
+        tileSet( jc.pos, BaseTileType::Floor );
     }
     else
     {
-        tileSet( door.pos, BaseTileType::Door );
+        tileSet( jc.pos, BaseTileType::Junction );
     }
 }
 
@@ -355,9 +347,9 @@ void LevelFactory::pruneCorridors()
         finished = true;
 
         // Walk over each of our tiles
-        for ( int y = 1; y < m_mapSize.y() - 1; y++ )
+        for ( int y = 1; y < m_imdata.levelSize.y() - 1; y++ )
         {
-            for ( int x = 1; x < m_mapSize.x() - 1; x++ )
+            for ( int x = 1; x < m_imdata.levelSize.x() - 1; x++ )
             {
                 auto pos = Vector2i{x, y};
 
@@ -395,12 +387,33 @@ void LevelFactory::newRegion(RegionType type)
     m_regionTypeMap[m_regionIndex] = type;
 }
 
-void LevelFactory::constructTileMap(LevelConfig const &config, LevelContextPtr const &ctx)
+void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContextPtr const &ctx)
 {
+    // Add some tiles to the tilemap - this is debug for now
     auto floorRef = m_imdata.tileMap.addTile({"kenney-tiles", "grass-1"}, true);
     auto wallRef = m_imdata.tileMap.addTile({"kenney-tiles", "wall-1"}, false);
     auto doorRef = m_imdata.tileMap.addTile({"kenney-tiles", "door-1"}, true);
     auto soilRef = m_imdata.tileMap.addTile({"kenney-tiles", "soil-1"}, true);
+
+    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-open-N"}, false);
+    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-open-S"}, false);
+    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-open-E"}, false);
+    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-open-W"}, false);
+    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-T-N"}, false);
+    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-T-S"}, false);
+    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-T-E"}, false);
+    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-T-W"}, false);
+    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-corner-NE"}, false);
+    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-corner-SE"}, false);
+    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-corner-SW"}, false);
+    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-corner-NW"}, false);
+    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-vert"}, false);
+    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-horiz"}, false);
+
+    // Construct the different tile levels - add three for now
+    m_imdata.mapRendering.emplace_back( m_tilemap.size(), -1 );
+    m_imdata.mapRendering.emplace_back( m_tilemap.size(), -1 );
+    m_imdata.mapRendering.emplace_back( m_tilemap.size(), -1 );
 
     for ( size_t i = 0; i < m_tilemap.size(); i++ )
     {
@@ -408,18 +421,28 @@ void LevelFactory::constructTileMap(LevelConfig const &config, LevelContextPtr c
         {
             case BaseTileType::Wall:
                 m_imdata.mapLayout[i] = wallRef;
+                m_imdata.mapRendering[0][i] = wallRef;
                 break;
             case BaseTileType::Floor:
                 m_imdata.mapLayout[i] = floorRef;
+                m_imdata.mapRendering[0][i] = floorRef;
                 break;
-            case BaseTileType::Door:
+            case BaseTileType::Junction:
                 m_imdata.mapLayout[i] = doorRef;
+                m_imdata.mapRendering[0][i] = wallRef;
+                m_imdata.mapRendering[1][i] = doorRef;
                 break;
+
             default:
                 m_imdata.mapLayout[i] = soilRef;
                 break;
         }
     }
+}
+
+TileRef LevelFactory::getCorrectWallTile(Vector2i tile)
+{
+    return 0;
 }
 
 

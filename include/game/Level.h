@@ -24,6 +24,8 @@ struct ImmutableLevelData
 
     TileMap tileMap;
     std::vector<TileRef> mapLayout;
+
+    std::vector<std::vector<TileRef>> mapRendering;
 };
 
 class LevelContext

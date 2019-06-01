@@ -6,5 +6,21 @@
   "sand-1": 7,
   "sand-2": 64,
   "wall-1": 880,
-  "door-1": 153
+  "door-1": 153,
+
+  "wall-grey-open-N": 818,
+  "wall-grey-open-S": 761,
+  "wall-grey-open-E": 704,
+  "wall-grey-open-W": 706,
+  "wall-grey-T-N": 710,
+  "wall-grey-T-S": 767,
+  "wall-grey-T-E": 709,
+  "wall-grey-T-W": 766,
+  "wall-grey-corner-NE": 708,
+  "wall-grey-corner-SE": 765,
+  "wall-grey-corner-SW": 764,
+  "wall-grey-corner-NW": 707,
+  "wall-grey-vert": 763,
+  "wall-grey-horiz": 705
+
 }

@@ -37,22 +37,31 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
 
 void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
 {
-    Vector2i offset = {0, 0};
+    Vector2i offset;
     Vector2i currPos;
-    int row = 0;
-    int col = 0;
+    int row, col;
     int width = m_imData.levelSize.x();
 
-    for ( auto const& ref : m_imData.mapLayout )
+    for ( auto const& layer : m_imData.mapRendering )
     {
-        currPos = offset + Vector2i{ col * m_imData.tilePixelSize, row * m_imData.tilePixelSize };
+        offset = {0, 0};
+        row = 0;
+        col = 0;
 
-        rInter.addWorldItem( m_imData.tileMap.get(ref).sprite.renderObject(currPos) );
-        col++;
-        if ( col >= width )
+        for ( auto const& ref : layer )
         {
-            col = 0;
-            row++;
+            if ( ref >= 0 )
+            {
+                currPos = offset + Vector2i{ col * m_imData.tilePixelSize, row * m_imData.tilePixelSize };
+                rInter.addWorldItem( m_imData.tileMap.get(ref).sprite.renderObject(currPos) );
+            }
+
+            col++;
+            if ( col >= width )
+            {
+                col = 0;
+                row++;
+            }
         }
     }
 }

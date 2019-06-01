@@ -14,7 +14,7 @@ namespace LF
         Exit,
         Wall,
         Floor,
-        Door
+        Junction
     };
 
     enum class RegionType
@@ -23,7 +23,7 @@ namespace LF
         Corridor
     };
 
-    struct Door
+    struct Junction
     {
         Vector2i pos;
         int region1 = -1;
@@ -33,7 +33,7 @@ namespace LF
     struct Room
     {
         RectI bounds;
-        std::vector<Door> doors;
+        std::vector<Junction> junctions;
     };
 
     using BaseTileMap = std::vector<BaseTileType>;
@@ -53,12 +53,10 @@ private:
 
     // Level rendering methods
 
-    void constructTileMap( LevelConfig const& config, LevelContextPtr const& ctx );
-
+    void constructMapRendering(LevelConfig const &config, LevelContextPtr const &ctx);
+    TileRef getCorrectWallTile( Vector2i tile );
 
     // Base level layout methods
-
-    LF::BaseTileMap generateLayout(  LevelConfig const& config, LevelContextPtr const& ctx );
 
     void addRooms( int maxTries );
     void fillAllMazes();
@@ -72,7 +70,7 @@ private:
 
     Vector2i generateRandomRoomSize();
 
-    void setDoor( LF::Door tile );
+    void addJunction(LF::Junction jc);
 
     bool canFloor( Vector2i coord, CardinalDirection dir );
     bool contains( Vector2i coord );
@@ -94,11 +92,10 @@ private:
 
     // Base map layout
     LF::BaseTileMap m_tilemap;
-    Vector2i m_mapSize;
     std::vector<LF::Room> m_rooms;
     int m_regionIndex;
     std::unordered_map<Vector2i, int, Vector2Hash<int>> m_regionMap;
-    std::unordered_map<Vector2i, LF::Door, Vector2Hash<int>> m_doors;
+    std::unordered_map<Vector2i, LF::Junction, Vector2Hash<int>> m_junctions;
     std::unordered_map<int, LF::RegionType> m_regionTypeMap;
 
 };

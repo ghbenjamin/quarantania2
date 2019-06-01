@@ -23,6 +23,7 @@ enum class CardinalDirection
     W
 };
 
+using GridBitmask = int8_t;
 
 class Grid
 {

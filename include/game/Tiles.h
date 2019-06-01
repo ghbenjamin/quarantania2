@@ -12,7 +12,7 @@ struct Tile
     bool passible = true;
 };
 
-using TileRef = size_t;
+using TileRef = int;
 
 
 class TileMap
