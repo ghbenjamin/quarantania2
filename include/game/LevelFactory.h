@@ -54,7 +54,7 @@ private:
     // Level rendering methods
 
     void constructMapRendering(LevelConfig const &config, LevelContextPtr const &ctx);
-    TileRef getCorrectWallTile( Vector2i tile );
+    TileRef getCorrectWallTile( int idx );
 
     // Base level layout methods
 
@@ -72,9 +72,13 @@ private:
 
     void addJunction(LF::Junction jc);
 
-    bool canFloor( Vector2i coord, CardinalDirection dir );
-    bool contains( Vector2i coord );
+    bool canFloor( Vector2i coord, Direction dir );
+    bool gridContains(Vector2i coord);
     int indexFromCoords( Vector2i coord );
+    Vector2i coordsFromIndex( int idx );
+
+    GridBitmask adjacentWalls( Vector2i coord );
+    void calcAllAdjacentWalls();
 
     void newRegion( LF::RegionType type );
 
@@ -97,5 +101,5 @@ private:
     std::unordered_map<Vector2i, int, Vector2Hash<int>> m_regionMap;
     std::unordered_map<Vector2i, LF::Junction, Vector2Hash<int>> m_junctions;
     std::unordered_map<int, LF::RegionType> m_regionTypeMap;
-
+    std::vector<GridBitmask> m_wallPositionMasks;
 };

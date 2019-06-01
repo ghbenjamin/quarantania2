@@ -23,8 +23,6 @@ struct ImmutableLevelData
     int tileCount = -1;
 
     TileMap tileMap;
-    std::vector<TileRef> mapLayout;
-
     std::vector<std::vector<TileRef>> mapRendering;
 };
 

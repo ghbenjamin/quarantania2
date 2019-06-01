@@ -12,6 +12,10 @@
   "wall-grey-open-S": 761,
   "wall-grey-open-E": 704,
   "wall-grey-open-W": 706,
+  "wall-grey-closed-N": 880,
+  "wall-grey-closed-S": 823,
+  "wall-grey-closed-E": 879,
+  "wall-grey-closed-W": 822,
   "wall-grey-T-N": 710,
   "wall-grey-T-S": 767,
   "wall-grey-T-E": 709,
@@ -21,6 +25,6 @@
   "wall-grey-corner-SW": 764,
   "wall-grey-corner-NW": 707,
   "wall-grey-vert": 763,
-  "wall-grey-horiz": 705
-
+  "wall-grey-horiz": 705,
+  "wall-grey-plain": 1386
 }
