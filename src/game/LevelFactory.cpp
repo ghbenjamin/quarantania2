@@ -40,6 +40,8 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
 
     calcAllAdjacentWalls();
 
+    generateEntrancesExits();
+
     constructMapRendering(config, ctx);
 
     auto ptr = std::make_unique<Level>( std::move(m_imdata), ctx );
@@ -142,9 +144,9 @@ void LevelFactory::addRooms( int maxTries )
         room.bounds = { x, y, roomSize.x(), roomSize.y() };
 
         bool invalid = false;
-        for ( auto const& r : m_rooms )
+        for ( auto const &[k, v] : m_rooms )
         {
-            if ( room.bounds.intersect(r.bounds) )
+            if ( room.bounds.intersect(v.bounds) )
             {
                 invalid = true;
                 break;
@@ -156,8 +158,8 @@ void LevelFactory::addRooms( int maxTries )
             continue;
         }
 
-        m_rooms.push_back(room);
         newRegion(RegionType::Room);
+        m_rooms.insert({m_regionIndex, room});
 
         for ( int j = room.bounds.y(); j < room.bounds.y() + room.bounds.h(); j++)
         {
@@ -338,6 +340,18 @@ void LevelFactory::addJunction(Junction jc)
 {
     m_junctions[jc.pos] = jc;
 
+    auto it1 = m_rooms.find(jc.region1);
+    if (it1 != m_rooms.end())
+    {
+        it1->second.junctions.push_back(jc.pos);
+    }
+
+    auto it2 = m_rooms.find(jc.region2);
+    if (it2 != m_rooms.end())
+    {
+        it2->second.junctions.push_back(jc.pos);
+    }
+
     if ( weightedFlip(5, m_mt) )
     {
         tileSet( jc.pos, BaseTileType::Floor );
@@ -402,7 +416,9 @@ void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContext
     // Add some tiles to the tilemap - this is debug for now
     auto floorRef = m_imdata.tileMap.addTile({"kenney-tiles", "soil-1"}, true);
     auto doorRef = m_imdata.tileMap.addTile({"kenney-tiles", "door-1"}, true);
-    auto soilRef = m_imdata.tileMap.addTile({"kenney-tiles", "soil-1"}, true);
+
+    auto enterRef = m_imdata.tileMap.addTile({"grey-stairs-up", "door-1"}, true);
+    auto exitRef = m_imdata.tileMap.addTile({"grey-stairs-down", "door-1"}, true);
 
     m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-open-N"}, false);
     m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-open-S"}, false);
@@ -443,7 +459,14 @@ void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContext
                 m_imdata.mapRendering[0][i] = getCorrectWallTile(i);
                 m_imdata.mapRendering[1][i] = doorRef;
                 break;
-
+            case BaseTileType::Entrance:
+                m_imdata.mapRendering[0][i] = floorRef;
+                m_imdata.mapRendering[1][i] = enterRef;
+                break;
+            case BaseTileType::Exit:
+                m_imdata.mapRendering[0][i] = floorRef;
+                m_imdata.mapRendering[1][i] = exitRef;
+                break;
             default:
                 break;
         }
@@ -574,4 +597,51 @@ void LevelFactory::calcAllAdjacentWalls()
     }
 
     Assert(m_wallPositionMasks.size() == m_imdata.tileCount);
+}
+
+void LevelFactory::generateEntrancesExits()
+{
+    std::vector<int> candidates;
+    int rIdxEnter = -1;
+    int rIdxExit = -1;
+
+    std::for_each(m_rooms.begin(), m_rooms.end(), [&]( auto const& it ) {
+        if (it.second.junctions.size() == 1 )
+        {
+            candidates.push_back(it.first);
+        }
+    });
+
+    if ( candidates.size() > 1 )
+    {
+        auto it = randomElement( candidates.begin(), candidates.end(), m_mt );
+        rIdxEnter = *it;
+        candidates.erase(it);
+
+        it = randomElement( candidates.begin(), candidates.end(), m_mt );
+        rIdxExit = *it;
+    }
+    else
+    {
+        AssertAlways();
+    }
+
+    auto& entranceBounds = m_rooms[rIdxEnter].bounds;
+    auto& exitBounds = m_rooms[rIdxExit].bounds;
+
+    int x, y;
+
+    x = entranceBounds.x() + ( entranceBounds.w() / 2 );
+    y = entranceBounds.y() + ( entranceBounds.h() / 2 );
+    m_imdata.entranceTile = {x, y};
+
+    x = exitBounds.x() + ( exitBounds.w() / 2 );
+    y = exitBounds.y() + ( exitBounds.h() / 2 );
+    m_imdata.exitTile = {x, y};
+
+    Logging::log( m_imdata.entranceTile );
+    Logging::log( m_imdata.exitTile );
+
+    tileSet( m_imdata.entranceTile, BaseTileType::Entrance );
+    tileSet( m_imdata.entranceTile, BaseTileType::Exit );
 }

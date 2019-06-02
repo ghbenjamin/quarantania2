@@ -8,6 +8,9 @@
   "wall-1": 880,
   "door-1": 153,
 
+
+  "grey-stairs-down": 1049,
+  "grey-stairs-up": 1046,
   "wall-grey-open-N": 818,
   "wall-grey-open-S": 761,
   "wall-grey-open-E": 704,
