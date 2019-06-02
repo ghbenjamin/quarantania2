@@ -417,8 +417,8 @@ void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContext
     auto floorRef = m_imdata.tileMap.addTile({"kenney-tiles", "soil-1"}, true);
     auto doorRef = m_imdata.tileMap.addTile({"kenney-tiles", "door-1"}, true);
 
-    auto enterRef = m_imdata.tileMap.addTile({"grey-stairs-up", "door-1"}, true);
-    auto exitRef = m_imdata.tileMap.addTile({"grey-stairs-down", "door-1"}, true);
+    auto enterRef = m_imdata.tileMap.addTile({"kenney-tiles", "grey-stairs-up"}, true);
+    auto exitRef = m_imdata.tileMap.addTile({"kenney-tiles", "grey-stairs-down"}, true);
 
     m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-open-N"}, false);
     m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-open-S"}, false);
@@ -639,9 +639,6 @@ void LevelFactory::generateEntrancesExits()
     y = exitBounds.y() + ( exitBounds.h() / 2 );
     m_imdata.exitTile = {x, y};
 
-    Logging::log( m_imdata.entranceTile );
-    Logging::log( m_imdata.exitTile );
-
     tileSet( m_imdata.entranceTile, BaseTileType::Entrance );
-    tileSet( m_imdata.entranceTile, BaseTileType::Exit );
+    tileSet( m_imdata.exitTile, BaseTileType::Exit );
 }
