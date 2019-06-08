@@ -17,16 +17,24 @@ struct ImmutableLevelData
     ImmutableLevelData() = default;
     ~ImmutableLevelData() = default;
 
+    // Core information
     int tilePixelSize = -1;
-
     Vector2i levelSize;
     int tileCount = -1;
 
-    TileMap tileMap;
+    // Rendering information
+    TileRenderMap tileRenderMap;
     std::vector<std::vector<TileRef>> mapRendering;
 
+    // Map information
+    
+
+    // Game logic
     Vector2i entranceTile;
     Vector2i exitTile;
+
+    // Game actors
+
 };
 
 class LevelContext

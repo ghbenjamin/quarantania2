@@ -1,0 +1,24 @@
+{
+  "objects": [
+    {
+      "name": "bed-made",
+      "sprite": ["kenney-tiles", "bed-made"],
+      "passable": false
+    },
+    {
+      "name": "bed-unmade",
+      "sprite": ["kenney-tiles", "bed-unmade"],
+      "passable": false
+    },
+    {
+      "name": "chair-left",
+      "sprite": ["kenney-tiles", "chair-left"],
+      "passable": true
+    },
+    {
+      "name": "chair-right",
+      "sprite": ["kenney-tiles", "chair-right"],
+      "passable": true
+    }
+   ]
+}

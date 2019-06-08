@@ -53,7 +53,7 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
             if ( ref >= 0 )
             {
                 currPos = offset + Vector2i{ col * m_imData.tilePixelSize, row * m_imData.tilePixelSize };
-                rInter.addWorldItem( m_imData.tileMap.get(ref).sprite.renderObject(currPos) );
+                rInter.addWorldItem( m_imData.tileRenderMap.get(ref).sprite.renderObject(currPos) );
             }
 
             col++;

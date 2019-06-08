@@ -414,31 +414,31 @@ void LevelFactory::newRegion(RegionType type)
 void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContextPtr const &ctx)
 {
     // Add some tiles to the tilemap - this is debug for now
-    auto floorRef = m_imdata.tileMap.addTile({"kenney-tiles", "soil-1"}, true);
-    auto doorRef = m_imdata.tileMap.addTile({"kenney-tiles", "door-1"}, true);
+    auto floorRef = m_imdata.tileRenderMap.addTile({"kenney-tiles", "soil-1"}, true);
+    auto doorRef = m_imdata.tileRenderMap.addTile({"kenney-tiles", "door-1"}, true);
 
-    auto enterRef = m_imdata.tileMap.addTile({"kenney-tiles", "grey-stairs-up"}, true);
-    auto exitRef = m_imdata.tileMap.addTile({"kenney-tiles", "grey-stairs-down"}, true);
+    auto enterRef = m_imdata.tileRenderMap.addTile({"kenney-tiles", "grey-stairs-up"}, true);
+    auto exitRef = m_imdata.tileRenderMap.addTile({"kenney-tiles", "grey-stairs-down"}, true);
 
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-open-N"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-open-S"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-open-E"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-open-W"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-T-N"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-T-S"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-T-E"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-T-W"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-corner-NE"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-corner-SE"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-corner-SW"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-corner-NW"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-vert"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-horiz"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-plain"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-closed-N"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-closed-E"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-closed-S"}, false);
-    m_imdata.tileMap.addTile({"kenney-tiles", "wall-grey-closed-W"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-open-N"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-open-S"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-open-E"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-open-W"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-T-N"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-T-S"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-T-E"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-T-W"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-corner-NE"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-corner-SE"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-corner-SW"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-corner-NW"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-vert"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-horiz"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-plain"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-closed-N"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-closed-E"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-closed-S"}, false);
+    m_imdata.tileRenderMap.addTile({"kenney-tiles", "wall-grey-closed-W"}, false);
 
     // Construct the different tile levels - add three for now
     m_imdata.mapRendering.emplace_back( m_tilemap.size(), -1 );
@@ -481,91 +481,91 @@ TileRef LevelFactory::getCorrectWallTile(int idx)
 
     if (mask == Direction::N)
     {
-        return m_imdata.tileMap.getRef( "wall-grey-open-N" );
+        return m_imdata.tileRenderMap.getRef( "wall-grey-open-N" );
     }
     else if ( mask == Direction::E )
     {
-        return m_imdata.tileMap.getRef( "wall-grey-open-E" );
+        return m_imdata.tileRenderMap.getRef( "wall-grey-open-E" );
     }
     else if ( mask == Direction::S )
     {
-        return m_imdata.tileMap.getRef( "wall-grey-open-S" );
+        return m_imdata.tileRenderMap.getRef( "wall-grey-open-S" );
     }
     else if ( mask == Direction::W )
     {
-        return m_imdata.tileMap.getRef( "wall-grey-open-W" );
+        return m_imdata.tileRenderMap.getRef( "wall-grey-open-W" );
     }
     else if ( mask == (Direction::N | Direction::S) )
     {
-        return m_imdata.tileMap.getRef( "wall-grey-vert" );
+        return m_imdata.tileRenderMap.getRef( "wall-grey-vert" );
     }
     else if ( mask == (Direction::E | Direction::W) )
     {
-        return m_imdata.tileMap.getRef( "wall-grey-horiz" );
+        return m_imdata.tileRenderMap.getRef( "wall-grey-horiz" );
     }
     else if ( mask == (Direction::E | Direction::S) )
     {
-        return m_imdata.tileMap.getRef( "wall-grey-corner-NW" );
+        return m_imdata.tileRenderMap.getRef( "wall-grey-corner-NW" );
     }
     else if ( mask == (Direction::E | Direction::N) )
     {
-        return m_imdata.tileMap.getRef( "wall-grey-corner-SW" );
+        return m_imdata.tileRenderMap.getRef( "wall-grey-corner-SW" );
     }
     else if ( mask == (Direction::W | Direction::S) )
     {
-        return m_imdata.tileMap.getRef( "wall-grey-corner-NE" );
+        return m_imdata.tileRenderMap.getRef( "wall-grey-corner-NE" );
     }
     else if ( mask == (Direction::N | Direction::W) )
     {
-        return m_imdata.tileMap.getRef( "wall-grey-corner-SE" );
+        return m_imdata.tileRenderMap.getRef( "wall-grey-corner-SE" );
     }
     else if ( mask == (Direction::N | Direction::S | Direction::E ) )
     {
         if ( fullMask & (Direction::NE | Direction::SE) )
         {
-            return m_imdata.tileMap.getRef( "wall-grey-closed-W" );
+            return m_imdata.tileRenderMap.getRef( "wall-grey-closed-W" );
         }
         else
         {
-            return m_imdata.tileMap.getRef( "wall-grey-T-E" );
+            return m_imdata.tileRenderMap.getRef( "wall-grey-T-E" );
         }
     }
     else if ( mask == (Direction::N | Direction::S | Direction::W ) )
     {
         if ( fullMask & (Direction::NW | Direction::SW) )
         {
-            return m_imdata.tileMap.getRef( "wall-grey-closed-E" );
+            return m_imdata.tileRenderMap.getRef( "wall-grey-closed-E" );
         }
         else
         {
-            return m_imdata.tileMap.getRef( "wall-grey-T-W" );
+            return m_imdata.tileRenderMap.getRef( "wall-grey-T-W" );
         }
     }
     else if ( mask == (Direction::E | Direction::W | Direction::N ) )
     {
         if ( fullMask & (Direction::NE | Direction::NW) )
         {
-            return m_imdata.tileMap.getRef( "wall-grey-closed-S" );
+            return m_imdata.tileRenderMap.getRef( "wall-grey-closed-S" );
         }
         else
         {
-            return m_imdata.tileMap.getRef( "wall-grey-T-N" );
+            return m_imdata.tileRenderMap.getRef( "wall-grey-T-N" );
         }
     }
     else if ( mask == (Direction::E | Direction::W | Direction::S ) )
     {
         if ( fullMask & (Direction::SW | Direction::SE) )
         {
-            return m_imdata.tileMap.getRef( "wall-grey-closed-N" );
+            return m_imdata.tileRenderMap.getRef( "wall-grey-closed-N" );
         }
         else
         {
-            return m_imdata.tileMap.getRef( "wall-grey-T-S" );
+            return m_imdata.tileRenderMap.getRef( "wall-grey-T-S" );
         }
     }
 
 
-    return m_imdata.tileMap.getRef( "wall-grey-plain" );
+    return m_imdata.tileRenderMap.getRef( "wall-grey-plain" );
 }
 
 GridBitmask LevelFactory::adjacentWalls(Vector2i coord)

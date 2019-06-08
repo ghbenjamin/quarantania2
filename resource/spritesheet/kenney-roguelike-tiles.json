@@ -29,5 +29,10 @@
   "wall-grey-corner-NW": 707,
   "wall-grey-vert": 763,
   "wall-grey-horiz": 705,
-  "wall-grey-plain": 1386
+  "wall-grey-plain": 1386,
+
+  "bed-made": 129,
+  "bed-unmade": 128,
+  "chair-left": 136,
+  "chair-right": 135
 }

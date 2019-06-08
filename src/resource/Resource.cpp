@@ -85,7 +85,10 @@ const SpritesheetPtr &SpritesheetResource::get() const
 
 void SpritesheetResource::load()
 {
+// MSVC compiler warning
+#ifdef GetObject
 #undef GetObject
+#endif
 
     auto tex = Texture::loadTexture(
         ResourceManager::get().getWindow()->renderer()->raw(),

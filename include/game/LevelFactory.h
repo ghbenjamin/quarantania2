@@ -24,17 +24,25 @@ namespace LF
         Corridor
     };
 
+    using RegionRef = int;
+
     struct Junction
     {
         Vector2i pos;
-        int region1 = -1;
-        int region2 = -1;
+        RegionRef region1 = -1;
+        RegionRef region2 = -1;
     };
 
     struct Room
     {
         RectI bounds;
         std::vector<Vector2i> junctions;
+    };
+
+    struct LevelTransition
+    {
+        Vector2i pos;
+        RegionRef containingRegion = -1;
     };
 
     using BaseTileMap = std::vector<BaseTileType>;
@@ -51,7 +59,7 @@ public:
     /**
      * Create a single level from the given configuration and context.
      * Place rooms, connect them with corridors and generate doors. Fill the rooms with
-     * stuff. Generate other NPCs. Add appropriately places entrances and exits.
+     * stuff. Generate other NPCs. Add appropriately placed entrances and exits.
      * @param config
      * @param ctx
      * @return
@@ -108,7 +116,6 @@ private:
     // Does our grid contain the given position?
     bool gridContains(Vector2i coord);
 
-
     // Convert from a 2x position to a 1d index
     int indexFromCoords( Vector2i coord );
 
@@ -119,8 +126,10 @@ private:
     GridBitmask adjacentWalls( Vector2i coord );
     void calcAllAdjacentWalls();
 
+    // Start a new region of the given type
     void newRegion( LF::RegionType type );
 
+    // Try to generate the entrances and exits
     void generateEntrancesExits();
 
 private:
@@ -132,15 +141,22 @@ private:
     std::random_device m_rd;
     std::mt19937 m_mt;
 
-    // Rendering
-
-
     // Base map layout
-    LF::BaseTileMap m_tilemap;
-    std::map<int, LF::Room> m_rooms;
     int m_regionIndex;
-    std::unordered_map<Vector2i, int, Vector2Hash<int>> m_regionMap;
+    LF::BaseTileMap m_tilemap;
+
+    // Map region -> rooms
+    std::map<LF::RegionRef, LF::Room> m_rooms;
+
+    // Tile position -> containing region
+    std::unordered_map<Vector2i, LF::RegionRef, Vector2Hash<int>> m_regionMap;
+
+    // Map junction position -> junction data
     std::unordered_map<Vector2i, LF::Junction, Vector2Hash<int>> m_junctions;
-    std::unordered_map<int, LF::RegionType> m_regionTypeMap;
+
+    // Map region -> type of region eg. door, corridor
+    std::unordered_map<LF::RegionRef, LF::RegionType> m_regionTypeMap;
+
+    // Flattened 1d array of positions of walls surrounding each tile
     std::vector<GridBitmask> m_wallPositionMasks;
 };

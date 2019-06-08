@@ -15,11 +15,11 @@ struct Tile
 using TileRef = int;
 
 
-class TileMap
+class TileRenderMap
 {
 public:
-    TileMap() = default;
-    ~TileMap() = default;
+    TileRenderMap() = default;
+    ~TileRenderMap() = default;
 
     TileRef addTile( const SpritesheetKey& key, bool passible );
 
