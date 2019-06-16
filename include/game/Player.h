@@ -7,7 +7,6 @@
 struct ImPlayerData
 {
     std::string name;
-    EntityRef entity;
 };
 
 
@@ -15,10 +14,12 @@ class Player
 {
 public:
 
-    explicit Player( ImPlayerData& data );
+    explicit Player( ImPlayerData&& data, EntityRef ref);
     ~Player() = default;
 
 private:
-    ImPlayerData m_imData;
+
+    EntityRef m_ref;
+    const ImPlayerData m_imData;
 
 };

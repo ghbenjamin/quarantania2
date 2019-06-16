@@ -24,7 +24,7 @@ void Systems::Render::update(uint32_t ticks, RenderInterface &rInter)
 {
     for ( auto &[render, tile] : m_ecs->with<Components::Render, Components::TilePosition>() )
     {
-        rInter.addWorldItem(render->sprite.renderObject(tile->position));
+        rInter.addWorldItem(render->sprite.renderObject( tile->position * 16 )); // TODO Hack
     }
 }
 

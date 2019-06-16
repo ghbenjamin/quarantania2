@@ -1,8 +1,8 @@
 #include <game/Player.h>
 #include <algorithm>
 
-Player::Player(ImPlayerData &data)
-: m_imData( std::move(data) )
+Player::Player(ImPlayerData &&data, EntityRef ref)
+: m_imData(data), m_ref(ref)
 {
 
 }

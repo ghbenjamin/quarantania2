@@ -6,9 +6,11 @@
 #include <utils/Logging.h>
 
 Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
-: m_imData(imd), m_ctx(std::move(ctx))
+: m_imData(imd), m_ctx(std::move(ctx)), m_entityFactory(&m_ecs)
 {
-
+    ImPlayerData impData;
+    impData.name = "Urist McUrist";
+    m_player = m_entityFactory.createPlayer(impData, imd.entranceTile);
 }
 
 bool Level::input(IEvent &evt)

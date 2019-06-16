@@ -7,6 +7,8 @@
 
 #include <game/ECS.h>
 #include <game/Tiles.h>
+#include <game/Player.h>
+#include <game/EntityFactory.h>
 
 class RenderInterface;
 class InputInterface;
@@ -27,7 +29,7 @@ struct ImmutableLevelData
     std::vector<std::vector<TileRef>> mapRendering;
 
     // Map information
-    
+
 
     // Game logic
     Vector2i entranceTile;
@@ -39,6 +41,7 @@ struct ImmutableLevelData
 
 class LevelContext
 {
+
 };
 
 using LevelContextPtr = std::shared_ptr<LevelContext>;
@@ -64,6 +67,10 @@ private:
     ECS m_ecs;
     const ImmutableLevelData m_imData;
     LevelContextPtr m_ctx;
+
+    EntityFactory m_entityFactory;
+
+    std::unique_ptr<Player> m_player;
 
 };
 using LevelPtr = std::unique_ptr<Level>;
