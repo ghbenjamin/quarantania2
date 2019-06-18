@@ -9,15 +9,23 @@ enum class GEventType
 
 };
 
+enum class GEventScope
+{
+    Before,
+    After
+};
+
 struct GEvent
 {
     GEventType type;
+    GEventScope scope;
     union
     {
 
     };
 };
 
+using SubRef = std::size_t;
 
 class GEventHub
 {
@@ -28,13 +36,13 @@ public:
     GEventHub( const GEventHub& ) = delete;
     GEventHub& operator=( const GEventHub& ) = delete;
 
-    void subscribe( GEventType etype, EntityRef subber );
-    void unsubsubscribe(  );
+    SubRef subscribe( GEventType etype, GEventScope escope, EntityRef subber );
+    void unsubsubscribe( SubRef ref );
 
     void broadcast( GEvent& evt );
 
 private:
 
-    std::unordered_multimap<GEventType, EntityRef> m_subscriptions;
+    std::unordered_multimap<std::pair<GEventType, GEventScope>, EntityRef> m_subscriptions;
 
 };
