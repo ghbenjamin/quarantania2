@@ -13,6 +13,7 @@
 class RenderInterface;
 class InputInterface;
 struct IEvent;
+struct IEventKeyPress;
 
 struct ImmutableLevelData
 {
@@ -54,6 +55,8 @@ public:
     virtual ~Level() = default;
 
     bool input(IEvent &evt);
+    bool handleKeyInput( IEventKeyPress& evt );
+
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
 private:

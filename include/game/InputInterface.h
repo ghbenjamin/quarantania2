@@ -2,9 +2,7 @@
 
 #include <unordered_set>
 #include <deque>
-
 #include <SDL.h>
-
 #include <utils/Containers.h>
 
 

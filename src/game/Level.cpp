@@ -15,6 +15,23 @@ Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
 
 bool Level::input(IEvent &evt)
 {
+    switch ( evt.type )
+    {
+        case IEventType::KeyPress:
+            return handleKeyInput(evt.keyPress);
+        case IEventType::MouseClick:
+            break;
+        case IEventType::MouseMove:
+            break;
+        case IEventType::WindowResize:
+            break;
+    }
+
+    return false;
+}
+
+bool Level::handleKeyInput(IEventKeyPress &evt)
+{
     return false;
 }
 
@@ -72,25 +89,31 @@ void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface
 {
     rInter.camera().setBounds( m_imData.levelSize * m_imData.tilePixelSize );
 
-    float scrollSpeed = 4.0f;
+    float scrollSpeed = 0.8f;
 
     if ( iinter.anyHeld() )
     {
+        Vector2f delta = { 0.0, 0.0 };
         if ( iinter.isHeld( SDLK_LEFT ) )
         {
-            rInter.camera().moveBy({-scrollSpeed, 0});
+            delta += {-1.0, 0};
         }
         if ( iinter.isHeld( SDLK_RIGHT ) )
         {
-            rInter.camera().moveBy({scrollSpeed, 0});
+            delta += {1.0, 0};
         }
         if ( iinter.isHeld( SDLK_UP ) )
         {
-            rInter.camera().moveBy({0, -scrollSpeed});
+            delta += {0, -1.0};
         }
         if ( iinter.isHeld( SDLK_DOWN ) )
         {
-            rInter.camera().moveBy({0, scrollSpeed});
+            delta += {0, 1.0};
+        }
+
+        if ( delta.x() != 0 || delta.y() != 0 )
+        {
+            rInter.camera().moveBy(delta * (scrollSpeed * ticks));
         }
     }
 }

@@ -58,6 +58,11 @@ public:
         return Vector2(x() * other, y() * other);
     }
 
+    Vector2 operator*(float other) const
+    {
+        return Vector2((float)(x() * other), (float)(y() * other));
+    }
+
     bool operator==(const Vector2 &rhs) const
     {
         return m_x == rhs.m_x &&
