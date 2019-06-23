@@ -1,3 +1,4 @@
 #pragma once
 
-using EntityRef = unsigned int;
+using EntityRef = int;
+constexpr static EntityRef EntityNull = -1;

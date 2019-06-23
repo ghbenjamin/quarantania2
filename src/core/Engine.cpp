@@ -37,6 +37,7 @@ void Engine::run()
 
     LevelConfig debugConfig;
     debugConfig.size = {71, 55};
+    debugConfig.roomDensity = 400;
 
     pushState<LevelState>( debugConfig );
 

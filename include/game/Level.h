@@ -8,6 +8,7 @@
 #include <game/ECS.h>
 #include <game/Tiles.h>
 #include <game/Player.h>
+#include <game/LevelData.h>
 #include <game/EntityFactory.h>
 
 class RenderInterface;
@@ -15,30 +16,6 @@ class InputInterface;
 struct IEvent;
 struct IEventKeyPress;
 
-struct ImmutableLevelData
-{
-    ImmutableLevelData() = default;
-    ~ImmutableLevelData() = default;
-
-    // Core information
-    int tilePixelSize = -1;
-    Vector2i levelSize;
-    int tileCount = -1;
-
-    // Rendering information
-    TileRenderMap tileRenderMap;
-    std::vector<std::vector<TileRef>> mapRendering;
-
-    // Map information
-
-
-    // Game logic
-    Vector2i entranceTile;
-    Vector2i exitTile;
-
-    // Game actors
-
-};
 
 class LevelContext
 {
@@ -55,7 +32,7 @@ public:
     virtual ~Level() = default;
 
     bool input(IEvent &evt);
-    bool handleKeyInput( IEventKeyPress& evt );
+    bool handleKeyInput(IEventKeyPress& evt);
 
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
@@ -65,14 +42,16 @@ private:
     void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void renderTiles(uint32_t ticks, RenderInterface &rInter);
 
+
+    // Player input
+    void doMovePlayer( SDL_Keycode kcode );
+
 private:
 
     ECS m_ecs;
     const ImmutableLevelData m_imData;
     LevelContextPtr m_ctx;
-
     EntityFactory m_entityFactory;
-
     std::unique_ptr<Player> m_player;
 
 };

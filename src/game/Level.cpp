@@ -4,6 +4,7 @@
 #include <graphics/RenderInterface.h>
 #include <game/InputInterface.h>
 #include <utils/Logging.h>
+#include <utils/Assert.h>
 
 Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
 : m_imData(imd), m_ctx(std::move(ctx)), m_entityFactory(&m_ecs)
@@ -32,6 +33,19 @@ bool Level::input(IEvent &evt)
 
 bool Level::handleKeyInput(IEventKeyPress &evt)
 {
+    switch ( evt.keyCode )
+    {
+        case SDLK_w:
+        case SDLK_a:
+        case SDLK_s:
+        case SDLK_d:
+            doMovePlayer( evt.keyCode );
+            break;
+
+        default:
+            break;
+    }
+
     return false;
 }
 
@@ -72,7 +86,7 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
             if ( ref >= 0 )
             {
                 currPos = offset + Vector2i{ col * m_imData.tilePixelSize, row * m_imData.tilePixelSize };
-                rInter.addWorldItem( m_imData.tileRenderMap.get(ref).sprite.renderObject(currPos) );
+                rInter.addWorldItem( m_imData.renderTileMap.get(ref).sprite.renderObject(currPos) );
             }
 
             col++;
@@ -116,5 +130,44 @@ void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface
             rInter.camera().moveBy(delta * (scrollSpeed * ticks));
         }
     }
+}
+
+void Level::doMovePlayer(SDL_Keycode kcode)
+{
+    auto ref = m_player->ref();
+    auto tpos = m_ecs.get<Components::TilePosition>(ref);
+
+    Vector2i delta;
+
+    switch (kcode)
+    {
+        case SDLK_w:
+            delta = {0, -1};
+            break;
+        case SDLK_a:
+            delta = {-1, 0};
+            break;
+        case SDLK_s:
+            delta = {0, 1};
+            break;
+        case SDLK_d:
+            delta = {1, 0};
+            break;
+        default:
+            AssertAlways();
+            break;
+    }
+
+
+
+    GEvents::EntityMove evt;
+    evt.ent = ref;
+    evt.oldPosition = tpos->position;
+    evt.newPosition = tpos->position + delta;
+
+    GEvent gevt = { GEventType::EntityMove, GEventScope::Before, evt };
+    m_ecs.events().broadcast( gevt );
+
+
 }
 

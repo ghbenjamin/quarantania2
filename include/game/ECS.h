@@ -10,6 +10,7 @@
 #include <game/Component.h>
 #include <game/Entity.h>
 #include <game/System.h>
+#include <game/GEvent.h>
 #include <utils/IdPool.h>
 #include <utils/Assert.h>
 
@@ -23,6 +24,8 @@ public:
     ~ECS() = default;
 
     virtual void update(uint32_t ticks, RenderInterface &rInter);
+
+    GEventHub& events();
 
     EntityRef createEntity();
     void deleteEntity(EntityRef ent);
@@ -162,5 +165,7 @@ private:
     IdPool<EntityRef> m_entityPool;
     std::unordered_map<std::type_index, EntityCompMap> m_components;
     std::vector<SystemPtr> m_systems;
+
+    GEventHub m_gevents;
 
 };

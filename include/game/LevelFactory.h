@@ -4,49 +4,11 @@
 #include <map>
 
 #include <game/Level.h>
+#include <game/LevelData.h>
 #include <game/LevelConfig.h>
 #include <utils/Grid.h>
 
-namespace LF
-{
-    enum class BaseTileType
-    {
-        Entrance,
-        Exit,
-        Wall,
-        Floor,
-        Junction
-    };
 
-    enum class RegionType
-    {
-        Room,
-        Corridor
-    };
-
-    using RegionRef = int;
-
-    struct Junction
-    {
-        Vector2i pos;
-        RegionRef region1 = -1;
-        RegionRef region2 = -1;
-    };
-
-    struct Room
-    {
-        RectI bounds;
-        std::vector<Vector2i> junctions;
-    };
-
-    struct LevelTransition
-    {
-        Vector2i pos;
-        RegionRef containingRegion = -1;
-    };
-
-    using BaseTileMap = std::vector<BaseTileType>;
-}
 
 
 class LevelFactory
@@ -98,16 +60,16 @@ private:
     void growMaze( Vector2i start );
 
     // Set the specified tile to the specified tile type, keeping the regions up to date if necessary
-    void tileSet(Vector2i tile, LF::BaseTileType ttype);
+    void tileSet(Vector2i tile, LD::BaseTileType ttype);
 
     // Return the type of the specified tile
-    LF::BaseTileType tileGet( Vector2i tile );
+    LD::BaseTileType tileGet( Vector2i tile );
 
     // Generate a random-ish room size. Sizes are guaranteed to be odd.
     Vector2i generateRandomRoomSize();
 
     // Add a junction between two regions - normally a door
-    void addJunction(LF::Junction jc);
+    void addJunction(LD::Junction jc);
 
     // Can the floor tile at this position be extended in the given direction without breaking into
     // a different region?
@@ -127,7 +89,7 @@ private:
     void calcAllAdjacentWalls();
 
     // Start a new region of the given type
-    void newRegion( LF::RegionType type );
+    void newRegion( LD::RegionType type );
 
     // Try to generate the entrances and exits
     void generateEntrancesExits();
@@ -143,19 +105,18 @@ private:
 
     // Base map layout
     int m_regionIndex;
-    LF::BaseTileMap m_tilemap;
 
     // Map region -> rooms
-    std::map<LF::RegionRef, LF::Room> m_rooms;
+    std::map<LD::RegionRef, LD::Room> m_rooms;
 
     // Tile position -> containing region
-    std::unordered_map<Vector2i, LF::RegionRef, Vector2Hash<int>> m_regionMap;
+    std::unordered_map<Vector2i, LD::RegionRef, Vector2Hash<int>> m_regionMap;
 
     // Map junction position -> junction data
-    std::unordered_map<Vector2i, LF::Junction, Vector2Hash<int>> m_junctions;
+    std::unordered_map<Vector2i, LD::Junction, Vector2Hash<int>> m_junctions;
 
     // Map region -> type of region eg. door, corridor
-    std::unordered_map<LF::RegionRef, LF::RegionType> m_regionTypeMap;
+    std::unordered_map<LD::RegionRef, LD::RegionType> m_regionTypeMap;
 
     // Flattened 1d array of positions of walls surrounding each tile
     std::vector<GridBitmask> m_wallPositionMasks;

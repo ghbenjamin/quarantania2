@@ -6,3 +6,8 @@ Player::Player(ImPlayerData &&data, EntityRef ref)
 {
 
 }
+
+EntityRef Player::ref()
+{
+    return m_ref;
+}

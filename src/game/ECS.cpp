@@ -2,6 +2,7 @@
 #include <game/Component.h>
 #include <game/System.h>
 
+
 ECS::ECS()
 {
     registerComponent<Components::Render>();
@@ -9,6 +10,8 @@ ECS::ECS()
     registerComponent<Components::Collider>();
 
     registerSystem<Systems::Render>();
+    registerSystem<Systems::Position>();
+    registerSystem<Systems::Collision>();
 }
 
 EntityRef ECS::createEntity()
@@ -64,4 +67,9 @@ void ECS::update(uint32_t ticks, RenderInterface &rInter)
     {
         sys->update( ticks, rInter );
     }
+}
+
+GEventHub &ECS::events()
+{
+    return m_gevents;
 }

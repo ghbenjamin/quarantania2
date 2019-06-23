@@ -2,15 +2,19 @@
 
 #include <memory>
 
+#include <game/GSubber.h>
+
 class RenderInterface;
 class ECS;
+class GEventHub;
 
-class System
+class System : public GSubber
 {
 public:
     explicit System(ECS* parent);
-    virtual ~System() = default;
+    ~System() override = default;
 
+    void acceptGEvent(GEvent &event) override;
     virtual void update(uint32_t ticks, RenderInterface &rInter);
 
 protected:
@@ -30,8 +34,25 @@ namespace Systems
         explicit Render(ECS *parent);
         ~Render() override = default;
 
+        void acceptGEvent(GEvent &event) override;
         void update(uint32_t ticks, RenderInterface &rInter) override;
+    };
 
-    private:
+    class Collision : public System
+    {
+    public:
+        explicit Collision(ECS *parent);
+        ~Collision() override = default;
+
+        void acceptGEvent(GEvent &event) override;
+    };
+
+    class Position : public System
+    {
+    public:
+        explicit Position(ECS *parent);
+        ~Position() override = default;
+
+        void acceptGEvent(GEvent &event) override;
     };
 }

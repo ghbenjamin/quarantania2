@@ -17,9 +17,12 @@ public:
     explicit Player( ImPlayerData&& data, EntityRef ref);
     ~Player() = default;
 
+    EntityRef ref();
+
 private:
 
     EntityRef m_ref;
     const ImPlayerData m_imData;
 
 };
+
