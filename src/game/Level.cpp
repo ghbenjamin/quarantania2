@@ -170,19 +170,19 @@ void Level::doMovePlayer(SDL_Keycode kcode)
             break;
     }
 
+    Vector2i newPos = tpos->position + delta;
 
+    if ( m_grid.passibilityAt(newPos) != Rules::Passibility::Impassable )
+    {
+        GEvents::EntityMove evt;
+        evt.ent = ref;
+        evt.oldPosition = tpos->position;
+        evt.newPosition = newPos;
 
-    GEvents::EntityMove evt;
-    evt.ent = ref;
-    evt.oldPosition = tpos->position;
-    evt.newPosition = tpos->position + delta;
-
-    GEvent gevt = { GEventType::EntityMove, GEventScope::Before, evt };
-    m_gevents.broadcast( gevt );
-
-
+        GEvent gevt = { GEventType::EntityMove, GEventScope::Before, evt };
+        m_gevents.broadcast( gevt );
+    }
 }
-
 
 EntityRef Level::createEntity()
 {

@@ -7,8 +7,8 @@
 #include <game/Rules.h>
 #include <game/Entity.h>
 #include <utils/Containers.h>
+#include <utils/Grid.h>
 
-using GridRegion = std::vector<Vector2i>;
 
 
 class LevelGrid
@@ -29,6 +29,4 @@ private:
 
     std::vector<Rules::Passibility> m_fixed;
     std::unordered_multimap<Vector2i, std::pair<Rules::Passibility, EntityRef>, Vector2Hash<int>> m_dynamic;
-
-
 };

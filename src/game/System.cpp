@@ -59,7 +59,7 @@ void Systems::Position::acceptGEvent(GEvent &event)
     switch ( event.type )
     {
         case GEventType::EntityMove:
-            m_level->get<Components::TilePosition>(event.entityMove.ent)->position = event.entityMove.newPosition;
+            m_level->get<Components::TilePosition>(event.data.entityMove.ent)->position = event.data.entityMove.newPosition;
             break;
         default:
             AssertAlways();

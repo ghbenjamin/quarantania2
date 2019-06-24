@@ -24,3 +24,16 @@ std::unique_ptr<Player> EntityFactory::createPlayer(ImPlayerData &data, Vector2i
     return std::make_unique<Player>( std::move(data), eref );
 }
 
+EntityRef EntityFactory::debugHighlight(Vector2i pos, std::string const& tile) const
+{
+    auto eref = m_parent->createEntity();
+
+    m_parent->addComponent<Components::TilePosition>(eref, pos);
+
+    auto sprite = ResourceManager::get().getResource<SpritesheetResource>( "kenney-tiles" )
+            ->get()->spriteFromName( tile );
+    m_parent->addComponent<Components::Render>(eref, sprite);
+
+    return eref;
+}
+

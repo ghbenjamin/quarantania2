@@ -15,6 +15,9 @@ public:
 
     std::unique_ptr<Player> createPlayer( ImPlayerData & data, Vector2i startPos ) const;
 
+    EntityRef debugHighlight( Vector2i pos, std::string const& tile) const;
+
+
 private:
 
     Level* m_parent;

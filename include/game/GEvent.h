@@ -35,10 +35,12 @@ struct GEvent
 {
     GEventType type;
     GEventScope scope;
+
+
     union
     {
          GEvents::EntityMove entityMove;
-    };
+    } data;
 };
 
 
