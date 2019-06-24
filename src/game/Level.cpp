@@ -7,8 +7,17 @@
 #include <utils/Assert.h>
 
 Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
-: m_imData(imd), m_ctx(std::move(ctx)), m_entityFactory(&m_ecs)
+: m_imData(imd), m_ctx(std::move(ctx)), m_entityFactory(this), m_grid(imd)
 {
+    registerComponent<Components::Render>();
+    registerComponent<Components::TilePosition>();
+    registerComponent<Components::Collider>();
+
+    registerSystem<Systems::Render>();
+    registerSystem<Systems::Position>();
+    registerSystem<Systems::Collision>();
+
+
     ImPlayerData impData;
     impData.name = "Urist McUrist";
     m_player = m_entityFactory.createPlayer(impData, imd.entranceTile);
@@ -62,7 +71,10 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
     render(ticks, iinter, rInter);
 
     // Render everything managed by the ECS
-    m_ecs.update(ticks, rInter);
+    for ( auto const& sys : m_systems )
+    {
+        sys->update( ticks, rInter );
+    }
 
     // Render the GUI
     // TODO Gui
@@ -135,7 +147,7 @@ void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface
 void Level::doMovePlayer(SDL_Keycode kcode)
 {
     auto ref = m_player->ref();
-    auto tpos = m_ecs.get<Components::TilePosition>(ref);
+    auto tpos = get<Components::TilePosition>(ref);
 
     Vector2i delta;
 
@@ -166,8 +178,63 @@ void Level::doMovePlayer(SDL_Keycode kcode)
     evt.newPosition = tpos->position + delta;
 
     GEvent gevt = { GEventType::EntityMove, GEventScope::Before, evt };
-    m_ecs.events().broadcast( gevt );
+    m_gevents.broadcast( gevt );
 
 
 }
+
+
+EntityRef Level::createEntity()
+{
+    // Requisition a new ID from the pool, but dont construct any new
+    // component objects
+    return m_entityPool.next();
+}
+
+void Level::deleteEntity(EntityRef ent)
+{
+    // Delete all the components attached to this entity
+    for ( auto &[k, v] : m_components )
+    {
+        auto it = v.find(ent);
+        if ( it != v.end() )
+        {
+            v.erase(it);
+        }
+    }
+
+    // Put the ID back into the pool
+    m_entityPool.release(ent);
+}
+
+void Level::disableEntity(EntityRef ent)
+{
+    for ( auto &[k, v] : m_components )
+    {
+        auto it = v.find(ent);
+        if ( it != v.end() )
+        {
+            // it->second.DISABLE_ME
+        }
+    }
+}
+
+void Level::enableEntity(EntityRef ent)
+{
+    for ( auto &[k, v] : m_components )
+    {
+        auto it = v.find(ent);
+        if ( it != v.end() )
+        {
+            // it->second.ENABLE_ME
+        }
+    }
+}
+
+GEventHub &Level::events()
+{
+    return m_gevents;
+}
+
+
 

@@ -1,8 +1,8 @@
 #include <game/EntityFactory.h>
-#include <game/ECS.h>
+#include <game/Level.h>
 #include <resource/ResourceManager.h>
 
-EntityFactory::EntityFactory(ECS *parent)
+EntityFactory::EntityFactory(Level *parent)
 : m_parent(parent)
 {
 }

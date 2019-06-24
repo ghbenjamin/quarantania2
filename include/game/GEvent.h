@@ -69,13 +69,13 @@ public:
         static_assert( std::is_base_of_v<GSubber, T> );
         auto casted = static_cast<GSubber*>(receiver);
 
-        auto &[first, last] = m_subs.equal_range( etype );
+        auto it_range = m_subs.equal_range( etype );
 
-        for (; first != last; first++)
+        for (auto it = it_range.first; it != it_range.second; it++)
         {
-            if ( (*first).second == receiver )
+            if ( it->second == receiver )
             {
-                m_subs.erase(first);
+                m_subs.erase(it);
                 break;
             }
         }

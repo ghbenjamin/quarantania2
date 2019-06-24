@@ -5,6 +5,14 @@
 
 namespace Logging
 {
+
+    template <typename...Args>
+    void log( const char* format, Args...args )
+    {
+        fmt::print( format, std::forward<Args>(args)... );
+    }
+
+
     template <typename T>
     void log(T const& t)
     {

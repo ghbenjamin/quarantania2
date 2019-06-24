@@ -1,5 +1,9 @@
 #pragma once
 
+#include <utils/Containers.h>
+#include <game/Tiles.h>
+
+
 namespace LD
 {
 
@@ -49,8 +53,8 @@ struct ImmutableLevelData
     ~ImmutableLevelData() = default;
 
     // Core information
-    int tilePixelSize = -1;
     Vector2i levelSize;
+    int tilePixelSize = -1;
     int tileCount = -1;
 
     // Rendering information

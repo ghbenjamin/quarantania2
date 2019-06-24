@@ -25,7 +25,6 @@ GridBitmask& operator|= (GridBitmask& lhs, Direction rhs);
 bool operator== (GridBitmask& lhs, Direction rhs);
 
 
-
 class Grid
 {
 public:
