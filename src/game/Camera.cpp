@@ -3,7 +3,7 @@
 #include <utils/Logging.h>
 
 Camera::Camera()
-: m_size{0, 0}, m_bounds{0, 0}, m_position{0, 0}, m_roundedPosition{0, 0}
+: m_rect{0, 0, 0, 0}
 {
 }
 
@@ -54,7 +54,17 @@ Vector2i const &Camera::getPosition() const
     return m_roundedPosition;
 }
 
-bool Camera::intersects(SDL_Rect* other)
+bool Camera::intersects(SDL_Rect* other) const 
 {
     return SDL_HasIntersection( &m_rect, other ) == SDL_TRUE;
+}
+
+void Camera::setViewportScreenOffset(Vector2i offset)
+{
+    m_viewportScreenOffset = offset;
+}
+
+Vector2i const &Camera::getViewportScreenOffset() const
+{
+    return m_viewportScreenOffset;
 }

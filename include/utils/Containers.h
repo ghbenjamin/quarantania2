@@ -39,6 +39,11 @@ public:
         return Vector2(x() + other.x(), y() + other.y());
     }
 
+    Vector2 operator-(Vector2 const &other) const
+    {
+        return Vector2(x() - other.x(), y() - other.y());
+    }
+
     Vector2& operator+=(const Vector2& rhs){
 
         this->m_x += rhs.m_x;

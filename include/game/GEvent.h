@@ -1,6 +1,8 @@
 #pragma once
 
 #include <unordered_map>
+#include <queue>
+
 #include <game/Entity.h>
 #include <game/GSubber.h>
 #include <utils/Logging.h>
@@ -36,15 +38,11 @@ struct GEvent
     GEventType type;
     GEventScope scope;
 
-
     union
     {
          GEvents::EntityMove entityMove;
     } data;
 };
-
-
-
 
 
 class GEventHub
@@ -89,6 +87,18 @@ public:
 private:
 
     std::unordered_multimap<GEventType, GSubber*> m_subs;
+};
 
+
+class GEventQueue : private GSubber
+{
+public:
+    explicit GEventQueue( GEventHub& hub );
+    virtual ~GEventQueue() = default;
+
+private:
+
+    void acceptGEvent(GEvent &event) override;
+    std::queue<GEvent> m_queue;
 
 };

@@ -9,3 +9,13 @@ void GEventHub::broadcast(GEvent evt)
         it->second->acceptGEvent( evt );
     }
 }
+
+void GEventQueue::acceptGEvent(GEvent &event)
+{
+    m_queue.push(event);
+}
+
+GEventQueue::GEventQueue(GEventHub &hub)
+{
+
+}

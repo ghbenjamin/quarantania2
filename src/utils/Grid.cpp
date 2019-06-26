@@ -1,4 +1,5 @@
 #include <utils/Grid.h>
+#include <utils/Logging.h>
 
 std::unordered_map<Direction, Vector2i> Grid::AllNeighbours = {
         { Direction::N, {0, -1} },
@@ -82,7 +83,7 @@ GridRegion Grid::createLineLow(int x0, int y0, int x1, int y1)
         D = D + 2 * dy;
     }
 
-    return gr;
+    return std::move(gr);
 }
 
 GridRegion Grid::createLineHigh(int x0, int y0, int x1, int y1)
@@ -114,7 +115,47 @@ GridRegion Grid::createLineHigh(int x0, int y0, int x1, int y1)
         D = D + 2 * dx;
     }
 
-    return gr;
+    return std::move(gr);
+}
+
+GridRegion Grid::createRect(Vector2i origin, Vector2i size)
+{
+    GridRegion gr;
+    Vector2i end = origin + size;
+
+    for ( int y = origin.y(); y < end.y(); y++ )
+    {
+        for ( int x = origin.x(); x < end.x(); x++ )
+        {
+            gr.push_back({x, y});
+        }
+    }
+
+    return std::move(gr);
+}
+
+GridRegion Grid::createCircle(Vector2i origin, int radius)
+{
+    GridRegion gr;
+    int r2 = radius * radius;
+    Vector2i tl = origin - Vector2i{radius, radius};
+    Vector2i br = { tl.x() + 2 * radius + 1, tl.y() + 2 * radius + 1 };
+
+    for ( int y = tl.y(); y < br.y(); y++ )
+    {
+        for ( int x = tl.x(); x < br.x(); x++ )
+        {
+            int xi = origin.x() - x;
+            int yi = origin.y() - y;
+
+            if ( xi * xi + yi * yi <= r2 )
+            {
+                gr.push_back({x, y});
+            }
+        }
+    }
+
+    return std::move(gr);
 }
 
 

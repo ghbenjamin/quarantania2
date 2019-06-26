@@ -17,7 +17,6 @@ Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
     registerSystem<Systems::Position>();
     registerSystem<Systems::Collision>();
 
-
     ImPlayerData impData;
     impData.name = "Urist McUrist";
     m_player = m_entityFactory.createPlayer(impData, imd.entranceTile);

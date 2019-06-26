@@ -30,7 +30,7 @@ struct TilePosition : public Component
 
 struct Collider : public Component
 {
-    explicit Collider( ) {}
+    explicit Collider() {}
     ~Collider() = default;
 };
 
