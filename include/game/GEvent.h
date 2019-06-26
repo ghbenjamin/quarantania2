@@ -3,47 +3,51 @@
 #include <unordered_map>
 #include <queue>
 
-#include <game/Entity.h>
-#include <game/GSubber.h>
 #include <utils/Logging.h>
 
+using GEventId = std::size_t;
 
-enum class GEventType
+class GEventBase
 {
-    EntityMove
+public:
+    GEventBase() = default;
+    virtual ~GEventBase() = default;
+
+protected:
+    static GEventId m_globalId;
 };
 
-enum class GEventScope
+template <typename ET>
+class GEvent : public GEventBase
 {
-    Before,
-    After
-};
+public:
 
-namespace GEvents
-{
+    GEvent() = default;
+    virtual ~GEvent() = default;
 
-struct EntityMove
-{
-    EntityRef ent = EntityNull;
-    Vector2i oldPosition;
-    Vector2i newPosition;
-};
-
-}
-
-
-
-struct GEvent
-{
-    GEventType type;
-    GEventScope scope;
-
-    union
+    static GEventId id()
     {
-         GEvents::EntityMove entityMove;
-    } data;
+        static GEventId m_id = m_globalId++;
+        return m_id;
+    }
 };
 
+class GEventSubBase
+{
+public:
+    GEventSubBase() = default;
+    virtual ~GEventSubBase() = default;
+};
+
+template <typename ET>
+class GEventSub : public GEventSubBase
+{
+public:
+    GEventSub() = default;
+    ~GEventSub() override = default;
+
+    virtual void accept( ET* evt ) = 0;
+};
 
 class GEventHub
 {
@@ -54,26 +58,29 @@ public:
     GEventHub( const GEventHub& ) = delete;
     GEventHub& operator=( const GEventHub& ) = delete;
 
-    template <typename T>
-    void subscribe( GEventType etype, T* receiver )
+    template <typename EvtType, typename SubType>
+    void subscribe( SubType* receiver )
     {
-        static_assert( std::is_base_of_v<GSubber, T> );
-        auto casted = static_cast<GSubber*>(receiver);
+        static_assert( std::is_base_of_v<GEventSubBase, SubType> );
+        static_assert( std::is_base_of_v<GEventBase, EvtType> );
 
-        m_subs.emplace( etype, casted );
+        GEventSubBase* base = receiver;
+
+        m_subs.emplace( GEvent<EvtType>::id(), base );
     };
 
-    template <typename T>
-    void unsubscribe( GEventType etype, T* receiver )
+    template <typename EvtType, typename SubType>
+    void unsubscribe( SubType* receiver )
     {
-        static_assert( std::is_base_of_v<GSubber, T> );
-        auto casted = static_cast<GSubber*>(receiver);
+        static_assert( std::is_base_of_v<GEventSubBase, SubType> );
+        static_assert( std::is_base_of_v<GEventBase, EvtType> );
 
-        auto it_range = m_subs.equal_range( etype );
+        GEventSubBase* base = receiver;
+        auto it_range = m_subs.equal_range( GEvent<EvtType>::id() );
 
         for (auto it = it_range.first; it != it_range.second; it++)
         {
-            if ( it->second == receiver )
+            if ( it->second == base )
             {
                 m_subs.erase(it);
                 break;
@@ -82,23 +89,40 @@ public:
 
     };
 
-    void broadcast( GEvent evt );
+    template <typename EvtType>
+    void broadcast( EvtType* evt )
+    {
+        static_assert( std::is_base_of_v<GEventBase, EvtType> );
+
+        auto it_range = m_subs.equal_range( GEvent<EvtType>::id() );
+
+        for (auto it = it_range.first; it != it_range.second; it++)
+        {
+            GEventSubBase* base = it->second;
+            static_cast<GEventSub<EvtType>*>(base)->accept( evt );
+        }
+    }
+
+    template <typename EvtType, typename... Args>
+    void broadcast( Args... args )
+    {
+        static_assert( std::is_base_of_v<GEventBase, EvtType> );
+
+        EvtType evt { std::forward<Args>(args)... };
+
+        auto it_range = m_subs.equal_range( GEvent<EvtType>::id() );
+
+        for (auto it = it_range.first; it != it_range.second; it++)
+        {
+            GEventSubBase* base = it->second;
+            static_cast<GEventSub<EvtType>*>(base)->accept( &evt );
+        }
+    }
+
 
 private:
 
-    std::unordered_multimap<GEventType, GSubber*> m_subs;
+    std::unordered_multimap<GEventId, GEventSubBase*> m_subs;
 };
 
 
-class GEventQueue : private GSubber
-{
-public:
-    explicit GEventQueue( GEventHub& hub );
-    virtual ~GEventQueue() = default;
-
-private:
-
-    void acceptGEvent(GEvent &event) override;
-    std::queue<GEvent> m_queue;
-
-};

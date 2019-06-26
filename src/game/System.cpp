@@ -6,8 +6,6 @@
 
 System::System(Level *parent) : m_level(parent) { }
 void System::update(uint32_t ticks, RenderInterface &rInter) { }
-void System::acceptGEvent(GEvent &event) { }
-
 
 Systems::Render::Render(Level *parent) : System(parent)
 {
@@ -22,47 +20,21 @@ void Systems::Render::update(uint32_t ticks, RenderInterface &rInter)
     }
 }
 
-void Systems::Render::acceptGEvent(GEvent &event)
-{
-    switch ( event.type )
-    {
-        default:
-            AssertAlways();
-            break;
-    }
-}
-
 Systems::Collision::Collision(Level *parent) : System(parent)
 {
-    m_level->events().subscribe( GEventType::EntityMove, this );
+    m_level->events().subscribe<GEvents::EntityMove>( this );
 }
 
-void Systems::Collision::acceptGEvent(GEvent &event)
+void Systems::Collision::accept(GEvents::EntityMove *evt)
 {
-    switch ( event.type )
-    {
-        case GEventType::EntityMove:
-            break;
-        default:
-            AssertAlways();
-            break;
-    }
 }
 
 Systems::Position::Position(Level *parent) : System(parent)
 {
-    m_level->events().subscribe( GEventType::EntityMove, this );
+   m_level->events().subscribe<GEvents::EntityMove>( this );
 }
 
-void Systems::Position::acceptGEvent(GEvent &event)
+void Systems::Position::accept(GEvents::EntityMove *evt)
 {
-    switch ( event.type )
-    {
-        case GEventType::EntityMove:
-            m_level->get<Components::TilePosition>(event.data.entityMove.ent)->position = event.data.entityMove.newPosition;
-            break;
-        default:
-            AssertAlways();
-            break;
-    }
+    m_level->get<Components::TilePosition>(evt->ent)->position = evt->newPos;
 }

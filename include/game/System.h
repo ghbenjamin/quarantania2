@@ -2,19 +2,18 @@
 
 #include <memory>
 
-#include <game/GSubber.h>
+#include <game/GEvent.h>
+#include <game/GEventDefs.h>
 
 class RenderInterface;
 class Level;
-class GEventHub;
 
-class System : public GSubber
+class System
 {
 public:
     explicit System(Level* parent);
-    ~System() override = default;
+    virtual ~System() = default;
 
-    void acceptGEvent(GEvent &event) override;
     virtual void update(uint32_t ticks, RenderInterface &rInter);
 
 protected:
@@ -34,25 +33,26 @@ namespace Systems
         explicit Render(Level *parent);
         ~Render() override = default;
 
-        void acceptGEvent(GEvent &event) override;
         void update(uint32_t ticks, RenderInterface &rInter) override;
     };
 
-    class Collision : public System
+    class Collision : public System,
+        public GEventSub<GEvents::EntityMove>
     {
     public:
         explicit Collision(Level *parent);
         ~Collision() override = default;
 
-        void acceptGEvent(GEvent &event) override;
+        void accept(GEvents::EntityMove *evt) override;
     };
 
-    class Position : public System
+    class Position : public System,
+        public GEventSub<GEvents::EntityMove>
     {
     public:
         explicit Position(Level *parent);
         ~Position() override = default;
 
-        void acceptGEvent(GEvent &event) override;
+        void accept(GEvents::EntityMove *evt) override;
     };
 }

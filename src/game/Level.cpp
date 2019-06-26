@@ -3,6 +3,7 @@
 #include <game/Level.h>
 #include <graphics/RenderInterface.h>
 #include <game/InputInterface.h>
+#include <game/GEventDefs.h>
 #include <utils/Logging.h>
 #include <utils/Assert.h>
 
@@ -173,13 +174,7 @@ void Level::doMovePlayer(SDL_Keycode kcode)
 
     if ( m_grid.passibilityAt(newPos) != Rules::Passibility::Impassable )
     {
-        GEvents::EntityMove evt;
-        evt.ent = ref;
-        evt.oldPosition = tpos->position;
-        evt.newPosition = newPos;
-
-        GEvent gevt = { GEventType::EntityMove, GEventScope::Before, evt };
-        m_gevents.broadcast( gevt );
+        m_gevents.broadcast<GEvents::EntityMove>( ref, tpos->position, newPos );
     }
 }
 
