@@ -28,6 +28,8 @@ public:
     // Does the specified (world) rect intersect the world rect of the camera?
     bool intersects( SDL_Rect* other ) const;
 
+    void translate( SDL_Rect &spos ) const;
+
 private:
 
     void enforceBounds();
@@ -46,4 +48,5 @@ private:
     SDL_Rect m_rect;
 
     Vector2i m_viewportScreenOffset;
+    Vector2i m_internalOffset;
 };

@@ -23,10 +23,7 @@ void RenderInterface::addWorldItem(RenderObject obj)
 {
     if ( m_camera.intersects(&obj.targetRect) )
     {
-        auto [x, y] = m_camera.getPosition();
-        obj.targetRect.x -= x;
-        obj.targetRect.y -= y;
-
+        m_camera.translate(obj.targetRect);
         m_renderables.push_back(obj);
     }
 }

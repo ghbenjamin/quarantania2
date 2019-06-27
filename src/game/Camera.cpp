@@ -33,17 +33,33 @@ void Camera::setViewportSize(Vector2i size)
 
 void Camera::enforceBounds()
 {
-    if ( m_position.x() < 0 )
+    if ( m_bounds.x() < m_size.x() )
+    {
         m_position.x(0);
+        m_internalOffset.x( (m_size.x() - m_bounds.x()) / 2 );
+    }
+    else
+    {
+        if ( m_position.x() < 0 )
+            m_position.x(0);
 
-    if ( m_position.y() < 0 )
+        if ( m_position.x() + m_size.x() > m_bounds.x() )
+            m_position.x( (float)(m_bounds.x() - m_size.x()) );
+    }
+
+    if ( m_bounds.y() < m_size.y() )
+    {
         m_position.y(0);
+        m_internalOffset.y( (m_size.y() - m_bounds.y()) /2 );
+    }
+    else
+    {
+        if ( m_position.y() < 0 )
+            m_position.y(0);
 
-    if ( m_position.x() + m_size.x() > m_bounds.x() )
-        m_position.x( (float)(m_bounds.x() - m_size.x()) );
-
-    if ( m_position.y() + m_size.y() > m_bounds.y() )
-        m_position.y( (float)(m_bounds.y() - m_size.y()) );
+        if ( m_position.y() + m_size.y() > m_bounds.y() )
+            m_position.y( (float)(m_bounds.y() - m_size.y()) );
+    }
 
     m_roundedPosition = m_position.convert<int>();
     m_rect = { m_roundedPosition.x(), m_roundedPosition.y(), m_size.x(), m_size.y() };
@@ -68,3 +84,12 @@ Vector2i const &Camera::getViewportScreenOffset() const
 {
     return m_viewportScreenOffset;
 }
+
+void Camera::translate(SDL_Rect &spos) const
+{
+    spos.x -= m_roundedPosition.x();
+    spos.y -= m_roundedPosition.y();
+    spos.x += m_internalOffset.x();
+    spos.y += m_internalOffset.y();
+}
+
