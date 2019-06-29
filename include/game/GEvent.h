@@ -110,13 +110,7 @@ public:
 
         EvtType evt { std::forward<Args>(args)... };
 
-        auto it_range = m_subs.equal_range( GEvent<EvtType>::id() );
-
-        for (auto it = it_range.first; it != it_range.second; it++)
-        {
-            GEventSubBase* base = it->second;
-            static_cast<GEventSub<EvtType>*>(base)->accept( &evt );
-        }
+        broadcast( &evt );
     }
 
 

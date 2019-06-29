@@ -3,17 +3,37 @@
 #include <resource/Sprite.h>
 #include <utils/Containers.h>
 
-struct Component
+
+using ComponentId = std::size_t;
+
+struct BaseComponent
 {
+public:
+    BaseComponent() = default;
+    virtual ~BaseComponent() = default;
+
+protected:
+    static ComponentId m_globalId;
 };
 
-using ComponentPtr = std::shared_ptr<Component>;
+template <typename ET>
+struct Component : public BaseComponent
+{
+    Component() = default;
+    virtual ~Component() = default;
+
+    static ComponentId id()
+    {
+        static ComponentId m_id = m_globalId++;
+        return m_id;
+    }
+};
 
 
 namespace Components
 {
 
-struct Render : public Component
+struct Render : public Component<Render>
 {
     explicit Render( Sprite const& s ) : sprite(s) {}
     ~Render() = default;
@@ -21,14 +41,14 @@ struct Render : public Component
     Sprite sprite;
 };
 
-struct TilePosition : public Component
+struct TilePosition : public Component<TilePosition>
 {
     explicit TilePosition( Vector2i const& p ) : position(p) {}
     ~TilePosition() = default;
     Vector2i position;
 };
 
-struct Collider : public Component
+struct Collider : public Component<Collider>
 {
     explicit Collider() {}
     ~Collider() = default;

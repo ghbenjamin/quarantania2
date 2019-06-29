@@ -1,11 +1,15 @@
 #pragma once
 
 #include <memory>
+#include <set>
 #include <vector>
 
 #include <SDL2/SDL.h>
 
-#include <game/ECS.h>
+#include <utils/IdPool.h>
+#include <game/Component.h>
+#include <game/System.h>
+#include <game/GEvent.h>
 #include <game/Tiles.h>
 #include <game/Player.h>
 #include <game/LevelData.h>
@@ -18,7 +22,8 @@ class InputInterface;
 struct IEvent;
 struct IEventKeyPress;
 
-using EntityCompMap = std::unordered_map<EntityRef, ComponentPtr>;
+using EntityCompMap = std::unordered_map<EntityRef, std::shared_ptr<BaseComponent>>;
+
 
 class Level
 {
@@ -44,9 +49,8 @@ public:
     template <typename CT, typename... Args>
     void addComponent(EntityRef ent, Args...args)
     {
-        auto ti = std::type_index(typeid(CT));
         auto ptr = std::make_shared<CT>( std::forward<Args>(args)... );
-        mapForComponent<CT>()[ent] = std::static_pointer_cast<Component>(ptr);
+        mapForComponent<CT>()[ent] = std::static_pointer_cast<BaseComponent>(ptr);
     }
 
     template <typename CT>
@@ -60,31 +64,31 @@ public:
         }
     }
 
-    template<typename... Component>
+    template<typename... CT>
     decltype(auto) get(const EntityRef entity)
     {
-        if constexpr(sizeof...(Component) == 1)
+        if constexpr(sizeof...(CT) == 1)
         {
-            return (std::static_pointer_cast<Component>(mapForComponent<Component>()[entity]), ...);
+            return (std::static_pointer_cast<CT>(mapForComponent<CT>()[entity]), ...);
         }
         else
         {
-            return std::tuple<std::shared_ptr<Component>...>{
-                std::static_pointer_cast<Component>(get<Component>(entity))...};
+            return std::tuple<std::shared_ptr<CT>...>{
+                std::static_pointer_cast<CT>(get<CT>(entity))...};
         }
     }
 
     /**
      * Return all Entities which contain (at least) the specified components.
      */
-    template<typename... Component>
+    template<typename... CT>
     std::vector<EntityRef> having()
     {
         std::set<EntityRef> matching;
         std::set<EntityRef> mbuffer;
         std::set<EntityRef> inter;
 
-        auto typeids = { std::type_index(typeid(Component))... };
+        auto typeids = { Component<CT>::id()... };
         bool first = true;
 
         for ( auto const& ti : typeids )
@@ -120,14 +124,14 @@ public:
      *  Find all entities which have the specified components, and find and return pointers to
      *  each of those components.
      */
-    template<typename... Component>
+    template<typename... CT>
     decltype(auto) with()
     {
-        std::vector<std::tuple<std::shared_ptr<Component>...>> out;
+        std::vector<std::tuple<std::shared_ptr<CT>...>> out;
 
-        for ( auto const ent : having<Component...>() )
+        for ( auto const ent : having<CT...>() )
         {
-            out.push_back({ get<Component>(ent) ... });
+            out.push_back({ get<CT>(ent) ... });
         }
 
         return out;
@@ -139,18 +143,19 @@ private:
     template <typename CT>
     EntityCompMap& mapForComponent()
     {
-        auto ti = std::type_index(typeid(CT));
-        auto it = m_components.find(ti);
-        return it->second;
+//        auto id = Component<CT>::id();
+//        auto it = m_components.find(id);
+//        return it->second;
+
+        return m_components.at( Component<CT>::id() );
     }
 
     template <typename CT>
     void registerComponent()
     {
-        static_assert( std::is_base_of_v<Component, CT> );
+        static_assert( std::is_base_of_v<BaseComponent, CT> );
 
-        auto ti = std::type_index(typeid(CT));
-        m_components[ti] = EntityCompMap();
+        m_components[Component<CT>::id()] = EntityCompMap();
     }
 
     template <typename ST>
@@ -179,7 +184,7 @@ private:
     GEventHub m_gevents;
 
     IdPool<EntityRef> m_entityPool;
-    std::unordered_map<std::type_index, EntityCompMap> m_components;
+    std::unordered_map<ComponentId, EntityCompMap> m_components;
     std::vector<SystemPtr> m_systems;
     std::unique_ptr<Player> m_player;
 
