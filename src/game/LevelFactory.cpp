@@ -44,8 +44,15 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
 
     constructMapRendering(config, ctx);
 
-    auto ptr = std::make_unique<Level>( std::move(m_imdata), ctx );
-    return std::move(ptr);
+    m_level = std::make_unique<Level>( std::move(m_imdata), ctx );
+    m_entityFactory = std::make_unique<EntityFactory>( m_level.get() );
+
+
+    constructPlayer();
+    constructDoors();
+
+
+    return std::move(m_level);
 }
 
 void LevelFactory::growMaze(Vector2i start)
@@ -106,12 +113,10 @@ int LevelFactory::indexFromCoords(Vector2i coord)
     return coord.x() + (coord.y() * m_imdata.levelSize.x());
 }
 
-
 Vector2i LevelFactory::coordsFromIndex(int idx)
 {
     return {idx % m_imdata.levelSize.x(), idx / m_imdata.levelSize.x() };
 }
-
 
 bool LevelFactory::canFloor(Vector2i coord, Direction dir)
 {
@@ -275,11 +280,11 @@ void LevelFactory::connectRooms()
         auto rand_it = randomElement(allConnectors.begin(), allConnectors.end(), m_mt);
         auto& rand_regions = connectorMap[*rand_it];
 
-        addJunction(Junction{
+        addJunction(
             *rand_it,
             *rand_regions.begin(),
             *(++rand_regions.begin())
-        });
+        );
 
         // Find the regions which have been connected by this new connection
         std::vector<int> regions;
@@ -336,8 +341,24 @@ void LevelFactory::connectRooms()
     }
 }
 
-void LevelFactory::addJunction(Junction jc)
+void LevelFactory::addJunction( Vector2i pos, RegionRef r1, RegionRef r2 )
 {
+    Junction jc;
+    jc.pos = pos;
+    jc.region1 = r1;
+    jc.region2 = r2;
+
+    if ( weightedFlip(5, m_mt) )
+    {
+        tileSet( jc.pos, BaseTileType::Floor );
+        jc.type = JunctionType::Open;
+    }
+    else
+    {
+        tileSet( jc.pos, BaseTileType::Junction );
+        jc.type = JunctionType::Door;
+    }
+
     m_junctions[jc.pos] = jc;
 
     auto it1 = m_rooms.find(jc.region1);
@@ -350,15 +371,6 @@ void LevelFactory::addJunction(Junction jc)
     if (it2 != m_rooms.end())
     {
         it2->second.junctions.push_back(jc.pos);
-    }
-
-    if ( weightedFlip(5, m_mt) )
-    {
-        tileSet( jc.pos, BaseTileType::Floor );
-    }
-    else
-    {
-        tileSet( jc.pos, BaseTileType::Junction );
     }
 }
 
@@ -415,8 +427,6 @@ void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContext
 {
     // Add some tiles to the tilemap - this is debug for now
     auto floorRef = m_imdata.renderTileMap.addTile({"kenney-tiles", "soil-1"}, true);
-    auto doorRef = m_imdata.renderTileMap.addTile({"kenney-tiles", "door-1"}, true);
-
     auto enterRef = m_imdata.renderTileMap.addTile({"kenney-tiles", "grey-stairs-up"}, true);
     auto exitRef = m_imdata.renderTileMap.addTile({"kenney-tiles", "grey-stairs-down"}, true);
 
@@ -440,8 +450,7 @@ void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContext
     m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-closed-S"}, false);
     m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-closed-W"}, false);
 
-    // Construct the different tile levels - add three for now
-    m_imdata.mapRendering.emplace_back( m_imdata.baseTilemap.size(), -1 );
+    // Construct the different tile levels - add two for now
     m_imdata.mapRendering.emplace_back( m_imdata.baseTilemap.size(), -1 );
     m_imdata.mapRendering.emplace_back( m_imdata.baseTilemap.size(), -1 );
 
@@ -457,7 +466,6 @@ void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContext
                 break;
             case BaseTileType::Junction:
                 m_imdata.mapRendering[0][i] = getCorrectWallTile(i);
-                m_imdata.mapRendering[1][i] = doorRef;
                 break;
             case BaseTileType::Entrance:
                 m_imdata.mapRendering[0][i] = floorRef;
@@ -641,4 +649,23 @@ void LevelFactory::generateEntrancesExits()
 
     tileSet( m_imdata.entranceTile, BaseTileType::Entrance );
     tileSet( m_imdata.exitTile, BaseTileType::Exit );
+}
+
+void LevelFactory::constructPlayer()
+{
+    ImPlayerData impData;
+    impData.name = "Urist McUrist";
+
+    m_level->setPlayer( m_entityFactory->createPlayer( impData, m_imdata.entranceTile ) );
+}
+
+void LevelFactory::constructDoors()
+{
+    for ( auto const &[p, j] : m_junctions)
+    {
+        if ( j.type == JunctionType::Door )
+        {
+            m_entityFactory->createDoor( p );
+        }
+    }
 }

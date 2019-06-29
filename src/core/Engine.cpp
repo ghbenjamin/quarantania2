@@ -30,9 +30,6 @@ void Engine::run()
     ResourceManager::get().loadAll();
 
     RenderInterface renderInterface {window};
-    renderInterface.camera().setBounds( {1000, 1000} );
-    renderInterface.camera().setViewportSize( window->getSize() );
-
     InputInterface inputInterface;
 
     LevelConfig debugConfig;

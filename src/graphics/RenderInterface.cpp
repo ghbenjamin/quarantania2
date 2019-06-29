@@ -4,9 +4,9 @@
 #include <utils/Logging.h>
 
 RenderInterface::RenderInterface(WindowCPtr window)
-: m_window(std::move(window))
+: m_window(window)
 {
-
+    m_camera.setViewportSize( m_window->getSize() );
 }
 
 std::vector<RenderObject> const &RenderInterface::renderables() const

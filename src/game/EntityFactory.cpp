@@ -37,3 +37,18 @@ EntityRef EntityFactory::debugHighlight(Vector2i pos, std::string const& tile) c
     return eref;
 }
 
+EntityRef EntityFactory::createDoor(Vector2i pos) const
+{
+    auto eref = m_parent->createEntity();
+
+    m_parent->addComponent<Components::TilePosition>(eref, pos);
+
+    auto sprite = ResourceManager::get().getResource<SpritesheetResource>( "kenney-tiles" )
+        ->get()->spriteFromName( "door-1" );
+    m_parent->addComponent<Components::Render>(eref, sprite);
+
+    m_parent->addComponent<Components::Collider>(eref);
+
+    return eref;
+}
+

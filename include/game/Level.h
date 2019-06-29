@@ -39,6 +39,8 @@ public:
     void disableEntity(EntityRef ent);
     void enableEntity(EntityRef ent);
 
+    void setPlayer( std::unique_ptr<Player>&& player );
+
     template <typename CT, typename... Args>
     void addComponent(EntityRef ent, Args...args)
     {
@@ -179,7 +181,6 @@ private:
     IdPool<EntityRef> m_entityPool;
     std::unordered_map<std::type_index, EntityCompMap> m_components;
     std::vector<SystemPtr> m_systems;
-    EntityFactory m_entityFactory;
     std::unique_ptr<Player> m_player;
 
 };

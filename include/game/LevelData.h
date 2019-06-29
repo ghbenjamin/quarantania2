@@ -22,11 +22,19 @@ enum class RegionType
     Corridor
 };
 
+enum class JunctionType
+{
+    Open,
+    Door
+};
+
 using RegionRef = int;
 
 struct Junction
 {
     Vector2i pos;
+    JunctionType type;
+
     RegionRef region1 = -1;
     RegionRef region2 = -1;
 };

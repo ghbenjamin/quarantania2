@@ -8,7 +8,7 @@
 #include <utils/Assert.h>
 
 Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
-: m_imData(imd), m_ctx(std::move(ctx)), m_entityFactory(this), m_grid(imd)
+: m_imData(imd), m_ctx(std::move(ctx)), m_grid(imd)
 {
     registerComponent<Components::Render>();
     registerComponent<Components::TilePosition>();
@@ -18,9 +18,7 @@ Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
     registerSystem<Systems::Position>();
     registerSystem<Systems::Collision>();
 
-    ImPlayerData impData;
-    impData.name = "Urist McUrist";
-    m_player = m_entityFactory.createPlayer(impData, imd.entranceTile);
+
 }
 
 bool Level::input(IEvent &evt)
@@ -228,6 +226,11 @@ void Level::enableEntity(EntityRef ent)
 GEventHub &Level::events()
 {
     return m_gevents;
+}
+
+void Level::setPlayer(std::unique_ptr<Player> &&player)
+{
+    m_player = std::move(player);
 }
 
 

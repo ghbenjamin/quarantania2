@@ -30,7 +30,9 @@ public:
 
 private:
 
-    // Level rendering methods
+    /**
+     *  Basic level layout construction: placement of rooms, corridors, doors.
+     */
 
     // Walk over the level as it currently exists, and generate + place the correct sprites to render
     // the level.
@@ -69,7 +71,7 @@ private:
     Vector2i generateRandomRoomSize();
 
     // Add a junction between two regions - normally a door
-    void addJunction(LD::Junction jc);
+    void addJunction(Vector2i pos, LD::RegionRef r1, LD::RegionRef r2);
 
     // Can the floor tile at this position be extended in the given direction without breaking into
     // a different region?
@@ -94,7 +96,20 @@ private:
     // Try to generate the entrances and exits
     void generateEntrancesExits();
 
+
+    /**
+     *  Fill the level with actual stuff: entity placement, room decoration.
+     */
+
+    void constructPlayer();
+    void constructDoors();
+
+
 private:
+
+    std::unique_ptr<EntityFactory> m_entityFactory;
+
+    LevelPtr m_level;
 
     // Main data structure
     ImmutableLevelData m_imdata;
