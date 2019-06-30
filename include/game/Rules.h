@@ -11,13 +11,5 @@ enum class Passibility
     Impassable
 };
 
-enum class DifficultTerrains
-{
-    Slippery,
-    Sticky,
-    Uneven
-};
-
-
 }
 

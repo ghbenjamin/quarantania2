@@ -38,6 +38,7 @@ public:
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
     GEventHub& events();
+    LevelGrid& grid();
 
     EntityRef createEntity();
     void deleteEntity(EntityRef ent);
@@ -65,7 +66,7 @@ public:
     }
 
     template<typename... CT>
-    decltype(auto) get(const EntityRef entity)
+    decltype(auto) getComponents(const EntityRef entity)
     {
         if constexpr(sizeof...(CT) == 1)
         {
@@ -74,7 +75,7 @@ public:
         else
         {
             return std::tuple<std::shared_ptr<CT>...>{
-                std::static_pointer_cast<CT>(get<CT>(entity))...};
+                std::static_pointer_cast<CT>(getComponents<CT>(entity))...};
         }
     }
 
@@ -82,7 +83,7 @@ public:
      * Return all Entities which contain (at least) the specified components.
      */
     template<typename... CT>
-    std::vector<EntityRef> having()
+    std::vector<EntityRef> entitiesHaving()
     {
         std::set<EntityRef> matching;
         std::set<EntityRef> mbuffer;
@@ -125,16 +126,38 @@ public:
      *  each of those components.
      */
     template<typename... CT>
-    decltype(auto) with()
+    decltype(auto) entitiesWith()
     {
         std::vector<std::tuple<std::shared_ptr<CT>...>> out;
 
-        for ( auto const ent : having<CT...>() )
+        for ( auto const ent : entitiesHaving<CT...>() )
         {
-            out.push_back({ get<CT>(ent) ... });
+            out.push_back({getComponents<CT>(ent) ... });
         }
 
         return out;
+    }
+
+    template<typename...CT>
+    bool entityHas( EntityRef ent )
+    {
+        auto typeids = { Component<CT>::id()... };
+        for ( auto const ti: typeids)
+        {
+            auto const& ecm = m_components[ti];
+            auto it = ecm.find( ent );
+            if ( it == ecm.end() )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    void entityReady( EntityRef ent )
+    {
+        m_gevents.broadcast<GEvents::EntityReady>( ent );
     }
 
 
@@ -143,10 +166,6 @@ private:
     template <typename CT>
     EntityCompMap& mapForComponent()
     {
-//        auto id = Component<CT>::id();
-//        auto it = m_components.find(id);
-//        return it->second;
-
         return m_components.at( Component<CT>::id() );
     }
 

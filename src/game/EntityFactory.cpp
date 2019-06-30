@@ -34,6 +34,7 @@ EntityRef EntityFactory::debugHighlight(Vector2i pos, std::string const& tile) c
             ->get()->spriteFromName( tile );
     m_parent->addComponent<Components::Render>(eref, sprite);
 
+    m_parent->entityReady( eref );
     return eref;
 }
 
@@ -49,6 +50,7 @@ EntityRef EntityFactory::createDoor(Vector2i pos) const
 
     m_parent->addComponent<Components::Collider>(eref);
 
+    m_parent->entityReady( eref );
     return eref;
 }
 

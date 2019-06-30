@@ -17,8 +17,6 @@ Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
     registerSystem<Systems::Render>();
     registerSystem<Systems::Position>();
     registerSystem<Systems::Collision>();
-
-
 }
 
 bool Level::input(IEvent &evt)
@@ -145,7 +143,7 @@ void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface
 void Level::doMovePlayer(SDL_Keycode kcode)
 {
     auto ref = m_player->ref();
-    auto tpos = get<Components::TilePosition>(ref);
+    auto tpos = getComponents<Components::TilePosition>(ref);
 
     Vector2i delta;
 
@@ -231,6 +229,11 @@ GEventHub &Level::events()
 void Level::setPlayer(std::unique_ptr<Player> &&player)
 {
     m_player = std::move(player);
+}
+
+LevelGrid &Level::grid()
+{
+    return m_grid;
 }
 
 

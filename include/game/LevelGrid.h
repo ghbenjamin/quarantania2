@@ -19,7 +19,9 @@ public:
     ~LevelGrid() = default;
 
     void setPassibility ( Rules::Passibility pb, GridRegion const& region, EntityRef ref );
+    void setPassibility ( Rules::Passibility pb, Vector2i const& tile, EntityRef ref );
     void freePassibility( Rules::Passibility pb, GridRegion const& region, EntityRef ref );
+    void freePassibility( Rules::Passibility pb, Vector2i const& tile, EntityRef ref );
 
     Rules::Passibility passibilityAt( Vector2i tile ) const;
 

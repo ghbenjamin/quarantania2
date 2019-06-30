@@ -40,7 +40,7 @@ public:
 };
 
 template <typename ET>
-class GEventSub : public GEventSubBase
+class GEventSub : virtual public GEventSubBase
 {
 public:
     GEventSub() = default;
@@ -64,7 +64,7 @@ public:
         static_assert( std::is_base_of_v<GEventSubBase, SubType> );
         static_assert( std::is_base_of_v<GEventBase, EvtType> );
 
-        GEventSubBase* base = receiver;
+        GEventSubBase* base = static_cast<SubType*>(receiver);
 
         m_subs.emplace( GEvent<EvtType>::id(), base );
     };
@@ -99,7 +99,7 @@ public:
         for (auto it = it_range.first; it != it_range.second; it++)
         {
             GEventSubBase* base = it->second;
-            static_cast<GEventSub<EvtType>*>(base)->accept( evt );
+            dynamic_cast<GEventSub<EvtType>*>(base)->accept( evt );
         }
     }
 

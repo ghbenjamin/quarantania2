@@ -48,10 +48,8 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     m_level = std::make_unique<Level>( std::move(m_imdata), ctx );
     m_entityFactory = std::make_unique<EntityFactory>( m_level.get() );
 
-
     constructPlayer();
     constructDoors();
-
 
     return std::move(m_level);
 }
