@@ -7,6 +7,7 @@
 #include <SDL2/SDL.h>
 
 #include <utils/IdPool.h>
+#include <ui/UiManager.h>
 #include <game/Component.h>
 #include <game/System.h>
 #include <game/GEvent.h>
@@ -33,8 +34,6 @@ public:
     virtual ~Level() = default;
 
     bool input(IEvent &evt);
-    bool handleKeyInput(IEventKeyPress& evt);
-
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
     GEventHub& events();
@@ -187,6 +186,8 @@ private:
         m_systems.push_back( std::move(bPtr) );
     }
 
+    bool handleKeyInput(IEventKeyPress& evt);
+
     void updateCamera(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void renderTiles(uint32_t ticks, RenderInterface &rInter);
@@ -206,6 +207,8 @@ private:
     std::unordered_map<ComponentId, EntityCompMap> m_components;
     std::vector<SystemPtr> m_systems;
     std::unique_ptr<Player> m_player;
+
+    UI::UiManager m_uiManager;
 
 };
 

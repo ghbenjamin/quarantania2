@@ -4,10 +4,9 @@
 #include <string_view>
 #include <memory>
 
-#include <SDL2/SDL.h>
-
 #include <utils/Containers.h>
 
+struct SDL_Texture;
 class Texture;
 using TexturePtr = std::shared_ptr<Texture>;
 
@@ -15,7 +14,7 @@ class Texture
 {
 public:
 
-    explicit Texture( SDL_Texture* );
+    explicit Texture( SDL_Texture* t );
     virtual ~Texture();
 
     Texture( const Texture& ) = delete;
@@ -23,8 +22,9 @@ public:
 
     const Vector2i& size() const&;
     const SDL_Texture* raw() const;
+    SDL_Texture* raw();
 
-    static TexturePtr loadTexture( SDL_Renderer* renderer, std::string const& path );
+    static TexturePtr loadTexture( std::string const& path );
 
 
 private:

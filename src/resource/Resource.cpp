@@ -42,8 +42,7 @@ const TexturePtr &ImageResource::get() const
 
 void ImageResource::load()
 {
-    m_texture = Texture::loadTexture( ResourceManager::get().getWindow()->renderer()->raw(),
-                                      "../resource/img/" + m_path );
+    m_texture = Texture::loadTexture( "../resource/img/" + m_path );
 }
 
 void ImageResource::unload()
@@ -90,10 +89,7 @@ void SpritesheetResource::load()
 #undef GetObject
 #endif
 
-    auto tex = Texture::loadTexture(
-        ResourceManager::get().getWindow()->renderer()->raw(),
-        "../resource/spritesheet/" + m_path + ".png"
-    );
+    auto tex = Texture::loadTexture( "../resource/spritesheet/" + m_path + ".png" );
 
     std::unordered_map<std::string, int> gidMap;
     rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/spritesheet/" + m_path + ".json" );

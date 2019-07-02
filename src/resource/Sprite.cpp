@@ -12,7 +12,7 @@ Sprite::Sprite()
 
 Sprite::Sprite(std::shared_ptr<Texture> texture, RectI const &region)
     : m_texture(std::move(texture)), m_renderObj{
-        const_cast<SDL_Texture *>(m_texture->raw()),
+        m_texture->raw(),
         region.toSDL(),
         {0, 0, region.w(), region.h()}
     }
@@ -22,7 +22,7 @@ Sprite::Sprite(std::shared_ptr<Texture> texture, RectI const &region)
 
 Sprite::Sprite(std::shared_ptr<Texture> texture)
     : m_texture(std::move(texture)), m_renderObj{
-        const_cast<SDL_Texture *>(m_texture->raw()),
+        m_texture->raw(),
         {0, 0, 0, 0},
         {0, 0, 0, 0}
     }

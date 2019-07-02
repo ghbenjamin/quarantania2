@@ -6,6 +6,7 @@
 #include <game/GEventDefs.h>
 #include <utils/Logging.h>
 #include <utils/Assert.h>
+#include <ui/TextNode.h>
 
 Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
 : m_imData(imd), m_ctx(std::move(ctx)), m_grid(imd)
@@ -17,6 +18,10 @@ Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
     registerSystem<Systems::Render>();
     registerSystem<Systems::Position>();
     registerSystem<Systems::Collision>();
+
+    // Debug UI Code
+
+    //m_uiManager.createElement<UI::TextNode>(nullptr, );
 }
 
 bool Level::input(IEvent &evt)
@@ -73,7 +78,7 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
     }
 
     // Render the GUI
-    // TODO Gui
+    m_uiManager.update(ticks, iinter, rInter);
 }
 
 void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
