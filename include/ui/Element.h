@@ -54,8 +54,10 @@ protected:
 private:
 
     virtual void updateSelf(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
+
     virtual void onSizeSelf();
     virtual void onMoveSelf();
+
     void recachePosition();
 
     std::string m_id;

@@ -22,7 +22,7 @@ public:
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
     template <typename WT, typename ...Args>
-    ElementPtr createElement( Element* parent, Args...args )
+    std::shared_ptr<WT> createElement( Element* parent, Args...args )
     {
         auto ptr = std::make_shared<WT>( std::forward<Args>(args)... );
         if ( parent == nullptr )
@@ -33,6 +33,8 @@ public:
         {
             parent->addChild(ptr);
         }
+
+        return ptr;
     }
 
 

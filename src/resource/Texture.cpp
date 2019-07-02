@@ -56,4 +56,9 @@ TexturePtr Texture::loadTexture(std::string const &path)
     return ptr;
 }
 
+SDL_Rect &Texture::sourceRect()
+{
+    return m_sourceRect;
+}
+
 

@@ -1,5 +1,8 @@
 #include <ui/Element.h>
 
+#include <algorithm>
+#include <utils/Logging.h>
+
 using namespace UI;
 
 Element::Element()
@@ -64,7 +67,12 @@ bool Element::hasParent()
 
 void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
+    updateSelf(ticks, iinter, rInter);
 
+    for ( auto& c : m_children )
+    {
+        c->update(ticks, iinter, rInter);
+    }
 }
 
 Vector2i Element::globalPosition()

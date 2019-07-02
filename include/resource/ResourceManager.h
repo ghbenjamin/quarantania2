@@ -8,6 +8,7 @@
 #include <resource/Resource.h>
 #include <resource/Font.h>
 #include <graphics/Window.h>
+#include <utils/Assert.h>
 
 class ResourceManager
 {
@@ -43,6 +44,9 @@ public:
     std::shared_ptr<RType> const& getResource( std::string const& key )
     {
         auto it = m_resources.find(key);
+
+        AssertMsg( it != m_resources.end(), "Missing resource" );
+
         auto bPtr = it->second;
         auto dPtr = std::static_pointer_cast<RType>(bPtr);
         return std::move(dPtr);

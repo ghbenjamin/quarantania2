@@ -21,7 +21,12 @@ Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
 
     // Debug UI Code
 
-    //m_uiManager.createElement<UI::TextNode>(nullptr, );
+
+    auto tn = m_uiManager.createElement<UI::TextNode>(nullptr);
+
+    tn->setLocalPosition({5, 5});
+    tn->setText("Hello, World!");
+
 }
 
 bool Level::input(IEvent &evt)

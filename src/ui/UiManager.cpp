@@ -2,6 +2,7 @@
 
 #include <graphics/RenderInterface.h>
 #include <game/InputInterface.h>
+#include <utils/Logging.h>
 
 using namespace UI;
 
