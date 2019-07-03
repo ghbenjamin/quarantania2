@@ -15,6 +15,7 @@ Texture::Texture(SDL_Texture* t)
         int w, h;
         SDL_QueryTexture( m_raw, nullptr, nullptr, &w, &h );
         m_size = Vector2i{w, h};
+        m_sourceRect = {0, 0, w, h};
     }
 }
 

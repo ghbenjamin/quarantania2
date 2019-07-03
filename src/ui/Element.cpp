@@ -5,7 +5,7 @@
 
 using namespace UI;
 
-Element::Element()
+Element::Element() : m_parent(nullptr)
 {
 
 }
@@ -62,7 +62,7 @@ Element *Element::parent()
 
 bool Element::hasParent()
 {
-    return m_parent == nullptr;
+    return m_parent != nullptr;
 }
 
 void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
@@ -146,4 +146,45 @@ void Element::removeChild(ElementPtr const &child)
 {
     m_children.erase( std::remove(m_children.begin(), m_children.end(), child), m_children.end() );
     child->setParent( nullptr );
+}
+
+Element *Element::rootParent()
+{
+    Element* curr = this;
+    while ( curr->m_parent != nullptr )
+    {
+        curr = curr->m_parent;
+    }
+
+    return curr;
+}
+
+Vector2i Element::outerSize()
+{
+    return m_actualOuterSize;
+}
+
+Vector2i Element::contentSize()
+{
+    return m_actualContentSize;
+}
+
+void Element::setPreferredContentSize(Vector2i size)
+{
+    m_preferredContentSize = size;
+}
+
+void Element::setMaximumOuterSize(Vector2i size)
+{
+    m_maximumOuterSize = size;
+}
+
+void Element::setStyle(ElementStyle const &style)
+{
+    m_style = style;
+}
+
+ElementStyle &Element::getStyle()
+{
+    return m_style;
 }

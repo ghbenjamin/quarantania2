@@ -24,7 +24,6 @@ protected:
 private:
     void onSizeSelf() override;
     void onMoveSelf() override;
-
     void renderText();
 
     FontPtr m_font;
