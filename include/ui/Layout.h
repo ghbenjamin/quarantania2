@@ -5,7 +5,7 @@ namespace UI
 
 class Layout
 {
-    
+
 };
 
 }

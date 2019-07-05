@@ -9,8 +9,6 @@
 #include <utils/Grid.h>
 
 
-
-
 class LevelFactory
 {
 public:
@@ -72,6 +70,7 @@ private:
 
     // Add a junction between two regions - normally a door
     void addJunction(Vector2i pos, LD::RegionRef r1, LD::RegionRef r2);
+    void removeJunction(Vector2i pos);
 
     // Can the floor tile at this position be extended in the given direction without breaking into
     // a different region?
@@ -129,6 +128,9 @@ private:
 
     // Map junction position -> junction data
     std::unordered_map<Vector2i, LD::Junction, Vector2Hash<int>> m_junctions;
+
+    // Map region id -> connected junctions
+    std::unordered_map<LD::RegionRef, std::vector<Vector2i>> m_regionToJunctions;
 
     // Map region -> type of region eg. door, corridor
     std::unordered_map<LD::RegionRef, LD::RegionType> m_regionTypeMap;

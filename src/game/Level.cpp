@@ -18,15 +18,6 @@ Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
     registerSystem<Systems::Render>();
     registerSystem<Systems::Position>();
     registerSystem<Systems::Collision>();
-
-    // Debug UI Code
-
-
-    auto tn = m_uiManager.createElement<UI::TextNode>(nullptr);
-
-    tn->setLocalPosition({5, 5});
-    tn->setText("Hello, World!");
-
 }
 
 bool Level::input(IEvent &evt)

@@ -214,7 +214,7 @@ void LevelFactory::connectRooms()
 {
     // Find every wall tile which is adjacent to two or more different regions.
     // Store the location of the tile against the regions it spans.
-    std::unordered_map<Vector2i, std::unordered_set<int>, Vector2Hash<int>> connectorMap;
+    std::unordered_map<Vector2i, Vector2i, Vector2Hash<int>> connectorMap;
 
     for ( int y = 1; y < m_imdata.levelSize.y() - 1; y++ )
     {
@@ -246,14 +246,14 @@ void LevelFactory::connectRooms()
             }
             else
             {
-                connectorMap[pos] = std::move(regions);
+                auto p = Vector2i{ *regions.begin(), *(++regions.begin()) };
+                connectorMap[pos] = p;
             }
 
         }
     }
 
-
-    // Get all of our possible connector positions as a map
+    // Get all of our possible connector positions as a list
     std::vector<Vector2i> allConnectors;
     allConnectors.reserve( connectorMap.size() );
 
@@ -279,18 +279,18 @@ void LevelFactory::connectRooms()
         auto rand_it = randomElement(allConnectors.begin(), allConnectors.end(), m_mt);
         auto& rand_regions = connectorMap[*rand_it];
 
+        // Create a new junction
         addJunction(
             *rand_it,
-            *rand_regions.begin(),
-            *(++rand_regions.begin())
+            rand_regions.x(),
+            rand_regions.y()
         );
 
         // Find the regions which have been connected by this new connection
         std::vector<int> regions;
-        for ( auto const& r : connectorMap[*rand_it])
-        {
-            regions.push_back( mergeMap[r] );
-        }
+
+        regions.push_back(mergeMap[rand_regions.x()]);
+        regions.push_back(mergeMap[rand_regions.y()]);
 
         int dest = regions.back();
         regions.pop_back();
@@ -315,22 +315,25 @@ void LevelFactory::connectRooms()
         allConnectors.erase( std::remove_if(allConnectors.begin(), allConnectors.end(),
         [&](auto const& pos){
 
-            // We don't want adjacent doors
+            // Remove all connectors adjacent to the door we just placed
+            // All wall tiles are aligned to odd grid coordinates, so this will never leave a region stranded
             if ( Grid::isAdjacent(*rand_it, pos) )
             {
                 return true;
             }
 
-            // This position connects regions which are now already connected
-            std::unordered_set<int> rlist;
-            for ( auto cr : connectorMap[pos] )
-            {
-                rlist.insert(mergeMap[cr]);
-            }
-
-            if ( rlist.size() > 1 )
+            auto cmp = connectorMap[pos];
+            if ( mergeMap[cmp.x()] != mergeMap[cmp.y()] )
             {
                 return false;
+            }
+
+            // A small percentage of the time, add another random door. This will help keep the network of rooms
+            // and corridors connected rather than tree-ish
+            if ( weightedFlip(30, m_mt) )
+            {
+                addJunction( pos, cmp.x(), cmp.y() );
+                return true;
             }
 
             return true;
@@ -371,12 +374,81 @@ void LevelFactory::addJunction( Vector2i pos, RegionRef r1, RegionRef r2 )
     {
         it2->second.junctions.push_back(jc.pos);
     }
+
+    auto it3 = m_regionToJunctions.find(jc.region1);
+    if ( it3 == m_regionToJunctions.end() )
+    {
+        m_regionToJunctions[jc.region1] = { jc.pos };
+    }
+    else
+    {
+        m_regionToJunctions[jc.region1].push_back( jc.pos );
+    }
+
+    auto it4 = m_regionToJunctions.find(jc.region2);
+    if ( it4 == m_regionToJunctions.end() )
+    {
+        m_regionToJunctions[jc.region2] = { jc.pos };
+    }
+    else
+    {
+        m_regionToJunctions[jc.region2].push_back( jc.pos );
+    }
 }
+
+void LevelFactory::removeJunction(Vector2i pos)
+{
+    auto jc_it = m_junctions.find( pos );
+    AssertMsg( jc_it != m_junctions.end(), "deleting non-existant junction" );
+
+    tileSet( pos, BaseTileType::Wall );
+    auto jc = jc_it->second;
+
+    auto room_it1 = m_rooms.find(jc.region1);
+    if ( room_it1 != m_rooms.end() )
+    {
+        auto& lst = room_it1->second.junctions;
+        lst.erase( std::remove(lst.begin(), lst.end(), pos), lst.end() );
+    }
+
+    auto room_it2 = m_rooms.find(jc.region2);
+    if ( room_it2 != m_rooms.end() )
+    {
+        auto& lst = room_it2->second.junctions;
+        lst.erase( std::remove(lst.begin(), lst.end(), pos), lst.end() );
+    }
+
+    auto it3 = m_regionToJunctions.find(jc.region1);
+    if ( it3 != m_regionToJunctions.end() )
+    {
+        auto& lst = it3->second;
+        lst.erase( std::remove(lst.begin(), lst.end(), pos), lst.end() );
+    }
+
+    auto it4 = m_regionToJunctions.find(jc.region2);
+    if ( it4 != m_regionToJunctions.end() )
+    {
+        auto& lst = it4->second;
+        lst.erase( std::remove(lst.begin(), lst.end(), pos), lst.end() );
+    }
+
+    m_junctions.erase(jc_it);
+}
+
 
 void LevelFactory::pruneCorridors()
 {
-    bool finished = false;
+    std::vector<LD::RegionRef> pointlessCorridors;
 
+    for ( auto const& [k, v] : m_regionToJunctions )
+    {
+        if ( v.size() == 1 && m_regionTypeMap[k] == LD::RegionType::Corridor )
+        {
+            removeJunction( *v.begin() );
+        }
+    }
+
+    bool finished = false;
     while (!finished)
     {
         finished = true;
@@ -397,23 +469,22 @@ void LevelFactory::pruneCorridors()
                 // Count the number of exits from this tile, e.g. the number of non-wall tiles adjacent to it
                 auto count = std::count_if( Grid::CardinalNeighbours.begin(), Grid::CardinalNeighbours.end(),
                 [&]( auto& v ){
-                    auto c = pos + v.second;
-                    return tileGet(c) != BaseTileType::Wall;
+                    return tileGet(pos + v.second) == BaseTileType::Wall;
                 });
 
-                if (count != 1)
+                if (count != 3)
                 {
                     continue;
                 }
-
-                // If this tile has 3 walls around it then it is a dead end - remove the corridor section.
-                finished = false;
-                tileSet(pos, BaseTileType::Wall);
+                else
+                {
+                    // If this tile has 3 walls around it then it is a dead end - remove the corridor section.
+                    finished = false;
+                    tileSet(pos, BaseTileType::Wall);
+                }
             }
         }
     }
-
-
 }
 
 void LevelFactory::newRegion(RegionType type)
