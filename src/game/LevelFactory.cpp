@@ -18,9 +18,14 @@ LevelFactory::LevelFactory()
 
 LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &ctx)
 {
+    /* INITIALIZATION */
+
     m_imdata.tilePixelSize = 16;
     m_imdata.levelSize = config.size;
     m_imdata.tileCount = m_imdata.levelSize.x() * m_imdata.levelSize.y();
+
+
+    /* LAYOUT CREATION  */
 
     // Start off with a map full of walls
     m_imdata.baseTilemap = std::vector<BaseTileType>( config.size.x() * config.size.y(), BaseTileType::Wall );
@@ -40,10 +45,15 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     pruneCorridors();
 
     calcAllAdjacentWalls();
-
     generateEntrancesExits();
-
     constructMapRendering(config, ctx);
+
+
+    /* CONTENT CREATION */
+    m_roomTemplates.loadAllTemplates( "../resource/data/room_templates.json" );
+
+
+    /* ENTITY CREATION */
 
     m_level = std::make_unique<Level>( std::move(m_imdata), ctx );
     m_entityFactory = std::make_unique<EntityFactory>( m_level.get() );
@@ -737,5 +747,13 @@ void LevelFactory::constructDoors()
         {
             m_entityFactory->createDoor( p );
         }
+    }
+}
+
+void LevelFactory::decorateRooms()
+{
+    for ( auto& [rref, room] : m_rooms )
+    {
+
     }
 }

@@ -7,6 +7,7 @@
 #include <game/LevelData.h>
 #include <game/LevelConfig.h>
 #include <utils/Grid.h>
+#include <resource/RoomTemplates.h>
 
 
 class LevelFactory
@@ -100,6 +101,10 @@ private:
      *  Fill the level with actual stuff: entity placement, room decoration.
      */
 
+
+
+    void decorateRooms();
+
     void constructPlayer();
     void constructDoors();
 
@@ -107,6 +112,7 @@ private:
 private:
 
     std::unique_ptr<EntityFactory> m_entityFactory;
+    RoomTemplateManager m_roomTemplates;
 
     LevelPtr m_level;
 
