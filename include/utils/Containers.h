@@ -319,6 +319,7 @@ namespace std {
 
 
 typedef Vector2<int> Vector2i;
+using Vector2iHash = Vector2Hash<int>;
 typedef Vector2<float> Vector2f;
 typedef Rect<int> RectI;
 typedef Rect<float> RectF;

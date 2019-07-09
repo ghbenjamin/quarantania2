@@ -11,5 +11,15 @@ enum class Passibility
     Impassable
 };
 
+enum class Visibility
+{
+    Hidden,
+    Explored,
+    Visible
+};
+
+using LightLevel = std::uint8_t;
+
+
 }
 

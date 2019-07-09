@@ -15,8 +15,9 @@
 #include <game/Player.h>
 #include <game/LevelData.h>
 #include <game/LevelContext.h>
-#include <game/LevelGrid.h>
 #include <game/EntityFactory.h>
+#include <game/GridFeature.h>
+#include <game/Rules.h>
 
 class RenderInterface;
 class InputInterface;
@@ -37,7 +38,7 @@ public:
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
     GEventHub& events();
-    LevelGrid& grid();
+    GridFeature<Rules::Passibility, EntityRef>& passGrid();
 
     EntityRef createEntity();
     void deleteEntity(EntityRef ent);
@@ -198,8 +199,11 @@ private:
 private:
 
     const ImmutableLevelData m_imData;
-    LevelGrid m_grid;
     LevelContextPtr m_ctx;
+
+    GridFeature<Rules::Passibility, EntityRef> m_passGrid;
+    GridFeature<Rules::LightLevel, EntityRef> m_lightGrid;
+    GridFeature<Rules::Visibility, EntityRef> m_visGrid;
 
     GEventHub m_gevents;
 

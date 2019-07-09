@@ -30,8 +30,8 @@ void Systems::Collision::accept(GEvents::EntityMove *evt)
 {
     if ( m_level->entityHas<Components::Collider>(evt->ent) )
     {
-        m_level->grid().setPassibility( Rules::Passibility::Impassable, evt->newPos, evt->ent );
-        m_level->grid().freePassibility( Rules::Passibility::Impassable, evt->oldPos, evt->ent );
+        m_level->passGrid().setDynamic( evt->newPos, evt->ent, Rules::Passibility::Impassable );
+        m_level->passGrid().removeDynamic(  evt->oldPos, evt->ent, Rules::Passibility::Impassable );
     }
 }
 
@@ -40,7 +40,7 @@ void Systems::Collision::accept(GEvents::EntityReady *evt)
     if ( m_level->entityHas<Components::Collider, Components::TilePosition>(evt->ent) )
     {
         auto const& pos = m_level->getComponents<Components::TilePosition>(evt->ent);
-        m_level->grid().setPassibility( Rules::Passibility::Impassable, pos->position, evt->ent );
+        m_level->passGrid().setDynamic( pos->position, evt->ent, Rules::Passibility::Impassable );
     }
 }
 
