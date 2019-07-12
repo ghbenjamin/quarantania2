@@ -37,8 +37,12 @@ public:
     bool input(IEvent &evt);
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
+    ImmutableLevelData const& data();
+
     GEventHub& events();
     GridFeature<Rules::Passibility, EntityRef>& passGrid();
+    GridFeature<Rules::Visibility, EntityRef>& fovGrid();
+    GridFeature<Rules::LightLevel, EntityRef>& lightGrid();
 
     EntityRef createEntity();
     void deleteEntity(EntityRef ent);

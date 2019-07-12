@@ -7,6 +7,7 @@
 #include <utils/Logging.h>
 #include <utils/Assert.h>
 #include <ui/TextNode.h>
+#include <graphics/Primatives.h>
 
 Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
 : m_imData(imd), m_ctx(std::move(ctx)), m_passGrid(m_imData.levelSize),
@@ -19,7 +20,7 @@ Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
     registerSystem<Systems::Render>();
     registerSystem<Systems::Position>();
     registerSystem<Systems::Collision>();
-
+    registerSystem<Systems::FOV>();
 
     m_passGrid.disableCache();
     for ( size_t i = 0; i < m_imData.baseTilemap.size(); i++ )
@@ -79,6 +80,8 @@ bool Level::handleKeyInput(IEventKeyPress &evt)
 void Level::render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
 {
     renderTiles(ticks, rInter);
+    auto ptr = createRectangle( {10, 10}, Colour::Apricot );
+
 }
 
 void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
@@ -258,5 +261,19 @@ GridFeature<Rules::Passibility, EntityRef>& Level::passGrid()
     return m_passGrid;
 }
 
+GridFeature<Rules::Visibility, EntityRef>& Level::fovGrid()
+{
+    return m_visGrid;
+}
+
+GridFeature<Rules::LightLevel, EntityRef>& Level::lightGrid()
+{
+    return m_lightGrid;
+}
+
+ImmutableLevelData const &Level::data()
+{
+    return m_imData;
+}
 
 

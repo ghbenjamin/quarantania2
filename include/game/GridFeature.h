@@ -87,6 +87,11 @@ public:
         return static_cast<DataType>(m_cached[ vectorToIdx(pos) ]);
     }
 
+    DataType valueAt( int idx )
+    {
+        return static_cast<DataType>(m_cached[ idx ]);
+    }
+
     void disableCache( )
     {
         m_doCache = false;

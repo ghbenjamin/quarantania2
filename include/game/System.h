@@ -4,6 +4,7 @@
 
 #include <game/GEvent.h>
 #include <game/GEventDefs.h>
+#include <resource/Sprite.h>
 
 class RenderInterface;
 class Level;
@@ -27,34 +28,53 @@ using SystemPtr = std::unique_ptr<System>;
 
 namespace Systems
 {
-    class Render : public System
-    {
-    public:
-        explicit Render(Level *parent);
-        ~Render() override = default;
 
-        void update(uint32_t ticks, RenderInterface &rInter) override;
-    };
 
-    class Collision : public System,
-        public GEventSub<GEvents::EntityMove>,
-        public GEventSub<GEvents::EntityReady>
-    {
-    public:
-        explicit Collision(Level *parent);
-        ~Collision() override = default;
+class Render : public System
+{
+public:
+    explicit Render(Level *parent);
+    ~Render() override = default;
 
-        void accept(GEvents::EntityMove *evt) override;
-        void accept(GEvents::EntityReady *evt) override;
-    };
+    void update(uint32_t ticks, RenderInterface &rInter) override;
+};
 
-    class Position : public System,
-        public GEventSub<GEvents::EntityMove>
-    {
-    public:
-        explicit Position(Level *parent);
-        ~Position() override = default;
+class Collision : public System,
+    public GEventSub<GEvents::EntityMove>,
+    public GEventSub<GEvents::EntityReady>
+{
+public:
+    explicit Collision(Level *parent);
+    ~Collision() override = default;
 
-        void accept(GEvents::EntityMove *evt) override;
-    };
+    void accept(GEvents::EntityMove *evt) override;
+    void accept(GEvents::EntityReady *evt) override;
+};
+
+class Position : public System,
+    public GEventSub<GEvents::EntityMove>
+{
+public:
+    explicit Position(Level *parent);
+    ~Position() override = default;
+
+    void accept(GEvents::EntityMove *evt) override;
+};
+
+class FOV : public System,
+                 public GEventSub<GEvents::EntityMove>
+{
+public:
+    explicit FOV(Level *parent);
+    ~FOV() override = default;
+
+    void update(uint32_t ticks, RenderInterface &rInter) override;
+    void accept(GEvents::EntityMove *evt) override;
+
+private:
+    Sprite m_fovHidden;
+    Sprite m_fovFog;
+};
+
+
 }
