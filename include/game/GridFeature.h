@@ -3,9 +3,7 @@
 #include <vector>
 #include <unordered_map>
 #include <utils/Containers.h>
-#include <utils/Grid.h>
-
-
+#include <utils/GridUtils.h>
 
 template <typename DataType, typename RefType>
 class GridFeature

@@ -16,6 +16,27 @@ enum class Direction : GridBitmask
     NW  = 0x80
 };
 
+// Octants 1 to 8:
+//
+//   \77|88/
+//   6\7|8/1
+//   66\|/11
+//  ---------
+//   55/|\22
+//   5/4|3\2
+//   /44|33\
+//
+
+static constexpr int TransOctantMatrices [8][4] = {
+    {1, 0, 0, 1},
+    {0, 1, 1, 0},
+    {0, -1, 1, 0},
+    {-1, 0, 0, 1},
+    {-1, 0, 0, -1},
+    {0, -1, -1, 0},
+    {0, 1, -1, 0},
+    {1, 0, 0, -1}
+};
 
 Direction operator | (Direction lhs, Direction rhs);
 Direction& operator |= (Direction& lhs, Direction rhs);
@@ -27,7 +48,7 @@ bool operator== (GridBitmask& lhs, Direction rhs);
 using GridRegion = std::vector<Vector2i>;
 
 
-class Grid
+class GridUtils
 {
 public:
     static const GridBitmask CardinalOnly;
@@ -39,6 +60,9 @@ public:
     static GridRegion createRect( Vector2i origin, Vector2i size );
     static GridRegion createCircle( Vector2i origin, int radius );
     static GridRegion createCone( Vector2i origin, int length, Direction direction );
+
+
+    static Vector2i mapToFirstOctant( Vector2i pos, int octant );
 
 
     static bool isAdjacent(Vector2i lhs, Vector2i rhs);

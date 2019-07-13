@@ -31,8 +31,8 @@ void Systems::Collision::accept(GEvents::EntityMove *evt)
 {
     if ( m_level->entityHas<Components::Collider>(evt->ent) )
     {
-        m_level->passGrid().setDynamic( evt->newPos, evt->ent, Rules::Passibility::Impassable );
-        m_level->passGrid().removeDynamic(  evt->oldPos, evt->ent, Rules::Passibility::Impassable );
+        m_level->grid().pass().setDynamic( evt->newPos, evt->ent, Rules::Passibility::Impassable );
+        m_level->grid().pass().removeDynamic(  evt->oldPos, evt->ent, Rules::Passibility::Impassable );
     }
 }
 
@@ -41,7 +41,7 @@ void Systems::Collision::accept(GEvents::EntityReady *evt)
     if ( m_level->entityHas<Components::Collider, Components::TilePosition>(evt->ent) )
     {
         auto const& pos = m_level->getComponents<Components::TilePosition>(evt->ent);
-        m_level->passGrid().setDynamic( pos->position, evt->ent, Rules::Passibility::Impassable );
+        m_level->grid().pass().setDynamic( pos->position, evt->ent, Rules::Passibility::Impassable );
     }
 }
 
@@ -74,7 +74,7 @@ void Systems::FOV::update(uint32_t ticks, RenderInterface &rInter)
     for ( int i = 0; i < m_level->data().tileCount; i++ )
     {
 
-        auto val = m_level->fovGrid().valueAt( i );
+        auto val = m_level->grid().fov().valueAt( i );
         curr = Vector2i{ i % width, i / width } * 16;
 
         // Uncomment me once FOV is implemented

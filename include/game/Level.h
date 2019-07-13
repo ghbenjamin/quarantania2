@@ -18,6 +18,7 @@
 #include <game/EntityFactory.h>
 #include <game/GridFeature.h>
 #include <game/Rules.h>
+#include <game/Grid.h>
 
 class RenderInterface;
 class InputInterface;
@@ -39,10 +40,8 @@ public:
 
     ImmutableLevelData const& data();
 
+    Grid& grid();
     GEventHub& events();
-    GridFeature<Rules::Passibility, EntityRef>& passGrid();
-    GridFeature<Rules::Visibility, EntityRef>& fovGrid();
-    GridFeature<Rules::LightLevel, EntityRef>& lightGrid();
 
     EntityRef createEntity();
     void deleteEntity(EntityRef ent);
@@ -205,10 +204,7 @@ private:
     const ImmutableLevelData m_imData;
     LevelContextPtr m_ctx;
 
-    GridFeature<Rules::Passibility, EntityRef> m_passGrid;
-    GridFeature<Rules::LightLevel, EntityRef> m_lightGrid;
-    GridFeature<Rules::Visibility, EntityRef> m_visGrid;
-
+    Grid m_grid;
     GEventHub m_gevents;
 
     IdPool<EntityRef> m_entityPool;

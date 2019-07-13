@@ -77,7 +77,7 @@ void LevelFactory::growMaze(Vector2i start)
         auto currCell = cells.back();
 
         std::vector<Direction> dirs;
-        for ( auto &[k, v] : Grid::CardinalNeighbours )
+        for ( auto &[k, v] : GridUtils::CardinalNeighbours )
         {
             if ( canFloor( currCell, k ))
             {
@@ -88,9 +88,9 @@ void LevelFactory::growMaze(Vector2i start)
         if (!dirs.empty())
         {
             auto dir = *randomElement(dirs.begin(), dirs.end(), m_mt);
-            auto nextCell = currCell + (Grid::CardinalNeighbours[dir] * 2);
+            auto nextCell = currCell + (GridUtils::CardinalNeighbours[dir] * 2);
 
-            tileSet( currCell + Grid::CardinalNeighbours[dir], BaseTileType::Floor);
+            tileSet( currCell + GridUtils::CardinalNeighbours[dir], BaseTileType::Floor);
             tileSet( nextCell, BaseTileType::Floor );
 
             cells.push_back( nextCell );
@@ -129,7 +129,7 @@ Vector2i LevelFactory::coordsFromIndex(int idx)
 
 bool LevelFactory::canFloor(Vector2i coord, Direction dir)
 {
-    auto delta = Grid::CardinalNeighbours[dir];
+    auto delta = GridUtils::CardinalNeighbours[dir];
 
     if ( !gridContains(coord + (delta * 3)) )
         return false;
@@ -241,7 +241,7 @@ void LevelFactory::connectRooms()
             // Found a wall tile: examine all of its neighbours to determine if any of them are floor tiles,
             // and if so, which regions they belong to.
             std::unordered_set<int> regions;
-            for ( auto const& [dir, dir_vec] : Grid::CardinalNeighbours )
+            for ( auto const& [dir, dir_vec] : GridUtils::CardinalNeighbours )
             {
                 auto it = m_regionMap.find( pos + dir_vec );
                 if ( it != m_regionMap.end() )
@@ -327,7 +327,7 @@ void LevelFactory::connectRooms()
 
             // Remove all connectors adjacent to the door we just placed
             // All wall tiles are aligned to odd grid coordinates, so this will never leave a region stranded
-            if ( Grid::isAdjacent(*rand_it, pos) )
+            if ( GridUtils::isAdjacent(*rand_it, pos) )
             {
                 return true;
             }
@@ -477,7 +477,7 @@ void LevelFactory::pruneCorridors()
                 }
 
                 // Count the number of exits from this tile, e.g. the number of non-wall tiles adjacent to it
-                auto count = std::count_if( Grid::CardinalNeighbours.begin(), Grid::CardinalNeighbours.end(),
+                auto count = std::count_if( GridUtils::CardinalNeighbours.begin(), GridUtils::CardinalNeighbours.end(),
                 [&]( auto& v ){
                     return tileGet(pos + v.second) == BaseTileType::Wall;
                 });
@@ -565,7 +565,7 @@ TileRef LevelFactory::getCorrectWallTile(int idx)
 {
 
     GridBitmask fullMask = m_wallPositionMasks[idx];
-    GridBitmask mask = fullMask & Grid::CardinalOnly;
+    GridBitmask mask = fullMask & GridUtils::CardinalOnly;
 
     if (mask == Direction::N)
     {
@@ -659,7 +659,7 @@ TileRef LevelFactory::getCorrectWallTile(int idx)
 GridBitmask LevelFactory::adjacentWalls(Vector2i coord)
 {
     GridBitmask mask = 0;
-    for ( auto const&[k, v] : Grid::AllNeighbours )
+    for ( auto const&[k, v] : GridUtils::AllNeighbours )
     {
         Vector2i pos = coord + v;
 

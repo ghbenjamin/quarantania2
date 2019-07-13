@@ -1,7 +1,7 @@
-#include <utils/Grid.h>
+#include <utils/GridUtils.h>
 #include <utils/Logging.h>
 
-std::unordered_map<Direction, Vector2i> Grid::AllNeighbours = {
+std::unordered_map<Direction, Vector2i> GridUtils::AllNeighbours = {
         { Direction::N, {0, -1} },
         { Direction::NE, {1, -1} },
         { Direction::E, {1, 0} },
@@ -12,16 +12,16 @@ std::unordered_map<Direction, Vector2i> Grid::AllNeighbours = {
         { Direction::NW, {-1, -1} },
 };
 
-std::unordered_map<Direction, Vector2i> Grid::CardinalNeighbours = {
+std::unordered_map<Direction, Vector2i> GridUtils::CardinalNeighbours = {
         { Direction::N, {0, -1} },
         { Direction::E, {1, 0} },
         { Direction::S, {0, 1} },
         { Direction::W, {-1, 0} },
 };
 
-const GridBitmask Grid::CardinalOnly = (GridBitmask)( Direction::N | Direction::E | Direction::W | Direction::S );
+const GridBitmask GridUtils::CardinalOnly = (GridBitmask)( Direction::N | Direction::E | Direction::W | Direction::S );
 
-bool Grid::isAdjacent(Vector2i lhs, Vector2i rhs)
+bool GridUtils::isAdjacent(Vector2i lhs, Vector2i rhs)
 {
     int x = std::abs(rhs.x() - lhs.x());
     int y = std::abs(rhs.y() - lhs.y());
@@ -29,7 +29,7 @@ bool Grid::isAdjacent(Vector2i lhs, Vector2i rhs)
     return ( x == 0 && y < 2) || ( y == 0 && x < 2 );
 }
 
-GridRegion Grid::createLine(Vector2i start, Vector2i end)
+GridRegion GridUtils::createLine(Vector2i start, Vector2i end)
 {
     // Bresenham line algorithm
 
@@ -41,20 +41,20 @@ GridRegion Grid::createLine(Vector2i start, Vector2i end)
     if ( std::abs(y1 - y0) < std::abs(x1 - x0) )
     {
         if ( x0 > x1 )
-            return Grid::createLineLow(x1, y1, x0, y0);
+            return GridUtils::createLineLow(x1, y1, x0, y0);
         else
-            return Grid::createLineLow(x0, y0, x1, y1);
+            return GridUtils::createLineLow(x0, y0, x1, y1);
     }
     else
     {
         if ( y0 > y1 )
-            return Grid::createLineHigh(x1, y1, x0, y0);
+            return GridUtils::createLineHigh(x1, y1, x0, y0);
         else
-            return Grid::createLineHigh(x0, y0, x1, y1);
+            return GridUtils::createLineHigh(x0, y0, x1, y1);
     }
 }
 
-GridRegion Grid::createLineLow(int x0, int y0, int x1, int y1)
+GridRegion GridUtils::createLineLow(int x0, int y0, int x1, int y1)
 {
     GridRegion gr;
 
@@ -86,7 +86,7 @@ GridRegion Grid::createLineLow(int x0, int y0, int x1, int y1)
     return std::move(gr);
 }
 
-GridRegion Grid::createLineHigh(int x0, int y0, int x1, int y1)
+GridRegion GridUtils::createLineHigh(int x0, int y0, int x1, int y1)
 {
     GridRegion gr;
 
@@ -118,7 +118,7 @@ GridRegion Grid::createLineHigh(int x0, int y0, int x1, int y1)
     return std::move(gr);
 }
 
-GridRegion Grid::createRect(Vector2i origin, Vector2i size)
+GridRegion GridUtils::createRect(Vector2i origin, Vector2i size)
 {
     GridRegion gr;
     Vector2i end = origin + size;
@@ -134,7 +134,7 @@ GridRegion Grid::createRect(Vector2i origin, Vector2i size)
     return std::move(gr);
 }
 
-GridRegion Grid::createCircle(Vector2i origin, int radius)
+GridRegion GridUtils::createCircle(Vector2i origin, int radius)
 {
     GridRegion gr;
     int r2 = radius * radius;
@@ -156,6 +156,12 @@ GridRegion Grid::createCircle(Vector2i origin, int radius)
     }
 
     return std::move(gr);
+}
+
+Vector2i GridUtils::mapToFirstOctant(Vector2i pos, int octant)
+{
+   auto& mat = TransOctantMatrices[octant];
+   return Vector2i{ mat[0] * pos.x() + mat[1] * pos.y(), mat[2] * pos.x() + mat[3] * pos.y()  };
 }
 
 

@@ -10,8 +10,7 @@
 #include <graphics/Primatives.h>
 
 Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
-: m_imData(imd), m_ctx(std::move(ctx)), m_passGrid(m_imData.levelSize),
-    m_visGrid(m_imData.levelSize), m_lightGrid(m_imData.levelSize)
+: m_imData(imd), m_ctx(std::move(ctx)), m_grid(m_imData.levelSize)
 {
     registerComponent<Components::Render>();
     registerComponent<Components::TilePosition>();
@@ -22,24 +21,24 @@ Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
     registerSystem<Systems::Collision>();
     registerSystem<Systems::FOV>();
 
-    m_passGrid.disableCache();
+    m_grid.pass().disableCache();
     for ( size_t i = 0; i < m_imData.baseTilemap.size(); i++ )
     {
         switch ( m_imData.baseTilemap[i] )
         {
             case LD::BaseTileType::Entrance:
             case LD::BaseTileType::Wall:
-                m_passGrid.setFixed( i, Rules::Passibility::Impassable );
+                m_grid.pass().setFixed( i, Rules::Passibility::Impassable );
                 break;
 
             case LD::BaseTileType::Exit:
             case LD::BaseTileType::Floor:
             case LD::BaseTileType::Junction:
-                m_passGrid.setFixed( i, Rules::Passibility::Passable );
+                m_grid.pass().setFixed( i, Rules::Passibility::Passable );
                 break;
         }
     }
-    m_passGrid.enableCache();
+    m_grid.pass().enableCache();
 }
 
 bool Level::input(IEvent &evt)
@@ -193,7 +192,7 @@ void Level::doMovePlayer(SDL_Keycode kcode)
 
     Vector2i newPos = tpos->position + delta;
 
-    if ( m_passGrid.valueAt(newPos) != Rules::Passibility::Impassable )
+    if ( m_grid.pass().valueAt(newPos) != Rules::Passibility::Impassable )
     {
         m_gevents.broadcast<GEvents::EntityMove>( ref, tpos->position, newPos );
     }
@@ -256,24 +255,15 @@ void Level::setPlayer(std::unique_ptr<Player> &&player)
     m_player = std::move(player);
 }
 
-GridFeature<Rules::Passibility, EntityRef>& Level::passGrid()
+Grid& Level::grid( )
 {
-    return m_passGrid;
-}
-
-GridFeature<Rules::Visibility, EntityRef>& Level::fovGrid()
-{
-    return m_visGrid;
-}
-
-GridFeature<Rules::LightLevel, EntityRef>& Level::lightGrid()
-{
-    return m_lightGrid;
+    return m_grid;
 }
 
 ImmutableLevelData const &Level::data()
 {
     return m_imData;
 }
+
 
 

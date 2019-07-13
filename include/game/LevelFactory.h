@@ -6,7 +6,7 @@
 #include <game/Level.h>
 #include <game/LevelData.h>
 #include <game/LevelConfig.h>
-#include <utils/Grid.h>
+#include <utils/GridUtils.h>
 #include <resource/RoomTemplates.h>
 
 
