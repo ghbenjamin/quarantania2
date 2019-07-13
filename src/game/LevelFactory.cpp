@@ -61,6 +61,17 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     constructPlayer();
     constructDoors();
 
+
+    // Debug delete me
+
+    Vector2i orig = {6, 6};
+    auto reg = GridUtils::createCone( orig, 4, Direction::SE );
+
+    m_entityFactory->debugHighlight( orig, "bed-made" );
+    for ( auto const& t : reg)
+        m_entityFactory->debugHighlight( t, "water-1" );
+
+
     return std::move(m_level);
 }
 

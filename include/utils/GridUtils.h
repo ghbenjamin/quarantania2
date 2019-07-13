@@ -27,16 +27,31 @@ enum class Direction : GridBitmask
 //   /44|33\
 //
 
-static constexpr int TransOctantMatrices [8][4] = {
-    {1, 0, 0, 1},
-    {0, 1, 1, 0},
-    {0, -1, 1, 0},
-    {-1, 0, 0, 1},
-    {-1, 0, 0, -1},
-    {0, -1, -1, 0},
-    {0, 1, -1, 0},
-    {1, 0, 0, -1}
-};
+
+namespace MatrixTransform
+{
+    using TransMat = int[4];
+
+    static constexpr TransMat identity = {1, 0, 0, 1};
+    static constexpr TransMat rot270 = { 0, 1, -1, 0 };
+    static constexpr TransMat rot180 = { -1, 0, 0, -1 };
+    static constexpr TransMat rot90 = { 0, -1, 1, 0 };
+
+    static constexpr int nthToFirstOctant [8][4] = {
+            {1, 0, 0, 1},
+            {0, 1, 1, 0},
+            {0, -1, 1, 0},
+            {-1, 0, 0, 1},
+            {-1, 0, 0, -1},
+            {0, -1, -1, 0},
+            {0, 1, -1, 0},
+            {1, 0, 0, -1}
+    };
+
+    Vector2i transform( TransMat const* mat, Vector2i target );
+}
+
+
 
 Direction operator | (Direction lhs, Direction rhs);
 Direction& operator |= (Direction& lhs, Direction rhs);

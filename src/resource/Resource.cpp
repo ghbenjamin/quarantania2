@@ -84,7 +84,7 @@ const SpritesheetPtr &SpritesheetResource::get() const
 
 void SpritesheetResource::load()
 {
-// MSVC compiler warning
+// MSVC compiler error
 #ifdef GetObject
 #undef GetObject
 #endif

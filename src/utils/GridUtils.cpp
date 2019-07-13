@@ -158,12 +158,68 @@ GridRegion GridUtils::createCircle(Vector2i origin, int radius)
     return std::move(gr);
 }
 
-Vector2i GridUtils::mapToFirstOctant(Vector2i pos, int octant)
+GridRegion GridUtils::createCone(Vector2i origin, int length, Direction direction)
 {
-   auto& mat = TransOctantMatrices[octant];
-   return Vector2i{ mat[0] * pos.x() + mat[1] * pos.y(), mat[2] * pos.x() + mat[3] * pos.y()  };
+    GridRegion out;
+    if ( direction == Direction::N || direction == Direction::E
+    || direction == Direction::S || direction == Direction::W )
+    {
+
+    }
+    else
+    {
+
+        for ( int y = 0; y > -length; y-- )
+        {
+            for ( int x = 0; x < length; x++ )
+            {
+                if ( x - y < length )
+                    out.push_back({x, y});
+            }
+        }
+    }
+
+    MatrixTransform::TransMat const* transform;
+
+    switch ( direction )
+    {
+
+        case Direction::N:
+            break;
+        case Direction::NE:
+            transform = &MatrixTransform::identity;
+            break;
+        case Direction::E:
+            break;
+        case Direction::SE:
+            transform = &MatrixTransform::rot90;
+            break;
+        case Direction::S:
+            break;
+        case Direction::SW:
+            transform = &MatrixTransform::rot180;
+            break;
+        case Direction::W:
+            break;
+        case Direction::NW:
+            transform = &MatrixTransform::rot270;
+            break;
+    }
+
+
+    std::transform(out.begin(), out.end(), out.begin(), [&](auto& elem) {
+        return MatrixTransform::transform(transform, elem) + AllNeighbours[direction] + origin;
+    });
+
+    return out;
 }
 
+
+Vector2i GridUtils::mapToFirstOctant(Vector2i pos, int octant)
+{
+   auto& mat = MatrixTransform::nthToFirstOctant[octant];
+   return Vector2i{ mat[0] * pos.x() + mat[1] * pos.y(), mat[2] * pos.x() + mat[3] * pos.y()  };
+}
 
 Direction operator | (Direction lhs, Direction rhs)
 {
@@ -196,4 +252,10 @@ GridBitmask& operator|= (GridBitmask& lhs, Direction rhs)
 bool operator== (GridBitmask& lhs, Direction rhs)
 {
     return lhs == static_cast<GridBitmask>(rhs);
+}
+
+Vector2i MatrixTransform::transform(MatrixTransform::TransMat const* mat, Vector2i target)
+{
+    return Vector2i{ (*mat)[0] * target.x() + (*mat)[1] * target.y(),
+                     (*mat)[2] * target.x() + (*mat)[3] * target.y()  };
 }

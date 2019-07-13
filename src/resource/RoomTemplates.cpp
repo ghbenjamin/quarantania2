@@ -7,6 +7,11 @@ void RoomTemplateManager::loadAllTemplates(std::string const &path)
 {
     rapidjson::Document doc = JsonUtils::loadFromPath( path );
 
+// MSVC compiler error
+#ifdef GetObject
+#undef GetObject
+#endif
+
     auto basicObj = doc.FindMember( "basic_rooms" )->value.GetObject();
 
     for ( auto const& obj_it : basicObj )
