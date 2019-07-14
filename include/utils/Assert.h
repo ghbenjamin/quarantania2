@@ -25,7 +25,7 @@
     Assert(0)
 
 #define AssertNotImplemented() \
-    Assert(0, "Not implemented")
+    AssertMsg(0, "Not implemented")
 
 
 void _assert_with_msg(const char* expr_str, bool expr, const char* file, int line, const char* msg);

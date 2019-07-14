@@ -70,8 +70,8 @@ void Systems::FOV::accept(GEvents::EntityMove *evt)
 void Systems::FOV::update(uint32_t ticks, RenderInterface &rInter)
 {
     Vector2i curr;
-    auto width = m_level->data().levelSize.x();
-    for ( int i = 0; i < m_level->data().tileCount; i++ )
+    auto width = m_level->bounds().x();
+    for ( int i = 0; i < m_level->tileCount(); i++ )
     {
 
         auto val = m_level->grid().fov().valueAt( i );

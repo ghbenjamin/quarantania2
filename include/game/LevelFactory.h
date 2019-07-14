@@ -77,9 +77,6 @@ private:
     // a different region?
     bool canFloor( Vector2i coord, Direction dir );
 
-    // Does our grid contain the given position?
-    bool gridContains(Vector2i coord);
-
     // Convert from a 2x position to a 1d index
     int indexFromCoords( Vector2i coord );
 
@@ -101,23 +98,15 @@ private:
      *  Fill the level with actual stuff: entity placement, room decoration.
      */
 
-
-
     void decorateRooms();
-
     void constructPlayer();
     void constructDoors();
 
 
 private:
-
-    std::unique_ptr<EntityFactory> m_entityFactory;
-    RoomTemplateManager m_roomTemplates;
-
     LevelPtr m_level;
 
-    // Main data structure
-    ImmutableLevelData m_imdata;
+    RoomTemplateManager m_roomTemplates;
 
     // Random
     std::random_device m_rd;

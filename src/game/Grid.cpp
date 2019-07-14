@@ -1,5 +1,6 @@
 #include <game/Grid.h>
 #include <utils/Logging.h>
+#include <utils/Assert.h>
 
 Grid::Grid(Vector2i bounds)
 : m_bounds(bounds), m_passGrid(m_bounds), m_visGrid(m_bounds), m_lightGrid(m_bounds)
@@ -45,8 +46,5 @@ void
 Grid::calculateFOVOctant(Vector2i source, int maxLength, int startColumn, float leftViewSlope, float rightViewSlope,
                          int octant)
 {
-    for ( int col = startColumn; col <= maxLength; col ++)
-    {
-
-    }
+    AssertNotImplemented();
 }

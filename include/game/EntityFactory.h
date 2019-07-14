@@ -10,7 +10,7 @@ class EntityFactory
 {
 public:
 
-    EntityFactory( Level* parent );
+    explicit EntityFactory( Level* parent );
     ~EntityFactory() = default;
 
     std::unique_ptr<Player> createPlayer( ImPlayerData & data, Vector2i startPos ) const;

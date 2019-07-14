@@ -24,6 +24,7 @@ class RenderInterface;
 class InputInterface;
 struct IEvent;
 struct IEventKeyPress;
+class LevelFactory;
 
 using EntityCompMap = std::unordered_map<EntityRef, std::shared_ptr<BaseComponent>>;
 
@@ -31,14 +32,16 @@ using EntityCompMap = std::unordered_map<EntityRef, std::shared_ptr<BaseComponen
 class Level
 {
 public:
+    friend class LevelFactory;
 
-    explicit Level(ImmutableLevelData&& imd, LevelContextPtr ctx);
+    explicit Level(Vector2i size, LevelContextPtr ctx);
     virtual ~Level() = default;
 
     bool input(IEvent &evt);
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
-    ImmutableLevelData const& data();
+    Vector2i const& bounds() const;
+    int tileCount() const;
 
     Grid& grid();
     GEventHub& events();
@@ -201,13 +204,24 @@ private:
 
 private:
 
-    const ImmutableLevelData m_imData;
+    Vector2i m_bounds;
+    int m_tileCount;
+    
+    TileRenderMap m_renderTileMap;
+    std::vector<std::vector<TileRef>> m_mapRendering;
+    LD::BaseTileMap m_baseTilemap;
+
+    Vector2i m_entranceTile;
+    Vector2i m_exitTile;
+
     LevelContextPtr m_ctx;
 
     Grid m_grid;
     GEventHub m_gevents;
 
     IdPool<EntityRef> m_entityPool;
+    EntityFactory m_entFactory;
+
     std::unordered_map<ComponentId, EntityCompMap> m_components;
     std::vector<SystemPtr> m_systems;
     std::unique_ptr<Player> m_player;

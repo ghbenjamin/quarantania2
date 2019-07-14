@@ -4,8 +4,19 @@
 #include <utils/Containers.h>
 #include <rapidjson/document.h>
 
+
+
+enum class SpecialRooms
+{
+    Shop,
+    Boss,
+    Vault,
+};
+
+
 struct RoomTemplate
 {
+
 };
 
 

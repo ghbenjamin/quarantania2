@@ -33,7 +33,7 @@ using RegionRef = int;
 struct Junction
 {
     Vector2i pos;
-    JunctionType type;
+    JunctionType type = JunctionType::Door;
 
     RegionRef region1 = -1;
     RegionRef region2 = -1;
@@ -54,28 +54,3 @@ struct LevelTransition
 using BaseTileMap = std::vector<BaseTileType>;
 
 }
-
-struct ImmutableLevelData
-{
-    ImmutableLevelData() = default;
-    ~ImmutableLevelData() = default;
-
-    // Core information
-    Vector2i levelSize;
-    int tilePixelSize = -1;
-    int tileCount = -1;
-
-    // Rendering information
-    TileRenderMap renderTileMap;
-    std::vector<std::vector<TileRef>> mapRendering;
-
-    // Map information
-    LD::BaseTileMap baseTilemap;
-
-    // Game logic
-    Vector2i entranceTile;
-    Vector2i exitTile;
-
-    // Game actors
-
-};

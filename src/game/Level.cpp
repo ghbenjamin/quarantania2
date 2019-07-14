@@ -9,8 +9,8 @@
 #include <ui/TextNode.h>
 #include <graphics/Primatives.h>
 
-Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
-: m_imData(imd), m_ctx(std::move(ctx)), m_grid(m_imData.levelSize)
+Level::Level(Vector2i size, LevelContextPtr ctx)
+: m_ctx(std::move(ctx)), m_bounds(size), m_grid(size), m_tileCount(size.x() * size.y()), m_entFactory(this)
 {
     registerComponent<Components::Render>();
     registerComponent<Components::TilePosition>();
@@ -20,25 +20,6 @@ Level::Level(ImmutableLevelData&& imd, LevelContextPtr ctx)
     registerSystem<Systems::Position>();
     registerSystem<Systems::Collision>();
     registerSystem<Systems::FOV>();
-
-    m_grid.pass().disableCache();
-    for ( size_t i = 0; i < m_imData.baseTilemap.size(); i++ )
-    {
-        switch ( m_imData.baseTilemap[i] )
-        {
-            case LD::BaseTileType::Entrance:
-            case LD::BaseTileType::Wall:
-                m_grid.pass().setFixed( i, Rules::Passibility::Impassable );
-                break;
-
-            case LD::BaseTileType::Exit:
-            case LD::BaseTileType::Floor:
-            case LD::BaseTileType::Junction:
-                m_grid.pass().setFixed( i, Rules::Passibility::Passable );
-                break;
-        }
-    }
-    m_grid.pass().enableCache();
 }
 
 bool Level::input(IEvent &evt)
@@ -105,9 +86,9 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
     Vector2i offset;
     Vector2i currPos;
     int row, col;
-    int width = m_imData.levelSize.x();
+    int width = m_bounds.x();
 
-    for ( auto const& layer : m_imData.mapRendering )
+    for ( auto const& layer : m_mapRendering )
     {
         offset = {0, 0};
         row = 0;
@@ -117,8 +98,8 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
         {
             if ( ref >= 0 )
             {
-                currPos = offset + Vector2i{ col * m_imData.tilePixelSize, row * m_imData.tilePixelSize };
-                rInter.addWorldItem( m_imData.renderTileMap.get(ref).sprite.renderObject(currPos) );
+                currPos = offset + Vector2i{ col * 16, row * 16 };
+                rInter.addWorldItem( m_renderTileMap.get(ref).sprite.renderObject(currPos) );
             }
 
             col++;
@@ -133,7 +114,7 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
 
 void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
-    rInter.camera().setBounds( m_imData.levelSize * m_imData.tilePixelSize );
+    rInter.camera().setBounds( m_bounds * 16 );
 
     float scrollSpeed = 0.8f;
 
@@ -260,10 +241,14 @@ Grid& Level::grid( )
     return m_grid;
 }
 
-ImmutableLevelData const &Level::data()
+Vector2i const &Level::bounds() const
 {
-    return m_imData;
+    return m_bounds;
 }
 
+int Level::tileCount() const
+{
+    return m_tileCount;
+}
 
 

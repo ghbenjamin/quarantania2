@@ -18,17 +18,13 @@ LevelFactory::LevelFactory()
 
 LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &ctx)
 {
-    /* INITIALIZATION */
 
-    m_imdata.tilePixelSize = 16;
-    m_imdata.levelSize = config.size;
-    m_imdata.tileCount = m_imdata.levelSize.x() * m_imdata.levelSize.y();
-
+    m_level = std::make_unique<Level>( config.size, ctx );
 
     /* LAYOUT CREATION  */
 
     // Start off with a map full of walls
-    m_imdata.baseTilemap = std::vector<BaseTileType>( config.size.x() * config.size.y(), BaseTileType::Wall );
+    m_level->m_baseTilemap = std::vector<BaseTileType>( config.size.x() * config.size.y(), BaseTileType::Wall );
 
     // Attempt to add a random selection of rooms of various sizes and locations
     addRooms( config.roomDensity );
@@ -46,6 +42,28 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
 
     calcAllAdjacentWalls();
     generateEntrancesExits();
+
+    // Set the initial fixed collision data for the level
+    m_level->grid().pass().disableCache();
+    for ( size_t i = 0; i < m_level->m_baseTilemap.size(); i++ )
+    {
+        switch ( m_level->m_baseTilemap[i] )
+        {
+            case LD::BaseTileType::Entrance:
+            case LD::BaseTileType::Wall:
+                m_level->grid().pass().setFixed( i, Rules::Passibility::Impassable );
+                break;
+
+            case LD::BaseTileType::Exit:
+            case LD::BaseTileType::Floor:
+            case LD::BaseTileType::Junction:
+                m_level->grid().pass().setFixed( i, Rules::Passibility::Passable );
+                break;
+        }
+    }
+    m_level->grid().pass().enableCache();
+
+
     constructMapRendering(config, ctx);
 
 
@@ -54,10 +72,6 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
 
 
     /* ENTITY CREATION */
-
-    m_level = std::make_unique<Level>( std::move(m_imdata), ctx );
-    m_entityFactory = std::make_unique<EntityFactory>( m_level.get() );
-
     constructPlayer();
     constructDoors();
 
@@ -115,7 +129,7 @@ void LevelFactory::growMaze(Vector2i start)
 
 void LevelFactory::tileSet(Vector2i tile, BaseTileType ttype)
 {
-    m_imdata.baseTilemap[indexFromCoords(tile)] = ttype;
+    m_level->m_baseTilemap[indexFromCoords(tile)] = ttype;
 
     if ( ttype == BaseTileType::Floor )
     {
@@ -125,32 +139,27 @@ void LevelFactory::tileSet(Vector2i tile, BaseTileType ttype)
 
 BaseTileType LevelFactory::tileGet(Vector2i tile)
 {
-    return m_imdata.baseTilemap[indexFromCoords(tile)];
+    return m_level->m_baseTilemap[indexFromCoords(tile)];
 }
 
 int LevelFactory::indexFromCoords(Vector2i coord)
 {
-    return coord.x() + (coord.y() * m_imdata.levelSize.x());
+    return coord.x() + (coord.y() * m_level->m_bounds.x());
 }
 
 Vector2i LevelFactory::coordsFromIndex(int idx)
 {
-    return {idx % m_imdata.levelSize.x(), idx / m_imdata.levelSize.x() };
+    return {idx % m_level->m_bounds.x(), idx / m_level->m_bounds.x() };
 }
 
 bool LevelFactory::canFloor(Vector2i coord, Direction dir)
 {
     auto delta = GridUtils::CardinalNeighbours[dir];
 
-    if ( !gridContains(coord + (delta * 3)) )
+    if ( !m_level->m_grid.inBounds(coord + (delta * 3)) )
         return false;
 
     return tileGet(coord + (delta * 2)) == BaseTileType::Wall;
-}
-
-bool LevelFactory::gridContains(Vector2i coord)
-{
-    return coord.x() >= 0 && coord.y() >= 0 && coord.x() < m_imdata.levelSize.x() && coord.y() < m_imdata.levelSize.y();
 }
 
 void LevelFactory::addRooms( int maxTries )
@@ -159,8 +168,8 @@ void LevelFactory::addRooms( int maxTries )
     {
         auto roomSize = generateRandomRoomSize();
 
-        std::uniform_int_distribution<> mtRoomX(1, m_imdata.levelSize.x() - roomSize.x() - 1);
-        std::uniform_int_distribution<> mtRoomY(1, m_imdata.levelSize.y() - roomSize.y() - 1);
+        std::uniform_int_distribution<> mtRoomX(1, m_level->m_bounds.x() - roomSize.x() - 1);
+        std::uniform_int_distribution<> mtRoomY(1, m_level->m_bounds.y() - roomSize.y() - 1);
 
         int x = (mtRoomX(m_mt) / 2) * 2 + 1;
         int y = (mtRoomY(m_mt) / 2) * 2 + 1;
@@ -215,9 +224,9 @@ Vector2i LevelFactory::generateRandomRoomSize()
 
 void LevelFactory::fillAllMazes()
 {
-    for ( int y = 1; y < m_imdata.levelSize.y(); y += 2 )
+    for ( int y = 1; y < m_level->m_bounds.y(); y += 2 )
     {
-        for ( int x = 1; x < m_imdata.levelSize.x(); x += 2 )
+        for ( int x = 1; x < m_level->m_bounds.x(); x += 2 )
         {
             if ( tileGet({x, y}) != BaseTileType::Wall )
             {
@@ -237,9 +246,9 @@ void LevelFactory::connectRooms()
     // Store the location of the tile against the regions it spans.
     std::unordered_map<Vector2i, Vector2i, Vector2Hash<int>> connectorMap;
 
-    for ( int y = 1; y < m_imdata.levelSize.y() - 1; y++ )
+    for ( int y = 1; y < m_level->m_bounds.y() - 1; y++ )
     {
-        for ( int x = 1; x < m_imdata.levelSize.x() - 1; x++ )
+        for ( int x = 1; x < m_level->m_bounds.x() - 1; x++ )
         {
             auto pos = Vector2i{x, y};
 
@@ -475,9 +484,9 @@ void LevelFactory::pruneCorridors()
         finished = true;
 
         // Walk over each of our tiles
-        for ( int y = 1; y < m_imdata.levelSize.y() - 1; y++ )
+        for ( int y = 1; y < m_level->m_bounds.y() - 1; y++ )
         {
-            for ( int x = 1; x < m_imdata.levelSize.x() - 1; x++ )
+            for ( int x = 1; x < m_level->m_bounds.x() - 1; x++ )
             {
                 auto pos = Vector2i{x, y};
 
@@ -517,54 +526,54 @@ void LevelFactory::newRegion(RegionType type)
 void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContextPtr const &ctx)
 {
     // Add some tiles to the tilemap - this is debug for now
-    auto floorRef = m_imdata.renderTileMap.addTile({"kenney-tiles", "soil-1"}, true);
-    auto enterRef = m_imdata.renderTileMap.addTile({"kenney-tiles", "grey-stairs-up"}, true);
-    auto exitRef = m_imdata.renderTileMap.addTile({"kenney-tiles", "grey-stairs-down"}, true);
+    auto floorRef = m_level->m_renderTileMap.addTile({"kenney-tiles", "soil-1"}, true);
+    auto enterRef = m_level->m_renderTileMap.addTile({"kenney-tiles", "grey-stairs-up"}, true);
+    auto exitRef = m_level->m_renderTileMap.addTile({"kenney-tiles", "grey-stairs-down"}, true);
 
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-open-N"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-open-S"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-open-E"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-open-W"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-T-N"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-T-S"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-T-E"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-T-W"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-corner-NE"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-corner-SE"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-corner-SW"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-corner-NW"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-vert"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-horiz"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-plain"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-closed-N"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-closed-E"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-closed-S"}, false);
-    m_imdata.renderTileMap.addTile({"kenney-tiles", "wall-grey-closed-W"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-open-N"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-open-S"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-open-E"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-open-W"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-T-N"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-T-S"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-T-E"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-T-W"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-corner-NE"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-corner-SE"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-corner-SW"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-corner-NW"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-vert"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-horiz"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-plain"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-closed-N"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-closed-E"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-closed-S"}, false);
+    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-closed-W"}, false);
 
     // Construct the different tile levels - add two for now
-    m_imdata.mapRendering.emplace_back( m_imdata.baseTilemap.size(), -1 );
-    m_imdata.mapRendering.emplace_back( m_imdata.baseTilemap.size(), -1 );
+    m_level->m_mapRendering.emplace_back( m_level->m_baseTilemap.size(), -1 );
+    m_level->m_mapRendering.emplace_back( m_level->m_baseTilemap.size(), -1 );
 
-    for ( size_t i = 0; i < m_imdata.baseTilemap.size(); i++ )
+    for ( size_t i = 0; i < m_level->m_baseTilemap.size(); i++ )
     {
-        switch ( m_imdata.baseTilemap[i] )
+        switch ( m_level->m_baseTilemap[i] )
         {
             case BaseTileType::Wall:
-                m_imdata.mapRendering[0][i] = getCorrectWallTile(i);
+                m_level->m_mapRendering[0][i] = getCorrectWallTile(i);
                 break;
             case BaseTileType::Floor:
-                m_imdata.mapRendering[0][i] = floorRef;
+                m_level->m_mapRendering[0][i] = floorRef;
                 break;
             case BaseTileType::Junction:
-                m_imdata.mapRendering[0][i] = getCorrectWallTile(i);
+                m_level->m_mapRendering[0][i] = getCorrectWallTile(i);
                 break;
             case BaseTileType::Entrance:
-                m_imdata.mapRendering[0][i] = floorRef;
-                m_imdata.mapRendering[1][i] = enterRef;
+                m_level->m_mapRendering[0][i] = floorRef;
+                m_level->m_mapRendering[1][i] = enterRef;
                 break;
             case BaseTileType::Exit:
-                m_imdata.mapRendering[0][i] = floorRef;
-                m_imdata.mapRendering[1][i] = exitRef;
+                m_level->m_mapRendering[0][i] = floorRef;
+                m_level->m_mapRendering[1][i] = exitRef;
                 break;
             default:
                 break;
@@ -580,91 +589,91 @@ TileRef LevelFactory::getCorrectWallTile(int idx)
 
     if (mask == Direction::N)
     {
-        return m_imdata.renderTileMap.getRef( "wall-grey-open-N" );
+        return m_level->m_renderTileMap.getRef( "wall-grey-open-N" );
     }
     else if ( mask == Direction::E )
     {
-        return m_imdata.renderTileMap.getRef( "wall-grey-open-E" );
+        return m_level->m_renderTileMap.getRef( "wall-grey-open-E" );
     }
     else if ( mask == Direction::S )
     {
-        return m_imdata.renderTileMap.getRef( "wall-grey-open-S" );
+        return m_level->m_renderTileMap.getRef( "wall-grey-open-S" );
     }
     else if ( mask == Direction::W )
     {
-        return m_imdata.renderTileMap.getRef( "wall-grey-open-W" );
+        return m_level->m_renderTileMap.getRef( "wall-grey-open-W" );
     }
     else if ( mask == (Direction::N | Direction::S) )
     {
-        return m_imdata.renderTileMap.getRef( "wall-grey-vert" );
+        return m_level->m_renderTileMap.getRef( "wall-grey-vert" );
     }
     else if ( mask == (Direction::E | Direction::W) )
     {
-        return m_imdata.renderTileMap.getRef( "wall-grey-horiz" );
+        return m_level->m_renderTileMap.getRef( "wall-grey-horiz" );
     }
     else if ( mask == (Direction::E | Direction::S) )
     {
-        return m_imdata.renderTileMap.getRef( "wall-grey-corner-NW" );
+        return m_level->m_renderTileMap.getRef( "wall-grey-corner-NW" );
     }
     else if ( mask == (Direction::E | Direction::N) )
     {
-        return m_imdata.renderTileMap.getRef( "wall-grey-corner-SW" );
+        return m_level->m_renderTileMap.getRef( "wall-grey-corner-SW" );
     }
     else if ( mask == (Direction::W | Direction::S) )
     {
-        return m_imdata.renderTileMap.getRef( "wall-grey-corner-NE" );
+        return m_level->m_renderTileMap.getRef( "wall-grey-corner-NE" );
     }
     else if ( mask == (Direction::N | Direction::W) )
     {
-        return m_imdata.renderTileMap.getRef( "wall-grey-corner-SE" );
+        return m_level->m_renderTileMap.getRef( "wall-grey-corner-SE" );
     }
     else if ( mask == (Direction::N | Direction::S | Direction::E ) )
     {
         if ( fullMask & (Direction::NE | Direction::SE) )
         {
-            return m_imdata.renderTileMap.getRef( "wall-grey-closed-W" );
+            return m_level->m_renderTileMap.getRef( "wall-grey-closed-W" );
         }
         else
         {
-            return m_imdata.renderTileMap.getRef( "wall-grey-T-E" );
+            return m_level->m_renderTileMap.getRef( "wall-grey-T-E" );
         }
     }
     else if ( mask == (Direction::N | Direction::S | Direction::W ) )
     {
         if ( fullMask & (Direction::NW | Direction::SW) )
         {
-            return m_imdata.renderTileMap.getRef( "wall-grey-closed-E" );
+            return m_level->m_renderTileMap.getRef( "wall-grey-closed-E" );
         }
         else
         {
-            return m_imdata.renderTileMap.getRef( "wall-grey-T-W" );
+            return m_level->m_renderTileMap.getRef( "wall-grey-T-W" );
         }
     }
     else if ( mask == (Direction::E | Direction::W | Direction::N ) )
     {
         if ( fullMask & (Direction::NE | Direction::NW) )
         {
-            return m_imdata.renderTileMap.getRef( "wall-grey-closed-S" );
+            return m_level->m_renderTileMap.getRef( "wall-grey-closed-S" );
         }
         else
         {
-            return m_imdata.renderTileMap.getRef( "wall-grey-T-N" );
+            return m_level->m_renderTileMap.getRef( "wall-grey-T-N" );
         }
     }
     else if ( mask == (Direction::E | Direction::W | Direction::S ) )
     {
         if ( fullMask & (Direction::SW | Direction::SE) )
         {
-            return m_imdata.renderTileMap.getRef( "wall-grey-closed-N" );
+            return m_level->m_renderTileMap.getRef( "wall-grey-closed-N" );
         }
         else
         {
-            return m_imdata.renderTileMap.getRef( "wall-grey-T-S" );
+            return m_level->m_renderTileMap.getRef( "wall-grey-T-S" );
         }
     }
 
 
-    return m_imdata.renderTileMap.getRef( "wall-grey-plain" );
+    return m_level->m_renderTileMap.getRef( "wall-grey-plain" );
 }
 
 GridBitmask LevelFactory::adjacentWalls(Vector2i coord)
@@ -674,7 +683,8 @@ GridBitmask LevelFactory::adjacentWalls(Vector2i coord)
     {
         Vector2i pos = coord + v;
 
-        if (gridContains(pos) && (tileGet(pos) == BaseTileType::Wall || tileGet(pos) == BaseTileType::Junction))
+        if (m_level->m_grid.inBounds(pos) && (tileGet(pos) == BaseTileType::Wall
+            || tileGet(pos) == BaseTileType::Junction))
         {
             mask |= k;
         }
@@ -685,17 +695,17 @@ GridBitmask LevelFactory::adjacentWalls(Vector2i coord)
 void LevelFactory::calcAllAdjacentWalls()
 {
     m_wallPositionMasks.clear();
-    m_wallPositionMasks.reserve( m_imdata.tileCount );
+    m_wallPositionMasks.reserve( m_level->m_tileCount );
 
-    for ( int j = 0; j < m_imdata.levelSize.y(); j++ )
+    for ( int j = 0; j < m_level->m_bounds.y(); j++ )
     {
-        for ( int i = 0; i < m_imdata.levelSize.x(); i++ )
+        for ( int i = 0; i < m_level->m_bounds.x(); i++ )
         {
             m_wallPositionMasks.push_back( adjacentWalls({i, j}) );
         }
     }
 
-    Assert(m_wallPositionMasks.size() == m_imdata.tileCount);
+    Assert(m_wallPositionMasks.size() == m_level->m_tileCount);
 }
 
 void LevelFactory::generateEntrancesExits()
@@ -732,14 +742,13 @@ void LevelFactory::generateEntrancesExits()
 
     x = entranceBounds.x() + ( entranceBounds.w() / 2 );
     y = entranceBounds.y() + ( entranceBounds.h() / 2 );
-    m_imdata.entranceTile = {x, y};
+    m_level->m_entranceTile = {x, y};
+    tileSet( m_level->m_entranceTile, BaseTileType::Entrance );
 
     x = exitBounds.x() + ( exitBounds.w() / 2 );
     y = exitBounds.y() + ( exitBounds.h() / 2 );
-    m_imdata.exitTile = {x, y};
-
-    tileSet( m_imdata.entranceTile, BaseTileType::Entrance );
-    tileSet( m_imdata.exitTile, BaseTileType::Exit );
+    m_level->m_exitTile = {x, y};
+    tileSet( m_level->m_exitTile, BaseTileType::Exit );
 }
 
 void LevelFactory::constructPlayer()
@@ -747,7 +756,7 @@ void LevelFactory::constructPlayer()
     ImPlayerData impData;
     impData.name = "Urist McUrist";
 
-    m_level->setPlayer( m_entityFactory->createPlayer( impData, m_imdata.entranceTile ) );
+    m_level->setPlayer( m_level->m_entFactory.createPlayer( impData, m_level->m_entranceTile ) );
 }
 
 void LevelFactory::constructDoors()
@@ -756,7 +765,7 @@ void LevelFactory::constructDoors()
     {
         if ( j.type == JunctionType::Door )
         {
-            m_entityFactory->createDoor( p );
+            m_level->m_entFactory.createDoor( p );
         }
     }
 }

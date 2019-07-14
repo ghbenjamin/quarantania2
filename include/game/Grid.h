@@ -18,12 +18,11 @@ public:
     GridFeature<Rules::Visibility, EntityRef>& fov();
     GridFeature<Rules::LightLevel, EntityRef>& light();
 
+    bool inBounds( Vector2i pos );
 
 private:
 
     void toBounds( GridRegion* region );
-    bool inBounds( Vector2i pos );
-
     void calculateFOV( Vector2i source, int maxLength );
     void calculateFOVOctant( Vector2i source, int maxLength, int startColumn,
         float leftViewSlope, float rightViewSlope, int octant );
