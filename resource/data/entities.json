@@ -1,24 +1,172 @@
 {
-  "objects": [
+  "static_objects": [
     {
       "name": "bed-made",
       "sprite": ["kenney-tiles", "bed-made"],
-      "passable": false
+      "passable": false,
+      "type": "decor"
     },
     {
       "name": "bed-unmade",
       "sprite": ["kenney-tiles", "bed-unmade"],
-      "passable": false
+      "passable": false,
+      "type": "decor"
     },
     {
       "name": "chair-left",
       "sprite": ["kenney-tiles", "chair-left"],
-      "passable": true
+      "passable": true,
+      "type": "decor"
     },
     {
       "name": "chair-right",
       "sprite": ["kenney-tiles", "chair-right"],
-      "passable": true
+      "passable": true,
+      "type": "decor"
+    },
+    {
+      "name": "barrel-closed",
+      "sprite": ["kenney-tiles", "barrel-closed"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "barrel-open",
+      "sprite": ["kenney-tiles", "barrel-open"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "single-wide-drawer",
+      "sprite": ["kenney-tiles", "single-wide-drawer"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "double-wide-drawer",
+      "sprite": ["kenney-tiles", "double-wide-drawer"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "single-thin-drawer",
+      "sprite": ["kenney-tiles", "single-thin-drawer"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "double-thin-drawer",
+      "sprite": ["kenney-tiles", "double-thin-drawer"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "door-closed",
+      "sprite": ["kenney-tiles", "door-closed"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "door-open",
+      "sprite": ["kenney-tiles", "door-open"],
+      "passable": true,
+      "type": "decor"
+    },
+    {
+      "name": "door-barred",
+      "sprite": ["kenney-tiles", "door-barred"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "chest-closed",
+      "sprite": ["kenney-tiles", "chest-closed"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "chest-open",
+      "sprite": ["kenney-tiles", "chest-open"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "fireplace-out",
+      "sprite": ["kenney-tiles", "fireplace-out"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "fireplace-lit",
+      "sprite": ["kenney-tiles", "fireplace-lit"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "anvil",
+      "sprite": ["kenney-tiles", "anvil"],
+      "passable": true,
+      "type": "decor"
+    },
+    {
+      "name": "gold-pile-small",
+      "sprite": ["kenney-tiles", "gold-pile-small"],
+      "passable": true,
+      "type": "decor"
+    },
+    {
+      "name": "gold-pile-big",
+      "sprite": ["kenney-tiles", "gold-pile-big"],
+      "passable": true,
+      "type": "decor"
+    },
+    {
+      "name": "silver-pile-small",
+      "sprite": ["kenney-tiles", "silver-pile-small"],
+      "passable": true,
+      "type": "decor"
+    },
+    {
+      "name": "silver-pile-big",
+      "sprite": ["kenney-tiles", "silver-pile-big"],
+      "passable": true,
+      "type": "decor"
+    },
+    {
+      "name": "bookcase-small-empty",
+      "sprite": ["kenney-tiles", "bookcase-small-empty"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "bookcase-small-full",
+      "sprite": ["kenney-tiles", "bookcase-small-full"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "bookcase-medium-empty",
+      "sprite": ["kenney-tiles", "bookcase-medium-empty"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "bookcase-medium-full",
+      "sprite": ["kenney-tiles", "bookcase-medium-full"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "bookcase-large-empty",
+      "sprite": ["kenney-tiles", "bookcase-large-empty"],
+      "passable": false,
+      "type": "decor"
+    },
+    {
+      "name": "bookcase-large-full",
+      "sprite": ["kenney-tiles", "bookcase-large-full"],
+      "passable": false,
+      "type": "decor"
     }
-   ]
+  ]
 }

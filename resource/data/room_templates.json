@@ -24,5 +24,14 @@
       {
       }
     ]
+  },
+
+  "special_rooms": {
+    "shop": {
+    },
+    "vault": {
+    },
+    "boss": {
+    }
   }
 }
