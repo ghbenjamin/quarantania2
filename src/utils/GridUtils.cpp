@@ -161,14 +161,21 @@ GridRegion GridUtils::createCircle(Vector2i origin, int radius)
 GridRegion GridUtils::createCone(Vector2i origin, int length, Direction direction)
 {
     GridRegion out;
-    if ( direction == Direction::N || direction == Direction::E
-    || direction == Direction::S || direction == Direction::W )
-    {
 
+    // Construct basic shape of the cone centered at the origin. Different shapes for
+    // cardinal and diagonal directions.
+    if ( isCardinal(direction) )
+    {
+        for ( int y = 0; y > -length; y-- )
+        {
+            for ( int x = y; x <= -y; x++ )
+            {
+                out.push_back({x, y});
+            }
+        }
     }
     else
     {
-
         for ( int y = 0; y > -length; y-- )
         {
             for ( int x = 0; x < length; x++ )
@@ -181,32 +188,28 @@ GridRegion GridUtils::createCone(Vector2i origin, int length, Direction directio
 
     MatrixTransform::TransMat const* transform;
 
+    // Determine how the the N/NE oriented shape needs to be rotated
     switch ( direction )
     {
-
         case Direction::N:
-            break;
         case Direction::NE:
             transform = &MatrixTransform::identity;
             break;
         case Direction::E:
-            break;
         case Direction::SE:
             transform = &MatrixTransform::rot90;
             break;
         case Direction::S:
-            break;
         case Direction::SW:
             transform = &MatrixTransform::rot180;
             break;
         case Direction::W:
-            break;
         case Direction::NW:
             transform = &MatrixTransform::rot270;
             break;
     }
 
-
+    // Rotate each of the tiles in the cone shape, then translate them to the correct position.
     std::transform(out.begin(), out.end(), out.begin(), [&](auto& elem) {
         return MatrixTransform::transform(transform, elem) + AllNeighbours[direction] + origin;
     });
@@ -219,6 +222,12 @@ Vector2i GridUtils::mapToFirstOctant(Vector2i pos, int octant)
 {
    auto& mat = MatrixTransform::nthToFirstOctant[octant];
    return Vector2i{ mat[0] * pos.x() + mat[1] * pos.y(), mat[2] * pos.x() + mat[3] * pos.y()  };
+}
+
+bool GridUtils::isCardinal(Direction dir)
+{
+    return dir == Direction::N || dir == Direction::E
+           || dir == Direction::S || dir == Direction::W;
 }
 
 Direction operator | (Direction lhs, Direction rhs)

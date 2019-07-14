@@ -71,6 +71,8 @@ public:
     static std::unordered_map<Direction, Vector2i> AllNeighbours;
     static std::unordered_map<Direction, Vector2i> CardinalNeighbours;
 
+    static bool isCardinal( Direction dir );
+
     static GridRegion createLine( Vector2i start, Vector2i end );
     static GridRegion createRect( Vector2i origin, Vector2i size );
     static GridRegion createCircle( Vector2i origin, int radius );
