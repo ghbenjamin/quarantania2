@@ -18,6 +18,10 @@ public:
     GridFeature<Rules::Visibility, EntityRef>& fov();
     GridFeature<Rules::LightLevel, EntityRef>& light();
 
+    std::vector<EntityRef> entitiesAtTile( Vector2i pos );
+    void addEntToTile( Vector2i pos, EntityRef ent );
+    void removeEntFromTile( Vector2i pos, EntityRef ent );
+
     bool inBounds( Vector2i pos );
 
 private:
@@ -34,5 +38,7 @@ private:
     GridFeature<Rules::Passibility, EntityRef> m_passGrid;
     GridFeature<Rules::LightLevel, EntityRef> m_lightGrid;
     GridFeature<Rules::Visibility, EntityRef> m_visGrid;
+
+    std::unordered_multimap<Vector2i, EntityRef, Vector2iHash> m_entitiesAtTiles;
 
 };

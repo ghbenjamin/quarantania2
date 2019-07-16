@@ -53,6 +53,9 @@ public:
     }
 
 
+    // Shortcuts
+    Sprite getSprite( std::string const& sheet, std::string const& name );
+
 private:
 
     ResourceManager() = default;

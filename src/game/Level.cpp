@@ -15,11 +15,15 @@ Level::Level(Vector2i size, LevelContextPtr ctx)
     registerComponent<Components::Render>();
     registerComponent<Components::TilePosition>();
     registerComponent<Components::Collider>();
+    registerComponent<Components::FixedState>();
+    registerComponent<Components::FixedRenderState>();
 
     registerSystem<Systems::Render>();
     registerSystem<Systems::Position>();
     registerSystem<Systems::Collision>();
     registerSystem<Systems::FOV>();
+    registerSystem<Systems::FixedState>();
+    registerSystem<Systems::FixedRenderState>();
 }
 
 bool Level::input(IEvent &evt)

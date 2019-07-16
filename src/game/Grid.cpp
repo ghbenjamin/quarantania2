@@ -48,3 +48,41 @@ Grid::calculateFOVOctant(Vector2i source, int maxLength, int startColumn, float 
 {
     AssertNotImplemented();
 }
+
+std::vector<EntityRef> Grid::entitiesAtTile(Vector2i pos)
+{
+    std::vector<EntityRef> out;
+
+    auto range = m_entitiesAtTiles.equal_range( pos );
+
+    for ( auto it = range.first; it != range.second; it++ )
+    {
+        out.push_back(it->second);
+    }
+
+    return out;
+}
+
+void Grid::addEntToTile(Vector2i pos, EntityRef ent)
+{
+    m_entitiesAtTiles.emplace(pos, ent);
+
+    Logging::log( m_entitiesAtTiles.size() );
+}
+
+void Grid::removeEntFromTile(Vector2i pos, EntityRef ent)
+{
+    auto range = m_entitiesAtTiles.equal_range( pos );
+
+    for ( auto it = range.first; it != range.second; )
+    {
+        if ( it->second == ent )
+        {
+            it = m_entitiesAtTiles.erase(it);
+        }
+        else
+        {
+            it++;
+        }
+    }
+}

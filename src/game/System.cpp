@@ -4,6 +4,7 @@
 #include <graphics/RenderInterface.h>
 #include <resource/Sprite.h>
 #include <graphics/Primatives.h>
+#include <utils/Assert.h>
 
 System::System(Level *parent) : m_level(parent) { }
 void System::update(uint32_t ticks, RenderInterface &rInter) { }
@@ -47,12 +48,25 @@ void Systems::Collision::accept(GEvents::EntityReady *evt)
 
 Systems::Position::Position(Level *parent) : System(parent)
 {
-   m_level->events().subscribe<GEvents::EntityMove>( this );
+    m_level->events().subscribe<GEvents::EntityMove>( this );
+    m_level->events().subscribe<GEvents::EntityReady>( this );
 }
 
 void Systems::Position::accept(GEvents::EntityMove *evt)
 {
     m_level->getComponents<Components::TilePosition>(evt->ent)->position = evt->newPos;
+
+    m_level->grid().removeEntFromTile( evt->oldPos, evt->ent );
+    m_level->grid().addEntToTile( evt->newPos, evt->ent );
+}
+
+void Systems::Position::accept(GEvents::EntityReady *evt)
+{
+    if ( m_level->entityHas<Components::TilePosition>(evt->ent) )
+    {
+        auto const& pos = m_level->getComponents<Components::TilePosition>(evt->ent);
+        m_level->grid().addEntToTile( pos->position, evt->ent );
+    }
 }
 
 Systems::FOV::FOV(Level *parent) : System(parent),
@@ -86,5 +100,29 @@ void Systems::FOV::update(uint32_t ticks, RenderInterface &rInter)
 //        {
 //            rInter.addWorldItem( m_fovHidden.renderObject(curr) );
 //        }
+    }
+}
+
+Systems::FixedState::FixedState(Level *parent) : System(parent)
+{
+    m_level->events().subscribe<GEvents::FixedStateChange>( this );
+}
+
+void Systems::FixedState::accept(GEvents::FixedStateChange *evt)
+{
+
+}
+
+Systems::FixedRenderState::FixedRenderState(Level *parent) : System(parent)
+{
+    m_level->events().subscribe<GEvents::FixedStateChange>( this );
+}
+
+void Systems::FixedRenderState::accept(GEvents::FixedStateChange *evt)
+{
+    if ( m_level->entityHas<Components::FixedRenderState>(evt->ent) )
+    {
+        auto [render, renderState] = m_level->getComponents<Components::Render, Components::FixedRenderState>(evt->ent);
+        render->sprite = renderState->sprites[evt->state];
     }
 }

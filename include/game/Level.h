@@ -54,10 +54,12 @@ public:
     void setPlayer( std::unique_ptr<Player>&& player );
 
     template <typename CT, typename... Args>
-    void addComponent(EntityRef ent, Args...args)
+    std::shared_ptr<CT> addComponent(EntityRef ent, Args...args)
     {
         auto ptr = std::make_shared<CT>( std::forward<Args>(args)... );
         mapForComponent<CT>()[ent] = std::static_pointer_cast<BaseComponent>(ptr);
+
+        return ptr;
     }
 
     template <typename CT>

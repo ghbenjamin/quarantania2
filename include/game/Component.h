@@ -57,10 +57,10 @@ struct Collider : public Component<Collider>
 
 struct FixedState : public Component<FixedState>
 {
-    explicit FixedState( int start ) : state(start) {}
+    explicit FixedState( std::size_t start ) : state(start) {}
     ~FixedState() override = default;
 
-    int state;
+    std::size_t state;
 };
 
 struct FixedRenderState : public Component<FixedRenderState>
@@ -68,7 +68,7 @@ struct FixedRenderState : public Component<FixedRenderState>
     explicit FixedRenderState( ) = default;
     ~FixedRenderState() override = default;
 
-    Sprite states[8];
+    std::vector<Sprite> sprites;
 };
 
 

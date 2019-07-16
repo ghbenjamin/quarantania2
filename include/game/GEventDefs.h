@@ -18,11 +18,17 @@ struct EntityMove : public GEvent<EntityMove>
 
 struct EntityReady : public GEvent<EntityReady>
 {
-    EntityReady(EntityRef ent) : ent(ent) {}
+    explicit EntityReady(EntityRef ent) : ent(ent) {}
 
     EntityRef ent;
 };
 
+struct FixedStateChange : public GEvent<FixedStateChange>
+{
+    FixedStateChange(EntityRef ent, std::size_t state) : ent(ent), state(state) {}
 
+    EntityRef ent;
+    std::size_t state;
+};
 
 }

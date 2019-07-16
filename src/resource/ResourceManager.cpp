@@ -109,5 +109,10 @@ void ResourceManager::unloadAll()
     m_resources.clear();
 }
 
+Sprite ResourceManager::getSprite(std::string const &sheet, std::string const &name)
+{
+    return getResource<SpritesheetResource>( sheet )->get()->spriteFromName( name );
+}
+
 
 

@@ -46,11 +46,12 @@ EntityRef EntityFactory::createDoor(Vector2i pos) const
 
     m_parent->addComponent<Components::TilePosition>(eref, pos);
 
-    auto sprite = ResourceManager::get().getResource<SpritesheetResource>( "kenney-tiles" )
-        ->get()->spriteFromName( "door-1" );
+    auto sprite = ResourceManager::get().getSprite("kenney-tiles", "door-1");
     m_parent->addComponent<Components::Render>(eref, sprite);
 
     m_parent->addComponent<Components::Collider>(eref);
+
+    //auto frs = m_parent->addComponent<Components::FixedRenderState>( eref );
 
     m_parent->entityReady( eref );
     return eref;

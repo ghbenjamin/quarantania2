@@ -52,13 +52,15 @@ public:
 };
 
 class Position : public System,
-    public GEventSub<GEvents::EntityMove>
+    public GEventSub<GEvents::EntityMove>,
+    public GEventSub<GEvents::EntityReady>
 {
 public:
     explicit Position(Level *parent);
     ~Position() override = default;
 
     void accept(GEvents::EntityMove *evt) override;
+    void accept(GEvents::EntityReady *evt) override;
 };
 
 class FOV : public System,
@@ -74,6 +76,26 @@ public:
 private:
     Sprite m_fovHidden;
     Sprite m_fovFog;
+};
+
+class FixedState : public System,
+                            public GEventSub<GEvents::FixedStateChange>
+{
+public:
+    explicit FixedState(Level *parent);
+    ~FixedState() override = default;
+
+    void accept(GEvents::FixedStateChange *evt) override;
+};
+
+class FixedRenderState : public System,
+                         public GEventSub<GEvents::FixedStateChange>
+{
+public:
+    explicit FixedRenderState(Level *parent);
+    ~FixedRenderState() override = default;
+
+    void accept(GEvents::FixedStateChange *evt) override;
 };
 
 
