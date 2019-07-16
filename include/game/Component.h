@@ -20,7 +20,7 @@ template <typename ET>
 struct Component : public BaseComponent
 {
     Component() = default;
-    virtual ~Component() = default;
+    ~Component() override = default;
 
     static ComponentId id()
     {
@@ -36,7 +36,7 @@ namespace Components
 struct Render : public Component<Render>
 {
     explicit Render( Sprite const& s ) : sprite(s) {}
-    ~Render() = default;
+    ~Render() override = default;
 
     Sprite sprite;
 };
@@ -44,16 +44,32 @@ struct Render : public Component<Render>
 struct TilePosition : public Component<TilePosition>
 {
     explicit TilePosition( Vector2i const& p ) : position(p) {}
-    ~TilePosition() = default;
+    ~TilePosition() override = default;
+
     Vector2i position;
 };
 
 struct Collider : public Component<Collider>
 {
-    explicit Collider() {}
-    ~Collider() = default;
+    explicit Collider() = default;
+    ~Collider() override = default;
 };
 
+struct FixedState : public Component<FixedState>
+{
+    explicit FixedState( int start ) : state(start) {}
+    ~FixedState() override = default;
+
+    int state;
+};
+
+struct FixedRenderState : public Component<FixedRenderState>
+{
+    explicit FixedRenderState( ) = default;
+    ~FixedRenderState() override = default;
+
+    Sprite states[8];
+};
 
 
 }
