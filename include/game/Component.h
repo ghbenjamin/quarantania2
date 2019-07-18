@@ -71,5 +71,14 @@ struct FixedRenderState : public Component<FixedRenderState>
     std::vector<Sprite> sprites;
 };
 
+struct Container : public Component<Container>
+{
+    explicit Container( ) = default;
+    ~Container() override = default;
+};
+
+
+
+
 
 }

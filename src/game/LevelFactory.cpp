@@ -43,25 +43,7 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     calcAllAdjacentWalls();
     generateEntrancesExits();
 
-    // Set the initial fixed collision data for the level
-    m_level->grid().pass().disableCache();
-    for ( size_t i = 0; i < m_level->m_baseTilemap.size(); i++ )
-    {
-        switch ( m_level->m_baseTilemap[i] )
-        {
-            case LD::BaseTileType::Entrance:
-            case LD::BaseTileType::Wall:
-                m_level->grid().pass().setFixed( i, Rules::Passibility::Impassable );
-                break;
-
-            case LD::BaseTileType::Exit:
-            case LD::BaseTileType::Floor:
-            case LD::BaseTileType::Junction:
-                m_level->grid().pass().setFixed( i, Rules::Passibility::Passable );
-                break;
-        }
-    }
-    m_level->grid().pass().enableCache();
+    setInitialCollisionData();
 
     constructMapRendering(config, ctx);
 
@@ -69,9 +51,10 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     m_level->m_entFactory.loadAllPrefabs( "../resource/data/entities.json" );
     m_roomTemplates.loadAllTemplates( "../resource/data/room_templates.json" );
 
-    /* ENTITY CREATION */
     constructPlayer();
     constructDoors();
+
+    readyAllEntities();
 
     return std::move(m_level);
 }
@@ -744,6 +727,7 @@ void LevelFactory::constructPlayer()
     impData.name = "Urist McUrist";
 
     m_level->setPlayer( m_level->m_entFactory.createPlayer( impData, m_level->m_entranceTile ) );
+    m_createdEntities.push_back( m_level->m_player->ref() );
 }
 
 void LevelFactory::constructDoors()
@@ -752,7 +736,8 @@ void LevelFactory::constructDoors()
     {
         if ( j.type == JunctionType::Door )
         {
-            m_level->m_entFactory.createDoor( p );
+            auto ref = m_level->m_entFactory.createDoor( p );
+            m_createdEntities.push_back(ref);
         }
     }
 }
@@ -763,4 +748,37 @@ void LevelFactory::decorateRooms()
     {
 
     }
+}
+
+void LevelFactory::readyAllEntities()
+{
+    for ( auto const& e: m_createdEntities )
+    {
+        m_level->entityReady(e);
+    }
+}
+
+void LevelFactory::setInitialCollisionData()
+{
+    // Set the initial fixed collision data for the level
+    m_level->grid().pass().disableCache();
+
+    for ( size_t i = 0; i < m_level->m_baseTilemap.size(); i++ )
+    {
+        switch ( m_level->m_baseTilemap[i] )
+        {
+            case LD::BaseTileType::Entrance:
+            case LD::BaseTileType::Wall:
+                m_level->grid().pass().setFixed( i, Rules::Passibility::Impassable );
+                break;
+
+            case LD::BaseTileType::Exit:
+            case LD::BaseTileType::Floor:
+            case LD::BaseTileType::Junction:
+                m_level->grid().pass().setFixed( i, Rules::Passibility::Passable );
+                break;
+        }
+    }
+
+    m_level->grid().pass().enableCache();
 }

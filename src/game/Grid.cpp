@@ -66,8 +66,6 @@ std::vector<EntityRef> Grid::entitiesAtTile(Vector2i pos)
 void Grid::addEntToTile(Vector2i pos, EntityRef ent)
 {
     m_entitiesAtTiles.emplace(pos, ent);
-
-    Logging::log( m_entitiesAtTiles.size() );
 }
 
 void Grid::removeEntFromTile(Vector2i pos, EntityRef ent)

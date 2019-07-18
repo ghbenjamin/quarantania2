@@ -93,6 +93,9 @@ private:
     // Try to generate the entrances and exits
     void generateEntrancesExits();
 
+    void readyAllEntities();
+
+    void setInitialCollisionData();
 
     /**
      *  Fill the level with actual stuff: entity placement, room decoration.
@@ -132,4 +135,7 @@ private:
 
     // Flattened 1d array of positions of walls surrounding each tile
     std::vector<GridBitmask> m_wallPositionMasks;
+
+    // All the entities which we create while generating the level
+    std::vector<EntityRef> m_createdEntities;
 };

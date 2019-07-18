@@ -22,7 +22,6 @@ std::unique_ptr<Player> EntityFactory::createPlayer(ImPlayerData &data, Vector2i
 
     m_parent->addComponent<Components::Collider>(eref);
 
-
     return std::make_unique<Player>( std::move(data), eref );
 }
 
@@ -52,8 +51,6 @@ EntityRef EntityFactory::createDoor(Vector2i pos) const
     m_parent->addComponent<Components::Collider>(eref);
 
     //auto frs = m_parent->addComponent<Components::FixedRenderState>( eref );
-
-    m_parent->entityReady( eref );
     return eref;
 }
 
