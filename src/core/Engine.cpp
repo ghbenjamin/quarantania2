@@ -33,8 +33,8 @@ void Engine::run()
     InputInterface inputInterface;
 
     LevelConfig debugConfig;
-    debugConfig.size = {55, 35};
-//    debugConfig.size = {75, 55};
+//    debugConfig.size = {55, 35};
+    debugConfig.size = {75, 55};
     debugConfig.roomDensity = 400;
 
     pushState<LevelState>( debugConfig );

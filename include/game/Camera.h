@@ -27,8 +27,10 @@ public:
 
     // Does the specified (world) rect intersect the world rect of the camera?
     bool intersects( SDL_Rect* other ) const;
-
     void translate( SDL_Rect &spos ) const;
+
+    Vector2i screenToWorld( Vector2i const& coords );
+    Vector2i worldToScreen( Vector2i const& coords );
 
     void setScrollSpeed(float scrollSpeed);
 

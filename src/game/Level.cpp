@@ -36,11 +36,15 @@ bool Level::input(IEvent &evt)
     {
         case IEventType::KeyPress:
             return handleKeyInput(evt.keyPress);
+            break;
         case IEventType::MouseClick:
             return handleMouseClickInput(evt.mouseClick);
+            break;
         case IEventType::MouseMove:
             return handleMouseMoveInput(evt.mouseMove);
+            break;
         case IEventType::WindowResize:
+            return handleWindowResize(evt.windowResize);
             break;
     }
 
@@ -65,21 +69,25 @@ bool Level::handleKeyInput(IEventKeyPress &evt)
     return false;
 }
 
-bool Level::handleMouseMoveInput(IEventMouseMove evt)
+bool Level::handleMouseMoveInput(IEventMouseMove& evt)
 {
     return false;
 }
 
-bool Level::handleMouseClickInput(IEventClick evt)
+bool Level::handleMouseClickInput(IEventClick& evt)
 {
     return false;
+}
+
+bool Level::handleWindowResize(IEventWindowResize &evt)
+{
+    m_camera.setViewportSize( evt.screenSize );
+    return true;
 }
 
 void Level::render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
 {
     renderTiles(ticks, rInter);
-    auto ptr = createRectangle( {10, 10}, Colour::Apricot );
-
 }
 
 void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
@@ -268,4 +276,12 @@ int Level::tileCount() const
     return m_tileCount;
 }
 
+Vector2i Level::screenCoordsToWorld(Vector2i const &screen)
+{
+    return m_camera.screenToWorld(screen);
+}
 
+Vector2i Level::worldCoordsToScreen(Vector2i const &world)
+{
+    return m_camera.worldToScreen(world);
+}
