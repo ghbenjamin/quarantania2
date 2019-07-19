@@ -2,11 +2,11 @@
 
 #include <graphics/RenderInterface.h>
 #include <utils/Logging.h>
+#include <game/Camera.h>
 
 RenderInterface::RenderInterface(WindowCPtr window)
-: m_window(window)
+: m_window(window), m_camera(nullptr)
 {
-    m_camera.setViewportSize( m_window->getSize() );
 }
 
 std::vector<RenderObject> const &RenderInterface::renderables() const
@@ -21,9 +21,9 @@ void RenderInterface::clear()
 
 void RenderInterface::addWorldItem(RenderObject obj)
 {
-    if ( m_camera.intersects(&obj.targetRect) )
+    if ( m_camera->intersects(&obj.targetRect) )
     {
-        m_camera.translate(obj.targetRect);
+        m_camera->translate(obj.targetRect);
         m_renderables.push_back(obj);
     }
 }
@@ -38,8 +38,7 @@ const WindowCPtr &RenderInterface::window() const
     return m_window;
 }
 
-Camera &RenderInterface::camera()
+void RenderInterface::setCamera(Camera *camera)
 {
-    return m_camera;
+    m_camera = camera;
 }
-

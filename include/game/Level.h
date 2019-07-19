@@ -19,6 +19,7 @@
 #include <game/GridFeature.h>
 #include <game/Rules.h>
 #include <game/Grid.h>
+#include <game/Camera.h>
 
 class RenderInterface;
 class InputInterface;
@@ -233,6 +234,7 @@ private:
     std::unique_ptr<Player> m_player;
 
     UI::UiManager m_uiManager;
+    Camera m_camera;
 
 };
 

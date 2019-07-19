@@ -2,7 +2,8 @@
 
 #include <graphics/RenderObject.h>
 #include <graphics/Window.h>
-#include <game/Camera.h>
+
+class Camera;
 
 class RenderInterface
 {
@@ -18,11 +19,11 @@ public:
     void addWorldItem(RenderObject obj);
     void addScreenItem(RenderObject obj);
 
-    Camera& camera();
+    void setCamera( Camera* camera );
 
 private:
 
-    Camera m_camera;
+    Camera* m_camera;
 
     std::vector<RenderObject> m_renderables;
     WindowCPtr m_window;

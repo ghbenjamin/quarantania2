@@ -8,6 +8,7 @@
 #include <utils/Assert.h>
 #include <ui/TextNode.h>
 #include <graphics/Primatives.h>
+#include <resource/ResourceManager.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx)
 : m_ctx(std::move(ctx)), m_bounds(size), m_grid(size), m_tileCount(size.x() * size.y()), m_entFactory(this)
@@ -24,6 +25,9 @@ Level::Level(Vector2i size, LevelContextPtr ctx)
     registerSystem<Systems::FOV>();
     registerSystem<Systems::FixedState>();
     registerSystem<Systems::FixedRenderState>();
+
+    m_camera.setViewportSize( ResourceManager::get().getWindow()->getSize() );
+    m_camera.setBounds( m_bounds * 16 );
 }
 
 bool Level::input(IEvent &evt)
@@ -80,9 +84,12 @@ void Level::render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
 
 void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
 {
+    rInter.setCamera(&m_camera);
+
+    // Move the camera if necessary
     updateCamera(ticks, iinter, rInter);
 
-    // Render ourself: tiles, etc.
+    // Render statics: tiles, etc.
     render(ticks, iinter, rInter);
 
     // Render everything managed by the ECS
@@ -128,8 +135,6 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
 
 void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
-    rInter.camera().setBounds( m_bounds * 16 );
-
     if ( iinter.anyHeld() )
     {
         Vector2f delta = { 0.0, 0.0 };
@@ -152,7 +157,7 @@ void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface
 
         if ( delta.x() != 0 || delta.y() != 0 )
         {
-            rInter.camera().moveBy(delta * (float)ticks);
+            m_camera.moveBy(delta * (float)ticks);
         }
     }
 }
