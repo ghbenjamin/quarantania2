@@ -30,6 +30,8 @@ public:
 
     void translate( SDL_Rect &spos ) const;
 
+    void setScrollSpeed(float scrollSpeed);
+
 private:
 
     void enforceBounds();
@@ -49,4 +51,6 @@ private:
 
     Vector2i m_viewportScreenOffset;
     Vector2i m_internalOffset;
+
+    float m_scrollSpeed;
 };

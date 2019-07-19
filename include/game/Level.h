@@ -24,6 +24,8 @@ class RenderInterface;
 class InputInterface;
 struct IEvent;
 struct IEventKeyPress;
+struct IEventMouseMove;
+struct IEventClick;
 class LevelFactory;
 
 using EntityCompMap = std::unordered_map<EntityRef, std::shared_ptr<BaseComponent>>;
@@ -196,6 +198,8 @@ private:
     }
 
     bool handleKeyInput(IEventKeyPress& evt);
+    bool handleMouseMoveInput(IEventMouseMove evt);
+    bool handleMouseClickInput(IEventClick evt);
 
     void updateCamera(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);

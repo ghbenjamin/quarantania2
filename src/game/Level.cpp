@@ -33,9 +33,9 @@ bool Level::input(IEvent &evt)
         case IEventType::KeyPress:
             return handleKeyInput(evt.keyPress);
         case IEventType::MouseClick:
-            break;
+            return handleMouseClickInput(evt.mouseClick);
         case IEventType::MouseMove:
-            break;
+            return handleMouseMoveInput(evt.mouseMove);
         case IEventType::WindowResize:
             break;
     }
@@ -58,6 +58,16 @@ bool Level::handleKeyInput(IEventKeyPress &evt)
             break;
     }
 
+    return false;
+}
+
+bool Level::handleMouseMoveInput(IEventMouseMove evt)
+{
+    return false;
+}
+
+bool Level::handleMouseClickInput(IEventClick evt)
+{
     return false;
 }
 
@@ -120,8 +130,6 @@ void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface
 {
     rInter.camera().setBounds( m_bounds * 16 );
 
-    float scrollSpeed = 0.8f;
-
     if ( iinter.anyHeld() )
     {
         Vector2f delta = { 0.0, 0.0 };
@@ -144,7 +152,7 @@ void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface
 
         if ( delta.x() != 0 || delta.y() != 0 )
         {
-            rInter.camera().moveBy(delta * (scrollSpeed * ticks));
+            rInter.camera().moveBy(delta * (float)ticks);
         }
     }
 }

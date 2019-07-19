@@ -3,7 +3,7 @@
 #include <utils/Logging.h>
 
 Camera::Camera()
-: m_rect{0, 0, 0, 0}
+: m_rect{0, 0, 0, 0}, m_scrollSpeed{0.75f}
 {
 }
 
@@ -15,14 +15,17 @@ void Camera::setPosition(Vector2i pos)
 
 void Camera::moveBy(Vector2f delta)
 {
-    m_position += delta;
+    m_position += ( delta * m_scrollSpeed );
     enforceBounds();
 }
 
 void Camera::setBounds(Vector2i bounds)
 {
-    m_bounds = bounds;
-    enforceBounds();
+    if ( m_bounds != bounds )
+    {
+        m_bounds = bounds;
+        enforceBounds();
+    }
 }
 
 void Camera::setViewportSize(Vector2i size)
@@ -33,6 +36,8 @@ void Camera::setViewportSize(Vector2i size)
 
 void Camera::enforceBounds()
 {
+    m_internalOffset = {0, 0};
+
     if ( m_bounds.x() < m_size.x() )
     {
         m_position.x(0);
@@ -91,5 +96,10 @@ void Camera::translate(SDL_Rect &spos) const
     spos.y -= m_roundedPosition.y();
     spos.x += m_internalOffset.x();
     spos.y += m_internalOffset.y();
+}
+
+void Camera::setScrollSpeed(float scrollSpeed)
+{
+    m_scrollSpeed = scrollSpeed;
 }
 
