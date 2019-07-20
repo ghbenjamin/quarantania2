@@ -54,6 +54,8 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     constructPlayer();
     constructDoors();
 
+    decorateRooms();
+
     readyAllEntities();
 
     return std::move(m_level);
@@ -744,10 +746,34 @@ void LevelFactory::constructDoors()
 
 void LevelFactory::decorateRooms()
 {
+    std::unordered_set<RegionRef> toDecorate;
+    std::unordered_set<RegionRef> terminalRooms;
     for ( auto& [rref, room] : m_rooms )
     {
-
+        toDecorate.insert(rref);
+        if (room.junctions.size() == 1 )
+        {
+            terminalRooms.insert(rref);
+        }
     }
+
+    
+    // Create entrance + exit rooms
+
+    // Create shop room
+
+    // Create boss room
+
+    // Create miniboss rooms
+
+    // Create trap rooms
+
+    // Create vault rooms
+
+
+
+    // Create regular rooms
+
 }
 
 void LevelFactory::readyAllEntities()

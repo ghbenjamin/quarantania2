@@ -94,7 +94,6 @@ private:
     void generateEntrancesExits();
 
     void readyAllEntities();
-
     void setInitialCollisionData();
 
     /**
