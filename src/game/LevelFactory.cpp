@@ -757,7 +757,11 @@ void LevelFactory::decorateRooms()
         }
     }
 
-    
+    AssertMsg( terminalRooms.size() > 5, "" );
+
+
+
+
     // Create entrance + exit rooms
 
     // Create shop room
