@@ -9,8 +9,6 @@ namespace LD
 
 enum class BaseTileType
 {
-    Entrance,
-    Exit,
     Wall,
     Floor,
     Junction
@@ -28,6 +26,17 @@ enum class JunctionType
     Door
 };
 
+enum class RoomType
+{
+    Normal,
+
+    Entrance,
+    Exit,
+    Shop,
+    Boss,
+    Vault,
+};
+
 using RegionRef = int;
 
 struct Junction
@@ -42,7 +51,10 @@ struct Junction
 struct Room
 {
     RectI bounds;
+    RoomType roomType = RoomType::Normal;
     std::vector<Vector2i> junctions;
+
+    Vector2i centre() const;
 };
 
 struct LevelTransition

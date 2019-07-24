@@ -6,14 +6,6 @@
 
 
 
-enum class SpecialRooms
-{
-    Shop,
-    Boss,
-    Vault,
-};
-
-
 struct RoomTemplate
 {
 

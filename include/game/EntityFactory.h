@@ -36,7 +36,12 @@ public:
 
     std::unique_ptr<Player> createPlayer( ImPlayerData & data, Vector2i startPos ) const;
     EntityRef createPrefabByName(Vector2i pos, std::string const &name) const;
+
     EntityRef createDoor( Vector2i pos ) const;
+    EntityRef createEntrance( Vector2i pos ) const;
+    EntityRef createExit( Vector2i pos ) const;
+
+
     EntityRef debugHighlight( Vector2i pos, std::string const& tile) const;
 
 

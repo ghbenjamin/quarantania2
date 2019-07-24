@@ -224,9 +224,6 @@ private:
     std::vector<std::vector<TileRef>> m_mapRendering;
     LD::BaseTileMap m_baseTilemap;
 
-    Vector2i m_entranceTile;
-    Vector2i m_exitTile;
-
     LevelContextPtr m_ctx;
 
     Grid m_grid;

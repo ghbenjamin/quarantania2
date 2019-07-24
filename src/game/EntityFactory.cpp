@@ -13,13 +13,10 @@ EntityFactory::EntityFactory(Level *parent)
 std::unique_ptr<Player> EntityFactory::createPlayer(ImPlayerData &data, Vector2i startPos) const
 {
     auto eref = m_parent->createEntity();
+    auto sprite = ResourceManager::get().getSprite("kenney-chars", "example-char-1");
 
     m_parent->addComponent<Components::TilePosition>(eref, startPos);
-
-    auto sprite = ResourceManager::get().getResource<SpritesheetResource>( "kenney-chars" )
-        ->get()->spriteFromName( "example-char-1" );
     m_parent->addComponent<Components::Render>(eref, sprite);
-
     m_parent->addComponent<Components::Collider>(eref);
 
     return std::make_unique<Player>( std::move(data), eref );
@@ -28,29 +25,46 @@ std::unique_ptr<Player> EntityFactory::createPlayer(ImPlayerData &data, Vector2i
 EntityRef EntityFactory::debugHighlight(Vector2i pos, std::string const& tile) const
 {
     auto eref = m_parent->createEntity();
+    auto sprite = ResourceManager::get().getSprite("kenney-tiles", tile);
 
     m_parent->addComponent<Components::TilePosition>(eref, pos);
-
-    auto sprite = ResourceManager::get().getResource<SpritesheetResource>( "kenney-tiles" )
-            ->get()->spriteFromName( tile );
     m_parent->addComponent<Components::Render>(eref, sprite);
 
-    m_parent->entityReady( eref );
     return eref;
 }
 
 EntityRef EntityFactory::createDoor(Vector2i pos) const
 {
     auto eref = m_parent->createEntity();
+    auto sprite = ResourceManager::get().getSprite("kenney-tiles", "door-1");
 
     m_parent->addComponent<Components::TilePosition>(eref, pos);
-
-    auto sprite = ResourceManager::get().getSprite("kenney-tiles", "door-1");
     m_parent->addComponent<Components::Render>(eref, sprite);
-
     m_parent->addComponent<Components::Collider>(eref);
 
-    //auto frs = m_parent->addComponent<Components::FixedRenderState>( eref );
+    return eref;
+}
+
+EntityRef EntityFactory::createEntrance(Vector2i pos) const
+{
+    auto eref = m_parent->createEntity();
+    auto sprite = ResourceManager::get().getSprite("kenney-tiles", "grey-stairs-up");
+
+    m_parent->addComponent<Components::TilePosition>(eref, pos);
+    m_parent->addComponent<Components::Render>(eref, sprite);
+    m_parent->addComponent<Components::Collider>(eref);
+
+    return eref;
+}
+
+EntityRef EntityFactory::createExit(Vector2i pos) const
+{
+    auto eref = m_parent->createEntity();
+    auto sprite = ResourceManager::get().getSprite("kenney-tiles", "grey-stairs-down");
+
+    m_parent->addComponent<Components::TilePosition>(eref, pos);
+    m_parent->addComponent<Components::Render>(eref, sprite);
+
     return eref;
 }
 

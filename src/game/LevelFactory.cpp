@@ -41,7 +41,6 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     pruneCorridors();
 
     calcAllAdjacentWalls();
-    generateEntrancesExits();
 
     setInitialCollisionData();
 
@@ -51,11 +50,13 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     m_level->m_entFactory.loadAllPrefabs( "../resource/data/entities.json" );
     m_roomTemplates.loadAllTemplates( "../resource/data/room_templates.json" );
 
-    constructPlayer();
     constructDoors();
+
+    assignSpecialRooms();
 
     decorateRooms();
 
+    constructPlayer();
     readyAllEntities();
 
     return std::move(m_level);
@@ -499,8 +500,6 @@ void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContext
 {
     // Add some tiles to the tilemap - this is debug for now
     auto floorRef = m_level->m_renderTileMap.addTile({"kenney-tiles", "soil-1"}, true);
-    auto enterRef = m_level->m_renderTileMap.addTile({"kenney-tiles", "grey-stairs-up"}, true);
-    auto exitRef = m_level->m_renderTileMap.addTile({"kenney-tiles", "grey-stairs-down"}, true);
 
     m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-open-N"}, false);
     m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-open-S"}, false);
@@ -539,16 +538,8 @@ void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContext
             case BaseTileType::Junction:
                 m_level->m_mapRendering[0][i] = getCorrectWallTile(i);
                 break;
-            case BaseTileType::Entrance:
-                m_level->m_mapRendering[0][i] = floorRef;
-                m_level->m_mapRendering[1][i] = enterRef;
-                break;
-            case BaseTileType::Exit:
-                m_level->m_mapRendering[0][i] = floorRef;
-                m_level->m_mapRendering[1][i] = exitRef;
-                break;
             default:
-                break;
+                AssertAlways();
         }
     }
 }
@@ -680,55 +671,14 @@ void LevelFactory::calcAllAdjacentWalls()
     Assert(m_wallPositionMasks.size() == m_level->m_tileCount);
 }
 
-void LevelFactory::generateEntrancesExits()
-{
-    std::vector<int> candidates;
-    int rIdxEnter = -1;
-    int rIdxExit = -1;
-
-    std::for_each(m_rooms.begin(), m_rooms.end(), [&]( auto const& it ) {
-        if (it.second.junctions.size() == 1 )
-        {
-            candidates.push_back(it.first);
-        }
-    });
-
-    if ( candidates.size() > 1 )
-    {
-        auto it = randomElement( candidates.begin(), candidates.end(), m_mt );
-        rIdxEnter = *it;
-        candidates.erase(it);
-
-        it = randomElement( candidates.begin(), candidates.end(), m_mt );
-        rIdxExit = *it;
-    }
-    else
-    {
-        AssertAlways();
-    }
-
-    auto& entranceBounds = m_rooms[rIdxEnter].bounds;
-    auto& exitBounds = m_rooms[rIdxExit].bounds;
-
-    int x, y;
-
-    x = entranceBounds.x() + ( entranceBounds.w() / 2 );
-    y = entranceBounds.y() + ( entranceBounds.h() / 2 );
-    m_level->m_entranceTile = {x, y};
-    tileSet( m_level->m_entranceTile, BaseTileType::Entrance );
-
-    x = exitBounds.x() + ( exitBounds.w() / 2 );
-    y = exitBounds.y() + ( exitBounds.h() / 2 );
-    m_level->m_exitTile = {x, y};
-    tileSet( m_level->m_exitTile, BaseTileType::Exit );
-}
-
 void LevelFactory::constructPlayer()
 {
     ImPlayerData impData;
     impData.name = "Urist McUrist";
 
-    m_level->setPlayer( m_level->m_entFactory.createPlayer( impData, m_level->m_entranceTile ) );
+    auto startPos = m_rooms.at( m_specialRooms.at( RoomType::Entrance ) ).centre();
+
+    m_level->setPlayer( m_level->m_entFactory.createPlayer( impData, startPos ) );
     m_createdEntities.push_back( m_level->m_player->ref() );
 }
 
@@ -746,38 +696,45 @@ void LevelFactory::constructDoors()
 
 void LevelFactory::decorateRooms()
 {
-    std::unordered_set<RegionRef> toDecorate;
-    std::unordered_set<RegionRef> terminalRooms;
-    for ( auto& [rref, room] : m_rooms )
+    for ( auto const& [ref, room] : m_rooms )
     {
-        toDecorate.insert(rref);
-        if (room.junctions.size() == 1 )
+        switch ( room.roomType )
         {
-            terminalRooms.insert(rref);
+            case RoomType::Normal:
+            {
+                break;
+            }
+            case RoomType::Entrance:
+            {
+                auto eref = m_level->m_entFactory.createEntrance( room.centre() );
+                m_createdEntities.push_back(eref);
+
+                break;
+            }
+            case RoomType::Exit:
+            {
+                auto eref = m_level->m_entFactory.createExit( room.centre() );
+                m_createdEntities.push_back(eref);
+
+                break;
+            }
+            case RoomType::Vault:
+            {
+                break;
+            }
+            case RoomType::Shop:
+            {
+                break;
+            }
+            case RoomType::Boss:
+            {
+                break;
+            }
+
+            default:
+                AssertAlways();
         }
     }
-
-    AssertMsg( terminalRooms.size() > 5, "" );
-
-
-
-
-    // Create entrance + exit rooms
-
-    // Create shop room
-
-    // Create boss room
-
-    // Create miniboss rooms
-
-    // Create trap rooms
-
-    // Create vault rooms
-
-
-
-    // Create regular rooms
-
 }
 
 void LevelFactory::readyAllEntities()
@@ -797,12 +754,10 @@ void LevelFactory::setInitialCollisionData()
     {
         switch ( m_level->m_baseTilemap[i] )
         {
-            case LD::BaseTileType::Entrance:
             case LD::BaseTileType::Wall:
                 m_level->grid().pass().setFixed( i, Rules::Passibility::Impassable );
                 break;
 
-            case LD::BaseTileType::Exit:
             case LD::BaseTileType::Floor:
             case LD::BaseTileType::Junction:
                 m_level->grid().pass().setFixed( i, Rules::Passibility::Passable );
@@ -811,4 +766,37 @@ void LevelFactory::setInitialCollisionData()
     }
 
     m_level->grid().pass().enableCache();
+}
+
+void LevelFactory::assignSpecialRooms()
+{
+    std::unordered_set<RegionRef> toDecorate;
+    std::unordered_set<RegionRef> terminalRooms;
+    for ( auto& [rref, room] : m_rooms )
+    {
+        toDecorate.insert(rref);
+        if (room.junctions.size() == 1 )
+        {
+            terminalRooms.insert(rref);
+        }
+    }
+
+    AssertMsg( terminalRooms.size() > 2, "" );
+
+    const std::vector<RoomType> specialOrder = {
+        RoomType::Entrance, RoomType::Exit,
+        RoomType::Boss, RoomType::Shop,
+        RoomType::Vault
+    };
+
+    for ( auto srt : specialOrder )
+    {
+        if ( terminalRooms.empty() )
+            break;
+
+        auto it = randomElement( terminalRooms.begin(), terminalRooms.end(), m_mt );
+        m_specialRooms.emplace( srt, *it );
+        m_rooms.at(*it).roomType = srt;
+        terminalRooms.erase(it);
+    }
 }

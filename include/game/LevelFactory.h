@@ -90,9 +90,6 @@ private:
     // Start a new region of the given type
     void newRegion( LD::RegionType type );
 
-    // Try to generate the entrances and exits
-    void generateEntrancesExits();
-
     void readyAllEntities();
     void setInitialCollisionData();
 
@@ -100,6 +97,7 @@ private:
      *  Fill the level with actual stuff: entity placement, room decoration.
      */
 
+    void assignSpecialRooms();
     void decorateRooms();
     void constructPlayer();
     void constructDoors();
@@ -137,4 +135,6 @@ private:
 
     // All the entities which we create while generating the level
     std::vector<EntityRef> m_createdEntities;
+
+    std::unordered_map<LD::RoomType, LD::RegionRef> m_specialRooms;
 };
