@@ -7,6 +7,7 @@
 #include <utils/Logging.h>
 #include <utils/Assert.h>
 #include <ui/TextNode.h>
+#include <ui/Label.h>
 #include <graphics/Primatives.h>
 #include <resource/ResourceManager.h>
 
@@ -28,6 +29,8 @@ Level::Level(Vector2i size, LevelContextPtr ctx)
 
     m_camera.setViewportSize( ResourceManager::get().getWindow()->getSize() );
     m_camera.setBounds( m_bounds * 16 );
+
+    setupUI();
 }
 
 bool Level::input(IEvent &evt)
@@ -36,19 +39,16 @@ bool Level::input(IEvent &evt)
     {
         case IEventType::KeyPress:
             return handleKeyInput(evt.keyPress);
-            break;
         case IEventType::MouseClick:
             return handleMouseClickInput(evt.mouseClick);
-            break;
         case IEventType::MouseMove:
             return handleMouseMoveInput(evt.mouseMove);
-            break;
         case IEventType::WindowResize:
             return handleWindowResize(evt.windowResize);
-            break;
-    }
 
-    return false;
+        default:
+            return false;
+    }
 }
 
 bool Level::handleKeyInput(IEventKeyPress &evt)
@@ -284,4 +284,12 @@ Vector2i Level::screenCoordsToWorld(Vector2i const &screen)
 Vector2i Level::worldCoordsToScreen(Vector2i const &world)
 {
     return m_camera.worldToScreen(world);
+}
+
+void Level::setupUI()
+{
+    auto ptr = m_uiManager.createElement<UI::Label>( nullptr );
+    ptr->setLocalPosition( {20, 10} );
+    ptr->setText("Hello, World!");
+//    ptr->setBackgroundColour( Colour::Magenta );
 }

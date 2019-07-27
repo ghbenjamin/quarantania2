@@ -34,6 +34,7 @@ public:
             parent->addChild(ptr);
         }
 
+        ptr->m_manager = this;
         return ptr;
     }
 

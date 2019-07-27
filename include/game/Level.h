@@ -204,13 +204,16 @@ private:
     bool handleMouseClickInput(IEventClick& evt);
     bool handleWindowResize(IEventWindowResize& evt);
 
+    // UI
+
+    void setupUI();
+
     void updateCamera(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void renderTiles(uint32_t ticks, RenderInterface &rInter);
 
     Vector2i worldCoordsToScreen( Vector2i const& world );
     Vector2i screenCoordsToWorld( Vector2i const& screen );
-
 
     // Player input
     void doMovePlayer( SDL_Keycode kcode );

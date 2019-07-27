@@ -40,7 +40,6 @@ EntityRef EntityFactory::createDoor(Vector2i pos) const
 
     m_parent->addComponent<Components::TilePosition>(eref, pos);
     m_parent->addComponent<Components::Render>(eref, sprite);
-    m_parent->addComponent<Components::Collider>(eref);
 
     return eref;
 }

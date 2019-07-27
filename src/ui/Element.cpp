@@ -2,10 +2,15 @@
 
 #include <algorithm>
 #include <utils/Logging.h>
+#include <graphics/Primatives.h>
+#include <graphics/RenderInterface.h>
 
 using namespace UI;
 
-Element::Element() : m_parent(nullptr)
+Element::Element() :
+    m_parent(nullptr), m_manager(nullptr),
+    m_hasBgColour(false), m_hasBorder(false),
+    m_borderWidth(0)
 {
 
 }
@@ -67,6 +72,12 @@ bool Element::hasParent()
 
 void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
+    if ( m_hasBgColour )
+    {
+        rInter.addScreenItem( m_backgroundSprite.renderObject( globalPosition() ) );
+    }
+
+
     updateSelf(ticks, iinter, rInter);
 
     for ( auto& c : m_children )
@@ -136,12 +147,6 @@ std::vector<ElementPtr> const &Element::children()
     return m_children;
 }
 
-void Element::addChild(ElementPtr const &child)
-{
-    m_children.push_back(child);
-    child->setParent( this );
-}
-
 void Element::removeChild(ElementPtr const &child)
 {
     m_children.erase( std::remove(m_children.begin(), m_children.end(), child), m_children.end() );
@@ -179,12 +184,54 @@ void Element::setMaximumOuterSize(Vector2i size)
     m_maximumOuterSize = size;
 }
 
-void Element::setStyle(ElementStyle const &style)
+UiManager *Element::manager()
 {
-    m_style = style;
+    return m_manager;
 }
 
-ElementStyle &Element::getStyle()
+void Element::setBorder(int width, Colour colour)
 {
-    return m_style;
+    m_hasBorder = true;
+    m_borderWidth = width;
+    m_borderColour = colour;
+
+    generateBackground();
+}
+
+void Element::removeBorder()
+{
+    m_hasBorder = false;
+}
+
+void Element::setBackgroundColour(Colour colour)
+{
+    m_hasBgColour = true;
+    m_bgColour = colour;
+
+    generateBackground();
+}
+
+void Element::removeBackgroundColour()
+{
+    m_hasBgColour = false;
+}
+
+void Element::setPadding( RectI const& rect )
+{
+    m_padding = rect;
+}
+
+void Element::generateBackground()
+{
+    if ( m_hasBgColour )
+    {
+        if ( m_hasBorder )
+        {
+            m_backgroundSprite = createBorderedRectangle( m_actualOuterSize, m_borderColour, m_bgColour, m_borderWidth );
+        }
+        else
+        {
+            m_backgroundSprite = createRectangle( m_actualOuterSize ,m_bgColour );
+        }
+    }
 }

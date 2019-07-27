@@ -19,7 +19,10 @@ TextNode::TextNode() : TextNode({ Colour::Green })
 
 void TextNode::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
-    rInter.addScreenItem(m_renderObject);
+    if ( m_renderObject.texture != nullptr )
+    {
+        rInter.addScreenItem(m_renderObject);
+    }
 }
 
 void TextNode::renderText()
@@ -28,8 +31,15 @@ void TextNode::renderText()
 
     m_renderObject.texture = m_rendered->raw();
     m_renderObject.sourceRect = m_rendered->sourceRect();
-    m_renderObject.targetRect.w = m_rendered->sourceRect().w;
-    m_renderObject.targetRect.h = m_rendered->sourceRect().h;
+
+    m_renderObject.targetRect = {
+            0,
+            0,
+            m_rendered->sourceRect().w,
+            m_rendered->sourceRect().h
+    };
+
+    onMoveSelf();
 }
 
 void TextNode::setText(std::string const &text)
@@ -45,6 +55,8 @@ void TextNode::onSizeSelf()
 
 void TextNode::onMoveSelf()
 {
-
+    auto pos = globalPosition();
+    m_renderObject.targetRect.x = pos.x();
+    m_renderObject.targetRect.y = pos.y();
 }
 
