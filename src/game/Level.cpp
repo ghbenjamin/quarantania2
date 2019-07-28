@@ -290,8 +290,9 @@ void Level::setupUI()
 {
     auto ptr = m_uiManager.createElement<UI::Label>( nullptr );
     ptr->setLocalPosition( {20, 10} );
+
     ptr->setText("Hello, World!");
-    ptr->setMaximumOuterSize({100, 100});
+
     ptr->setBorder( 2, Colour::Black );
     ptr->setBackgroundColour( Colour::Magenta );
 }

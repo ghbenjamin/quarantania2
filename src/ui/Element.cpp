@@ -4,6 +4,7 @@
 #include <utils/Logging.h>
 #include <graphics/Primatives.h>
 #include <graphics/RenderInterface.h>
+#include <utils/Assert.h>
 
 using namespace UI;
 
@@ -72,7 +73,7 @@ bool Element::hasParent()
 
 void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
-    if ( m_hasBgColour )
+    if ( m_hasBgColour && m_backgroundSprite )
     {
         rInter.addScreenItem( m_backgroundSprite.renderObject( globalPosition() ) );
     }
@@ -130,6 +131,7 @@ void Element::doLayout()
 {
     if ( hasChildren() )
     {
+        // Have children + no preferred size = size to our children
         if ( m_preferredContentSize == Vector2i::Null() )
         {
             int x = 0;
@@ -137,25 +139,29 @@ void Element::doLayout()
 
             for ( auto& c: m_children )
             {
-                c->setLocalPosition({ 0, y });
+                c->setLocalPosition( m_contentOffset + Vector2i{ 0, y } );
+                c->doLayout();
 
                 auto s = c->outerSize();
                 y += s.y();
                 x = std::max( x, s.x() );
             }
-
+            
             m_actualContentSize = { x, y };
         }
+
+        // Have children + have a preferred size = panic for now
         else
         {
+            AssertAlways();
         }
     }
+
+    // No children = size to our preferred size
     else
     {
         m_actualContentSize = m_preferredContentSize;
     }
-
-
 
     m_contentOffset = {
         m_borderWidth,
@@ -166,6 +172,9 @@ void Element::doLayout()
         (2 * m_borderWidth) + m_actualContentSize.x(),
         (2 * m_borderWidth) + m_actualContentSize.y(),
     };
+
+
+    generateBackground();
 }
 
 void Element::recachePosition()
@@ -221,7 +230,7 @@ void Element::setPreferredContentSize(Vector2i size)
 {
     m_preferredContentSize = size;
 
-    doLayout();
+    rootParent()->doLayout();
 }
 
 void Element::setMaximumOuterSize(Vector2i size)
@@ -242,7 +251,7 @@ void Element::setBorder(int width, Colour colour)
     m_borderWidth = width;
     m_borderColour = colour;
 
-    generateBackground();
+    doLayout();
 }
 
 void Element::removeBorder()
