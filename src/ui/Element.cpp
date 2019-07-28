@@ -113,16 +113,59 @@ void Element::onMove()
     }
 }
 
+// Implement in children
 void Element::onMoveSelf() { }
 
 void Element::onSize()
 {
+    doLayout();
+
     onSizeSelf();
 }
 
-void Element::onSizeSelf()
-{
+// Implement in children
+void Element::onSizeSelf() { }
 
+void Element::doLayout()
+{
+    if ( hasChildren() )
+    {
+        if ( m_preferredContentSize == Vector2i::Null() )
+        {
+            int x = 0;
+            int y = 0;
+
+            for ( auto& c: m_children )
+            {
+                c->setLocalPosition({ 0, y });
+
+                auto s = c->outerSize();
+                y += s.y();
+                x = std::max( x, s.x() );
+            }
+
+            m_actualContentSize = { x, y };
+        }
+        else
+        {
+        }
+    }
+    else
+    {
+        m_actualContentSize = m_preferredContentSize;
+    }
+
+
+
+    m_contentOffset = {
+        m_borderWidth,
+        m_borderWidth,
+    };
+
+    m_actualOuterSize = {
+        (2 * m_borderWidth) + m_actualContentSize.x(),
+        (2 * m_borderWidth) + m_actualContentSize.y(),
+    };
 }
 
 void Element::recachePosition()
@@ -164,12 +207,12 @@ Element *Element::rootParent()
     return curr;
 }
 
-Vector2i Element::outerSize()
+Vector2i Element::outerSize() const
 {
     return m_actualOuterSize;
 }
 
-Vector2i Element::contentSize()
+Vector2i Element::contentSize() const
 {
     return m_actualContentSize;
 }
@@ -177,11 +220,15 @@ Vector2i Element::contentSize()
 void Element::setPreferredContentSize(Vector2i size)
 {
     m_preferredContentSize = size;
+
+    doLayout();
 }
 
 void Element::setMaximumOuterSize(Vector2i size)
 {
     m_maximumOuterSize = size;
+
+    doLayout();
 }
 
 UiManager *Element::manager()
@@ -201,6 +248,9 @@ void Element::setBorder(int width, Colour colour)
 void Element::removeBorder()
 {
     m_hasBorder = false;
+    m_borderWidth = 0;
+
+    generateBackground();
 }
 
 void Element::setBackgroundColour(Colour colour)
@@ -214,6 +264,8 @@ void Element::setBackgroundColour(Colour colour)
 void Element::removeBackgroundColour()
 {
     m_hasBgColour = false;
+
+    generateBackground();
 }
 
 void Element::setPadding( RectI const& rect )
@@ -223,6 +275,11 @@ void Element::setPadding( RectI const& rect )
 
 void Element::generateBackground()
 {
+    if ( m_actualOuterSize.x() == 0 && m_actualOuterSize.y() == 0 )
+    {
+        return;
+    }
+
     if ( m_hasBgColour )
     {
         if ( m_hasBorder )
@@ -231,7 +288,7 @@ void Element::generateBackground()
         }
         else
         {
-            m_backgroundSprite = createRectangle( m_actualOuterSize ,m_bgColour );
+            m_backgroundSprite = createRectangle( m_actualOuterSize, m_bgColour );
         }
     }
 }

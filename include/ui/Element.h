@@ -27,30 +27,33 @@ public:
     Element();
     virtual ~Element() = default;
 
+    // Positioning
     Vector2i globalPosition();
     Vector2i localPosition();
     void setLocalPosition(Vector2i position);
 
-    Vector2i outerSize();
-    Vector2i contentSize();
+    // Sizing
+    Vector2i outerSize() const;
+    Vector2i contentSize() const;
     void setPreferredContentSize( Vector2i size );
     void setMaximumOuterSize( Vector2i size );
 
+    // Ids
     void setId( std::string const& id );
     void unsetId();
     std::string_view id();
     bool hasId();
 
+    // Classes
     void addClass( std::string const& c );
     void removeClass( std::string const& c );
     bool hasClass( std::string const& c );
 
+    // DOM
     void setParent( Element* elem );
     bool hasParent();
     Element* parent();
     Element* rootParent();
-
-    UiManager* manager();
 
     bool hasChildren();
     std::vector<ElementPtr> const& children();
@@ -64,17 +67,20 @@ public:
 
         m_children.push_back(child);
         child->setParent( this );
+
+        doLayout();
     }
 
-    void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
-
+    // Styling
     void setBorder( int width, Colour colour );
     void removeBorder();
-
     void setBackgroundColour( Colour colour );
     void removeBackgroundColour();
-
     void setPadding( RectI const& rect );
+
+
+    UiManager* manager();
+    void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
 protected:
 

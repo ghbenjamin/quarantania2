@@ -46,6 +46,8 @@ void TextNode::setText(std::string const &text)
 {
     m_data = text;
     renderText();
+
+    setPreferredContentSize( m_rendered->size() );
 }
 
 void TextNode::onSizeSelf()
