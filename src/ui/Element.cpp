@@ -11,7 +11,7 @@ using namespace UI;
 Element::Element() :
     m_parent(nullptr), m_manager(nullptr),
     m_hasBgColour(false), m_hasBorder(false),
-    m_borderWidth(0)
+    m_borderWidth(0), m_isHidden(false)
 {
 
 }
@@ -129,6 +129,13 @@ void Element::onSizeSelf() { }
 
 void Element::doLayout()
 {
+    // Padding: x=top, y=right, w=bottom, h=left
+
+    m_contentOffset = {
+        m_borderWidth + m_padding.h(),
+        m_borderWidth + m_padding.x(),
+    };
+
     if ( hasChildren() )
     {
         // Have children + no preferred size = size to our children
@@ -139,14 +146,14 @@ void Element::doLayout()
 
             for ( auto& c: m_children )
             {
-                c->setLocalPosition( m_contentOffset + Vector2i{ 0, y } );
+                c->setLocalPosition( Vector2i{ 0, y } );
                 c->doLayout();
 
                 auto s = c->outerSize();
                 y += s.y();
                 x = std::max( x, s.x() );
             }
-            
+
             m_actualContentSize = { x, y };
         }
 
@@ -163,14 +170,9 @@ void Element::doLayout()
         m_actualContentSize = m_preferredContentSize;
     }
 
-    m_contentOffset = {
-        m_borderWidth,
-        m_borderWidth,
-    };
-
     m_actualOuterSize = {
-        (2 * m_borderWidth) + m_actualContentSize.x(),
-        (2 * m_borderWidth) + m_actualContentSize.y(),
+        (2 * m_borderWidth) + m_padding.y() + m_padding.h() + m_actualContentSize.x(),
+        (2 * m_borderWidth) + m_padding.x() + m_padding.w() + m_actualContentSize.y(),
     };
 
 
@@ -181,7 +183,7 @@ void Element::recachePosition()
 {
     if ( hasParent() )
     {
-        m_globalPosition = m_localPosition + parent()->globalPosition();
+        m_globalPosition = m_localPosition + parent()->globalPosition() + parent()->m_contentOffset;
     }
     else
     {
@@ -280,7 +282,24 @@ void Element::removeBackgroundColour()
 void Element::setPadding( RectI const& rect )
 {
     m_padding = rect;
+
+    doLayout();
 }
+
+void Element::setPadding(int w)
+{
+    m_padding = { w, w, w, w };
+
+    doLayout();
+}
+
+void Element::setPadding(int top, int right, int bottom, int left)
+{
+    m_padding = { top, right, bottom, left };
+
+    doLayout();
+}
+
 
 void Element::generateBackground()
 {
@@ -300,4 +319,16 @@ void Element::generateBackground()
             m_backgroundSprite = createRectangle( m_actualOuterSize, m_bgColour );
         }
     }
+}
+
+void Element::setHidden( bool val )
+{
+    m_isHidden = val;
+
+    rootParent()->doLayout();
+}
+
+bool Element::isHidden() const
+{
+    return m_isHidden;
 }

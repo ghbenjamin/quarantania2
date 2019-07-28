@@ -11,7 +11,7 @@ TextNode::TextNode(TextStyle const &style)
     m_font = ResourceManager::get().getResource<FontResource>( "roboto-regular" )->get();
 }
 
-TextNode::TextNode() : TextNode({ Colour::Green })
+TextNode::TextNode() : TextNode({ Colour::Black })
 {
 
 }

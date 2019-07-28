@@ -38,6 +38,10 @@ public:
     void setPreferredContentSize( Vector2i size );
     void setMaximumOuterSize( Vector2i size );
 
+    // State
+    void setHidden( bool val );
+    bool isHidden() const;
+
     // Ids
     void setId( std::string const& id );
     void unsetId();
@@ -76,8 +80,10 @@ public:
     void removeBorder();
     void setBackgroundColour( Colour colour );
     void removeBackgroundColour();
-    void setPadding( RectI const& rect );
 
+    void setPadding( RectI const& rect );
+    void setPadding( int w );
+    void setPadding( int top, int right, int bottom, int left );
 
     UiManager* manager();
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
@@ -116,15 +122,15 @@ private:
     Vector2i m_preferredContentSize;
     Vector2i m_contentOffset;
 
-    // Styles
+    // State
+    bool m_isHidden;
 
+    // Styles
     bool m_hasBgColour;
     Colour m_bgColour;
-
     bool m_hasBorder;
     Colour m_borderColour;
     int m_borderWidth;
-
     RectI m_padding;
 
     Sprite m_backgroundSprite;

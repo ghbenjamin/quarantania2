@@ -35,6 +35,12 @@ Level::Level(Vector2i size, LevelContextPtr ctx)
 
 bool Level::input(IEvent &evt)
 {
+    if ( m_uiManager.input(evt) )
+    {
+        return true;
+    }
+
+
     switch ( evt.type )
     {
         case IEventType::KeyPress:
@@ -289,10 +295,10 @@ Vector2i Level::worldCoordsToScreen(Vector2i const &world)
 void Level::setupUI()
 {
     auto ptr = m_uiManager.createElement<UI::Label>( nullptr );
-    ptr->setLocalPosition( {20, 10} );
 
+    ptr->setLocalPosition( {10, 10} );
     ptr->setText("Hello, World!");
-
     ptr->setBorder( 2, Colour::Black );
-    ptr->setBackgroundColour( Colour::Magenta );
+    ptr->setBackgroundColour( Colour::Grey );
+    ptr->setPadding( 5 );
 }
