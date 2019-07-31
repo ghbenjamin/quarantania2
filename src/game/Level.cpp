@@ -10,6 +10,8 @@
 #include <ui/Label.h>
 #include <graphics/Primatives.h>
 #include <resource/ResourceManager.h>
+#include <ui/TextLog.h>
+#include <ui/Layout.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx)
 : m_ctx(std::move(ctx)), m_bounds(size), m_grid(size), m_tileCount(size.x() * size.y()), m_entFactory(this)
@@ -39,7 +41,6 @@ bool Level::input(IEvent &evt)
     {
         return true;
     }
-
 
     switch ( evt.type )
     {
@@ -301,4 +302,10 @@ void Level::setupUI()
     ptr->setBorder( 2, Colour::Black );
     ptr->setBackgroundColour( Colour::Grey );
     ptr->setPadding( 5 );
+
+    auto tlog = m_uiManager.createElement<UI::TextLog>(nullptr);
+    tlog->setLocalPosition( {0, 200} );
+    tlog->setPreferredContentSize({300, 200});
+
+    m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomRight, 4 );
 }

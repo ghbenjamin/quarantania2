@@ -26,6 +26,9 @@ const Colour Colour::Black = { 0, 0, 0, 255 };
 Colour::Colour(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
         : m_colour{r, g, b, a} {}
 
+Colour::Colour(uint8_t r, uint8_t g, uint8_t b)
+    : m_colour{r, g, b, 255} {}
+
 SDL_Color const &Colour::raw() const
 { return m_colour; }
 
@@ -52,3 +55,4 @@ Colour Colour::withAlpha(uint8_t val) const
     c.m_colour.a = val;
     return c;
 }
+
