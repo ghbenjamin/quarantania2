@@ -29,10 +29,10 @@ Level::Level(Vector2i size, LevelContextPtr ctx)
     registerSystem<Systems::FixedState>();
     registerSystem<Systems::FixedRenderState>();
 
-    m_camera.setViewportSize( ResourceManager::get().getWindow()->getSize() );
     m_camera.setBounds( m_bounds * 16 );
 
     setupUI();
+    layoutWindows();
 }
 
 bool Level::input(IEvent &evt)
@@ -51,8 +51,8 @@ bool Level::input(IEvent &evt)
         case IEventType::MouseMove:
             return handleMouseMoveInput(evt.mouseMove);
         case IEventType::WindowResize:
-            return handleWindowResize(evt.windowResize);
-
+            layoutWindows();
+            return true;
         default:
             return false;
     }
@@ -84,12 +84,6 @@ bool Level::handleMouseMoveInput(IEventMouseMove& evt)
 bool Level::handleMouseClickInput(IEventClick& evt)
 {
     return false;
-}
-
-bool Level::handleWindowResize(IEventWindowResize &evt)
-{
-    m_camera.setViewportSize( evt.screenSize );
-    return true;
 }
 
 void Level::render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
@@ -308,4 +302,11 @@ void Level::setupUI()
     tlog->setPreferredContentSize({300, 200});
 
     m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomRight, 4 );
+}
+
+void Level::layoutWindows()
+{
+    auto wndSize = ResourceManager::get().getWindow()->getSize();
+
+    m_camera.setViewportSize( wndSize );
 }

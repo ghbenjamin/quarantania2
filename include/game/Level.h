@@ -202,7 +202,6 @@ private:
     bool handleKeyInput(IEventKeyPress& evt);
     bool handleMouseMoveInput(IEventMouseMove& evt);
     bool handleMouseClickInput(IEventClick& evt);
-    bool handleWindowResize(IEventWindowResize& evt);
 
     // UI
 
@@ -212,10 +211,12 @@ private:
     void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void renderTiles(uint32_t ticks, RenderInterface &rInter);
 
+    void layoutWindows();
+
     Vector2i worldCoordsToScreen( Vector2i const& world );
     Vector2i screenCoordsToWorld( Vector2i const& screen );
 
-    // Player input
+    // Input
     void doMovePlayer( SDL_Keycode kcode );
 
 private:
