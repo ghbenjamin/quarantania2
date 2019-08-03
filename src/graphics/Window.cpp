@@ -19,6 +19,8 @@ Window::Window(std::string const &title, Vector2i bounds)
         SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE
     );
 
+    SDL_SetWindowMinimumSize( m_window, 800, 600 );
+
     Assert( m_window != nullptr);
 
     m_renderer = std::make_unique<Renderer>(m_window);

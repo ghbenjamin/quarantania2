@@ -318,18 +318,17 @@ void Level::layoutWindows()
     auto rframe = m_uiManager.withId("right-frame");
 
     int rframeW = 300;
-    int rframeH = wndSize.y() - 4;
+    int rframeH = wndSize.y();
 
     int levelW = wndSize.x() - rframeW;
     int levelH = wndSize.y() - tlog->outerSize().y();
 
-    int tlogW = levelW;
+    int tlogW = levelW + 2;
     int tlogH = 200;
 
-    tlog->setPreferredContentSize({tlogW, tlogH});
-    rframe->setPreferredContentSize({ rframeW, rframeH });
+    tlog->setPreferredOuterSize({tlogW, tlogH});
+    rframe->setPreferredOuterSize({ rframeW, rframeH });
 
     m_camera.setViewportSize({ levelW, levelH });
-
     m_uiManager.doLayout();
 }

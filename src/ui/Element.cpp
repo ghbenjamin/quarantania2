@@ -235,6 +235,17 @@ void Element::setPreferredContentSize(Vector2i size)
     rootParent()->doLayout();
 }
 
+void Element::setPreferredOuterSize(Vector2i size)
+{
+    m_preferredContentSize = {
+        size.x() - (2 * m_borderWidth) + m_padding.y() + m_padding.h(),
+        size.y() - (2 * m_borderWidth) + m_padding.x() + m_padding.w(),
+    };
+
+    rootParent()->doLayout();
+}
+
+
 void Element::setMaximumOuterSize(Vector2i size)
 {
     m_maximumOuterSize = size;
@@ -356,3 +367,4 @@ ElementPtr Element::descWithId(std::string const &id) const
 
     return out;
 }
+

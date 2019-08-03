@@ -36,6 +36,7 @@ public:
     Vector2i outerSize() const;
     Vector2i contentSize() const;
     void setPreferredContentSize( Vector2i size );
+    void setPreferredOuterSize( Vector2i size );
     void setMaximumOuterSize( Vector2i size );
 
     // State
