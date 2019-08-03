@@ -14,7 +14,7 @@ namespace UI
 
 struct WindowAlignment
 {
-    WindowAlignment(const ElementPtr &element, Alignment alignment, int offset);
+    WindowAlignment(ElementPtr element, Alignment alignment, int offset);
     ~WindowAlignment() = default;
 
     ElementPtr element;
@@ -57,9 +57,7 @@ public:
     void alignElementToWindow( const ElementPtr& element, UI::Alignment alignment, int offset = 0);
     void unalignElementToWindow( ElementPtr element );
 
-
-private:
-    void onWindowResize();
+    ElementPtr withId( std::string const& id );
 
 private:
 

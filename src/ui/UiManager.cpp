@@ -5,6 +5,8 @@
 #include <utils/Logging.h>
 #include <resource/ResourceManager.h>
 
+#include <utility>
+
 using namespace UI;
 
 bool UiManager::input(IEvent &evt)
@@ -18,7 +20,6 @@ bool UiManager::input(IEvent &evt)
         case IEventType::MouseMove:
             break;
         case IEventType::WindowResize:
-            onWindowResize();
             break;
     }
 
@@ -46,7 +47,7 @@ void UiManager::doLayout()
 
 void UiManager::deleteElement(ElementPtr element)
 {
-
+    AssertAlways();
 }
 
 void UiManager::alignElementToWindow(const ElementPtr& element, UI::Alignment alignment, int offset)
@@ -66,11 +67,31 @@ void UiManager::unalignElementToWindow(ElementPtr element)
                                               }), m_windowAlignments.end());
 }
 
-void UiManager::onWindowResize()
+ElementPtr UiManager::withId(std::string const &id)
 {
-    doLayout();
+    auto out = ElementPtr();
+
+    for ( auto& r : m_roots )
+    {
+        if ( r->id() == id )
+        {
+            out = r;
+            break;
+        }
+        else
+        {
+            auto ptr = r->descWithId(id);
+            if (ptr)
+            {
+                out = ptr;
+                break;
+            }
+        }
+    }
+
+    return out;
 }
 
-WindowAlignment::WindowAlignment(const ElementPtr &element, Alignment alignment, int offset)
-: element(element), alignment(alignment), offset(offset)
+WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, int offset)
+: element(std::move(element)), alignment(alignment), offset(offset)
 {}

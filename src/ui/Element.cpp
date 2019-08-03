@@ -26,12 +26,12 @@ void Element::unsetId()
     m_id = "";
 }
 
-std::string_view Element::id()
+std::string const& Element::id() const
 {
     return m_id;
 }
 
-bool Element::hasId()
+bool Element::hasId() const
 {
     return m_id.empty();
 }
@@ -331,4 +331,28 @@ void Element::setHidden( bool val )
 bool Element::isHidden() const
 {
     return m_isHidden;
+}
+
+ElementPtr Element::descWithId(std::string const &id) const
+{
+    auto out = ElementPtr();
+    for ( auto const& child : m_children )
+    {
+        if ( child->id() == id )
+        {
+            out = child;
+            break;
+        }
+        else
+        {
+            auto ptr = child->descWithId(id);
+            if (ptr)
+            {
+                out = ptr;
+                break;
+            }
+        }
+    }
+
+    return out;
 }

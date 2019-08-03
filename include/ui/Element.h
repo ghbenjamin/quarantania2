@@ -45,8 +45,8 @@ public:
     // Ids
     void setId( std::string const& id );
     void unsetId();
-    std::string_view id();
-    bool hasId();
+    std::string const& id() const;
+    bool hasId() const;
 
     // Classes
     void addClass( std::string const& c );
@@ -74,6 +74,8 @@ public:
 
         doLayout();
     }
+
+    ElementPtr descWithId( std::string const& id ) const;
 
     // Styling
     void setBorder( int width, Colour colour );

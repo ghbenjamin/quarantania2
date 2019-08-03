@@ -290,23 +290,46 @@ Vector2i Level::worldCoordsToScreen(Vector2i const &world)
 void Level::setupUI()
 {
     auto ptr = m_uiManager.createElement<UI::Label>( nullptr );
-
-    ptr->setLocalPosition( {10, 10} );
-    ptr->setText("Hello, World!");
-    ptr->setBorder( 2, Colour::Black );
-    ptr->setBackgroundColour( Colour::Grey );
-    ptr->setPadding( 5 );
+//
+//    ptr->setLocalPosition( {10, 10} );
+//    ptr->setText("Hello, World!");
+//    ptr->setBorder( 2, Colour::Black );
+//    ptr->setBackgroundColour( Colour::Grey );
+//    ptr->setPadding( 5 );
 
     auto tlog = m_uiManager.createElement<UI::TextLog>(nullptr);
-    tlog->setLocalPosition( {0, 200} );
     tlog->setPreferredContentSize({300, 200});
+    tlog->setId("global-text-log");
 
-    m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomRight, 4 );
+    auto rframe = m_uiManager.createElement<UI::Element>(nullptr);
+    rframe->setId("right-frame");
+    rframe->setBorder( 2, Colour::Black );
+    rframe->setBackgroundColour( Colour::Grey );
+
+    m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomLeft, 0 );
+    m_uiManager.alignElementToWindow( rframe, UI::Alignment::CentreRight, 0 );
 }
 
 void Level::layoutWindows()
 {
     auto wndSize = ResourceManager::get().getWindow()->getSize();
 
-    m_camera.setViewportSize( wndSize );
+    auto tlog = m_uiManager.withId("global-text-log");
+    auto rframe = m_uiManager.withId("right-frame");
+
+    int rframeW = 300;
+    int rframeH = wndSize.y() - 4;
+
+    int levelW = wndSize.x() - rframeW;
+    int levelH = wndSize.y() - tlog->outerSize().y();
+
+    int tlogW = levelW;
+    int tlogH = 200;
+
+    tlog->setPreferredContentSize({tlogW, tlogH});
+    rframe->setPreferredContentSize({ rframeW, rframeH });
+
+    m_camera.setViewportSize({ levelW, levelH });
+
+    m_uiManager.doLayout();
 }
