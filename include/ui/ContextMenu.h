@@ -6,11 +6,21 @@
 namespace UI
 {
 
+
+class ContextMenuItem : public Element
+{
+public:
+    ContextMenuItem( std::string const& label );
+    ~ContextMenuItem() = default;
+};
+
+
+
 class ContextMenu : public Element
 {
 public:
 
-    explicit ContextMenu();
+    ContextMenu();
     ~ContextMenu() override = default;
 
 private:
