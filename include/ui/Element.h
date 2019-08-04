@@ -5,6 +5,7 @@
 #include <set>
 #include <utils/Containers.h>
 #include <ui/Defines.h>
+#include <ui/Layout.h>
 #include <resource/Sprite.h>
 
 class RenderInterface;
@@ -35,9 +36,17 @@ public:
     // Sizing
     Vector2i outerSize() const;
     Vector2i contentSize() const;
+    Vector2i preferredSize() const;
     void setPreferredContentSize( Vector2i size );
     void setPreferredOuterSize( Vector2i size );
     void setMaximumOuterSize( Vector2i size );
+
+    // Layout
+    template <typename LayoutType, typename... Args>
+    void setLayout( Args... args )
+    {
+        m_layout = std::make_unique<LayoutType>( std::forward(args)... );
+    }
 
     // State
     void setHidden( bool val );
@@ -91,11 +100,12 @@ public:
     UiManager* manager();
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
+    void doLayout();
+
 protected:
 
     void onMove();
     void onSize();
-    void doLayout();
 
 private:
 
@@ -127,6 +137,9 @@ private:
 
     // State
     bool m_isHidden;
+
+    // Layout
+    std::unique_ptr<UI::ElementLayout> m_layout;
 
     // Styles
     bool m_hasBgColour;

@@ -99,10 +99,7 @@ public:
         return { static_cast<K>(m_x), static_cast<K>(m_y) };
     }
 
-    static const Vector2<T> Null()
-    {
-        return {0, 0};
-    }
+    static inline const Vector2<T> Null = {0, 0};
 
     static const Vector2<T> Unit( int i )
     {

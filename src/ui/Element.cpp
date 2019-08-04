@@ -13,7 +13,8 @@ Element::Element() :
     m_hasBgColour(false), m_hasBorder(false),
     m_borderWidth(0), m_isHidden(false)
 {
-
+    // Sensible default
+    setLayout<UI::VerticalLayout>();
 }
 
 void Element::setId(std::string const &id)
@@ -138,30 +139,8 @@ void Element::doLayout()
 
     if ( hasChildren() )
     {
-        // Have children + no preferred size = size to our children
-        if ( m_preferredContentSize == Vector2i::Null() )
-        {
-            int x = 0;
-            int y = 0;
-
-            for ( auto& c: m_children )
-            {
-                c->setLocalPosition( Vector2i{ 0, y } );
-                c->doLayout();
-
-                auto s = c->outerSize();
-                y += s.y();
-                x = std::max( x, s.x() );
-            }
-
-            m_actualContentSize = { x, y };
-        }
-
-        // Have children + have a preferred size = panic for now
-        else
-        {
-            AssertAlways();
-        }
+        Assert( !!m_layout );
+        m_actualContentSize = m_layout->doLayout(this);
     }
 
     // No children = size to our preferred size
@@ -368,3 +347,7 @@ ElementPtr Element::descWithId(std::string const &id) const
     return out;
 }
 
+Vector2i Element::preferredSize() const
+{
+    return m_preferredContentSize;
+}

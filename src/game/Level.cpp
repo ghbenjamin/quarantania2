@@ -290,12 +290,12 @@ Vector2i Level::worldCoordsToScreen(Vector2i const &world)
 void Level::setupUI()
 {
     auto ptr = m_uiManager.createElement<UI::Label>( nullptr );
-//
-//    ptr->setLocalPosition( {10, 10} );
-//    ptr->setText("Hello, World!");
-//    ptr->setBorder( 2, Colour::Black );
-//    ptr->setBackgroundColour( Colour::Grey );
-//    ptr->setPadding( 5 );
+
+    ptr->setLocalPosition( {10, 10} );
+    ptr->setText("Hello, World!");
+    ptr->setBorder( 2, Colour::Black );
+    ptr->setBackgroundColour( Colour::Grey );
+    ptr->setPadding( 5 );
 
     auto tlog = m_uiManager.createElement<UI::TextLog>(nullptr);
     tlog->setPreferredContentSize({300, 200});

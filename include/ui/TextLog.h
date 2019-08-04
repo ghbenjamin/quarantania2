@@ -14,10 +14,14 @@ public:
 
     void addLine( std::string const& line );
 
+    void scrollToPercent( float pos );
+
 private:
 
     int m_maxLines;
     int m_maxVisibleLines;
+
+    float m_scrollPosition;
 
     std::queue<std::string> m_lines;
 

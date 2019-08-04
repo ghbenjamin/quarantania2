@@ -6,7 +6,7 @@ using namespace UI;
 
 Label::Label()
 {
-    m_textNode = manager()->createElement<TextNode>( this );
+    m_textNode = manager()->createElement<TextNode>(this);
 }
 
 void Label::setText(std::string const &text)
