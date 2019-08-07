@@ -19,6 +19,7 @@ class Element;
 
 using ElementPtr = std::shared_ptr<Element>;
 using ElementWPtr = std::weak_ptr<Element>;
+using ElementList = std::vector<ElementPtr>;
 
 class Element
 {
@@ -40,6 +41,8 @@ public:
     void setPreferredContentSize( Vector2i size );
     void setPreferredOuterSize( Vector2i size );
     void setMaximumOuterSize( Vector2i size );
+
+    RectI const& bounds() const;
 
     // Layout
     template <typename LayoutType, typename... Args>
@@ -102,6 +105,9 @@ public:
 
     void doLayout();
 
+    void holdLayout();
+    void releaseLayout();
+
 protected:
 
     void onMove();
@@ -134,12 +140,14 @@ private:
     Vector2i m_maximumOuterSize;
     Vector2i m_preferredContentSize;
     Vector2i m_contentOffset;
+    RectI m_bounds;
 
     // State
     bool m_isHidden;
 
     // Layout
     std::unique_ptr<UI::ElementLayout> m_layout;
+    bool m_layoutHeld;
 
     // Styles
     bool m_hasBgColour;

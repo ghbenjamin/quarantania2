@@ -15,9 +15,14 @@ bool UiManager::input(IEvent &evt)
     {
         case IEventType::KeyPress:
             break;
-        case IEventType::MouseClick:
+        case IEventType::MouseDown:
+            handleMouseDown(evt.mouseDown);
+            break;
+        case IEventType::MouseUp:
+            handleMouseUp(evt.mouseUp);
             break;
         case IEventType::MouseMove:
+            handleMouseMove(evt.mouseMove);
             break;
         case IEventType::WindowResize:
             break;
@@ -90,6 +95,171 @@ ElementPtr UiManager::withId(std::string const &id)
     }
 
     return out;
+}
+
+UI::ElementList UiManager::windowsAtPoint(Vector2i pos) const
+{
+    std::vector<ElementPtr> out;
+    ElementPtr curr;
+    ElementPtr next;
+
+    for ( auto const& root : m_roots )
+    {
+        if ( root->bounds().contains(pos) )
+        {
+            curr = root;
+            while ( curr )
+            {
+                out.push_back(curr);
+
+                if ( !curr->hasChildren() )
+                {
+                    break;
+                }
+                else
+                {
+                    for ( auto const& child : curr->children() )
+                    {
+                        if ( child->bounds().contains(pos) )
+                        {
+                            next = child;
+                            break;
+                        }
+                    }
+                }
+
+                if ( next )
+                {
+                    curr = next;
+                    next = ElementPtr();
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            break;
+        }
+    }
+
+    return out;
+}
+
+std::tuple<ElementList, ElementList>
+UiManager::partitionWindowLists(ElementList const &lhs, ElementList const &rhs) const
+{
+    auto it_lhs = lhs.begin();
+    auto it_rhs = rhs.begin();
+
+    for ( ; it_lhs != lhs.end() && it_rhs != rhs.end(); it_lhs++, it_rhs++ )
+    {
+        if ( *it_lhs != *it_rhs )
+        {
+            break;
+        }
+    }
+
+    auto exits = ElementList{ it_lhs, lhs.end() };
+    auto enters = ElementList{ it_rhs, rhs.end() };
+
+    return std::make_tuple( exits, enters );
+}
+
+bool UiManager::handleMouseDown(IEventMouseDown evt)
+{
+    auto elems = windowsAtPoint(evt.screenPos);
+
+    if ( elems.empty() )
+    {
+        return false;
+    }
+    else
+    {
+        UEvent uevent;
+        uevent.type = UEventType::MouseDown;
+        uevent.targetElement = elems.back();
+        uevent.mouseButtonEvent.button = evt.button;
+        uevent.mouseButtonEvent.pos = evt.screenPos;
+        acceptUEvent(uevent);
+
+        m_mouseDownElem = elems.back();
+        return true;
+    }
+}
+
+bool UiManager::handleMouseUp(IEventMouseUp evt)
+{
+    auto elems = windowsAtPoint(evt.screenPos);
+
+    if ( elems.empty() )
+    {
+        m_mouseDownElem = ElementPtr();
+        return false;
+    }
+    else
+    {
+        UEvent uevent;
+        uevent.type = UEventType::MouseUp;
+        uevent.targetElement = elems.back();
+        uevent.mouseButtonEvent.button = evt.button;
+        uevent.mouseButtonEvent.pos = evt.screenPos;
+        acceptUEvent(uevent);
+
+        if ( elems.back() == m_mouseDownElem )
+        {
+            UEvent clickEvent;
+            clickEvent.type = UEventType::Click;
+            clickEvent.targetElement = elems.back();
+            clickEvent.mouseButtonEvent.button = evt.button;
+            clickEvent.mouseButtonEvent.pos = evt.screenPos;
+            acceptUEvent(clickEvent);
+        }
+
+        m_mouseDownElem = ElementPtr();
+        return true;
+    }
+}
+
+bool UiManager::handleMouseMove(IEventMouseMove evt)
+{
+    auto elems = windowsAtPoint(evt.screenPos);
+    auto [exits, enters] = partitionWindowLists(m_hoveredElems, elems);
+
+    m_hoveredElems = elems;
+
+    if ( !exits.empty() )
+    {
+        UEvent exitEvent;
+        exitEvent.type = UEventType::MouseOut;
+        exitEvent.mouseMoveEvent.pos = evt.screenPos;
+
+        for ( auto const& w: exits )
+        {
+            exitEvent.targetElement = w;
+            acceptUEvent(exitEvent);
+        }
+    }
+
+    if ( !enters.empty() )
+    {
+        UEvent enterEvent;
+        enterEvent.type = UEventType::MouseIn;
+        enterEvent.mouseMoveEvent.pos = evt.screenPos;
+
+        for ( auto const& w: enters )
+        {
+            enterEvent.targetElement = w;
+            acceptUEvent(enterEvent);
+        }
+    }
+
+    return true;
+}
+
+void UiManager::acceptUEvent(UEvent &evt)
+{
+    //Logging::log( "{}\n", (int)evt.type );
 }
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, int offset)

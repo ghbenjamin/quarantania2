@@ -6,21 +6,32 @@
 namespace UI
 {
 
+namespace Internal
+{
 
 class ContextMenuItem : public Element
 {
 public:
-    ContextMenuItem( std::string const& label );
-    ~ContextMenuItem() = default;
+    explicit ContextMenuItem( std::string const& label );
+    ~ContextMenuItem() override = default;
 };
 
+class ContextMenuSpacer : public Element
+{
+public:
+    ContextMenuSpacer();
+    ~ContextMenuSpacer() override = default;
+};
 
+}
+
+
+using ContextMenuList = std::vector<std::string>;
 
 class ContextMenu : public Element
 {
 public:
-
-    ContextMenu();
+    explicit ContextMenu( ContextMenuList const& items );
     ~ContextMenu() override = default;
 
 private:

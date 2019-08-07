@@ -26,7 +26,7 @@ class InputInterface;
 struct IEvent;
 struct IEventKeyPress;
 struct IEventMouseMove;
-struct IEventClick;
+struct IEventMouseDown;
 struct IEventWindowResize;
 class LevelFactory;
 
@@ -201,7 +201,7 @@ private:
 
     bool handleKeyInput(IEventKeyPress& evt);
     bool handleMouseMoveInput(IEventMouseMove& evt);
-    bool handleMouseClickInput(IEventClick& evt);
+    bool handleMouseClickInput(IEventMouseDown& evt);
 
     // UI
 

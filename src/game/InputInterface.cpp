@@ -45,8 +45,8 @@ void InputInterface::input(SDL_Event &sdlEvent)
             Vector2i screenPos = { sdlEvent.button.x, sdlEvent.button.y };
 
             IEvent evt;
-            evt.type = IEventType::MouseClick;
-            evt.mouseClick = {
+            evt.type = IEventType::MouseDown;
+            evt.mouseDown = {
                 screenPos,
                 sdlEvent.button.button
             };
@@ -57,6 +57,16 @@ void InputInterface::input(SDL_Event &sdlEvent)
 
         case SDL_MOUSEBUTTONUP:
         {
+            Vector2i screenPos = { sdlEvent.button.x, sdlEvent.button.y };
+
+            IEvent evt;
+            evt.type = IEventType::MouseUp;
+            evt.mouseDown = {
+                screenPos,
+                sdlEvent.button.button
+            };
+
+            m_queue.push_back(evt);
             break;
         }
 
@@ -67,7 +77,7 @@ void InputInterface::input(SDL_Event &sdlEvent)
             IEvent evt;
             evt.type = IEventType::MouseMove;
 
-            evt.mouseMove = {
+            evt.mouseMove = IEventMouseMove{
                 screenPos,
             };
 
@@ -84,7 +94,7 @@ void InputInterface::input(SDL_Event &sdlEvent)
                     IEvent evt;
                     evt.type = IEventType::WindowResize;
 
-                    evt.windowResize = Vector2i{ sdlEvent.window.data1, sdlEvent.window.data2 };
+                    evt.windowResize = IEventWindowResize{ Vector2i{ sdlEvent.window.data1, sdlEvent.window.data2 }};
 
                     m_queue.push_back(evt);
                     break;
@@ -135,13 +145,13 @@ IEventKeyPress::IEventKeyPress(SDL_Keycode key)
 
 }
 
-IEventClick::IEventClick()
+IEventMouseDown::IEventMouseDown()
 : screenPos{0, 0}, button(-1)
 {
 
 }
 
-IEventClick::IEventClick(Vector2i sp, int btn)
+IEventMouseDown::IEventMouseDown(Vector2i sp, int btn)
 : screenPos(sp), button(btn)
 {
 
@@ -172,6 +182,20 @@ IEventWindowResize::IEventWindowResize()
 
 IEventWindowResize::IEventWindowResize(Vector2i size)
 : screenSize(size)
+{
+
+}
+
+IEventMouseUp::IEventMouseUp()
+    : screenPos{0, 0}, button(-1)
+
+{
+
+}
+
+IEventMouseUp::IEventMouseUp(Vector2i sp, int btn)
+    : screenPos(sp), button(btn)
+
 {
 
 }

@@ -4,6 +4,8 @@
 
 #include <ui/Element.h>
 #include <ui/Layout.h>
+#include <ui/UEvent.h>
+#include <game/InputInterface.h>
 
 struct IEvent;
 class InputInterface;
@@ -59,10 +61,23 @@ public:
 
     ElementPtr withId( std::string const& id );
 
-private:
+    ElementList windowsAtPoint( Vector2i pos ) const;
+    std::tuple<ElementList, ElementList> partitionWindowLists( ElementList const& lhs, ElementList const& rhs ) const;
 
+
+private:
+    bool handleMouseMove( IEventMouseMove evt );
+    bool handleMouseDown( IEventMouseDown evt );
+    bool handleMouseUp( IEventMouseUp evt );
+
+    void acceptUEvent( UEvent& evt );
+
+private:
     std::vector<ElementPtr> m_roots;
     std::vector<WindowAlignment> m_windowAlignments;
+
+    ElementList m_hoveredElems;
+    ElementPtr m_mouseDownElem;
 
 };
 

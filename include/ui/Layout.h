@@ -25,14 +25,20 @@ class Element;
 class ElementLayout
 {
 public:
+
+    ElementLayout() = default;
+    virtual ~ElementLayout() = default;
+
     virtual Vector2i doLayout( Element* ptr ) = 0;
 };
+
 
 class VerticalLayout : public ElementLayout
 {
 public:
     Vector2i doLayout(Element *ptr) override;
 };
+
 
 class HorizontalLayout : public ElementLayout
 {

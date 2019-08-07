@@ -12,6 +12,7 @@
 #include <resource/ResourceManager.h>
 #include <ui/TextLog.h>
 #include <ui/Layout.h>
+#include <ui/ContextMenu.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx)
 : m_ctx(std::move(ctx)), m_bounds(size), m_grid(size), m_tileCount(size.x() * size.y()), m_entFactory(this)
@@ -46,8 +47,8 @@ bool Level::input(IEvent &evt)
     {
         case IEventType::KeyPress:
             return handleKeyInput(evt.keyPress);
-        case IEventType::MouseClick:
-            return handleMouseClickInput(evt.mouseClick);
+        case IEventType::MouseDown:
+            return handleMouseClickInput(evt.mouseDown);
         case IEventType::MouseMove:
             return handleMouseMoveInput(evt.mouseMove);
         case IEventType::WindowResize:
@@ -81,7 +82,7 @@ bool Level::handleMouseMoveInput(IEventMouseMove& evt)
     return false;
 }
 
-bool Level::handleMouseClickInput(IEventClick& evt)
+bool Level::handleMouseClickInput(IEventMouseDown& evt)
 {
     return false;
 }
@@ -289,13 +290,13 @@ Vector2i Level::worldCoordsToScreen(Vector2i const &world)
 
 void Level::setupUI()
 {
-    auto ptr = m_uiManager.createElement<UI::Label>( nullptr );
-
-    ptr->setLocalPosition( {10, 10} );
-    ptr->setText("Hello, World!");
-    ptr->setBorder( 2, Colour::Black );
-    ptr->setBackgroundColour( Colour::Grey );
-    ptr->setPadding( 5 );
+//    auto ptr = m_uiManager.createElement<UI::Label>( nullptr );
+//
+//    ptr->setLocalPosition( {10, 10} );
+//    ptr->setText("Hello, World!");
+//    ptr->setBorder( 2, Colour::Black );
+//    ptr->setBackgroundColour( Colour::Grey );
+//    ptr->setPadding( 5 );
 
     auto tlog = m_uiManager.createElement<UI::TextLog>(nullptr);
     tlog->setPreferredContentSize({300, 200});
@@ -306,8 +307,15 @@ void Level::setupUI()
     rframe->setBorder( 2, Colour::Black );
     rframe->setBackgroundColour( Colour::Grey );
 
+    UI::ContextMenuList cml = {
+        "Hello", "World", "", "a", "b", "c", "", "d"
+    };
+
+    auto cmenu = m_uiManager.createElement<UI::ContextMenu>(nullptr, cml);
+
     m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomLeft, 0 );
     m_uiManager.alignElementToWindow( rframe, UI::Alignment::CentreRight, 0 );
+    m_uiManager.alignElementToWindow( cmenu, UI::Alignment::TopLeft, 0 );
 }
 
 void Level::layoutWindows()

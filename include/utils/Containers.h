@@ -237,7 +237,7 @@ public:
         return SDL_HasIntersection( &m_rect, &other.raw() ) == SDL_TRUE;
     }
 
-    bool contains( Vector2<T> const& point )
+    bool contains( Vector2<T> const& point ) const
     {
         SDL_Point p = { point.x(), point.y() };
         return SDL_PointInRect( &p, &m_rect ) == SDL_TRUE;

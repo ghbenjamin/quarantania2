@@ -11,7 +11,7 @@ using namespace UI;
 Element::Element() :
     m_parent(nullptr), m_manager(nullptr),
     m_hasBgColour(false), m_hasBorder(false),
-    m_borderWidth(0), m_isHidden(false)
+    m_borderWidth(0), m_isHidden(false), m_layoutHeld(false)
 {
     // Sensible default
     setLayout<UI::VerticalLayout>();
@@ -154,6 +154,7 @@ void Element::doLayout()
         (2 * m_borderWidth) + m_padding.x() + m_padding.w() + m_actualContentSize.y(),
     };
 
+    m_bounds = RectI{ m_globalPosition, m_actualOuterSize };
 
     generateBackground();
 }
@@ -350,4 +351,20 @@ ElementPtr Element::descWithId(std::string const &id) const
 Vector2i Element::preferredSize() const
 {
     return m_preferredContentSize;
+}
+
+void Element::holdLayout()
+{
+    m_layoutHeld = true;
+}
+
+void Element::releaseLayout()
+{
+    m_layoutHeld = false;
+    doLayout();
+}
+
+RectI const &Element::bounds() const
+{
+    return m_bounds;
 }

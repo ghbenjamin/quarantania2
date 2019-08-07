@@ -9,7 +9,8 @@
 enum class IEventType
 {
     KeyPress,
-    MouseClick,
+    MouseDown,
+    MouseUp,
     MouseMove,
 
     WindowResize
@@ -23,19 +24,29 @@ struct IEventKeyPress
     SDL_Keycode keyCode;
 };
 
-struct IEventClick
+struct IEventMouseDown
 {
-    IEventClick();
-    IEventClick(Vector2i sp, int btn);
+    IEventMouseDown();
+    IEventMouseDown(Vector2i sp, int btn);
 
     Vector2i screenPos;
     int button;
 };
 
+struct IEventMouseUp
+{
+    IEventMouseUp();
+    IEventMouseUp(Vector2i sp, int btn);
+
+    Vector2i screenPos;
+    int button;
+};
+
+
 struct IEventMouseMove
 {
     IEventMouseMove();
-    IEventMouseMove(Vector2i sp);
+    explicit IEventMouseMove(Vector2i sp);
 
     Vector2i screenPos;
 };
@@ -43,7 +54,7 @@ struct IEventMouseMove
 struct IEventWindowResize
 {
     IEventWindowResize();
-    IEventWindowResize(Vector2i size);
+    explicit IEventWindowResize(Vector2i size);
 
     Vector2i screenSize;
 };
@@ -59,7 +70,8 @@ struct IEvent
     union
     {
         IEventKeyPress keyPress;
-        IEventClick mouseClick;
+        IEventMouseDown mouseDown;
+        IEventMouseUp mouseUp;
         IEventMouseMove mouseMove;
 
         IEventWindowResize windowResize;
