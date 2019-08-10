@@ -6,6 +6,7 @@
 #include <utils/Containers.h>
 #include <ui/Defines.h>
 #include <ui/Layout.h>
+#include <ui/UEvent.h>
 #include <resource/Sprite.h>
 
 class RenderInterface;
@@ -100,6 +101,12 @@ public:
     void setPadding( int w );
     void setPadding( int top, int right, int bottom, int left );
 
+    // Events
+
+    void addEventCallback( UEventType type, UEventCallback const& callback );
+    void acceptEvent(UEvent& evt);
+
+
     UiManager* manager();
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
@@ -157,8 +164,11 @@ private:
     int m_borderWidth;
     RectI m_padding;
 
-    Sprite m_backgroundSprite;
+    // Events
+    std::unordered_multimap<UEventType, UEventCallback> m_callbacks;
 
+
+    Sprite m_backgroundSprite;
     std::vector<ElementPtr> m_children;
 };
 

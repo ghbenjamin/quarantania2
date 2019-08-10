@@ -70,8 +70,6 @@ private:
     bool handleMouseDown( IEventMouseDown evt );
     bool handleMouseUp( IEventMouseUp evt );
 
-    void acceptUEvent( UEvent& evt );
-
 private:
     std::vector<ElementPtr> m_roots;
     std::vector<WindowAlignment> m_windowAlignments;

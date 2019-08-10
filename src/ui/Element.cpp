@@ -368,3 +368,18 @@ RectI const &Element::bounds() const
 {
     return m_bounds;
 }
+
+void Element::acceptEvent(UEvent &evt)
+{
+    auto range = m_callbacks.equal_range(evt.type);
+
+    for ( auto it = range.first; it != range.second; it++ )
+    {
+        it->second(evt);
+    }
+}
+
+void Element::addEventCallback(UEventType type, UEventCallback const &callback)
+{
+    m_callbacks.emplace( type, callback );
+}

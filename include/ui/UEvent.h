@@ -45,6 +45,8 @@ struct UEvent
     UEventType type;
     std::shared_ptr<Element> targetElement;
 
+    bool stopPropagation = false;
+
     union
     {
         UMouseButtonEvent mouseButtonEvent;
@@ -52,5 +54,7 @@ struct UEvent
         UKeyEvent keyEvent;
     };
 };
+
+using UEventCallback = std::function<void(UEvent&)>;
 
 }

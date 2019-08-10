@@ -67,9 +67,10 @@ void UiManager::alignElementToWindow(const ElementPtr& element, UI::Alignment al
 void UiManager::unalignElementToWindow(ElementPtr element)
 {
     m_windowAlignments.erase( std::remove_if( m_windowAlignments.begin(), m_windowAlignments.end(),
-                                              [&](auto const& item) {
-                                                  return item.element == element;
-                                              }), m_windowAlignments.end());
+          [&](auto const& item) {
+              return item.element == element;
+          }), m_windowAlignments.end()
+    );
 }
 
 ElementPtr UiManager::withId(std::string const &id)
@@ -181,7 +182,8 @@ bool UiManager::handleMouseDown(IEventMouseDown evt)
         uevent.targetElement = elems.back();
         uevent.mouseButtonEvent.button = evt.button;
         uevent.mouseButtonEvent.pos = evt.screenPos;
-        acceptUEvent(uevent);
+
+        elems.back()->acceptEvent(uevent);
 
         m_mouseDownElem = elems.back();
         return true;
@@ -204,16 +206,26 @@ bool UiManager::handleMouseUp(IEventMouseUp evt)
         uevent.targetElement = elems.back();
         uevent.mouseButtonEvent.button = evt.button;
         uevent.mouseButtonEvent.pos = evt.screenPos;
-        acceptUEvent(uevent);
+
+        elems.back()->acceptEvent(uevent);
 
         if ( elems.back() == m_mouseDownElem )
         {
             UEvent clickEvent;
             clickEvent.type = UEventType::Click;
-            clickEvent.targetElement = elems.back();
             clickEvent.mouseButtonEvent.button = evt.button;
             clickEvent.mouseButtonEvent.pos = evt.screenPos;
-            acceptUEvent(clickEvent);
+
+            for ( auto rit = elems.rbegin(); rit != elems.rend(); rit++ )
+            {
+                clickEvent.targetElement = *rit;
+                (*rit)->acceptEvent(clickEvent);
+
+                if (uevent.stopPropagation)
+                {
+                    break;
+                }
+            }
         }
 
         m_mouseDownElem = ElementPtr();
@@ -237,7 +249,7 @@ bool UiManager::handleMouseMove(IEventMouseMove evt)
         for ( auto const& w: exits )
         {
             exitEvent.targetElement = w;
-            acceptUEvent(exitEvent);
+            w->acceptEvent(exitEvent);
         }
     }
 
@@ -250,16 +262,11 @@ bool UiManager::handleMouseMove(IEventMouseMove evt)
         for ( auto const& w: enters )
         {
             enterEvent.targetElement = w;
-            acceptUEvent(enterEvent);
+            w->acceptEvent(enterEvent);
         }
     }
 
     return true;
-}
-
-void UiManager::acceptUEvent(UEvent &evt)
-{
-    //Logging::log( "{}\n", (int)evt.type );
 }
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, int offset)
