@@ -215,6 +215,8 @@ private:
 
     Vector2i worldCoordsToScreen( Vector2i const& world );
     Vector2i screenCoordsToWorld( Vector2i const& screen );
+    Vector2i worldCoordsToTile( Vector2i const& world);
+    Vector2i screenCoordsToTile( Vector2i const& screen);
 
     // Input
     void doMovePlayer( SDL_Keycode kcode );

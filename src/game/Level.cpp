@@ -84,6 +84,39 @@ bool Level::handleMouseMoveInput(IEventMouseMove& evt)
 
 bool Level::handleMouseClickInput(IEventMouseDown& evt)
 {
+    static constexpr int LEFT_MOUSE_BUTTON = 1;
+    static constexpr int RIGHT_MOUSE_BUTTON = 3;
+
+    switch (evt.button)
+    {
+        case LEFT_MOUSE_BUTTON:
+        {
+            break;
+        }
+        case RIGHT_MOUSE_BUTTON:
+        {
+            auto tileCoords = screenCoordsToTile(evt.screenPos);
+            auto ents = m_grid.entitiesAtTile( tileCoords );
+            if ( !ents.empty() )
+            {
+                // TODO: Work out which entities are here. Work out the possible actions for each.
+                // Display these actions here, and respond accordingly to the chosen action.
+
+                UI::ContextMenuList cml = {
+                    "Hello", "World", "I", "am", "an", "ENTITY"
+                };
+
+                m_uiManager.openContextMenu(cml, evt.screenPos, [](auto arg) {
+                    // TODO: Do something other than parrot back the chosen item 
+                    Logging::log( arg );
+                });
+            }
+            break;
+        }
+        default:
+            break;
+    }
+
     return false;
 }
 
@@ -307,13 +340,13 @@ void Level::setupUI()
     rframe->setBorder( 2, Colour::Black );
     rframe->setBackgroundColour( Colour::Grey );
 
-    UI::ContextMenuList cml = {
-        "Hello", "World", "", "a", "b", "c", "", "d"
-    };
-
-    m_uiManager.openContextMenu(cml, {100, 100}, [](auto arg) {
-        Logging::log( arg );
-    });
+//    UI::ContextMenuList cml = {
+//        "Hello", "World", "", "a", "b", "c", "", "d"
+//    };
+//
+//    m_uiManager.openContextMenu(cml, {100, 100}, [](auto arg) {
+//        Logging::log( arg );
+//    });
 
     m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomLeft, 0 );
     m_uiManager.alignElementToWindow( rframe, UI::Alignment::CentreRight, 0 );
@@ -340,4 +373,18 @@ void Level::layoutWindows()
 
     m_camera.setViewportSize({ levelW, levelH });
     m_uiManager.doLayout();
+}
+
+Vector2i Level::worldCoordsToTile(Vector2i const& world)
+{
+    return {
+        world.x() / 16,
+        world.y() / 16
+    };
+}
+
+Vector2i Level::screenCoordsToTile(Vector2i const &screen)
+{
+    auto world = screenCoordsToWorld(screen);
+    return worldCoordsToTile(world);
 }
