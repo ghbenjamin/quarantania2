@@ -2,9 +2,13 @@
 #include <ui/UiManager.h>
 #include <utils/Logging.h>
 
-UI::ContextMenu::ContextMenu(const UI::ContextMenuList &items)
+#include <utility>
+
+UI::ContextMenu::ContextMenu(const UI::ContextMenuList &items, ContextMenuCallback callback)
+: m_callback(std::move(callback))
 {
     holdLayout();
+    setLayout<UI::VerticalLayout>(0, UI::HAlignment::Fill);
 
     for ( auto const& item : items )
     {
@@ -16,8 +20,8 @@ UI::ContextMenu::ContextMenu(const UI::ContextMenuList &items)
         {
             auto ptr = manager()->createElement<UI::Internal::ContextMenuItem>( this, item );
             ptr->addEventCallback(UEventType::Click, [this](UEvent& evt) {
-                Logging::log( evt.mouseButtonEvent.pos );
-                Logging::log( evt.mouseButtonEvent.button );
+                m_callback( evt.targetElement->asType<UI::Internal::ContextMenuItem>()->label() );
+                manager()->deleteElement( shared_from_this() );
             });
         }
     }
@@ -29,9 +33,11 @@ UI::ContextMenu::ContextMenu(const UI::ContextMenuList &items)
 }
 
 UI::Internal::ContextMenuItem::ContextMenuItem(std::string const &label)
+: m_label(label)
 {
     auto tnode = manager()->createElement<UI::TextNode>( this );
     tnode->setText( label );
+    setPadding(0);
 
     addEventCallback( UEventType::MouseIn, [this](UEvent& evt) {
         setBackgroundColour( Colour::Green );
@@ -40,6 +46,11 @@ UI::Internal::ContextMenuItem::ContextMenuItem(std::string const &label)
     addEventCallback( UEventType::MouseOut, [this](UEvent& evt) {
         removeBackgroundColour();
     });
+}
+
+std::string const &UI::Internal::ContextMenuItem::label()
+{
+    return m_label;
 }
 
 UI::Internal::ContextMenuSpacer::ContextMenuSpacer()

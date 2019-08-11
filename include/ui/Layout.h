@@ -18,6 +18,22 @@ enum class Alignment
     Centre
 };
 
+enum class VAlignment
+{
+    Top,
+    Bottom,
+    Centre,
+    Fill
+};
+
+enum class HAlignment
+{
+    Left,
+    Right,
+    Centre,
+    Fill
+};
+
 Vector2i alignRectWithinRect( Vector2i const& outer, Vector2i const& inner, Alignment alignment );
 
 class Element;
@@ -36,14 +52,30 @@ public:
 class VerticalLayout : public ElementLayout
 {
 public:
+    explicit VerticalLayout(int spacing = 0, HAlignment halign=HAlignment::Left);
+    ~VerticalLayout() override = default;
+
     Vector2i doLayout(Element *ptr) override;
+
+private:
+    int m_spacing;
+    HAlignment m_halign;
+
 };
 
 
 class HorizontalLayout : public ElementLayout
 {
 public:
+    explicit HorizontalLayout(int spacing = 0, VAlignment valign=VAlignment::Centre);
+    ~HorizontalLayout() override = default;
+
     Vector2i doLayout(Element *ptr) override;
+
+private:
+    int m_spacing;
+    VAlignment m_valign;
+
 };
 
 

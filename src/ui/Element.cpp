@@ -169,6 +169,8 @@ void Element::recachePosition()
     {
         m_globalPosition = m_localPosition;
     }
+
+    m_bounds = RectI{ m_globalPosition, m_actualOuterSize };
 }
 
 bool Element::hasChildren()
@@ -222,7 +224,7 @@ void Element::setPreferredOuterSize(Vector2i size)
         size.y() - (2 * m_borderWidth) + m_padding.x() + m_padding.w(),
     };
 
-    rootParent()->doLayout();
+    doLayout();
 }
 
 

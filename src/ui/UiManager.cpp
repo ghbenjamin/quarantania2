@@ -50,9 +50,16 @@ void UiManager::doLayout()
     }
 }
 
-void UiManager::deleteElement(ElementPtr element)
+void UiManager::deleteElement(const ElementPtr& element)
 {
-    AssertAlways();
+    if ( element->parent() )
+    {
+        element->parent()->removeChild(element);
+    }
+    else
+    {
+        m_roots.erase( std::remove(m_roots.begin(), m_roots.end(), element), m_roots.end() );
+    }
 }
 
 void UiManager::alignElementToWindow(const ElementPtr& element, UI::Alignment alignment, int offset)
@@ -267,6 +274,12 @@ bool UiManager::handleMouseMove(IEventMouseMove evt)
     }
 
     return true;
+}
+
+void UiManager::openContextMenu(ContextMenuList const &items, Vector2i pos, ContextMenuCallback callback)
+{
+    auto cmenu = createElement<UI::ContextMenu>(nullptr, items, callback);
+    cmenu->setLocalPosition( pos );
 }
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, int offset)

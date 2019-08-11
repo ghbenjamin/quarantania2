@@ -14,6 +14,10 @@ class ContextMenuItem : public Element
 public:
     explicit ContextMenuItem( std::string const& label );
     ~ContextMenuItem() override = default;
+
+    std::string const& label();
+private:
+    std::string m_label;
 };
 
 class ContextMenuSpacer : public Element
@@ -27,14 +31,16 @@ public:
 
 
 using ContextMenuList = std::vector<std::string>;
+using ContextMenuCallback = std::function<void(std::string const&)>;
 
 class ContextMenu : public Element
 {
 public:
-    explicit ContextMenu( ContextMenuList const& items );
+    explicit ContextMenu( ContextMenuList const& items, ContextMenuCallback callback);
     ~ContextMenu() override = default;
 
 private:
+    ContextMenuCallback m_callback;
 
 };
 

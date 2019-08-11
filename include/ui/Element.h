@@ -22,7 +22,7 @@ using ElementPtr = std::shared_ptr<Element>;
 using ElementWPtr = std::weak_ptr<Element>;
 using ElementList = std::vector<ElementPtr>;
 
-class Element
+class Element : public std::enable_shared_from_this<Element>
 {
     friend class UiManager;
 
@@ -49,7 +49,7 @@ public:
     template <typename LayoutType, typename... Args>
     void setLayout( Args... args )
     {
-        m_layout = std::make_unique<LayoutType>( std::forward(args)... );
+        m_layout = std::make_unique<LayoutType>( std::forward<Args>(args)... );
     }
 
     // State
@@ -72,6 +72,13 @@ public:
     bool hasParent();
     Element* parent();
     Element* rootParent();
+
+    template <typename T>
+    std::shared_ptr<T> asType()
+    {
+        static_assert( std::is_base_of_v<Element, T> );
+        return std::static_pointer_cast<T>( shared_from_this() );
+    }
 
     bool hasChildren();
     std::vector<ElementPtr> const& children();

@@ -311,11 +311,12 @@ void Level::setupUI()
         "Hello", "World", "", "a", "b", "c", "", "d"
     };
 
-    auto cmenu = m_uiManager.createElement<UI::ContextMenu>(nullptr, cml);
+    m_uiManager.openContextMenu(cml, {100, 100}, [](auto arg) {
+        Logging::log( arg );
+    });
 
     m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomLeft, 0 );
     m_uiManager.alignElementToWindow( rframe, UI::Alignment::CentreRight, 0 );
-    m_uiManager.alignElementToWindow( cmenu, UI::Alignment::TopLeft, 0 );
 }
 
 void Level::layoutWindows()

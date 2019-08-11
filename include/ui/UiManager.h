@@ -5,6 +5,7 @@
 #include <ui/Element.h>
 #include <ui/Layout.h>
 #include <ui/UEvent.h>
+#include <ui/ContextMenu.h>
 #include <game/InputInterface.h>
 
 struct IEvent;
@@ -54,7 +55,7 @@ public:
         return ptr;
     }
 
-    void deleteElement( ElementPtr element );
+    void deleteElement( const ElementPtr& element );
 
     void alignElementToWindow( const ElementPtr& element, UI::Alignment alignment, int offset = 0);
     void unalignElementToWindow( ElementPtr element );
@@ -63,6 +64,14 @@ public:
 
     ElementList windowsAtPoint( Vector2i pos ) const;
     std::tuple<ElementList, ElementList> partitionWindowLists( ElementList const& lhs, ElementList const& rhs ) const;
+
+
+    // API
+
+    void openContextMenu( ContextMenuList const& items, Vector2i pos, ContextMenuCallback callback);
+
+
+
 
 
 private:

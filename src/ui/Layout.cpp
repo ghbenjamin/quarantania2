@@ -67,7 +67,29 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
 
         auto s = c->outerSize();
         h += s.y();
-        w = std::max(w, s.x() );
+        h += m_spacing;
+        w = std::max( w, s.x() );
+    }
+
+    for ( auto& c: ptr->children() )
+    {
+        auto pos = c->localPosition();
+        auto size = c->outerSize();
+
+        switch (m_halign)
+        {
+            case HAlignment::Left:
+                break;
+            case HAlignment::Right:
+                c->setLocalPosition({ w - size.x(), pos.y() });
+                break;
+            case HAlignment::Centre:
+                c->setLocalPosition({ (w - size.x()) / 2, pos.y() });
+                break;
+            case HAlignment::Fill:
+                c->setPreferredOuterSize({w, size.y()});
+                break;
+        }
     }
 
     if ( preferred != Vector2i::Null )
@@ -86,7 +108,19 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
     return { w, h };
 }
 
+UI::VerticalLayout::VerticalLayout(int spacing, UI::HAlignment halign)
+: m_spacing(spacing), m_halign(halign)
+{
+
+}
+
 Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
 {
     return Vector2i();
+}
+
+UI::HorizontalLayout::HorizontalLayout(int spacing, UI::VAlignment valign)
+    : m_spacing(spacing), m_valign(valign)
+{
+
 }
