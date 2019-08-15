@@ -18,10 +18,7 @@ LevelFactory::LevelFactory()
 
 LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &ctx)
 {
-
     m_level = std::make_unique<Level>( config.size, ctx );
-
-    /* LAYOUT CREATION  */
 
     // Start off with a map full of walls
     m_level->m_baseTilemap = std::vector<BaseTileType>( config.size.x() * config.size.y(), BaseTileType::Wall );
@@ -40,25 +37,33 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     // left - all corridors connect rooms.
     pruneCorridors();
 
+    // Walk over every tile and work out which of its 8 neighbours are wall tiles, if any
     calcAllAdjacentWalls();
 
+    // Fix our wall tiles as impassable
     setInitialCollisionData();
 
+    // Construct a map of sprites for the prebaked tiles we are going to need
     constructMapRendering(config, ctx);
 
-    /* CONTENT CREATION */
+    // Load the prefab entity and room data
     m_level->m_entFactory.loadAllPrefabs( "../resource/data/entities.json" );
     m_roomTemplates.loadAllTemplates( "../resource/data/room_templates.json" );
 
+    // Construct basic door prefabs at most of our junction points
     constructDoors();
 
+    // Semi-randomly assign our special rooms
     assignSpecialRooms();
 
+    // Fill each of our rooms with entities
     decorateRooms();
 
+    // Add the player at an appropriate place
     constructPlayer();
-    readyAllEntities();
 
+    // Mark the level construction as completed
+    readyAllEntities();
     return std::move(m_level);
 }
 
@@ -781,7 +786,7 @@ void LevelFactory::assignSpecialRooms()
         }
     }
 
-    AssertMsg( terminalRooms.size() > 2, "" );
+    AssertMsg( terminalRooms.size() > 2, "Expected more than two terminal rooms" );
 
     const std::vector<RoomType> specialOrder = {
         RoomType::Entrance, RoomType::Exit,

@@ -107,7 +107,7 @@ bool Level::handleMouseClickInput(IEventMouseDown& evt)
                 };
 
                 m_uiManager.openContextMenu(cml, evt.screenPos, [](auto arg) {
-                    // TODO: Do something other than parrot back the chosen item 
+                    // TODO: Do something other than parrot back the chosen item
                     Logging::log( arg );
                 });
             }

@@ -1,172 +1,312 @@
 {
   "static_objects": [
     {
-      "name": "bed-made",
-      "sprite": ["kenney-tiles", "bed-made"],
-      "passable": false,
-      "type": "decor"
+      "name": "bed",
+      "components": {
+        "render": {
+          "render-states": 2,
+          "tilesets": [
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "bed-made"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "bed-unmade"
+              }
+            ]
+          ]
+        },
+        "collider": {
+          "passable": false
+        },
+        "state": ["made", "unmade"]
+      }
     },
     {
-      "name": "bed-unmade",
-      "sprite": ["kenney-tiles", "bed-unmade"],
-      "passable": false,
-      "type": "decor"
+      "name": "chair",
+      "components": {
+        "render": {
+          "render-states": 1,
+          "tilesets": [
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "chair-left"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "chair-right"
+              }
+            ]
+          ]
+        },
+        "collider": {
+          "passable": false
+        }
+      }
     },
     {
-      "name": "chair-left",
-      "sprite": ["kenney-tiles", "chair-left"],
-      "passable": true,
-      "type": "decor"
+      "name": "barrel",
+      "components": {
+        "render": {
+          "render-states": 2,
+          "tilesets": [
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "barrel-open"
+              },
+              {
+                "sheet": "kenney-tiles",
+                "tile": "barrel-closed"
+              }
+            ]
+          ]
+        },
+        "collider": {
+          "passable": false
+        },
+        "container": {
+        },
+        "state": ["open", "closed"]
+      }
     },
     {
-      "name": "chair-right",
-      "sprite": ["kenney-tiles", "chair-right"],
-      "passable": true,
-      "type": "decor"
+      "name": "drawer",
+      "components": {
+        "render": {
+          "render-states": 1,
+          "tilesets": [
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "single-wide-drawer"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "double-wide-drawer"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "single-thin-drawer"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "double-thin-drawer"
+              }
+            ]
+          ]
+        },
+        "collider": {
+          "passable": false
+        },
+        "container": {
+        }
+      }
     },
     {
-      "name": "barrel-closed",
-      "sprite": ["kenney-tiles", "barrel-closed"],
-      "passable": false,
-      "type": "decor"
+      "name": "door",
+      "components": {
+        "render": {
+          "render-states": 2,
+          "tilesets": [
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "door-closed"
+              },
+              {
+                "sheet": "kenney-tiles",
+                "tile": "door-barred"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "door-open"
+              },
+              {
+                "sheet": "kenney-tiles",
+                "tile": "door-open"
+              }
+            ]
+          ]
+        },
+        "collider": {
+          "passable": false
+        },
+        "state": ["open", "closed"]
+      }
     },
     {
-      "name": "barrel-open",
-      "sprite": ["kenney-tiles", "barrel-open"],
-      "passable": false,
-      "type": "decor"
+      "name": "chest",
+      "components": {
+        "render": {
+          "render-states": 2,
+          "tilesets": [
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "chest-closed"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "chest-open"
+              }
+            ]
+          ]
+        },
+        "collider": {
+          "passable": false
+        },
+        "container": {
+        },
+        "state": ["open", "closed"]
+      }
     },
     {
-      "name": "single-wide-drawer",
-      "sprite": ["kenney-tiles", "single-wide-drawer"],
-      "passable": false,
-      "type": "decor"
-    },
-    {
-      "name": "double-wide-drawer",
-      "sprite": ["kenney-tiles", "double-wide-drawer"],
-      "passable": false,
-      "type": "decor"
-    },
-    {
-      "name": "single-thin-drawer",
-      "sprite": ["kenney-tiles", "single-thin-drawer"],
-      "passable": false,
-      "type": "decor"
-    },
-    {
-      "name": "double-thin-drawer",
-      "sprite": ["kenney-tiles", "double-thin-drawer"],
-      "passable": false,
-      "type": "decor"
-    },
-    {
-      "name": "door-closed",
-      "sprite": ["kenney-tiles", "door-closed"],
-      "passable": false,
-      "type": "decor"
-    },
-    {
-      "name": "door-open",
-      "sprite": ["kenney-tiles", "door-open"],
-      "passable": true,
-      "type": "decor"
-    },
-    {
-      "name": "door-barred",
-      "sprite": ["kenney-tiles", "door-barred"],
-      "passable": false,
-      "type": "decor"
-    },
-    {
-      "name": "chest-closed",
-      "sprite": ["kenney-tiles", "chest-closed"],
-      "passable": false,
-      "type": "decor"
-    },
-    {
-      "name": "chest-open",
-      "sprite": ["kenney-tiles", "chest-open"],
-      "passable": false,
-      "type": "decor"
-    },
-    {
-      "name": "fireplace-out",
-      "sprite": ["kenney-tiles", "fireplace-out"],
-      "passable": false,
-      "type": "decor"
-    },
-    {
-      "name": "fireplace-lit",
-      "sprite": ["kenney-tiles", "fireplace-lit"],
-      "passable": false,
-      "type": "decor"
+      "name": "fireplace",
+      "components": {
+        "render": {
+          "render-states": 2,
+          "tilesets": [
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "fireplace-out"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "fireplace-lit"
+              }
+            ]
+          ]
+        },
+        "collider": {
+          "passable": false
+        },
+        "state": ["lit", "unlit"]
+      }
     },
     {
       "name": "anvil",
-      "sprite": ["kenney-tiles", "anvil"],
-      "passable": true,
-      "type": "decor"
+      "components": {
+        "render": {
+          "render-states": 1,
+          "tilesets": [
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "anvil"
+              }
+            ]
+          ]
+        },
+        "collider": {
+          "passable": false
+        }
+      }
     },
     {
-      "name": "gold-pile-small",
-      "sprite": ["kenney-tiles", "gold-pile-small"],
-      "passable": true,
-      "type": "decor"
+      "name": "money-pile",
+      "components": {
+        "render": {
+          "render-states": 1,
+          "tilesets": [
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "gold-pile-small"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "gold-pile-big"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "silver-pile-small"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "silver-pile-big"
+              }
+            ]
+          ]
+        }
+      }
     },
     {
-      "name": "gold-pile-big",
-      "sprite": ["kenney-tiles", "gold-pile-big"],
-      "passable": true,
-      "type": "decor"
-    },
-    {
-      "name": "silver-pile-small",
-      "sprite": ["kenney-tiles", "silver-pile-small"],
-      "passable": true,
-      "type": "decor"
-    },
-    {
-      "name": "silver-pile-big",
-      "sprite": ["kenney-tiles", "silver-pile-big"],
-      "passable": true,
-      "type": "decor"
-    },
-    {
-      "name": "bookcase-small-empty",
-      "sprite": ["kenney-tiles", "bookcase-small-empty"],
-      "passable": false,
-      "type": "decor"
-    },
-    {
-      "name": "bookcase-small-full",
-      "sprite": ["kenney-tiles", "bookcase-small-full"],
-      "passable": false,
-      "type": "decor"
-    },
-    {
-      "name": "bookcase-medium-empty",
-      "sprite": ["kenney-tiles", "bookcase-medium-empty"],
-      "passable": false,
-      "type": "decor"
-    },
-    {
-      "name": "bookcase-medium-full",
-      "sprite": ["kenney-tiles", "bookcase-medium-full"],
-      "passable": false,
-      "type": "decor"
-    },
-    {
-      "name": "bookcase-large-empty",
-      "sprite": ["kenney-tiles", "bookcase-large-empty"],
-      "passable": false,
-      "type": "decor"
-    },
-    {
-      "name": "bookcase-large-full",
-      "sprite": ["kenney-tiles", "bookcase-large-full"],
-      "passable": false,
-      "type": "decor"
+      "name": "bookcase",
+      "components": {
+        "render": {
+          "render-states": 1,
+          "tilesets": [
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "bookcase-small-empty"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "bookcase-small-full"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "bookcase-medium-empty"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "bookcase-medium-full"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "bookcase-large-empty"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "bookcase-large-full"
+              }
+            ]
+          ]
+        },
+        "collider": {
+          "passable": false
+        },
+        "container": {
+        }
+      }
     }
   ]
 }

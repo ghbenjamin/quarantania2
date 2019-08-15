@@ -3,6 +3,7 @@
 #include <game/Entity.h>
 #include <utils/Containers.h>
 #include <game/Player.h>
+#include <resource/Prefab.h>
 
 class Level;
 
@@ -34,6 +35,7 @@ public:
 
     void loadAllPrefabs( std::string const& path );
 
+
     std::unique_ptr<Player> createPlayer( ImPlayerData & data, Vector2i startPos ) const;
     EntityRef createPrefabByName(Vector2i pos, std::string const &name) const;
 
@@ -48,6 +50,6 @@ public:
 private:
 
     Level* m_parent;
-    std::unordered_map<std::string, EntityPrefab> m_prefabs;
+    std::unordered_map<std::string, PrefabList> m_prefabs;
 
 };

@@ -75,40 +75,55 @@ void EntityFactory::loadAllPrefabs(std::string const &path)
 
     for ( auto const& node : static_objs )
     {
-        auto obj = node.GetObject();
-        auto spriteObj = obj.FindMember( "sprite" )->value.GetArray();
+        PrefabList pcl;
 
-        EntityPrefab prefab;
+        auto nodeObj = node.GetObject();
+        std::string_view nodeName = nodeObj.FindMember("name")->value.GetString();
+        auto nodeComps = nodeObj.FindMember("components")->value.GetObject();
 
-        prefab.name = obj.FindMember( "name" )->value.GetString();
-        prefab.spritesheetName = spriteObj[0].GetString();
-        prefab.spriteName = spriteObj[1].GetString();
-        prefab.passible = obj.FindMember( "passable" )->value.GetBool();
+        for ( auto const& comp : nodeComps )
+        {
+            std::string_view compName = comp.name.GetString();
 
-        std::string typeStr = obj.FindMember( "type" )->value.GetString();
-        if ( typeStr == "decor" )
-        {
-            prefab.prefabType = PrefabEntityType::Decor;
-        }
-        else if ( typeStr == "door" )
-        {
-            prefab.prefabType = PrefabEntityType::Door;
-        }
-        else if ( typeStr == "container" )
-        {
-            prefab.prefabType = PrefabEntityType::Container;
-        }
-        else if ( typeStr == "trap" )
-        {
-            prefab.prefabType = PrefabEntityType::Trap;
-        }
-        else
-        {
-            AssertAlways();
+            if ( compName == "render" )
+            {
+                Prefab::Component::Render c;
+                c.renderStates = comp.value.GetObject().FindMember("render-states")->value.GetInt();
+
+                for ( auto const& tileState : comp.value.GetObject().FindMember("tilesets")->value.GetArray() )
+                {
+                    for ( auto const& tileSet : tileState.GetArray() )
+                    {
+                        auto tsObj = tileSet.GetObject();
+                        c.sprites.emplace_back( tsObj.FindMember("sheet" )->value.GetString(),
+                                                tsObj.FindMember("tile" )->value.GetString() );
+                    }
+                }
+
+                pcl.push_back( c );
+            }
+            else if ( compName == "collider" )
+            {
+                Prefab::Component::Collider c;
+                pcl.push_back( c );
+            }
+            else if ( compName == "state" )
+            {
+                Prefab::Component::State c;
+                pcl.push_back( c );
+            }
+            else if ( compName == "container" )
+            {
+                Prefab::Component::Container c;
+                pcl.push_back( c );
+            }
+            else
+            {
+                Logging::log("WARN: unexpected component name: {}", compName );
+            }
         }
 
-        m_prefabs.emplace( prefab.name, prefab );
-
+        m_prefabs[std::string(nodeName)] = pcl;
     }
 }
 
@@ -116,20 +131,20 @@ EntityRef EntityFactory::createPrefabByName(Vector2i pos, std::string const &nam
 {
     auto eref = m_parent->createEntity();
 
-    auto const& prefab = m_prefabs.at(name);
-
-    m_parent->addComponent<Components::TilePosition>(eref, pos);
-
-    auto sprite = ResourceManager::get().getResource<SpritesheetResource>( prefab.spritesheetName )
-            ->get()->spriteFromName( prefab.spriteName );
-    m_parent->addComponent<Components::Render>(eref, sprite);
-
-    if ( !prefab.passible )
-    {
-        m_parent->addComponent<Components::Collider>(eref);
-    }
-
-    m_parent->entityReady( eref );
+//    auto const& prefab = m_prefabs.at(name);
+//
+//    m_parent->addComponent<Components::TilePosition>(eref, pos);
+//
+//    auto sprite = ResourceManager::get().getResource<SpritesheetResource>( prefab.spritesheetName )
+//            ->get()->spriteFromName( prefab.spriteName );
+//    m_parent->addComponent<Components::Render>(eref, sprite);
+//
+//    if ( !prefab.passible )
+//    {
+//        m_parent->addComponent<Components::Collider>(eref);
+//    }
+//
+//    m_parent->entityReady( eref );
     return eref;
 }
 
