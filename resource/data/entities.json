@@ -27,6 +27,41 @@
       }
     },
     {
+      "name": "entrance",
+      "components": {
+        "render": {
+          "render-states": 1,
+          "tilesets": [
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "grey-stairs-up"
+              }
+            ]
+          ]
+        },
+        "collider": {
+          "passable": false
+        }
+      }
+    },
+    {
+      "name": "exit",
+      "components": {
+        "render": {
+          "render-states": 1,
+          "tilesets": [
+            [
+              {
+                "sheet": "kenney-tiles",
+                "tile": "grey-stairs-down"
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
       "name": "chair",
       "components": {
         "render": {

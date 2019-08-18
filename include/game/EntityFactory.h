@@ -1,28 +1,66 @@
 #pragma once
 
+#include <variant>
+#include <resource/Spritesheet.h>
 #include <game/Entity.h>
 #include <utils/Containers.h>
 #include <game/Player.h>
-#include <resource/Prefab.h>
 
 class Level;
 
-enum class PrefabEntityType
+namespace Prefab
 {
-    Door,
-    Decor,
-    Container,
-    Trap,
-};
+namespace Component
+{
+    struct Render
+    {
+        int renderStates = -1;
+        std::vector<SpritesheetKey> sprites;
+    };
 
-struct EntityPrefab
-{
-    std::string name;
-    std::string spritesheetName;
-    std::string spriteName;
-    bool passible = false;
-    PrefabEntityType prefabType;
-};
+    struct State
+    {
+
+    };
+
+    struct Collider
+    {
+        bool defaultState = false;
+    };
+
+    struct Container
+    {
+
+    };
+}
+
+    class Visitor
+    {
+    public:
+        explicit Visitor(Level* level, EntityRef ref);
+        ~Visitor() = default;
+
+        void operator()(Component::Render const& obj) const;
+        void operator()(Component::State const& obj) const;
+        void operator()(Component::Collider const& obj) const;
+        void operator()(Component::Container const& obj) const;
+
+    private:
+        EntityRef m_ref;
+        Level* m_level;
+    };
+
+}
+
+using PrefabVariant = std::variant
+    <
+        Prefab::Component::Render,
+        Prefab::Component::State,
+        Prefab::Component::Collider,
+        Prefab::Component::Container
+    >;
+
+using PrefabList = std::vector<PrefabVariant>;
 
 
 
@@ -35,17 +73,10 @@ public:
 
     void loadAllPrefabs( std::string const& path );
 
-
     std::unique_ptr<Player> createPlayer( ImPlayerData & data, Vector2i startPos ) const;
     EntityRef createPrefabByName(Vector2i pos, std::string const &name) const;
 
-    EntityRef createDoor( Vector2i pos ) const;
-    EntityRef createEntrance( Vector2i pos ) const;
-    EntityRef createExit( Vector2i pos ) const;
-
-
     EntityRef debugHighlight( Vector2i pos, std::string const& tile) const;
-
 
 private:
 

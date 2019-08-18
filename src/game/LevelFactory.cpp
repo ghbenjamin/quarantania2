@@ -693,7 +693,7 @@ void LevelFactory::constructDoors()
     {
         if ( j.type == JunctionType::Door )
         {
-            auto ref = m_level->m_entFactory.createDoor( p );
+            auto ref = m_level->m_entFactory.createPrefabByName(p, "door");
             m_createdEntities.push_back(ref);
         }
     }
@@ -711,16 +711,15 @@ void LevelFactory::decorateRooms()
             }
             case RoomType::Entrance:
             {
-                auto eref = m_level->m_entFactory.createEntrance( room.centre() );
+                auto eref = m_level->m_entFactory.createPrefabByName(room.centre(), "entrance");
                 m_createdEntities.push_back(eref);
 
                 break;
             }
             case RoomType::Exit:
             {
-                auto eref = m_level->m_entFactory.createExit( room.centre() );
+                auto eref = m_level->m_entFactory.createPrefabByName(room.centre(), "exit");
                 m_createdEntities.push_back(eref);
-
                 break;
             }
             case RoomType::Vault:

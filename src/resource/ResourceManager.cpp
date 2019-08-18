@@ -114,5 +114,10 @@ Sprite ResourceManager::getSprite(std::string const &sheet, std::string const &n
     return getResource<SpritesheetResource>( sheet )->get()->spriteFromName( name );
 }
 
+Sprite ResourceManager::getSprite(SpritesheetKey const& key)
+{
+    return getSprite(key.first, key.second);
+}
+
 
 

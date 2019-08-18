@@ -52,9 +52,9 @@ public:
         return std::move(dPtr);
     }
 
-
     // Shortcuts
     Sprite getSprite( std::string const& sheet, std::string const& name );
+    Sprite getSprite( SpritesheetKey const& key );
 
 private:
 

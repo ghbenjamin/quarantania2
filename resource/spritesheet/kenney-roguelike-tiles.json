@@ -42,9 +42,11 @@
   "double-wide-drawer": 309,
   "single-thin-drawer": 310,
   "double-thin-drawer": 365,
-  "door-closed": 32,
+
+  "door-closed": 153,
   "door-open": 94,
-  "door-barred": 34,
+  "door-barred": 39,
+
   "chest-closed": 608,
   "chest-open": 665,
   "fireplace-out": 12,

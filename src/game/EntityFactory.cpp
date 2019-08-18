@@ -33,40 +33,6 @@ EntityRef EntityFactory::debugHighlight(Vector2i pos, std::string const& tile) c
     return eref;
 }
 
-EntityRef EntityFactory::createDoor(Vector2i pos) const
-{
-    auto eref = m_parent->createEntity();
-    auto sprite = ResourceManager::get().getSprite("kenney-tiles", "door-1");
-
-    m_parent->addComponent<Components::TilePosition>(eref, pos);
-    m_parent->addComponent<Components::Render>(eref, sprite);
-
-    return eref;
-}
-
-EntityRef EntityFactory::createEntrance(Vector2i pos) const
-{
-    auto eref = m_parent->createEntity();
-    auto sprite = ResourceManager::get().getSprite("kenney-tiles", "grey-stairs-up");
-
-    m_parent->addComponent<Components::TilePosition>(eref, pos);
-    m_parent->addComponent<Components::Render>(eref, sprite);
-    m_parent->addComponent<Components::Collider>(eref);
-
-    return eref;
-}
-
-EntityRef EntityFactory::createExit(Vector2i pos) const
-{
-    auto eref = m_parent->createEntity();
-    auto sprite = ResourceManager::get().getSprite("kenney-tiles", "grey-stairs-down");
-
-    m_parent->addComponent<Components::TilePosition>(eref, pos);
-    m_parent->addComponent<Components::Render>(eref, sprite);
-
-    return eref;
-}
-
 void EntityFactory::loadAllPrefabs(std::string const &path)
 {
     rapidjson::Document doc = JsonUtils::loadFromPath( path );
@@ -130,21 +96,36 @@ void EntityFactory::loadAllPrefabs(std::string const &path)
 EntityRef EntityFactory::createPrefabByName(Vector2i pos, std::string const &name) const
 {
     auto eref = m_parent->createEntity();
+    auto const& prefabComponents = m_prefabs.at(name);
 
-//    auto const& prefab = m_prefabs.at(name);
-//
-//    m_parent->addComponent<Components::TilePosition>(eref, pos);
-//
-//    auto sprite = ResourceManager::get().getResource<SpritesheetResource>( prefab.spritesheetName )
-//            ->get()->spriteFromName( prefab.spriteName );
-//    m_parent->addComponent<Components::Render>(eref, sprite);
-//
-//    if ( !prefab.passible )
-//    {
-//        m_parent->addComponent<Components::Collider>(eref);
-//    }
-//
-//    m_parent->entityReady( eref );
+    m_parent->addComponent<Components::TilePosition>(eref, pos);
+
+    for ( auto const& pc : prefabComponents )
+    {
+        std::visit( Prefab::Visitor{m_parent, eref}, pc );
+    }
+
+    m_parent->entityReady( eref );
+
     return eref;
 }
 
+Prefab::Visitor::Visitor(Level* level, EntityRef ref)
+: m_ref(ref), m_level(level) {}
+
+void Prefab::Visitor::operator()(Component::Render const& obj) const
+{
+    // TODO Don't always take the first one
+    auto sprite = ResourceManager::get().getSprite(obj.sprites.front());
+    m_level->addComponent<Components::Render>(m_ref, sprite);
+}
+void Prefab::Visitor::operator()(Component::State const& obj) const
+{
+}
+void Prefab::Visitor::operator()(Component::Collider const& obj) const
+{
+    m_level->addComponent<Components::Collider>(m_ref);
+}
+void Prefab::Visitor::operator()(Component::Container const& obj) const
+{
+}
