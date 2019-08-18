@@ -693,7 +693,7 @@ void LevelFactory::constructDoors()
     {
         if ( j.type == JunctionType::Door )
         {
-            auto ref = m_level->m_entFactory.createPrefabByName(p, "door");
+            auto ref = m_level->m_entFactory.createPrefabByName("door", p);
             m_createdEntities.push_back(ref);
         }
     }
@@ -707,18 +707,24 @@ void LevelFactory::decorateRooms()
         {
             case RoomType::Normal:
             {
+                auto rt = m_roomTemplates.randomTemplate( room.bounds.right(), m_mt );
+                if ( rt != nullptr )
+                {
+                    constructRoomFromTemplate(room, rt);
+                }
+
                 break;
             }
             case RoomType::Entrance:
             {
-                auto eref = m_level->m_entFactory.createPrefabByName(room.centre(), "entrance");
+                auto eref = m_level->m_entFactory.createPrefabByName("entrance", room.centre());
                 m_createdEntities.push_back(eref);
 
                 break;
             }
             case RoomType::Exit:
             {
-                auto eref = m_level->m_entFactory.createPrefabByName(room.centre(), "exit");
+                auto eref = m_level->m_entFactory.createPrefabByName("exit", room.centre());
                 m_createdEntities.push_back(eref);
                 break;
             }
@@ -802,5 +808,15 @@ void LevelFactory::assignSpecialRooms()
         m_specialRooms.emplace( srt, *it );
         m_rooms.at(*it).roomType = srt;
         terminalRooms.erase(it);
+    }
+}
+
+void LevelFactory::constructRoomFromTemplate(LD::Room const& room, RoomTemplate* rt)
+{
+    // Construct prefabs
+    for ( auto const& prefab : rt->prefabs )
+    {
+        Vector2i translated = prefab.position + room.bounds.left();
+        m_level->m_entFactory.createPrefabByName(prefab.name, translated);
     }
 }

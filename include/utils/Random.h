@@ -10,7 +10,7 @@ It randomElement(It begin, It end, std::mt19937 &rd)
     return begin;
 }
 
-bool weightedFlip( int odds, std::mt19937& rd )
+inline bool weightedFlip( int odds, std::mt19937& rd )
 {
     std::uniform_int_distribution<> dis(1, odds);
     return dis(rd) == 1;

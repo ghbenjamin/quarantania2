@@ -74,7 +74,7 @@ public:
     void loadAllPrefabs( std::string const& path );
 
     std::unique_ptr<Player> createPlayer( ImPlayerData & data, Vector2i startPos ) const;
-    EntityRef createPrefabByName(Vector2i pos, std::string const &name) const;
+    EntityRef createPrefabByName(std::string const &name, Vector2i pos) const;
 
     EntityRef debugHighlight( Vector2i pos, std::string const& tile) const;
 

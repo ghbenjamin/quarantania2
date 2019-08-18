@@ -2,6 +2,28 @@
   "basic_rooms": {
     "3x3": [
       {
+        "prefabs": [
+          {
+            "name": "barrel",
+            "position": [0, 0]
+          }
+        ]
+      },
+      {
+        "prefabs": [
+          {
+            "name": "bookcase",
+            "position": [1, 0]
+          },
+          {
+            "name": "bookcase",
+            "position": [0, 0]
+          },
+          {
+            "name": "bookcase",
+            "position": [2, 0]
+          }
+        ]
       }
     ],
     "3x5": [

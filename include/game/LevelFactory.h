@@ -99,6 +99,7 @@ private:
 
     void assignSpecialRooms();
     void decorateRooms();
+    void constructRoomFromTemplate( LD::Room const& room, RoomTemplate* rt );
     void constructPlayer();
     void constructDoors();
 

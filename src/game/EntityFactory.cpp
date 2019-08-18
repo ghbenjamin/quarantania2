@@ -93,7 +93,7 @@ void EntityFactory::loadAllPrefabs(std::string const &path)
     }
 }
 
-EntityRef EntityFactory::createPrefabByName(Vector2i pos, std::string const &name) const
+EntityRef EntityFactory::createPrefabByName(std::string const &name, Vector2i pos) const
 {
     auto eref = m_parent->createEntity();
     auto const& prefabComponents = m_prefabs.at(name);

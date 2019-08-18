@@ -301,6 +301,12 @@
             [
               {
                 "sheet": "kenney-tiles",
+                "tile": "bookcase-medium-full"
+              }
+            ],
+            [
+              {
+                "sheet": "kenney-tiles",
                 "tile": "bookcase-small-empty"
               }
             ],
@@ -314,12 +320,6 @@
               {
                 "sheet": "kenney-tiles",
                 "tile": "bookcase-medium-empty"
-              }
-            ],
-            [
-              {
-                "sheet": "kenney-tiles",
-                "tile": "bookcase-medium-full"
               }
             ],
             [
