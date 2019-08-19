@@ -5,6 +5,7 @@
 #include <game/Entity.h>
 #include <utils/Containers.h>
 #include <game/Player.h>
+#include <utils/Random.h>
 
 class Level;
 
@@ -37,7 +38,7 @@ namespace Component
     class Visitor
     {
     public:
-        explicit Visitor(Level* level, EntityRef ref);
+        explicit Visitor(Level* level, EntityRef ref, RandomGenerator* rg);
         ~Visitor() = default;
 
         void operator()(Component::Render const& obj) const;
@@ -48,6 +49,7 @@ namespace Component
     private:
         EntityRef m_ref;
         Level* m_level;
+        RandomGenerator* m_rg;
     };
 
 }
@@ -68,7 +70,7 @@ class EntityFactory
 {
 public:
 
-    explicit EntityFactory( Level* parent );
+    explicit EntityFactory( Level* parent, RandomGenerator* rg );
     ~EntityFactory() = default;
 
     void loadAllPrefabs( std::string const& path );
@@ -81,6 +83,7 @@ public:
 private:
 
     Level* m_parent;
+    RandomGenerator* m_rg;
     std::unordered_map<std::string, PrefabList> m_prefabs;
 
 };

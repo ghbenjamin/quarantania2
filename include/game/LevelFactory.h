@@ -111,7 +111,6 @@ private:
 
     // Random
     std::random_device m_rd;
-    std::mt19937 m_mt;
 
     // Base map layout
     int m_regionIndex;

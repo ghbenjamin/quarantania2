@@ -12,13 +12,13 @@
 using namespace LD;
 
 LevelFactory::LevelFactory()
-    : m_rd(), m_mt( m_rd() ), m_regionIndex(0)
+    : m_rd(), m_regionIndex(0)
 {
 }
 
 LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &ctx)
 {
-    m_level = std::make_unique<Level>( config.size, ctx );
+    m_level = std::make_unique<Level>( config.size, ctx, RandomGenerator{ m_rd() } );
 
     // Start off with a map full of walls
     m_level->m_baseTilemap = std::vector<BaseTileType>( config.size.x() * config.size.y(), BaseTileType::Wall );
@@ -90,7 +90,7 @@ void LevelFactory::growMaze(Vector2i start)
 
         if (!dirs.empty())
         {
-            auto dir = *randomElement(dirs.begin(), dirs.end(), m_mt);
+            auto dir = *randomElement(dirs.begin(), dirs.end(), m_level->m_rg);
             auto nextCell = currCell + (GridUtils::CardinalNeighbours[dir] * 2);
 
             tileSet( currCell + GridUtils::CardinalNeighbours[dir], BaseTileType::Floor);
@@ -149,8 +149,8 @@ void LevelFactory::addRooms( int maxTries )
         std::uniform_int_distribution<> mtRoomX(1, m_level->m_bounds.x() - roomSize.x() - 1);
         std::uniform_int_distribution<> mtRoomY(1, m_level->m_bounds.y() - roomSize.y() - 1);
 
-        int x = (mtRoomX(m_mt) / 2) * 2 + 1;
-        int y = (mtRoomY(m_mt) / 2) * 2 + 1;
+        int x = (mtRoomX(m_level->m_rg) / 2) * 2 + 1;
+        int y = (mtRoomY(m_level->m_rg) / 2) * 2 + 1;
 
         Room room;
         room.bounds = { x, y, roomSize.x(), roomSize.y() };
@@ -186,13 +186,12 @@ void LevelFactory::addRooms( int maxTries )
 Vector2i LevelFactory::generateRandomRoomSize()
 {
     std::uniform_int_distribution<> roomSizing(1, 3);
-    auto primary = roomSizing(m_mt) * 2 + 1;
+    auto primary = roomSizing(m_level->m_rg) * 2 + 1;
 
     std::uniform_int_distribution<> secSizing(primary - 2, primary);
-    auto secondary = secSizing(m_mt) * 2 + 1;
+    auto secondary = secSizing(m_level->m_rg) * 2 + 1;
 
-    std::uniform_int_distribution<> coinflip(1, 2);
-    if ( coinflip(m_mt) == 1 )
+    if ( coinflip(m_level->m_rg) )
     {
         std::swap(primary, secondary);
     }
@@ -284,7 +283,7 @@ void LevelFactory::connectRooms()
     while ( openRegions.size() > 1 )
     {
         // Select a random tile from the pool of possible connectors
-        auto rand_it = randomElement(allConnectors.begin(), allConnectors.end(), m_mt);
+        auto rand_it = randomElement(allConnectors.begin(), allConnectors.end(), m_level->m_rg);
         auto& rand_regions = connectorMap[*rand_it];
 
         // Create a new junction
@@ -338,7 +337,7 @@ void LevelFactory::connectRooms()
 
             // A small percentage of the time, add another random door. This will help keep the network of rooms
             // and corridors connected rather than tree-ish
-            if ( weightedFlip(30, m_mt) )
+            if ( weightedFlip(30, m_level->m_rg) )
             {
                 addJunction( pos, cmp.x(), cmp.y() );
                 return true;
@@ -358,7 +357,7 @@ void LevelFactory::addJunction( Vector2i pos, RegionRef r1, RegionRef r2 )
     jc.region1 = r1;
     jc.region2 = r2;
 
-    if ( weightedFlip(5, m_mt) )
+    if ( weightedFlip(5, m_level->m_rg) )
     {
         tileSet( jc.pos, BaseTileType::Floor );
         jc.type = JunctionType::Open;
@@ -707,7 +706,7 @@ void LevelFactory::decorateRooms()
         {
             case RoomType::Normal:
             {
-                auto rt = m_roomTemplates.randomTemplate( room.bounds.right(), m_mt );
+                auto rt = m_roomTemplates.randomTemplate( room.bounds.right(), m_level->m_rg );
                 if ( rt != nullptr )
                 {
                     constructRoomFromTemplate(room, rt);
@@ -804,7 +803,7 @@ void LevelFactory::assignSpecialRooms()
         if ( terminalRooms.empty() )
             break;
 
-        auto it = randomElement( terminalRooms.begin(), terminalRooms.end(), m_mt );
+        auto it = randomElement( terminalRooms.begin(), terminalRooms.end(), m_level->m_rg );
         m_specialRooms.emplace( srt, *it );
         m_rooms.at(*it).roomType = srt;
         terminalRooms.erase(it);

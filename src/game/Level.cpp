@@ -14,8 +14,9 @@
 #include <ui/Layout.h>
 #include <ui/ContextMenu.h>
 
-Level::Level(Vector2i size, LevelContextPtr ctx)
-: m_ctx(std::move(ctx)), m_bounds(size), m_grid(size), m_tileCount(size.x() * size.y()), m_entFactory(this)
+Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
+: m_ctx(std::move(ctx)), m_bounds(size), m_grid(size),
+  m_tileCount(size.x() * size.y()), m_rg(rg), m_entFactory(this, &m_rg)
 {
     registerComponent<Components::Render>();
     registerComponent<Components::TilePosition>();

@@ -84,7 +84,7 @@ Vector2i RoomTemplateManager::parseKeyName(std::string const &name)
     return out;
 }
 
-RoomTemplate* RoomTemplateManager::randomTemplate(Vector2i roomSize, std::mt19937& rd)
+RoomTemplate* RoomTemplateManager::randomTemplate(Vector2i roomSize, RandomGenerator& rd)
 {
     auto it = m_basicTemplates.equal_range(roomSize);
 

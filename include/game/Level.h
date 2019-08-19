@@ -38,7 +38,7 @@ class Level
 public:
     friend class LevelFactory;
 
-    explicit Level(Vector2i size, LevelContextPtr ctx);
+    explicit Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg);
     virtual ~Level() = default;
 
     bool input(IEvent &evt);
@@ -222,6 +222,8 @@ private:
     void doMovePlayer( SDL_Keycode kcode );
 
 private:
+
+    RandomGenerator m_rg;
 
     Vector2i m_bounds;
     int m_tileCount;

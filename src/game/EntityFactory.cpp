@@ -4,11 +4,8 @@
 #include <rapidjson/document.h>
 #include <utils/Json.h>
 
-EntityFactory::EntityFactory(Level *parent)
-: m_parent(parent)
-{
-}
-
+EntityFactory::EntityFactory(Level *parent, RandomGenerator* rg )
+: m_parent(parent), m_rg(rg) {}
 
 std::unique_ptr<Player> EntityFactory::createPlayer(ImPlayerData &data, Vector2i startPos) const
 {
@@ -102,7 +99,7 @@ EntityRef EntityFactory::createPrefabByName(std::string const &name, Vector2i po
 
     for ( auto const& pc : prefabComponents )
     {
-        std::visit( Prefab::Visitor{m_parent, eref}, pc );
+        std::visit( Prefab::Visitor{m_parent, eref, m_rg}, pc );
     }
 
     m_parent->entityReady( eref );
@@ -110,13 +107,14 @@ EntityRef EntityFactory::createPrefabByName(std::string const &name, Vector2i po
     return eref;
 }
 
-Prefab::Visitor::Visitor(Level* level, EntityRef ref)
-: m_ref(ref), m_level(level) {}
+Prefab::Visitor::Visitor(Level* level, EntityRef ref, RandomGenerator* rg)
+: m_ref(ref), m_level(level), m_rg(rg) {}
 
 void Prefab::Visitor::operator()(Component::Render const& obj) const
 {
-    // TODO Don't always take the first one
-    auto sprite = ResourceManager::get().getSprite(obj.sprites.front());
+//    auto it = randomElement(obj.sprites.begin(), obj.sprites.end(), *m_rg);
+//    auto sprite = ResourceManager::get().getSprite(*it);
+    auto sprite = ResourceManager::get().getSprite( obj.sprites.front() );
     m_level->addComponent<Components::Render>(m_ref, sprite);
 }
 void Prefab::Visitor::operator()(Component::State const& obj) const

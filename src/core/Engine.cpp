@@ -33,15 +33,20 @@ void Engine::run()
     InputInterface inputInterface;
 
     LevelConfig debugConfig;
-//    debugConfig.size = {55, 35};
-    debugConfig.size = {75, 55};
+    debugConfig.size = {55, 35};
+//    debugConfig.size = {75, 55};
     debugConfig.roomDensity = 400;
 
     pushState<LevelState>( debugConfig );
 
-    Timer timer = Timer();
+    auto timer = Timer();
     uint32_t ticks = 0;
     bool runGame = true;
+
+    auto fpsTimer = Timer();
+    fpsTimer.start();
+    auto fpsTicks = 0;
+    auto currentFps = -1;
 
     while (runGame)
     {
@@ -85,6 +90,15 @@ void Engine::run()
         {
             SDL_Delay(msPerFrame - ticks);
         }
+
+//        fpsTicks++;
+//        if ( fpsTimer.elapsed() > 1000 )
+//        {
+//            fpsTimer.start();
+//            currentFps = fpsTicks;
+//            fpsTicks = 0;
+//            Logging::log( "{}\n", currentFps );
+//        }
     }
 
     // Cleanup

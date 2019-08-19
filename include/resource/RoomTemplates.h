@@ -4,7 +4,7 @@
 #include <utils/Containers.h>
 #include <rapidjson/document.h>
 #include <regex>
-#include <random>
+#include <utils/Random.h>
 
 
 struct RoomTemplatePrefab
@@ -27,7 +27,7 @@ public:
 
    void loadAllTemplates( std::string const& path );
 
-   RoomTemplate* randomTemplate( Vector2i roomSize, std::mt19937& rd );
+   RoomTemplate* randomTemplate( Vector2i roomSize, RandomGenerator& rd );
 
 private:
     // Turn "7x5" -> (7, 5)
