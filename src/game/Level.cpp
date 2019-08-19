@@ -23,6 +23,7 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     registerComponent<Components::Collider>();
     registerComponent<Components::FixedState>();
     registerComponent<Components::FixedRenderState>();
+    registerComponent<Components::Description>();
 
     registerSystem<Systems::Render>();
     registerSystem<Systems::Position>();
@@ -80,6 +81,7 @@ bool Level::handleKeyInput(IEventKeyPress &evt)
 
 bool Level::handleMouseMoveInput(IEventMouseMove& evt)
 {
+    auto tileCoords = screenCoordsToTile(evt.screenPos);
     return false;
 }
 

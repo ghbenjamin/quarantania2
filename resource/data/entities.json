@@ -4,7 +4,6 @@
       "name": "bed",
       "components": {
         "render": {
-          "render-states": 2,
           "tilesets": [
             [
               {
@@ -23,14 +22,17 @@
         "collider": {
           "passable": false
         },
-        "state": ["made", "unmade"]
+        "state": ["made", "unmade"],
+        "description": [
+          "A made bed",
+          "An unmade bed"
+        ]
       }
     },
     {
       "name": "entrance",
       "components": {
         "render": {
-          "render-states": 1,
           "tilesets": [
             [
               {
@@ -42,14 +44,14 @@
         },
         "collider": {
           "passable": false
-        }
+        },
+        "description": [ "Stairs leading up" ]
       }
     },
     {
       "name": "exit",
       "components": {
         "render": {
-          "render-states": 1,
           "tilesets": [
             [
               {
@@ -58,22 +60,20 @@
               }
             ]
           ]
-        }
+        },
+        "description": [ "Stairs leading down" ]
       }
     },
     {
       "name": "chair",
       "components": {
         "render": {
-          "render-states": 1,
           "tilesets": [
             [
               {
                 "sheet": "kenney-tiles",
                 "tile": "chair-left"
-              }
-            ],
-            [
+              },
               {
                 "sheet": "kenney-tiles",
                 "tile": "chair-right"
@@ -83,20 +83,22 @@
         },
         "collider": {
           "passable": false
-        }
+        },
+        "description": [ "A chair" ]
       }
     },
     {
       "name": "barrel",
       "components": {
         "render": {
-          "render-states": 2,
           "tilesets": [
             [
               {
                 "sheet": "kenney-tiles",
                 "tile": "barrel-open"
-              },
+              }
+            ],
+            [
               {
                 "sheet": "kenney-tiles",
                 "tile": "barrel-closed"
@@ -109,34 +111,31 @@
         },
         "container": {
         },
-        "state": ["open", "closed"]
+        "state": ["open", "closed"],
+        "description": [
+          "An open-topped barrel",
+          "A sealed barrel"
+        ]
       }
     },
     {
       "name": "drawer",
       "components": {
         "render": {
-          "render-states": 1,
           "tilesets": [
             [
               {
                 "sheet": "kenney-tiles",
                 "tile": "single-wide-drawer"
-              }
-            ],
-            [
+              },
               {
                 "sheet": "kenney-tiles",
                 "tile": "double-wide-drawer"
-              }
-            ],
-            [
+              },
               {
                 "sheet": "kenney-tiles",
                 "tile": "single-thin-drawer"
-              }
-            ],
-            [
+              },
               {
                 "sheet": "kenney-tiles",
                 "tile": "double-thin-drawer"
@@ -148,14 +147,14 @@
           "passable": false
         },
         "container": {
-        }
+        },
+        "description": [ "A set of drawers" ]
       }
     },
     {
       "name": "door",
       "components": {
         "render": {
-          "render-states": 2,
           "tilesets": [
             [
               {
@@ -171,10 +170,6 @@
               {
                 "sheet": "kenney-tiles",
                 "tile": "door-open"
-              },
-              {
-                "sheet": "kenney-tiles",
-                "tile": "door-open"
               }
             ]
           ]
@@ -182,14 +177,17 @@
         "collider": {
           "passable": false
         },
-        "state": ["open", "closed"]
+        "state": ["open", "closed"],
+        "description": [
+          "An open doorway",
+          "A closed door"
+        ]
       }
     },
     {
       "name": "chest",
       "components": {
         "render": {
-          "render-states": 2,
           "tilesets": [
             [
               {
@@ -210,14 +208,17 @@
         },
         "container": {
         },
-        "state": ["open", "closed"]
+        "state": ["open", "closed"],
+        "description": [
+          "An open chest",
+          "A closed chest"
+        ]
       }
     },
     {
       "name": "fireplace",
       "components": {
         "render": {
-          "render-states": 2,
           "tilesets": [
             [
               {
@@ -236,14 +237,17 @@
         "collider": {
           "passable": false
         },
-        "state": ["lit", "unlit"]
+        "state": ["lit", "unlit"],
+        "description": [
+          "A roaring fire",
+          "An unlit fire"
+        ]
       }
     },
     {
       "name": "anvil",
       "components": {
         "render": {
-          "render-states": 1,
           "tilesets": [
             [
               {
@@ -255,14 +259,14 @@
         },
         "collider": {
           "passable": false
-        }
+        },
+        "description": [ "A sturdy anvil" ]
       }
     },
     {
       "name": "money-pile",
       "components": {
         "render": {
-          "render-states": 1,
           "tilesets": [
             [
               {
@@ -289,46 +293,41 @@
               }
             ]
           ]
-        }
+        },
+        "description": [
+          "A small pile of gold coins",
+          "A large pile of gold coins",
+          "A small pile of silver coins",
+          "A large pile of silver coins"
+        ]
       }
     },
     {
       "name": "bookcase",
       "components": {
         "render": {
-          "render-states": 1,
           "tilesets": [
             [
               {
                 "sheet": "kenney-tiles",
                 "tile": "bookcase-medium-full"
-              }
-            ],
-            [
+              },
               {
                 "sheet": "kenney-tiles",
                 "tile": "bookcase-small-empty"
-              }
-            ],
-            [
+              },
               {
                 "sheet": "kenney-tiles",
                 "tile": "bookcase-small-full"
-              }
-            ],
-            [
+              },
               {
                 "sheet": "kenney-tiles",
                 "tile": "bookcase-medium-empty"
-              }
-            ],
-            [
+              },
               {
                 "sheet": "kenney-tiles",
                 "tile": "bookcase-large-empty"
-              }
-            ],
-            [
+              },
               {
                 "sheet": "kenney-tiles",
                 "tile": "bookcase-large-full"
@@ -340,7 +339,8 @@
           "passable": false
         },
         "container": {
-        }
+        },
+        "description": [ "A bookcase" ]
       }
     }
   ]

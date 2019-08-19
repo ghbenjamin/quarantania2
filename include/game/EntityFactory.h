@@ -17,6 +17,7 @@ namespace Component
     {
         int renderStates = -1;
         std::vector<SpritesheetKey> sprites;
+        std::vector<int> spriteBreakpoints;
     };
 
     struct State
@@ -33,6 +34,11 @@ namespace Component
     {
 
     };
+
+    struct Description
+    {
+        std::vector<std::string> descriptions;
+    };
 }
 
     class Visitor
@@ -45,6 +51,7 @@ namespace Component
         void operator()(Component::State const& obj) const;
         void operator()(Component::Collider const& obj) const;
         void operator()(Component::Container const& obj) const;
+        void operator()(Component::Description const& obj) const;
 
     private:
         EntityRef m_ref;

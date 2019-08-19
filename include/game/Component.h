@@ -77,8 +77,13 @@ struct Container : public Component<Container>
     ~Container() override = default;
 };
 
+struct Description : public Component<Description>
+{
+    explicit Description( std::string const& val ) : value(val) {}
+    ~Description() override = default;
 
-
+    std::string value;
+};
 
 
 }

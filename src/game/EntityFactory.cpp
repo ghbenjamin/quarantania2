@@ -51,11 +51,16 @@ void EntityFactory::loadAllPrefabs(std::string const &path)
             if ( compName == "render" )
             {
                 Prefab::Component::Render c;
-                c.renderStates = comp.value.GetObject().FindMember("render-states")->value.GetInt();
 
-                for ( auto const& tileState : comp.value.GetObject().FindMember("tilesets")->value.GetArray() )
+                auto tilesetArray = comp.value.GetObject().FindMember("tilesets")->value.GetArray();
+                c.renderStates = tilesetArray.Size();
+
+                for ( auto const& tileState : tilesetArray )
                 {
-                    for ( auto const& tileSet : tileState.GetArray() )
+                    auto tileStateArray = tileState.GetArray();
+                    c.spriteBreakpoints.push_back( tileStateArray.Size() );
+
+                    for ( auto const& tileSet : tileStateArray )
                     {
                         auto tsObj = tileSet.GetObject();
                         c.sprites.emplace_back( tsObj.FindMember("sheet" )->value.GetString(),
@@ -80,9 +85,19 @@ void EntityFactory::loadAllPrefabs(std::string const &path)
                 Prefab::Component::Container c;
                 pcl.push_back( c );
             }
+            else if ( compName == "description" )
+            {
+                Prefab::Component::Description c;
+
+                auto descArray = comp.value.GetArray();
+                for ( auto const& desc : descArray )
+                {
+                    c.descriptions.emplace_back( desc.GetString() );
+                }
+            }
             else
             {
-                Logging::log("WARN: unexpected component name: {}", compName );
+                Logging::log("WARN: unexpected component name: {}\n", compName );
             }
         }
 
@@ -112,18 +127,33 @@ Prefab::Visitor::Visitor(Level* level, EntityRef ref, RandomGenerator* rg)
 
 void Prefab::Visitor::operator()(Component::Render const& obj) const
 {
-//    auto it = randomElement(obj.sprites.begin(), obj.sprites.end(), *m_rg);
-//    auto sprite = ResourceManager::get().getSprite(*it);
-    auto sprite = ResourceManager::get().getSprite( obj.sprites.front() );
+    // TODO: something more sophisticated than randomly picking
+
+    auto begin_it = obj.sprites.begin();
+    auto end_it = obj.sprites.begin();
+    std::advance(end_it, obj.spriteBreakpoints[0]);
+
+    auto it = randomElement(begin_it, end_it, *m_rg);
+    auto sprite = ResourceManager::get().getSprite(*it);
+
     m_level->addComponent<Components::Render>(m_ref, sprite);
 }
+
 void Prefab::Visitor::operator()(Component::State const& obj) const
 {
 }
+
 void Prefab::Visitor::operator()(Component::Collider const& obj) const
 {
     m_level->addComponent<Components::Collider>(m_ref);
 }
+
 void Prefab::Visitor::operator()(Component::Container const& obj) const
 {
+}
+
+void Prefab::Visitor::operator()(Component::Description const& obj) const
+{
+    // TODO again, something more clever
+    m_level->addComponent<Components::Description>(m_ref, obj.descriptions[0]);
 }
