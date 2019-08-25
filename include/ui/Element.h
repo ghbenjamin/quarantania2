@@ -8,6 +8,7 @@
 #include <ui/Layout.h>
 #include <ui/UEvent.h>
 #include <resource/Sprite.h>
+#include <utils/Logging.h>
 
 class RenderInterface;
 class InputInterface;
@@ -15,7 +16,7 @@ class InputInterface;
 namespace UI
 {
 
-class UiManager;
+class Manager;
 class Element;
 
 using ElementPtr = std::shared_ptr<Element>;
@@ -24,7 +25,7 @@ using ElementList = std::vector<ElementPtr>;
 
 class Element : public std::enable_shared_from_this<Element>
 {
-    friend class UiManager;
+    friend class Manager;
 
 public:
     Element();
@@ -114,7 +115,7 @@ public:
     void acceptEvent(UEvent& evt);
 
 
-    UiManager* manager();
+    Manager* manager();
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
     void doLayout();
@@ -142,7 +143,7 @@ private:
     std::set<std::string> m_classes;
 
     Element* m_parent;
-    UiManager* m_manager;
+    Manager* m_manager;
 
     // Locations
     Vector2i m_localPosition;
@@ -174,8 +175,8 @@ private:
     // Events
     std::unordered_multimap<UEventType, UEventCallback> m_callbacks;
 
-
     Sprite m_backgroundSprite;
+    //Sprite m_backgroundTexture;
     std::vector<ElementPtr> m_children;
 };
 

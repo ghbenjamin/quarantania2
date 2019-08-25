@@ -7,12 +7,11 @@
 #include <utils/Logging.h>
 #include <utils/Assert.h>
 #include <ui/TextNode.h>
-#include <ui/Label.h>
 #include <graphics/Primatives.h>
 #include <resource/ResourceManager.h>
 #include <ui/TextLog.h>
 #include <ui/Layout.h>
-#include <ui/ContextMenu.h>
+#include <state/DefaultLController.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 : m_ctx(std::move(ctx)), m_bounds(size), m_grid(size),
@@ -36,6 +35,8 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 
     setupUI();
     layoutWindows();
+
+    m_controller = std::make_unique<DefaultLController>(this);
 }
 
 bool Level::input(IEvent &evt)
@@ -45,82 +46,16 @@ bool Level::input(IEvent &evt)
         return true;
     }
 
-    switch ( evt.type )
+    switch (evt.type)
     {
-        case IEventType::KeyPress:
-            return handleKeyInput(evt.keyPress);
-        case IEventType::MouseDown:
-            return handleMouseClickInput(evt.mouseDown);
-        case IEventType::MouseMove:
-            return handleMouseMoveInput(evt.mouseMove);
         case IEventType::WindowResize:
             layoutWindows();
-            return true;
-        default:
-            return false;
-    }
-}
-
-bool Level::handleKeyInput(IEventKeyPress &evt)
-{
-    switch ( evt.keyCode )
-    {
-        case SDLK_w:
-        case SDLK_a:
-        case SDLK_s:
-        case SDLK_d:
-            doMovePlayer( evt.keyCode );
             break;
-
         default:
             break;
     }
 
-    return false;
-}
-
-bool Level::handleMouseMoveInput(IEventMouseMove& evt)
-{
-    auto tileCoords = screenCoordsToTile(evt.screenPos);
-    return false;
-}
-
-bool Level::handleMouseClickInput(IEventMouseDown& evt)
-{
-    static constexpr int LEFT_MOUSE_BUTTON = 1;
-    static constexpr int RIGHT_MOUSE_BUTTON = 3;
-
-    switch (evt.button)
-    {
-        case LEFT_MOUSE_BUTTON:
-        {
-            break;
-        }
-        case RIGHT_MOUSE_BUTTON:
-        {
-            auto tileCoords = screenCoordsToTile(evt.screenPos);
-            auto ents = m_grid.entitiesAtTile( tileCoords );
-            if ( !ents.empty() )
-            {
-                // TODO: Work out which entities are here. Work out the possible actions for each.
-                // Display these actions here, and respond accordingly to the chosen action.
-
-                UI::ContextMenuList cml = {
-                    "Hello", "World", "I", "am", "an", "ENTITY"
-                };
-
-                m_uiManager.openContextMenu(cml, evt.screenPos, [](auto arg) {
-                    // TODO: Do something other than parrot back the chosen item
-                    Logging::log( arg );
-                });
-            }
-            break;
-        }
-        default:
-            break;
-    }
-
-    return false;
+    return m_controller->input(evt);
 }
 
 void Level::render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
@@ -208,40 +143,6 @@ void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface
     }
 }
 
-void Level::doMovePlayer(SDL_Keycode kcode)
-{
-    auto ref = m_player->ref();
-    auto tpos = getComponents<Components::TilePosition>(ref);
-
-    Vector2i delta;
-
-    switch (kcode)
-    {
-        case SDLK_w:
-            delta = {0, -1};
-            break;
-        case SDLK_a:
-            delta = {-1, 0};
-            break;
-        case SDLK_s:
-            delta = {0, 1};
-            break;
-        case SDLK_d:
-            delta = {1, 0};
-            break;
-        default:
-            AssertAlways();
-            break;
-    }
-
-    Vector2i newPos = tpos->position + delta;
-
-    if ( m_grid.pass().valueAt(newPos) != Rules::Passibility::Impassable )
-    {
-        m_gevents.broadcast<GEvents::EntityMove>( ref, tpos->position, newPos );
-    }
-}
-
 EntityRef Level::createEntity()
 {
     // Requisition a new ID from the pool, but dont construct any new
@@ -294,7 +195,7 @@ GEventHub &Level::events()
     return m_gevents;
 }
 
-void Level::setPlayer(std::unique_ptr<Player> &&player)
+void Level::setPlayer(PlayerPtr &&player)
 {
     m_player = std::move(player);
 }
@@ -390,4 +291,20 @@ Vector2i Level::screenCoordsToTile(Vector2i const &screen)
 {
     auto world = screenCoordsToWorld(screen);
     return worldCoordsToTile(world);
+}
+
+Vector2i Level::tileCoordsToScreen( Vector2i const& tile )
+{
+    auto world = tile * 16;
+    return worldCoordsToScreen(world);
+}
+
+UI::Manager Level::ui()
+{
+    return m_uiManager;
+}
+
+PlayerPtr &Level::getPlayer()
+{
+    return m_player;
 }

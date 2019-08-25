@@ -235,7 +235,7 @@ void Element::setMaximumOuterSize(Vector2i size)
     doLayout();
 }
 
-UiManager *Element::manager()
+Manager *Element::manager()
 {
     return m_manager;
 }

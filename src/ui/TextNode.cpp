@@ -8,7 +8,7 @@ using namespace UI;
 TextNode::TextNode(TextStyle const &style)
 : m_style(style)
 {
-    m_font = ResourceManager::get().getResource<FontResource>( "roboto-regular" )->get();
+    m_font = ResourceManager::get().getResource<FontResource>( "fira-code-regular" )->get();
 }
 
 TextNode::TextNode() : TextNode({ Colour::Black })

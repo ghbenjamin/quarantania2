@@ -26,12 +26,12 @@ struct WindowAlignment
 };
 
 
-class UiManager
+class Manager
 {
 public:
 
-    UiManager() = default;
-    ~UiManager() = default;
+    Manager() = default;
+    ~Manager() = default;
 
     bool input(IEvent &evt);
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
@@ -70,9 +70,8 @@ public:
 
     void openContextMenu( ContextMenuList const& items, Vector2i pos, ContextMenuCallback callback);
 
-
-
-
+    void addTileHighlight( Colour const& colour, Vector2i screenPos );
+    void removeTileHighlight();
 
 private:
     bool handleMouseMove( IEventMouseMove evt );

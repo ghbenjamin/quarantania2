@@ -7,7 +7,7 @@
 #include <SDL2/SDL.h>
 
 #include <utils/IdPool.h>
-#include <ui/UiManager.h>
+#include <ui/Manager.h>
 #include <game/Component.h>
 #include <game/System.h>
 #include <game/GEvent.h>
@@ -20,6 +20,7 @@
 #include <game/Rules.h>
 #include <game/Grid.h>
 #include <game/Camera.h>
+#include <state/LevelController.h>
 
 class RenderInterface;
 class InputInterface;
@@ -49,13 +50,15 @@ public:
 
     Grid& grid();
     GEventHub& events();
+    UI::Manager ui();
 
     EntityRef createEntity();
     void deleteEntity(EntityRef ent);
     void disableEntity(EntityRef ent);
     void enableEntity(EntityRef ent);
 
-    void setPlayer( std::unique_ptr<Player>&& player );
+    void setPlayer( PlayerPtr&& player );
+    PlayerPtr& getPlayer();
 
     template <typename CT, typename... Args>
     std::shared_ptr<CT> addComponent(EntityRef ent, Args...args)
@@ -173,6 +176,12 @@ public:
     }
 
 
+    Vector2i worldCoordsToScreen( Vector2i const& world );
+    Vector2i screenCoordsToWorld( Vector2i const& screen );
+    Vector2i worldCoordsToTile( Vector2i const& world);
+    Vector2i screenCoordsToTile( Vector2i const& screen);
+    Vector2i tileCoordsToScreen( Vector2i const& tile );
+
 private:
 
     template <typename CT>
@@ -199,27 +208,12 @@ private:
         m_systems.push_back( std::move(bPtr) );
     }
 
-    bool handleKeyInput(IEventKeyPress& evt);
-    bool handleMouseMoveInput(IEventMouseMove& evt);
-    bool handleMouseClickInput(IEventMouseDown& evt);
-
-    // UI
-
+    // UI Methods
     void setupUI();
-
     void updateCamera(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void renderTiles(uint32_t ticks, RenderInterface &rInter);
-
     void layoutWindows();
-
-    Vector2i worldCoordsToScreen( Vector2i const& world );
-    Vector2i screenCoordsToWorld( Vector2i const& screen );
-    Vector2i worldCoordsToTile( Vector2i const& world);
-    Vector2i screenCoordsToTile( Vector2i const& screen);
-
-    // Input
-    void doMovePlayer( SDL_Keycode kcode );
 
 private:
 
@@ -244,8 +238,10 @@ private:
     std::vector<SystemPtr> m_systems;
     std::unique_ptr<Player> m_player;
 
-    UI::UiManager m_uiManager;
+    UI::Manager m_uiManager;
     Camera m_camera;
+
+    LevelControllerPtr m_controller;
 
 };
 

@@ -26,3 +26,4 @@ private:
 
 };
 
+using PlayerPtr = std::unique_ptr<Player>;

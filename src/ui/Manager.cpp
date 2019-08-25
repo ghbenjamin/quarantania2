@@ -1,4 +1,4 @@
-#include <ui/UiManager.h>
+#include <ui/Manager.h>
 
 #include <graphics/RenderInterface.h>
 #include <game/InputInterface.h>
@@ -9,7 +9,7 @@
 
 using namespace UI;
 
-bool UiManager::input(IEvent &evt)
+bool Manager::input(IEvent &evt)
 {
     switch ( evt.type )
     {
@@ -31,7 +31,7 @@ bool UiManager::input(IEvent &evt)
     return false;
 }
 
-void UiManager::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
+void Manager::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
     for ( auto const& r: m_roots )
     {
@@ -39,7 +39,7 @@ void UiManager::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
     }
 }
 
-void UiManager::doLayout()
+void Manager::doLayout()
 {
     auto windowSize = ResourceManager::get().getWindow()->getSize();
 
@@ -50,7 +50,7 @@ void UiManager::doLayout()
     }
 }
 
-void UiManager::deleteElement(const ElementPtr& element)
+void Manager::deleteElement(const ElementPtr& element)
 {
     if ( element->parent() )
     {
@@ -62,7 +62,7 @@ void UiManager::deleteElement(const ElementPtr& element)
     }
 }
 
-void UiManager::alignElementToWindow(const ElementPtr& element, UI::Alignment alignment, int offset)
+void Manager::alignElementToWindow(const ElementPtr& element, UI::Alignment alignment, int offset)
 {
     unalignElementToWindow( element );
 
@@ -71,7 +71,7 @@ void UiManager::alignElementToWindow(const ElementPtr& element, UI::Alignment al
     doLayout();
 }
 
-void UiManager::unalignElementToWindow(ElementPtr element)
+void Manager::unalignElementToWindow(ElementPtr element)
 {
     m_windowAlignments.erase( std::remove_if( m_windowAlignments.begin(), m_windowAlignments.end(),
           [&](auto const& item) {
@@ -80,7 +80,7 @@ void UiManager::unalignElementToWindow(ElementPtr element)
     );
 }
 
-ElementPtr UiManager::withId(std::string const &id)
+ElementPtr Manager::withId(std::string const &id)
 {
     auto out = ElementPtr();
 
@@ -105,7 +105,7 @@ ElementPtr UiManager::withId(std::string const &id)
     return out;
 }
 
-UI::ElementList UiManager::windowsAtPoint(Vector2i pos) const
+UI::ElementList Manager::windowsAtPoint(Vector2i pos) const
 {
     std::vector<ElementPtr> out;
     ElementPtr curr;
@@ -155,7 +155,7 @@ UI::ElementList UiManager::windowsAtPoint(Vector2i pos) const
 }
 
 std::tuple<ElementList, ElementList>
-UiManager::partitionWindowLists(ElementList const &lhs, ElementList const &rhs) const
+Manager::partitionWindowLists(ElementList const &lhs, ElementList const &rhs) const
 {
     auto it_lhs = lhs.begin();
     auto it_rhs = rhs.begin();
@@ -174,7 +174,7 @@ UiManager::partitionWindowLists(ElementList const &lhs, ElementList const &rhs) 
     return std::make_tuple( exits, enters );
 }
 
-bool UiManager::handleMouseDown(IEventMouseDown evt)
+bool Manager::handleMouseDown(IEventMouseDown evt)
 {
     auto elems = windowsAtPoint(evt.screenPos);
 
@@ -197,7 +197,7 @@ bool UiManager::handleMouseDown(IEventMouseDown evt)
     }
 }
 
-bool UiManager::handleMouseUp(IEventMouseUp evt)
+bool Manager::handleMouseUp(IEventMouseUp evt)
 {
     auto elems = windowsAtPoint(evt.screenPos);
 
@@ -240,7 +240,7 @@ bool UiManager::handleMouseUp(IEventMouseUp evt)
     }
 }
 
-bool UiManager::handleMouseMove(IEventMouseMove evt)
+bool Manager::handleMouseMove(IEventMouseMove evt)
 {
     auto elems = windowsAtPoint(evt.screenPos);
     auto [exits, enters] = partitionWindowLists(m_hoveredElems, elems);
@@ -276,10 +276,24 @@ bool UiManager::handleMouseMove(IEventMouseMove evt)
     return true;
 }
 
-void UiManager::openContextMenu(ContextMenuList const &items, Vector2i pos, ContextMenuCallback callback)
+void Manager::openContextMenu(ContextMenuList const &items, Vector2i pos, ContextMenuCallback callback)
 {
     auto cmenu = createElement<UI::ContextMenu>(nullptr, items, callback);
     cmenu->setLocalPosition( pos );
+}
+
+void Manager::addTileHighlight(Colour const &colour, Vector2i screenPos)
+{
+    auto elem = createElement<Element>(nullptr);
+    elem->setPreferredContentSize({16, 16});
+    elem->setBackgroundColour(colour);
+    elem->setLocalPosition( screenPos );
+    elem->setId("tile-highlight");
+}
+
+void Manager::removeTileHighlight()
+{
+    deleteElement( withId( "tile-highlight" ) );
 }
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, int offset)

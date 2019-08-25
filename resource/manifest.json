@@ -22,6 +22,11 @@
       "key": "roboto-regular",
       "name": "RobotoSlab-Regular.ttf",
       "fontSize": 14
+    },
+    {
+      "key": "fira-code-regular",
+      "name": "FiraCode-Regular.ttf",
+      "fontSize": 14
     }
   ],
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <ui/Element.h>
 #include <ui/TextNode.h>
 

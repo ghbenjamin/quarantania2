@@ -1,5 +1,5 @@
 #include <ui/ContextMenu.h>
-#include <ui/UiManager.h>
+#include <ui/Manager.h>
 #include <utils/Logging.h>
 
 #include <utility>
