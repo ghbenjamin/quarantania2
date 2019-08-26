@@ -11,6 +11,12 @@
       "name": "kenney-roguelike-tiles",
       "margin": 1,
       "tileSize": 16
+    },
+    {
+      "key": "tile-ui",
+      "name": "tile-ui",
+      "margin": 1,
+      "tileSize": 16
     }
   ],
 

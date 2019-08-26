@@ -9,6 +9,7 @@
 #include <ui/UEvent.h>
 #include <resource/Sprite.h>
 #include <utils/Logging.h>
+#include <resource/Spritesheet.h>
 
 class RenderInterface;
 class InputInterface;
@@ -29,11 +30,7 @@ class Element : public std::enable_shared_from_this<Element>
 
 public:
     Element();
-//    virtual ~Element() = default;
-    virtual ~Element()
-    {
-        int foo;
-    }
+    virtual ~Element() = default;
 
     // Positioning
     Vector2i globalPosition();
@@ -70,7 +67,7 @@ public:
     // Classes
     void addClass( std::string const& c );
     void removeClass( std::string const& c );
-    bool hasClass( std::string const& c );
+    bool hasClass( std::string const& c ) const;
 
     // DOM
     void setParent( Element* elem );
@@ -101,13 +98,14 @@ public:
         doLayout();
     }
 
-    ElementPtr descWithId( std::string const& id ) const;
-
     // Styling
     void setBorder( int width, Colour colour );
     void removeBorder();
+
     void setBackgroundColour( Colour colour );
     void removeBackgroundColour();
+    void setBackgroundSprite( SpritesheetKey const& sp );
+    void removeBackgroundSprite();
 
     void setPadding( RectI const& rect );
     void setPadding( int w );
@@ -133,6 +131,49 @@ protected:
     void onSize();
 
 private:
+
+
+    template <typename Callable>
+    void elementsMatchingCondition( Callable&& callable, ElementList* out )
+    {
+        if ( callable(shared_from_this() ))
+        {
+            out->push_back( shared_from_this() );
+        }
+
+        for ( auto const& c : m_children )
+        {
+            c->elementsMatchingCondition( callable, out );
+        }
+    }
+
+    template <typename Callable>
+    ElementPtr firstMatchingCondition( Callable&& callable )
+    {
+        ElementPtr out = ElementPtr();
+        ElementPtr s_this = shared_from_this();
+
+        if ( callable(s_this) )
+        {
+            out = s_this;
+        }
+        else
+        {
+            ElementPtr tmp;
+            for ( auto const& c : m_children )
+            {
+                tmp = c->firstMatchingCondition(callable);
+                if ( tmp )
+                {
+                    out = tmp;
+                    break;
+                }
+            }
+        }
+
+        return out;
+    }
+
 
     virtual void updateSelf(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
@@ -180,7 +221,7 @@ private:
     std::unordered_multimap<UEventType, UEventCallback> m_callbacks;
 
     Sprite m_backgroundSprite;
-    //Sprite m_backgroundTexture;
+    Sprite m_backgroundTexture;
     std::vector<ElementPtr> m_children;
 };
 

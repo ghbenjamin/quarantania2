@@ -16,13 +16,13 @@ bool Manager::input(IEvent &evt)
         case IEventType::KeyPress:
             break;
         case IEventType::MouseDown:
-            handleMouseDown(evt.mouseDown);
+            return handleMouseDown(evt.mouseDown);
             break;
         case IEventType::MouseUp:
-            handleMouseUp(evt.mouseUp);
+            return handleMouseUp(evt.mouseUp);
             break;
         case IEventType::MouseMove:
-            handleMouseMove(evt.mouseMove);
+            return handleMouseMove(evt.mouseMove);
             break;
         case IEventType::WindowResize:
             break;
@@ -85,27 +85,9 @@ void Manager::unalignElementToWindow(ElementPtr element)
 
 ElementPtr Manager::withId(std::string const &id)
 {
-    auto out = ElementPtr();
-
-    for ( auto& r : m_roots )
-    {
-        if ( r->id() == id )
-        {
-            out = r;
-            break;
-        }
-        else
-        {
-            auto ptr = r->descWithId(id);
-            if (ptr)
-            {
-                out = ptr;
-                break;
-            }
-        }
-    }
-
-    return out;
+    return firstElementMatching([&](auto const& e){
+        return e->id() == id;
+    });
 }
 
 UI::ElementList Manager::windowsAtPoint(Vector2i pos) const
@@ -179,10 +161,28 @@ Manager::partitionWindowLists(ElementList const &lhs, ElementList const &rhs) co
 
 bool Manager::handleMouseDown(IEventMouseDown evt)
 {
+    // Get all the elements under the mouse cursor
     auto elems = windowsAtPoint(evt.screenPos);
+
+    // Ignore the highlight elements
+    elems.erase( std::remove_if( elems.begin(), elems.end(), [](auto const& item){
+        return item->hasClass("highlight");
+    }), elems.end());
 
     if ( elems.empty() )
     {
+        // If there's an open context menu (which we didn't click on), close it.
+        // TODO Also close the menu if we click on a different ui item
+
+        auto cm = firstElementMatching([](auto const& e){
+            return e->id() == "context-menu";
+        });
+
+        if (cm)
+        {
+            deleteElement(cm);
+        }
+
         return false;
     }
     else
@@ -276,27 +276,35 @@ bool Manager::handleMouseMove(IEventMouseMove evt)
         }
     }
 
-    return true;
+    return !m_hoveredElems.empty();
 }
 
 void Manager::openContextMenu(ContextMenuList const &items, Vector2i pos, ContextMenuCallback callback)
 {
+    removeTileHighlight();
+
     auto cmenu = createElement<UI::ContextMenu>(nullptr, items, callback);
     cmenu->setLocalPosition( pos );
 }
 
-void Manager::addTileHighlight(Colour const &colour, Vector2i screenPos)
+void Manager::addTileHighlight(Vector2i screenPos)
 {
     auto elem = createElement<Element>(nullptr);
     elem->setPreferredContentSize({16, 16});
-    elem->setBackgroundColour(colour);
+    elem->setBackgroundSprite({"tile-ui", "green-brackets"});
     elem->setLocalPosition( screenPos );
     elem->setId("tile-highlight");
+    elem->addClass("highlight");
 }
 
 void Manager::removeTileHighlight()
 {
     deleteElement( withId( "tile-highlight" ) );
+}
+
+void Manager::cancelContextMenu()
+{
+    deleteElement( withId( "context-menu" ) );
 }
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, int offset)

@@ -106,8 +106,9 @@ void DefaultLController::doMovePlayer(SDL_Keycode kcode)
 void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 {
     m_level->ui().removeTileHighlight();
-    m_level->ui().addTileHighlight(
-        Colour::Lavender,
-        m_level->tileCoordsToScreen(curr)
-    );
+
+    if ( m_level->grid().inBounds( curr ))
+    {
+        m_level->ui().addTileHighlight( m_level->tileCoordsToScreen(curr) );
+    }
 }

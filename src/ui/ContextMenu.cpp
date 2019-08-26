@@ -29,6 +29,7 @@ UI::ContextMenu::ContextMenu(const UI::ContextMenuList &items, ContextMenuCallba
     setBackgroundColour( Colour::Beige );
     setBorder( 2, Colour::Black );
     setPadding(6);
+    setId("context-menu");
     releaseLayout();
 }
 

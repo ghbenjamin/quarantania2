@@ -62,6 +62,44 @@ public:
 
     ElementPtr withId( std::string const& id );
 
+    template <typename Callable>
+    ElementList allElementsMatching( Callable&& callable ) const
+    {
+        ElementList out;
+
+        for ( auto const& r : m_roots )
+        {
+           r->elementsMatchingCondition(callable, &out);
+        }
+
+        return out;
+    }
+
+    template <typename Callable>
+    int countElementsMatching( Callable&& callable ) const
+    {
+        return allElementsMatching(callable).size();
+    }
+
+    template <typename Callable>
+    ElementPtr firstElementMatching( Callable&& callable ) const
+    {
+        ElementPtr out = ElementPtr();
+        ElementPtr tmp;
+
+        for ( auto const& r : m_roots )
+        {
+            tmp = r->firstMatchingCondition(callable);
+            if ( tmp )
+            {
+                out = tmp;
+                break;
+            }
+        }
+
+        return out;
+    }
+
     ElementList windowsAtPoint( Vector2i pos ) const;
     std::tuple<ElementList, ElementList> partitionWindowLists( ElementList const& lhs, ElementList const& rhs ) const;
 
@@ -69,8 +107,9 @@ public:
     // API
 
     void openContextMenu( ContextMenuList const& items, Vector2i pos, ContextMenuCallback callback);
+    void cancelContextMenu();
 
-    void addTileHighlight( Colour const& colour, Vector2i screenPos );
+    void addTileHighlight(Vector2i screenPos);
     void removeTileHighlight();
 
 private:

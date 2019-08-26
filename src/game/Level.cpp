@@ -12,6 +12,7 @@
 #include <ui/TextLog.h>
 #include <ui/Layout.h>
 #include <state/DefaultLController.h>
+#include <ui/Label.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 : m_ctx(std::move(ctx)), m_bounds(size), m_grid(size),
@@ -227,14 +228,6 @@ Vector2i Level::worldCoordsToScreen(Vector2i const &world)
 
 void Level::setupUI()
 {
-//    auto ptr = m_uiManager.createElement<UI::Label>( nullptr );
-//
-//    ptr->setLocalPosition( {10, 10} );
-//    ptr->setText("Hello, World!");
-//    ptr->setBorder( 2, Colour::Black );
-//    ptr->setBackgroundColour( Colour::Grey );
-//    ptr->setPadding( 5 );
-
     auto tlog = m_uiManager.createElement<UI::TextLog>(nullptr);
     tlog->setPreferredContentSize({300, 200});
     tlog->setId("global-text-log");
@@ -244,16 +237,15 @@ void Level::setupUI()
     rframe->setBorder( 2, Colour::Black );
     rframe->setBackgroundColour( Colour::Grey );
 
-//    UI::ContextMenuList cml = {
-//        "Hello", "World", "", "a", "b", "c", "", "d"
-//    };
-//
-//    m_uiManager.openContextMenu(cml, {100, 100}, [](auto arg) {
-//        Logging::log( arg );
-//    });
+    auto trframe = m_uiManager.createElement<UI::Element>(nullptr);
+    rframe->setId("top-right-frame");
+
+//    auto trfLabel = m_uiManager.createElement<UI::Label>( trframe.get() );
+//    trfLabel->setId( "trf-label" );
 
     m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomLeft, 0 );
     m_uiManager.alignElementToWindow( rframe, UI::Alignment::CentreRight, 0 );
+//    m_uiManager.alignElementToWindow( trframe, UI::Alignment::TopRight, 0 );
 }
 
 void Level::layoutWindows()
@@ -262,9 +254,10 @@ void Level::layoutWindows()
 
     auto tlog = m_uiManager.withId("global-text-log");
     auto rframe = m_uiManager.withId("right-frame");
+//    auto trframe = m_uiManager.withId("top-right-frame");
 
     int rframeW = 300;
-    int rframeH = wndSize.y();
+    int rframeH = wndSize.y() / 3;
 
     int levelW = wndSize.x() - rframeW;
     int levelH = wndSize.y() - tlog->outerSize().y();
@@ -274,6 +267,7 @@ void Level::layoutWindows()
 
     tlog->setPreferredOuterSize({tlogW, tlogH});
     rframe->setPreferredOuterSize({ rframeW, rframeH });
+//    trframe->setPreferredOuterSize({rframeW, rframeH - 50});
 
     m_camera.setViewportSize({ levelW, levelH });
     m_uiManager.doLayout();

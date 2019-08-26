@@ -6,6 +6,22 @@
 namespace UI
 {
 
+
+namespace Internal
+{
+class TextLogLayout : public ElementLayout
+{
+public:
+    explicit TextLogLayout(int height);
+    ~TextLogLayout() override = default;
+    Vector2i doLayout(Element *ptr) override;
+
+private:
+    int m_height;
+};
+}
+
+
 class TextLog : public Element
 {
 public:
@@ -13,8 +29,6 @@ public:
     ~TextLog() override = default;
 
     void addLine( std::string const& line );
-
-    void scrollToPercent( float pos );
 
 private:
 
@@ -24,6 +38,7 @@ private:
     float m_scrollPosition;
 
     std::queue<std::string> m_lines;
+
 
 };
 

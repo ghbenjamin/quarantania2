@@ -5,6 +5,7 @@
 #include <graphics/Primatives.h>
 #include <graphics/RenderInterface.h>
 #include <utils/Assert.h>
+#include <resource/ResourceManager.h>
 
 using namespace UI;
 
@@ -47,7 +48,7 @@ void Element::removeClass(std::string const &c)
     m_classes.erase(c);
 }
 
-bool Element::hasClass(std::string const &c)
+bool Element::hasClass(std::string const &c) const
 {
     return m_classes.find(c) != m_classes.end();
 }
@@ -74,7 +75,7 @@ bool Element::hasParent()
 
 void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
-    if ( m_hasBgColour && m_backgroundSprite )
+    if ( m_backgroundSprite )
     {
         rInter.addScreenItem( m_backgroundSprite.renderObject( globalPosition() ) );
     }
@@ -301,7 +302,12 @@ void Element::generateBackground()
         return;
     }
 
-    if ( m_hasBgColour )
+    if ( m_backgroundTexture )
+    {
+        m_backgroundSprite = m_backgroundTexture;
+    }
+
+    else if ( m_hasBgColour )
     {
         if ( m_hasBorder )
         {
@@ -311,6 +317,11 @@ void Element::generateBackground()
         {
             m_backgroundSprite = createRectangle( m_actualOuterSize, m_bgColour );
         }
+    }
+
+    else
+    {
+        m_backgroundSprite = Sprite();
     }
 }
 
@@ -326,29 +337,6 @@ bool Element::isHidden() const
     return m_isHidden;
 }
 
-ElementPtr Element::descWithId(std::string const &id) const
-{
-    auto out = ElementPtr();
-    for ( auto const& child : m_children )
-    {
-        if ( child->id() == id )
-        {
-            out = child;
-            break;
-        }
-        else
-        {
-            auto ptr = child->descWithId(id);
-            if (ptr)
-            {
-                out = ptr;
-                break;
-            }
-        }
-    }
-
-    return out;
-}
 
 Vector2i Element::preferredSize() const
 {
@@ -384,4 +372,16 @@ void Element::acceptEvent(UEvent &evt)
 void Element::addEventCallback(UEventType type, UEventCallback const &callback)
 {
     m_callbacks.emplace( type, callback );
+}
+
+void Element::setBackgroundSprite(SpritesheetKey const &sp)
+{
+    m_backgroundTexture = ResourceManager::get().getSprite( sp );
+    generateBackground();
+}
+
+void Element::removeBackgroundSprite()
+{
+    m_backgroundTexture = Sprite();
+    generateBackground();
 }
