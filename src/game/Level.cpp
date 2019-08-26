@@ -299,7 +299,7 @@ Vector2i Level::tileCoordsToScreen( Vector2i const& tile )
     return worldCoordsToScreen(world);
 }
 
-UI::Manager Level::ui()
+UI::Manager& Level::ui()
 {
     return m_uiManager;
 }

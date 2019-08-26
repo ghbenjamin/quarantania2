@@ -52,6 +52,9 @@ void Manager::doLayout()
 
 void Manager::deleteElement(const ElementPtr& element)
 {
+    if ( !element )
+        return;
+
     if ( element->parent() )
     {
         element->parent()->removeChild(element);

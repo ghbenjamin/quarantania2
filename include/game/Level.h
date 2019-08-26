@@ -50,7 +50,7 @@ public:
 
     Grid& grid();
     GEventHub& events();
-    UI::Manager ui();
+    UI::Manager& ui();
 
     EntityRef createEntity();
     void deleteEntity(EntityRef ent);

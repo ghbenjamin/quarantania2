@@ -29,7 +29,11 @@ class Element : public std::enable_shared_from_this<Element>
 
 public:
     Element();
-    virtual ~Element() = default;
+//    virtual ~Element() = default;
+    virtual ~Element()
+    {
+        int foo;
+    }
 
     // Positioning
     Vector2i globalPosition();
