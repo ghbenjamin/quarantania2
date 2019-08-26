@@ -238,14 +238,14 @@ void Level::setupUI()
     rframe->setBackgroundColour( Colour::Grey );
 
     auto trframe = m_uiManager.createElement<UI::Element>(nullptr);
-    rframe->setId("top-right-frame");
+    trframe->setId("top-right-frame");
 
-//    auto trfLabel = m_uiManager.createElement<UI::Label>( trframe.get() );
-//    trfLabel->setId( "trf-label" );
+    auto trfLabel = m_uiManager.createElement<UI::TextNode>( trframe.get(), UI::TextStyle{ Colour::White } );
+    trfLabel->setId( "trf-label" );
 
     m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomLeft, 0 );
     m_uiManager.alignElementToWindow( rframe, UI::Alignment::CentreRight, 0 );
-//    m_uiManager.alignElementToWindow( trframe, UI::Alignment::TopRight, 0 );
+    m_uiManager.alignElementToWindow( trframe, UI::Alignment::TopRight, 0 );
 }
 
 void Level::layoutWindows()
@@ -254,7 +254,7 @@ void Level::layoutWindows()
 
     auto tlog = m_uiManager.withId("global-text-log");
     auto rframe = m_uiManager.withId("right-frame");
-//    auto trframe = m_uiManager.withId("top-right-frame");
+    auto trframe = m_uiManager.withId("top-right-frame");
 
     int rframeW = 300;
     int rframeH = wndSize.y() / 3;
@@ -267,7 +267,7 @@ void Level::layoutWindows()
 
     tlog->setPreferredOuterSize({tlogW, tlogH});
     rframe->setPreferredOuterSize({ rframeW, rframeH });
-//    trframe->setPreferredOuterSize({rframeW, rframeH - 50});
+    trframe->setPreferredOuterSize({rframeW, rframeH - 50});
 
     m_camera.setViewportSize({ levelW, levelH });
     m_uiManager.doLayout();

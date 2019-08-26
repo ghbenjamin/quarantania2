@@ -94,6 +94,8 @@ void EntityFactory::loadAllPrefabs(std::string const &path)
                 {
                     c.descriptions.emplace_back( desc.GetString() );
                 }
+
+                pcl.push_back( c );
             }
             else
             {

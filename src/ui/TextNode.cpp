@@ -27,6 +27,9 @@ void TextNode::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterfac
 
 void TextNode::renderText()
 {
+    if ( m_data.empty() )
+        return;
+
     m_rendered = m_font->renderText( m_data, m_style.textColour );
 
     m_renderObject.texture = m_rendered->raw();
@@ -60,5 +63,13 @@ void TextNode::onMoveSelf()
     auto pos = globalPosition();
     m_renderObject.targetRect.x = pos.x();
     m_renderObject.targetRect.y = pos.y();
+}
+
+void TextNode::clearText()
+{
+    m_renderObject = RenderObject();
+    m_data = "";
+
+    // TODO Also update preferred size
 }
 

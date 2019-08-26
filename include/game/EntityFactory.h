@@ -66,7 +66,8 @@ using PrefabVariant = std::variant
         Prefab::Component::Render,
         Prefab::Component::State,
         Prefab::Component::Collider,
-        Prefab::Component::Container
+        Prefab::Component::Container,
+        Prefab::Component::Description
     >;
 
 using PrefabList = std::vector<PrefabVariant>;

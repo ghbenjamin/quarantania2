@@ -17,6 +17,7 @@ public:
     ~TextNode() override = default;
 
     void setText( std::string const& text );
+    void clearText();
 
 protected:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;

@@ -111,4 +111,28 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     {
         m_level->ui().addTileHighlight( m_level->tileCoordsToScreen(curr) );
     }
+
+    auto ents = m_level->grid().entitiesAtTile(curr);
+    EntityRef entDesc = EntityNull;
+    for ( auto const& e : ents )
+    {
+        if ( m_level->entityHas<Components::Description>(e) )
+        {
+            entDesc = e;
+            break;
+        }
+    }
+
+    auto uiDescLabel = m_level->ui().withId("trf-label")->asType<UI::TextNode>();
+    if ( entDesc == EntityNull )
+    {
+        uiDescLabel->clearText();
+    }
+    else
+    {
+        auto descCmp = m_level->getComponents<Components::Description>(entDesc);
+
+        uiDescLabel->setText( descCmp->value );
+    }
+
 }
