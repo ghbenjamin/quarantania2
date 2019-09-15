@@ -22,7 +22,6 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     registerComponent<Components::TilePosition>();
     registerComponent<Components::Collider>();
     registerComponent<Components::FixedState>();
-    registerComponent<Components::FixedRenderState>();
     registerComponent<Components::Description>();
 
     registerSystem<Systems::Render>();
@@ -30,7 +29,6 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     registerSystem<Systems::Collision>();
     registerSystem<Systems::FOV>();
     registerSystem<Systems::FixedState>();
-    registerSystem<Systems::FixedRenderState>();
 
     m_camera.setBounds( m_bounds * 16 );
 

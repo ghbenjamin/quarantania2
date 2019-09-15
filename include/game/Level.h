@@ -94,6 +94,21 @@ public:
         }
     }
 
+    template <typename CT>
+    std::shared_ptr<CT> tryGetComponent(const EntityRef ent)
+    {
+        auto const& mref = mapForComponent<CT>();
+        if ( mref.find(ent) != mref.end() )
+        {
+            return std::static_pointer_cast<CT>(mref.at(ent));
+        }
+        else
+        {
+            return std::shared_ptr<CT>();
+        }
+    }
+
+
     /**
      * Return all Entities which contain (at least) the specified components.
      */
@@ -218,29 +233,21 @@ private:
 private:
 
     RandomGenerator m_rg;
-
     Vector2i m_bounds;
     int m_tileCount;
-    
     TileRenderMap m_renderTileMap;
     std::vector<std::vector<TileRef>> m_mapRendering;
     LD::BaseTileMap m_baseTilemap;
-
     LevelContextPtr m_ctx;
-
     Grid m_grid;
     GEventHub m_gevents;
-
     IdPool<EntityRef> m_entityPool;
     EntityFactory m_entFactory;
-
     std::unordered_map<ComponentId, EntityCompMap> m_components;
     std::vector<SystemPtr> m_systems;
     std::unique_ptr<Player> m_player;
-
     UI::Manager m_uiManager;
     Camera m_camera;
-
     LevelControllerPtr m_controller;
 
 };

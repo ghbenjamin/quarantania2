@@ -88,15 +88,4 @@ public:
     void accept(GEvents::FixedStateChange *evt) override;
 };
 
-class FixedRenderState : public System,
-                         public GEventSub<GEvents::FixedStateChange>
-{
-public:
-    explicit FixedRenderState(Level *parent);
-    ~FixedRenderState() override = default;
-
-    void accept(GEvents::FixedStateChange *evt) override;
-};
-
-
 }

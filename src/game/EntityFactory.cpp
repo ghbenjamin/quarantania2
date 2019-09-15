@@ -5,7 +5,12 @@
 #include <utils/Json.h>
 
 EntityFactory::EntityFactory(Level *parent, RandomGenerator* rg )
-: m_parent(parent), m_rg(rg) {}
+: m_parent(parent), m_rg(rg)
+{
+    m_prefabDecorators.emplace( "door", &EntityFactory::createDoor );
+    m_prefabDecorators.emplace( "entrance", &EntityFactory::createEntrance );
+    m_prefabDecorators.emplace( "exit", &EntityFactory::createExit );
+}
 
 std::unique_ptr<Player> EntityFactory::createPlayer(ImPlayerData &data, Vector2i startPos) const
 {
@@ -17,17 +22,6 @@ std::unique_ptr<Player> EntityFactory::createPlayer(ImPlayerData &data, Vector2i
     m_parent->addComponent<Components::Collider>(eref);
 
     return std::make_unique<Player>( std::move(data), eref );
-}
-
-EntityRef EntityFactory::debugHighlight(Vector2i pos, std::string const& tile) const
-{
-    auto eref = m_parent->createEntity();
-    auto sprite = ResourceManager::get().getSprite("kenney-tiles", tile);
-
-    m_parent->addComponent<Components::TilePosition>(eref, pos);
-    m_parent->addComponent<Components::Render>(eref, sprite);
-
-    return eref;
 }
 
 void EntityFactory::loadAllPrefabs(std::string const &path)
@@ -78,6 +72,11 @@ void EntityFactory::loadAllPrefabs(std::string const &path)
             else if ( compName == "state" )
             {
                 Prefab::Component::State c;
+                auto arr = comp.value.GetArray();
+                for ( auto const& a : arr )
+                {
+                    c.states.push_back( a.GetString() );
+                }
                 pcl.push_back( c );
             }
             else if ( compName == "container" )
@@ -112,16 +111,37 @@ EntityRef EntityFactory::createPrefabByName(std::string const &name, Vector2i po
     auto eref = m_parent->createEntity();
     auto const& prefabComponents = m_prefabs.at(name);
 
+    // All prefabs have a position
     m_parent->addComponent<Components::TilePosition>(eref, pos);
 
+    // Construct the simple components
     for ( auto const& pc : prefabComponents )
     {
         std::visit( Prefab::Visitor{m_parent, eref, m_rg}, pc );
     }
 
+    // Construct the components which are specific to specific types of prefab
+    if ( m_prefabDecorators.find(name) != m_prefabDecorators.end() )
+    {
+        auto mptr = m_prefabDecorators.at(name);
+        ( this->*mptr ) (eref);
+    }
+
     m_parent->entityReady( eref );
 
     return eref;
+}
+
+void EntityFactory::createDoor(EntityRef ref) const
+{
+}
+
+void EntityFactory::createEntrance(EntityRef ref) const
+{
+}
+
+void EntityFactory::createExit(EntityRef ref) const
+{
 }
 
 Prefab::Visitor::Visitor(Level* level, EntityRef ref, RandomGenerator* rg)
@@ -143,6 +163,7 @@ void Prefab::Visitor::operator()(Component::Render const& obj) const
 
 void Prefab::Visitor::operator()(Component::State const& obj) const
 {
+    m_level->addComponent<Components::FixedState>(m_ref, obj.states);
 }
 
 void Prefab::Visitor::operator()(Component::Collider const& obj) const
@@ -156,6 +177,5 @@ void Prefab::Visitor::operator()(Component::Container const& obj) const
 
 void Prefab::Visitor::operator()(Component::Description const& obj) const
 {
-    // TODO again, something more clever
-    m_level->addComponent<Components::Description>(m_ref, obj.descriptions[0]);
+    m_level->addComponent<Components::Description>(m_ref, obj.descriptions);
 }

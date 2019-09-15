@@ -25,10 +25,10 @@ struct EntityReady : public GEvent<EntityReady>
 
 struct FixedStateChange : public GEvent<FixedStateChange>
 {
-    FixedStateChange(EntityRef ent, std::size_t state) : ent(ent), state(state) {}
+    FixedStateChange(EntityRef ent, int state) : ent(ent), state(state) {}
 
     EntityRef ent;
-    std::size_t state;
+    int state;
 };
 
 }

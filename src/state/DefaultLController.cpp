@@ -132,7 +132,7 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     {
         auto descCmp = m_level->getComponents<Components::Description>(entDesc);
 
-        uiDescLabel->setText( descCmp->value );
+        uiDescLabel->setText( descCmp->descriptions[descCmp->current] );
     }
 
 }

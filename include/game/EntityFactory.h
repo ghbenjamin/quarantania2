@@ -22,7 +22,7 @@ namespace Component
 
     struct State
     {
-
+        std::vector<std::string> states;
     };
 
     struct Collider
@@ -86,12 +86,18 @@ public:
     std::unique_ptr<Player> createPlayer( ImPlayerData & data, Vector2i startPos ) const;
     EntityRef createPrefabByName(std::string const &name, Vector2i pos) const;
 
-    EntityRef debugHighlight( Vector2i pos, std::string const& tile) const;
+private:
+
+    void createEntrance( EntityRef ref ) const;
+    void createExit( EntityRef ref ) const;
+    void createDoor( EntityRef ref ) const;
+
 
 private:
 
     Level* m_parent;
     RandomGenerator* m_rg;
     std::unordered_map<std::string, PrefabList> m_prefabs;
+    std::unordered_map<std::string, void(EntityFactory::*)(EntityRef) const> m_prefabDecorators;
 
 };

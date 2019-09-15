@@ -35,15 +35,17 @@ namespace Components
 
 struct Render : public Component<Render>
 {
-    explicit Render( Sprite const& s ) : sprite(s) {}
+    explicit Render( Sprite const& s );
+    explicit Render( std::vector<Sprite> const& ss );
     ~Render() override = default;
 
-    Sprite sprite;
+    std::vector<Sprite> sprites;
+    int current;
 };
 
 struct TilePosition : public Component<TilePosition>
 {
-    explicit TilePosition( Vector2i const& p ) : position(p) {}
+    explicit TilePosition( Vector2i const& p );
     ~TilePosition() override = default;
 
     Vector2i position;
@@ -57,18 +59,11 @@ struct Collider : public Component<Collider>
 
 struct FixedState : public Component<FixedState>
 {
-    explicit FixedState( std::size_t start ) : state(start) {}
+    explicit FixedState( std::vector<std::string> const& states );
     ~FixedState() override = default;
 
-    std::size_t state;
-};
-
-struct FixedRenderState : public Component<FixedRenderState>
-{
-    explicit FixedRenderState( ) = default;
-    ~FixedRenderState() override = default;
-
-    std::vector<Sprite> sprites;
+    std::vector<std::string> states;
+    int current;
 };
 
 struct Container : public Component<Container>
@@ -79,11 +74,12 @@ struct Container : public Component<Container>
 
 struct Description : public Component<Description>
 {
-    explicit Description( std::string const& val ) : value(val) {}
+    explicit Description(std::string val);
+    explicit Description(std::vector<std::string> const& vals);
     ~Description() override = default;
 
-    std::string value;
+    int current;
+    std::vector<std::string> descriptions;
 };
-
 
 }

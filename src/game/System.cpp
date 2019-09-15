@@ -18,7 +18,7 @@ void Systems::Render::update(uint32_t ticks, RenderInterface &rInter)
 {
     for ( auto &[render, tile] : m_level->entitiesWith<Components::Render, Components::TilePosition>() )
     {
-        rInter.addWorldItem(render->sprite.renderObject( tile->position * 16 )); // TODO Hack
+        rInter.addWorldItem(render->sprites[render->current].renderObject( tile->position * 16 )); // TODO Hack
     }
 }
 
@@ -110,19 +110,19 @@ Systems::FixedState::FixedState(Level *parent) : System(parent)
 
 void Systems::FixedState::accept(GEvents::FixedStateChange *evt)
 {
+    auto compFs = m_level->tryGetComponent<Components::FixedState>(evt->ent);
+    Assert(!!compFs);
+    compFs->current = evt->state;
 
-}
-
-Systems::FixedRenderState::FixedRenderState(Level *parent) : System(parent)
-{
-    m_level->events().subscribe<GEvents::FixedStateChange>( this );
-}
-
-void Systems::FixedRenderState::accept(GEvents::FixedStateChange *evt)
-{
-    if ( m_level->entityHas<Components::FixedRenderState>(evt->ent) )
+    auto cmpRender = m_level->tryGetComponent<Components::Render>(evt->ent);
+    if ( cmpRender )
     {
-        auto [render, renderState] = m_level->getComponents<Components::Render, Components::FixedRenderState>(evt->ent);
-        render->sprite = renderState->sprites[evt->state];
+        cmpRender->current = evt->state;
+    }
+
+    auto cmpDesc = m_level->tryGetComponent<Components::Description>(evt->ent);
+    if ( cmpDesc )
+    {
+        cmpDesc->current = evt->state;
     }
 }
