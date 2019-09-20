@@ -34,3 +34,9 @@ Components::Description::Description(std::vector<std::string> const& vals)
 : descriptions(vals), current(0)
 {
 }
+
+Components::Actor::Actor()
+: initiative(200)
+{
+
+}

@@ -2,6 +2,7 @@
 
 #include <resource/Sprite.h>
 #include <utils/Containers.h>
+#include <actions/Action.h>
 
 
 using ComponentId = std::size_t;
@@ -33,6 +34,7 @@ struct Component : public BaseComponent
 namespace Components
 {
 
+// Do I want to be visible?
 struct Render : public Component<Render>
 {
     explicit Render( Sprite const& s );
@@ -43,6 +45,7 @@ struct Render : public Component<Render>
     int current;
 };
 
+// Do I have a localised position? E.g. I'm not a trigger or a static effect
 struct TilePosition : public Component<TilePosition>
 {
     explicit TilePosition( Vector2i const& p );
@@ -51,12 +54,14 @@ struct TilePosition : public Component<TilePosition>
     Vector2i position;
 };
 
+// Can I block the movement of light or other objects?
 struct Collider : public Component<Collider>
 {
     explicit Collider() = default;
     ~Collider() override = default;
 };
 
+// TBD
 struct FixedState : public Component<FixedState>
 {
     explicit FixedState( std::vector<std::string> const& states );
@@ -66,12 +71,14 @@ struct FixedState : public Component<FixedState>
     int current;
 };
 
+// Can I contain items?
 struct Container : public Component<Container>
 {
     explicit Container( ) = default;
     ~Container() override = default;
 };
 
+// Do I have a description?
 struct Description : public Component<Description>
 {
     explicit Description(std::string val);
@@ -80,6 +87,18 @@ struct Description : public Component<Description>
 
     int current;
     std::vector<std::string> descriptions;
+};
+
+
+struct Actor : public Component<Actor>
+{
+    Actor();
+    ~Actor() override = default;
+
+    int initiative;
+    int currentEnergy;
+
+    std::unique_ptr<Action> nextAction;
 };
 
 }

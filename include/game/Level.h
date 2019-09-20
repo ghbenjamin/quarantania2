@@ -9,7 +9,6 @@
 #include <utils/IdPool.h>
 #include <ui/Manager.h>
 #include <game/Component.h>
-#include <game/System.h>
 #include <game/GEvent.h>
 #include <game/Tiles.h>
 #include <game/Player.h>
@@ -21,6 +20,10 @@
 #include <game/Grid.h>
 #include <game/Camera.h>
 #include <state/LevelController.h>
+#include <systems/System.h>
+#include <game/GEvent.h>
+#include <game/GEventDefs.h>
+
 
 class RenderInterface;
 class InputInterface;

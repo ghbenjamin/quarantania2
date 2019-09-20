@@ -14,6 +14,13 @@
 #include <state/DefaultLController.h>
 #include <ui/Label.h>
 
+#include <systems/Render.h>
+#include <systems/Position.h>
+#include <systems/Collision.h>
+#include <systems/FOV.h>
+#include <systems/FixedState.h>
+#include <systems/Actors.h>
+
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 : m_ctx(std::move(ctx)), m_bounds(size), m_grid(size),
   m_tileCount(size.x() * size.y()), m_rg(rg), m_entFactory(this, &m_rg)
@@ -23,12 +30,14 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     registerComponent<Components::Collider>();
     registerComponent<Components::FixedState>();
     registerComponent<Components::Description>();
+    registerComponent<Components::Actor>();
 
     registerSystem<Systems::Render>();
     registerSystem<Systems::Position>();
     registerSystem<Systems::Collision>();
     registerSystem<Systems::FOV>();
     registerSystem<Systems::FixedState>();
+    registerSystem<Systems::Actors>();
 
     m_camera.setBounds( m_bounds * 16 );
 
