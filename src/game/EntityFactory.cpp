@@ -20,6 +20,7 @@ std::unique_ptr<Player> EntityFactory::createPlayer(ImPlayerData &data, Vector2i
     m_parent->addComponent<Components::TilePosition>(eref, startPos);
     m_parent->addComponent<Components::Render>(eref, sprite);
     m_parent->addComponent<Components::Collider>(eref);
+    m_parent->addComponent<Components::Actor>(eref);
 
     return std::make_unique<Player>( std::move(data), eref );
 }

@@ -10,6 +10,8 @@ public:
     MoveAction(Level* level, EntityRef entity, Vector2i oldPos, Vector2i newPos );
     ~MoveAction() override = default;
 
+    ActionResult perform() override;
+
 private:
 
     EntityRef m_entity;

@@ -7,13 +7,14 @@
 namespace Systems
 {
 
-class Actors : public System
+class Actors : public System,
+               public GEventSub<GEvents::GameTick>
 {
 public:
     explicit Actors(Level* parent);
     ~Actors() override = default;
 
-    void update(uint32_t ticks, RenderInterface &rInter) override;
+    void accept(GEvents::GameTick *evt) override;
 };
 
 }

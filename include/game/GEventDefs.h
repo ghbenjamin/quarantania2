@@ -10,6 +10,7 @@ struct EntityMove : public GEvent<EntityMove>
 {
     EntityMove(EntityRef ent, const Vector2i &oldPos, const Vector2i &newPos)
     : ent(ent), oldPos(oldPos), newPos(newPos) {}
+    ~EntityMove() override = default;
 
     EntityRef ent;
     Vector2i oldPos;
@@ -19,6 +20,7 @@ struct EntityMove : public GEvent<EntityMove>
 struct EntityReady : public GEvent<EntityReady>
 {
     explicit EntityReady(EntityRef ent) : ent(ent) {}
+    ~EntityReady() override = default;
 
     EntityRef ent;
 };
@@ -26,9 +28,16 @@ struct EntityReady : public GEvent<EntityReady>
 struct FixedStateChange : public GEvent<FixedStateChange>
 {
     FixedStateChange(EntityRef ent, int state) : ent(ent), state(state) {}
+    ~FixedStateChange() override = default;
 
     EntityRef ent;
     int state;
+};
+
+struct GameTick : public GEvent<GameTick>
+{
+    GameTick() = default;
+    ~GameTick() override = default;
 };
 
 }

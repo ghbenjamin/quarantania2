@@ -36,7 +36,7 @@ Components::Description::Description(std::vector<std::string> const& vals)
 }
 
 Components::Actor::Actor()
-: initiative(200)
+: initiative(200), energyPerTick(10), currentEnergy(0), maxEnergy(10)
 {
 
 }

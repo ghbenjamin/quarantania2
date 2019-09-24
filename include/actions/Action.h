@@ -6,6 +6,7 @@ class Level;
 
 struct ActionResult
 {
+    bool succeeded;
 };
 
 class Action

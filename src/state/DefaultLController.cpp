@@ -1,6 +1,7 @@
 #include <state/DefaultLController.h>
 #include <game/Level.h>
 #include <utils/Assert.h>
+#include <actions/MoveAction.h>
 
 DefaultLController::DefaultLController(Level *level)
 : LevelController(level)
@@ -97,10 +98,9 @@ void DefaultLController::doMovePlayer(SDL_Keycode kcode)
 
     Vector2i newPos = tpos->position + delta;
 
-    if ( m_level->grid().pass().valueAt(newPos) != Rules::Passibility::Impassable )
-    {
-        m_level->events().broadcast<GEvents::EntityMove>( ref, tpos->position, newPos );
-    }
+    auto moveAction = std::make_unique<MoveAction>( m_level, ref, tpos->position, newPos );
+    m_level->getComponents<Components::Actor>(ref)->nextAction = std::move(moveAction);
+    m_level->events().broadcast<GEvents::GameTick>();
 }
 
 void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
