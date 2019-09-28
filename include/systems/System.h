@@ -11,6 +11,7 @@ public:
     explicit System(Level* parent);
     virtual ~System() = default;
 
+    // Actions to be performed every frame
     virtual void update(uint32_t ticks, RenderInterface &rInter);
 
 protected:

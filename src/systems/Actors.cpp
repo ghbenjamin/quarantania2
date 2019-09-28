@@ -24,19 +24,22 @@ void Systems::Actors::accept(GEvents::GameTick *evt)
         {
             if ( curr->nextAction )
             {
+                // If we have an action queued, try to perform it
                 auto actionRes = curr->nextAction->perform();
 
                 if (actionRes.succeeded)
                 {
+                    // We succeeded! Reset our current energy
                     curr->currentEnergy -= curr->maxEnergy;
                 }
                 else
-                {
+                {   // We failed - don't touch our energy
                     curr->currentEnergy = curr->maxEnergy;
                 }
             }
             else
             {
+                // There's no current action - cap energy at max until there is one
                 curr->currentEnergy = curr->maxEnergy;
             }
         }

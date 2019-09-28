@@ -15,10 +15,12 @@ public:
     explicit FOV(Level *parent);
     ~FOV() override = default;
 
-    void update(uint32_t ticks, RenderInterface &rInter) override;
     void accept(GEvents::EntityMove *evt) override;
 
 private:
+
+    // This seems like a logical place to keep these?
+
     Sprite m_fovHidden;
     Sprite m_fovFog;
 };
