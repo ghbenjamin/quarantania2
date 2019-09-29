@@ -3,6 +3,11 @@
 #include <utils/Assert.h>
 #include <actions/MoveAction.h>
 
+#include <components/TilePosition.h>
+#include <components/Actor.h>
+#include <components/Description.h>
+#include <components/Collider.h>
+
 DefaultLController::DefaultLController(Level *level)
 : LevelController(level)
 {

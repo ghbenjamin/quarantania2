@@ -2,6 +2,9 @@
 #include <game/Level.h>
 #include <graphics/RenderInterface.h>
 
+#include <components/TilePosition.h>
+#include <components/Render.h>
+
 Systems::Render::Render(Level *parent) : System(parent)
 {
 }

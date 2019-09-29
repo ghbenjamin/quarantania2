@@ -1,5 +1,8 @@
 #include <systems/FixedState.h>
 #include <game/Level.h>
+#include <components/FixedState.h>
+#include <components/Render.h>
+#include <components/Description.h>
 #include <utils/Assert.h>
 
 Systems::FixedState::FixedState(Level *parent) : System(parent)

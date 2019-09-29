@@ -8,5 +8,6 @@ OpenAction::OpenAction(Level *level, EntityRef opener, EntityRef target)
 
 ActionResult OpenAction::perform()
 {
+    // TODO Implement
     return { true };
 }

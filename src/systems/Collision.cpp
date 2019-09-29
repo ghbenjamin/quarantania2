@@ -1,4 +1,6 @@
 #include <systems/Collision.h>
+#include <components/Collider.h>
+#include <components/TilePosition.h>
 #include <game/Level.h>
 
 Systems::Collision::Collision(Level *parent) : System(parent)

@@ -1,6 +1,6 @@
 #include <systems/Actors.h>
-#include <game/Component.h>
 #include <game/Level.h>
+#include <components/Actor.h>
 
 Systems::Actors::Actors(Level *parent) : System(parent)
 {

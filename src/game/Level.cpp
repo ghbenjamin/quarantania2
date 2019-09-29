@@ -21,6 +21,9 @@
 #include <systems/FixedState.h>
 #include <systems/Actors.h>
 
+#include <components/All.h>
+
+
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 : m_ctx(std::move(ctx)), m_bounds(size), m_grid(size),
   m_tileCount(size.x() * size.y()), m_rg(rg), m_entFactory(this, &m_rg)
@@ -31,6 +34,7 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     registerComponent<Components::FixedState>();
     registerComponent<Components::Description>();
     registerComponent<Components::Actor>();
+    registerComponent<Components::Tags>();
 
     registerSystem<Systems::Render>();
     registerSystem<Systems::Position>();

@@ -1,5 +1,6 @@
 #include <systems/Position.h>
 #include <game/Level.h>
+#include <components/TilePosition.h>
 
 Systems::Position::Position(Level *parent) : System(parent)
 {

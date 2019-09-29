@@ -4,6 +4,8 @@
 #include <rapidjson/document.h>
 #include <utils/Json.h>
 
+#include <components/All.h>
+
 EntityFactory::EntityFactory(Level *parent, RandomGenerator* rg )
 : m_parent(parent), m_rg(rg)
 {
