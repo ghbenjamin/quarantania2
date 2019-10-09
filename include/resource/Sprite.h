@@ -9,8 +9,8 @@ class Sprite
 public:
 
     Sprite();
-    Sprite(TexturePtr  texture, RectI const& region);
-    explicit Sprite(TexturePtr  texture);
+    Sprite(TexturePtr texture, RectI const& region);
+    explicit Sprite(TexturePtr texture);
     virtual ~Sprite() = default;
 
     explicit operator bool();

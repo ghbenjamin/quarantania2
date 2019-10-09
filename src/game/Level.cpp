@@ -12,16 +12,10 @@
 #include <ui/TextLog.h>
 #include <ui/Layout.h>
 #include <state/DefaultLController.h>
-#include <ui/Label.h>
 
-#include <systems/Render.h>
-#include <systems/Position.h>
-#include <systems/Collision.h>
-#include <systems/FOV.h>
-#include <systems/FixedState.h>
-#include <systems/Actors.h>
-
+#include <systems/All.h>
 #include <components/All.h>
+#include <ui/MinimapView.h>
 
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
@@ -243,10 +237,9 @@ void Level::setupUI()
     tlog->setPreferredContentSize({300, 200});
     tlog->setId("global-text-log");
 
-    auto rframe = m_uiManager.createElement<UI::Element>(nullptr);
-    rframe->setId("right-frame");
-    rframe->setBorder( 2, Colour::Black );
-    rframe->setBackgroundColour( Colour::Grey );
+    auto mmap = m_uiManager.createElement<UI::MinimapView>(nullptr, this);
+    mmap->setId("minimap");
+    mmap->setBorder( 2, Colour::Blue );
 
     auto trframe = m_uiManager.createElement<UI::Element>(nullptr);
     trframe->setId("top-right-frame");
@@ -255,7 +248,7 @@ void Level::setupUI()
     trfLabel->setId( "trf-label" );
 
     m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomLeft, 0 );
-    m_uiManager.alignElementToWindow( rframe, UI::Alignment::CentreRight, 0 );
+    m_uiManager.alignElementToWindow( mmap, UI::Alignment::CentreRight, 0 );
     m_uiManager.alignElementToWindow( trframe, UI::Alignment::TopRight, 0 );
 }
 
@@ -264,7 +257,7 @@ void Level::layoutWindows()
     auto wndSize = ResourceManager::get().getWindow()->getSize();
 
     auto tlog = m_uiManager.withId("global-text-log");
-    auto rframe = m_uiManager.withId("right-frame");
+    auto mmap = m_uiManager.withId("minimap");
     auto trframe = m_uiManager.withId("top-right-frame");
 
     int rframeW = 300;
@@ -277,7 +270,7 @@ void Level::layoutWindows()
     int tlogH = 200;
 
     tlog->setPreferredOuterSize({tlogW, tlogH});
-    rframe->setPreferredOuterSize({ rframeW, rframeH });
+    mmap->setPreferredOuterSize({ rframeW, rframeH });
     trframe->setPreferredOuterSize({rframeW, rframeH - 50});
 
     m_camera.setViewportSize({ levelW, levelH });
@@ -313,3 +306,61 @@ PlayerPtr &Level::getPlayer()
 {
     return m_player;
 }
+
+ActionFutureList Level::getActionsForEntity(EntityRef actor, EntityRef subject) const
+{
+    return ActionFutureList();
+}
+
+ActionFutureList Level::getActionsForTile(EntityRef actor, Vector2i tile) const
+{
+    return ActionFutureList();
+}
+
+ActionFutureList Level::getAllPossibleActions(EntityRef actor, Vector2i tile) const
+{
+    ActionFutureList out;
+
+    auto entsAtTile = m_grid.entitiesAtTile(tile);
+
+    for ( auto ent: entsAtTile )
+    {
+        auto entActions = getActionsForEntity(actor, ent);
+        for ( auto& entAct : entActions )
+        {
+            if ( entityCanPerformAction(actor, entAct) )
+            {
+                out.emplace_back( std::move(entAct) );
+            }
+        }
+    }
+
+    auto tileActions = getActionsForTile(actor, tile);
+    for ( auto& tileAct : tileActions )
+    {
+        if ( entityCanPerformAction(actor, tileAct) )
+        {
+            out.push_back( std::move(tileAct) );
+        }
+    }
+
+    return out;
+}
+
+bool Level::entityCanPerformAction(EntityRef entity, ActionFuture const& action) const
+{
+    return true;
+}
+
+void Level::generateMinimap()
+{
+    m_minimap = { createRectangle( m_bounds, Colour::Black ) };
+
+}
+
+Sprite const &Level::getMinimap() const
+{
+    return m_minimap;
+}
+
+

@@ -9,9 +9,16 @@ namespace Logging
     template <typename...Args>
     void log( const char* format, Args...args )
     {
-        fmt::print( format, std::forward<Args>(args)... );
-    }
+        if constexpr(sizeof...(Args) == 0)
+        {
+            fmt::print( "{}\n", format );
+        }
 
+        else
+        {
+            fmt::print( format, std::forward<Args>(args)... );
+        }
+    }
 
     template <typename T>
     void log(T const& t)

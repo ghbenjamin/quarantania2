@@ -9,6 +9,7 @@
 #include <utils/IdPool.h>
 #include <ui/Manager.h>
 #include <game/Component.h>
+#include <game/Action.h>
 #include <game/GEvent.h>
 #include <game/Tiles.h>
 #include <game/Player.h>
@@ -25,6 +26,7 @@
 #include <game/GEventDefs.h>
 
 
+// Forward definitions
 class RenderInterface;
 class InputInterface;
 struct IEvent;
@@ -34,6 +36,7 @@ struct IEventMouseDown;
 struct IEventWindowResize;
 class LevelFactory;
 
+// New definitions
 using EntityCompMap = std::unordered_map<EntityRef, std::shared_ptr<BaseComponent>>;
 
 
@@ -193,12 +196,16 @@ public:
         m_gevents.broadcast<GEvents::EntityReady>( ent );
     }
 
-
     Vector2i worldCoordsToScreen( Vector2i const& world );
     Vector2i screenCoordsToWorld( Vector2i const& screen );
     Vector2i worldCoordsToTile( Vector2i const& world);
     Vector2i screenCoordsToTile( Vector2i const& screen);
     Vector2i tileCoordsToScreen( Vector2i const& tile );
+
+
+    ActionFutureList getAllPossibleActions( EntityRef actor, Vector2i tile ) const;
+
+    Sprite const& getMinimap( ) const;
 
 private:
 
@@ -226,12 +233,20 @@ private:
         m_systems.push_back( std::move(bPtr) );
     }
 
+
+    // Action methods
+    bool entityCanPerformAction(EntityRef entity, ActionFuture const& action) const;
+    ActionFutureList getActionsForEntity( EntityRef actor, EntityRef subject ) const;
+    ActionFutureList getActionsForTile( EntityRef actor, Vector2i tile ) const;
+
+
     // UI Methods
     void setupUI();
     void updateCamera(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void renderTiles(uint32_t ticks, RenderInterface &rInter);
     void layoutWindows();
+    void generateMinimap();
 
 private:
 
@@ -252,6 +267,7 @@ private:
     UI::Manager m_uiManager;
     Camera m_camera;
     LevelControllerPtr m_controller;
+    Sprite m_minimap;
 
 };
 

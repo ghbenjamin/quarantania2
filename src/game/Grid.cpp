@@ -49,7 +49,7 @@ Grid::calculateFOVOctant(Vector2i source, int maxLength, int startColumn, float 
     AssertNotImplemented();
 }
 
-std::vector<EntityRef> Grid::entitiesAtTile(Vector2i pos)
+std::vector<EntityRef> Grid::entitiesAtTile(Vector2i pos) const
 {
     std::vector<EntityRef> out;
 

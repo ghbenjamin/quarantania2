@@ -216,6 +216,7 @@ void Element::setPreferredContentSize(Vector2i size)
     m_preferredContentSize = size;
 
     rootParent()->doLayout();
+    onSizeSelf();
 }
 
 void Element::setPreferredOuterSize(Vector2i size)
@@ -225,7 +226,7 @@ void Element::setPreferredOuterSize(Vector2i size)
         size.y() - (2 * m_borderWidth) + m_padding.x() + m_padding.w(),
     };
 
-    doLayout();
+    onSize();
 }
 
 
@@ -233,7 +234,7 @@ void Element::setMaximumOuterSize(Vector2i size)
 {
     m_maximumOuterSize = size;
 
-    doLayout();
+    onSize();
 }
 
 Manager *Element::manager()

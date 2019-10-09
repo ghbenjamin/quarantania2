@@ -22,13 +22,13 @@ public:
     : m_x(x), m_y(y)
     {}
 
-    const T x() const
+    T x() const
     { return m_x; }
 
     void x( T val )
     { m_x = val; }
 
-    const T y() const
+    T y() const
     { return m_y; }
 
     void y( T val )

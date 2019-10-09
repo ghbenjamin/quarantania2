@@ -18,7 +18,7 @@ public:
     GridFeature<Rules::Visibility, EntityRef>& fov();
     GridFeature<Rules::LightLevel, EntityRef>& light();
 
-    std::vector<EntityRef> entitiesAtTile( Vector2i pos );
+    std::vector<EntityRef> entitiesAtTile( Vector2i pos ) const;
     void addEntToTile( Vector2i pos, EntityRef ent );
     void removeEntFromTile( Vector2i pos, EntityRef ent );
 

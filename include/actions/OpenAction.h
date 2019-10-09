@@ -1,6 +1,6 @@
 #pragma once
 
-#include <actions/Action.h>
+#include <game/Action.h>
 
 class OpenAction : public Action
 {

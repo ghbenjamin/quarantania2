@@ -1,7 +1,7 @@
 #pragma once
 
 #include <game/Component.h>
-#include <actions/Action.h>
+#include <game/Action.h>
 
 namespace Components
 {
