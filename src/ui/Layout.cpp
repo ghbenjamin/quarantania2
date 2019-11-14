@@ -92,7 +92,7 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
         }
     }
 
-    if ( preferred != Vector2i::Null )
+    if ( preferred != Vector2i{0, 0} )
     {
         if ( w < preferred.x() )
         {

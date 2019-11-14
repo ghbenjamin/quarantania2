@@ -25,7 +25,7 @@ void RoomTemplateManager::loadAllTemplates(std::string const &path)
     {
         auto obj = obj_it.value.GetArray();
         auto kn = parseKeyName( obj_it.name.GetString() );
-        if (kn == Vector2i::Null)
+        if (kn == Vector2i{0, 0})
         {
             continue;
         }
@@ -78,7 +78,7 @@ Vector2i RoomTemplateManager::parseKeyName(std::string const &name)
     }
     else
     {
-        out = Vector2i::Null;
+        out = Vector2i{0, 0};
     }
 
     return out;
