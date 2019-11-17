@@ -9,9 +9,7 @@
 EntityFactory::EntityFactory(Level *parent, RandomGenerator* rg )
 : m_parent(parent), m_rg(rg)
 {
-    m_prefabDecorators.emplace( "door", &EntityFactory::createDoor );
-    m_prefabDecorators.emplace( "entrance", &EntityFactory::createEntrance );
-    m_prefabDecorators.emplace( "exit", &EntityFactory::createExit );
+    createPrefabs();
 }
 
 std::unique_ptr<Player> EntityFactory::createPlayer(ImPlayerData &data, Vector2i startPos) const
@@ -25,88 +23,6 @@ std::unique_ptr<Player> EntityFactory::createPlayer(ImPlayerData &data, Vector2i
     m_parent->addComponent<Components::Actor>(eref);
 
     return std::make_unique<Player>( std::move(data), eref );
-}
-
-void EntityFactory::loadAllPrefabs(std::string const &path)
-{
-    rapidjson::Document doc = JsonUtils::loadFromPath( path );
-
-    auto static_objs = doc.FindMember( "static_objects" )->value.GetArray();
-
-    for ( auto const& node : static_objs )
-    {
-        PrefabList pcl;
-
-        auto nodeObj = node.GetObject();
-        std::string_view nodeName = nodeObj.FindMember("name")->value.GetString();
-        auto nodeComps = nodeObj.FindMember("components")->value.GetObject();
-
-        for ( auto const& comp : nodeComps )
-        {
-            std::string_view compName = comp.name.GetString();
-
-            if ( compName == "render" )
-            {
-                Prefab::Component::Render c;
-
-                auto tilesetArray = comp.value.GetObject().FindMember("tilesets")->value.GetArray();
-                c.renderStates = tilesetArray.Size();
-
-                for ( auto const& tileState : tilesetArray )
-                {
-                    auto tileStateArray = tileState.GetArray();
-                    c.spriteBreakpoints.push_back( tileStateArray.Size() );
-
-                    for ( auto const& tileSet : tileStateArray )
-                    {
-                        auto tsObj = tileSet.GetObject();
-                        c.sprites.emplace_back( tsObj.FindMember("sheet" )->value.GetString(),
-                                                tsObj.FindMember("tile" )->value.GetString() );
-                    }
-                }
-
-                pcl.push_back( c );
-            }
-            else if ( compName == "collider" )
-            {
-                Prefab::Component::Collider c;
-                pcl.push_back( c );
-            }
-            else if ( compName == "state" )
-            {
-                Prefab::Component::State c;
-                auto arr = comp.value.GetArray();
-                for ( auto const& a : arr )
-                {
-                    c.states.push_back( a.GetString() );
-                }
-                pcl.push_back( c );
-            }
-            else if ( compName == "container" )
-            {
-                Prefab::Component::Container c;
-                pcl.push_back( c );
-            }
-            else if ( compName == "description" )
-            {
-                Prefab::Component::Description c;
-
-                auto descArray = comp.value.GetArray();
-                for ( auto const& desc : descArray )
-                {
-                    c.descriptions.emplace_back( desc.GetString() );
-                }
-
-                pcl.push_back( c );
-            }
-            else
-            {
-                Logging::log("WARN: unexpected component name: {}\n", compName );
-            }
-        }
-
-        m_prefabs[std::string(nodeName)] = pcl;
-    }
 }
 
 EntityRef EntityFactory::createPrefabByName(std::string const &name, Vector2i pos) const
@@ -135,17 +51,162 @@ EntityRef EntityFactory::createPrefabByName(std::string const &name, Vector2i po
     return eref;
 }
 
-void EntityFactory::createDoor(EntityRef ref) const
+void EntityFactory::createPrefabs()
 {
+    prefabEntrance();
+    prefabExit();
+    prefabDoor();
+    prefabContainer();
+    prefabDecor();
 }
 
-void EntityFactory::createEntrance(EntityRef ref) const
+void EntityFactory::prefabDoor()
 {
+    Prefab::Component::Render render;
+    render.renderStates = 1;
+    render.spriteBreakpoints = {2, 1};
+    render.sprites = {
+        { "kenney-tiles", "door-closed" },
+        { "kenney-tiles", "door-barred" },
+        { "kenney-tiles", "door-open" }
+    };
+
+    Prefab::Component::Collider collider;
+    collider.defaultState = false;
+
+    Prefab::Component::Description description;
+    description.descriptions = {
+        "An open doorway",
+        "A closed door"
+    };
+
+    Prefab::Component::State state;
+    state.states = {
+        "open",
+        "closed"
+    };
+
+    PrefabList prefabList = {
+        render, collider, description, state
+    };
+
+    m_prefabs.emplace( "door", prefabList );
 }
 
-void EntityFactory::createExit(EntityRef ref) const
+void EntityFactory::prefabExit()
 {
+    Prefab::Component::Render render;
+    render.renderStates = 1;
+    render.spriteBreakpoints = {1};
+    render.sprites = {
+            { "kenney-tiles", "grey-stairs-down" }
+    };
+
+    Prefab::Component::Collider collider;
+    collider.defaultState = false;
+
+    Prefab::Component::Description description;
+    description.descriptions = {
+            "Stairs leading up"
+    };
+
+    PrefabList prefabList = {
+            render, collider, description
+    };
+
+    m_prefabs.emplace( "exit", prefabList );
 }
+
+void EntityFactory::prefabEntrance()
+{
+    Prefab::Component::Render render;
+    render.renderStates = 1;
+    render.spriteBreakpoints = {1};
+    render.sprites = {
+            { "kenney-tiles", "grey-stairs-up" }
+    };
+
+    Prefab::Component::Collider collider;
+    collider.defaultState = false;
+
+    Prefab::Component::Description description;
+    description.descriptions = {
+        "Stairs leading up"
+    };
+
+    PrefabList prefabList = {
+        render, collider, description
+    };
+
+    m_prefabs.emplace( "entrance", prefabList );
+}
+
+void EntityFactory::prefabContainer()
+{
+    Prefab::Component::Render render;
+    render.renderStates = 1;
+    render.spriteBreakpoints = {11};
+    render.sprites = {
+        { "kenney-tiles", "bookcase-medium-full"},
+        { "kenney-tiles", "bookcase-small-empty"},
+        { "kenney-tiles", "bookcase-small-full"},
+        { "kenney-tiles", "bookcase-medium-empty"},
+        { "kenney-tiles", "bookcase-large-empty"},
+        { "kenney-tiles", "bookcase-large-full"},
+        { "kenney-tiles", "barrel-open"},
+        { "kenney-tiles", "barrel-closed"},
+        { "kenney-tiles", "single-wide-drawer" },
+        { "kenney-tiles", "double-wide-drawer" },
+        { "kenney-tiles", "single-thin-drawer" },
+        { "kenney-tiles", "double-thin-drawer" }
+    };
+
+    Prefab::Component::Collider collider;
+    collider.defaultState = false;
+
+    Prefab::Component::Description description;
+    description.descriptions = {
+        "A container of some sort"
+    };
+
+    Prefab::Component::Container container;
+
+    PrefabList prefabList = {
+        render, collider, description, container
+    };
+
+    m_prefabs.emplace( "container", prefabList );
+}
+
+void EntityFactory::prefabDecor()
+{
+    Prefab::Component::Render render;
+    render.renderStates = 1;
+    render.spriteBreakpoints = {6};
+    render.sprites = {
+        { "kenney-tiles", "bed-made" },
+        { "kenney-tiles", "bed-unmade" },
+        { "kenney-tiles", "chair-left" },
+        { "kenney-tiles", "chair-right" },
+        { "kenney-tiles", "fireplace-lit" },
+        { "kenney-tiles", "fireplace-out" }
+    };
+
+    Prefab::Component::Collider collider;
+    collider.defaultState = false;
+
+    Prefab::Component::Description description;
+    description.descriptions = {
+        "Decor!"
+    };
+
+    PrefabList prefabList = {
+        render, collider, description
+    };
+
+    m_prefabs.emplace( "decor", prefabList );
+}
+
 
 Prefab::Visitor::Visitor(Level* level, EntityRef ref, RandomGenerator* rg)
 : m_ref(ref), m_level(level), m_rg(rg) {}

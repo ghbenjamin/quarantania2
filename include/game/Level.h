@@ -202,9 +202,6 @@ public:
     Vector2i screenCoordsToTile( Vector2i const& screen);
     Vector2i tileCoordsToScreen( Vector2i const& tile );
 
-
-    ActionFutureList getAllPossibleActions( EntityRef actor, Vector2i tile ) const;
-
     Sprite const& getMinimap( ) const;
 
 private:
@@ -232,13 +229,6 @@ private:
         auto bPtr = std::unique_ptr<System>( dPtr.release() );
         m_systems.push_back( std::move(bPtr) );
     }
-
-
-    // Action methods
-    bool entityCanPerformAction(EntityRef entity, ActionFuture const& action) const;
-    ActionFutureList getActionsForEntity( EntityRef actor, EntityRef subject ) const;
-    ActionFutureList getActionsForTile( EntityRef actor, Vector2i tile ) const;
-
 
     // UI Methods
     void setupUI();
@@ -268,7 +258,6 @@ private:
     Camera m_camera;
     LevelControllerPtr m_controller;
     Sprite m_minimap;
-
 };
 
 using LevelPtr = std::unique_ptr<Level>;

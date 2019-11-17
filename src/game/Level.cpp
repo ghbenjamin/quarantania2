@@ -307,51 +307,6 @@ PlayerPtr &Level::getPlayer()
     return m_player;
 }
 
-ActionFutureList Level::getActionsForEntity(EntityRef actor, EntityRef subject) const
-{
-    return ActionFutureList();
-}
-
-ActionFutureList Level::getActionsForTile(EntityRef actor, Vector2i tile) const
-{
-    return ActionFutureList();
-}
-
-ActionFutureList Level::getAllPossibleActions(EntityRef actor, Vector2i tile) const
-{
-    ActionFutureList out;
-
-    auto entsAtTile = m_grid.entitiesAtTile(tile);
-
-    for ( auto ent: entsAtTile )
-    {
-        auto entActions = getActionsForEntity(actor, ent);
-        for ( auto& entAct : entActions )
-        {
-            if ( entityCanPerformAction(actor, entAct) )
-            {
-                out.emplace_back( std::move(entAct) );
-            }
-        }
-    }
-
-    auto tileActions = getActionsForTile(actor, tile);
-    for ( auto& tileAct : tileActions )
-    {
-        if ( entityCanPerformAction(actor, tileAct) )
-        {
-            out.push_back( std::move(tileAct) );
-        }
-    }
-
-    return out;
-}
-
-bool Level::entityCanPerformAction(EntityRef entity, ActionFuture const& action) const
-{
-    return true;
-}
-
 void Level::generateMinimap()
 {
     m_minimap = { createRectangle( m_bounds, Colour::Black ) };

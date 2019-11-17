@@ -47,7 +47,6 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     constructMapRendering(config, ctx);
 
     // Load the prefab entity and room data
-    m_level->m_entFactory.loadAllPrefabs( "../resource/data/entities.json" );
     m_roomTemplates.loadAllTemplates( "../resource/data/room_templates.json" );
 
     // Construct basic door prefabs at most of our junction points
