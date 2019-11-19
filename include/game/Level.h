@@ -65,6 +65,7 @@ public:
 
     void setPlayer( PlayerPtr&& player );
     PlayerPtr& getPlayer();
+    bool isPlayer(EntityRef ref) const;
 
     template <typename CT, typename... Args>
     std::shared_ptr<CT> addComponent(EntityRef ent, Args...args)

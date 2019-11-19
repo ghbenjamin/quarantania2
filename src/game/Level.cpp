@@ -85,6 +85,9 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
         sys->update( ticks, rInter );
     }
 
+    // Render the FOV layer
+
+
     // Render the GUI
     m_uiManager.update(ticks, iinter, rInter);
 }
@@ -316,6 +319,11 @@ void Level::generateMinimap()
 Sprite const &Level::getMinimap() const
 {
     return m_minimap;
+}
+
+bool Level::isPlayer(EntityRef ref) const
+{
+    return ref == m_player->ref();
 }
 
 

@@ -2,8 +2,6 @@
 #include <game/Level.h>
 #include <resource/ResourceManager.h>
 #include <rapidjson/document.h>
-#include <utils/Json.h>
-
 #include <components/All.h>
 
 EntityFactory::EntityFactory(Level *parent, RandomGenerator* rg )
@@ -36,7 +34,7 @@ EntityRef EntityFactory::createPrefabByName(std::string const &name, Vector2i po
     // Construct the simple components
     for ( auto const& pc : prefabComponents )
     {
-        std::visit( Prefab::Visitor{m_parent, eref, m_rg}, pc );
+        std::visit(PrefabVisitor{m_parent, eref, m_rg}, pc );
     }
 
     // Construct the components which are specific to specific types of prefab
@@ -62,8 +60,7 @@ void EntityFactory::createPrefabs()
 
 void EntityFactory::prefabDoor()
 {
-    Prefab::Component::Render render;
-    render.renderStates = 1;
+    PrefabComponent::Render render;
     render.spriteBreakpoints = {2, 1};
     render.sprites = {
         { "kenney-tiles", "door-closed" },
@@ -71,16 +68,16 @@ void EntityFactory::prefabDoor()
         { "kenney-tiles", "door-open" }
     };
 
-    Prefab::Component::Collider collider;
+    PrefabComponent::Collider collider;
     collider.defaultState = false;
 
-    Prefab::Component::Description description;
+    PrefabComponent::Description description;
     description.descriptions = {
         "An open doorway",
         "A closed door"
     };
 
-    Prefab::Component::State state;
+    PrefabComponent::State state;
     state.states = {
         "open",
         "closed"
@@ -95,17 +92,16 @@ void EntityFactory::prefabDoor()
 
 void EntityFactory::prefabExit()
 {
-    Prefab::Component::Render render;
-    render.renderStates = 1;
+    PrefabComponent::Render render;
     render.spriteBreakpoints = {1};
     render.sprites = {
             { "kenney-tiles", "grey-stairs-down" }
     };
 
-    Prefab::Component::Collider collider;
+    PrefabComponent::Collider collider;
     collider.defaultState = false;
 
-    Prefab::Component::Description description;
+    PrefabComponent::Description description;
     description.descriptions = {
             "Stairs leading up"
     };
@@ -119,17 +115,16 @@ void EntityFactory::prefabExit()
 
 void EntityFactory::prefabEntrance()
 {
-    Prefab::Component::Render render;
-    render.renderStates = 1;
+    PrefabComponent::Render render;
     render.spriteBreakpoints = {1};
     render.sprites = {
             { "kenney-tiles", "grey-stairs-up" }
     };
 
-    Prefab::Component::Collider collider;
+    PrefabComponent::Collider collider;
     collider.defaultState = false;
 
-    Prefab::Component::Description description;
+    PrefabComponent::Description description;
     description.descriptions = {
         "Stairs leading up"
     };
@@ -143,8 +138,7 @@ void EntityFactory::prefabEntrance()
 
 void EntityFactory::prefabContainer()
 {
-    Prefab::Component::Render render;
-    render.renderStates = 1;
+    PrefabComponent::Render render;
     render.spriteBreakpoints = {11};
     render.sprites = {
         { "kenney-tiles", "bookcase-medium-full"},
@@ -161,15 +155,15 @@ void EntityFactory::prefabContainer()
         { "kenney-tiles", "double-thin-drawer" }
     };
 
-    Prefab::Component::Collider collider;
+    PrefabComponent::Collider collider;
     collider.defaultState = false;
 
-    Prefab::Component::Description description;
+    PrefabComponent::Description description;
     description.descriptions = {
         "A container of some sort"
     };
 
-    Prefab::Component::Container container;
+    PrefabComponent::Container container;
 
     PrefabList prefabList = {
         render, collider, description, container
@@ -180,8 +174,7 @@ void EntityFactory::prefabContainer()
 
 void EntityFactory::prefabDecor()
 {
-    Prefab::Component::Render render;
-    render.renderStates = 1;
+    PrefabComponent::Render render;
     render.spriteBreakpoints = {6};
     render.sprites = {
         { "kenney-tiles", "bed-made" },
@@ -192,10 +185,10 @@ void EntityFactory::prefabDecor()
         { "kenney-tiles", "fireplace-out" }
     };
 
-    Prefab::Component::Collider collider;
+    PrefabComponent::Collider collider;
     collider.defaultState = false;
 
-    Prefab::Component::Description description;
+    PrefabComponent::Description description;
     description.descriptions = {
         "Decor!"
     };
@@ -208,38 +201,3 @@ void EntityFactory::prefabDecor()
 }
 
 
-Prefab::Visitor::Visitor(Level* level, EntityRef ref, RandomGenerator* rg)
-: m_ref(ref), m_level(level), m_rg(rg) {}
-
-void Prefab::Visitor::operator()(Component::Render const& obj) const
-{
-    // TODO: something more sophisticated than randomly picking
-
-    auto begin_it = obj.sprites.begin();
-    auto end_it = obj.sprites.begin();
-    std::advance(end_it, obj.spriteBreakpoints[0]);
-
-    auto it = randomElement(begin_it, end_it, *m_rg);
-    auto sprite = ResourceManager::get().getSprite(*it);
-
-    m_level->addComponent<Components::Render>(m_ref, sprite);
-}
-
-void Prefab::Visitor::operator()(Component::State const& obj) const
-{
-    m_level->addComponent<Components::FixedState>(m_ref, obj.states);
-}
-
-void Prefab::Visitor::operator()(Component::Collider const& obj) const
-{
-    m_level->addComponent<Components::Collider>(m_ref);
-}
-
-void Prefab::Visitor::operator()(Component::Container const& obj) const
-{
-}
-
-void Prefab::Visitor::operator()(Component::Description const& obj) const
-{
-    m_level->addComponent<Components::Description>(m_ref, obj.descriptions);
-}

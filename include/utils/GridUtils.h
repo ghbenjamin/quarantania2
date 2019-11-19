@@ -78,7 +78,6 @@ public:
     static GridRegion createCircle( Vector2i origin, int radius );
     static GridRegion createCone( Vector2i origin, int length, Direction direction );
 
-
     static Vector2i mapToFirstOctant( Vector2i pos, int octant );
 
 

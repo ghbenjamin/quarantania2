@@ -34,20 +34,33 @@ bool Grid::inBounds(Vector2i pos)
     return pos.x() >= 0 && pos.y() >= 0 && pos.x() < m_bounds.x() && pos.y() < m_bounds.y();
 }
 
-void Grid::calculateFOV(Vector2i source, int maxLength)
+void Grid::recalculateFOV(Vector2i source, int maxLength)
 {
-    for ( int i = 0; i < 8; i++ )
+    int tcount = m_bounds.x() * m_bounds.y();
+
+    // Debug: simple circle based FOV
+    for ( int i = 0;  i < tcount; i++ )
     {
-        calculateFOVOctant( source, maxLength, 1, 1.0f, 0.0f, i );
+        // Reset all the visible tiles to explored tiles
+        if (m_visGrid.valueAt(i) != Rules::Visibility::Hidden)
+        {
+            m_visGrid.setFixed(i, Rules::Visibility::Explored);
+        }
+    }
+
+    // Work out which tiles are now visible
+
+    int c2 = maxLength * maxLength;
+    for ( int i = 0;  i < tcount; i++ )
+    {
+        auto dv = source - idxToPos(i);
+        if ( dv.x() * dv.x() + dv.y() * dv.y() <= c2 )
+        {
+            m_visGrid.setFixed(i, Rules::Visibility::Visible);
+        }
     }
 }
 
-void
-Grid::calculateFOVOctant(Vector2i source, int maxLength, int startColumn, float leftViewSlope, float rightViewSlope,
-                         int octant)
-{
-    AssertNotImplemented();
-}
 
 std::vector<EntityRef> Grid::entitiesAtTile(Vector2i pos) const
 {
@@ -83,4 +96,14 @@ void Grid::removeEntFromTile(Vector2i pos, EntityRef ent)
             it++;
         }
     }
+}
+
+Vector2i Grid::idxToPos(int idx)
+{
+    return { idx % m_bounds.x(), idx / m_bounds.x() };
+}
+
+int Grid::posToIdx(Vector2i pos)
+{
+    return pos.x() + pos.y() * m_bounds.x();
 }
