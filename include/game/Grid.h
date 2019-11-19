@@ -22,14 +22,17 @@ public:
     void addEntToTile( Vector2i pos, EntityRef ent );
     void removeEntFromTile( Vector2i pos, EntityRef ent );
 
+    Vector2i const& bounds() const;
     bool inBounds( Vector2i pos );
     void recalculateFOV( Vector2i source, int maxLength );
+
+    inline int posToIdx( Vector2i pos );
+    inline Vector2i idxToPos( int idx );
 
 private:
     void toBounds( GridRegion* region );
 
-    inline int posToIdx( Vector2i pos );
-    inline Vector2i idxToPos( int idx );
+
 
 private:
     Vector2i m_bounds;

@@ -63,6 +63,7 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
 
     // Mark the level construction as completed
     readyAllEntities();
+    m_level->events().broadcast<GEvents::LevelReady>();
     return std::move(m_level);
 }
 

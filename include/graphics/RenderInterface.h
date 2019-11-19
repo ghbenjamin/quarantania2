@@ -15,6 +15,7 @@ public:
     WindowCPtr const& window() const;
 
     void clear();
+    void present();
 
     void addWorldItem(RenderObject obj);
     void addScreenItem(RenderObject obj);

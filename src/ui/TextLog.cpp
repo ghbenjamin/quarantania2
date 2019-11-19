@@ -26,7 +26,8 @@ UI::TextLog::TextLog()
 : m_maxLines(0), m_maxVisibleLines(0), m_scrollPosition(0.0f)
 {
     setBorder( 2, Colour::Black );
-    setBackgroundColour( Colour(200, 200, 200) );
+//    setBackgroundColour( Colour(200, 200, 200) );
+    setBackgroundColour( Colour::Black );
 
     setLayout<Internal::TextLogLayout>( contentSize().y() );
 }

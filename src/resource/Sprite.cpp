@@ -35,7 +35,7 @@ Sprite::Sprite(std::shared_ptr<Texture> texture)
     m_renderObj.targetRect.h = h;
 }
 
-Sprite::operator bool()
+Sprite::operator bool() const
 {
     return !!m_texture;
 }
@@ -48,4 +48,9 @@ RenderObject Sprite::renderObject(Vector2i const &pos) const
     m_renderObj.targetRect.y = pos.y();
 
     return m_renderObj;
+}
+
+void Sprite::setRenderLayer(RenderLayer layer)
+{
+    m_renderObj.renderLayer = layer;
 }

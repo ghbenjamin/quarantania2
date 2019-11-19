@@ -8,8 +8,12 @@ namespace Components
 // Can I block the movement of light or other objects?
 struct Collider : public Component<Collider>
 {
-    explicit Collider() = default;
+    Collider();
+    Collider(bool bl, bool bm);
     ~Collider() override = default;
+
+    bool blocksLight;
+    bool blocksMovement;
 };
 
 }

@@ -13,8 +13,9 @@ public:
     explicit Sprite(TexturePtr texture);
     virtual ~Sprite() = default;
 
-    explicit operator bool();
+    void setRenderLayer(RenderLayer layer);
 
+    explicit operator bool() const;
     RenderObject renderObject(Vector2i const& pos) const;
 
 private:

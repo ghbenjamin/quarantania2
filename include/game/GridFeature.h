@@ -12,9 +12,9 @@ class GridFeature
 using InternalType = std::uint8_t;
 
 public:
-
-    explicit GridFeature( Vector2i bounds ) : m_bounds(bounds), m_doCache(true), m_size(bounds.x() * bounds.y()),
-                                              m_fixed( m_size, 0 ),  m_cached( m_size, 0 )
+    explicit GridFeature( Vector2i bounds )
+        : m_bounds(bounds), m_doCache(true), m_size(bounds.x() * bounds.y()),
+          m_fixed( m_size, 0 ),  m_cached( m_size, 0 )
     {
     }
 
@@ -146,5 +146,4 @@ private:
     std::vector<InternalType> m_fixed;
     std::vector<InternalType> m_cached;
     std::unordered_multimap<std::size_t, std::pair<InternalType, RefType>> m_dynamic;
-
 };

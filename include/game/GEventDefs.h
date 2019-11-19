@@ -25,6 +25,12 @@ struct EntityReady : public GEvent<EntityReady>
     EntityRef ent;
 };
 
+struct LevelReady : public GEvent<LevelReady>
+{
+    LevelReady() = default;
+    ~LevelReady() override = default;
+};
+
 struct FixedStateChange : public GEvent<FixedStateChange>
 {
     FixedStateChange(EntityRef ent, int state) : ent(ent), state(state) {}

@@ -24,7 +24,8 @@ struct State
 
 struct Collider
 {
-    bool defaultState = false;
+    bool blocksMovement = false;
+    bool blocksLight = true;
 };
 
 struct Container

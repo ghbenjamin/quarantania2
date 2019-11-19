@@ -69,7 +69,7 @@ void EntityFactory::prefabDoor()
     };
 
     PrefabComponent::Collider collider;
-    collider.defaultState = false;
+    collider.blocksMovement = false;
 
     PrefabComponent::Description description;
     description.descriptions = {
@@ -99,7 +99,7 @@ void EntityFactory::prefabExit()
     };
 
     PrefabComponent::Collider collider;
-    collider.defaultState = false;
+    collider.blocksMovement = false;
 
     PrefabComponent::Description description;
     description.descriptions = {
@@ -122,7 +122,7 @@ void EntityFactory::prefabEntrance()
     };
 
     PrefabComponent::Collider collider;
-    collider.defaultState = false;
+    collider.blocksMovement = false;
 
     PrefabComponent::Description description;
     description.descriptions = {
@@ -156,7 +156,7 @@ void EntityFactory::prefabContainer()
     };
 
     PrefabComponent::Collider collider;
-    collider.defaultState = false;
+    collider.blocksMovement = false;
 
     PrefabComponent::Description description;
     description.descriptions = {
@@ -186,7 +186,7 @@ void EntityFactory::prefabDecor()
     };
 
     PrefabComponent::Collider collider;
-    collider.defaultState = false;
+    collider.blocksMovement = false;
 
     PrefabComponent::Description description;
     description.descriptions = {

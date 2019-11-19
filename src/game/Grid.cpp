@@ -107,3 +107,8 @@ int Grid::posToIdx(Vector2i pos)
 {
     return pos.x() + pos.y() * m_bounds.x();
 }
+
+Vector2i const &Grid::bounds() const
+{
+    return m_bounds;
+}

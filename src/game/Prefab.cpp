@@ -27,7 +27,7 @@ void PrefabVisitor::operator()(PrefabComponent::State const& obj) const
 
 void PrefabVisitor::operator()(PrefabComponent::Collider const& obj) const
 {
-    m_level->addComponent<Components::Collider>(m_ref);
+    m_level->addComponent<Components::Collider>(m_ref, obj.blocksLight, obj.blocksMovement);
 }
 
 void PrefabVisitor::operator()(PrefabComponent::Container const& obj) const

@@ -2,17 +2,27 @@
 
 #include <resource/Texture.h>
 
+enum class RenderLayer
+{
+    Begin,
+
+    Tiles,
+    Entity,
+    GFX,
+    FOV,
+    UI,
+
+    End
+};
+
 struct RenderObject
 {
     SDL_Texture* texture;
     SDL_Rect sourceRect;
     SDL_Rect targetRect;
+    RenderLayer renderLayer;
 
-    RenderObject()
-        : texture(nullptr), sourceRect{0, 0, 0, 0}, targetRect{0, 0, 0, 0} {}
-    RenderObject(SDL_Texture* texture, SDL_Rect src, SDL_Rect dst )
-        : texture(texture), sourceRect(src), targetRect(dst) {}
-
+    RenderObject();
+    RenderObject(SDL_Texture* texture, SDL_Rect src, SDL_Rect dst);
     ~RenderObject() = default;
-
 };

@@ -9,9 +9,10 @@ TileRef TileRenderMap::addTile(const SpritesheetKey& key, bool passible)
 
     Tile t;
     t.sprite = sheetPtr->spriteFromName( tileName );
+    t.sprite.setRenderLayer(RenderLayer::Tiles);
     t.passible = passible;
 
-    m_tiles.push_back(t);
+    m_tiles.push_back(std::move(t));
     TileRef idx = m_tiles.size() - 1;
 
     m_names.emplace(tileName, idx);
