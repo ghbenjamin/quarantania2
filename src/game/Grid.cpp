@@ -34,7 +34,7 @@ bool Grid::inBounds(Vector2i pos)
     return pos.x() >= 0 && pos.y() >= 0 && pos.x() < m_bounds.x() && pos.y() < m_bounds.y();
 }
 
-void Grid::recalculateFOV(Vector2i source, int maxLength)
+void Grid::calculateFOV(Vector2i source, int maxLength)
 {
     int tcount = m_bounds.x() * m_bounds.y();
 
@@ -50,17 +50,90 @@ void Grid::recalculateFOV(Vector2i source, int maxLength)
 
     // Work out which tiles are now visible
 
-    int c2 = maxLength * maxLength;
-    for ( int i = 0;  i < tcount; i++ )
+    for ( int i = 0; i < 8; i++ )
     {
-        auto dv = source - idxToPos(i);
-        if ( dv.x() * dv.x() + dv.y() * dv.y() <= c2 )
+        FOVWorker(source, maxLength, 1, 1.0f, 0.0f, &MatrixTransform::octantTransforms[i] );
+    }
+
+    m_visGrid.setFixed(source, Rules::Visibility::Visible);
+}
+
+
+void Grid::FOVWorker(Vector2i source, int maxLength, int row,
+                     float start_slope, float end_slope, Matrix2i const* transform)
+{
+    // Adapted from example at http://www.roguebasin.com/
+
+    if (start_slope < end_slope)
+    {
+        return;
+    }
+
+    float next_start_slope = start_slope;
+    for (int i = row; i <= maxLength; i++)
+    {
+        bool blocked = false;
+        for (int dx = -i, dy = -i; dx <= 0; dx++)
         {
-            m_visGrid.setFixed(i, Rules::Visibility::Visible);
+            float l_slope = (dx - 0.5f) / (dy + 0.5f);
+            float r_slope = (dx + 0.5f) / (dy - 0.5f);
+            if (start_slope < r_slope)
+            {
+                continue;
+            }
+            else if (end_slope > l_slope)
+            {
+                break;
+            }
+
+            Vector2 tr = transform->transform({dx, dy});
+
+            if ((tr.x() < 0 && std::abs(tr.x()) > source.x())
+            || (tr.y() < 0 && std::abs(tr.y()) > source.y()))
+            {
+                continue;
+            }
+
+            Vector2 curr = source + tr;
+
+            if (curr.x() >= m_bounds.x() || curr.y() >= m_bounds.y())
+            {
+                continue;
+            }
+
+            int radius2 = maxLength * maxLength;
+            if ( (dx * dx + dy * dy) < radius2 )
+            {
+                m_visGrid.setFixed(curr, Rules::Visibility::Visible);
+            }
+
+            if (blocked)
+            {
+                if ( m_passGrid.valueAt(curr) == Rules::Passibility::Impassable )
+                {
+                    next_start_slope = r_slope;
+                    continue;
+                }
+                else
+                {
+                    blocked = false;
+                    start_slope = next_start_slope;
+                }
+            }
+            else if ( m_passGrid.valueAt(curr) == Rules::Passibility::Impassable )
+            {
+                blocked = true;
+                next_start_slope = r_slope;
+                FOVWorker(source, maxLength, i + 1, start_slope, l_slope, transform);
+            }
+        }
+
+        if (blocked)
+        {
+            break;
         }
     }
 }
-
 
 std::vector<EntityRef> Grid::entitiesAtTile(Vector2i pos) const
 {

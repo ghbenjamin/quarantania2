@@ -13,7 +13,9 @@ EntityFactory::EntityFactory(Level *parent, RandomGenerator* rg )
 std::unique_ptr<Player> EntityFactory::createPlayer(ImPlayerData &data, Vector2i startPos) const
 {
     auto eref = m_parent->createEntity();
+
     auto sprite = ResourceManager::get().getSprite("kenney-chars", "example-char-1");
+    sprite.setRenderLayer(RenderLayer::Actor);
 
     m_parent->addComponent<Components::TilePosition>(eref, startPos);
     m_parent->addComponent<Components::Render>(eref, sprite);

@@ -24,10 +24,13 @@ public:
 
     Vector2i const& bounds() const;
     bool inBounds( Vector2i pos );
-    void recalculateFOV( Vector2i source, int maxLength );
 
-    inline int posToIdx( Vector2i pos );
-    inline Vector2i idxToPos( int idx );
+    void calculateFOV(Vector2i source, int maxLength);
+    void FOVWorker(Vector2i source, int maxLength, int row, float start_slope, float end_slope, Matrix2i const* transform);
+
+
+    int posToIdx( Vector2i pos );
+    Vector2i idxToPos( int idx );
 
 private:
     void toBounds( GridRegion* region );

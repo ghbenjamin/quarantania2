@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <utils/Containers.h>
+#include <utils/Matrix.h>
 
 using GridBitmask = std::uint8_t;
 enum class Direction : GridBitmask
@@ -38,20 +39,29 @@ namespace MatrixTransform
     static constexpr TransMat rot90 = { 0, -1, 1, 0 };
 
     static constexpr int nthToFirstOctant [8][4] = {
-            {1, 0, 0, 1},
-            {0, 1, 1, 0},
-            {0, -1, 1, 0},
-            {-1, 0, 0, 1},
-            {-1, 0, 0, -1},
-            {0, -1, -1, 0},
-            {0, 1, -1, 0},
-            {1, 0, 0, -1}
+        {1, 0, 0, 1},
+        {0, 1, 1, 0},
+        {0, -1, 1, 0},
+        {-1, 0, 0, 1},
+        {-1, 0, 0, -1},
+        {0, -1, -1, 0},
+        {0, 1, -1, 0},
+        {1, 0, 0, -1}
+    };
+
+    static const Matrix2i octantTransforms [8] = {
+        Matrix2i{1, 0, 0, 1},
+        Matrix2i{0, 1, 1, 0},
+        Matrix2i{0, -1, 1, 0},
+        Matrix2i{-1, 0, 0, 1},
+        Matrix2i{-1, 0, 0, -1},
+        Matrix2i{0, -1, -1, 0},
+        Matrix2i{0, 1, -1, 0},
+        Matrix2i{1, 0, 0, -1}
     };
 
     Vector2i transform( TransMat const* mat, Vector2i target );
 }
-
-
 
 Direction operator | (Direction lhs, Direction rhs);
 Direction& operator |= (Direction& lhs, Direction rhs);
@@ -61,7 +71,6 @@ GridBitmask& operator|= (GridBitmask& lhs, Direction rhs);
 bool operator== (GridBitmask& lhs, Direction rhs);
 
 using GridRegion = std::vector<Vector2i>;
-
 
 class GridUtils
 {

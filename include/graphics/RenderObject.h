@@ -8,6 +8,7 @@ enum class RenderLayer
 
     Tiles,
     Entity,
+    Actor,
     GFX,
     FOV,
     UI,
