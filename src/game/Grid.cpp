@@ -31,7 +31,11 @@ void Grid::toBounds(GridRegion *region)
 
 bool Grid::inBounds(Vector2i pos)
 {
-    return pos.x() >= 0 && pos.y() >= 0 && pos.x() < m_bounds.x() && pos.y() < m_bounds.y();
+    return 
+		pos.x() >= 0 && 
+		pos.y() >= 0 && 
+		pos.x() < m_bounds.x() && 
+		pos.y() < m_bounds.y();
 }
 
 void Grid::calculateFOV(Vector2i source, int maxLength)

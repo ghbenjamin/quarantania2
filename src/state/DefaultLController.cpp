@@ -112,12 +112,26 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 {
     m_level->ui().removeTileHighlight();
 
-    if ( m_level->grid().inBounds( curr ))
+	if (!m_level->grid().inBounds(curr))
+	{
+		return;
+	}
+
+    // Only let us interact with things which we can actually see
+    if ( m_level->grid().fov().valueAt(curr) != Rules::Visibility::Visible )
+    {
+        return;
+    }
+
+    auto ents = m_level->grid().entitiesAtTile(curr);
+
+    // Highlight hovered entities
+    if ( m_level->grid().inBounds( curr ) && !ents.empty() )
     {
         m_level->ui().addTileHighlight( m_level->tileCoordsToScreen(curr) );
     }
 
-    auto ents = m_level->grid().entitiesAtTile(curr);
+    // Grab the first entity under the mouse to have a description
     EntityRef entDesc = EntityNull;
     for ( auto const& e : ents )
     {
@@ -128,6 +142,7 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
         }
     }
 
+    // Set our description label element to the description of the hovered entity
     auto uiDescLabel = m_level->ui().withId("trf-label")->asType<UI::TextNode>();
     if ( entDesc == EntityNull )
     {
@@ -136,7 +151,6 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     else
     {
         auto descCmp = m_level->getComponents<Components::Description>(entDesc);
-
         uiDescLabel->setText( descCmp->descriptions[descCmp->current] );
     }
 

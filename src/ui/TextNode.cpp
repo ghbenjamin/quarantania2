@@ -34,7 +34,7 @@ void TextNode::renderText()
 
     m_renderObject.texture = m_rendered->raw();
     m_renderObject.sourceRect = m_rendered->sourceRect();
-
+    m_renderObject.renderLayer = RenderLayer::UI;
     m_renderObject.targetRect = {
             0,
             0,

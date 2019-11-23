@@ -324,6 +324,8 @@ void Element::generateBackground()
     {
         m_backgroundSprite = Sprite();
     }
+
+    m_backgroundSprite.setRenderLayer(RenderLayer::UI );
 }
 
 void Element::setHidden( bool val )
@@ -378,6 +380,7 @@ void Element::addEventCallback(UEventType type, UEventCallback const &callback)
 void Element::setBackgroundSprite(SpritesheetKey const &sp)
 {
     m_backgroundTexture = ResourceManager::get().getSprite( sp );
+    m_backgroundTexture.setRenderLayer(RenderLayer::UI);
     generateBackground();
 }
 

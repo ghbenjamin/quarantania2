@@ -45,7 +45,7 @@ void RenderInterface::setCamera(Camera *camera)
 
 void RenderInterface::present()
 {
-    std::sort( m_renderables.begin(), m_renderables.end(),
+    std::stable_sort( m_renderables.begin(), m_renderables.end(),
             [](auto const& lhs, auto const& rhs) {
         return (int)lhs.renderLayer < (int)rhs.renderLayer;
     });
