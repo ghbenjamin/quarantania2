@@ -31,15 +31,6 @@ struct LevelReady : public GEvent<LevelReady>
     ~LevelReady() override = default;
 };
 
-struct FixedStateChange : public GEvent<FixedStateChange>
-{
-    FixedStateChange(EntityRef ent, int state) : ent(ent), state(state) {}
-    ~FixedStateChange() override = default;
-
-    EntityRef ent;
-    int state;
-};
-
 struct GameTick : public GEvent<GameTick>
 {
     GameTick() = default;

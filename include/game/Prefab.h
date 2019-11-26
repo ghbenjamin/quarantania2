@@ -17,11 +17,6 @@ struct Render
     std::vector<int> spriteBreakpoints;
 };
 
-struct State
-{
-    std::vector<std::string> states;
-};
-
 struct Collider
 {
     bool blocksMovement = false;
@@ -46,7 +41,6 @@ public:
     ~PrefabVisitor() = default;
 
     void operator()(PrefabComponent::Render const& obj) const;
-    void operator()(PrefabComponent::State const& obj) const;
     void operator()(PrefabComponent::Collider const& obj) const;
     void operator()(PrefabComponent::Container const& obj) const;
     void operator()(PrefabComponent::Description const& obj) const;
@@ -59,11 +53,10 @@ private:
 
 using PrefabVariant = std::variant
         <
-                PrefabComponent::Render,
-                PrefabComponent::State,
-                PrefabComponent::Collider,
-                PrefabComponent::Container,
-                PrefabComponent::Description
+            PrefabComponent::Render,
+            PrefabComponent::Collider,
+            PrefabComponent::Container,
+            PrefabComponent::Description
         >;
 
 using PrefabList = std::vector<PrefabVariant>;

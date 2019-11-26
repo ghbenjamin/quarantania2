@@ -20,11 +20,6 @@ void PrefabVisitor::operator()(PrefabComponent::Render const& obj) const
     m_level->addComponent<Components::Render>(m_ref, sprite);
 }
 
-void PrefabVisitor::operator()(PrefabComponent::State const& obj) const
-{
-    m_level->addComponent<Components::FixedState>(m_ref, obj.states);
-}
-
 void PrefabVisitor::operator()(PrefabComponent::Collider const& obj) const
 {
     m_level->addComponent<Components::Collider>(m_ref, obj.blocksLight, obj.blocksMovement);

@@ -79,14 +79,8 @@ void EntityFactory::prefabDoor()
         "A closed door"
     };
 
-    PrefabComponent::State state;
-    state.states = {
-        "open",
-        "closed"
-    };
-
     PrefabList prefabList = {
-        render, collider, description, state
+        render, collider, description
     };
 
     m_prefabs.emplace( "door", prefabList );
@@ -120,7 +114,7 @@ void EntityFactory::prefabEntrance()
     PrefabComponent::Render render;
     render.spriteBreakpoints = {1};
     render.sprites = {
-            { "kenney-tiles", "grey-stairs-up" }
+        { "kenney-tiles", "grey-stairs-up" }
     };
 
     PrefabComponent::Collider collider;

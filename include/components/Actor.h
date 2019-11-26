@@ -1,7 +1,7 @@
 #pragma once
 
 #include <game/Component.h>
-#include <game/Action.h>
+#include <actions/Action.h>
 
 namespace Components
 {
@@ -16,7 +16,7 @@ struct Actor : public Component<Actor>
     int currentEnergy;
     int maxEnergy;
 
-    std::unique_ptr<Action> nextAction;
+    ActionProcedurePtr nextAction;
 };
 
 

@@ -103,7 +103,8 @@ void DefaultLController::doMovePlayer(SDL_Keycode kcode)
 
     Vector2i newPos = tpos->position + delta;
 
-    auto moveAction = std::make_unique<MoveAction>( m_level, ref, tpos->position, newPos );
+    MoveAction gen(m_level, newPos);
+    auto moveAction = std::move( gen.generate(ref) );
     m_level->getComponents<Components::Actor>(ref)->nextAction = std::move(moveAction);
     m_level->events().broadcast<GEvents::GameTick>();
 }

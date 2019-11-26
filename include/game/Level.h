@@ -9,7 +9,6 @@
 #include <utils/IdPool.h>
 #include <ui/Manager.h>
 #include <game/Component.h>
-#include <game/Action.h>
 #include <game/GEvent.h>
 #include <game/Tiles.h>
 #include <game/Player.h>

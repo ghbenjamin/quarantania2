@@ -3,7 +3,6 @@
 #include <components/TilePosition.h>
 #include <components/Collider.h>
 #include <components/Description.h>
-#include <components/FixedState.h>
 #include <components/Actor.h>
 #include <components/Tags.h>
 #include <components/Render.h>
