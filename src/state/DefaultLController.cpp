@@ -56,6 +56,7 @@ bool DefaultLController::onMouseDown(IEventMouseDown evt)
 
 bool DefaultLController::onKeyDown(IEventKeyPress evt)
 {
+    // TODO more robust key handling
     switch ( evt.keyCode )
     {
         case SDLK_w:
@@ -99,12 +100,19 @@ void DefaultLController::doMovePlayer(SDL_Keycode kcode)
             break;
     }
 
+    // Get the tile positon we would move into, and get the default action for that tile
+    // For an empty tile it's to move into it, for a door its to open, for an enemy attack, etc.
     Vector2i newPos = tpos->position + delta;
+    auto def = m_level->getDefaultAction(newPos);
 
-    MoveAction gen(m_level, newPos);
-    auto moveAction = std::move( gen.generate(ref) );
-    m_level->getComponents<Components::Actor>(ref)->nextAction = std::move(moveAction);
-    m_level->events().broadcast<GEvents::GameTick>();
+    // If there's no action for the tile, do nothing (and don't consume a turn)
+    if (def)
+    {
+        auto moveAction = std::move( def->generate(ref) );
+        m_level->getComponents<Components::Actor>(ref)->nextAction = std::move(moveAction);
+        m_level->events().broadcast<GEvents::GameTick>();
+    }
+
 }
 
 void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)

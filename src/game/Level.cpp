@@ -330,9 +330,12 @@ std::vector<std::shared_ptr<Action>> Level::actionsForTile(Vector2i tile)
 {
     std::vector<std::shared_ptr<Action>> out;
 
-    auto moveAct = std::make_shared<MoveAction>(this, tile);
+    if ( grid().pass().valueAt(tile) != Rules::Passibility::Impassable )
+    {
+        auto moveAct = std::make_shared<MoveAction>(this, tile);
+        out.push_back( std::static_pointer_cast<Action>(moveAct) );
+    }
 
-    out.push_back( std::static_pointer_cast<Action>(moveAct) );
     return std::move(out);
 }
 
@@ -345,7 +348,6 @@ std::vector<std::shared_ptr<Action>> Level::actionsForEntity(EntityRef ref)
 std::vector<std::shared_ptr<Action>> Level::actionsForPosition(Vector2i position)
 {
     std::vector<std::shared_ptr<Action>> out;
-    std::size_t size = 0;
 
     auto entsAtTile = grid().entitiesAtTile(position);
     auto tiles = actionsForTile(position);
@@ -358,6 +360,20 @@ std::vector<std::shared_ptr<Action>> Level::actionsForPosition(Vector2i position
     }
 
     return std::move(out);
+}
+
+std::shared_ptr<Action> Level::getDefaultAction(Vector2i position)
+{
+    auto actions = actionsForPosition(position);
+
+    if ( actions.empty() )
+    {
+        return std::shared_ptr<Action>();
+    }
+    else
+    {
+        return actions.front();
+    }
 }
 
 

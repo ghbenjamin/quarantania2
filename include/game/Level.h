@@ -209,6 +209,7 @@ public:
     std::vector<std::shared_ptr<Action>> actionsForTile(Vector2i tile);
     std::vector<std::shared_ptr<Action>> actionsForEntity(EntityRef ref);
     std::vector<std::shared_ptr<Action>> actionsForPosition(Vector2i position);
+    std::shared_ptr<Action> getDefaultAction(Vector2i position);
 
     // UI
     Sprite const& getMinimap( ) const;
