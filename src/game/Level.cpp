@@ -16,6 +16,7 @@
 #include <systems/All.h>
 #include <components/All.h>
 #include <ui/MinimapView.h>
+#include <actions/MoveAction.h>
 
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
@@ -27,6 +28,7 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     registerComponent<Components::Collider>();
     registerComponent<Components::Description>();
     registerComponent<Components::Actor>();
+    registerComponent<Components::Action>();
     registerComponent<Components::Tags>();
 
     registerSystem<Systems::Render>();
@@ -322,6 +324,40 @@ Sprite const &Level::getMinimap() const
 bool Level::isPlayer(EntityRef ref) const
 {
     return ref == m_player->ref();
+}
+
+std::vector<std::shared_ptr<Action>> Level::actionsForTile(Vector2i tile)
+{
+    std::vector<std::shared_ptr<Action>> out;
+
+    auto moveAct = std::make_shared<MoveAction>(this, tile);
+
+    out.push_back( std::static_pointer_cast<Action>(moveAct) );
+    return std::move(out);
+}
+
+std::vector<std::shared_ptr<Action>> Level::actionsForEntity(EntityRef ref)
+{
+    std::vector<std::shared_ptr<Action>> out;
+    return std::move(out);
+}
+
+std::vector<std::shared_ptr<Action>> Level::actionsForPosition(Vector2i position)
+{
+    std::vector<std::shared_ptr<Action>> out;
+    std::size_t size = 0;
+
+    auto entsAtTile = grid().entitiesAtTile(position);
+    auto tiles = actionsForTile(position);
+    out.insert( out.begin(), tiles.begin(), tiles.end() );
+
+    for ( auto ent : entsAtTile )
+    {
+        auto ents = actionsForEntity(ent);
+        out.insert( out.begin(), ents.begin(), ents.end() );
+    }
+
+    return std::move(out);
 }
 
 

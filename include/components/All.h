@@ -6,3 +6,4 @@
 #include <components/Actor.h>
 #include <components/Tags.h>
 #include <components/Render.h>
+#include <components/Action.h>

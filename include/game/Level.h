@@ -34,10 +34,10 @@ struct IEventMouseMove;
 struct IEventMouseDown;
 struct IEventWindowResize;
 class LevelFactory;
+class Action;
 
 // New definitions
 using EntityCompMap = std::unordered_map<EntityRef, std::shared_ptr<BaseComponent>>;
-
 
 class Level
 {
@@ -47,15 +47,15 @@ public:
     explicit Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg);
     virtual ~Level() = default;
 
+    // Core
     bool input(IEvent &evt);
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
-
-    Vector2i const& bounds() const;
-    int tileCount() const;
 
     Grid& grid();
     GEventHub& events();
     UI::Manager& ui();
+
+    // Entity Management
 
     EntityRef createEntity();
     void deleteEntity(EntityRef ent);
@@ -196,12 +196,21 @@ public:
         m_gevents.broadcast<GEvents::EntityReady>( ent );
     }
 
+    // Coordinates
     Vector2i worldCoordsToScreen( Vector2i const& world );
     Vector2i screenCoordsToWorld( Vector2i const& screen );
     Vector2i worldCoordsToTile( Vector2i const& world);
     Vector2i screenCoordsToTile( Vector2i const& screen);
     Vector2i tileCoordsToScreen( Vector2i const& tile );
+    Vector2i const& bounds() const;
+    int tileCount() const;
 
+    // Actions
+    std::vector<std::shared_ptr<Action>> actionsForTile(Vector2i tile);
+    std::vector<std::shared_ptr<Action>> actionsForEntity(EntityRef ref);
+    std::vector<std::shared_ptr<Action>> actionsForPosition(Vector2i position);
+
+    // UI
     Sprite const& getMinimap( ) const;
 
 private:

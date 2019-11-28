@@ -32,21 +32,19 @@ bool DefaultLController::onMouseDown(IEventMouseDown evt)
         case RIGHT_MOUSE_BUTTON:
         {
             auto tileCoords = m_level->screenCoordsToTile(evt.screenPos);
-            auto ents = m_level->grid().entitiesAtTile( tileCoords );
-            if ( !ents.empty() )
+            auto actions = m_level->actionsForPosition(tileCoords);
+            UI::ContextMenuList cml;
+
+            for ( auto const& item : actions )
             {
-                // TODO: Work out which entities are here. Work out the possible actions for each.
-                // Display these actions here, and respond accordingly to the chosen action.
-
-                UI::ContextMenuList cml = {
-                        "Hello", "World", "I", "am", "an", "ENTITY"
-                };
-
-                m_level->ui().openContextMenu(cml, evt.screenPos, [](auto arg) {
-                    // TODO: Do something other than parrot back the chosen item
-                    Logging::log( arg );
-                });
+                cml.push_back( item->description() );
             }
+
+            m_level->ui().openContextMenu(cml, evt.screenPos, [](auto arg) {
+               // TODO: Do something other than parrot back the chosen item
+               Logging::log( arg );
+            });
+
             break;
         }
         default:

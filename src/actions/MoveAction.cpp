@@ -3,8 +3,9 @@
 #include <components/TilePosition.h>
 
 MoveAction::MoveAction(Level *level, Vector2i tile)
-        : TileAction(level, tile)
+    : TileAction(level, tile)
 {
+    m_description = "Move";
 }
 
 bool MoveAction::doAction(EntityRef actor) const

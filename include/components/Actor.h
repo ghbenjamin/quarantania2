@@ -5,7 +5,6 @@
 
 namespace Components
 {
-
 struct Actor : public Component<Actor>
 {
     Actor();
@@ -18,6 +17,4 @@ struct Actor : public Component<Actor>
 
     ActionProcedurePtr nextAction;
 };
-
-
 }
