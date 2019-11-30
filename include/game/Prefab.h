@@ -1,62 +1,71 @@
 #pragma once
 
-#include <variant>
-
-#include <resource/Spritesheet.h>
-#include <utils/Random.h>
 #include <game/Entity.h>
+#include <resource/Spritesheet.h>
 
 class Level;
 
-namespace PrefabComponent
-{
-
-struct Render
-{
-    std::vector<SpritesheetKey> sprites;
-    std::vector<int> spriteBreakpoints;
-};
-
-struct Collider
-{
-    bool blocksMovement = false;
-    bool blocksLight = true;
-};
-
-struct Container
-{
-
-};
-
-struct Description
-{
-    std::vector<std::string> descriptions;
-};
-}
-
-class PrefabVisitor
+class PrefabObj
 {
 public:
-    explicit PrefabVisitor(Level* level, EntityRef ref, RandomGenerator* rg);
-    ~PrefabVisitor() = default;
+    PrefabObj() = default;
+    virtual ~PrefabObj() = default;
 
-    void operator()(PrefabComponent::Render const& obj) const;
-    void operator()(PrefabComponent::Collider const& obj) const;
-    void operator()(PrefabComponent::Container const& obj) const;
-    void operator()(PrefabComponent::Description const& obj) const;
-
-private:
-    EntityRef m_ref;
-    Level* m_level;
-    RandomGenerator* m_rg;
+    virtual void generate(Level *level, EntityRef entity) = 0;
 };
 
-using PrefabVariant = std::variant
-        <
-            PrefabComponent::Render,
-            PrefabComponent::Collider,
-            PrefabComponent::Container,
-            PrefabComponent::Description
-        >;
+namespace PrefabObjs
+{
 
-using PrefabList = std::vector<PrefabVariant>;
+class Door : public PrefabObj
+{
+public:
+    Door( SpritesheetKey sprite );
+    ~Door() override = default;
+    void generate(Level* level, EntityRef entity) override;
+private:
+    SpritesheetKey m_sprite;
+};
+
+class Exit : public PrefabObj
+{
+public:
+    Exit( SpritesheetKey sprite );
+    ~Exit() override = default;
+    void generate(Level* level, EntityRef entity) override;
+private:
+    SpritesheetKey m_sprite;
+};
+
+class Entrance : public PrefabObj
+{
+public:
+    Entrance( SpritesheetKey sprite );
+    ~Entrance() override = default;
+    void generate(Level* level, EntityRef entity) override;
+private:
+    SpritesheetKey m_sprite;
+};
+
+class Container : public PrefabObj
+{
+public:
+    Container( SpritesheetKey sprite );
+    ~Container() override = default;
+    void generate(Level* level, EntityRef entity) override;
+private:
+    SpritesheetKey m_sprite;
+};
+
+class Decor : public PrefabObj
+{
+public:
+    Decor( SpritesheetKey sprite );
+    ~Decor() override = default;
+    void generate(Level* level, EntityRef entity) override;
+private:
+    SpritesheetKey m_sprite;
+};
+
+
+}

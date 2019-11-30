@@ -3,33 +3,71 @@
 #include <resource/ResourceManager.h>
 #include <components/All.h>
 
-PrefabVisitor::PrefabVisitor(Level* level, EntityRef ref, RandomGenerator* rg)
-        : m_ref(ref), m_level(level), m_rg(rg) {}
-
-void PrefabVisitor::operator()(PrefabComponent::Render const& obj) const
-{
-    // TODO: something more sophisticated than randomly picking
-
-    auto begin_it = obj.sprites.begin();
-    auto end_it = obj.sprites.begin();
-    std::advance(end_it, obj.spriteBreakpoints[0]);
-
-    auto it = randomElement(begin_it, end_it, *m_rg);
-    auto sprite = ResourceManager::get().getSprite(*it);
-
-    m_level->addComponent<Components::Render>(m_ref, sprite);
-}
-
-void PrefabVisitor::operator()(PrefabComponent::Collider const& obj) const
-{
-    m_level->addComponent<Components::Collider>(m_ref, obj.blocksLight, obj.blocksMovement);
-}
-
-void PrefabVisitor::operator()(PrefabComponent::Container const& obj) const
+PrefabObjs::Door::Door(SpritesheetKey sprite)
+    : m_sprite(sprite)
 {
 }
 
-void PrefabVisitor::operator()(PrefabComponent::Description const& obj) const
+void PrefabObjs::Door::generate(Level *level, EntityRef entity)
 {
-    m_level->addComponent<Components::Description>(m_ref, obj.descriptions);
+    auto sprite = ResourceManager::get().getSprite(m_sprite);
+    sprite.setRenderLayer(RenderLayer::Entity);
+    level->addComponent<Components::Render>(entity, sprite);
+
+    level->addComponent<Components::Collider>(entity, true, true);
+}
+
+PrefabObjs::Exit::Exit(SpritesheetKey sprite)
+    : m_sprite(sprite)
+{
+}
+
+void PrefabObjs::Exit::generate(Level *level, EntityRef entity)
+{
+    auto sprite = ResourceManager::get().getSprite(m_sprite);
+    sprite.setRenderLayer(RenderLayer::Entity);
+    level->addComponent<Components::Render>(entity, sprite);
+}
+
+
+PrefabObjs::Entrance::Entrance(SpritesheetKey sprite)
+    : m_sprite(sprite)
+{
+}
+
+void PrefabObjs::Entrance::generate(Level *level, EntityRef entity)
+{
+    auto sprite = ResourceManager::get().getSprite(m_sprite);
+    sprite.setRenderLayer(RenderLayer::Entity);
+    level->addComponent<Components::Render>(entity, sprite);
+
+    level->addComponent<Components::Collider>(entity, true, true);
+}
+
+PrefabObjs::Container::Container(SpritesheetKey sprite)
+    : m_sprite(sprite)
+{
+}
+
+void PrefabObjs::Container::generate(Level *level, EntityRef entity)
+{
+    auto sprite = ResourceManager::get().getSprite(m_sprite);
+    sprite.setRenderLayer(RenderLayer::Entity);
+    level->addComponent<Components::Render>(entity, sprite);
+
+    level->addComponent<Components::Collider>(entity, true, true);
+}
+
+PrefabObjs::Decor::Decor(SpritesheetKey sprite)
+    : m_sprite(sprite)
+{
+}
+
+void PrefabObjs::Decor::generate(Level *level, EntityRef entity)
+{
+    auto sprite = ResourceManager::get().getSprite(m_sprite);
+    sprite.setRenderLayer(RenderLayer::Entity);
+    level->addComponent<Components::Render>(entity, sprite);
+
+    level->addComponent<Components::Collider>(entity, true, true);
 }
