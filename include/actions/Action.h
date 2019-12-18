@@ -8,6 +8,7 @@ using ActionProcedure = std::function<bool()>;
 using ActionProcedurePtr = std::unique_ptr<ActionProcedure>;
 class Level;
 
+
 class Action
 {
 public:

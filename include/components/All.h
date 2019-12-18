@@ -7,3 +7,5 @@
 #include <components/Tags.h>
 #include <components/Render.h>
 #include <components/Action.h>
+#include <components/Openable.h>
+#include <components/Lockable.h>

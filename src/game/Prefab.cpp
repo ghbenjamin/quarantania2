@@ -12,9 +12,10 @@ void PrefabObjs::Door::generate(Level *level, EntityRef entity)
 {
     auto sprite = ResourceManager::get().getSprite(m_sprite);
     sprite.setRenderLayer(RenderLayer::Entity);
+    
     level->addComponent<Components::Render>(entity, sprite);
-
     level->addComponent<Components::Collider>(entity, true, true);
+    level->addComponent<Components::Openable>(entity);
 }
 
 PrefabObjs::Exit::Exit(SpritesheetKey sprite)
