@@ -372,6 +372,7 @@ std::shared_ptr<Action> Level::getDefaultAction(Vector2i position)
     }
     else
     {
+        // TODO Don't just pick the first action
         return actions.front();
     }
 }

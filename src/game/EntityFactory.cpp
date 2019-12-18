@@ -51,7 +51,6 @@ void EntityFactory::createPrefabs()
     m_prefabs.emplace( "door", ContainerType {
         std::make_shared<PrefabObjs::Door>( SpritesheetKey{ "kenney-tiles", "door-closed" } ),
         std::make_shared<PrefabObjs::Door>( SpritesheetKey{ "kenney-tiles", "door-barred" } ),
-        std::make_shared<PrefabObjs::Door>( SpritesheetKey{ "kenney-tiles", "door-open" } )
     });
 
     m_prefabs.emplace( "entrance", ContainerType {
