@@ -81,6 +81,12 @@ public:
         recacheTile( idx );
     }
 
+    void moveDynamic( Vector2i oldTile, Vector2i newTile, RefType rt, DataType dt )
+    {
+        setDynamic( newTile, rt, dt );
+        removeDynamic( oldTile, rt, dt );
+    }
+
     DataType valueAt( Vector2i pos )
     {
 		auto idx = vectorToIdx(pos);

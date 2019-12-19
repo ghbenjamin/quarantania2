@@ -10,17 +10,17 @@ UI::ContextMenu::ContextMenu(const UI::ContextMenuList &items, ContextMenuCallba
     holdLayout();
     setLayout<UI::VerticalLayout>(0, UI::HAlignment::Fill);
 
-    for ( auto const& item : items )
+    for ( std::size_t i = 0; i < items.size(); i++ )
     {
-        if ( item.empty() )
+        if ( items[i].empty() )
         {
             manager()->createElement<UI::Internal::ContextMenuSpacer>( this );
         }
         else
         {
-            auto ptr = manager()->createElement<UI::Internal::ContextMenuItem>( this, item );
+            auto ptr = manager()->createElement<UI::Internal::ContextMenuItem>( this, items[i], i );
             ptr->addEventCallback(UEventType::Click, [this](UEvent& evt) {
-                m_callback( evt.targetElement->asType<UI::Internal::ContextMenuItem>()->label() );
+                m_callback( evt.targetElement->asType<UI::Internal::ContextMenuItem>()->index() );
                 manager()->deleteElement( shared_from_this() );
             });
         }
@@ -33,8 +33,8 @@ UI::ContextMenu::ContextMenu(const UI::ContextMenuList &items, ContextMenuCallba
     releaseLayout();
 }
 
-UI::Internal::ContextMenuItem::ContextMenuItem(std::string const &label)
-: m_label(label)
+UI::Internal::ContextMenuItem::ContextMenuItem(std::string const &label, std::size_t idx)
+: m_label(label), m_idx(idx)
 {
     auto tnode = manager()->createElement<UI::TextNode>( this );
     tnode->setText( label );
@@ -52,6 +52,11 @@ UI::Internal::ContextMenuItem::ContextMenuItem(std::string const &label)
 std::string const &UI::Internal::ContextMenuItem::label()
 {
     return m_label;
+}
+
+std::size_t UI::Internal::ContextMenuItem::index()
+{
+    return m_idx;
 }
 
 UI::Internal::ContextMenuSpacer::ContextMenuSpacer()

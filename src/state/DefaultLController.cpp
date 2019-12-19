@@ -1,12 +1,11 @@
 #include <state/DefaultLController.h>
 #include <game/Level.h>
 #include <utils/Assert.h>
-#include <actions/MoveAction.h>
+#include <actions/ActionDefs.h>
 
 #include <components/TilePosition.h>
 #include <components/Actor.h>
 #include <components/Description.h>
-#include <components/Collider.h>
 
 DefaultLController::DefaultLController(Level *level)
 : LevelController(level)
@@ -27,23 +26,30 @@ bool DefaultLController::onMouseDown(IEventMouseDown evt)
     {
         case LEFT_MOUSE_BUTTON:
         {
+            // TBD
             break;
         }
         case RIGHT_MOUSE_BUTTON:
         {
+            // Grab the actions possible at the given tile RE. the player
             auto tileCoords = m_level->screenCoordsToTile(evt.screenPos);
             auto actions = m_level->actionsForPosition(tileCoords);
+            EntityRef player = m_level->getPlayer()->ref();
             UI::ContextMenuList cml;
 
-            for ( auto const& item : actions )
+            // If we've got no actions, do nothing
+            if ( !actions.empty() )
             {
-                cml.push_back( item->description() );
-            }
+                for ( auto const& item : actions )
+                {
+                    cml.push_back( item->description() );
+                }
 
-            m_level->ui().openContextMenu(cml, evt.screenPos, [](auto arg) {
-               // TODO: Do something other than parrot back the chosen item
-               Logging::log( arg );
-            });
+                // Otherwise, open a context menu containing the actions
+                m_level->ui().openContextMenu(cml, evt.screenPos, [actList = std::move(actions), player] (auto arg) {
+                    actList[arg]->doAction( player );
+                });
+            }
 
             break;
         }
@@ -108,11 +114,10 @@ void DefaultLController::doMovePlayer(SDL_Keycode kcode)
     // If there's no action for the tile, do nothing (and don't consume a turn)
     if (def)
     {
-        auto moveAction = std::move( def->generate(ref) );
-        m_level->getComponents<Components::Actor>(ref)->nextAction = std::move(moveAction);
+        auto defaultAction = std::move( def->generate(ref) );
+        m_level->getComponents<Components::Actor>(ref)->nextAction = std::move(defaultAction);
         m_level->events().broadcast<GEvents::GameTick>();
     }
-
 }
 
 void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)

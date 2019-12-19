@@ -5,7 +5,6 @@
 
 namespace Components
 {
-// Do I want to be visible?
 struct Render : public Component<Render>
 {
     explicit Render( Sprite const& s );

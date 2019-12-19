@@ -10,18 +10,22 @@ namespace Systems
 
 class FOV : public System,
             public GEventSub<GEvents::EntityMove>,
-            public GEventSub<GEvents::LevelReady>
+            public GEventSub<GEvents::LevelReady>,
+            public GEventSub<GEvents::EntityOpenClose>
 {
 public:
     explicit FOV(Level *parent);
     ~FOV() override = default;
 
     void update(uint32_t ticks, RenderInterface &rInter) override;
-    void accept(GEvents::EntityMove *evt) override;
 
+    void accept(GEvents::EntityMove *evt) override;
     void accept(GEvents::LevelReady *evt) override;
+    void accept(GEvents::EntityOpenClose *evt) override;
 
 private:
+
+    void recalculateFOV();
 
     // This seems like a logical place to keep these?
 

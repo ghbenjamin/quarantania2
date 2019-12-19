@@ -16,8 +16,7 @@
 #include <systems/All.h>
 #include <components/All.h>
 #include <ui/MinimapView.h>
-#include <actions/MoveAction.h>
-
+#include <actions/ActionDefs.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 : m_ctx(std::move(ctx)), m_bounds(size), m_grid(size),
@@ -29,6 +28,8 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     registerComponent<Components::Description>();
     registerComponent<Components::Actor>();
     registerComponent<Components::Action>();
+    registerComponent<Components::Lockable>();
+    registerComponent<Components::Openable>();
     registerComponent<Components::Tags>();
 
     registerSystem<Systems::Render>();
@@ -332,7 +333,7 @@ std::vector<std::shared_ptr<Action>> Level::actionsForTile(Vector2i tile)
 
     if ( grid().pass().valueAt(tile) != Rules::Passibility::Impassable )
     {
-        auto moveAct = std::make_shared<MoveAction>(this, tile);
+        auto moveAct = std::make_shared<StepAction>(this, tile);
         out.push_back( std::static_pointer_cast<Action>(moveAct) );
     }
 
@@ -342,6 +343,27 @@ std::vector<std::shared_ptr<Action>> Level::actionsForTile(Vector2i tile)
 std::vector<std::shared_ptr<Action>> Level::actionsForEntity(EntityRef ref)
 {
     std::vector<std::shared_ptr<Action>> out;
+
+    if ( entityHas<Components::Openable>(ref) )
+    {
+        auto openable = getComponents<Components::Openable>(ref);
+        if ( openable->isOpen)
+        {
+            auto act = std::make_shared<CloseAction>(this, ref);
+            out.push_back( std::static_pointer_cast<Action>(act) );
+        }
+        else
+        {
+            auto act = std::make_shared<OpenAction>(this, ref);
+            out.push_back( std::static_pointer_cast<Action>(act) );
+        }
+    }
+
+    if ( entityHas<Components::Lockable>(ref) )
+    {
+
+    }
+
     return std::move(out);
 }
 

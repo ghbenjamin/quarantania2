@@ -13,12 +13,15 @@ namespace Internal
 class ContextMenuItem : public Element
 {
 public:
-    explicit ContextMenuItem( std::string const& label );
+    explicit ContextMenuItem( std::string const& label, std::size_t idx );
     ~ContextMenuItem() override = default;
 
     std::string const& label();
+    std::size_t index();
+
 private:
     std::string m_label;
+    std::size_t m_idx;
 };
 
 class ContextMenuSpacer : public Element
@@ -32,7 +35,7 @@ public:
 
 
 using ContextMenuList = std::vector<std::string>;
-using ContextMenuCallback = std::function<void(std::string const&)>;
+using ContextMenuCallback = std::function<void(std::size_t)>;
 
 class ContextMenu : public Element
 {

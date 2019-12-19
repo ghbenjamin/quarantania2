@@ -90,7 +90,6 @@ private:
     // Start a new region of the given type
     void newRegion( LD::RegionType type );
 
-    void readyAllEntities();
     void setInitialCollisionData();
 
     /**

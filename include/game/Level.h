@@ -95,8 +95,7 @@ public:
         }
         else
         {
-            return std::tuple<std::shared_ptr<CT>...>{
-                std::static_pointer_cast<CT>(getComponents<CT>(entity))...};
+            return std::tuple<std::shared_ptr<CT>...>{ getComponents<CT>(entity)... };
         }
     }
 

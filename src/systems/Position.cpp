@@ -20,7 +20,7 @@ void Systems::Position::accept(GEvents::EntityMove *evt)
 
 void Systems::Position::accept(GEvents::EntityReady *evt)
 {
-    // A new entity has been added - update our cache of which entites are in which tiles
+    // A new entity has been added - update our cache of which entities are in which tiles
     if ( m_level->entityHas<Components::TilePosition>(evt->ent) )
     {
         auto const& pos = m_level->getComponents<Components::TilePosition>(evt->ent);

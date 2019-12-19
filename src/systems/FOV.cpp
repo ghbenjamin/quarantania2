@@ -13,6 +13,7 @@ Systems::FOV::FOV(Level *parent) : System(parent),
 
     m_level->events().subscribe<GEvents::EntityMove>( this );
     m_level->events().subscribe<GEvents::LevelReady>( this );
+    m_level->events().subscribe<GEvents::EntityOpenClose>( this );
 }
 
 void Systems::FOV::accept(GEvents::EntityMove *evt)
@@ -50,8 +51,18 @@ void Systems::FOV::update(uint32_t ticks, RenderInterface &rInter)
 
 void Systems::FOV::accept(GEvents::LevelReady *evt)
 {
+    recalculateFOV();
+}
+
+void Systems::FOV::recalculateFOV()
+{
     auto playerRef = m_level->getPlayer()->ref();
     auto playerPos = m_level->getComponents<Components::TilePosition>( playerRef )->position;
     m_level->grid()
            .calculateFOV(playerPos, 10 /*TODO DELETE*/ );
+}
+
+void Systems::FOV::accept(GEvents::EntityOpenClose *evt)
+{
+    recalculateFOV();
 }

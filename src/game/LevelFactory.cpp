@@ -62,7 +62,6 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     constructPlayer();
 
     // Mark the level construction as completed
-    readyAllEntities();
     m_level->events().broadcast<GEvents::LevelReady>();
     return std::move(m_level);
 }
@@ -743,14 +742,6 @@ void LevelFactory::decorateRooms()
             default:
                 AssertAlways();
         }
-    }
-}
-
-void LevelFactory::readyAllEntities()
-{
-    for ( auto const& e: m_createdEntities )
-    {
-        m_level->entityReady(e);
     }
 }
 
