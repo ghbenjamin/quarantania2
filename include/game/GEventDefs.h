@@ -33,6 +33,12 @@ struct EntityOpenClose : public GEvent<EntityOpenClose>
     bool isOpen;
 };
 
+struct EntityUnlock : public GEvent<EntityUnlock>
+{
+    EntityRef ent;
+};
+
+
 struct LevelReady : public GEvent<LevelReady>
 {
     LevelReady() = default;

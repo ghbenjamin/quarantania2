@@ -12,7 +12,6 @@
 #include <ui/TextLog.h>
 #include <ui/Layout.h>
 #include <state/DefaultLController.h>
-
 #include <systems/All.h>
 #include <components/All.h>
 #include <ui/MinimapView.h>
@@ -361,8 +360,17 @@ std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subjec
 
     if ( entityHas<Components::Lockable>(subject) )
     {
-
+        auto lockable = getComponents<Components::Lockable>(subject);
+        if ( lockable->isLocked )
+        {
+            auto act = std::make_shared<UnlockAction>(this, actor, subject);
+            out.push_back( std::static_pointer_cast<Action>(act) );
+        }
     }
+
+    out.erase( std::remove_if(out.begin(), out.end(), []( ActionPtr const& item ){
+        return !item->canTryAction();
+    }), out.end() );
 
     return std::move(out);
 }
@@ -380,6 +388,10 @@ std::vector<ActionPtr> Level::actionsForPosition(EntityRef actor, Vector2i posit
         auto ents = actionsForEntity(actor, ent);
         out.insert( out.end(), ents.begin(), ents.end() );
     }
+
+    out.erase( std::remove_if(out.begin(), out.end(), []( ActionPtr const& item ){
+        return !item->canTryAction();
+    }), out.end() );
 
     return std::move(out);
 }

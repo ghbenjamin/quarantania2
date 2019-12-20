@@ -30,7 +30,7 @@ bool StepAction::canTryAction() const
 
 const char *StepAction::description() const
 {
-    return "Step";
+    return "Move";
 }
 
 
@@ -43,6 +43,8 @@ bool OpenAction::doAction() const
 bool OpenAction::canTryAction() const
 {
     auto openable = m_level->getComponents<Components::Openable>( m_entity );
+    if (!openable) return false;
+
     return !openable->isOpen;
 }
 
@@ -60,10 +62,30 @@ bool CloseAction::doAction() const
 bool CloseAction::canTryAction() const
 {
     auto openable = m_level->getComponents<Components::Openable>( m_entity );
+    if (!openable) return false;
+
     return openable->isOpen;
 }
 
 const char *CloseAction::description() const
 {
     return "Close";
+}
+
+const char *UnlockAction::description() const
+{
+    return "Unlock";
+}
+
+bool UnlockAction::canTryAction() const
+{
+    auto lockable = m_level->getComponents<Components::Lockable>( m_entity );
+    if (!lockable) return false;
+    return lockable->isLocked;
+}
+
+bool UnlockAction::doAction() const
+{
+    auto lockable = m_level->getComponents<Components::Lockable>( m_entity );
+    return false;
 }

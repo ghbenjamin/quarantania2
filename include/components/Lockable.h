@@ -11,6 +11,7 @@ struct Lockable : public Component<Lockable>
     Lockable();
     ~Lockable() override = default;
 
+    bool isLocked = false;
     bool requiresKey = false;
     ItemPtr keyItem = ItemPtr{};
     int lockStrength = 0;

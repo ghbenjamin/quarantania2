@@ -25,8 +25,7 @@ void Systems::Actors::accept(GEvents::GameTick *evt)
             if ( curr->nextAction )
             {
                 // If we have an action queued, try to perform it
-                auto actionRes = curr->nextAction
-                                     ->doAction();
+                auto actionRes = curr->nextAction->doAction();
 
                 if (actionRes)
                 {
