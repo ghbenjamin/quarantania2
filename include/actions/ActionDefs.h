@@ -8,8 +8,8 @@ public:
     using TileAction::TileAction;
 
     const char* description() const override;
-    bool canTryAction(EntityRef actor) const override;
-    bool doAction(EntityRef actor) const override;
+    bool canTryAction() const override;
+    bool doAction() const override;
 };
 
 
@@ -19,8 +19,8 @@ public:
     using EntityAction::EntityAction;
 
     const char* description() const override;
-    bool canTryAction(EntityRef actor) const override;
-    bool doAction(EntityRef actor) const override;
+    bool canTryAction() const override;
+    bool doAction() const override;
 };
 
 
@@ -30,6 +30,6 @@ public:
     using EntityAction::EntityAction;
 
     const char* description() const override;
-    bool canTryAction(EntityRef actor) const override;
-    bool doAction(EntityRef actor) const override;
+    bool canTryAction() const override;
+    bool doAction() const override;
 };

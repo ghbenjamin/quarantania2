@@ -1,27 +1,13 @@
 #include <actions/Action.h>
 
-Action::Action(Level* level)
-: m_level(level)
+Action::Action(Level* level, EntityRef actor)
+: m_level(level), m_actor(actor)
 { }
 
-ActionProcedurePtr Action::generate(EntityRef actor)
-{
-    return std::make_unique<ActionProcedure>([this, actor](){
-        if (!canTryAction(actor))
-        {
-            return false;
-        }
-        else
-        {
-            return this->doAction(actor);
-        }
-    });
-}
-
-EntityAction::EntityAction(Level* level, EntityRef entity)
-: Action(level), m_entity(entity)
+EntityAction::EntityAction(Level* level, EntityRef actor, EntityRef entity)
+: Action(level, actor), m_entity(entity)
 { }
 
-TileAction::TileAction(Level* level, Vector2i tile)
-: Action(level), m_tile(tile)
+TileAction::TileAction(Level* level, EntityRef actor, Vector2i tile)
+: Action(level, actor), m_tile(tile)
 { }

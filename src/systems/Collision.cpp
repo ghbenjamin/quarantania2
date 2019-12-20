@@ -44,18 +44,16 @@ void Systems::Collision::accept(GEvents::EntityReady *evt)
 
 void Systems::Collision::accept(GEvents::EntityOpenClose *evt)
 {
-    Logging::log("Open event woooo");
-
     auto [openable, collider, position] = m_level->getComponents<
             Components::Openable,
             Components::Collider,
-            Components::TilePosition>(evt->ent);
+            Components::TilePosition
+            >(evt->ent);
 
     openable->isOpen = evt->isOpen;
     if ( evt->isOpen )
     {
         // This is an 'open' event
-
         collider->blocksLight = false;
 
         if ( !openable->lightOnly )
@@ -67,7 +65,6 @@ void Systems::Collision::accept(GEvents::EntityOpenClose *evt)
     else
     {
         // This is a 'close' event
-
         collider->blocksLight = true;
 
         if ( !openable->lightOnly )

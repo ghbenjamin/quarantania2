@@ -327,39 +327,39 @@ bool Level::isPlayer(EntityRef ref) const
     return ref == m_player->ref();
 }
 
-std::vector<std::shared_ptr<Action>> Level::actionsForTile(Vector2i tile)
+std::vector<ActionPtr> Level::actionsForTile(EntityRef actor, Vector2i tile)
 {
-    std::vector<std::shared_ptr<Action>> out;
+    std::vector<ActionPtr> out;
 
     if ( grid().pass().valueAt(tile) != Rules::Passibility::Impassable )
     {
-        auto moveAct = std::make_shared<StepAction>(this, tile);
+        auto moveAct = std::make_shared<StepAction>(this, actor, tile);
         out.push_back( std::static_pointer_cast<Action>(moveAct) );
     }
 
     return std::move(out);
 }
 
-std::vector<std::shared_ptr<Action>> Level::actionsForEntity(EntityRef ref)
+std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subject)
 {
-    std::vector<std::shared_ptr<Action>> out;
+    std::vector<ActionPtr> out;
 
-    if ( entityHas<Components::Openable>(ref) )
+    if ( entityHas<Components::Openable>(subject) )
     {
-        auto openable = getComponents<Components::Openable>(ref);
+        auto openable = getComponents<Components::Openable>(subject);
         if ( openable->isOpen)
         {
-            auto act = std::make_shared<CloseAction>(this, ref);
+            auto act = std::make_shared<CloseAction>(this, actor, subject);
             out.push_back( std::static_pointer_cast<Action>(act) );
         }
         else
         {
-            auto act = std::make_shared<OpenAction>(this, ref);
+            auto act = std::make_shared<OpenAction>(this, actor, subject);
             out.push_back( std::static_pointer_cast<Action>(act) );
         }
     }
 
-    if ( entityHas<Components::Lockable>(ref) )
+    if ( entityHas<Components::Lockable>(subject) )
     {
 
     }
@@ -367,34 +367,33 @@ std::vector<std::shared_ptr<Action>> Level::actionsForEntity(EntityRef ref)
     return std::move(out);
 }
 
-std::vector<std::shared_ptr<Action>> Level::actionsForPosition(Vector2i position)
+std::vector<ActionPtr> Level::actionsForPosition(EntityRef actor, Vector2i position)
 {
-    std::vector<std::shared_ptr<Action>> out;
+    std::vector<ActionPtr> out;
 
     auto entsAtTile = grid().entitiesAtTile(position);
-    auto tiles = actionsForTile(position);
+    auto tiles = actionsForTile(actor ,position);
     out.insert( out.begin(), tiles.begin(), tiles.end() );
 
     for ( auto ent : entsAtTile )
     {
-        auto ents = actionsForEntity(ent);
-        out.insert( out.begin(), ents.begin(), ents.end() );
+        auto ents = actionsForEntity(actor, ent);
+        out.insert( out.end(), ents.begin(), ents.end() );
     }
 
     return std::move(out);
 }
 
-std::shared_ptr<Action> Level::getDefaultAction(Vector2i position)
+ActionPtr Level::getDefaultAction(EntityRef actor, Vector2i position)
 {
-    auto actions = actionsForPosition(position);
+    auto actions = actionsForPosition(actor, position);
 
     if ( actions.empty() )
     {
-        return std::shared_ptr<Action>();
+        return ActionPtr();
     }
     else
     {
-        // TODO Don't just pick the first action
         return actions.front();
     }
 }

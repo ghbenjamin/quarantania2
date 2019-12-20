@@ -32,9 +32,9 @@ bool DefaultLController::onMouseDown(IEventMouseDown evt)
         case RIGHT_MOUSE_BUTTON:
         {
             // Grab the actions possible at the given tile RE. the player
-            auto tileCoords = m_level->screenCoordsToTile(evt.screenPos);
-            auto actions = m_level->actionsForPosition(tileCoords);
             EntityRef player = m_level->getPlayer()->ref();
+            auto tileCoords = m_level->screenCoordsToTile(evt.screenPos);
+            auto actions = m_level->actionsForPosition(player, tileCoords);
             UI::ContextMenuList cml;
 
             // If we've got no actions, do nothing
@@ -47,7 +47,7 @@ bool DefaultLController::onMouseDown(IEventMouseDown evt)
 
                 // Otherwise, open a context menu containing the actions
                 m_level->ui().openContextMenu(cml, evt.screenPos, [actList = std::move(actions), player] (auto arg) {
-                    actList[arg]->doAction( player );
+                    actList[arg]->doAction();
                 });
             }
 
@@ -109,13 +109,12 @@ void DefaultLController::doMovePlayer(SDL_Keycode kcode)
     // Get the tile positon we would move into, and get the default action for that tile
     // For an empty tile it's to move into it, for a door its to open, for an enemy attack, etc.
     Vector2i newPos = tpos->position + delta;
-    auto def = m_level->getDefaultAction(newPos);
+    auto def = m_level->getDefaultAction(ref, newPos);
 
     // If there's no action for the tile, do nothing (and don't consume a turn)
     if (def)
     {
-        auto defaultAction = std::move( def->generate(ref) );
-        m_level->getComponents<Components::Actor>(ref)->nextAction = std::move(defaultAction);
+        m_level->getComponents<Components::Actor>(ref)->nextAction = def;
         m_level->events().broadcast<GEvents::GameTick>();
     }
 }

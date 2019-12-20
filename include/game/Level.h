@@ -38,6 +38,7 @@ class Action;
 
 // New definitions
 using EntityCompMap = std::unordered_map<EntityRef, std::shared_ptr<BaseComponent>>;
+using ActionPtr = std::shared_ptr<Action>;
 
 class Level
 {
@@ -205,10 +206,10 @@ public:
     int tileCount() const;
 
     // Actions
-    std::vector<std::shared_ptr<Action>> actionsForTile(Vector2i tile);
-    std::vector<std::shared_ptr<Action>> actionsForEntity(EntityRef ref);
-    std::vector<std::shared_ptr<Action>> actionsForPosition(Vector2i position);
-    std::shared_ptr<Action> getDefaultAction(Vector2i position);
+    std::vector<ActionPtr> actionsForTile(EntityRef actor, Vector2i tile);
+    std::vector<ActionPtr> actionsForEntity(EntityRef actor, EntityRef subject);
+    std::vector<ActionPtr> actionsForPosition(EntityRef actor, Vector2i position);
+    ActionPtr getDefaultAction(EntityRef actor, Vector2i position);
 
     // UI
     Sprite const& getMinimap( ) const;

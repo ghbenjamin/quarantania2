@@ -15,6 +15,6 @@ struct Actor : public Component<Actor>
     int currentEnergy;
     int maxEnergy;
 
-    ActionProcedurePtr nextAction;
+    ActionPtr nextAction;
 };
 }
