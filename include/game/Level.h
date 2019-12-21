@@ -211,9 +211,6 @@ public:
     std::vector<ActionPtr> actionsForPosition(EntityRef actor, Vector2i position);
     ActionPtr getDefaultAction(EntityRef actor, Vector2i position);
 
-    // UI
-    Sprite const& getMinimap( ) const;
-
 private:
 
     template <typename CT>
@@ -246,7 +243,6 @@ private:
     void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void renderTiles(uint32_t ticks, RenderInterface &rInter);
     void layoutWindows();
-    void generateMinimap();
 
 private:
 
@@ -267,7 +263,6 @@ private:
     UI::Manager m_uiManager;
     Camera m_camera;
     LevelControllerPtr m_controller;
-    Sprite m_minimap;
 };
 
 using LevelPtr = std::unique_ptr<Level>;

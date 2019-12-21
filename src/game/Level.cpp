@@ -1,21 +1,20 @@
 #include <utility>
 
-#include <game/Level.h>
-#include <graphics/RenderInterface.h>
-#include <game/InputInterface.h>
+#include <actions/ActionDefs.h>
+#include <components/All.h>
 #include <game/GEventDefs.h>
-#include <utils/Logging.h>
-#include <utils/Assert.h>
-#include <ui/TextNode.h>
+#include <game/InputInterface.h>
+#include <game/Level.h>
 #include <graphics/Primatives.h>
+#include <graphics/RenderInterface.h>
 #include <resource/ResourceManager.h>
-#include <ui/TextLog.h>
-#include <ui/Layout.h>
 #include <state/DefaultLController.h>
 #include <systems/All.h>
-#include <components/All.h>
-#include <ui/MinimapView.h>
-#include <actions/ActionDefs.h>
+#include <ui/Layout.h>
+#include <ui/TextLog.h>
+#include <ui/TextNode.h>
+#include <utils/Assert.h>
+#include <utils/Logging.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 : m_ctx(std::move(ctx)), m_bounds(size), m_grid(size),
@@ -84,9 +83,6 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
     {
         sys->update( ticks, rInter );
     }
-
-    // Render the FOV layer
-
 
     // Render the GUI
     m_uiManager.update(ticks, iinter, rInter);
@@ -240,10 +236,6 @@ void Level::setupUI()
     tlog->setPreferredContentSize({300, 200});
     tlog->setId("global-text-log");
 
-    auto mmap = m_uiManager.createElement<UI::MinimapView>(nullptr, this);
-    mmap->setId("minimap");
-    mmap->setBorder( 2, Colour::Blue );
-
     auto trframe = m_uiManager.createElement<UI::Element>(nullptr);
     trframe->setId("top-right-frame");
 
@@ -251,7 +243,6 @@ void Level::setupUI()
     trfLabel->setId( "trf-label" );
 
     m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomLeft, 0 );
-    m_uiManager.alignElementToWindow( mmap, UI::Alignment::CentreRight, 0 );
     m_uiManager.alignElementToWindow( trframe, UI::Alignment::TopRight, 0 );
 }
 
@@ -260,7 +251,6 @@ void Level::layoutWindows()
     auto wndSize = ResourceManager::get().getWindow()->getSize();
 
     auto tlog = m_uiManager.withId("global-text-log");
-    auto mmap = m_uiManager.withId("minimap");
     auto trframe = m_uiManager.withId("top-right-frame");
 
     int rframeW = 300;
@@ -273,7 +263,6 @@ void Level::layoutWindows()
     int tlogH = 200;
 
     tlog->setPreferredOuterSize({tlogW, tlogH});
-    mmap->setPreferredOuterSize({ rframeW, rframeH });
     trframe->setPreferredOuterSize({rframeW, rframeH - 50});
 
     m_camera.setViewportSize({ levelW, levelH });
@@ -308,17 +297,6 @@ UI::Manager& Level::ui()
 PlayerPtr &Level::getPlayer()
 {
     return m_player;
-}
-
-void Level::generateMinimap()
-{
-    m_minimap = { createRectangle( m_bounds, Colour::Black ) };
-
-}
-
-Sprite const &Level::getMinimap() const
-{
-    return m_minimap;
 }
 
 bool Level::isPlayer(EntityRef ref) const

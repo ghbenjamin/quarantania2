@@ -6,7 +6,6 @@
 namespace UI
 {
 
-
 namespace Internal
 {
 class TextLogLayout : public ElementLayout

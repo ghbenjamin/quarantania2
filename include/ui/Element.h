@@ -132,7 +132,6 @@ protected:
 
 private:
 
-
     template <typename Callable>
     void elementsMatchingCondition( Callable&& callable, ElementList* out )
     {
@@ -181,7 +180,6 @@ private:
     virtual void onMoveSelf();
 
     void recachePosition();
-
     void generateBackground();
 
     std::string m_id;
