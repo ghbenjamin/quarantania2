@@ -1,13 +1,9 @@
 #include <ui/TextLog.h>
 
-
-
 UI::Internal::TextLogLayout::TextLogLayout(int height)
 : m_height(height)
 {
-
 }
-
 
 Vector2i UI::Internal::TextLogLayout::doLayout(UI::Element *ptr)
 {
@@ -21,13 +17,12 @@ Vector2i UI::Internal::TextLogLayout::doLayout(UI::Element *ptr)
     return {0, 0};
 }
 
-
 UI::TextLog::TextLog()
 : m_maxLines(0), m_maxVisibleLines(0), m_scrollPosition(0.0f)
 {
     setBorder( 2, Colour::Black );
-//    setBackgroundColour( Colour(200, 200, 200) );
-    setBackgroundColour( Colour::Black );
+    setBackgroundColour( Colour(200, 200, 200) );
+//    setBackgroundColour( Colour::Black );
 
     setLayout<Internal::TextLogLayout>( contentSize().y() );
 }

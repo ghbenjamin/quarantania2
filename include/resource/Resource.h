@@ -78,7 +78,7 @@ private:
 class SpritesheetResource : public Resource
 {
 public:
-    SpritesheetResource(std::string const &key, std::string const &path, int margin, int tileSize);
+    SpritesheetResource(std::string const &key, std::string const &path);
     ~SpritesheetResource() override = default;
 
     const SpritesheetPtr &get() const;
@@ -87,6 +87,4 @@ public:
 
 private:
     SpritesheetPtr m_spritesheet;
-    int m_margin;
-    int m_tileSize;
 };

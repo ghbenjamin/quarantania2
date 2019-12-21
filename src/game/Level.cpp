@@ -314,7 +314,7 @@ std::vector<ActionPtr> Level::actionsForTile(EntityRef actor, Vector2i tile)
         out.push_back( std::static_pointer_cast<Action>(moveAct) );
     }
 
-    return std::move(out);
+    return out;
 }
 
 std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subject)
@@ -350,7 +350,7 @@ std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subjec
         return !item->canTryAction();
     }), out.end() );
 
-    return std::move(out);
+    return out;
 }
 
 std::vector<ActionPtr> Level::actionsForPosition(EntityRef actor, Vector2i position)
@@ -371,7 +371,7 @@ std::vector<ActionPtr> Level::actionsForPosition(EntityRef actor, Vector2i posit
         return !item->canTryAction();
     }), out.end() );
 
-    return std::move(out);
+    return out;
 }
 
 ActionPtr Level::getDefaultAction(EntityRef actor, Vector2i position)

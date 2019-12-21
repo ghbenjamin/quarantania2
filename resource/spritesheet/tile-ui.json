@@ -1,5 +1,13 @@
 {
-  "green-brackets": 1,
-  "yellow-brackets": 2,
-  "red-brackets": 3
+  "meta": {
+    "type": "tiled",
+    "margin": 1,
+    "tileSize": 16
+  },
+  "data":
+  {
+    "green-brackets": 1,
+    "yellow-brackets": 2,
+    "red-brackets": 3
+  }
 }

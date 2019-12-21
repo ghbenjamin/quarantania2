@@ -229,14 +229,6 @@ void Element::setPreferredOuterSize(Vector2i size)
     onSize();
 }
 
-
-void Element::setMaximumOuterSize(Vector2i size)
-{
-    m_maximumOuterSize = size;
-
-    onSize();
-}
-
 Manager *Element::manager()
 {
     return m_manager;

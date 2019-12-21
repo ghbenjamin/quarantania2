@@ -44,7 +44,6 @@ public:
     void setPreferredContentSize( Vector2i size );
     void setPreferredOuterSize( Vector2i size );
     void setMaximumOuterSize( Vector2i size );
-
     RectI const& bounds() const;
 
     // Layout
@@ -116,17 +115,15 @@ public:
     void addEventCallback( UEventType type, UEventCallback const& callback );
     void acceptEvent(UEvent& evt);
 
-
-    Manager* manager();
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
     void doLayout();
-
     void holdLayout();
     void releaseLayout();
 
 protected:
 
+    Manager* manager();
     void onMove();
     void onSize();
 
@@ -195,7 +192,6 @@ private:
     // Sizes
     Vector2i m_actualContentSize;
     Vector2i m_actualOuterSize;
-    Vector2i m_maximumOuterSize;
     Vector2i m_preferredContentSize;
     Vector2i m_contentOffset;
     RectI m_bounds;

@@ -2,8 +2,14 @@
 #include <utils/Assert.h>
 #include <utils/Logging.h>
 
-Spritesheet::Spritesheet(TexturePtr texture, SpritesheetGidMap& gidMap, int margin, int tileSize)
-: m_texture(texture), m_margin(margin), m_tileSize(tileSize)
+Spritesheet::Spritesheet(TexturePtr texture)
+: m_texture(texture)
+{
+
+}
+
+TiledSpritesheet::TiledSpritesheet(TexturePtr texture, SpritesheetGidMap& gidMap, int margin, int tileSize)
+: Spritesheet(texture), m_margin(margin), m_tileSize(tileSize)
 {
     auto w = m_texture->size().x();
     w -= tileSize;
@@ -12,7 +18,7 @@ Spritesheet::Spritesheet(TexturePtr texture, SpritesheetGidMap& gidMap, int marg
     m_gidMap = std::move(gidMap);
 }
 
-const RectI Spritesheet::getRegion(int id) const
+const RectI TiledSpritesheet::getRegion(int id) const
 {
     return RectI{
         { (id % m_tileWidth) * (m_tileSize + m_margin), (id / m_tileWidth) * (m_tileSize + m_margin) },
@@ -20,7 +26,7 @@ const RectI Spritesheet::getRegion(int id) const
     };
 }
 
-const Vector2i Spritesheet::sheetPosFromGid(int gid) const
+const Vector2i TiledSpritesheet::sheetPosFromGid(int gid) const
 {
     int x = (gid % m_tileWidth) * (m_tileSize + m_margin);
     int y = (gid / m_tileWidth) * (m_tileSize + m_margin);
@@ -28,7 +34,7 @@ const Vector2i Spritesheet::sheetPosFromGid(int gid) const
     return {x, y};
 }
 
-Sprite Spritesheet::spriteFromGid(int gid)
+Sprite TiledSpritesheet::spriteFromGid(int gid)
 {
     auto sheetPos = sheetPosFromGid( gid );
     return Sprite {
@@ -37,7 +43,19 @@ Sprite Spritesheet::spriteFromGid(int gid)
     };
 }
 
-Sprite Spritesheet::spriteFromName(std::string const &name)
+Sprite TiledSpritesheet::spriteFromName(std::string const &name)
 {
     return spriteFromGid( m_gidMap.at(name) );
+}
+
+FreeSpritesheet::FreeSpritesheet(TexturePtr texture, SpritesheetRectMap const &rectMap)
+: Spritesheet(texture), m_rectMap(rectMap)
+{
+
+}
+
+Sprite FreeSpritesheet::spriteFromName(std::string const &name)
+{
+    auto& rect = m_rectMap.at(name);
+    return Sprite { m_texture, rect };
 }

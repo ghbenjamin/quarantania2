@@ -71,8 +71,8 @@ void FontResource::unload()
     m_font = FontPtr();
 }
 
-SpritesheetResource::SpritesheetResource(std::string const &key, std::string const &path, int margin, int tileSize)
-: Resource(key, path), m_margin(margin), m_tileSize(tileSize)
+SpritesheetResource::SpritesheetResource(std::string const &key, std::string const &path)
+: Resource(key, path)
 {
     m_type = ResourceType::Spritesheet;
 }
@@ -94,12 +94,32 @@ void SpritesheetResource::load()
     std::unordered_map<std::string, int> gidMap;
     rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/spritesheet/" + m_path + ".json" );
 
-    for ( auto& node : doc.GetObject() )
+    auto metaObj = doc.FindMember( "meta" )->value.GetObject();
+    auto dataObj = doc.FindMember( "data" )->value.GetObject();
+
+    std::string sheetType = metaObj.FindMember("type")->value.GetString();
+    if ( sheetType == "tiled" )
     {
-       gidMap.emplace( node.name.GetString(), node.value.GetInt() );
+        for ( auto& node : dataObj )
+        {
+            gidMap.emplace( node.name.GetString(), node.value.GetInt() );
+        }
+
+        int marginVal = metaObj.FindMember( "margin" )->value.GetInt();
+        int tileSizeVal = metaObj.FindMember( "tileSize" )->value.GetInt();
+        m_spritesheet = std::make_shared<TiledSpritesheet>( tex, gidMap, marginVal, tileSizeVal );
+    }
+    else if ( sheetType == "free" )
+    {
+        AssertAlways();
+    }
+    else
+    {
+        AssertAlways();
     }
 
-    m_spritesheet = std::make_shared<Spritesheet>( tex, gidMap, m_margin, m_tileSize );
+
+
 }
 
 void SpritesheetResource::unload()

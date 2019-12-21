@@ -13,9 +13,6 @@ struct ManifestSpritesheetData
 {
     std::string key;
     std::string path;
-
-    int margin;
-    int tileSize;
 };
 
 struct ManifestFontData

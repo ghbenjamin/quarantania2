@@ -63,25 +63,6 @@ public:
     ElementPtr withId( std::string const& id );
 
     template <typename Callable>
-    ElementList allElementsMatching( Callable&& callable ) const
-    {
-        ElementList out;
-
-        for ( auto const& r : m_roots )
-        {
-           r->elementsMatchingCondition(callable, &out);
-        }
-
-        return out;
-    }
-
-    template <typename Callable>
-    int countElementsMatching( Callable&& callable ) const
-    {
-        return allElementsMatching(callable).size();
-    }
-
-    template <typename Callable>
     ElementPtr firstElementMatching( Callable&& callable ) const
     {
         ElementPtr out = ElementPtr();

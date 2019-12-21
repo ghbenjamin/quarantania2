@@ -22,7 +22,7 @@ void ResourceManager::registerAll(std::string const &manifest)
 
     for ( auto const& d : data.spriteSheets )
     {
-        addResource<SpritesheetResource>( d.key, d.path, d.margin, d.tileSize );
+        addResource<SpritesheetResource>( d.key, d.path );
     }
 }
 
@@ -42,8 +42,6 @@ ManifestData ResourceManager::readResourceManifest( std::string const& path )
 
             mid.key = imgObj.FindMember( "key" )->value.GetString();
             mid.path = imgObj.FindMember( "name" )->value.GetString();
-            mid.margin = imgObj.FindMember( "margin" )->value.GetInt();
-            mid.tileSize = imgObj.FindMember( "tileSize" )->value.GetInt();
 
             md.spriteSheets.push_back(mid);
         }
