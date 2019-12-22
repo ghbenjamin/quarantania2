@@ -1,40 +1,65 @@
 #include <ui/TextLog.h>
-
-UI::Internal::TextLogLayout::TextLogLayout(int height)
-: m_height(height)
-{
-}
-
-Vector2i UI::Internal::TextLogLayout::doLayout(UI::Element *ptr)
-{
-    auto tl = ptr->asType<TextLog>();
-
-    for ( auto const& c: tl->children() )
-    {
-
-    }
-
-    return {0, 0};
-}
+#include <ui/TextNode.h>
+#include <ui/Manager.h>
 
 UI::TextLog::TextLog()
-: m_maxLines(0), m_maxVisibleLines(0), m_scrollPosition(0.0f)
+: m_maxLines(10)
 {
-    setBorder( 2, Colour::Black );
-    setBackgroundColour( Colour(200, 200, 200) );
-//    setBackgroundColour( Colour::Black );
-
-    setLayout<Internal::TextLogLayout>( contentSize().y() );
+    setLayout<VerticalLayout>( 2, HAlignment::Left );
+    setPadding(2);
+    setBackgroundColour( Colour::Black );
+    setBorder(2, Colour::White);
 }
 
-void UI::TextLog::addLine(std::string const &line)
+void UI::TextLog::addLine(std::string const &line, Colour const& colour)
 {
-    m_lines.push(line);
+    onSizeSelf();
 
-    if ( m_lines.size() > m_maxLines )
+    if ( !m_lines.empty() &&  m_lines.back().text == line && m_lines.back().colour == colour )
     {
-        m_lines.pop();
+        m_lines.back().count++;
+        children().back()->asType<TextNode>()->setText( m_lines.back().displayText() );
+    }
+    else
+    {
+        m_lines.push_back({ line, 1, colour });
+
+        auto tnode = manager()->createElement<TextNode>(this, TextStyle{ m_lines.back().colour });
+        tnode->setMaximumOuterSize( contentSize() );
+        tnode->setText( m_lines.back().displayText() );
+
+        if ( m_lines.size() > m_maxLines )
+        {
+            m_lines.pop_front();
+            removeChild( children().front() );
+        }
     }
 
     doLayout();
+}
+
+void UI::TextLog::onSizeSelf()
+{
+    auto size = bounds().right();
+    for ( auto& child : children() )
+    {
+        child->setMaximumOuterSize( size );
+    }
+}
+
+std::string UI::TextLogLineData::displayText() const
+{
+    if ( count > 1 )
+    {
+        return fmt::format( "{} (x{})", this->text, this->count );
+    }
+    else
+    {
+        return this->text;
+    }
+}
+
+Vector2i UI::TextLogLayout::doLayout(UI::Element *ptr)
+{
+    return {0, 0};
 }

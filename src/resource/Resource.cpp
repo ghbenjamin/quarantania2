@@ -117,9 +117,6 @@ void SpritesheetResource::load()
     {
         AssertAlways();
     }
-
-
-
 }
 
 void SpritesheetResource::unload()

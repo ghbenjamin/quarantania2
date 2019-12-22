@@ -15,6 +15,7 @@
 #include <ui/TextNode.h>
 #include <utils/Assert.h>
 #include <utils/Logging.h>
+#include <systems/Message.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 : m_ctx(std::move(ctx)), m_bounds(size), m_grid(size),
@@ -35,6 +36,7 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     registerSystem<Systems::Collision>();
     registerSystem<Systems::FOV>();
     registerSystem<Systems::Actors>();
+    registerSystem<Systems::Message>();
 
     m_camera.setBounds( m_bounds * 16 );
 
@@ -233,17 +235,17 @@ Vector2i Level::worldCoordsToScreen(Vector2i const &world)
 void Level::setupUI()
 {
     auto tlog = m_uiManager.createElement<UI::TextLog>(nullptr);
-    tlog->setPreferredContentSize({300, 200});
+    tlog->setPreferredContentSize({600, 200});
     tlog->setId("global-text-log");
+
+    m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomLeft, 0 );
 
     auto trframe = m_uiManager.createElement<UI::Element>(nullptr);
     trframe->setId("top-right-frame");
+    trframe->setBackgroundColour(Colour::Black);
+    trframe->setBorder(2, Colour::White);
 
-    auto trfLabel = m_uiManager.createElement<UI::TextNode>( trframe.get(), UI::TextStyle{ Colour::White } );
-    trfLabel->setId( "trf-label" );
-
-    m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomLeft, 0 );
-    m_uiManager.alignElementToWindow( trframe, UI::Alignment::TopRight, 0 );
+    m_uiManager.alignElementToWindow( trframe, UI::Alignment::CentreRight, 0 );
 }
 
 void Level::layoutWindows()
@@ -253,19 +255,26 @@ void Level::layoutWindows()
     auto tlog = m_uiManager.withId("global-text-log");
     auto trframe = m_uiManager.withId("top-right-frame");
 
-    int rframeW = 300;
-    int rframeH = wndSize.y() / 3;
+    Vector2 rframeSize = {
+        300,
+        wndSize.y()
+    };
 
-    int levelW = wndSize.x() - rframeW;
-    int levelH = wndSize.y() - tlog->outerSize().y();
+    Vector2 levelSize = {
+        wndSize.x() - rframeSize.x(),
+        wndSize.y() - tlog->outerSize().y()
+    };
 
-    int tlogW = levelW + 2;
-    int tlogH = 200;
+    Vector2 textLogSize = {
+        levelSize.x() + 2,
+        200
+    };
 
-    tlog->setPreferredOuterSize({tlogW, tlogH});
-    trframe->setPreferredOuterSize({rframeW, rframeH - 50});
+    tlog->setPreferredOuterSize(textLogSize);
+    tlog->setMaximumOuterSize(textLogSize);
+    trframe->setPreferredOuterSize(rframeSize);
+    m_camera.setViewportSize(levelSize);
 
-    m_camera.setViewportSize({ levelW, levelH });
     m_uiManager.doLayout();
 }
 

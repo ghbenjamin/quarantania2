@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include <set>
+#include <list>
 #include <utils/Containers.h>
 #include <ui/Defines.h>
 #include <ui/Layout.h>
@@ -41,9 +42,12 @@ public:
     Vector2i outerSize() const;
     Vector2i contentSize() const;
     Vector2i preferredSize() const;
+    Vector2i maxOuterSize() const;
+
     void setPreferredContentSize( Vector2i size );
     void setPreferredOuterSize( Vector2i size );
     void setMaximumOuterSize( Vector2i size );
+    bool hasMaximumOuterSize() const;
     RectI const& bounds() const;
 
     // Layout
@@ -82,7 +86,7 @@ public:
     }
 
     bool hasChildren();
-    std::vector<ElementPtr> const& children();
+    std::list<ElementPtr> const& children();
     void removeChild( ElementPtr const& child );
 
     template <typename ET>
@@ -193,6 +197,7 @@ private:
     Vector2i m_actualContentSize;
     Vector2i m_actualOuterSize;
     Vector2i m_preferredContentSize;
+    Vector2i m_maxOuterSize;
     Vector2i m_contentOffset;
     RectI m_bounds;
 
@@ -216,7 +221,7 @@ private:
 
     Sprite m_backgroundSprite;
     Sprite m_backgroundTexture;
-    std::vector<ElementPtr> m_children;
+    std::list<ElementPtr> m_children;
 };
 
 

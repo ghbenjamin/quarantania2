@@ -12,7 +12,8 @@ using namespace UI;
 Element::Element() :
     m_parent(nullptr), m_manager(nullptr),
     m_hasBgColour(false), m_hasBorder(false),
-    m_borderWidth(0), m_isHidden(false), m_layoutHeld(false)
+    m_borderWidth(0), m_isHidden(false), m_layoutHeld(false),
+    m_maxOuterSize({0, 0})
 {
     // Sensible default
     setLayout<UI::VerticalLayout>();
@@ -141,7 +142,25 @@ void Element::doLayout()
     if ( hasChildren() )
     {
         Assert( !!m_layout );
+
+        if ( hasId() && id() == "global-text-log" )
+        {
+            Logging::log( m_actualContentSize );
+            Logging::log( m_preferredContentSize );
+            Logging::log( "--------------" );
+        }
+
         m_actualContentSize = m_layout->doLayout(this);
+
+        if ( m_actualContentSize.x() < m_preferredContentSize.x() )
+        {
+            m_actualContentSize.x( m_preferredContentSize.x() );
+        }
+
+        if ( m_actualContentSize.y() < m_preferredContentSize.y() )
+        {
+            m_actualContentSize.y( m_preferredContentSize.y() );
+        }
     }
 
     // No children = size to our preferred size
@@ -179,7 +198,7 @@ bool Element::hasChildren()
     return !m_children.empty();
 }
 
-std::vector<ElementPtr> const &Element::children()
+std::list<ElementPtr> const &Element::children()
 {
     return m_children;
 }
@@ -221,12 +240,10 @@ void Element::setPreferredContentSize(Vector2i size)
 
 void Element::setPreferredOuterSize(Vector2i size)
 {
-    m_preferredContentSize = {
+    setPreferredContentSize({
         size.x() - (2 * m_borderWidth) + m_padding.y() + m_padding.h(),
         size.y() - (2 * m_borderWidth) + m_padding.x() + m_padding.w(),
-    };
-
-    onSize();
+    });
 }
 
 Manager *Element::manager()
@@ -381,3 +398,20 @@ void Element::removeBackgroundSprite()
     m_backgroundTexture = Sprite();
     generateBackground();
 }
+
+bool Element::hasMaximumOuterSize() const
+{
+    return m_maxOuterSize != Vector2i{0, 0};
+}
+
+void Element::setMaximumOuterSize(Vector2i size)
+{
+    m_maxOuterSize = size;
+    onSize();
+}
+
+Vector2i Element::maxOuterSize() const
+{
+    return m_maxOuterSize;
+}
+

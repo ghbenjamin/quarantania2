@@ -141,28 +141,4 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     {
         m_level->ui().addTileHighlight( m_level->tileCoordsToScreen(curr) );
     }
-
-    // Grab the first entity under the mouse to have a description
-    EntityRef entDesc = EntityNull;
-    for ( auto const& e : ents )
-    {
-        if ( m_level->entityHas<Components::Description>(e) )
-        {
-            entDesc = e;
-            break;
-        }
-    }
-
-    // Set our description label element to the description of the hovered entity
-    auto uiDescLabel = m_level->ui().withId("trf-label")->asType<UI::TextNode>();
-    if ( entDesc == EntityNull )
-    {
-        uiDescLabel->clearText();
-    }
-    else
-    {
-        auto descCmp = m_level->getComponents<Components::Description>(entDesc);
-        uiDescLabel->setText( descCmp->descriptions[descCmp->current] );
-    }
-
 }

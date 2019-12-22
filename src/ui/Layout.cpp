@@ -54,7 +54,6 @@ Vector2i UI::alignRectWithinRect(Vector2i const &outer, Vector2i const &inner, U
 
 Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
 {
-
     int w = 0;
     int h = 0;
 

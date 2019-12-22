@@ -6,20 +6,24 @@
 namespace UI
 {
 
-namespace Internal
-{
+
 class TextLogLayout : public ElementLayout
 {
 public:
-    explicit TextLogLayout(int height);
+    TextLogLayout() = default;
     ~TextLogLayout() override = default;
+
     Vector2i doLayout(Element *ptr) override;
-
-private:
-    int m_height;
 };
-}
 
+struct TextLogLineData
+{
+    std::string text;
+    int count;
+    Colour colour;
+
+    std::string displayText() const;
+};
 
 class TextLog : public Element
 {
@@ -27,18 +31,16 @@ public:
     explicit TextLog();
     ~TextLog() override = default;
 
-    void addLine( std::string const& line );
+    void addLine( std::string const& line, Colour const& colour = Colour::White );
+
+
 
 private:
 
+    void onSizeSelf() override;
+
     int m_maxLines;
-    int m_maxVisibleLines;
-
-    float m_scrollPosition;
-
-    std::queue<std::string> m_lines;
-
-
+    std::list<TextLogLineData> m_lines;
 };
 
 }

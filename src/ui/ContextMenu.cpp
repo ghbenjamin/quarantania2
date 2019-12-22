@@ -14,13 +14,13 @@ UI::ContextMenu::ContextMenu(const UI::ContextMenuList &items, ContextMenuCallba
     {
         if ( items[i].empty() )
         {
-            manager()->createElement<UI::Internal::ContextMenuSpacer>( this );
+            manager()->createElement<UI::ContextMenuSpacer>( this );
         }
         else
         {
-            auto ptr = manager()->createElement<UI::Internal::ContextMenuItem>( this, items[i], i );
+            auto ptr = manager()->createElement<UI::ContextMenuItem>( this, items[i], i );
             ptr->addEventCallback(UEventType::Click, [this](UEvent& evt) {
-                m_callback( evt.targetElement->asType<UI::Internal::ContextMenuItem>()->index() );
+                m_callback( evt.targetElement->asType<UI::ContextMenuItem>()->index() );
                 manager()->deleteElement( shared_from_this() );
             });
         }
@@ -33,7 +33,7 @@ UI::ContextMenu::ContextMenu(const UI::ContextMenuList &items, ContextMenuCallba
     releaseLayout();
 }
 
-UI::Internal::ContextMenuItem::ContextMenuItem(std::string const &label, std::size_t idx)
+UI::ContextMenuItem::ContextMenuItem(std::string const &label, std::size_t idx)
 : m_label(label), m_idx(idx)
 {
     auto tnode = manager()->createElement<UI::TextNode>( this );
@@ -49,17 +49,17 @@ UI::Internal::ContextMenuItem::ContextMenuItem(std::string const &label, std::si
     });
 }
 
-std::string const &UI::Internal::ContextMenuItem::label()
+std::string const &UI::ContextMenuItem::label()
 {
     return m_label;
 }
 
-std::size_t UI::Internal::ContextMenuItem::index()
+std::size_t UI::ContextMenuItem::index()
 {
     return m_idx;
 }
 
-UI::Internal::ContextMenuSpacer::ContextMenuSpacer()
+UI::ContextMenuSpacer::ContextMenuSpacer()
 {
     setPreferredContentSize({15, 15});
 }

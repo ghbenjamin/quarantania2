@@ -30,16 +30,23 @@ void TextNode::renderText()
     if ( m_data.empty() )
         return;
 
-    m_rendered = m_font->renderText( m_data, m_style.textColour );
+    if ( hasMaximumOuterSize() )
+    {
+        m_rendered = m_font->renderText( m_data, m_style.textColour, maxOuterSize().x() );
+    }
+    else
+    {
+        m_rendered = m_font->renderText( m_data, m_style.textColour );
+    }
 
     m_renderObject.texture = m_rendered->raw();
     m_renderObject.sourceRect = m_rendered->sourceRect();
     m_renderObject.renderLayer = RenderLayer::UI;
     m_renderObject.targetRect = {
-            0,
-            0,
-            m_rendered->sourceRect().w,
-            m_rendered->sourceRect().h
+        0,
+        0,
+        m_rendered->sourceRect().w,
+        m_rendered->sourceRect().h
     };
 
     onMoveSelf();

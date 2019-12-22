@@ -246,23 +246,36 @@ private:
 
 private:
 
+    // Misc
     RandomGenerator m_rg;
-    Vector2i m_bounds;
+    LevelContextPtr m_ctx;
+    LevelControllerPtr m_controller;
+
+    // Map
     int m_tileCount;
+    Vector2i m_bounds;
     TileRenderMap m_renderTileMap;
     std::vector<std::vector<TileRef>> m_mapRendering;
     LD::BaseTileMap m_baseTilemap;
-    LevelContextPtr m_ctx;
     Grid m_grid;
-    GEventHub m_gevents;
+
+    // Entities
     IdPool<EntityRef> m_entityPool;
     EntityFactory m_entFactory;
-    std::unordered_map<ComponentId, EntityCompMap> m_components;
-    std::vector<SystemPtr> m_systems;
     std::unique_ptr<Player> m_player;
+
+    // Systems
+    std::vector<SystemPtr> m_systems;
+
+    // Components
+    std::unordered_map<ComponentId, EntityCompMap> m_components;
+
+    // Events
+    GEventHub m_gevents;
+
+    // UI
     UI::Manager m_uiManager;
     Camera m_camera;
-    LevelControllerPtr m_controller;
 };
 
 using LevelPtr = std::unique_ptr<Level>;

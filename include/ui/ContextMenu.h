@@ -7,9 +7,6 @@
 namespace UI
 {
 
-namespace Internal
-{
-
 class ContextMenuItem : public Element
 {
 public:
@@ -31,7 +28,6 @@ public:
     ~ContextMenuSpacer() override = default;
 };
 
-}
 
 
 using ContextMenuList = std::vector<std::string>;
