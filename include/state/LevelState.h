@@ -10,7 +10,7 @@ class LevelState : public GameState
 {
 public:
 
-    explicit LevelState( LevelConfig const& config );
+    explicit LevelState( LevelConfig const& config, LevelContextPtr ctx );
     ~LevelState() override = default;
 
     bool input(IEvent &evt) override;
@@ -19,5 +19,5 @@ public:
 private:
 
     LevelPtr m_level;
-    LevelContextPtr m_pContext;
+    LevelContextPtr m_levelCtx;
 };

@@ -211,6 +211,11 @@ public:
     std::vector<ActionPtr> actionsForPosition(EntityRef actor, Vector2i position);
     ActionPtr getDefaultAction(EntityRef actor, Vector2i position);
 
+
+    // Communication with container
+    bool isComplete() const;
+
+
 private:
 
     template <typename CT>
@@ -250,6 +255,7 @@ private:
     RandomGenerator m_rg;
     LevelContextPtr m_ctx;
     LevelControllerPtr m_controller;
+    bool m_isComplete;
 
     // Map
     int m_tileCount;

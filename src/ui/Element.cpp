@@ -142,25 +142,7 @@ void Element::doLayout()
     if ( hasChildren() )
     {
         Assert( !!m_layout );
-
-        if ( hasId() && id() == "global-text-log" )
-        {
-            Logging::log( m_actualContentSize );
-            Logging::log( m_preferredContentSize );
-            Logging::log( "--------------" );
-        }
-
         m_actualContentSize = m_layout->doLayout(this);
-
-        if ( m_actualContentSize.x() < m_preferredContentSize.x() )
-        {
-            m_actualContentSize.x( m_preferredContentSize.x() );
-        }
-
-        if ( m_actualContentSize.y() < m_preferredContentSize.y() )
-        {
-            m_actualContentSize.y( m_preferredContentSize.y() );
-        }
     }
 
     // No children = size to our preferred size
@@ -240,10 +222,15 @@ void Element::setPreferredContentSize(Vector2i size)
 
 void Element::setPreferredOuterSize(Vector2i size)
 {
-    setPreferredContentSize({
+    Vector2i preferred {
         size.x() - (2 * m_borderWidth) + m_padding.y() + m_padding.h(),
         size.y() - (2 * m_borderWidth) + m_padding.x() + m_padding.w(),
-    });
+    };
+    
+    if ( m_preferredContentSize != preferred )
+    {
+        setPreferredContentSize(preferred);
+    }
 }
 
 Manager *Element::manager()

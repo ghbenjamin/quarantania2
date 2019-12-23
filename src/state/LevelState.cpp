@@ -5,17 +5,13 @@
 #include <utils/Logging.h>
 
 
-LevelState::LevelState( LevelConfig const& config )
+LevelState::LevelState( LevelConfig const& config, LevelContextPtr ctx )
+: m_levelCtx(ctx)
 {
-    // Create a blank starting context
-    m_pContext = std::make_unique<LevelContext>();
-
-    // Create the initial level
-
+    // Create the level
     LevelFactory factory;
-    m_level = factory.create( config, m_pContext );
+    m_level = factory.create( config, m_levelCtx );
 }
-
 
 bool LevelState::input(IEvent &evt)
 {
@@ -25,5 +21,10 @@ bool LevelState::input(IEvent &evt)
 void LevelState::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInterface)
 {
     m_level->update(ticks, iinter, rInterface);
+
+    if ( m_level->isComplete() )
+    {
+        Logging::log("DONE!");
+    }
 }
 

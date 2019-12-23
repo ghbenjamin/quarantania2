@@ -12,14 +12,18 @@
 #include <systems/All.h>
 #include <ui/Layout.h>
 #include <ui/TextLog.h>
-#include <ui/TextNode.h>
 #include <utils/Assert.h>
 #include <utils/Logging.h>
 #include <systems/Message.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
-: m_ctx(std::move(ctx)), m_bounds(size), m_grid(size),
-  m_tileCount(size.x() * size.y()), m_rg(rg), m_entFactory(this, &m_rg)
+:   m_ctx(std::move(ctx)),
+    m_bounds(size),
+    m_grid(size),
+    m_tileCount(size.x() * size.y()),
+    m_rg(rg),
+    m_entFactory(this, &m_rg),
+    m_isComplete(false)
 {
     registerComponent<Components::Render>();
     registerComponent<Components::TilePosition>();
@@ -152,7 +156,7 @@ void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface
 
 EntityRef Level::createEntity()
 {
-    // Requisition a new ID from the pool, but dont construct any new
+    // Requisition a new ID from the pool, but don't construct any new
     // component objects
     return m_entityPool.next();
 }
@@ -395,6 +399,11 @@ ActionPtr Level::getDefaultAction(EntityRef actor, Vector2i position)
     {
         return actions.front();
     }
+}
+
+bool Level::isComplete() const
+{
+    return m_isComplete;
 }
 
 

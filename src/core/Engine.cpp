@@ -1,20 +1,15 @@
-
 #include <memory>
-#include <iostream>
 
 #include <core/Engine.h>
 #include <graphics/Window.h>
 #include <graphics/RenderInterface.h>
-#include <resource/Manifest.h>
 #include <resource/ResourceManager.h>
-#include <resource/Sprite.h>
 #include <utils/Time.h>
-#include <utils/Logging.h>
 #include <utils/GlobalConfig.h>
 #include <state/State.h>
 #include <state/LevelState.h>
-#include <game/LevelConfig.h>
 #include <game/InputInterface.h>
+#include <state/InitState.h>
 
 void Engine::run()
 {
@@ -32,12 +27,8 @@ void Engine::run()
     RenderInterface renderInterface {window};
     InputInterface inputInterface;
 
-    LevelConfig debugConfig;
-    debugConfig.size = {55, 35};
-//    debugConfig.size = {75, 55};
-    debugConfig.roomDensity = 400;
-
-    pushState<LevelState>( debugConfig );
+    auto initState = std::make_unique<InitState>();
+    m_states.push_back( std::unique_ptr<GameState>( initState.release() ));
 
     auto timer = Timer();
     uint32_t ticks = 0;
@@ -85,30 +76,27 @@ void Engine::run()
 
         window->renderer()->render(renderInterface);
 
+        // State checking
+        if ( m_states.back()->requestedPopState() )
+        {
+            // Clear the current state if we've been asked to
+            m_states.pop_back();
+        }
+        else if ( m_states.back()->hasNextState() )
+        {
+            // Add a new state if we've been asked to
+            m_states.push_back( m_states.back()->getNextState() );
+        }
+
+
         // Hacky framerate limiting
         ticks = timer.elapsed();
         if (ticks < msPerFrame)
         {
             SDL_Delay(msPerFrame - ticks);
         }
-
-//        fpsTicks++;
-//        if ( fpsTimer.elapsed() > 1000 )
-//        {
-//            fpsTimer.start();
-//            currentFps = fpsTicks;
-//            fpsTicks = 0;
-//            Logging::log( "{}\n", currentFps );
-//        }
     }
 
     // Cleanup
     ResourceManager::get().unloadAll();
-}
-
-GameStatePtr Engine::popState()
-{
-    auto ptr = std::move(m_states.back());
-    m_states.pop_back();
-    return std::move(ptr);
 }
