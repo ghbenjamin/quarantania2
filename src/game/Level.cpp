@@ -359,6 +359,18 @@ std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subjec
         }
     }
 
+    if ( entityHas<Components::Action>(subject) )
+    {
+        auto actionComp = getComponents<Components::Action>(subject);
+        for ( auto const& act : actionComp->actions )
+        {
+            act->setActor(actor);
+            act->setSubject(subject);
+
+            out.push_back( std::static_pointer_cast<Action>(act) );
+        }
+    }
+
     out.erase( std::remove_if(out.begin(), out.end(), []( ActionPtr const& item ){
         return !item->canTryAction();
     }), out.end() );
@@ -404,6 +416,15 @@ ActionPtr Level::getDefaultAction(EntityRef actor, Vector2i position)
 bool Level::isComplete() const
 {
     return m_isComplete;
+}
+
+int Level::squaredEntityDistance(EntityRef a, EntityRef b)
+{
+    auto transformA = getComponents<Components::TilePosition>(a);
+    auto transformB = getComponents<Components::TilePosition>(b);
+
+    Vector2i distance = transformB->position - transformA->position;
+    return distance.x() * distance.x() + distance.y() * distance.y();
 }
 
 

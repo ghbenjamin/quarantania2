@@ -15,7 +15,7 @@ using ActionPtr = std::shared_ptr<Action>;
 class Action
 {
 public:
-    Action(Level* level, EntityRef actor);
+    Action(Level* level);
     virtual ~Action() = default;
 
     // *short* description of the action, e.g. 'Open'
@@ -29,18 +29,22 @@ public:
 
 protected:
     Level* m_level;
-    EntityRef m_actor;
 };
 
 
 class EntityAction : public Action
 {
 public:
-    EntityAction(Level* level, EntityRef actor, EntityRef entity);
+    EntityAction(Level* level, EntityRef actor, EntityRef subject);
+    EntityAction(Level* level);
     ~EntityAction() override = default;
 
+    void setActor(EntityRef actor);
+    void setSubject(EntityRef subject);
+
 protected:
-    EntityRef m_entity;
+    EntityRef m_actor;
+    EntityRef m_subject;
 };
 
 
@@ -51,5 +55,6 @@ public:
     ~TileAction() override = default;
 
 protected:
+    EntityRef m_actor;
     Vector2i m_tile;
 };

@@ -204,6 +204,7 @@ public:
     Vector2i tileCoordsToScreen( Vector2i const& tile );
     Vector2i const& bounds() const;
     int tileCount() const;
+    int squaredEntityDistance(EntityRef a, EntityRef b);
 
     // Actions
     std::vector<ActionPtr> actionsForTile(EntityRef actor, Vector2i tile);

@@ -86,7 +86,6 @@ public:
                 break;
             }
         }
-
     };
 
     template <typename EvtType>

@@ -44,3 +44,13 @@ public:
     bool canTryAction() const override;
     bool doAction() const override;
 };
+
+class ExitLevelAction : public EntityAction
+{
+public:
+    using EntityAction::EntityAction;
+
+    const char* description() const override;
+    bool canTryAction() const override;
+    bool doAction() const override;
+};

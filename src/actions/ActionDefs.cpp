@@ -36,16 +36,20 @@ const char *StepAction::description() const
 
 bool OpenAction::doAction() const
 {
-    m_level->events().broadcast<GEvents::EntityOpenClose>( m_entity, true );
+    m_level->events().broadcast<GEvents::EntityOpenClose>(m_subject, true );
     return true;
 }
 
 bool OpenAction::canTryAction() const
 {
-    auto openable = m_level->getComponents<Components::Openable>( m_entity );
+    auto openable = m_level->getComponents<Components::Openable>(m_subject );
     if (!openable) return false;
 
-    return !openable->isOpen;
+    if (openable->isOpen) return false;
+
+    if (m_level->squaredEntityDistance( m_actor, m_subject ) > 2) return false;
+
+    return true;
 }
 
 const char *OpenAction::description() const
@@ -55,16 +59,20 @@ const char *OpenAction::description() const
 
 bool CloseAction::doAction() const
 {
-    m_level->events().broadcast<GEvents::EntityOpenClose>( m_entity, false );
+    m_level->events().broadcast<GEvents::EntityOpenClose>(m_subject, false );
     return true;
 }
 
 bool CloseAction::canTryAction() const
 {
-    auto openable = m_level->getComponents<Components::Openable>( m_entity );
+    auto openable = m_level->getComponents<Components::Openable>(m_subject );
     if (!openable) return false;
 
-    return openable->isOpen;
+    if (!openable->isOpen) return false;
+
+    if (m_level->squaredEntityDistance( m_actor, m_subject ) > 2) return false;
+
+    return true;
 }
 
 const char *CloseAction::description() const
@@ -79,13 +87,31 @@ const char *UnlockAction::description() const
 
 bool UnlockAction::canTryAction() const
 {
-    auto lockable = m_level->getComponents<Components::Lockable>( m_entity );
+    auto lockable = m_level->getComponents<Components::Lockable>(m_subject);
     if (!lockable) return false;
     return lockable->isLocked;
 }
 
 bool UnlockAction::doAction() const
 {
-    auto lockable = m_level->getComponents<Components::Lockable>( m_entity );
+    auto lockable = m_level->getComponents<Components::Lockable>(m_subject);
     return false;
+}
+
+const char *ExitLevelAction::description() const
+{
+    return "Descend";
+}
+
+bool ExitLevelAction::canTryAction() const
+{
+    if (m_level->squaredEntityDistance( m_actor, m_subject ) > 2) return false;
+
+    return true;
+}
+
+bool ExitLevelAction::doAction() const
+{
+    Logging::log("WE MADE IT WOOOO");
+    return true;
 }
