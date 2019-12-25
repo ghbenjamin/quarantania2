@@ -15,6 +15,7 @@
 #include <utils/Assert.h>
 #include <utils/Logging.h>
 #include <systems/Message.h>
+#include <ui/Dialogs.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 :   m_ctx(std::move(ctx)),
@@ -250,6 +251,11 @@ void Level::setupUI()
     trframe->setBorder(2, Colour::White);
 
     m_uiManager.alignElementToWindow( trframe, UI::Alignment::CentreRight, 0 );
+
+
+//    auto dialog = m_uiManager.createElement<UI::Dialog>( nullptr, "Hello", "World" );
+//    dialog->setLocalPosition({100, 100});
+
 }
 
 void Level::layoutWindows()

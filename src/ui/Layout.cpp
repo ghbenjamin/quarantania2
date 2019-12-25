@@ -70,6 +70,19 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
         w = std::max( w, s.x() );
     }
 
+    if ( preferred != Vector2i{0, 0} )
+    {
+        if ( w < preferred.x() )
+        {
+            w = preferred.x();
+        }
+
+        if ( h <  preferred.y() )
+        {
+            h = preferred.y();
+        }
+    }
+
     for ( auto& c: ptr->children() )
     {
         auto pos = c->localPosition();
@@ -91,6 +104,33 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
         }
     }
 
+    return { w, h };
+}
+
+UI::VerticalLayout::VerticalLayout(int spacing, UI::HAlignment halign)
+: m_spacing(spacing), m_halign(halign)
+{
+
+}
+
+Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
+{
+    int w = 0;
+    int h = 0;
+
+    auto preferred = ptr->preferredSize();
+
+    for ( auto& c: ptr->children() )
+    {
+        c->setLocalPosition( Vector2i{ w, 0 } );
+        c->doLayout();
+
+        auto s = c->outerSize();
+        w += s.x();
+        w += m_spacing;
+        h = std::max( h, s.y() );
+    }
+
     if ( preferred != Vector2i{0, 0} )
     {
         if ( w < preferred.x() )
@@ -104,18 +144,25 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
         }
     }
 
+    for ( auto& c: ptr->children() )
+    {
+        auto pos = c->localPosition();
+        auto size = c->outerSize();
+
+        switch (m_valign)
+        {
+            case VAlignment::Top:
+                break;
+            case VAlignment::Bottom:
+                break;
+            case VAlignment::Centre:
+                break;
+            case VAlignment::Fill:
+                break;
+        }
+    }
+
     return { w, h };
-}
-
-UI::VerticalLayout::VerticalLayout(int spacing, UI::HAlignment halign)
-: m_spacing(spacing), m_halign(halign)
-{
-
-}
-
-Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
-{
-    return Vector2i();
 }
 
 UI::HorizontalLayout::HorizontalLayout(int spacing, UI::VAlignment valign)
