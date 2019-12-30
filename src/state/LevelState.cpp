@@ -8,6 +8,8 @@
 LevelState::LevelState( LevelConfig const& config, LevelContextPtr ctx )
 : m_levelCtx(ctx)
 {
+    Logging::log("Creating level {}\n", ctx->depth);
+
     // Create the level
     LevelFactory factory;
     m_level = factory.create( config, m_levelCtx );
@@ -24,7 +26,7 @@ void LevelState::update(uint32_t ticks, InputInterface& iinter, RenderInterface 
 
     if ( m_level->isComplete() )
     {
-        Logging::log("DONE!");
+        requestPopState();
     }
 }
 

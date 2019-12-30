@@ -13,6 +13,8 @@ bool InitState::input(IEvent &evt)
 
 void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
+    m_levelCtx->depth++;
+
     auto config = generateNextLevelConfig();
     setNextState<LevelState>( config, m_levelCtx );
 }

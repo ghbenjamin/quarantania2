@@ -215,7 +215,7 @@ public:
 
     // Communication with container
     bool isComplete() const;
-
+    void setComplete();
 
 private:
 

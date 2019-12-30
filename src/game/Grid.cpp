@@ -189,3 +189,13 @@ Vector2i const &Grid::bounds() const
 {
     return m_bounds;
 }
+
+void Grid::exploreAllTiles()
+{
+    int tcount = m_bounds.x() * m_bounds.y();
+
+    for ( int i = 0;  i < tcount; i++ )
+    {
+        m_visGrid.setFixed(i, Rules::Visibility::Explored);
+    }
+}

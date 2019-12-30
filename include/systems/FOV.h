@@ -27,8 +27,6 @@ private:
 
     void recalculateFOV();
 
-    // This seems like a logical place to keep these?
-
     Sprite m_fovHidden;
     Sprite m_fovFog;
 };

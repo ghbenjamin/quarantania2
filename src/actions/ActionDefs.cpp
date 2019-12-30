@@ -112,6 +112,7 @@ bool ExitLevelAction::canTryAction() const
 
 bool ExitLevelAction::doAction() const
 {
-    Logging::log("WE MADE IT WOOOO");
+    // Exit the level!
+    m_level->setComplete();
     return true;
 }

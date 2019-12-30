@@ -433,4 +433,9 @@ int Level::squaredEntityDistance(EntityRef a, EntityRef b)
     return distance.x() * distance.x() + distance.y() * distance.y();
 }
 
+void Level::setComplete()
+{
+    m_isComplete = true;
+}
+
 

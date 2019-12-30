@@ -51,6 +51,9 @@ void Systems::FOV::update(uint32_t ticks, RenderInterface &rInter)
 
 void Systems::FOV::accept(GEvents::LevelReady *evt)
 {
+    // Remove this to turn off 'explored' mode
+    m_level->grid().exploreAllTiles();
+
     recalculateFOV();
 }
 
@@ -58,8 +61,7 @@ void Systems::FOV::recalculateFOV()
 {
     auto playerRef = m_level->getPlayer()->ref();
     auto playerPos = m_level->getComponents<Components::TilePosition>( playerRef )->position;
-    m_level->grid()
-           .calculateFOV(playerPos, 10 /*TODO DELETE*/ );
+    m_level->grid().calculateFOV(playerPos, 10 /*TODO DELETE*/ );
 }
 
 void Systems::FOV::accept(GEvents::EntityOpenClose *evt)

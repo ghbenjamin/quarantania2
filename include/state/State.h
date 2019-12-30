@@ -25,7 +25,7 @@ public:
     bool hasNextState() const;
     GameStatePtr getNextState();
 
-    bool requestedPopState() const;
+    bool hasRequestedPopState() const;
 
 protected:
 

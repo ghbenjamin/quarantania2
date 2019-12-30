@@ -77,7 +77,8 @@ void Engine::run()
         window->renderer()->render(renderInterface);
 
         // State checking
-        if ( m_states.back()->requestedPopState() )
+        if (m_states.back()
+                    ->hasRequestedPopState() )
         {
             // Clear the current state if we've been asked to
             m_states.pop_back();

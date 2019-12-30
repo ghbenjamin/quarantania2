@@ -3,9 +3,9 @@
 #include <memory>
 
 
-class LevelContext
+struct LevelContext
 {
-    int depth = 1;
+    int depth = 0;
 };
 
 using LevelContextPtr = std::shared_ptr<LevelContext>;

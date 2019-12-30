@@ -10,7 +10,7 @@ GameStatePtr GameState::getNextState()
     return std::move(m_nextState);
 }
 
-bool GameState::requestedPopState() const
+bool GameState::hasRequestedPopState() const
 {
     return m_requestedPopState;
 }
