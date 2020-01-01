@@ -1,6 +1,6 @@
 #include <memory>
 
-#include <core/Engine.h>
+#include <game/Engine.h>
 #include <graphics/Window.h>
 #include <graphics/RenderInterface.h>
 #include <resource/ResourceManager.h>

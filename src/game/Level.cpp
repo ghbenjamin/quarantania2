@@ -35,6 +35,7 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     registerComponent<Components::Lockable>();
     registerComponent<Components::Openable>();
     registerComponent<Components::Tags>();
+    registerComponent<Components::AI>();
 
     registerSystem<Systems::Render>();
     registerSystem<Systems::Position>();

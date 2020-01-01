@@ -1,5 +1,5 @@
 #include <iostream>
-#include <core/Engine.h>
+#include <game/Engine.h>
 
 int main( int argc, char** argv ) 
 {

@@ -36,8 +36,6 @@ public:
 private:
     void toBounds( GridRegion* region );
 
-
-
 private:
     Vector2i m_bounds;
 
