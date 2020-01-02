@@ -14,7 +14,7 @@ std::unique_ptr<Player> EntityFactory::createPlayer(ImPlayerData &data, Vector2i
 {
     auto eref = m_parent->createEntity();
 
-    auto sprite = ResourceManager::get().getSprite("kenney-chars", "example-char-1");
+    auto sprite = ResourceManager::get().getSprite("dawnlike_chars", "Player_06");
     sprite.setRenderLayer(RenderLayer::Actor);
 
     m_parent->addComponent<Components::TilePosition>(eref, startPos);
