@@ -23,6 +23,7 @@
 #include <systems/System.h>
 #include <game/GEvent.h>
 #include <game/GEventDefs.h>
+#include "Prefab.h"
 
 
 // Forward definitions

@@ -5,6 +5,18 @@
 
 class Level;
 
+enum class PrefabType
+{
+    Door,
+    Exit,
+    Entrance,
+    Container,
+    Decor,
+};
+
+PrefabType prefabTypeFromName(std::string const& name);
+
+
 class PrefabObj
 {
 public:

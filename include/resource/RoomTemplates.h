@@ -5,11 +5,12 @@
 #include <rapidjson/document.h>
 #include <regex>
 #include <utils/Random.h>
+#include <game/Prefab.h>
 
 
 struct RoomTemplatePrefab
 {
-    std::string name;
+    PrefabType type;
     Vector2i position;
 };
 

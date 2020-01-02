@@ -43,7 +43,8 @@ void RoomTemplateManager::loadAllTemplates(std::string const &path)
                 {
                     RoomTemplatePrefab rtp;
                     auto prefab_obj = prefab_it.GetObject();
-                    rtp.name = prefab_obj.FindMember("name")->value.GetString();
+                    std::string prefabName = prefab_obj.FindMember("name")->value.GetString();
+                    rtp.type = prefabTypeFromName(prefabName);
                     auto pos_arr = prefab_obj.FindMember("position")->value.GetArray();
                     rtp.position = {
                         pos_arr[0].GetInt(),

@@ -15,7 +15,7 @@ public:
     ~EntityFactory() = default;
 
     std::unique_ptr<Player> createPlayer( ImPlayerData & data, Vector2i startPos ) const;
-    EntityRef createPrefabByName(std::string const &name, Vector2i pos) const;
+    EntityRef createPrefabByName(PrefabType ptype, Vector2i pos) const;
 
 private:
     void createPrefabs();
@@ -23,5 +23,5 @@ private:
 private:
     Level* m_parent;
     RandomGenerator* m_rg;
-    std::unordered_map<std::string, std::vector<std::shared_ptr<PrefabObj>>> m_prefabs;
+    std::unordered_map<PrefabType, std::vector<std::shared_ptr<PrefabObj>>> m_prefabs;
 };

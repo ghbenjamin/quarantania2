@@ -14,7 +14,7 @@ std::unique_ptr<Player> EntityFactory::createPlayer(ImPlayerData &data, Vector2i
 {
     auto eref = m_parent->createEntity();
 
-    auto sprite = ResourceManager::get().getSprite("dawnlike_chars", "Player_06");
+    auto sprite = ResourceManager::get().getSprite("dawnlike_chars", "Player_01");
     sprite.setRenderLayer(RenderLayer::Actor);
 
     m_parent->addComponent<Components::TilePosition>(eref, startPos);
@@ -27,10 +27,11 @@ std::unique_ptr<Player> EntityFactory::createPlayer(ImPlayerData &data, Vector2i
     return std::make_unique<Player>( std::move(data), eref );
 }
 
-EntityRef EntityFactory::createPrefabByName(std::string const &name, Vector2i pos) const
+
+EntityRef EntityFactory::createPrefabByName(PrefabType ptype, Vector2i pos) const
 {
     auto eref = m_parent->createEntity();
-    auto it = m_prefabs.find(name);
+    auto it = m_prefabs.find(ptype);
 
     // TODO Do we always want a tile position?
     m_parent->addComponent<Components::TilePosition>(eref, pos);
@@ -50,20 +51,20 @@ void EntityFactory::createPrefabs()
 {
     using ContainerType = std::vector<std::shared_ptr<PrefabObj>>;
 
-    m_prefabs.emplace( "door", ContainerType {
+    m_prefabs.emplace( PrefabType::Door, ContainerType {
         std::make_shared<PrefabObjs::Door>( SpritesheetKey{ "kenney-tiles", "door-closed" } ),
         std::make_shared<PrefabObjs::Door>( SpritesheetKey{ "kenney-tiles", "door-barred" } ),
     });
 
-    m_prefabs.emplace( "entrance", ContainerType {
+    m_prefabs.emplace( PrefabType::Entrance, ContainerType {
         std::make_shared<PrefabObjs::Entrance>( SpritesheetKey{ "kenney-tiles", "grey-stairs-up" } )
     });
 
-    m_prefabs.emplace( "exit", ContainerType {
+    m_prefabs.emplace( PrefabType::Exit, ContainerType {
         std::make_shared<PrefabObjs::Exit>( SpritesheetKey{ "kenney-tiles", "grey-stairs-down" } )
     });
 
-    m_prefabs.emplace( "container", ContainerType {
+    m_prefabs.emplace( PrefabType::Container, ContainerType {
         std::make_shared<PrefabObjs::Container>( SpritesheetKey{ "kenney-tiles", "bookcase-medium-full"} ),
         std::make_shared<PrefabObjs::Container>( SpritesheetKey{ "kenney-tiles", "bookcase-small-empty"} ),
         std::make_shared<PrefabObjs::Container>( SpritesheetKey{ "kenney-tiles", "bookcase-small-full"} ),
@@ -78,7 +79,7 @@ void EntityFactory::createPrefabs()
         std::make_shared<PrefabObjs::Container>( SpritesheetKey{ "kenney-tiles", "double-thin-drawer" } )
     });
 
-    m_prefabs.emplace( "decor", ContainerType {
+    m_prefabs.emplace( PrefabType::Decor, ContainerType {
         std::make_shared<PrefabObjs::Decor>( SpritesheetKey{ "kenney-tiles", "bed-made" } ),
         std::make_shared<PrefabObjs::Decor>( SpritesheetKey{ "kenney-tiles", "bed-unmade" } ),
         std::make_shared<PrefabObjs::Decor>( SpritesheetKey{ "kenney-tiles", "chair-left" } ),

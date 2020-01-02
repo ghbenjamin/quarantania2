@@ -4,6 +4,39 @@
 #include <components/All.h>
 #include <actions/ActionDefs.h>
 
+PrefabType prefabTypeFromName(std::string const& name)
+{
+    if ( name == "door" )
+    {
+        return PrefabType::Door;
+    }
+    else if ( name == "container" )
+    {
+        return PrefabType::Container;
+    }
+    else if ( name == "entrance" )
+    {
+        return PrefabType::Entrance;
+    }
+    else if ( name == "exit" )
+    {
+        return PrefabType::Exit;
+    }
+    else if ( name == "decor" )
+    {
+        return PrefabType::Decor;
+    }
+
+    else
+    {
+        Logging::log( "ERROR: Unknown name :{}\n");
+        AssertAlways();
+
+        // Silence warning
+        return PrefabType::Entrance;
+    }
+}
+
 PrefabObjs::Door::Door(SpritesheetKey sprite)
     : m_sprite(sprite)
 {

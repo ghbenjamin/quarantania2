@@ -691,7 +691,7 @@ void LevelFactory::constructDoors()
     {
         if ( j.type == JunctionType::Door )
         {
-            auto ref = m_level->m_entFactory.createPrefabByName("door", p);
+            auto ref = m_level->m_entFactory.createPrefabByName(PrefabType::Door, p);
             m_createdEntities.push_back(ref);
         }
     }
@@ -715,14 +715,14 @@ void LevelFactory::decorateRooms()
             }
             case RoomType::Entrance:
             {
-                auto eref = m_level->m_entFactory.createPrefabByName("entrance", room.centre());
+                auto eref = m_level->m_entFactory.createPrefabByName(PrefabType::Entrance, room.centre());
                 m_createdEntities.push_back(eref);
 
                 break;
             }
             case RoomType::Exit:
             {
-                auto eref = m_level->m_entFactory.createPrefabByName("exit", room.centre());
+                auto eref = m_level->m_entFactory.createPrefabByName(PrefabType::Exit, room.centre());
                 m_createdEntities.push_back(eref);
                 break;
             }
@@ -807,6 +807,6 @@ void LevelFactory::constructRoomFromTemplate(LD::Room const& room, RoomTemplate*
     for ( auto const& prefab : rt->prefabs )
     {
         Vector2i translated = prefab.position + room.bounds.left();
-        m_level->m_entFactory.createPrefabByName(prefab.name, translated);
+        m_level->m_entFactory.createPrefabByName(prefab.type, translated);
     }
 }
