@@ -8,10 +8,21 @@ class Level;
 enum class PrefabType
 {
     Door,
-    Exit,
-    Entrance,
-    Container,
-    Decor,
+    Door_Locked,
+
+    Stairs_Up,
+    Stairs_Down,
+
+    Cont_Bookcase_Small,
+    Cont_Bookcase_Large,
+    Cont_Chest,
+    Cont_Chest_Locked,
+    Cont_Barrel,
+    Cont_Crate,
+
+    Decor_Bed,
+    Decor_Fireplace,
+    Decor_Chair
 };
 
 PrefabType prefabTypeFromName(std::string const& name);
@@ -26,58 +37,54 @@ public:
     virtual void generate(Level *level, EntityRef entity) = 0;
 };
 
-namespace PrefabObjs
-{
 
-class Door : public PrefabObj
+class PrefabObjSprite : public PrefabObj
 {
 public:
-    Door( SpritesheetKey sprite );
-    ~Door() override = default;
-    void generate(Level* level, EntityRef entity) override;
-private:
+    PrefabObjSprite( SpritesheetKey sprite );
+    ~PrefabObjSprite() override = default;
+
+protected:
     SpritesheetKey m_sprite;
 };
 
-class Exit : public PrefabObj
+
+namespace PrefabObjects
+{
+
+class Door : public PrefabObjSprite
 {
 public:
-    Exit( SpritesheetKey sprite );
-    ~Exit() override = default;
+    using PrefabObjSprite::PrefabObjSprite;
     void generate(Level* level, EntityRef entity) override;
-private:
-    SpritesheetKey m_sprite;
 };
 
-class Entrance : public PrefabObj
+class Exit : public PrefabObjSprite
 {
 public:
-    Entrance( SpritesheetKey sprite );
-    ~Entrance() override = default;
+    using PrefabObjSprite::PrefabObjSprite;
     void generate(Level* level, EntityRef entity) override;
-private:
-    SpritesheetKey m_sprite;
 };
 
-class Container : public PrefabObj
+class Entrance : public PrefabObjSprite
 {
 public:
-    Container( SpritesheetKey sprite );
-    ~Container() override = default;
+    using PrefabObjSprite::PrefabObjSprite;
     void generate(Level* level, EntityRef entity) override;
-private:
-    SpritesheetKey m_sprite;
 };
 
-class Decor : public PrefabObj
+class Container : public PrefabObjSprite
 {
 public:
-    Decor( SpritesheetKey sprite );
-    ~Decor() override = default;
+    using PrefabObjSprite::PrefabObjSprite;
     void generate(Level* level, EntityRef entity) override;
-private:
-    SpritesheetKey m_sprite;
 };
 
+class Decor : public PrefabObjSprite
+{
+public:
+    using PrefabObjSprite::PrefabObjSprite;
+    void generate(Level* level, EntityRef entity) override;
+};
 
 }

@@ -682,6 +682,11 @@ void LevelFactory::constructPlayer()
     auto startPos = m_rooms.at( m_specialRooms.at( RoomType::Entrance ) ).centre();
 
     m_level->setPlayer( m_level->m_entFactory.createPlayer( impData, startPos ) );
+
+    // DEBUG
+    m_level->m_entFactory.createEnemy("rat", startPos + Vector2{0, 1});
+    m_level->m_entFactory.createEnemy("rat_dire", startPos + Vector2{1, 0});
+
     m_createdEntities.push_back( m_level->m_player->ref() );
 }
 
@@ -691,7 +696,8 @@ void LevelFactory::constructDoors()
     {
         if ( j.type == JunctionType::Door )
         {
-            auto ref = m_level->m_entFactory.createPrefabByName(PrefabType::Door, p);
+            auto ref = m_level->m_entFactory
+                              .createPrefab(PrefabType::Door, p);
             m_createdEntities.push_back(ref);
         }
     }
@@ -715,14 +721,16 @@ void LevelFactory::decorateRooms()
             }
             case RoomType::Entrance:
             {
-                auto eref = m_level->m_entFactory.createPrefabByName(PrefabType::Entrance, room.centre());
+                auto eref = m_level->m_entFactory
+                                   .createPrefab(PrefabType::Stairs_Up, room.centre());
                 m_createdEntities.push_back(eref);
 
                 break;
             }
             case RoomType::Exit:
             {
-                auto eref = m_level->m_entFactory.createPrefabByName(PrefabType::Exit, room.centre());
+                auto eref = m_level->m_entFactory
+                                   .createPrefab(PrefabType::Stairs_Down, room.centre());
                 m_createdEntities.push_back(eref);
                 break;
             }
@@ -807,6 +815,7 @@ void LevelFactory::constructRoomFromTemplate(LD::Room const& room, RoomTemplate*
     for ( auto const& prefab : rt->prefabs )
     {
         Vector2i translated = prefab.position + room.bounds.left();
-        m_level->m_entFactory.createPrefabByName(prefab.type, translated);
+        m_level->m_entFactory
+               .createPrefab(prefab.type, translated);
     }
 }

@@ -8,9 +8,21 @@
 - Specially sized/shaped rooms e.g. rounded rooms 
 - Switch to different level layout generation for later levels? 
 
+### FOV 
+- Entities marked as non-light blocking shouldn't block light 
+- Some entities shouldn't be visible within fog of war (ones which might move!)
+
 ### Gameplay 
 - Implement (re-implement) a level-controller system to handle the different UI states we might be in  
-- Implement basic end of level -> start of new level
 
 ### UI
-- Just about everything 
+- Finish text log 
+    -  Extension - including scrollback
+- Add dialogs
+    - Add message boxes and confirmation boxes
+- Add inventory screen
+- Add character info view 
+- Add description view 
+- Add spell/ability/feat interface 
+- Add menus of all sorts 
+- Add minimap 

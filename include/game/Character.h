@@ -92,5 +92,4 @@ private:
     std::unordered_map<Attribute, int> m_baseValues;
     std::unordered_map<Attribute, int> m_cachedValues;
     std::unordered_multimap<Attribute, ModifierData> m_modifiers;
-
 };

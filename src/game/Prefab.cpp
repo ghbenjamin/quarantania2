@@ -12,37 +12,88 @@ PrefabType prefabTypeFromName(std::string const& name)
     }
     else if ( name == "container" )
     {
-        return PrefabType::Container;
+        return PrefabType::Cont_Bookcase_Large;
     }
     else if ( name == "entrance" )
     {
-        return PrefabType::Entrance;
+        return PrefabType::Stairs_Up;
     }
     else if ( name == "exit" )
     {
-        return PrefabType::Exit;
+        return PrefabType::Stairs_Down;
     }
     else if ( name == "decor" )
     {
-        return PrefabType::Decor;
+        return PrefabType::Decor_Bed;
     }
-
+    else if ( name == "Door" )
+    {
+        return PrefabType::Door;
+    }
+    else if ( name == "Door_Locked" )
+    {
+        return PrefabType::Door_Locked;
+    }
+    else if ( name == "Stairs_Up" )
+    {
+        return PrefabType::Stairs_Up;
+    }
+    else if ( name == "Stairs_Down" )
+    {
+        return PrefabType::Stairs_Down;
+    }
+    else if ( name == "Cont_Bookcase_Small" )
+    {
+        return PrefabType::Cont_Bookcase_Small;
+    }
+    else if ( name == "Cont_Bookcase_Large" )
+    {
+        return PrefabType::Cont_Bookcase_Large;
+    }
+    else if ( name == "Cont_Chest" )
+    {
+        return PrefabType::Cont_Chest;
+    }
+    else if ( name == "Cont_Chest_Locked" )
+    {
+        return PrefabType::Cont_Chest_Locked;
+    }
+    else if ( name == "Cont_Barrel" )
+    {
+        return PrefabType::Cont_Barrel;
+    }
+    else if ( name == "Cont_Crate" )
+    {
+        return PrefabType::Cont_Crate;
+    }
+    else if ( name == "Decor_Bed" )
+    {
+        return PrefabType::Decor_Bed;
+    }
+    else if ( name == "Decor_Fireplace" )
+    {
+        return PrefabType::Decor_Fireplace;
+    }
+    else if ( name == "Decor_Chair" )
+    {
+        return PrefabType::Decor_Chair;
+    }
     else
     {
         Logging::log( "ERROR: Unknown name :{}\n");
         AssertAlways();
 
         // Silence warning
-        return PrefabType::Entrance;
+        return PrefabType::Decor_Bed;
     }
 }
 
-PrefabObjs::Door::Door(SpritesheetKey sprite)
-    : m_sprite(sprite)
-{
-}
 
-void PrefabObjs::Door::generate(Level *level, EntityRef entity)
+PrefabObjSprite::PrefabObjSprite(SpritesheetKey sprite)
+        : m_sprite( std::move(sprite) ) { }
+
+
+void PrefabObjects::Door::generate(Level *level, EntityRef entity)
 {
     auto sprite = ResourceManager::get().getSprite(m_sprite);
     sprite.setRenderLayer(RenderLayer::Entity);
@@ -52,12 +103,7 @@ void PrefabObjs::Door::generate(Level *level, EntityRef entity)
     level->addComponent<Components::Openable>(entity);
 }
 
-PrefabObjs::Exit::Exit(SpritesheetKey sprite)
-    : m_sprite(sprite)
-{
-}
-
-void PrefabObjs::Exit::generate(Level *level, EntityRef entity)
+void PrefabObjects::Exit::generate(Level *level, EntityRef entity)
 {
     auto sprite = ResourceManager::get().getSprite(m_sprite);
     sprite.setRenderLayer(RenderLayer::Entity);
@@ -69,13 +115,7 @@ void PrefabObjs::Exit::generate(Level *level, EntityRef entity)
     actions->actions.push_back( std::make_shared<ExitLevelAction>(level) );
 }
 
-
-PrefabObjs::Entrance::Entrance(SpritesheetKey sprite)
-    : m_sprite(sprite)
-{
-}
-
-void PrefabObjs::Entrance::generate(Level *level, EntityRef entity)
+void PrefabObjects::Entrance::generate(Level *level, EntityRef entity)
 {
     auto sprite = ResourceManager::get().getSprite(m_sprite);
     sprite.setRenderLayer(RenderLayer::Entity);
@@ -84,12 +124,7 @@ void PrefabObjs::Entrance::generate(Level *level, EntityRef entity)
     level->addComponent<Components::Collider>(entity, true, true);
 }
 
-PrefabObjs::Container::Container(SpritesheetKey sprite)
-    : m_sprite(sprite)
-{
-}
-
-void PrefabObjs::Container::generate(Level *level, EntityRef entity)
+void PrefabObjects::Container::generate(Level *level, EntityRef entity)
 {
     auto sprite = ResourceManager::get().getSprite(m_sprite);
     sprite.setRenderLayer(RenderLayer::Entity);
@@ -99,12 +134,7 @@ void PrefabObjs::Container::generate(Level *level, EntityRef entity)
     // level->addComponent<Components::Collider>(entity, true, true);
 }
 
-PrefabObjs::Decor::Decor(SpritesheetKey sprite)
-    : m_sprite(sprite)
-{
-}
-
-void PrefabObjs::Decor::generate(Level *level, EntityRef entity)
+void PrefabObjects::Decor::generate(Level *level, EntityRef entity)
 {
     auto sprite = ResourceManager::get().getSprite(m_sprite);
     sprite.setRenderLayer(RenderLayer::Entity);
