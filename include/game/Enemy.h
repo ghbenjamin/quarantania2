@@ -5,6 +5,7 @@
 #include <unordered_map>
 
 #include <resource/Spritesheet.h>
+#include <game/DiceRoll.h>
 
 // Forward declarations
 class Enemy;
@@ -58,7 +59,7 @@ struct EnemyData
     int speed;
 
     // Attack
-    // TODO
+    DiceRoll attack;
 };
 
 class EnemyBehaviour

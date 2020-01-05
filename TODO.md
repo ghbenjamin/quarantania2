@@ -25,4 +25,7 @@
 - Add description view 
 - Add spell/ability/feat interface 
 - Add menus of all sorts 
-- Add minimap 
+- Finish minimap 
+    - Don't display areas of the map we can't see yet 
+    - Scroll minimap with the real map
+    - Display current position of the player 

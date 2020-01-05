@@ -28,5 +28,5 @@ void UI::MinimapView::onMoveSelf()
     int offset = size.x() / 2 - m_renderObj.targetRect.w / 2;
 
     m_renderObj.targetRect.x = bounds().x() + offset;
-    m_renderObj.targetRect.y = bounds().y() + 10; // TODO Fix hacky offset
+    m_renderObj.targetRect.y = bounds().y() + 10; // TODO Fix hacky offset      
 }

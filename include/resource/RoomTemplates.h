@@ -36,5 +36,5 @@ private:
 
     std::unordered_multimap<Vector2i, RoomTemplate, Vector2iHash> m_basicTemplates;
 
-    static const inline std::regex KEY_PARSE_REGEX{ "(\\d+)x(\\d+)" };
+    static const inline std::regex KeyParseRegex{"(\\d+)x(\\d+)" };
 };

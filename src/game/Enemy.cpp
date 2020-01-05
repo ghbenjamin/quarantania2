@@ -96,6 +96,12 @@ void EnemyManager::loadAllData()
             data.speed = entrySpeed->value.GetInt();
         }
 
+        auto entryAttack = obj.value.FindMember("attack");
+        if ( entryAttack != obj.value.MemberEnd() )
+        {
+            data.attack = DiceRoll::parseFromString( entryAttack->value.GetString() );
+        }
+
         m_enemyData.emplace(obj.name.GetString(), std::move(data));
     }
 }

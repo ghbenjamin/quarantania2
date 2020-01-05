@@ -38,7 +38,7 @@ struct IEventWindowResize;
 class LevelFactory;
 class Action;
 
-// New definitions
+// Typedefs 
 using EntityCompMap = std::unordered_map<EntityRef, std::shared_ptr<BaseComponent>>;
 using ActionPtr = std::shared_ptr<Action>;
 

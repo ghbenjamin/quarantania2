@@ -70,7 +70,7 @@ Vector2i RoomTemplateManager::parseKeyName(std::string const &name)
     std::smatch match;
     Vector2i out;
 
-    if ( std::regex_search( name, match, KEY_PARSE_REGEX) && match.size() > 1 )
+    if (std::regex_search( name, match, KeyParseRegex) && match.size() > 1 )
     {
         int lhs = std::atoi( match.str(1).c_str() );
         int rhs = std::atoi( match.str(2).c_str() );

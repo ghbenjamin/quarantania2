@@ -7,7 +7,8 @@
     "ac": 14,
     "saves": [2, 4, 1],
     "stat_block": [2, 15, 11, 2, 13, 2],
-    "speed": 15
+    "speed": 15,
+    "attack": "1d4-3"
   },
   "rat_dire": {
     "parent": "rat",
@@ -17,6 +18,7 @@
     "max_hp": 5,
     "saves": [3, 5, 1],
     "stat_block": [10, 17, 13, 2, 13, 4],
-    "speed": 40
+    "speed": 40,
+    "attack": "1d4+4"
   }
 }
