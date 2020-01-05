@@ -5,7 +5,6 @@
 #include <game/GEventDefs.h>
 #include <game/InputInterface.h>
 #include <game/Level.h>
-#include <graphics/Primatives.h>
 #include <graphics/RenderInterface.h>
 #include <resource/ResourceManager.h>
 #include <state/DefaultLController.h>
@@ -16,6 +15,7 @@
 #include <utils/Logging.h>
 #include <systems/Message.h>
 #include <ui/Dialogs.h>
+#include <ui/MinimapView.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 :   m_ctx(std::move(ctx)),
@@ -24,7 +24,8 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     m_tileCount(size.x() * size.y()),
     m_rg(rg),
     m_entFactory(this, &m_rg),
-    m_isComplete(false)
+    m_isComplete(false),
+    m_minimap{ m_bounds, 5 }
 {
     registerComponent<Components::Render>();
     registerComponent<Components::TilePosition>();
@@ -43,6 +44,7 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     registerSystem<Systems::FOV>();
     registerSystem<Systems::Actors>();
     registerSystem<Systems::Message>();
+    registerSystem<Systems::Minimap>();
 
     m_camera.setBounds( m_bounds * 16 );
 
@@ -247,16 +249,20 @@ void Level::setupUI()
     m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomLeft, 0 );
 
     auto trframe = m_uiManager.createElement<UI::Element>(nullptr);
+    trframe->setLayout<UI::VerticalLayout>( 2, UI::HAlignment::Fill );
     trframe->setId("top-right-frame");
     trframe->setBackgroundColour(Colour::Black);
     trframe->setBorder(2, Colour::White);
 
     m_uiManager.alignElementToWindow( trframe, UI::Alignment::CentreRight, 0 );
 
-
-//    auto dialog = m_uiManager.createElement<UI::Dialog>( nullptr, "Hello", "World" );
-//    dialog->setLocalPosition({100, 100});
-
+    UI::Element* trframePtr = trframe.get();
+    auto minimap = m_uiManager.createElement<UI::MinimapView>(
+        trframePtr,
+        m_minimap.getTexture(),
+        Vector2i{200, 200}
+    );
+    minimap->setId("minimap");
 }
 
 void Level::layoutWindows()
@@ -437,6 +443,27 @@ int Level::squaredEntityDistance(EntityRef a, EntityRef b)
 void Level::setComplete()
 {
     m_isComplete = true;
+}
+
+void Level::generateMinimapData()
+{
+    for ( std::size_t i = 0; i < m_baseTilemap.size(); i++ )
+    {
+        switch ( m_baseTilemap[i] )
+        {
+            case LD::BaseTileType::Wall:
+                m_minimap.setTile(i, Colour::Grey);
+                break;
+            case LD::BaseTileType::Floor:
+                m_minimap.setTile(i, Colour::White);
+                break;
+            case LD::BaseTileType::Junction:
+                m_minimap.setTile(i, Colour::Blue);
+                break;
+        }
+    }
+
+    m_minimap.updateTexture();
 }
 
 

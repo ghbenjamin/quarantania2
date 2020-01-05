@@ -19,6 +19,19 @@ Texture::Texture(SDL_Texture* t)
     }
 }
 
+
+Texture::Texture(Vector2i size)
+: m_size(size), m_sourceRect{0, 0, size.x(), size.y()}
+{
+    m_raw = SDL_CreateTexture(
+        ResourceManager::get().getWindow()->renderer()->raw(),
+        SDL_PIXELFORMAT_ABGR8888,
+        SDL_TEXTUREACCESS_STATIC,
+        size.x(),
+        size.y()
+    );
+}
+
 Texture::~Texture()
 {
     if (m_raw != nullptr)
@@ -61,5 +74,3 @@ SDL_Rect &Texture::sourceRect()
 {
     return m_sourceRect;
 }
-
-

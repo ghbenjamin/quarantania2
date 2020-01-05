@@ -6,8 +6,11 @@
 
 #include <utils/Containers.h>
 
+// Forward definitions
 struct SDL_Texture;
 class Texture;
+
+// Typedefs
 using TexturePtr = std::shared_ptr<Texture>;
 
 class Texture
@@ -15,6 +18,7 @@ class Texture
 public:
 
     explicit Texture( SDL_Texture* t );
+    Texture( Vector2i size );
     virtual ~Texture();
 
     Texture( const Texture& ) = delete;

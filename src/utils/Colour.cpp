@@ -56,3 +56,22 @@ Colour Colour::withAlpha(uint8_t val) const
     return c;
 }
 
+uint8_t Colour::getR() const
+{
+    return m_colour.r;
+}
+
+uint8_t Colour::getG() const
+{
+    return m_colour.g;
+}
+
+uint8_t Colour::getB() const
+{
+    return m_colour.b;
+}
+
+uint8_t Colour::getA() const
+{
+    return m_colour.a;
+}

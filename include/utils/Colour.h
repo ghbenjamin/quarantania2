@@ -16,6 +16,11 @@ public:
     SDL_Color const& raw() const;
     Colour withAlpha(uint8_t val) const;
 
+    uint8_t getR() const;
+    uint8_t getG() const;
+    uint8_t getB() const;
+    uint8_t getA() const;
+
     bool operator==(const Colour &rhs) const;
     bool operator!=(const Colour &rhs) const;
 

@@ -6,8 +6,6 @@
 #include <sstream>
 #include <cmath>
 #include <vector>
-#include <unordered_set>
-#include <unordered_map>
 
 template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
 class Vector2
@@ -77,6 +75,11 @@ public:
     bool operator!=(const Vector2 &rhs) const
     {
         return !(rhs == *this);
+    }
+
+    T area() const
+    {
+        return m_x * m_y;
     }
 
     void normalize()

@@ -18,6 +18,7 @@
 #include <game/GridFeature.h>
 #include <game/Rules.h>
 #include <game/Grid.h>
+#include <game/Minimap.h>
 #include <game/Camera.h>
 #include <state/LevelController.h>
 #include <systems/System.h>
@@ -206,6 +207,7 @@ public:
     Vector2i const& bounds() const;
     int tileCount() const;
     int squaredEntityDistance(EntityRef a, EntityRef b);
+    void generateMinimapData();
 
     // Actions
     std::vector<ActionPtr> actionsForTile(EntityRef actor, Vector2i tile);
@@ -266,6 +268,7 @@ private:
     std::vector<std::vector<TileRef>> m_mapRendering;
     LD::BaseTileMap m_baseTilemap;
     Grid m_grid;
+    Minimap m_minimap;
 
     // Entities
     IdPool<EntityRef> m_entityPool;

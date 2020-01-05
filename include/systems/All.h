@@ -5,3 +5,4 @@
 #include <systems/Collision.h>
 #include <systems/FOV.h>
 #include <systems/Actors.h>
+#include <systems/Minimap.h>
