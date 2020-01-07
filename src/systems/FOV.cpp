@@ -52,7 +52,7 @@ void Systems::FOV::update(uint32_t ticks, RenderInterface &rInter)
 void Systems::FOV::accept(GEvents::LevelReady *evt)
 {
     // Remove this to turn off 'explored' mode
-    m_level->grid().exploreAllTiles();
+    //m_level->grid().exploreAllTiles();
 
     recalculateFOV();
 }

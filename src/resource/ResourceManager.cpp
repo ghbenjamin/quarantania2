@@ -109,7 +109,16 @@ void ResourceManager::unloadAll()
 
 Sprite ResourceManager::getSprite(std::string const &sheet, std::string const &name)
 {
-    return getResource<SpritesheetResource>( sheet )->get()->spriteFromName( name );
+    try
+    {
+        return getResource<SpritesheetResource>( sheet )->get()->spriteFromName( name );
+    }
+    catch ( std::exception const& ex )
+    {
+        Logging::log( "ERROR: Unknown sprite pair [{}, {}]\n", sheet, name );
+        std::terminate();
+    }
+
 }
 
 Sprite ResourceManager::getSprite(SpritesheetKey const& key)

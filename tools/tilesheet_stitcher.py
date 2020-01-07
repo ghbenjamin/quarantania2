@@ -25,6 +25,7 @@ def main():
     # Grab the input path from the system arguments - this is hopefully a directory described in a way
     # pathlib can understand
     target_dir = Path(sys.argv[1]).resolve()
+    out_name = sys.argv[2]
 
     # Grab the paths of all the .png files in the target directory
     target_paths = [f for f in target_dir.glob("*.png") if f.is_file()]
@@ -55,10 +56,11 @@ def main():
 
         # Walk over each of the tiles in the input file (assuming no margins or spacing)
         img_tile_size_w, img_tile_size_h = img_tile_size
-        for i in range(img_tile_size_w):
-            for j in range(img_tile_size_h):
-                px_box = (i * INPUT_TILE_SIZE, j * INPUT_TILE_SIZE)
 
+        for j in range(img_tile_size_h):
+            for i in range(img_tile_size_w):
+
+                px_box = (i * INPUT_TILE_SIZE, j * INPUT_TILE_SIZE)
                 px_box_region = image.crop((px_box[0], px_box[1], px_box[0] + INPUT_TILE_SIZE, px_box[1] + INPUT_TILE_SIZE))
 
                 # If the number of unique colours in this tile is 1, then the tile is probably blank - ignore it
@@ -94,10 +96,10 @@ def main():
     json_obj['data'] = { k: v for k, v in gid_list }
 
     # Dump our image and json files to disk
-    with open( "out.json", "w" ) as outfile:
+    with open( f"{out_name}.json", "w" ) as outfile:
         json.dump(json_obj, outfile, indent=4, sort_keys=True)
 
-    master_img.save("out.png")
+    master_img.save(f"{out_name}.png")
 
 if __name__ == "__main__":
     main()

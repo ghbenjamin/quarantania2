@@ -62,9 +62,8 @@ public:
 
     EntityRef createEntity();
     void deleteEntity(EntityRef ent);
-    void disableEntity(EntityRef ent);
-    void enableEntity(EntityRef ent);
 
+    // Player Management
     void setPlayer( PlayerPtr&& player );
     PlayerPtr& getPlayer();
     bool isPlayer(EntityRef ref) const;

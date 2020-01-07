@@ -1,7 +1,7 @@
 {
   "rat": {
     "name": "Rat",
-    "sprite": ["dawnlike_chars", "Rodent_02"],
+    "sprite": ["dawnlike_chars", "Rodent_002"],
     "xp": 100,
     "max_hp": 4,
     "ac": 14,
@@ -13,7 +13,7 @@
   "rat_dire": {
     "parent": "rat",
     "name": "Dire rat",
-    "sprite": ["dawnlike_chars", "Rodent_09"],
+    "sprite": ["dawnlike_chars", "Rodent_009"],
     "xp": 135,
     "max_hp": 5,
     "saves": [3, 5, 1],

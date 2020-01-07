@@ -131,6 +131,7 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
 
 void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
+    // TODO: This behaviour should live in a controller, not here
     if ( iinter.anyHeld() )
     {
         Vector2f delta = { 0.0, 0.0 };
@@ -179,30 +180,6 @@ void Level::deleteEntity(EntityRef ent)
 
     // Put the ID back into the pool
     m_entityPool.release(ent);
-}
-
-void Level::disableEntity(EntityRef ent)
-{
-    for ( auto &[k, v] : m_components )
-    {
-        auto it = v.find(ent);
-        if ( it != v.end() )
-        {
-            // it->second.DISABLE_ME
-        }
-    }
-}
-
-void Level::enableEntity(EntityRef ent)
-{
-    for ( auto &[k, v] : m_components )
-    {
-        auto it = v.find(ent);
-        if ( it != v.end() )
-        {
-            // it->second.ENABLE_ME
-        }
-    }
 }
 
 GEventHub &Level::events()
@@ -449,19 +426,32 @@ void Level::generateMinimapData()
 {
     for ( std::size_t i = 0; i < m_baseTilemap.size(); i++ )
     {
-        switch ( m_baseTilemap[i] )
+        // Tiles which we've not explored yet should be black
+        if ( m_grid.fov().valueAt(i) == Rules::Visibility::Hidden )
         {
-            case LD::BaseTileType::Wall:
-                m_minimap.setTile(i, Colour::Grey);
-                break;
-            case LD::BaseTileType::Floor:
-                m_minimap.setTile(i, Colour::White);
-                break;
-            case LD::BaseTileType::Junction:
-                m_minimap.setTile(i, Colour::Blue);
-                break;
+            m_minimap.setTile(i, Colour::Black);
+        }
+        else
+        {
+            // Otherwise, set the appropriate colour for the current tile
+            switch ( m_baseTilemap[i] )
+            {
+                case LD::BaseTileType::Wall:
+                    m_minimap.setTile(i, Colour::Grey);
+                    break;
+                case LD::BaseTileType::Floor:
+                    m_minimap.setTile(i, Colour::White);
+                    break;
+                case LD::BaseTileType::Junction:
+                    m_minimap.setTile(i, Colour::Blue);
+                    break;
+            }
         }
     }
+
+    // Place a dot at the position of the player
+    auto playerPos = getComponents<Components::TilePosition>( m_player->ref() );
+    m_minimap.movePlayer(playerPos->position);
 
     m_minimap.updateTexture();
 }

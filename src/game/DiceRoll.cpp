@@ -13,8 +13,6 @@ DiceRoll DiceRoll::parseFromString(std::string const &data)
         roll.diceCount = std::atoi( match.str(1).c_str() );
         roll.diceSize = std::atoi( match.str(2).c_str() );
 
-        Logging::log( match.size() );
-
         if ( match.size() == 5 )
         {
             int parity = 1;

@@ -15,6 +15,8 @@ public:
     void setTile(Vector2i coord, Colour const& colour );
     void setTile(int tileIdx, Colour const& colour );
 
+    void movePlayer( Vector2i tileCoord );
+
     void updateTexture();
 
     std::shared_ptr<Texture> getTexture() const;
@@ -25,6 +27,7 @@ private:
     void setPixel(Vector2i pixelCoord, Colour const& colour);
     void setPixelRegion(RectI area, Colour const& colour );
 
+    inline std::size_t tileCoordToByteOffset(Vector2i coord) const;
 
     // Size of the minimap in *tiles*
     const Vector2i m_size;
@@ -38,4 +41,8 @@ private:
     // Texture data as bytes and as an SDL_Texture*
     std::vector<std::byte> m_data;
     std::shared_ptr<Texture> m_texture;
+
+    Vector2i m_playerLocation;
+    Colour const& m_playerHighlightColour;
+    std::vector<std::byte> m_playerExcluding;
 };

@@ -40,7 +40,7 @@ PlayerPtr EntityFactory::createPlayer(ImPlayerData &data, Vector2i startPos) con
     auto eref = m_parent->createEntity();
 
     // TODO Don't hardcode the player appearance
-    auto sprite = ResourceManager::get().getSprite("dawnlike_chars", "Player_01");
+    auto sprite = ResourceManager::get().getSprite("dawnlike_chars", "Player_001");
     sprite.setRenderLayer(RenderLayer::Actor);
 
     m_parent->addComponent<Components::TilePosition>(eref, startPos);

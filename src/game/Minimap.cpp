@@ -8,7 +8,10 @@ Minimap::Minimap(Vector2i size, int scale)
 : m_size(size),
   m_scale(scale),
   m_data(0),
-  m_byteWidth(-1)
+  m_byteWidth(-1),
+  m_playerExcluding(m_scale * m_scale * 4, std::byte{0}),
+  m_playerLocation({-1, -1}),
+  m_playerHighlightColour( Colour::Red )
 {
     // (px_x, px_y) = (tile_x, tile_y) * pixels per tile
     Vector2i pixelSize = size * scale;
@@ -82,4 +85,42 @@ void Minimap::setPixel(Vector2i pixelCoord, Colour const &colour)
 {
     int pixelIdx = pixelCoord.x() + pixelCoord.y() * m_size.x() * m_scale;
     setPixel(pixelIdx, colour);
+}
+
+void Minimap::movePlayer(Vector2i tileCoord)
+{
+    // Store the colour data for the tile the player is about to move to in a buffer and then colour the new tile
+    // appropriately. Restore the data at the previous player location from the old buffer.
+    // NB. this is not 100% necessary at the moment since all player movement is completely regenerating the minimap
+    // Hopefully in the future this will not be the case, so this method will be a useful performance saver.
+
+    Vector2i oldLoc = m_playerLocation;
+    m_playerLocation = tileCoord;
+
+    if ( oldLoc != Vector2i{-1, -1})
+    {
+        // We had an old player position - put the tile the player is standing on back
+        std::copy(
+            m_playerExcluding.begin(),
+            m_playerExcluding.end(),
+            m_data.begin() + tileCoordToByteOffset(oldLoc)
+        );
+    }
+
+    std::size_t offset = tileCoordToByteOffset(m_playerLocation);
+
+    // Buffer the data in the tile the player is now standing on
+    std::copy(
+        m_data.begin() + offset,
+        m_data.begin() + offset + m_playerExcluding.size(),
+        m_playerExcluding.begin()
+    );
+
+    setTile(m_playerLocation, m_playerHighlightColour);
+}
+
+std::size_t Minimap::tileCoordToByteOffset(Vector2i coord) const
+{
+    return coord.x() * m_scale * 4
+         + coord.y() * m_size.x() * m_scale * 4;
 }
