@@ -106,8 +106,7 @@ void SpritesheetResource::load()
         }
 
         int marginVal = metaObj.FindMember( "margin" )->value.GetInt();
-        int tileSizeVal = metaObj.FindMember( "tileSize" )->value.GetInt();
-        m_spritesheet = std::make_shared<TiledSpritesheet>( tex, gidMap, marginVal, tileSizeVal );
+        m_spritesheet = std::make_shared<TiledSpritesheet>( tex, gidMap, marginVal );
     }
     else if ( sheetType == "free" )
     {

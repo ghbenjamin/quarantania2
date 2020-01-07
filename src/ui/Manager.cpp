@@ -6,6 +6,7 @@
 #include <resource/ResourceManager.h>
 
 #include <utility>
+#include <utils/GlobalConfig.h>
 
 using namespace UI;
 
@@ -290,7 +291,7 @@ void Manager::openContextMenu(ContextMenuList const &items, Vector2i pos, Contex
 void Manager::addTileHighlight(Vector2i screenPos)
 {
     auto elem = createElement<Element>(nullptr);
-    elem->setPreferredContentSize({16, 16});
+    elem->setPreferredContentSize({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx});
     elem->setBackgroundSprite({"tile-ui", "green-brackets"});
     elem->setLocalPosition( screenPos );
     elem->setId("tile-highlight");

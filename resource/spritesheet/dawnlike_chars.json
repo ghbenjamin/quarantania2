@@ -714,7 +714,6 @@
     },
     "meta": {
         "margin": 0,
-        "tileSize": 16,
         "type": "tiled"
     }
 }

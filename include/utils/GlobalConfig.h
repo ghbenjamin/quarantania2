@@ -15,4 +15,6 @@ struct GlobalConfigInfo
 
 GlobalConfigInfo load( std::string const& path );
 
+static constexpr int TileSizePx = 16;
+
 }

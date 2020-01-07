@@ -29,7 +29,7 @@ protected:
 class TiledSpritesheet : public Spritesheet
 {
 public:
-    TiledSpritesheet( TexturePtr texture, SpritesheetGidMap& gidMap, int margin, int tileSize );
+    TiledSpritesheet( TexturePtr texture, SpritesheetGidMap& gidMap, int margin );
     ~TiledSpritesheet() override = default;
 
     Sprite spriteFromGid( int gid );
@@ -41,7 +41,6 @@ public:
 private:
 
     int m_margin;
-    int m_tileSize;
     int m_tileWidth;
     SpritesheetGidMap m_gidMap;
 };

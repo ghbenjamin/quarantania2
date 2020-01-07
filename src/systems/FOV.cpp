@@ -3,10 +3,11 @@
 #include <graphics/Primatives.h>
 #include <graphics/RenderInterface.h>
 #include <components/TilePosition.h>
+#include <utils/GlobalConfig.h>
 
 Systems::FOV::FOV(Level *parent) : System(parent),
-    m_fovHidden{ createRectangle({16, 16}, Colour::Black) },
-    m_fovFog{ createRectangle({16, 16}, Colour::Black.withAlpha(100)) }
+    m_fovHidden{ createRectangle({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx}, Colour::Black) },
+    m_fovFog{ createRectangle({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx}, Colour::Black.withAlpha(100)) }
 {
     m_fovHidden.setRenderLayer(RenderLayer::FOV);
     m_fovFog.setRenderLayer(RenderLayer::FOV);
@@ -33,7 +34,7 @@ void Systems::FOV::update(uint32_t ticks, RenderInterface &rInter)
     int tcount =  m_level->tileCount();
     for ( int i = 0; i < tcount; i++ )
     {
-        currPos = m_level->grid().idxToPos(i) * 16;
+        currPos = m_level->grid().idxToPos(i) * GlobalConfig::TileSizePx;
         auto visibility = m_level->grid().fov().valueAt(i);
 
         // If the current tile is hidden, block it out entirely with a black square. If the tile is explored

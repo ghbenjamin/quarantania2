@@ -1,6 +1,7 @@
 #include <resource/Spritesheet.h>
 #include <utils/Assert.h>
 #include <utils/Logging.h>
+#include <utils/GlobalConfig.h>
 
 Spritesheet::Spritesheet(TexturePtr texture)
 : m_texture(texture)
@@ -8,12 +9,12 @@ Spritesheet::Spritesheet(TexturePtr texture)
 
 }
 
-TiledSpritesheet::TiledSpritesheet(TexturePtr texture, SpritesheetGidMap& gidMap, int margin, int tileSize)
-: Spritesheet(texture), m_margin(margin), m_tileSize(tileSize)
+TiledSpritesheet::TiledSpritesheet(TexturePtr texture, SpritesheetGidMap& gidMap, int margin)
+: Spritesheet(texture), m_margin(margin)
 {
     auto w = m_texture->size().x();
-    w -= tileSize;
-    m_tileWidth = ( w / (margin + tileSize) ) + 1;
+    w -= GlobalConfig::TileSizePx;
+    m_tileWidth = ( w / (margin + GlobalConfig::TileSizePx) ) + 1;
 
     m_gidMap = std::move(gidMap);
 }
@@ -21,15 +22,17 @@ TiledSpritesheet::TiledSpritesheet(TexturePtr texture, SpritesheetGidMap& gidMap
 const RectI TiledSpritesheet::getRegion(int id) const
 {
     return RectI{
-        { (id % m_tileWidth) * (m_tileSize + m_margin), (id / m_tileWidth) * (m_tileSize + m_margin) },
-        { m_tileSize, m_tileSize }
+        { (id % m_tileWidth) * (GlobalConfig::TileSizePx + m_margin),
+          (id / m_tileWidth) * (GlobalConfig::TileSizePx + m_margin) },
+        { GlobalConfig::TileSizePx,
+          GlobalConfig::TileSizePx }
     };
 }
 
 const Vector2i TiledSpritesheet::sheetPosFromGid(int gid) const
 {
-    int x = (gid % m_tileWidth) * (m_tileSize + m_margin);
-    int y = (gid / m_tileWidth) * (m_tileSize + m_margin);
+    int x = (gid % m_tileWidth) * (GlobalConfig::TileSizePx + m_margin);
+    int y = (gid / m_tileWidth) * (GlobalConfig::TileSizePx + m_margin);
 
     return {x, y};
 }
@@ -39,7 +42,7 @@ Sprite TiledSpritesheet::spriteFromGid(int gid)
     auto sheetPos = sheetPosFromGid( gid );
     return Sprite {
         m_texture,
-        { sheetPos, { m_tileSize, m_tileSize } }
+        { sheetPos, { GlobalConfig::TileSizePx, GlobalConfig::TileSizePx } }
     };
 }
 

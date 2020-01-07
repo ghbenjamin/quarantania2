@@ -16,6 +16,7 @@
 #include <systems/Message.h>
 #include <ui/Dialogs.h>
 #include <ui/MinimapView.h>
+#include <utils/GlobalConfig.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 :   m_ctx(std::move(ctx)),
@@ -46,7 +47,7 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     registerSystem<Systems::Message>();
     registerSystem<Systems::Minimap>();
 
-    m_camera.setBounds( m_bounds * 16 );
+    m_camera.setBounds( m_bounds * GlobalConfig::TileSizePx );
 
     setupUI();
     layoutWindows();
@@ -115,7 +116,7 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
         {
             if ( ref >= 0 )
             {
-                currPos = offset + Vector2i{ col * 16, row * 16 };
+                currPos = offset + Vector2i{ col * GlobalConfig::TileSizePx, row * GlobalConfig::TileSizePx };
                 rInter.addWorldItem( m_renderTileMap.get(ref).sprite.renderObject(currPos) );
             }
 
@@ -275,8 +276,8 @@ void Level::layoutWindows()
 Vector2i Level::worldCoordsToTile(Vector2i const& world)
 {
     return {
-        world.x() / 16,
-        world.y() / 16
+        world.x() / GlobalConfig::TileSizePx,
+        world.y() / GlobalConfig::TileSizePx
     };
 }
 
@@ -288,7 +289,7 @@ Vector2i Level::screenCoordsToTile(Vector2i const &screen)
 
 Vector2i Level::tileCoordsToScreen( Vector2i const& tile )
 {
-    auto world = tile * 16;
+    auto world = tile * GlobalConfig::TileSizePx;
     return worldCoordsToScreen(world);
 }
 
