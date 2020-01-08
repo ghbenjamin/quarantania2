@@ -513,7 +513,7 @@ void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContext
     m_level->m_renderTileMap.addTile(TerrainTile::Wall_Horizontal, {"dawnlike_wall", "Wall_002"});
     m_level->m_renderTileMap.addTile(TerrainTile::Wall_Cross,  {"dawnlike_wall", "Wall_009"});
     m_level->m_renderTileMap.addTile(TerrainTile::Wall_Center, {"dawnlike_wall", "Wall_004"});
-    m_level->m_renderTileMap.addTile(TerrainTile::Floor, {"kenney-tiles", "soil-1"});
+    m_level->m_renderTileMap.addTile(TerrainTile::Floor, {"dawnlike_objects", "Floor_103"});
 
     m_level->m_mapRendering = std::vector<TileRef>( m_level->m_baseTilemap.size(), -1 );
 

@@ -9,13 +9,13 @@ EntityFactory::EntityFactory(Level *parent, RandomGenerator* rg )
 {
     m_enemyManager.loadAllData();
 
-    addPrefabType<PrefabObjects::Door>(PrefabType::Door, SpritesheetKey{"kenney-tiles", "door-closed"});
-    addPrefabType<PrefabObjects::Door>(PrefabType::Door_Locked, SpritesheetKey{"kenney-tiles", "door-barred"});
-    addPrefabType<PrefabObjects::Entrance>(PrefabType::Stairs_Up, SpritesheetKey{"kenney-tiles", "grey-stairs-up"});
-    addPrefabType<PrefabObjects::Exit>(PrefabType::Stairs_Down, SpritesheetKey{"kenney-tiles", "grey-stairs-down"});
-    addPrefabType<PrefabObjects::Container>(PrefabType::Cont_Bookcase_Small, SpritesheetKey{"kenney-tiles", "bookcase-small-full"});
-    addPrefabType<PrefabObjects::Container>(PrefabType::Cont_Bookcase_Large, SpritesheetKey{"kenney-tiles", "bookcase-large-full"});
-    addPrefabType<PrefabObjects::Decor>(PrefabType::Decor_Bed, SpritesheetKey{"kenney-tiles", "bed-made"});
+    addPrefabType<PrefabObjects::Door>(PrefabType::Door, SpritesheetKey{"dawnlike_objects", "Door_001"});
+    addPrefabType<PrefabObjects::Door>(PrefabType::Door_Locked, SpritesheetKey{"dawnlike_objects", "Door_005"});
+    addPrefabType<PrefabObjects::Entrance>(PrefabType::Stairs_Up, SpritesheetKey{"dawnlike_objects", "Door_037"});
+    addPrefabType<PrefabObjects::Exit>(PrefabType::Stairs_Down, SpritesheetKey{"dawnlike_objects", "Door_038"});
+    addPrefabType<PrefabObjects::Container>(PrefabType::Cont_Bookcase_Small, SpritesheetKey{"dawnlike_objects", "Decor_038"});
+    addPrefabType<PrefabObjects::Container>(PrefabType::Cont_Bookcase_Large, SpritesheetKey{"dawnlike_objects", "Decor_039"});
+    addPrefabType<PrefabObjects::Decor>(PrefabType::Decor_Bed, SpritesheetKey{"dawnlike_objects", "Decor_073"});
 }
 
 EntityRef EntityFactory::createPrefab(PrefabType ptype, Vector2i pos) const
