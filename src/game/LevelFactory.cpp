@@ -501,45 +501,34 @@ void LevelFactory::newRegion(RegionType type)
 
 void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContextPtr const &ctx)
 {
-    // Add some tiles to the tilemap - this is debug for now
-    auto floorRef = m_level->m_renderTileMap.addTile({"kenney-tiles", "soil-1"}, true);
+    m_level->m_renderTileMap.addTile(TerrainTile::Wall_T_N,  {"dawnlike_wall", "Wall_013"});
+    m_level->m_renderTileMap.addTile(TerrainTile::Wall_T_S,  {"dawnlike_wall", "Wall_005"});
+    m_level->m_renderTileMap.addTile(TerrainTile::Wall_T_E,   {"dawnlike_wall", "Wall_008"});
+    m_level->m_renderTileMap.addTile(TerrainTile::Wall_T_W,  {"dawnlike_wall", "Wall_010"});
+    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Corner_NE, {"dawnlike_wall", "Wall_003"});
+    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Corner_SE, {"dawnlike_wall", "Wall_012"});
+    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Corner_SW, {"dawnlike_wall", "Wall_011"});
+    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Corner_NW, {"dawnlike_wall", "Wall_001"});
+    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Vertical, {"dawnlike_wall", "Wall_006"});
+    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Horizontal, {"dawnlike_wall", "Wall_002"});
+    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Cross,  {"dawnlike_wall", "Wall_009"});
+    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Center, {"dawnlike_wall", "Wall_004"});
+    m_level->m_renderTileMap.addTile(TerrainTile::Floor, {"kenney-tiles", "soil-1"});
 
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-open-N"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-open-S"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-open-E"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-open-W"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-T-N"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-T-S"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-T-E"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-T-W"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-corner-NE"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-corner-SE"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-corner-SW"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-corner-NW"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-vert"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-horiz"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-plain"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-closed-N"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-closed-E"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-closed-S"}, false);
-    m_level->m_renderTileMap.addTile({"kenney-tiles", "wall-grey-closed-W"}, false);
-
-    // Construct the different tile levels - add two for now
-    m_level->m_mapRendering.emplace_back( m_level->m_baseTilemap.size(), -1 );
-    m_level->m_mapRendering.emplace_back( m_level->m_baseTilemap.size(), -1 );
+    m_level->m_mapRendering = std::vector<TileRef>( m_level->m_baseTilemap.size(), -1 );
 
     for ( size_t i = 0; i < m_level->m_baseTilemap.size(); i++ )
     {
         switch ( m_level->m_baseTilemap[i] )
         {
             case BaseTileType::Wall:
-                m_level->m_mapRendering[0][i] = getCorrectWallTile(i);
+                m_level->m_mapRendering[i] = m_level->m_renderTileMap.getRef(getCorrectWallTile(i) );
                 break;
             case BaseTileType::Floor:
-                m_level->m_mapRendering[0][i] = floorRef;
+                m_level->m_mapRendering[i] = m_level->m_renderTileMap.getRef( TerrainTile::Floor );
                 break;
             case BaseTileType::Junction:
-                m_level->m_mapRendering[0][i] = getCorrectWallTile(i);
+                m_level->m_mapRendering[i] = m_level->m_renderTileMap.getRef(getCorrectWallTile(i) );
                 break;
             default:
                 AssertAlways();
@@ -547,99 +536,98 @@ void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContext
     }
 }
 
-TileRef LevelFactory::getCorrectWallTile(int idx)
+TerrainTile LevelFactory::getCorrectWallTile(int idx)
 {
 
     GridBitmask fullMask = m_wallPositionMasks[idx];
     GridBitmask mask = fullMask & GridUtils::CardinalOnly;
 
-    if (mask == Direction::N)
+    if (mask == Direction::N )
     {
-        return m_level->m_renderTileMap.getRef( "wall-grey-open-N" );
+        return TerrainTile::Wall_Vertical;
     }
     else if ( mask == Direction::E )
     {
-        return m_level->m_renderTileMap.getRef( "wall-grey-open-E" );
+        return TerrainTile::Wall_Horizontal;
     }
     else if ( mask == Direction::S )
     {
-        return m_level->m_renderTileMap.getRef( "wall-grey-open-S" );
+        return TerrainTile::Wall_Vertical;
     }
     else if ( mask == Direction::W )
     {
-        return m_level->m_renderTileMap.getRef( "wall-grey-open-W" );
+        return TerrainTile::Wall_Horizontal;
     }
     else if ( mask == (Direction::N | Direction::S) )
     {
-        return m_level->m_renderTileMap.getRef( "wall-grey-vert" );
+        return TerrainTile::Wall_Vertical;
     }
     else if ( mask == (Direction::E | Direction::W) )
     {
-        return m_level->m_renderTileMap.getRef( "wall-grey-horiz" );
+        return TerrainTile::Wall_Horizontal;
     }
     else if ( mask == (Direction::E | Direction::S) )
     {
-        return m_level->m_renderTileMap.getRef( "wall-grey-corner-NW" );
+        return TerrainTile::Wall_Corner_NW;
     }
     else if ( mask == (Direction::E | Direction::N) )
     {
-        return m_level->m_renderTileMap.getRef( "wall-grey-corner-SW" );
+        return TerrainTile::Wall_Corner_SW;
     }
     else if ( mask == (Direction::W | Direction::S) )
     {
-        return m_level->m_renderTileMap.getRef( "wall-grey-corner-NE" );
+        return TerrainTile::Wall_Corner_NE;
     }
     else if ( mask == (Direction::N | Direction::W) )
     {
-        return m_level->m_renderTileMap.getRef( "wall-grey-corner-SE" );
+        return TerrainTile::Wall_Corner_SE;
     }
     else if ( mask == (Direction::N | Direction::S | Direction::E ) )
     {
         if ( fullMask & (Direction::NE | Direction::SE) )
         {
-            return m_level->m_renderTileMap.getRef( "wall-grey-closed-W" );
+            return TerrainTile::Wall_Vertical;
         }
         else
         {
-            return m_level->m_renderTileMap.getRef( "wall-grey-T-E" );
+            return TerrainTile::Wall_T_E;
         }
     }
     else if ( mask == (Direction::N | Direction::S | Direction::W ) )
     {
         if ( fullMask & (Direction::NW | Direction::SW) )
         {
-            return m_level->m_renderTileMap.getRef( "wall-grey-closed-E" );
+            return TerrainTile::Wall_Vertical;
         }
         else
         {
-            return m_level->m_renderTileMap.getRef( "wall-grey-T-W" );
+            return TerrainTile::Wall_T_W;
         }
     }
     else if ( mask == (Direction::E | Direction::W | Direction::N ) )
     {
         if ( fullMask & (Direction::NE | Direction::NW) )
         {
-            return m_level->m_renderTileMap.getRef( "wall-grey-closed-S" );
+            return TerrainTile::Wall_Horizontal;
         }
         else
         {
-            return m_level->m_renderTileMap.getRef( "wall-grey-T-N" );
+            return TerrainTile::Wall_T_N;
         }
     }
     else if ( mask == (Direction::E | Direction::W | Direction::S ) )
     {
         if ( fullMask & (Direction::SW | Direction::SE) )
         {
-            return m_level->m_renderTileMap.getRef( "wall-grey-closed-N" );
+            return TerrainTile::Wall_Horizontal;
         }
         else
         {
-            return m_level->m_renderTileMap.getRef( "wall-grey-T-S" );
+            return TerrainTile::Wall_T_S;
         }
     }
 
-
-    return m_level->m_renderTileMap.getRef( "wall-grey-plain" );
+    return TerrainTile::Wall_Center;
 }
 
 GridBitmask LevelFactory::adjacentWalls(Vector2i coord)

@@ -1,10 +1,6 @@
 {
   "spritesheet": [
     {
-      "key": "kenney-chars",
-      "name": "kenney-roguelike-char"
-    },
-    {
       "key": "kenney-tiles",
       "name": "kenney-roguelike-tiles"
     },
@@ -15,7 +11,20 @@
     {
       "key": "dawnlike_chars",
       "name": "dawnlike_chars"
+    },
+    {
+      "key": "dawnlike_items",
+      "name": "dawnlike_items"
+    },
+    {
+      "key": "dawnlike_objects",
+      "name": "dawnlike_objects"
+    },
+    {
+      "key": "dawnlike_wall",
+      "name": "dawnlike_wall"
     }
+
   ],
 
   "img": [

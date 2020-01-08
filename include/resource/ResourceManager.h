@@ -53,7 +53,11 @@ public:
     }
 
     // Shortcuts
+
+    [[nodiscard]]
     Sprite getSprite( std::string const& sheet, std::string const& name );
+
+    [[nodiscard]]
     Sprite getSprite( SpritesheetKey const& key );
 
 private:

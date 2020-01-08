@@ -39,7 +39,7 @@ private:
 
     // Which wall sprite (straight vs corner vs T-junction etc.) should be placed at the given
     // position given the wall tiles that surround it if any?
-    TileRef getCorrectWallTile( int idx );
+    TerrainTile getCorrectWallTile(int idx );
 
     // Base level layout methods
 

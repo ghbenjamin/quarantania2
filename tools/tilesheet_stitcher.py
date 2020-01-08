@@ -19,7 +19,7 @@ INPUT_TILE_SIZE = 16
 # Initial size of the image to create
 # NB. this is just laziness, should really just do a two pass loop through the input tiles
 # to work this out
-OUTPUT_TILE_SIZE = 32, 64
+OUTPUT_TILE_SIZE = 13, 64
 
 def main():
     # Grab the input path from the system arguments - this is hopefully a directory described in a way

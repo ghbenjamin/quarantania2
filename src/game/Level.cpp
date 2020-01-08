@@ -106,28 +106,27 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
     int row, col;
     int width = m_bounds.x();
 
-    for ( auto const& layer : m_mapRendering )
+
+    offset = {0, 0};
+    row = 0;
+    col = 0;
+
+    for ( auto const& ref : m_mapRendering )
     {
-        offset = {0, 0};
-        row = 0;
-        col = 0;
-
-        for ( auto const& ref : layer )
+        if ( ref >= 0 )
         {
-            if ( ref >= 0 )
-            {
-                currPos = offset + Vector2i{ col * GlobalConfig::TileSizePx, row * GlobalConfig::TileSizePx };
-                rInter.addWorldItem( m_renderTileMap.get(ref).sprite.renderObject(currPos) );
-            }
+            currPos = offset + Vector2i{ col * GlobalConfig::TileSizePx, row * GlobalConfig::TileSizePx };
+            rInter.addWorldItem( m_renderTileMap.get(ref).sprite.renderObject(currPos) );
+        }
 
-            col++;
-            if ( col >= width )
-            {
-                col = 0;
-                row++;
-            }
+        col++;
+        if ( col >= width )
+        {
+            col = 0;
+            row++;
         }
     }
+
 }
 
 void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)

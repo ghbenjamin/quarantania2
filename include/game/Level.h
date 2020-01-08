@@ -264,7 +264,7 @@ private:
     int m_tileCount;
     Vector2i m_bounds;
     TileRenderMap m_renderTileMap;
-    std::vector<std::vector<TileRef>> m_mapRendering;
+    std::vector<TileRef> m_mapRendering;
     LD::BaseTileMap m_baseTilemap;
     Grid m_grid;
     Minimap m_minimap;

@@ -2,36 +2,31 @@
 #include <utils/Assert.h>
 #include <resource/ResourceManager.h>
 
-TileRef TileRenderMap::addTile(const SpritesheetKey& key, bool passible)
+Tile const &TileRenderMap::get(TileRef ref) const
 {
-    auto const&[sheetName, tileName] = key;
-    auto sheetPtr = ResourceManager::get().getResource<SpritesheetResource>(sheetName)->get();
+    return m_tiles.at(ref);
+}
 
+TileRef TileRenderMap::addTile(TerrainTile ttype, const SpritesheetKey &key)
+{
     Tile t;
-    t.sprite = sheetPtr->spriteFromName( tileName );
+    t.sprite = ResourceManager::get().getSprite(key);
     t.sprite.setRenderLayer(RenderLayer::Tiles);
-    t.passible = passible;
 
-    m_tiles.push_back(std::move(t));
+    m_tiles.push_back(t);
     TileRef idx = m_tiles.size() - 1;
 
-    m_names.emplace(tileName, idx);
+    m_names.emplace(ttype, idx);
 
     return idx;
 }
 
-Tile const &TileRenderMap::get(TileRef ref) const
+Tile const &TileRenderMap::get(TerrainTile ttype) const
 {
-    Assert( ref < m_tiles.size() );
-    return m_tiles.at(ref);
+    return get(getRef(ttype));
 }
 
-Tile const &TileRenderMap::get(std::string const &name) const
+TileRef TileRenderMap::getRef(TerrainTile ttype) const
 {
-    return m_tiles[getRef(name)];
-}
-
-TileRef TileRenderMap::getRef(std::string const &name) const
-{
-    return m_names.at(name);
+    return m_names.at(ttype);
 }
