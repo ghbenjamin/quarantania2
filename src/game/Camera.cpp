@@ -1,6 +1,7 @@
 #include <game/Camera.h>
 #include <utils/Assert.h>
 #include <utils/Logging.h>
+#include <utils/GlobalConfig.h>
 
 Camera::Camera()
 : m_rect{0, 0, 0, 0}, m_scrollSpeed{0.75f}
@@ -124,6 +125,14 @@ void Camera::centreOnWorldPosition(Vector2i worldPos)
     setPosition({
         worldPos.x() - m_bounds.x() / 2,
         worldPos.y() - m_bounds.y() / 2,
+    });
+}
+
+void Camera::centreOnTile(Vector2i tilePos)
+{
+    centreOnWorldPosition({
+        tilePos.x() * GlobalConfig::TileSizePx + GlobalConfig::TileSizePx * 2,
+        tilePos.y() * GlobalConfig::TileSizePx + GlobalConfig::TileSizePx * 2,
     });
 }
 

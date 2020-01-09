@@ -6,3 +6,4 @@
 #include <systems/FOV.h>
 #include <systems/Actors.h>
 #include <systems/Minimap.h>
+#include <systems/Combat.h>

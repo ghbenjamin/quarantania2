@@ -174,9 +174,6 @@ void DefaultLController::tryDefaultAction(Vector2i playerLoc)
         m_level->events().broadcast<GEvents::GameTick>();
 
         // This action may have moved the player - recentre the camera
-        m_level->camera().centreOnWorldPosition({
-            playerLoc.x() * GlobalConfig::TileSizePx + GlobalConfig::TileSizePx * 2,
-            playerLoc.y() * GlobalConfig::TileSizePx + GlobalConfig::TileSizePx * 2,
-        });
+        m_level->camera().centreOnTile(playerLoc);
     }
 }

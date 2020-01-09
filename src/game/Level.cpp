@@ -46,6 +46,7 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     registerSystem<Systems::Actors>();
     registerSystem<Systems::Message>();
     registerSystem<Systems::Minimap>();
+    registerSystem<Systems::Combat>();
 
     m_camera.setBounds( m_bounds * GlobalConfig::TileSizePx );
 
@@ -293,6 +294,14 @@ std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subjec
 {
     std::vector<ActionPtr> out;
 
+    if ( entityHas<Components::Actor>(subject) )
+    {
+        auto actorC = getComponents<Components::Actor>(subject);
+
+        auto act = std::make_shared<MeleeAttackAction>(this, actor, subject);
+        out.push_back( std::static_pointer_cast<Action>(act) );
+    }
+
     if ( entityHas<Components::Openable>(subject) )
     {
         auto openable = getComponents<Components::Openable>(subject);
@@ -430,4 +439,11 @@ Camera &Level::camera()
     return m_camera;
 }
 
+void Level::setReady()
+{
+    m_gevents.broadcast<GEvents::LevelReady>();
 
+    auto ref = getPlayer()->ref();
+    auto tpos = getComponents<Components::TilePosition>(ref);
+    m_camera.centreOnTile(tpos->position);
+}

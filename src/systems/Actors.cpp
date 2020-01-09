@@ -12,11 +12,6 @@ void Systems::Actors::accept(GEvents::GameTick *evt)
     // Get all the actors
     auto actors = m_level->entitiesWith<Components::Actor>();
 
-//    // Put them in initiative (turn) order
-//    std::sort(actors.begin(), actors.end(), [&](auto const& lhs, auto const& rhs) {
-//        return lhs.get<>()->initiative < rhs.initiative;
-//    });
-
     for ( auto& [curr] : actors )
     {
         curr->currentEnergy += curr->energyPerTick;

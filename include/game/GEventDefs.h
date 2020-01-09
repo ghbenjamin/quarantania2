@@ -26,7 +26,7 @@ struct EntityReady : public GEvent<EntityReady>
 
 struct EntityOpenClose : public GEvent<EntityOpenClose>
 {
-    explicit EntityOpenClose(EntityRef ent, bool isOpen);
+    EntityOpenClose(EntityRef ent, bool isOpen);
     ~EntityOpenClose() override = default;
 
     EntityRef ent;
@@ -50,5 +50,15 @@ struct GameTick : public GEvent<GameTick>
     GameTick() = default;
     ~GameTick() override = default;
 };
+
+struct MeleeAttack : public GEvent<MeleeAttack>
+{
+    MeleeAttack(EntityRef attacker, EntityRef defender);
+    ~MeleeAttack() override = default;
+
+    EntityRef attacker;
+    EntityRef defender;
+};
+
 
 }

@@ -36,13 +36,13 @@ const char *StepAction::description() const
 
 bool OpenAction::doAction() const
 {
-    m_level->events().broadcast<GEvents::EntityOpenClose>(m_subject, true );
+    m_level->events().broadcast<GEvents::EntityOpenClose>( m_subject, true );
     return true;
 }
 
 bool OpenAction::canTryAction() const
 {
-    auto openable = m_level->getComponents<Components::Openable>(m_subject );
+    auto openable = m_level->getComponents<Components::Openable>(m_subject);
     if (!openable) return false;
 
     if (openable->isOpen) return false;
@@ -65,7 +65,7 @@ bool CloseAction::doAction() const
 
 bool CloseAction::canTryAction() const
 {
-    auto openable = m_level->getComponents<Components::Openable>(m_subject );
+    auto openable = m_level->getComponents<Components::Openable>(m_subject);
     if (!openable) return false;
 
     if (!openable->isOpen) return false;
@@ -114,5 +114,21 @@ bool ExitLevelAction::doAction() const
 {
     // Exit the level!
     m_level->setComplete();
+    return true;
+}
+
+const char *MeleeAttackAction::description() const
+{
+    return "Attack";
+}
+
+bool MeleeAttackAction::canTryAction() const
+{
+    return true;
+}
+
+bool MeleeAttackAction::doAction() const
+{
+    m_level->events().broadcast<GEvents::MeleeAttack>( m_actor, m_subject );
     return true;
 }

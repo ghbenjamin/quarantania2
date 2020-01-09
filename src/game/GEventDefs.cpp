@@ -9,4 +9,5 @@ GEvents::EntityReady::EntityReady(EntityRef ent)
 GEvents::EntityOpenClose::EntityOpenClose(EntityRef ent, bool isOpen)
     : ent(ent), isOpen(isOpen) {}
 
-
+GEvents::MeleeAttack::MeleeAttack(EntityRef attacker, EntityRef defender)
+    : attacker(attacker), defender(defender) {}

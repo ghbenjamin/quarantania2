@@ -50,6 +50,9 @@ public:
     explicit Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg);
     virtual ~Level() = default;
 
+    // Indicate that the level is constructed and ready to begin
+    void setReady();
+
     // Core
     bool input(IEvent &evt);
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);

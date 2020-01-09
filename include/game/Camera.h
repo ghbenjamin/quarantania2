@@ -35,6 +35,7 @@ public:
     void setScrollSpeed(float scrollSpeed);
 
     void centreOnWorldPosition( Vector2i worldPos );
+    void centreOnTile( Vector2i tilePos );
 
 private:
 
