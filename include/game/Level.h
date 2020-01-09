@@ -57,6 +57,7 @@ public:
     Grid& grid();
     GEventHub& events();
     UI::Manager& ui();
+    Camera& camera();
 
     // Entity Management
 
@@ -247,7 +248,6 @@ private:
 
     // UI Methods
     void setupUI();
-    void updateCamera(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void renderTiles(uint32_t ticks, RenderInterface &rInter);
     void layoutWindows();

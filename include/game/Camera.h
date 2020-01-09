@@ -34,6 +34,8 @@ public:
 
     void setScrollSpeed(float scrollSpeed);
 
+    void centreOnWorldPosition( Vector2i worldPos );
+
 private:
 
     void enforceBounds();

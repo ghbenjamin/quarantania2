@@ -16,7 +16,7 @@ public:
     virtual ~LevelController() = default;
 
     bool input(IEvent &evt);
-    void update(std::uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
+    virtual void update(std::uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
 private:
 

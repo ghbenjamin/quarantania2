@@ -119,3 +119,11 @@ Vector2i Camera::screenToWorld(Vector2i const &coords)
     };
 }
 
+void Camera::centreOnWorldPosition(Vector2i worldPos)
+{
+    setPosition({
+        worldPos.x() - m_bounds.x() / 2,
+        worldPos.y() - m_bounds.y() / 2,
+    });
+}
+

@@ -6,6 +6,7 @@
 #include <components/TilePosition.h>
 #include <components/Actor.h>
 #include <components/Description.h>
+#include <utils/GlobalConfig.h>
 
 DefaultLController::DefaultLController(Level *level)
 : LevelController(level)
@@ -106,17 +107,7 @@ void DefaultLController::doMovePlayer(SDL_Keycode kcode)
             break;
     }
 
-    // Get the tile positon we would move into, and get the default action for that tile
-    // For an empty tile it's to move into it, for a door its to open, for an enemy attack, etc.
-    Vector2i newPos = tpos->position + delta;
-    auto def = m_level->getDefaultAction(ref, newPos);
-
-    // If there's no action for the tile, do nothing (and don't consume a turn)
-    if (def)
-    {
-        m_level->getComponents<Components::Actor>(ref)->nextAction = def;
-        m_level->events().broadcast<GEvents::GameTick>();
-    }
+    tryDefaultAction(tpos->position + delta);
 }
 
 void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
@@ -140,5 +131,52 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     if ( m_level->grid().inBounds( curr ) && !ents.empty() )
     {
         m_level->ui().addTileHighlight( m_level->tileCoordsToScreen(curr) );
+    }
+}
+
+void DefaultLController::update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
+{
+    if ( iinter.anyHeld() )
+    {
+        Vector2f delta = { 0.0, 0.0 };
+        if ( iinter.isHeld( SDLK_LEFT ) )
+        {
+            delta += {-1.0, 0};
+        }
+        if ( iinter.isHeld( SDLK_RIGHT ) )
+        {
+            delta += {1.0, 0};
+        }
+        if ( iinter.isHeld( SDLK_UP ) )
+        {
+            delta += {0, -1.0};
+        }
+        if ( iinter.isHeld( SDLK_DOWN ) )
+        {
+            delta += {0, 1.0};
+        }
+
+        if ( delta.x() != 0 || delta.y() != 0 )
+        {
+            m_level->camera().moveBy(delta * (float)ticks);
+        }
+    }
+}
+
+void DefaultLController::tryDefaultAction(Vector2i playerLoc)
+{
+    auto ref = m_level->getPlayer()->ref();
+    auto defAction = m_level->getDefaultAction(ref, playerLoc);
+
+    if (defAction)
+    {
+        m_level->getComponents<Components::Actor>(ref)->nextAction = defAction;
+        m_level->events().broadcast<GEvents::GameTick>();
+
+        // This action may have moved the player - recentre the camera
+        m_level->camera().centreOnWorldPosition({
+            playerLoc.x() * GlobalConfig::TileSizePx + GlobalConfig::TileSizePx * 2,
+            playerLoc.y() * GlobalConfig::TileSizePx + GlobalConfig::TileSizePx * 2,
+        });
     }
 }

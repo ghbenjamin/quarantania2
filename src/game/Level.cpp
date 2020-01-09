@@ -83,8 +83,7 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
 {
     rInter.setCamera(&m_camera);
 
-    // Move the camera if necessary
-    updateCamera(ticks, iinter, rInter);
+    m_controller->update(ticks, iinter, rInter);
 
     // Render statics: tiles, etc.
     render(ticks, iinter, rInter);
@@ -127,36 +126,6 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
         }
     }
 
-}
-
-void Level::updateCamera(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
-{
-    // TODO: This behaviour should live in a controller, not here
-    if ( iinter.anyHeld() )
-    {
-        Vector2f delta = { 0.0, 0.0 };
-        if ( iinter.isHeld( SDLK_LEFT ) )
-        {
-            delta += {-1.0, 0};
-        }
-        if ( iinter.isHeld( SDLK_RIGHT ) )
-        {
-            delta += {1.0, 0};
-        }
-        if ( iinter.isHeld( SDLK_UP ) )
-        {
-            delta += {0, -1.0};
-        }
-        if ( iinter.isHeld( SDLK_DOWN ) )
-        {
-            delta += {0, 1.0};
-        }
-
-        if ( delta.x() != 0 || delta.y() != 0 )
-        {
-            m_camera.moveBy(delta * (float)ticks);
-        }
-    }
 }
 
 EntityRef Level::createEntity()
@@ -454,6 +423,11 @@ void Level::generateMinimapData()
     m_minimap.movePlayer(playerPos->position);
 
     m_minimap.updateTexture();
+}
+
+Camera &Level::camera()
+{
+    return m_camera;
 }
 
 
