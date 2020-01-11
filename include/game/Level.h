@@ -225,6 +225,13 @@ public:
 
 private:
 
+    // UI Methods
+    void setupUI();
+    void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
+    void renderTiles(uint32_t ticks, RenderInterface &rInter);
+    void layoutWindows();
+
+
     template <typename CT>
     EntityCompMap& mapForComponent()
     {
@@ -239,6 +246,19 @@ private:
         m_components[Component<CT>::id()] = EntityCompMap();
     }
 
+    template< template < typename...> class CTList, typename ...Ts >
+    void registerComponentsImpl( CTList<Ts...>&& )
+    {
+        (registerComponent<Ts>(), ...);
+    }
+
+    template <typename CTList>
+    void registerComponents()
+    {
+        registerComponentsImpl( CTList{} );
+    }
+
+
     template <typename ST>
     void registerSystem()
     {
@@ -249,11 +269,18 @@ private:
         m_systems.push_back( std::move(bPtr) );
     }
 
-    // UI Methods
-    void setupUI();
-    void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
-    void renderTiles(uint32_t ticks, RenderInterface &rInter);
-    void layoutWindows();
+    template< template < typename...> class STList, typename ...Ts >
+    void registerSystemsImpl( STList<Ts...>&& )
+    {
+        (registerSystem<Ts>(), ...);
+    }
+
+    template <typename STList>
+    void registerSystems()
+    {
+        registerSystemsImpl( STList{} );
+    }
+
 
 private:
 

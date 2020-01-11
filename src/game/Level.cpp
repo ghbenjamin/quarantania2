@@ -26,34 +26,24 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     m_rg(rg),
     m_entFactory(this, &m_rg),
     m_isComplete(false),
-    m_minimap{ m_bounds, 5 }
+    m_minimap{ m_bounds, 5 },
+    m_camera( m_bounds * GlobalConfig::TileSizePx ),
+    m_controller( std::make_unique<DefaultLController>(this) )
 {
-    registerComponent<Components::Render>();
-    registerComponent<Components::TilePosition>();
-    registerComponent<Components::Collider>();
-    registerComponent<Components::Description>();
-    registerComponent<Components::Actor>();
-    registerComponent<Components::Action>();
-    registerComponent<Components::Lockable>();
-    registerComponent<Components::Openable>();
-    registerComponent<Components::Tags>();
-    registerComponent<Components::AI>();
-
-    registerSystem<Systems::Render>();
-    registerSystem<Systems::Position>();
-    registerSystem<Systems::Collision>();
-    registerSystem<Systems::FOV>();
-    registerSystem<Systems::Actors>();
-    registerSystem<Systems::Message>();
-    registerSystem<Systems::Minimap>();
-    registerSystem<Systems::Combat>();
-
-    m_camera.setBounds( m_bounds * GlobalConfig::TileSizePx );
+    registerComponents<AllComponents>();
+    registerSystems<AllSystems>();
 
     setupUI();
     layoutWindows();
+}
 
-    m_controller = std::make_unique<DefaultLController>(this);
+void Level::setReady()
+{
+    m_gevents.broadcast<GEvents::LevelReady>();
+
+    auto ref = getPlayer()->ref();
+    auto tpos = getComponents<Components::TilePosition>(ref);
+    m_camera.centreOnTile(tpos->position);
 }
 
 bool Level::input(IEvent &evt)
@@ -126,7 +116,6 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
             row++;
         }
     }
-
 }
 
 EntityRef Level::createEntity()
@@ -437,13 +426,4 @@ void Level::generateMinimapData()
 Camera &Level::camera()
 {
     return m_camera;
-}
-
-void Level::setReady()
-{
-    m_gevents.broadcast<GEvents::LevelReady>();
-
-    auto ref = getPlayer()->ref();
-    auto tpos = getComponents<Components::TilePosition>(ref);
-    m_camera.centreOnTile(tpos->position);
 }

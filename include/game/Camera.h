@@ -6,14 +6,11 @@ class Camera
 {
 public:
 
-    Camera();
+    Camera( Vector2i bounds );
     ~Camera() = default;
 
     void setPosition( Vector2i pos );
     void moveBy( Vector2f delta );
-
-    // Set the size of our current world
-    void setBounds( Vector2i bounds );
 
     // Set the size of our current viewport
     void setViewportSize( Vector2i size );

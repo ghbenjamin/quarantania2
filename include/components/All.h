@@ -10,3 +10,20 @@
 #include <components/Render.h>
 #include <components/Tags.h>
 #include <components/TilePosition.h>
+
+
+template <typename ... Ts >
+struct ComponentTypes {};
+
+using AllComponents = ComponentTypes<
+    Components::Action,
+    Components::Actor,
+    Components::AI,
+    Components::Collider,
+    Components::Description,
+    Components::Lockable,
+    Components::Openable,
+    Components::Render,
+    Components::Tags,
+    Components::TilePosition
+            >;

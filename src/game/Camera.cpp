@@ -3,8 +3,8 @@
 #include <utils/Logging.h>
 #include <utils/GlobalConfig.h>
 
-Camera::Camera()
-: m_rect{0, 0, 0, 0}, m_scrollSpeed{0.75f}
+Camera::Camera( Vector2i bounds )
+: m_bounds(bounds), m_rect{0, 0, 0, 0}, m_scrollSpeed{0.75f}
 {
 }
 
@@ -18,15 +18,6 @@ void Camera::moveBy(Vector2f delta)
 {
     m_position += ( delta * m_scrollSpeed );
     enforceBounds();
-}
-
-void Camera::setBounds(Vector2i bounds)
-{
-    if ( m_bounds != bounds )
-    {
-        m_bounds = bounds;
-        enforceBounds();
-    }
 }
 
 void Camera::setViewportSize(Vector2i size)
