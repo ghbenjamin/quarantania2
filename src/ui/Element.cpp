@@ -294,7 +294,7 @@ void Element::setPadding(int top, int right, int bottom, int left)
 
 void Element::generateBackground()
 {
-    if ( m_actualOuterSize.x() == 0 && m_actualOuterSize.y() == 0 )
+    if ( m_actualOuterSize.x() == 0 || m_actualOuterSize.y() == 0 )
     {
         return;
     }

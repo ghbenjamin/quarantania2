@@ -22,6 +22,7 @@ struct TextLogLineData
     int count;
     Colour colour;
 
+    // Generate the text for this line, including the (count x2)
     std::string displayText() const;
 };
 
@@ -32,8 +33,6 @@ public:
     ~TextLog() override = default;
 
     void addLine( std::string const& line, Colour const& colour = Colour::White );
-
-
 
 private:
 

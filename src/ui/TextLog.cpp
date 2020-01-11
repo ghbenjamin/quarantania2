@@ -8,20 +8,22 @@ UI::TextLog::TextLog()
     setLayout<VerticalLayout>( 2, HAlignment::Left );
     setPadding(2);
     setBackgroundColour( Colour::Black );
-    setBorder(2, Colour::White);
 }
 
 void UI::TextLog::addLine(std::string const &line, Colour const& colour)
 {
     onSizeSelf();
 
-    if ( !m_lines.empty() &&  m_lines.back().text == line && m_lines.back().colour == colour )
+    // Is the content of the new line the same as the last line?
+    if ( !m_lines.empty() && m_lines.back().text == line && m_lines.back().colour == colour )
     {
+        // If so don't add a new line, just increment the count of our last line and rerender it
         m_lines.back().count++;
         children().back()->asType<TextNode>()->setText( m_lines.back().displayText() );
     }
     else
     {
+        // Otherwise, put add a new line
         m_lines.push_back({ line, 1, colour });
 
         auto tnode = manager()->createElement<TextNode>(this, TextStyle{ m_lines.back().colour });

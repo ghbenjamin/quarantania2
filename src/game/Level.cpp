@@ -178,17 +178,18 @@ Vector2i Level::worldCoordsToScreen(Vector2i const &world)
 
 void Level::setupUI()
 {
+    auto wndSize = ResourceManager::get().getWindow()->getSize();
+
     auto tlog = m_uiManager.createElement<UI::TextLog>(nullptr);
-    tlog->setPreferredContentSize({600, 200});
+    tlog->setPreferredOuterSize({wndSize.x() - RightFrameWidth, TextLogHeight});
     tlog->setId("global-text-log");
 
     m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomLeft, 0 );
 
     auto trframe = m_uiManager.createElement<UI::Element>(nullptr);
     trframe->setLayout<UI::VerticalLayout>( 2, UI::HAlignment::Fill );
-    trframe->setId("top-right-frame");
+    trframe->setId("right-frame");
     trframe->setBackgroundColour(Colour::Black);
-    trframe->setBorder(2, Colour::White);
 
     m_uiManager.alignElementToWindow( trframe, UI::Alignment::CentreRight, 0 );
 
@@ -204,30 +205,36 @@ void Level::setupUI()
 void Level::layoutWindows()
 {
     auto wndSize = ResourceManager::get().getWindow()->getSize();
-
     auto tlog = m_uiManager.withId("global-text-log");
-    auto trframe = m_uiManager.withId("top-right-frame");
+    auto trframe = m_uiManager.withId("right-frame");
 
     Vector2 rframeSize = {
-        300,
+        RightFrameWidth,
         wndSize.y()
     };
 
     Vector2 levelSize = {
-        wndSize.x() - rframeSize.x(),
-        wndSize.y() - tlog->outerSize().y()
+        wndSize.x() - RightFrameWidth,
+        wndSize.y() - TextLogHeight
     };
 
     Vector2 textLogSize = {
-        levelSize.x() + 2,
-        200
+        wndSize.x() - RightFrameWidth,
+        TextLogHeight
     };
 
     tlog->setPreferredOuterSize(textLogSize);
-    tlog->setMaximumOuterSize(textLogSize);
     trframe->setPreferredOuterSize(rframeSize);
-    m_camera.setViewportSize(levelSize);
 
+//
+//    Logging::log( "----------------" );
+//    Logging::log( "Window size: {}\n", wndSize.to_string() );
+//    Logging::log( "rframeSize: {}\n", rframeSize.to_string() );
+//    Logging::log( "Leve lsize: {}\n", levelSize.to_string() );
+//    Logging::log( "Log size: {}\n", textLogSize.to_string() );
+//
+
+    m_camera.setViewportSize(levelSize);
     m_uiManager.doLayout();
 }
 

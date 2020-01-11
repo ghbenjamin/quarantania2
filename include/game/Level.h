@@ -283,6 +283,9 @@ private:
 
 
 private:
+    // Statics
+    static constexpr int TextLogHeight = 180;
+    static constexpr int RightFrameWidth = 250;
 
     // Misc
     RandomGenerator m_rg;
