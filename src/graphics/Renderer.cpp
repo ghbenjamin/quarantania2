@@ -32,9 +32,29 @@ void Renderer::render(RenderInterface const &objs)
 {
     SDL_RenderClear( m_renderer );
     SDL_SetRenderDrawBlendMode( m_renderer, SDL_BLENDMODE_BLEND );
+    SDL_Rect const* clipRect = NULL;
 
     for ( auto const& item : objs.renderables() )
     {
+        if ( !SDL_RectEmpty( &item.clipRect ) )
+        {
+            if ( !SDL_RectEquals( clipRect, &item.clipRect ) )
+            {
+                // If this item has a clip rect, and it's different to our current clip rect, set the cliprect
+                SDL_RenderSetClipRect( m_renderer, &item.clipRect );
+                clipRect = &item.clipRect;
+            }
+        }
+        else if ( clipRect != NULL )
+        {
+            // Otherwise, if the requested clip is null, and the current clip is not, remove the clip
+            clipRect = NULL;
+            SDL_RenderSetClipRect( m_renderer, NULL );
+        }
+
+        // If the current clip is the same as the requested clip, do noghing
+
+        // Render the item, respecting the above clip
         SDL_RenderCopy(m_renderer, item.texture, &item.sourceRect, &item.targetRect);
     }
 

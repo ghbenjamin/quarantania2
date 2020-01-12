@@ -13,10 +13,15 @@ public:
     explicit Sprite(TexturePtr texture);
     virtual ~Sprite() = default;
 
+    // Which layer of render objects should this item be grouped with?
     void setRenderLayer(RenderLayer layer);
 
-    explicit operator bool() const;
-    RenderObject renderObject(Vector2i const& pos) const;
+    // Should this item be clipped by another rectangle?
+    void setClipRect( RectI rect );
+
+    [[nodiscard]] Vector2i size() const;
+    [[nodiscard]] explicit operator bool() const;
+    [[nodiscard]] RenderObject renderObject(Vector2i const& pos) const;
 
 private:
 

@@ -156,7 +156,8 @@ void Element::doLayout()
         (2 * m_borderWidth) + m_padding.x() + m_padding.w() + m_actualContentSize.y(),
     };
 
-    m_bounds = RectI{ m_globalPosition, m_actualOuterSize };
+    m_outerBounds = RectI{ m_globalPosition, m_actualOuterSize };
+    m_innerBounds = RectI{ m_globalPosition + m_contentOffset, m_actualContentSize };
 
     generateBackground();
 }
@@ -172,7 +173,8 @@ void Element::recachePosition()
         m_globalPosition = m_localPosition;
     }
 
-    m_bounds = RectI{ m_globalPosition, m_actualOuterSize };
+    m_outerBounds = RectI{ m_globalPosition, m_actualOuterSize };
+    m_innerBounds = RectI{ m_globalPosition + m_contentOffset, m_actualContentSize };
 }
 
 bool Element::hasChildren()
@@ -353,9 +355,14 @@ void Element::releaseLayout()
     doLayout();
 }
 
-RectI const &Element::bounds() const
+RectI const &Element::outerBounds() const
 {
-    return m_bounds;
+    return m_outerBounds;
+}
+
+RectI const &Element::innerBounds() const
+{
+    return m_innerBounds;
 }
 
 void Element::acceptEvent(UEvent &evt)
@@ -400,5 +407,10 @@ void Element::setMaximumOuterSize(Vector2i size)
 Vector2i Element::maxOuterSize() const
 {
     return m_maxOuterSize;
+}
+
+Vector2i Element::contentOffset() const
+{
+    return m_contentOffset;
 }
 

@@ -44,6 +44,21 @@ void Level::setReady()
     auto ref = getPlayer()->ref();
     auto tpos = getComponents<Components::TilePosition>(ref);
     m_camera.centreOnTile(tpos->position);
+
+
+    // Debug
+    m_textLog->addLine( "Hello, World!" );
+    m_textLog->addLine( "Hello, World!" );
+    m_textLog->addLine( "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age"
+                        " of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the "
+                        "season of Light, it was the season of Darkness" );
+    m_textLog->addLine( "Example line" );
+    m_textLog->addLine( "Example line1" );
+    m_textLog->addLine( "Example line2" );
+    m_textLog->addLine( "Example line3" );
+    m_textLog->addLine( "Example line4" );
+    m_textLog->addLine( "Example line5" );
+    m_textLog->addLine( "Example line6" );
 }
 
 bool Level::input(IEvent &evt)
@@ -180,11 +195,11 @@ void Level::setupUI()
 {
     auto wndSize = ResourceManager::get().getWindow()->getSize();
 
-    auto tlog = m_uiManager.createElement<UI::TextLog>(nullptr);
-    tlog->setPreferredOuterSize({wndSize.x() - RightFrameWidth, TextLogHeight});
-    tlog->setId("global-text-log");
+    m_textLog = m_uiManager.createElement<UI::TextLog>(nullptr);
+    m_textLog->setPreferredOuterSize({wndSize.x() - RightFrameWidth, TextLogHeight});
+    m_textLog->setId("global-text-log");
 
-    m_uiManager.alignElementToWindow( tlog, UI::Alignment::BottomLeft, 0 );
+    m_uiManager.alignElementToWindow( m_textLog, UI::Alignment::BottomLeft, 0 );
 
     auto trframe = m_uiManager.createElement<UI::Element>(nullptr);
     trframe->setLayout<UI::VerticalLayout>( 2, UI::HAlignment::Fill );
@@ -205,7 +220,6 @@ void Level::setupUI()
 void Level::layoutWindows()
 {
     auto wndSize = ResourceManager::get().getWindow()->getSize();
-    auto tlog = m_uiManager.withId("global-text-log");
     auto trframe = m_uiManager.withId("right-frame");
 
     Vector2 rframeSize = {
@@ -223,16 +237,8 @@ void Level::layoutWindows()
         TextLogHeight
     };
 
-    tlog->setPreferredOuterSize(textLogSize);
+    m_textLog->setPreferredOuterSize(textLogSize);
     trframe->setPreferredOuterSize(rframeSize);
-
-//
-//    Logging::log( "----------------" );
-//    Logging::log( "Window size: {}\n", wndSize.to_string() );
-//    Logging::log( "rframeSize: {}\n", rframeSize.to_string() );
-//    Logging::log( "Leve lsize: {}\n", levelSize.to_string() );
-//    Logging::log( "Log size: {}\n", textLogSize.to_string() );
-//
 
     m_camera.setViewportSize(levelSize);
     m_uiManager.doLayout();

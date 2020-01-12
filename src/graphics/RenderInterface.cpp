@@ -4,8 +4,8 @@
 #include <utils/Logging.h>
 #include <game/Camera.h>
 
-RenderInterface::RenderInterface(WindowCPtr window)
-: m_window(window), m_camera(nullptr)
+RenderInterface::RenderInterface()
+: m_camera(nullptr)
 {
 }
 
@@ -31,11 +31,6 @@ void RenderInterface::addWorldItem(RenderObject obj)
 void RenderInterface::addScreenItem(RenderObject obj)
 {
     m_renderables.push_back(obj);
-}
-
-const WindowCPtr &RenderInterface::window() const
-{
-    return m_window;
 }
 
 void RenderInterface::setCamera(Camera *camera)

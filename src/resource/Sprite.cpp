@@ -54,3 +54,13 @@ void Sprite::setRenderLayer(RenderLayer layer)
 {
     m_renderObj.renderLayer = layer;
 }
+
+Vector2i Sprite::size() const
+{
+    return m_texture->size();
+}
+
+void Sprite::setClipRect(RectI rect)
+{
+    m_renderObj.clipRect = rect.toSDL();
+}

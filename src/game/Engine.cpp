@@ -24,7 +24,7 @@ void Engine::run()
     ResourceManager::get().registerAll("../resource/manifest.json");
     ResourceManager::get().loadAll();
 
-    RenderInterface renderInterface {window};
+    RenderInterface renderInterface;
     InputInterface inputInterface;
 
     auto initState = std::make_unique<InitState>();

@@ -24,7 +24,7 @@
 #include <systems/System.h>
 #include <game/GEvent.h>
 #include <game/GEventDefs.h>
-#include "Prefab.h"
+#include <game/Prefab.h>
 
 
 // Forward definitions
@@ -37,6 +37,7 @@ struct IEventMouseDown;
 struct IEventWindowResize;
 class LevelFactory;
 class Action;
+namespace UI { class TextLog; }
 
 // Typedefs 
 using EntityCompMap = std::unordered_map<EntityRef, std::shared_ptr<BaseComponent>>;
@@ -318,6 +319,8 @@ private:
 
     // UI
     UI::Manager m_uiManager;
+    std::shared_ptr<UI::TextLog> m_textLog;
+
     Camera m_camera;
 };
 

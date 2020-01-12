@@ -28,7 +28,7 @@ void ResourceManager::registerAll(std::string const &manifest)
 
 ManifestData ResourceManager::readResourceManifest( std::string const& path )
 {
-    ManifestData md;
+    ManifestData md{};
     rapidjson::Document doc = JsonUtils::loadFromPath( path );
 
     {
@@ -113,7 +113,7 @@ Sprite ResourceManager::getSprite(std::string const &sheet, std::string const &n
     {
         return getResource<SpritesheetResource>( sheet )->get()->spriteFromName( name );
     }
-    catch ( std::exception const& ex )
+    catch ( [[maybe_unused]] std::exception const& ex )
     {
         Logging::log( "ERROR: Unknown sprite pair [{}, {}]\n", sheet, name );
         std::terminate();

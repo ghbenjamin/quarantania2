@@ -37,6 +37,7 @@ public:
     Vector2i globalPosition();
     Vector2i localPosition();
     void setLocalPosition(Vector2i position);
+    Vector2i contentOffset() const;
 
     // Sizing
     Vector2i outerSize() const;
@@ -48,7 +49,8 @@ public:
     void setPreferredOuterSize( Vector2i size );
     void setMaximumOuterSize( Vector2i size );
     bool hasMaximumOuterSize() const;
-    RectI const& bounds() const;
+    RectI const& outerBounds() const;
+    RectI const& innerBounds() const;
 
     // Layout
     template <typename LayoutType, typename... Args>
@@ -199,7 +201,9 @@ private:
     Vector2i m_preferredContentSize;
     Vector2i m_maxOuterSize;
     Vector2i m_contentOffset;
-    RectI m_bounds;
+
+    RectI m_outerBounds;
+    RectI m_innerBounds;
 
     // State
     bool m_isHidden;

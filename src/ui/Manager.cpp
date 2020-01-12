@@ -99,7 +99,7 @@ UI::ElementList Manager::windowsAtPoint(Vector2i pos) const
 
     for ( auto const& root : m_roots )
     {
-        if ( root->bounds().contains(pos) )
+        if ( root->outerBounds().contains(pos) )
         {
             curr = root;
             while ( curr )
@@ -114,7 +114,7 @@ UI::ElementList Manager::windowsAtPoint(Vector2i pos) const
                 {
                     for ( auto const& child : curr->children() )
                     {
-                        if ( child->bounds().contains(pos) )
+                        if ( child->outerBounds().contains(pos) )
                         {
                             next = child;
                             break;
