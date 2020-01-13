@@ -46,19 +46,7 @@ void Level::setReady()
     m_camera.centreOnTile(tpos->position);
 
 
-    // Debug
-    m_textLog->addLine( "Hello, World!" );
-    m_textLog->addLine( "Hello, World!" );
-    m_textLog->addLine( "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age"
-                        " of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the "
-                        "season of Light, it was the season of Darkness" );
-    m_textLog->addLine( "Example line" );
-    m_textLog->addLine( "Example line1" );
-    m_textLog->addLine( "Example line2" );
-    m_textLog->addLine( "Example line3" );
-    m_textLog->addLine( "Example line4" );
-    m_textLog->addLine( "Example line5" );
-    m_textLog->addLine( "Example line6" );
+    addTextLogMessage( fmt::format("Welcome to level {}!", m_ctx->depth), Colour::White );
 }
 
 bool Level::input(IEvent &evt)
@@ -439,4 +427,19 @@ void Level::generateMinimapData()
 Camera &Level::camera()
 {
     return m_camera;
+}
+
+void Level::entityReady(EntityRef ent)
+{
+    m_gevents.broadcast<GEvents::EntityReady>( ent );
+}
+
+void Level::addTextLogMessage(std::string_view sv, Colour const& colour)
+{
+    m_textLog->addLine(sv, colour);
+}
+
+void Level::addTextLogMessage(std::string_view sv)
+{
+    m_textLog->addLine(sv);
 }

@@ -1,5 +1,6 @@
 #include <systems/Combat.h>
 #include <game/Level.h>
+#include <components/Actor.h>
 
 Systems::Combat::Combat(Level *parent)
         : System(parent)
@@ -9,7 +10,10 @@ Systems::Combat::Combat(Level *parent)
 
 void Systems::Combat::accept(GEvents::MeleeAttack *evt)
 {
-    Logging::log( "Attack!" );
+    auto atkActor = m_level->getComponents<Components::Actor>(evt->attacker);
+    auto defActor = m_level->getComponents<Components::Actor>(evt->defender);
+
+    m_level->addTextLogMessage( fmt::format( "{} attacks {} with their {}!", evt->attacker, evt->defender, "BFG" ) );
 }
 
 

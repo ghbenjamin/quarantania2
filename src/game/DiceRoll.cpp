@@ -9,7 +9,6 @@ DiceRoll DiceRoll::parseFromString(std::string const &data)
 
     if ( std::regex_search( data, match, DiceRollRegex ) && match.size() > 1 )
     {
-
         roll.diceCount = std::atoi( match.str(1).c_str() );
         roll.diceSize = std::atoi( match.str(2).c_str() );
 
@@ -19,10 +18,6 @@ DiceRoll DiceRoll::parseFromString(std::string const &data)
             if ( match.str(3) == "-" )
             {
                 parity = -1;
-            }
-            else if ( match.str(3) != "+" )
-            {
-                AssertAlways();
             }
 
             roll.modifier = std::atoi( match.str(4).c_str() );

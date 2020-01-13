@@ -44,7 +44,7 @@ public:
     explicit TextLog();
     ~TextLog() override = default;
 
-    void addLine( std::string const& line, Colour const& colour = Colour::White );
+    void addLine(std::string_view line, Colour const& colour = Colour::White );
 
 private:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;

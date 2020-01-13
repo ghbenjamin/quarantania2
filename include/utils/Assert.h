@@ -24,6 +24,9 @@
 #define AssertAlways() \
     Assert(0)
 
+#define AssertAlwaysMsg(msg) \
+    AssertMsg(0, msg)
+
 #define AssertNotImplemented() \
     AssertMsg(0, "Not implemented")
 

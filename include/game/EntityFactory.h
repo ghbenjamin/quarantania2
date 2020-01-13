@@ -4,6 +4,7 @@
 #include <game/Player.h>
 #include <game/Prefab.h>
 #include <game/Enemy.h>
+#include <game/Weapon.h>
 #include <utils/Containers.h>
 #include <utils/Random.h>
 
@@ -32,7 +33,9 @@ private:
 private:
     Level* m_parent;
     RandomGenerator* m_rg;
+
     EnemyManager m_enemyManager;
+    WeaponManager m_weaponManager;
 
     std::unordered_map<PrefabType, std::shared_ptr<PrefabObj>> m_prefabs;
 };

@@ -7,6 +7,7 @@
 EntityFactory::EntityFactory(Level *parent, RandomGenerator* rg )
 : m_parent(parent), m_rg(rg)
 {
+    m_weaponManager.loadAllData();
     m_enemyManager.loadAllData();
 
     addPrefabType<PrefabObjects::Door>(PrefabType::Door, SpritesheetKey{"dawnlike_objects", "Door_001"});

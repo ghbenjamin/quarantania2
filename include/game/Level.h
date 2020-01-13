@@ -197,10 +197,7 @@ public:
         return true;
     }
 
-    void entityReady( EntityRef ent )
-    {
-        m_gevents.broadcast<GEvents::EntityReady>( ent );
-    }
+    void entityReady( EntityRef ent );
 
     // Coordinates
     Vector2i worldCoordsToScreen( Vector2i const& world );
@@ -219,10 +216,12 @@ public:
     std::vector<ActionPtr> actionsForPosition(EntityRef actor, Vector2i position);
     ActionPtr getDefaultAction(EntityRef actor, Vector2i position);
 
-
-    // Communication with container
+    // Communication
     bool isComplete() const;
     void setComplete();
+
+    void addTextLogMessage( std::string_view sv, Colour const& colour );
+    void addTextLogMessage( std::string_view sv );
 
 private:
 

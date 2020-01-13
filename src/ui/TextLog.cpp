@@ -56,7 +56,7 @@ UI::TextLog::TextLog()
 
 }
 
-void UI::TextLog::addLine(std::string const &line, Colour const& colour)
+void UI::TextLog::addLine(std::string_view line, Colour const& colour)
 {
     // Is the content of the new line the same as the last line?
     if ( !m_lines.empty() && m_lines.back().m_text == line && m_lines.back().m_colour == colour )
@@ -66,14 +66,13 @@ void UI::TextLog::addLine(std::string const &line, Colour const& colour)
     }
     else
     {
-        // Otherwise, put add a new line
-        m_lines.push_back({ line, 1, colour });
+        // Otherwise, push add a new line
+        m_lines.push_back({ std::string{line}, 1, colour });
 
         // We only keep so many lines - delete from the front as we add to the back
         if ( m_lines.size() > m_maxLines )
         {
             m_lines.pop_front();
-            removeChild( children().front() );
         }
     }
 
