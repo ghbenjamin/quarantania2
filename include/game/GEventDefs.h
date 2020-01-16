@@ -60,5 +60,13 @@ struct MeleeAttack : public GEvent<MeleeAttack>
     EntityRef defender;
 };
 
+struct ItemPickup : public GEvent<ItemPickup>
+{
+    ItemPickup(EntityRef actor, EntityRef item);
+    ~ItemPickup() override = default;
+
+    EntityRef actor;
+    EntityRef item;
+};
 
 }

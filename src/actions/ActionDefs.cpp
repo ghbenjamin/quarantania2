@@ -124,11 +124,32 @@ const char *MeleeAttackAction::description() const
 
 bool MeleeAttackAction::canTryAction() const
 {
+    if ( m_actor == m_subject ) return false;
+
+    // TODO Account for weapons with variable reach
+    if (m_level->squaredEntityDistance( m_actor, m_subject ) > 2) return false;
+
     return true;
 }
 
 bool MeleeAttackAction::doAction() const
 {
     m_level->events().broadcast<GEvents::MeleeAttack>( m_actor, m_subject );
+    return true;
+}
+
+const char *PickUpItemAction::description() const
+{
+    return "Pick up";
+}
+
+bool PickUpItemAction::canTryAction() const
+{
+    return true;
+}
+
+bool PickUpItemAction::doAction() const
+{
+    m_level->events().broadcast<GEvents::ItemPickup>( m_actor, m_subject );
     return true;
 }

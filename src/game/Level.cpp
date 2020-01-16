@@ -17,6 +17,7 @@
 #include <ui/Dialogs.h>
 #include <ui/MinimapView.h>
 #include <utils/GlobalConfig.h>
+#include <components/Item.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 :   m_ctx(std::move(ctx)),
@@ -289,6 +290,14 @@ std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subjec
         auto actorC = getComponents<Components::Actor>(subject);
 
         auto act = std::make_shared<MeleeAttackAction>(this, actor, subject);
+        out.push_back( std::static_pointer_cast<Action>(act) );
+    }
+
+    if ( entityHas<Components::Item>(subject) )
+    {
+        auto itemC = getComponents<Components::Item>(subject);
+
+        auto act = std::make_shared<PickUpItemAction>(this, actor, subject);
         out.push_back( std::static_pointer_cast<Action>(act) );
     }
 

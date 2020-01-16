@@ -74,7 +74,7 @@ public:
     bool isPlayer(EntityRef ref) const;
 
     template <typename CT, typename... Args>
-    std::shared_ptr<CT> addComponent(EntityRef ent, Args...args)
+    std::shared_ptr<CT> addComponent(EntityRef ent, Args&&... args)
     {
         auto ptr = std::make_shared<CT>( std::forward<Args>(args)... );
         mapForComponent<CT>()[ent] = std::static_pointer_cast<BaseComponent>(ptr);

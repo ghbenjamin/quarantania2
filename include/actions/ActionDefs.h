@@ -65,5 +65,15 @@ public:
     bool doAction() const override;
 };
 
+class PickUpItemAction : public EntityAction
+{
+public:
+    using EntityAction::EntityAction;
+
+    const char* description() const override;
+    bool canTryAction() const override;
+    bool doAction() const override;
+};
+
 
 

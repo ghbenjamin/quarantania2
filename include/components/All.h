@@ -5,6 +5,7 @@
 #include <components/AI.h>
 #include <components/Collider.h>
 #include <components/Description.h>
+#include <components/Item.h>
 #include <components/Lockable.h>
 #include <components/Openable.h>
 #include <components/Render.h>
@@ -21,6 +22,7 @@ using AllComponents = ComponentTypes<
     Components::AI,
     Components::Collider,
     Components::Description,
+    Components::Item,
     Components::Lockable,
     Components::Openable,
     Components::Render,

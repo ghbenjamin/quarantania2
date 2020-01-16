@@ -125,3 +125,10 @@ CritData WeaponManager::parseCritLine(std::string const& data)
 
     return crit;
 }
+
+WeaponData const& WeaponManager::getWeaponData(std::string const &name)
+{
+    auto it = m_weaponData.find( name );
+    AssertMsg( it != m_weaponData.end(), fmt::format( "Unknown weapon \"{}\"", name ).c_str() );
+    return it->second;
+}

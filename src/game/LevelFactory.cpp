@@ -673,7 +673,7 @@ void LevelFactory::constructPlayer()
 
     // DEBUG
     m_level->m_entFactory.createEnemy("rat", startPos + Vector2{0, 1});
-    m_level->m_entFactory.createEnemy("rat_dire", startPos + Vector2{1, 0});
+    m_level->m_entFactory.createItem("Light mace", startPos + Vector2{1, 0});
 
     m_createdEntities.push_back( m_level->m_player->ref() );
 }

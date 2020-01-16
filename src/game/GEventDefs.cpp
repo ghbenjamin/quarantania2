@@ -11,3 +11,6 @@ GEvents::EntityOpenClose::EntityOpenClose(EntityRef ent, bool isOpen)
 
 GEvents::MeleeAttack::MeleeAttack(EntityRef attacker, EntityRef defender)
     : attacker(attacker), defender(defender) {}
+
+GEvents::ItemPickup::ItemPickup(EntityRef actor, EntityRef item)
+    : actor(actor), item(item) {}

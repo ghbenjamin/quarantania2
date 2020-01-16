@@ -53,9 +53,9 @@ public:
     ~WeaponManager() = default;
 
     void loadAllData();
+    WeaponData const& getWeaponData( std::string const& name );
 
 private:
-
     static CritData parseCritLine( std::string const& data );
 
     static const inline std::regex CritRegex { "((\\d+)-(\\d+)\\/)?x(\\d+)" };

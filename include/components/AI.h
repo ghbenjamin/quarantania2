@@ -10,5 +10,7 @@ struct AI : public Component<AI>
 {
     AI() = default;
     ~AI() override = default;
+
+    // TBD
 };
 }

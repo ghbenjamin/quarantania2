@@ -2,5 +2,4 @@
 
 Components::Item::Item()
 {
-
 }

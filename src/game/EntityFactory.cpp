@@ -8,6 +8,7 @@ EntityFactory::EntityFactory(Level *parent, RandomGenerator* rg )
 : m_parent(parent), m_rg(rg)
 {
     m_weaponManager.loadAllData();
+    m_itemManager.loadAllData();
     m_enemyManager.loadAllData();
 
     addPrefabType<PrefabObjects::Door>(PrefabType::Door, SpritesheetKey{"dawnlike_objects", "Door_001"});
@@ -67,6 +68,25 @@ EntityRef EntityFactory::createEnemy(std::string const &name, Vector2i pos) cons
     m_parent->addComponent<Components::Render>(eref, sprite);
     m_parent->addComponent<Components::Collider>(eref, false, true);
     m_parent->addComponent<Components::Actor>(eref);
+
+    m_parent->entityReady(eref);
+    return eref;
+}
+
+EntityRef EntityFactory::createItem(std::string const &name, Vector2i pos) const
+{
+    auto eref = m_parent->createEntity();
+
+    auto itemData = m_itemManager.getItemData(name);
+    std::shared_ptr<Item> item = std::make_shared<Item>( itemData );
+
+    auto sprite = ResourceManager::get().getSprite( itemData->sprite );
+    sprite.setRenderLayer(RenderLayer::Entity);
+
+    m_parent->addComponent<Components::TilePosition>(eref, pos);
+    m_parent->addComponent<Components::Render>(eref, sprite);
+    m_parent->addComponent<Components::Collider>(eref, false, false);
+//    m_parent->addComponent<Components::Item>(eref, item);
 
     m_parent->entityReady(eref);
     return eref;
