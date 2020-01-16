@@ -1,24 +1,24 @@
 #pragma once
 
-#include <systems/Actors.h>
-#include <systems/Collision.h>
-#include <systems/Combat.h>
-#include <systems/FOV.h>
-#include <systems/Message.h>
-#include <systems/Minimap.h>
-#include <systems/Position.h>
-#include <systems/Render.h>
+#include <systems/ActorSystem.h>
+#include <systems/CollisionSystem.h>
+#include <systems/CombatSystem.h>
+#include <systems/FOVSystem.h>
+#include <systems/MessageSystem.h>
+#include <systems/MinimapSystem.h>
+#include <systems/PositionSystem.h>
+#include <systems/RenderSystem.h>
 
 template <typename ... Ts >
 struct SystemTypes {};
 
 using AllSystems = SystemTypes<
-    Systems::Actors,
-    Systems::Collision,
-    Systems::Combat,
-    Systems::FOV,
-    Systems::Message,
-    Systems::Minimap,
-    Systems::Position,
-    Systems::Render
+    ActorSystem,
+    CollisionSystem,
+    CombatSystem,
+    FOVSystem,
+    MessageSystem,
+    MinimapSystem,
+    PositionSystem,
+    RenderSystem
         >;

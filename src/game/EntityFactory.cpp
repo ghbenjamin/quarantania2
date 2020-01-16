@@ -26,7 +26,7 @@ EntityRef EntityFactory::createPrefab(PrefabType ptype, Vector2i pos) const
     auto it = m_prefabs.find(ptype);
 
     // TODO Do we always want a tile position?
-    m_parent->addComponent<Components::TilePosition>(eref, pos);
+    m_parent->addComponent<PositionComponent>(eref, pos);
 
     Assert(it != m_prefabs.end() );
 
@@ -45,10 +45,10 @@ PlayerPtr EntityFactory::createPlayer(ImPlayerData &data, Vector2i startPos) con
     auto sprite = ResourceManager::get().getSprite("dawnlike_chars", "Player_001");
     sprite.setRenderLayer(RenderLayer::Actor);
 
-    m_parent->addComponent<Components::TilePosition>(eref, startPos);
-    m_parent->addComponent<Components::Render>(eref, sprite);
-    m_parent->addComponent<Components::Collider>(eref, false, true);
-    m_parent->addComponent<Components::Actor>(eref);
+    m_parent->addComponent<PositionComponent>(eref, startPos);
+    m_parent->addComponent<RenderComponent>(eref, sprite);
+    m_parent->addComponent<ColliderComponent>(eref, false, true);
+    m_parent->addComponent<ActorComponent>(eref);
 
     m_parent->entityReady(eref);
 
@@ -64,10 +64,10 @@ EntityRef EntityFactory::createEnemy(std::string const &name, Vector2i pos) cons
     auto sprite = ResourceManager::get().getSprite(enemy.sprite());
     sprite.setRenderLayer(RenderLayer::Actor);
 
-    m_parent->addComponent<Components::TilePosition>(eref, pos);
-    m_parent->addComponent<Components::Render>(eref, sprite);
-    m_parent->addComponent<Components::Collider>(eref, false, true);
-    m_parent->addComponent<Components::Actor>(eref);
+    m_parent->addComponent<PositionComponent>(eref, pos);
+    m_parent->addComponent<RenderComponent>(eref, sprite);
+    m_parent->addComponent<ColliderComponent>(eref, false, true);
+    m_parent->addComponent<ActorComponent>(eref);
 
     m_parent->entityReady(eref);
     return eref;
@@ -83,10 +83,10 @@ EntityRef EntityFactory::createItem(std::string const &name, Vector2i pos) const
     auto sprite = ResourceManager::get().getSprite( itemData->sprite );
     sprite.setRenderLayer(RenderLayer::Entity);
 
-    m_parent->addComponent<Components::TilePosition>(eref, pos);
-    m_parent->addComponent<Components::Render>(eref, sprite);
-    m_parent->addComponent<Components::Collider>(eref, false, false);
-//    m_parent->addComponent<Components::Item>(eref, item);
+    m_parent->addComponent<PositionComponent>(eref, pos);
+    m_parent->addComponent<RenderComponent>(eref, sprite);
+    m_parent->addComponent<ColliderComponent>(eref, false, false);
+//    m_parent->addComponent<ItemComponent>(eref, item);
 
     m_parent->entityReady(eref);
     return eref;

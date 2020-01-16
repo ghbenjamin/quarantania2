@@ -5,7 +5,7 @@
 
 bool StepAction::doAction() const
 {
-    auto tilePos = m_level->getComponents<Components::TilePosition>(m_actor);
+    auto tilePos = m_level->getComponents<PositionComponent>(m_actor);
     m_level->events().broadcast<GEvents::EntityMove>( m_actor, tilePos->position, m_tile );
 
     return true;
@@ -13,7 +13,7 @@ bool StepAction::doAction() const
 
 bool StepAction::canTryAction() const
 {
-    auto tilePos = m_level->getComponents<Components::TilePosition>(m_actor);
+    auto tilePos = m_level->getComponents<PositionComponent>(m_actor);
 
     if ( !GridUtils::isAdjacent(tilePos->position, m_tile ) )
     {
@@ -42,7 +42,7 @@ bool OpenAction::doAction() const
 
 bool OpenAction::canTryAction() const
 {
-    auto openable = m_level->getComponents<Components::Openable>(m_subject);
+    auto openable = m_level->getComponents<OpenableComponent>(m_subject);
     if (!openable) return false;
 
     if (openable->isOpen) return false;
@@ -65,7 +65,7 @@ bool CloseAction::doAction() const
 
 bool CloseAction::canTryAction() const
 {
-    auto openable = m_level->getComponents<Components::Openable>(m_subject);
+    auto openable = m_level->getComponents<OpenableComponent>(m_subject);
     if (!openable) return false;
 
     if (!openable->isOpen) return false;
@@ -87,14 +87,14 @@ const char *UnlockAction::description() const
 
 bool UnlockAction::canTryAction() const
 {
-    auto lockable = m_level->getComponents<Components::Lockable>(m_subject);
+    auto lockable = m_level->getComponents<LockableComponent>(m_subject);
     if (!lockable) return false;
     return lockable->isLocked;
 }
 
 bool UnlockAction::doAction() const
 {
-    auto lockable = m_level->getComponents<Components::Lockable>(m_subject);
+    auto lockable = m_level->getComponents<LockableComponent>(m_subject);
     return false;
 }
 

@@ -1,31 +1,28 @@
 #pragma once
 
-#include <components/Action.h>
-#include <components/Actor.h>
-#include <components/AI.h>
-#include <components/Collider.h>
-#include <components/Description.h>
-#include <components/Item.h>
-#include <components/Lockable.h>
-#include <components/Openable.h>
-#include <components/Render.h>
-#include <components/Tags.h>
-#include <components/TilePosition.h>
-
+#include <components/ActionComponent.h>
+#include <components/ActorComponent.h>
+#include <components/AIComponent.h>
+#include <components/ColliderComponent.h>
+#include <components/DescriptionComponent.h>
+#include <components/ItemComponent.h>
+#include <components/LockableComponent.h>
+#include <components/OpenableComponent.h>
+#include <components/RenderComponent.h>
+#include <components/PositionComponent.h>
 
 template <typename ... Ts >
 struct ComponentTypes {};
 
 using AllComponents = ComponentTypes<
-    Components::Action,
-    Components::Actor,
-    Components::AI,
-    Components::Collider,
-    Components::Description,
-    Components::Item,
-    Components::Lockable,
-    Components::Openable,
-    Components::Render,
-    Components::Tags,
-    Components::TilePosition
+    ActionComponent,
+    ActorComponent,
+    AIComponent,
+    ColliderComponent,
+    DescriptionComponent,
+    ItemComponent,
+    LockableComponent,
+    OpenableComponent,
+    RenderComponent,
+    PositionComponent
             >;

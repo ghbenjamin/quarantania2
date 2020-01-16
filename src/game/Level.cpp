@@ -13,11 +13,10 @@
 #include <ui/TextLog.h>
 #include <utils/Assert.h>
 #include <utils/Logging.h>
-#include <systems/Message.h>
 #include <ui/Dialogs.h>
 #include <ui/MinimapView.h>
 #include <utils/GlobalConfig.h>
-#include <components/Item.h>
+#include <components/ItemComponent.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 :   m_ctx(std::move(ctx)),
@@ -43,7 +42,7 @@ void Level::setReady()
     m_gevents.broadcast<GEvents::LevelReady>();
 
     auto ref = getPlayer()->ref();
-    auto tpos = getComponents<Components::TilePosition>(ref);
+    auto tpos = getComponents<PositionComponent>(ref);
     m_camera.centreOnTile(tpos->position);
 
 
@@ -285,25 +284,25 @@ std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subjec
 {
     std::vector<ActionPtr> out;
 
-    if ( entityHas<Components::Actor>(subject) )
+    if ( entityHas<ActorComponent>(subject) )
     {
-        auto actorC = getComponents<Components::Actor>(subject);
+        auto actorC = getComponents<ActorComponent>(subject);
 
         auto act = std::make_shared<MeleeAttackAction>(this, actor, subject);
         out.push_back( std::static_pointer_cast<Action>(act) );
     }
 
-    if ( entityHas<Components::Item>(subject) )
+    if ( entityHas<ItemComponent>(subject) )
     {
-        auto itemC = getComponents<Components::Item>(subject);
+        auto itemC = getComponents<ItemComponent>(subject);
 
         auto act = std::make_shared<PickUpItemAction>(this, actor, subject);
         out.push_back( std::static_pointer_cast<Action>(act) );
     }
 
-    if ( entityHas<Components::Openable>(subject) )
+    if ( entityHas<OpenableComponent>(subject) )
     {
-        auto openable = getComponents<Components::Openable>(subject);
+        auto openable = getComponents<OpenableComponent>(subject);
         if ( openable->isOpen)
         {
             auto act = std::make_shared<CloseAction>(this, actor, subject);
@@ -316,9 +315,9 @@ std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subjec
         }
     }
 
-    if ( entityHas<Components::Lockable>(subject) )
+    if ( entityHas<LockableComponent>(subject) )
     {
-        auto lockable = getComponents<Components::Lockable>(subject);
+        auto lockable = getComponents<LockableComponent>(subject);
         if ( lockable->isLocked )
         {
             auto act = std::make_shared<UnlockAction>(this, actor, subject);
@@ -326,9 +325,9 @@ std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subjec
         }
     }
 
-    if ( entityHas<Components::Action>(subject) )
+    if ( entityHas<ActionComponent>(subject) )
     {
-        auto actionComp = getComponents<Components::Action>(subject);
+        auto actionComp = getComponents<ActionComponent>(subject);
         for ( auto const& act : actionComp->actions )
         {
             act->setActor(actor);
@@ -387,8 +386,8 @@ bool Level::isComplete() const
 
 int Level::squaredEntityDistance(EntityRef a, EntityRef b)
 {
-    auto transformA = getComponents<Components::TilePosition>(a);
-    auto transformB = getComponents<Components::TilePosition>(b);
+    auto transformA = getComponents<PositionComponent>(a);
+    auto transformB = getComponents<PositionComponent>(b);
 
     Vector2i distance = transformB->position - transformA->position;
     return distance.x() * distance.x() + distance.y() * distance.y();
@@ -427,7 +426,7 @@ void Level::generateMinimapData()
     }
 
     // Place a dot at the position of the player
-    auto playerPos = getComponents<Components::TilePosition>( m_player->ref() );
+    auto playerPos = getComponents<PositionComponent>( m_player->ref() );
     m_minimap.movePlayer(playerPos->position);
 
     m_minimap.updateTexture();

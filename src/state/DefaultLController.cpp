@@ -3,9 +3,9 @@
 #include <utils/Assert.h>
 #include <actions/ActionDefs.h>
 
-#include <components/TilePosition.h>
-#include <components/Actor.h>
-#include <components/Description.h>
+#include <components/PositionComponent.h>
+#include <components/ActorComponent.h>
+#include <components/DescriptionComponent.h>
 #include <utils/GlobalConfig.h>
 
 DefaultLController::DefaultLController(Level *level)
@@ -84,7 +84,7 @@ bool DefaultLController::onKeyDown(IEventKeyPress evt)
 void DefaultLController::doMovePlayer(SDL_Keycode kcode)
 {
     auto ref = m_level->getPlayer()->ref();
-    auto tpos = m_level->getComponents<Components::TilePosition>(ref);
+    auto tpos = m_level->getComponents<PositionComponent>(ref);
 
     Vector2i delta;
 
@@ -170,7 +170,7 @@ void DefaultLController::tryDefaultAction(Vector2i playerLoc)
 
     if (defAction)
     {
-        m_level->getComponents<Components::Actor>(ref)->nextAction = defAction;
+        m_level->getComponents<ActorComponent>(ref)->nextAction = defAction;
         m_level->events().broadcast<GEvents::GameTick>();
 
         // This action may have moved the player - recentre the camera

@@ -98,20 +98,20 @@ void PrefabObjects::Door::generate(Level *level, EntityRef entity)
     auto sprite = ResourceManager::get().getSprite(m_sprite);
     sprite.setRenderLayer(RenderLayer::Entity);
     
-    level->addComponent<Components::Render>(entity, sprite);
-    level->addComponent<Components::Collider>(entity, true, true);
-    level->addComponent<Components::Openable>(entity);
+    level->addComponent<RenderComponent>(entity, sprite);
+    level->addComponent<ColliderComponent>(entity, true, true);
+    level->addComponent<OpenableComponent>(entity);
 }
 
 void PrefabObjects::Exit::generate(Level *level, EntityRef entity)
 {
     auto sprite = ResourceManager::get().getSprite(m_sprite);
     sprite.setRenderLayer(RenderLayer::Entity);
-    level->addComponent<Components::Render>(entity, sprite);
+    level->addComponent<RenderComponent>(entity, sprite);
 
-    level->addComponent<Components::Collider>(entity, true, true);
+    level->addComponent<ColliderComponent>(entity, true, true);
 
-    auto actions = level->addComponent<Components::Action>(entity);
+    auto actions = level->addComponent<ActionComponent>(entity);
     actions->actions.push_back( std::make_shared<ExitLevelAction>(level) );
 }
 
@@ -119,27 +119,27 @@ void PrefabObjects::Entrance::generate(Level *level, EntityRef entity)
 {
     auto sprite = ResourceManager::get().getSprite(m_sprite);
     sprite.setRenderLayer(RenderLayer::Entity);
-    level->addComponent<Components::Render>(entity, sprite);
+    level->addComponent<RenderComponent>(entity, sprite);
 
-    level->addComponent<Components::Collider>(entity, true, true);
+    level->addComponent<ColliderComponent>(entity, true, true);
 }
 
 void PrefabObjects::Container::generate(Level *level, EntityRef entity)
 {
     auto sprite = ResourceManager::get().getSprite(m_sprite);
     sprite.setRenderLayer(RenderLayer::Entity);
-    level->addComponent<Components::Render>(entity, sprite);
+    level->addComponent<RenderComponent>(entity, sprite);
 
     // TODO Re-enable container collision when level gen stops generating impossible levels
-    // level->addComponent<Components::Collider>(entity, true, true);
+    // level->addComponent<ColliderComponent>(entity, true, true);
 }
 
 void PrefabObjects::Decor::generate(Level *level, EntityRef entity)
 {
     auto sprite = ResourceManager::get().getSprite(m_sprite);
     sprite.setRenderLayer(RenderLayer::Entity);
-    level->addComponent<Components::Render>(entity, sprite);
+    level->addComponent<RenderComponent>(entity, sprite);
 
     // TODO Re-enable decor collision when level gen stops generating impossible levels
-    //level->addComponent<Components::Collider>(entity, true, true);
+    //level->addComponent<ColliderComponent>(entity, true, true);
 }
