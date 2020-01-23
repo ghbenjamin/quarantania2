@@ -9,8 +9,6 @@ struct ActorComponent : public Component<ActorComponent>
     ActorComponent();
     ~ActorComponent() override = default;
 
-    Character character;
-
     int initiative;
     int energyPerTick;
     int currentEnergy;

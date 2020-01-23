@@ -6,11 +6,21 @@
 #include <resource/Spritesheet.h>
 
 
+enum class ItemType
+{
+    None,
+
+    Weapon,
+    Apparel
+};
+
+
 struct ItemData
 {
     std::string name;
-    int value;
-    int weight;
+    ItemType type = ItemType::None;
+    int baseValue = 0;
+    int weight = 0;
     SpritesheetKey sprite;
 };
 

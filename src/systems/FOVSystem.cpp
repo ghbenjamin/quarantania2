@@ -6,8 +6,8 @@
 #include <utils/GlobalConfig.h>
 
 FOVSystem::FOVSystem(Level *parent) : System(parent),
-                                               m_fovHidden{ createRectangle({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx}, Colour::Black) },
-                                               m_fovFog{ createRectangle({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx}, Colour::Black.withAlpha(100)) }
+   m_fovHidden{ createRectangle({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx}, Colour::Black) },
+   m_fovFog{ createRectangle({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx}, Colour::Black.withAlpha(100)) }
 {
     m_fovHidden.setRenderLayer(RenderLayer::FOV);
     m_fovFog.setRenderLayer(RenderLayer::FOV);

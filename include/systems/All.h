@@ -4,6 +4,7 @@
 #include <systems/CollisionSystem.h>
 #include <systems/CombatSystem.h>
 #include <systems/FOVSystem.h>
+#include <systems/ItemSystem.h>
 #include <systems/MessageSystem.h>
 #include <systems/MinimapSystem.h>
 #include <systems/PositionSystem.h>
@@ -17,6 +18,7 @@ using AllSystems = SystemTypes<
     CollisionSystem,
     CombatSystem,
     FOVSystem,
+    ItemSystem,
     MessageSystem,
     MinimapSystem,
     PositionSystem,

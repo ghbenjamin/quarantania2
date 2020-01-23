@@ -3,12 +3,12 @@
 #include <memory>
 #include <game/Component.h>
 #include <game/Entity.h>
-#include <game/Items.h>
 
+class Item;
 
 struct ItemComponent : public Component<ItemComponent>
 {
-    ItemComponent();
+    ItemComponent( std::shared_ptr<Item> item );
     ~ItemComponent() override = default;
 
     std::shared_ptr<Item> item;

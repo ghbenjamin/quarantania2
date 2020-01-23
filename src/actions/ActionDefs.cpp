@@ -2,6 +2,7 @@
 #include <game/Level.h>
 #include <components/All.h>
 #include <utils/GridUtils.h>
+#include <components/ContainerComponent.h>
 
 bool StepAction::doAction() const
 {
@@ -145,11 +146,18 @@ const char *PickUpItemAction::description() const
 
 bool PickUpItemAction::canTryAction() const
 {
+
+    if ( !m_level->entityHas<ContainerComponent>(m_actor) ) return false;
+
     return true;
 }
 
 bool PickUpItemAction::doAction() const
 {
+    auto container = m_level->getComponents<ContainerComponent>( m_actor );
+
+    if ( container->items.size() + 1 > container->maxItems ) return false;
+
     m_level->events().broadcast<GEvents::ItemPickup>( m_actor, m_subject );
     return true;
 }

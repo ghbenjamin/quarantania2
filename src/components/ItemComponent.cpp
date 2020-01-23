@@ -1,5 +1,4 @@
 #include <components/ItemComponent.h>
 
-ItemComponent::ItemComponent()
-{
-}
+ItemComponent::ItemComponent(std::shared_ptr<Item> item)
+: item(item) { }

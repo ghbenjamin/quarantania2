@@ -3,6 +3,7 @@
 #include <resource/ResourceManager.h>
 #include <rapidjson/document.h>
 #include <components/All.h>
+#include <components/ContainerComponent.h>
 
 EntityFactory::EntityFactory(Level *parent, RandomGenerator* rg )
 : m_parent(parent), m_rg(rg)
@@ -49,6 +50,7 @@ PlayerPtr EntityFactory::createPlayer(ImPlayerData &data, Vector2i startPos) con
     m_parent->addComponent<RenderComponent>(eref, sprite);
     m_parent->addComponent<ColliderComponent>(eref, false, true);
     m_parent->addComponent<ActorComponent>(eref);
+    m_parent->addComponent<ContainerComponent>(eref);
 
     m_parent->entityReady(eref);
 
@@ -86,7 +88,7 @@ EntityRef EntityFactory::createItem(std::string const &name, Vector2i pos) const
     m_parent->addComponent<PositionComponent>(eref, pos);
     m_parent->addComponent<RenderComponent>(eref, sprite);
     m_parent->addComponent<ColliderComponent>(eref, false, false);
-//    m_parent->addComponent<ItemComponent>(eref, item);
+    m_parent->addComponent<ItemComponent>(eref, item);
 
     m_parent->entityReady(eref);
     return eref;

@@ -10,9 +10,12 @@ void ItemManager::loadAllData()
 
     rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/items.json" );
 
+    // Parse weapons
+
     for ( auto const& item : doc.GetObject().FindMember("weapons")->value.GetArray() )
     {
         ItemData data{};
+        data.type = ItemType::Weapon;
 
         auto entryName = item.FindMember("Name");
         if ( entryName != item.MemberEnd() )
@@ -29,7 +32,7 @@ void ItemManager::loadAllData()
         auto entryValue = item.FindMember("Value");
         if ( entryValue != item.MemberEnd() )
         {
-            data.value = std::atoi( entryValue->value.GetString() );
+            data.baseValue = std::atoi( entryValue->value.GetString() );
         }
 
         auto entrySprite = item.FindMember("Sprite");

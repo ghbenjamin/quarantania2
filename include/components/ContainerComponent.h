@@ -8,8 +8,7 @@ struct ContainerComponent : public Component<ContainerComponent>
     explicit ContainerComponent( ) = default;
     ~ContainerComponent() override = default;
 
-    int maxItems = -1;
-    int maxWeight = -1;
+    int maxItems = 100; // TODO Sensible
 
-    std::vector<ItemPtr> storedItems;
+    std::vector<ItemPtr> items;
 };
