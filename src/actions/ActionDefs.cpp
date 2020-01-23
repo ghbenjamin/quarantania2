@@ -146,7 +146,6 @@ const char *PickUpItemAction::description() const
 
 bool PickUpItemAction::canTryAction() const
 {
-
     if ( !m_level->entityHas<ContainerComponent>(m_actor) ) return false;
 
     return true;

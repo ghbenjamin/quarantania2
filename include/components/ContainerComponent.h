@@ -8,7 +8,7 @@ struct ContainerComponent : public Component<ContainerComponent>
     explicit ContainerComponent( ) = default;
     ~ContainerComponent() override = default;
 
-    int maxItems = 100; // TODO Sensible
+    int maxItems = 10; // TODO Sensible
 
     std::vector<ItemPtr> items;
 };

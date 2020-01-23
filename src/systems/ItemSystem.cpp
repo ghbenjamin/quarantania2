@@ -15,6 +15,9 @@ void ItemSystem::accept(GEvents::ItemPickup *evt)
     auto cont = m_level->getComponents<ContainerComponent>(evt->actor);
     auto item = m_level->getComponents<ItemComponent>(evt->item);
 
-    // TODO: Actually pick it up, don't just evaporate it
+    cont->items.push_back( item->item );
+
     m_level->deleteEntity( evt->item );
+
+    m_level->addTextLogMessage( fmt::format("{} picks up the {}", "foo", "bar") );
 }
