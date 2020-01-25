@@ -25,6 +25,7 @@ public:
     ~Enemy() = default;
 
     SpritesheetKey const& sprite() const;
+    EnemyData const& data() const;
 
 private:
     Enemy(EnemyData const& data);

@@ -14,6 +14,22 @@ enum class ItemType
     Apparel
 };
 
+enum class EquipSlot
+{
+    Head,
+    Headband,
+    Eyes,
+    Shoulders,
+    Neck,
+    Chest,
+    Body,
+    Armour,
+    Belt,
+    Wrists,
+    Hands,
+    Ring
+};
+
 
 struct ItemData
 {
@@ -33,8 +49,11 @@ public:
     ItemData const* data() const;
 
 private:
-  ItemData const* const m_data;
+    ItemData const* const m_data;
 };
+
+
+
 
 using ItemPtr = std::shared_ptr<Item>;
 

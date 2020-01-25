@@ -8,14 +8,16 @@ namespace UI
 class MinimapView : public Element
 {
 public:
-     MinimapView(TexturePtr texture, Vector2i viewportSize);
+     MinimapView(TexturePtr texture);
      ~MinimapView() override = default;
 
 private:
     void onMoveSelf() override;
+    void onSizeSelf() override;
 
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 
+    void resetTexturePosition();
 
     TexturePtr m_texture;
     Vector2i m_viewSize;

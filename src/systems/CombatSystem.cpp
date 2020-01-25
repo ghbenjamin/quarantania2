@@ -13,7 +13,11 @@ void CombatSystem::accept(GEvents::MeleeAttack *evt)
     auto atkActor = m_level->getComponents<ActorComponent>(evt->attacker);
     auto defActor = m_level->getComponents<ActorComponent>(evt->defender);
 
-    m_level->addTextLogMessage( fmt::format( "{} attacks {} with their {}!", evt->attacker, evt->defender, "BFG" ) );
+    m_level->addTextLogMessage( fmt::format( "{} attacks {} with their {}!",
+            m_level->getDescriptionForEnt(evt->attacker),
+            m_level->getDescriptionForEnt(evt->defender),
+            "BFG"
+    ));
 }
 
 

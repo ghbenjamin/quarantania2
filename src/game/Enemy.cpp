@@ -13,6 +13,11 @@ SpritesheetKey const &Enemy::sprite() const
     return m_data.sprite;
 }
 
+EnemyData const &Enemy::data() const
+{
+    return m_data;
+}
+
 void EnemyManager::loadAllData()
 {
 // MSVC compiler error

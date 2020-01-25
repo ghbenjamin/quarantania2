@@ -42,7 +42,7 @@ public:
     // Sizing
     Vector2i outerSize() const;
     Vector2i contentSize() const;
-    Vector2i preferredSize() const;
+    Vector2i preferredContentSize() const;
     Vector2i maxOuterSize() const;
 
     void setPreferredContentSize( Vector2i size );

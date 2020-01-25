@@ -17,6 +17,8 @@
 #include <ui/MinimapView.h>
 #include <utils/GlobalConfig.h>
 #include <components/ItemComponent.h>
+#include <ui/ContainerView.h>
+#include <ui/EquippedItemsView.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 :   m_ctx(std::move(ctx)),
@@ -196,13 +198,24 @@ void Level::setupUI()
 
     m_uiManager.alignElementToWindow( trframe, UI::Alignment::CentreRight, 0 );
 
-    UI::Element* trframePtr = trframe.get();
     auto minimap = m_uiManager.createElement<UI::MinimapView>(
-        trframePtr,
-        m_minimap.getTexture(),
-        Vector2i{200, 200}
+        trframe.get(),
+        m_minimap.getTexture()
     );
-    minimap->setId("minimap");
+
+    minimap->setPreferredOuterSize({0, 200});
+
+    auto equipView = m_uiManager.createElement<UI::EquippedItemsView>(
+        trframe.get()
+    );
+
+    equipView->setPreferredOuterSize({0, 200});
+
+    auto playerInv = m_uiManager.createElement<UI::ContainerView>(
+        trframe.get()
+    );
+
+    playerInv->setPreferredOuterSize({0, 200});
 }
 
 void Level::layoutWindows()
@@ -450,4 +463,21 @@ void Level::addTextLogMessage(std::string_view sv, Colour const& colour)
 void Level::addTextLogMessage(std::string_view sv)
 {
     m_textLog->addLine(sv);
+}
+
+std::string_view Level::getDescriptionForEnt(EntityRef ent)
+{
+    if ( entityHas<ActorComponent>(ent) )
+    {
+        auto comp = getComponents<ActorComponent>(ent);
+        return comp->name;
+    }
+    else if ( entityHas<ItemComponent>(ent) )
+    {
+        auto comp = getComponents<ItemComponent>(ent);
+        return comp->item->data()->name;
+    }
+
+
+    return "<unknown>";
 }

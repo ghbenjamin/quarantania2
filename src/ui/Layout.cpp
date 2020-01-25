@@ -57,8 +57,9 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
     int w = 0;
     int h = 0;
 
-    auto preferred = ptr->preferredSize();
+    auto preferred = ptr->preferredContentSize();
 
+    // First pass - move our children to the right vertical positions
     for ( auto& c: ptr->children() )
     {
         c->setLocalPosition( Vector2i{0, h } );
@@ -70,6 +71,8 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
         w = std::max( w, s.x() );
     }
 
+    // If the max width / total height of the children is smaller than our preferred
+    // content size, set our actual size to our content size (avoid being too small)
     if ( preferred != Vector2i{0, 0} )
     {
         if ( w < preferred.x() )
@@ -83,6 +86,7 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
         }
     }
 
+    // Second pass over children - set the correct horizontal size & position
     for ( auto& c: ptr->children() )
     {
         auto pos = c->localPosition();
@@ -90,6 +94,9 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
 
         switch (m_halign)
         {
+            // For left/right/centre we use the child's preferred size - no changes in size
+            // based on the size of the parent
+
             case HAlignment::Left:
                 break;
             case HAlignment::Right:
@@ -98,6 +105,9 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
             case HAlignment::Centre:
                 c->setLocalPosition({ (w - size.x()) / 2, pos.y() });
                 break;
+
+            // For fill we change the (horizontal) size of the child based on the current size of the parent
+
             case HAlignment::Fill:
                 c->setPreferredOuterSize({w, size.y()});
                 break;
@@ -118,7 +128,7 @@ Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
     int w = 0;
     int h = 0;
 
-    auto preferred = ptr->preferredSize();
+    auto preferred = ptr->preferredContentSize();
 
     for ( auto& c: ptr->children() )
     {

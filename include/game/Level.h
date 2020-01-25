@@ -223,6 +223,8 @@ public:
     void addTextLogMessage( std::string_view sv, Colour const& colour );
     void addTextLogMessage( std::string_view sv );
 
+    std::string_view getDescriptionForEnt( EntityRef ent );
+
 private:
 
     // UI Methods

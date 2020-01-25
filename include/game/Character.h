@@ -1,47 +1,10 @@
 #pragma once
 
 #include <unordered_map>
+#include <string_view>
 
-
-enum class Attribute
-{
-    AS_Str,
-    AS_Dex,
-    AS_Con,
-    AS_Int,
-    AS_Wis,
-    AS_Cha,
-
-    Save_Fort,
-    Save_Will,
-    Save_Ref,
-
-    Def_AC,
-    Def_AC_Flat,
-    Def_CMD,
-    Def_Spell_Resistance,
-
-    Atk_BAB,
-    Atk_CMB,
-
-    Misc_Initiative,
-    Misc_Speed,
-    Misc_MaxDexAC,
-};
-
-enum class ModifierType
-{
-    Untyped,
-};
-
-struct ModifierData
-{
-    ModifierType type;
-    int magnitude;
-
-    bool operator==(const ModifierData &rhs) const;
-};
-
+#include <game/Items.h>
+#include <game/Weapon.h>
 
 class Character
 {
@@ -50,46 +13,27 @@ public:
     Character();
     ~Character() = default;
 
-    void addModifier(Attribute attr, ModifierData data);
-    void removeModifier(Attribute attr, ModifierData data);
-    int getBaseAttr(Attribute attr) const;
-    void setBaseAttr(Attribute attr, int magnitude);
+    std::string_view name() const;
 
-    int getStr() const;
-    int getDex() const;
-    int getCon() const;
-    int getInt() const;
-    int getWis() const;
-    int getCha() const;
+    bool hasEquipped( EquipSlot slot ) const;
+    const ItemPtr getEquipped( EquipSlot slot ) const;
+    ItemPtr unequipItem(EquipSlot slot );
+    void equipItem( EquipSlot slot, ItemPtr item );
 
-    int getStrMod() const;
-    int getDexMod() const;
-    int getConMod() const;
-    int getIntMod() const;
-    int getWisMod() const;
-    int getChaMod() const;
+    bool hasEquippedWeapon() const;
+    ItemPtr equippedWeaponData() const;
+    ItemPtr unequipWeapon();
+    void equipWeapon( ItemPtr item );
 
-    int getFortSave() const;
-    int getRefSave() const;
-    int getWillSave() const;
+    void setNaturalWeaponData( WeaponData* data );
 
-    int getBAB() const;
-    int getCMD() const;
-    int getCMB() const;
-
-    int getAC() const;
-    int getACFlat() const;
-
-    int getInitiative() const;
-    int getSpeed() const;
-    int getSpellResist() const;
+    WeaponData* getCurrentWeaponData();
 
 private:
-    int getAttr(Attribute attr) const;
-    void recache(Attribute attr);
 
-private:
-    std::unordered_map<Attribute, int> m_baseValues;
-    std::unordered_map<Attribute, int> m_cachedValues;
-    std::unordered_multimap<Attribute, ModifierData> m_modifiers;
+    std::string m_name;
+
+    WeaponData* m_naturalWeapon;
+    ItemPtr m_equippedWeapon;
+    std::unordered_map<EquipSlot, ItemPtr> m_equippedItems;
 };

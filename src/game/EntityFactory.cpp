@@ -49,8 +49,10 @@ PlayerPtr EntityFactory::createPlayer(ImPlayerData &data, Vector2i startPos) con
     m_parent->addComponent<PositionComponent>(eref, startPos);
     m_parent->addComponent<RenderComponent>(eref, sprite);
     m_parent->addComponent<ColliderComponent>(eref, false, true);
-    m_parent->addComponent<ActorComponent>(eref);
     m_parent->addComponent<ContainerComponent>(eref);
+
+    auto cActor = m_parent->addComponent<ActorComponent>(eref);
+    cActor->name = data.name;
 
     m_parent->entityReady(eref);
 
@@ -69,7 +71,9 @@ EntityRef EntityFactory::createEnemy(std::string const &name, Vector2i pos) cons
     m_parent->addComponent<PositionComponent>(eref, pos);
     m_parent->addComponent<RenderComponent>(eref, sprite);
     m_parent->addComponent<ColliderComponent>(eref, false, true);
-    m_parent->addComponent<ActorComponent>(eref);
+
+    auto actComp = m_parent->addComponent<ActorComponent>(eref);
+    actComp->name = enemy.data().name;
 
     m_parent->entityReady(eref);
     return eref;

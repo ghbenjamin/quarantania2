@@ -339,7 +339,7 @@ bool Element::isHidden() const
 }
 
 
-Vector2i Element::preferredSize() const
+Vector2i Element::preferredContentSize() const
 {
     return m_preferredContentSize;
 }
