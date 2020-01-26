@@ -18,7 +18,7 @@
 #include <game/GridFeature.h>
 #include <game/Rules.h>
 #include <game/Grid.h>
-#include <game/Minimap.h>
+#include <game/UISystem.h>
 #include <game/Camera.h>
 #include <state/LevelController.h>
 #include <systems/System.h>
@@ -287,7 +287,7 @@ private:
 private:
     // Statics
     static constexpr int TextLogHeight = 180;
-    static constexpr int RightFrameWidth = 250;
+    static constexpr int RightFrameWidth = 240;
 
     // Misc
     RandomGenerator m_rg;

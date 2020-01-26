@@ -218,7 +218,8 @@ void Element::setPreferredContentSize(Vector2i size)
 {
     m_preferredContentSize = size;
 
-    rootParent()->doLayout();
+    doLayout();
+//    rootParent()->doLayout();
     onSizeSelf();
 }
 

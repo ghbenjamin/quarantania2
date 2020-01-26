@@ -6,6 +6,12 @@
 namespace UI
 {
 
+struct ContainerViewItem
+{
+    Sprite sprite;
+    Vector2i pos;
+};
+
 // A view into a container of items, e.g. a chest or the inventory of an actor
 class ContainerView : public Element
 {
@@ -16,9 +22,21 @@ public:
 
 private:
 
-    EntityRef m_container;
-    Vector2i m_viewportSize;
+    void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
+    void onSizeSelf() override;
+    void onMoveSelf() override;
 
+    void rearrangeItems();
+    void reimportItems();
+
+    EntityRef m_container;
+    std::vector<ContainerViewItem> m_items;
+    Vector2i m_tileBounds;
+
+    static const int IconSize = 32;
+    static const int PaddingThick = 2;
+
+    Sprite m_emptySlot;
 };
 
 }

@@ -14,12 +14,12 @@ Outputs the combined .png file as well as a json file describing the contents.
 
 
 # Pixel sizes of the tiles to be stitched together
-INPUT_TILE_SIZE = 16
+INPUT_TILE_SIZE = 32
 
 # Initial size of the image to create
 # NB. this is just laziness, should really just do a two pass loop through the input tiles
 # to work this out
-OUTPUT_TILE_SIZE = 13, 64
+OUTPUT_TILE_SIZE = 10, 64
 
 def main():
     # Grab the input path from the system arguments - this is hopefully a directory described in a way
@@ -91,7 +91,6 @@ def main():
     json_obj['meta'] = {
         "type": "tiled",
         "margin": 0,
-        "tileSize": 16
     }
     json_obj['data'] = { k: v for k, v in gid_list }
 

@@ -1,0 +1,23 @@
+{
+    "data": {
+        "belt": 0,
+        "boots": 1,
+        "cowled": 2,
+        "gauntlet": 3,
+        "gloves": 4,
+        "headband-knot": 5,
+        "helmet": 6,
+        "mail-shirt": 7,
+        "necklace": 8,
+        "pauldrons": 9,
+        "ring": 10,
+        "robe": 11,
+        "shirt": 12,
+        "spectacles": 13,
+        "sword-hilt": 14
+    },
+    "meta": {
+        "margin": 0,
+        "type": "tiled"
+    }
+}

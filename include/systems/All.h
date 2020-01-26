@@ -6,7 +6,7 @@
 #include <systems/FOVSystem.h>
 #include <systems/ItemSystem.h>
 #include <systems/MessageSystem.h>
-#include <systems/MinimapSystem.h>
+#include <systems/UISystem.h>
 #include <systems/PositionSystem.h>
 #include <systems/RenderSystem.h>
 
@@ -20,7 +20,7 @@ using AllSystems = SystemTypes<
     FOVSystem,
     ItemSystem,
     MessageSystem,
-    MinimapSystem,
+    UISystem,
     PositionSystem,
     RenderSystem
         >;

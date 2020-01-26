@@ -1,4 +1,4 @@
-#include <game/Minimap.h>
+#include <game/UISystem.h>
 #include <resource/Texture.h>
 #include <utils/Ranges.h>
 #include <utils/Logging.h>

@@ -203,7 +203,7 @@ void Level::setupUI()
         m_minimap.getTexture()
     );
 
-    minimap->setPreferredOuterSize({0, 200});
+    minimap->setPreferredOuterSize({0, 180});
 
     auto equipView = m_uiManager.createElement<UI::EquippedItemsView>(
         trframe.get()

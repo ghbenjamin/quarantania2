@@ -7,7 +7,6 @@ UI::MinimapView::MinimapView(TexturePtr texture)
 : m_texture(texture), m_viewOffset{0, 0}
 {
     setId("minimap");
-    setBackgroundColour(Colour::Green);
 
     m_renderObj.texture = texture->raw();
     m_renderObj.renderLayer = RenderLayer::UI;

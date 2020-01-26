@@ -1,7 +1,7 @@
-#include <systems/MinimapSystem.h>
+#include <systems/UISystem.h>
 #include <game/Level.h>
 
-MinimapSystem::MinimapSystem(Level *parent)
+UISystem::UISystem(Level *parent)
         : System(parent)
 {
     m_level->events().subscribe<GEvents::LevelReady>( this );
@@ -9,16 +9,17 @@ MinimapSystem::MinimapSystem(Level *parent)
 }
 
 
-void MinimapSystem::accept(GEvents::LevelReady *evt)
+void UISystem::accept(GEvents::LevelReady *evt)
 {
     m_level->generateMinimapData();
 }
 
-void MinimapSystem::accept(GEvents::EntityMove *evt)
+void UISystem::accept(GEvents::EntityMove *evt)
 {
     // If the player has moved, the FOV may have changed - regenerate the minimap
     // TODO: Regenerate the minimap on any FOV change, not just player movement
     // TODO: Don't regenerate the minimap for non-FOV altering movement - FOV change event?
+    // TODO: Minimap out of sync with the player!
     if ( m_level->isPlayer( evt->ent ) )
     {
         m_level->generateMinimapData();
