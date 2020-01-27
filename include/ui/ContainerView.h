@@ -3,13 +3,14 @@
 #include <ui/Element.h>
 #include <game/Entity.h>
 
+struct ContainerComponent;
+
 namespace UI
 {
 
 struct ContainerViewItem
 {
     Sprite sprite;
-    Vector2i pos;
 };
 
 // A view into a container of items, e.g. a chest or the inventory of an actor
@@ -17,8 +18,11 @@ class ContainerView : public Element
 {
 
 public:
-    ContainerView();
+    ContainerView( );
     ~ContainerView() override = default;
+
+    void attachContainer( std::shared_ptr<::ContainerComponent> container );
+    void reimportItems();
 
 private:
 
@@ -27,9 +31,8 @@ private:
     void onMoveSelf() override;
 
     void rearrangeItems();
-    void reimportItems();
 
-    EntityRef m_container;
+    std::shared_ptr<ContainerComponent> m_container;
     std::vector<ContainerViewItem> m_items;
     Vector2i m_tileBounds;
 

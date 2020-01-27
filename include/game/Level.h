@@ -37,7 +37,12 @@ struct IEventMouseDown;
 struct IEventWindowResize;
 class LevelFactory;
 class Action;
-namespace UI { class TextLog; }
+
+namespace UI {
+    class TextLog;
+    class ContainerView;
+    class EquippedItemsView;
+}
 
 // Typedefs 
 using EntityCompMap = std::unordered_map<EntityRef, std::shared_ptr<BaseComponent>>;
@@ -223,6 +228,9 @@ public:
     void addTextLogMessage( std::string_view sv, Colour const& colour );
     void addTextLogMessage( std::string_view sv );
 
+    std::shared_ptr<UI::EquippedItemsView> getUIPlayerEquip();
+    std::shared_ptr<UI::ContainerView> getUIPlayerInventory();
+
     std::string_view getDescriptionForEnt( EntityRef ent );
 
 private:
@@ -321,6 +329,8 @@ private:
     // UI
     UI::Manager m_uiManager;
     std::shared_ptr<UI::TextLog> m_textLog;
+    std::shared_ptr<UI::ContainerView> m_playerContainerView;
+    std::shared_ptr<UI::EquippedItemsView> m_playerEquippedView;
 
     Camera m_camera;
 };

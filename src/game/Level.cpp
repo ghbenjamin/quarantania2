@@ -47,6 +47,8 @@ void Level::setReady()
     auto tpos = getComponents<PositionComponent>(ref);
     m_camera.centreOnTile(tpos->position);
 
+    auto cContainer = getComponents<ContainerComponent>(ref);
+    m_playerContainerView->attachContainer( cContainer );
 
     addTextLogMessage( fmt::format("Welcome to level {}!", m_ctx->depth), Colour::White );
 }
@@ -205,17 +207,17 @@ void Level::setupUI()
 
     minimap->setPreferredOuterSize({0, 180});
 
-    auto equipView = m_uiManager.createElement<UI::EquippedItemsView>(
+    m_playerEquippedView = m_uiManager.createElement<UI::EquippedItemsView>(
         trframe.get()
     );
 
-    equipView->setPreferredOuterSize({0, 200});
+    m_playerEquippedView->setPreferredOuterSize({0, 200});
 
-    auto playerInv = m_uiManager.createElement<UI::ContainerView>(
+    m_playerContainerView = m_uiManager.createElement<UI::ContainerView>(
         trframe.get()
     );
 
-    playerInv->setPreferredOuterSize({0, 200});
+    m_playerContainerView->setPreferredOuterSize({0, 200});
 }
 
 void Level::layoutWindows()
@@ -480,4 +482,14 @@ std::string_view Level::getDescriptionForEnt(EntityRef ent)
 
 
     return "<unknown>";
+}
+
+std::shared_ptr<UI::EquippedItemsView> Level::getUIPlayerEquip()
+{
+    return m_playerEquippedView;
+}
+
+std::shared_ptr<UI::ContainerView> Level::getUIPlayerInventory()
+{
+    return m_playerContainerView;
 }

@@ -7,7 +7,8 @@
 
 class UISystem : public System,
                  public GEventSub<GEvents::LevelReady>,
-                 public GEventSub<GEvents::EntityMove>
+                 public GEventSub<GEvents::EntityMove>,
+                 public GEventSub<GEvents::ItemPickup>
 {
 public:
     explicit UISystem(Level *parent);
@@ -15,4 +16,6 @@ public:
 
     void accept(GEvents::LevelReady *evt) override;
     void accept(GEvents::EntityMove *evt) override;
+    void accept(GEvents::ItemPickup *evt) override;
+
 };

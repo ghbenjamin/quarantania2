@@ -1,6 +1,8 @@
 #include <ui/ContainerView.h>
 #include <graphics/Primatives.h>
 #include <graphics/RenderInterface.h>
+#include <components/ContainerComponent.h>
+#include <resource/ResourceManager.h>
 
 UI::ContainerView::ContainerView()
 : m_emptySlot( createRectangle( {IconSize, IconSize}, Colour::Black ) )
@@ -57,7 +59,18 @@ void UI::ContainerView::rearrangeItems()
 
 void UI::ContainerView::reimportItems()
 {
-    // ????
+    m_items.clear();
+    for ( auto const& item : m_container->items )
+    {
+        auto sprite = ResourceManager::get().getSprite( item->data()->sprite );
+        sprite.setRenderLayer(RenderLayer::UI);
+        m_items.push_back( ContainerViewItem{sprite} );
+    }
+}
+
+void UI::ContainerView::attachContainer(std::shared_ptr<ContainerComponent> container)
+{
+    m_container = container;
 }
 
 

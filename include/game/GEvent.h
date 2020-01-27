@@ -7,6 +7,15 @@
 
 using GEventId = std::size_t;
 
+enum class GEventTiming
+{
+    On,
+    After
+};
+
+static constexpr int GEventTimingCount = 2;
+
+
 class GEventBase
 {
 public:
@@ -49,6 +58,17 @@ public:
     virtual void accept( ET* evt ) = 0;
 };
 
+struct GEventCallback
+{
+    GEventSubBase* target;
+    GEventTiming timing;
+
+    bool operator<(const GEventCallback &rhs) const;
+    bool operator>(const GEventCallback &rhs) const;
+    bool operator<=(const GEventCallback &rhs) const;
+    bool operator>=(const GEventCallback &rhs) const;
+};
+
 class GEventHub
 {
 public:
@@ -59,14 +79,20 @@ public:
     GEventHub& operator=( const GEventHub& ) = delete;
 
     template <typename EvtType, typename SubType>
-    void subscribe( SubType* receiver )
+    void subscribe( SubType* receiver, GEventTiming timing )
     {
         static_assert( std::is_base_of_v<GEventSubBase, SubType> );
         static_assert( std::is_base_of_v<GEventBase, EvtType> );
 
         GEventSubBase* base = static_cast<SubType*>(receiver);
 
-        m_subs.emplace( GEvent<EvtType>::id(), base );
+        m_subs.emplace( GEvent<EvtType>::id(), GEventCallback{ base, timing } );
+    };
+
+    template <typename EvtType, typename SubType>
+    void subscribe( SubType* receiver )
+    {
+       subscribe<EvtType, SubType>( receiver, GEventTiming::On );
     };
 
     template <typename EvtType, typename SubType>
@@ -95,10 +121,16 @@ public:
 
         auto it_range = m_subs.equal_range( GEvent<EvtType>::id() );
 
-        for (auto it = it_range.first; it != it_range.second; it++)
+        for ( int i = 0; i < GEventTimingCount; i++ )
         {
-            GEventSubBase* base = it->second;
-            dynamic_cast<GEventSub<EvtType>*>(base)->accept( evt );
+            for (auto it = it_range.first; it != it_range.second; it++)
+            {
+                if ( (int)(it->second.timing) == i )
+                {
+                    GEventSubBase* base = it->second.target;
+                    dynamic_cast<GEventSub<EvtType>*>(base)->accept( evt );
+                }
+            }
         }
     }
 
@@ -115,7 +147,7 @@ public:
 
 private:
 
-    std::unordered_multimap<GEventId, GEventSubBase*> m_subs;
+    std::unordered_multimap<GEventId, GEventCallback> m_subs;
 };
 
 
