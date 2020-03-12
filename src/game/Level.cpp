@@ -30,7 +30,8 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     m_isComplete(false),
     m_minimap{ m_bounds, 5 },
     m_camera( m_bounds * GlobalConfig::TileSizePx ),
-    m_controller( std::make_unique<DefaultLController>(this) )
+    m_controller( std::make_unique<DefaultLController>(this) ),
+    m_uiManager(this)
 {
     registerComponents<AllComponents>();
     registerSystems<AllSystems>();
@@ -47,8 +48,7 @@ void Level::setReady()
     auto tpos = getComponents<PositionComponent>(ref);
     m_camera.centreOnTile(tpos->position);
 
-    auto cContainer = getComponents<ContainerComponent>(ref);
-    m_playerContainerView->attachContainer( cContainer );
+    m_playerContainerView->attachEntity(ref);
 
     addTextLogMessage( fmt::format("Welcome to level {}!", m_ctx->depth), Colour::White );
 }

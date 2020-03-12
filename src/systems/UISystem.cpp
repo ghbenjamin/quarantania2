@@ -34,3 +34,8 @@ void UISystem::accept(GEvents::ItemPickup *evt)
     }
 }
 
+void UISystem::accept(GEvents::ItemDrop *evt)
+{
+    Logging::log("WEEWOOWEEWOO");
+}
+

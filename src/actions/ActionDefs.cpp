@@ -160,3 +160,26 @@ bool PickUpItemAction::doAction() const
     m_level->events().broadcast<GEvents::ItemPickup>( m_actor, m_subject );
     return true;
 }
+
+
+DropItemAction::DropItemAction(Level *level, EntityRef actor, std::shared_ptr<Item> item)
+        : Action(level), m_actor(actor), m_item(item)
+{
+
+}
+
+const char *DropItemAction::description() const
+{
+    return "Drop";
+}
+
+bool DropItemAction::canTryAction() const
+{
+    return true;
+}
+
+bool DropItemAction::doAction() const
+{
+    Logging::log("DROPPED");
+    return true;
+}

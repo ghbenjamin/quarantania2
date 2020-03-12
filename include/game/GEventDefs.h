@@ -3,6 +3,8 @@
 #include <game/GEvent.h>
 #include <game/Entity.h>
 
+class Item;
+
 namespace GEvents
 {
 
@@ -67,6 +69,15 @@ struct ItemPickup : public GEvent<ItemPickup>
 
     EntityRef actor;
     EntityRef item;
+};
+
+struct ItemDrop : public GEvent<ItemDrop>
+{
+    ItemDrop(EntityRef actor, std::shared_ptr<Item> item);
+    ~ItemDrop() override = default;
+
+    EntityRef actor;
+    std::shared_ptr<Item> item;
 };
 
 }

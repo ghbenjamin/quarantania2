@@ -251,6 +251,16 @@ bool Manager::handleMouseMove(IEventMouseMove evt)
 
     m_hoveredElems = elems;
 
+    UEvent moveEvent;
+    moveEvent.type = UEventType::MouseMove;
+    moveEvent.mouseMoveEvent.pos = evt.screenPos;
+
+    for ( auto const& w: elems )
+    {
+        moveEvent.targetElement = w;
+        w->acceptEvent(moveEvent);
+    }
+
     if ( !exits.empty() )
     {
         UEvent exitEvent;
@@ -306,6 +316,16 @@ void Manager::removeTileHighlight()
 void Manager::cancelContextMenu()
 {
     deleteElement( withId( "context-menu" ) );
+}
+
+Manager::Manager(Level *level)
+: m_level(level)
+{
+}
+
+Level *Manager::level()
+{
+    return m_level;
 }
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, int offset)

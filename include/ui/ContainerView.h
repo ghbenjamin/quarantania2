@@ -4,6 +4,7 @@
 #include <game/Entity.h>
 
 struct ContainerComponent;
+class Item;
 
 namespace UI
 {
@@ -11,6 +12,7 @@ namespace UI
 struct ContainerViewItem
 {
     Sprite sprite;
+    std::shared_ptr<Item> item;
 };
 
 // A view into a container of items, e.g. a chest or the inventory of an actor
@@ -21,7 +23,7 @@ public:
     ContainerView( );
     ~ContainerView() override = default;
 
-    void attachContainer( std::shared_ptr<::ContainerComponent> container );
+    void attachEntity(EntityRef entity);
     void reimportItems();
 
 private:
@@ -30,9 +32,16 @@ private:
     void onSizeSelf() override;
     void onMoveSelf() override;
 
+    void onClick( UMouseButtonEvent& evt );
+    void onMouseMove( UMouseMoveEvent& evt );
+
     void rearrangeItems();
 
-    std::shared_ptr<ContainerComponent> m_container;
+    ContainerViewItem const* itemFromPosition( Vector2i position ) const;
+
+private:
+
+    EntityRef m_entity;
     std::vector<ContainerViewItem> m_items;
     Vector2i m_tileBounds;
 
@@ -40,6 +49,7 @@ private:
     static const int PaddingThick = 2;
 
     Sprite m_emptySlot;
+    ContainerViewItem const* m_hoveredItem;
 };
 
 }

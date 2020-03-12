@@ -2,6 +2,8 @@
 
 #include <actions/Action.h>
 
+class Item;
+
 class StepAction : public TileAction
 {
 public:
@@ -75,5 +77,18 @@ public:
     bool doAction() const override;
 };
 
+class DropItemAction : public Action
+{
+public:
+    DropItemAction(Level* level, EntityRef actor, std::shared_ptr<Item> item);
+    ~DropItemAction() override = default;
 
+    const char* description() const override;
+    bool canTryAction() const override;
+    bool doAction() const override;
+
+private:
+    EntityRef m_actor;
+    std::shared_ptr<Item> m_item;
+};
 

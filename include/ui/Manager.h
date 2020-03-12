@@ -9,6 +9,7 @@
 #include <game/InputInterface.h>
 
 struct IEvent;
+class Level;
 class InputInterface;
 class RenderInterface;
 
@@ -30,9 +31,10 @@ class Manager
 {
 public:
 
-    Manager() = default;
+    Manager(Level* level);
     ~Manager() = default;
 
+    Level* level();
     bool input(IEvent &evt);
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
@@ -105,6 +107,7 @@ private:
     ElementList m_hoveredElems;
     ElementPtr m_mouseDownElem;
 
+    Level* m_level;
 };
 
 }

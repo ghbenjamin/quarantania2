@@ -14,3 +14,6 @@ GEvents::MeleeAttack::MeleeAttack(EntityRef attacker, EntityRef defender)
 
 GEvents::ItemPickup::ItemPickup(EntityRef actor, EntityRef item)
     : actor(actor), item(item) {}
+
+GEvents::ItemDrop::ItemDrop(EntityRef actor, std::shared_ptr<Item> item)
+    : actor(actor), item(item) {}

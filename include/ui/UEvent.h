@@ -15,6 +15,7 @@ enum class UEventType
 
     MouseIn,
     MouseOut,
+    MouseMove,
 
     KeyDown,
     KeyUp,
@@ -25,6 +26,9 @@ struct UMouseButtonEvent
 {
     int button;
     Vector2i pos;
+
+    static constexpr int LeftMouseButton = 1;
+    static constexpr int RightMouseButton = 3;
 };
 
 struct UMouseMoveEvent
