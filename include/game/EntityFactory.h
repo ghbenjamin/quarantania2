@@ -20,7 +20,9 @@ public:
     PlayerPtr createPlayer(ImPlayerData & data, Vector2i startPos) const;
     EntityRef createPrefab(PrefabType ptype, Vector2i pos) const;
     EntityRef createEnemy(std::string const& name, Vector2i pos) const;
+
     EntityRef createItem(std::string const& name, Vector2i pos) const;
+    EntityRef createItem(std::shared_ptr<Item>, Vector2i pos) const;
 
 private:
 

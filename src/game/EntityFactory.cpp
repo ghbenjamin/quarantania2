@@ -98,4 +98,20 @@ EntityRef EntityFactory::createItem(std::string const &name, Vector2i pos) const
     return eref;
 }
 
+EntityRef EntityFactory::createItem(std::shared_ptr<Item> item, Vector2i pos) const
+{
+    auto eref = m_parent->createEntity();
+
+    auto sprite = ResourceManager::get().getSprite( item->data()->sprite );
+    sprite.setRenderLayer(RenderLayer::Entity);
+
+    m_parent->addComponent<PositionComponent>(eref, pos);
+    m_parent->addComponent<RenderComponent>(eref, sprite);
+    m_parent->addComponent<ColliderComponent>(eref, false, false);
+    m_parent->addComponent<ItemComponent>(eref, item);
+
+    m_parent->entityReady(eref);
+    return eref;
+}
+
 

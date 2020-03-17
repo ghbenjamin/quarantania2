@@ -72,6 +72,7 @@ public:
 
     EntityRef createEntity();
     void deleteEntity(EntityRef ent);
+    EntityFactory& entityFactory();
 
     // Player Management
     void setPlayer( PlayerPtr&& player );

@@ -8,6 +8,7 @@ UISystem::UISystem(Level *parent)
     m_level->events().subscribe<GEvents::LevelReady>( this );
     m_level->events().subscribe<GEvents::EntityMove>( this, GEventTiming::After );
     m_level->events().subscribe<GEvents::ItemPickup>( this, GEventTiming::After );
+    m_level->events().subscribe<GEvents::ItemDrop>( this, GEventTiming::After );
 }
 
 void UISystem::accept(GEvents::LevelReady *evt)
@@ -36,6 +37,9 @@ void UISystem::accept(GEvents::ItemPickup *evt)
 
 void UISystem::accept(GEvents::ItemDrop *evt)
 {
-    Logging::log("WEEWOOWEEWOO");
+    if ( m_level->isPlayer( evt->actor ) )
+    {
+        m_level->getUIPlayerInventory()->reimportItems();
+    }
 }
 

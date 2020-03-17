@@ -3,6 +3,7 @@
 #include <components/All.h>
 #include <utils/GridUtils.h>
 #include <components/ContainerComponent.h>
+#include <utils/Assert.h>
 
 bool StepAction::doAction() const
 {
@@ -180,6 +181,8 @@ bool DropItemAction::canTryAction() const
 
 bool DropItemAction::doAction() const
 {
-    Logging::log("DROPPED");
+    auto container = m_level->getComponents<ContainerComponent>( m_actor );
+    m_level->events().broadcast<GEvents::ItemDrop>( m_actor, m_item );
+
     return true;
 }
