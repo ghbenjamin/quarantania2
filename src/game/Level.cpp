@@ -483,6 +483,12 @@ std::string_view Level::getDescriptionForEnt(EntityRef ent)
     return "<unknown>";
 }
 
+std::string_view Level::getDescriptionForItem(ItemPtr item)
+{
+    return item->data()->name;
+}
+
+
 std::shared_ptr<UI::EquippedItemsView> Level::getUIPlayerEquip()
 {
     return m_playerEquippedView;
@@ -497,3 +503,4 @@ EntityFactory &Level::entityFactory()
 {
     return m_entFactory;
 }
+

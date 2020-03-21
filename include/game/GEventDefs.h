@@ -2,6 +2,7 @@
 
 #include <game/GEvent.h>
 #include <game/Entity.h>
+#include <game/Items.h>
 
 class Item;
 
@@ -79,5 +80,16 @@ struct ItemDrop : public GEvent<ItemDrop>
     EntityRef actor;
     std::shared_ptr<Item> item;
 };
+
+struct ItemEquip : public GEvent<ItemEquip>
+{
+    ItemEquip(EntityRef actor, std::shared_ptr<Item> item, EquipSlot slot);
+    ~ItemEquip() override = default;
+
+    EntityRef actor;
+    std::shared_ptr<Item> item;
+    EquipSlot slot;
+};
+
 
 }

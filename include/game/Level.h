@@ -233,6 +233,7 @@ public:
     std::shared_ptr<UI::ContainerView> getUIPlayerInventory();
 
     std::string_view getDescriptionForEnt( EntityRef ent );
+    std::string_view getDescriptionForItem( ItemPtr item );
 
 private:
 

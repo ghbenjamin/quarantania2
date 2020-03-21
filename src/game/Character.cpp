@@ -31,6 +31,21 @@ ItemPtr Character::unequipItem(EquipSlot slot)
     return ptr;
 }
 
+ItemPtr Character::equipItem(EquipSlot slot, ItemPtr item)
+{
+    auto lastEquipped = std::shared_ptr<Item>();
+
+    if ( hasEquipped(slot) )
+    {
+        lastEquipped = unequipItem(slot);
+    }
+    else
+
+    m_equippedItems.emplace( slot, item );
+
+    return lastEquipped;
+}
+
 bool Character::hasEquippedWeapon() const
 {
     return !!m_equippedWeapon;
@@ -38,23 +53,6 @@ bool Character::hasEquippedWeapon() const
 ItemPtr Character::equippedWeaponData() const
 {
     return m_equippedWeapon;
-}
-
-ItemPtr Character::unequipWeapon()
-{
-    auto ptr = m_equippedWeapon;
-    m_equippedWeapon = ItemPtr {};
-    return ptr;
-}
-
-void Character::equipItem(EquipSlot slot, ItemPtr item)
-{
-    m_equippedItems.emplace( slot, item );
-}
-
-void Character::equipWeapon(ItemPtr item)
-{
-    m_equippedWeapon = item;
 }
 
 WeaponData *Character::getCurrentWeaponData()

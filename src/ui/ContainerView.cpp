@@ -128,13 +128,18 @@ void UI::ContainerView::onClick(UI::UMouseButtonEvent& evt)
         auto selectedItem = itemFromPosition( evt.pos - globalPosition() - contentOffset() );
         if ( selectedItem != nullptr )
         {
-            auto dropAction = std::make_shared<DropItemAction>( manager()->level(), m_entity, selectedItem->item );
-            dropAction->doAction();
+            auto equipAction = std::make_shared<EquipItemAction>( manager()->level(), m_entity, selectedItem->item );
+            equipAction->doAction();
         }
     }
     else if ( evt.button == UI::UMouseButtonEvent::RightMouseButton )
     {
         auto selectedItem = itemFromPosition( evt.pos - globalPosition() - contentOffset() );
+        if ( selectedItem != nullptr )
+        {
+            auto dropAction = std::make_shared<DropItemAction>( manager()->level(), m_entity, selectedItem->item );
+            dropAction->doAction();
+        }
     }
 }
 
@@ -152,5 +157,3 @@ UI::ContainerViewItem const* UI::ContainerView::itemFromPosition(Vector2i positi
 
     return nullptr;
 }
-
-

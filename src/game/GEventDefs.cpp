@@ -17,3 +17,6 @@ GEvents::ItemPickup::ItemPickup(EntityRef actor, EntityRef item)
 
 GEvents::ItemDrop::ItemDrop(EntityRef actor, std::shared_ptr<Item> item)
     : actor(actor), item(item) {}
+
+GEvents::ItemEquip::ItemEquip(EntityRef actor, std::shared_ptr<Item> item, EquipSlot slot)
+    : actor(actor), item(item), slot(slot) {}

@@ -186,3 +186,48 @@ bool DropItemAction::doAction() const
 
     return true;
 }
+
+EquipItemAction::EquipItemAction(Level *level, EntityRef actor, std::shared_ptr<Item> item)
+        : Action(level), m_actor(actor), m_item(item)
+{
+}
+
+const char *EquipItemAction::description() const
+{
+    return "Equip";
+}
+
+bool EquipItemAction::canTryAction() const
+{
+    return true;
+}
+
+bool EquipItemAction::doAction() const
+{
+    auto containerC = m_level->getComponents<ContainerComponent>( m_actor );
+    auto actorC = m_level->getComponents<ActorComponent>( m_actor );
+
+    m_level->events().broadcast<GEvents::ItemEquip>( m_actor, m_item, EquipSlot::Head /*TODO FIX*/ );
+
+    return true;
+}
+
+UnequipItemAction::UnequipItemAction(Level *level, EntityRef actor, std::shared_ptr<Item> item)
+        : Action(level), m_actor(actor), m_item(item)
+{
+}
+
+const char *UnequipItemAction::description() const
+{
+    return "Unquip";
+}
+
+bool UnequipItemAction::canTryAction() const
+{
+    return true;
+}
+
+bool UnequipItemAction::doAction() const
+{
+    return true;
+}
