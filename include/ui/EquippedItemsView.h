@@ -4,6 +4,7 @@
 #include <game/Entity.h>
 
 #include <vector>
+#include <game/Items.h>
 
 namespace UI
 {
@@ -30,11 +31,16 @@ enum class EquippedItemSlotType
 
 struct EquippedItemSlot
 {
-    EquippedItemSlotType type;
-    bool visible = true;
-    Sprite sprite;
+    EquippedItemSlot(EquipSlot type, const Sprite &emptySprite, const Vector2i &offset, const Vector2i &pos);
+    ~EquippedItemSlot() = default;
+
+    EquipSlot type;
+    Sprite emptySprite;
     Vector2i offset;
     Vector2i pos;
+
+    ItemPtr equippedItem;
+    Sprite itemSprite;
 };
 
 
@@ -46,7 +52,12 @@ public:
     EquippedItemsView();
     ~EquippedItemsView() override = default;
 
+    void attachEntity(EntityRef entity);
+    void reimportItems();
+
 private:
+
+    void onClick( UMouseButtonEvent& evt );
 
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
     void onSizeSelf() override;
@@ -54,7 +65,11 @@ private:
 
     void layoutSlots();
 
+private:
+    EquippedItemSlot const* itemFromPosition( Vector2i position ) const;
+
     std::vector<EquippedItemSlot> m_slotData;
+    EntityRef m_entity;
 };
 
 }

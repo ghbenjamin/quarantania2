@@ -1,6 +1,7 @@
 #include <systems/UISystem.h>
 #include <game/Level.h>
 #include <ui/ContainerView.h>
+#include <ui/EquippedItemsView.h>
 
 UISystem::UISystem(Level *parent)
         : System(parent)
@@ -33,6 +34,7 @@ void UISystem::accept(GEvents::ItemPickup *evt)
     if ( m_level->isPlayer( evt->actor ) )
     {
         m_level->getUIPlayerInventory()->reimportItems();
+        m_level->getUIPlayerEquip()->reimportItems();
     }
 }
 
@@ -41,6 +43,7 @@ void UISystem::accept(GEvents::ItemDrop *evt)
     if ( m_level->isPlayer( evt->actor ) )
     {
         m_level->getUIPlayerInventory()->reimportItems();
+        m_level->getUIPlayerEquip()->reimportItems();
     }
 }
 
@@ -49,6 +52,7 @@ void UISystem::accept(GEvents::ItemEquip *evt)
     if ( m_level->isPlayer( evt->actor ) )
     {
         m_level->getUIPlayerInventory()->reimportItems();
+        m_level->getUIPlayerEquip()->reimportItems();
     }
 }
 

@@ -3,7 +3,7 @@
 #include <systems/System.h>
 #include <game/GEventDefs.h>
 
-class ContainerComponent;
+struct ContainerComponent;
 class Item;
 
 class ItemSystem : public System,

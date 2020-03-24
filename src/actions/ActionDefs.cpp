@@ -1,4 +1,7 @@
 #include <actions/ActionDefs.h>
+
+#include <optional>
+
 #include <game/Level.h>
 #include <components/All.h>
 #include <utils/GridUtils.h>
@@ -206,8 +209,31 @@ bool EquipItemAction::doAction() const
 {
     auto containerC = m_level->getComponents<ContainerComponent>( m_actor );
     auto actorC = m_level->getComponents<ActorComponent>( m_actor );
+    auto possibleSlots = m_item->data()->equipSlots.unpack();
 
-    m_level->events().broadcast<GEvents::ItemEquip>( m_actor, m_item, EquipSlot::Head /*TODO FIX*/ );
+    if ( possibleSlots.empty() )
+    {
+        AssertAlwaysMsg( "Equipping an item with no equip slots marked" );
+    }
+
+    // Find the first slot that this item will accept which is empty on the target actor
+    std::optional<EquipSlot> toEquip;
+    for ( auto const& slot : possibleSlots )
+    {
+        if ( !actorC->character.hasEquipped(slot) )
+        {
+            toEquip = slot;
+            break;
+        }
+    }
+
+    // If none of the potential slots are free, replace the currently equipped item
+    if ( !toEquip.has_value() )
+    {
+        toEquip = *possibleSlots.begin();
+    }
+
+    m_level->events().broadcast<GEvents::ItemEquip>( m_actor, m_item, toEquip.value() );
 
     return true;
 }

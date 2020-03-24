@@ -52,19 +52,22 @@
       "Name": "Longspear",
       "Value": "5",
       "Weight": "9",
-      "Sprite": [ "dawnlike_items", "ShortWep_001" ]
+      "Sprite": [ "dawnlike_items", "ShortWep_001" ],
+      "EquipSlots" : [ "MainHand" ]
     },
     {
       "Name": "Quarterstaff",
       "Value": "1",
       "Weight": "4",
-      "Sprite": [ "dawnlike_items", "ShortWep_001" ]
+      "Sprite": [ "dawnlike_items", "ShortWep_001" ],
+      "EquipSlots" : [ "MainHand" ]
     },
     {
       "Name": "Spear",
       "Value": "2",
       "Weight": "6",
-      "Sprite": [ "dawnlike_items", "ShortWep_001" ]
+      "Sprite": [ "dawnlike_items", "ShortWep_001" ],
+      "EquipSlots" : [ "MainHand" ]
     },
     {
       "Name": "Axe",
@@ -160,7 +163,8 @@
       "Name": "Warhammer",
       "Value": "12",
       "Weight": "5",
-      "Sprite": [ "dawnlike_items", "ShortWep_001" ]
+      "Sprite": [ "dawnlike_items", "ShortWep_001" ],
+      "EquipSlots" : [ "MainHand" ]
     },
     {
       "Name": "Falchion",
@@ -178,7 +182,8 @@
       "Name": "Glaive",
       "Value": "8",
       "Weight": "10",
-      "Sprite": [ "dawnlike_items", "ShortWep_001" ]
+      "Sprite": [ "dawnlike_items", "ShortWep_001" ],
+      "EquipSlots" : [ "MainHand" ]
     },
     {
       "Name": "Greataxe",
@@ -190,31 +195,36 @@
       "Name": "Greatclub",
       "Value": "5",
       "Weight": "8",
-      "Sprite": [ "dawnlike_items", "ShortWep_001" ]
+      "Sprite": [ "dawnlike_items", "ShortWep_001" ],
+      "EquipSlots" : [ "MainHand" ]
     },
     {
       "Name": "Greatsword",
       "Value": "50",
       "Weight": "8",
-      "Sprite": [ "dawnlike_items", "ShortWep_001" ]
+      "Sprite": [ "dawnlike_items", "ShortWep_001" ],
+      "EquipSlots" : [ "MainHand" ]
     },
     {
       "Name": "Halberd",
       "Value": "10",
       "Weight": "12",
-      "Sprite": [ "dawnlike_items", "ShortWep_001" ]
+      "Sprite": [ "dawnlike_items", "ShortWep_001" ],
+      "EquipSlots" : [ "MainHand" ]
     },
     {
       "Name": "Lucerne",
       "Value": "15",
       "Weight": "12",
-      "Sprite": [ "dawnlike_items", "ShortWep_001" ]
+      "Sprite": [ "dawnlike_items", "ShortWep_001" ],
+      "EquipSlots" : [ "MainHand" ]
     },
     {
       "Name": "Lance",
       "Value": "10",
       "Weight": "10",
-      "Sprite": [ "dawnlike_items", "ShortWep_001" ]
+      "Sprite": [ "dawnlike_items", "ShortWep_001" ],
+      "EquipSlots" : [ "MainHand" ]
     },
     {
       "Name": "Pickaxe",

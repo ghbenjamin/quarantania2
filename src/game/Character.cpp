@@ -19,7 +19,15 @@ bool Character::hasEquipped(EquipSlot slot) const
 
 const ItemPtr Character::getEquipped(EquipSlot slot) const
 {
-    return m_equippedItems.at(slot);
+    auto it = m_equippedItems.find(slot);
+    if ( it != m_equippedItems.end() )
+    {
+        return it->second;
+    }
+    else
+    {
+        return ItemPtr();
+    }
 }
 
 ItemPtr Character::unequipItem(EquipSlot slot)

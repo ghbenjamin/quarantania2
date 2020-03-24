@@ -42,13 +42,14 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 
 void Level::setReady()
 {
-    m_gevents.broadcast<GEvents::LevelReady>();
-
     auto ref = getPlayer()->ref();
     auto tpos = getComponents<PositionComponent>(ref);
     m_camera.centreOnTile(tpos->position);
 
     m_playerContainerView->attachEntity(ref);
+    m_playerEquippedView->attachEntity(ref);
+
+    m_gevents.broadcast<GEvents::LevelReady>();
 
     addTextLogMessage( fmt::format("Welcome to level {}!", m_ctx->depth), Colour::White );
 }
