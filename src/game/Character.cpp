@@ -47,7 +47,6 @@ ItemPtr Character::equipItem(EquipSlot slot, ItemPtr item)
     {
         lastEquipped = unequipItem(slot);
     }
-    else
 
     m_equippedItems.emplace( slot, item );
 

@@ -12,6 +12,7 @@ ItemSystem::ItemSystem(Level *parent)
     m_level->events().subscribe<GEvents::ItemPickup>( this );
     m_level->events().subscribe<GEvents::ItemDrop>( this );
     m_level->events().subscribe<GEvents::ItemEquip>( this );
+    m_level->events().subscribe<GEvents::ItemUnequip>( this );
 }
 
 void ItemSystem::accept(GEvents::ItemPickup *evt)
@@ -55,12 +56,19 @@ void ItemSystem::accept(GEvents::ItemEquip *evt)
     {
         containerC->items.push_back( oldItem );
     }
-
-    m_level->addTextLogMessage( fmt::format("{} equips the {}",
-        m_level->getDescriptionForEnt( evt->actor ),
-        m_level->getDescriptionForItem( evt->item )
-    ));
 }
+
+void ItemSystem::accept(GEvents::ItemUnequip *evt)
+{
+    auto containerC = m_level->getComponents<ContainerComponent>( evt->actor );
+    auto actorC = m_level->getComponents<ActorComponent>( evt->actor );
+
+    auto item = actorC->character.unequipItem( evt->slot );
+    AssertMsg( !!item, "Unequipping empty item slot" );
+
+    containerC->items.push_back( item );
+}
+
 
 void ItemSystem::eraseItemFromContainer(std::shared_ptr<ContainerComponent> container, std::shared_ptr<Item> item)
 {

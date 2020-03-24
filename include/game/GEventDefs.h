@@ -41,7 +41,6 @@ struct EntityUnlock : public GEvent<EntityUnlock>
     EntityRef ent;
 };
 
-
 struct LevelReady : public GEvent<LevelReady>
 {
     LevelReady() = default;
@@ -88,6 +87,15 @@ struct ItemEquip : public GEvent<ItemEquip>
 
     EntityRef actor;
     std::shared_ptr<Item> item;
+    EquipSlot slot;
+};
+
+struct ItemUnequip : public GEvent<ItemUnequip>
+{
+    ItemUnequip(EntityRef actor, EquipSlot slot);
+    ~ItemUnequip() override = default;
+
+    EntityRef actor;
     EquipSlot slot;
 };
 

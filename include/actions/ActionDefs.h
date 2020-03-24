@@ -1,6 +1,7 @@
 #pragma once
 
 #include <actions/Action.h>
+#include <game/Items.h>
 
 class Item;
 
@@ -115,7 +116,7 @@ private:
 class UnequipItemAction : public Action
 {
 public:
-    UnequipItemAction(Level* level, EntityRef actor, std::shared_ptr<Item> item);
+    UnequipItemAction(Level* level, EntityRef actor, EquipSlot slot);
     ~UnequipItemAction() override = default;
 
     const char* description() const override;
@@ -124,5 +125,5 @@ public:
 
 private:
     EntityRef m_actor;
-    std::shared_ptr<Item> m_item;
+    EquipSlot m_slot;
 };

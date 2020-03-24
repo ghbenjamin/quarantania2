@@ -238,8 +238,8 @@ bool EquipItemAction::doAction() const
     return true;
 }
 
-UnequipItemAction::UnequipItemAction(Level *level, EntityRef actor, std::shared_ptr<Item> item)
-        : Action(level), m_actor(actor), m_item(item)
+UnequipItemAction::UnequipItemAction(Level *level, EntityRef actor, EquipSlot slot)
+        : Action(level), m_actor(actor), m_slot(slot)
 {
 }
 
@@ -255,5 +255,6 @@ bool UnequipItemAction::canTryAction() const
 
 bool UnequipItemAction::doAction() const
 {
+    m_level->events().broadcast<GEvents::ItemUnequip>( m_actor, m_slot );
     return true;
 }

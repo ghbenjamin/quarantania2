@@ -20,3 +20,6 @@ GEvents::ItemDrop::ItemDrop(EntityRef actor, std::shared_ptr<Item> item)
 
 GEvents::ItemEquip::ItemEquip(EntityRef actor, std::shared_ptr<Item> item, EquipSlot slot)
     : actor(actor), item(item), slot(slot) {}
+
+GEvents::ItemUnequip::ItemUnequip(EntityRef actor, EquipSlot slot)
+    : actor(actor), slot(slot) {}

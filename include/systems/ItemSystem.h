@@ -9,6 +9,7 @@ class Item;
 class ItemSystem : public System,
                    public GEventSub<GEvents::ItemPickup>,
                    public GEventSub<GEvents::ItemDrop>,
+                   public GEventSub<GEvents::ItemUnequip>,
                    public GEventSub<GEvents::ItemEquip>
 {
 public:
@@ -18,6 +19,7 @@ public:
     void accept(GEvents::ItemPickup *evt) override;
     void accept(GEvents::ItemDrop *evt) override;
     void accept(GEvents::ItemEquip *evt) override;
+    void accept(GEvents::ItemUnequip *evt) override;
 
 private:
 

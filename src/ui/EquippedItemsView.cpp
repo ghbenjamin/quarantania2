@@ -5,6 +5,7 @@
 #include <game/Level.h>
 #include <ui/Manager.h>
 #include <components/ActorComponent.h>
+#include <actions/ActionDefs.h>
 
 UI::EquippedItemsView::EquippedItemsView()
 {
@@ -96,7 +97,11 @@ void UI::EquippedItemsView::onClick(UI::UMouseButtonEvent &evt)
     auto ptr = itemFromPosition( evt.pos );
     if ( ptr )
     {
-        Logging::log( (int)ptr->type );
+        if ( ptr->equippedItem )
+        {
+            auto unequipAction = std::make_shared<UnequipItemAction>( manager()->level(), m_entity, ptr->type );
+            unequipAction->doAction();
+        }
     }
 }
 
