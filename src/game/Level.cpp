@@ -208,16 +208,10 @@ void Level::setupUI()
 
     minimap->setPreferredOuterSize({0, 180});
 
-    m_playerEquippedView = m_uiManager.createElement<UI::EquippedItemsView>(
-        trframe.get()
-    );
-
+    m_playerEquippedView = m_uiManager.createElement<UI::EquippedItemsView>( trframe.get() );
     m_playerEquippedView->setPreferredOuterSize({0, 200});
 
-    m_playerContainerView = m_uiManager.createElement<UI::ContainerView>(
-        trframe.get()
-    );
-
+    m_playerContainerView = m_uiManager.createElement<UI::ContainerView>( trframe.get() );
     m_playerContainerView->setPreferredOuterSize({0, 200});
 }
 

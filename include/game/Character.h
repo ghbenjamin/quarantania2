@@ -15,26 +15,9 @@ public:
 
     std::string_view name() const;
 
-    /**
-     *  Is there an item equipped in this slot?
-     */
     bool hasEquipped( EquipSlot slot ) const;
-
-    /**
-     *   Return a (readonly) pointer to the item in the given slot, if one exists.
-     */
     const ItemPtr getEquipped( EquipSlot slot ) const;
-
-    /**
-     *  Unequip the item in given slot, returning the item removed.
-     *  If the given slot is empty, noop.
-     */
     ItemPtr unequipItem( EquipSlot slot );
-
-    /**
-     *  Equip the given item in the given slot. If there is already an item in the given slot, unequip it
-     *  first and return it.
-     */
     ItemPtr equipItem( EquipSlot slot, ItemPtr item );
 
     bool hasEquippedWeapon() const;

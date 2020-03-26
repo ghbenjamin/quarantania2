@@ -11,7 +11,6 @@ public:
     Minimap(Vector2i size, int scale);
     ~Minimap() = default;
 
-
     void setTile(Vector2i coord, Colour const& colour );
     void setTile(int tileIdx, Colour const& colour );
 
