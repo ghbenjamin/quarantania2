@@ -167,7 +167,7 @@ bool Manager::handleMouseDown(IEventMouseDown evt)
 
     // Ignore the highlight elements
     elems.erase( std::remove_if( elems.begin(), elems.end(), [](auto const& item){
-        return item->hasClass("highlight");
+        return item->id() == "tile-highlight";
     }), elems.end());
 
     if ( elems.empty() )
@@ -305,7 +305,6 @@ void Manager::addTileHighlight(Vector2i screenPos)
     elem->setBackgroundSprite({"tile-ui", "green-brackets"});
     elem->setLocalPosition( screenPos );
     elem->setId("tile-highlight");
-    elem->addClass("highlight");
 }
 
 void Manager::removeTileHighlight()

@@ -41,7 +41,7 @@ private:
 class TextLog : public Element
 {
 public:
-    explicit TextLog();
+    TextLog(Manager* manager, Element* parent);
     ~TextLog() override = default;
 
     void addLine(std::string_view line, Colour const& colour = Colour::White );

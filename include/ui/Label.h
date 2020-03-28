@@ -10,7 +10,7 @@ namespace UI
 class Label : public Element
 {
 public:
-    Label();
+    Label(Manager* manager, Element* parent);
     ~Label() override = default;
 
     void setText( std::string const& text );

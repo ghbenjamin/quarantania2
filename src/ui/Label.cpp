@@ -4,9 +4,10 @@
 
 using namespace UI;
 
-Label::Label()
+Label::Label(Manager* manager, Element* parent)
+: Element(manager, parent)
 {
-    m_textNode = manager()->createElement<TextNode>(this);
+    m_textNode = manager->createElement<TextNode>(this);
 }
 
 void Label::setText(std::string const &text)

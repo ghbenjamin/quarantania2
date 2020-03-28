@@ -1,0 +1,9 @@
+{
+  "meta": {
+    "type": "free"
+  },
+  "data":
+  {
+    "main-ui-tab-control": [ 0, 0, 400, 500 ]
+  }
+}

@@ -20,7 +20,7 @@ class ContainerView : public Element
 {
 
 public:
-    ContainerView( );
+    ContainerView(Manager* manager, Element* parent);
     ~ContainerView() override = default;
 
     void attachEntity(EntityRef entity);
@@ -44,6 +44,7 @@ private:
     EntityRef m_entity;
     std::vector<ContainerViewItem> m_items;
     Vector2i m_tileBounds;
+    Vector2i m_tileOffset;
 
     static const int IconSize = 32;
     static const int PaddingThick = 2;

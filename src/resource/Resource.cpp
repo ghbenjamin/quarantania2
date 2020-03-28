@@ -91,7 +91,6 @@ void SpritesheetResource::load()
 
     auto tex = Texture::loadTexture( "../resource/spritesheet/" + m_path + ".png" );
 
-    std::unordered_map<std::string, int> gidMap;
     rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/spritesheet/" + m_path + ".json" );
 
     auto metaObj = doc.FindMember( "meta" )->value.GetObject();
@@ -100,6 +99,8 @@ void SpritesheetResource::load()
     std::string sheetType = metaObj.FindMember("type")->value.GetString();
     if ( sheetType == "tiled" )
     {
+        std::unordered_map<std::string, int> gidMap;
+
         for ( auto& node : dataObj )
         {
             gidMap.emplace( node.name.GetString(), node.value.GetInt() );
@@ -110,11 +111,24 @@ void SpritesheetResource::load()
     }
     else if ( sheetType == "free" )
     {
-        AssertAlways();
+        std::unordered_map<std::string, RectI> rectMap;
+
+        for ( auto& node : dataObj )
+        {
+            auto rectData = node.value.GetArray();
+            rectMap.emplace( node.name.GetString(),
+                    RectI{ rectData[0].GetInt(),
+                           rectData[1].GetInt(),
+                           rectData[2].GetInt(),
+                           rectData[3].GetInt()
+            });
+        }
+
+        m_spritesheet = std::make_shared<FreeSpritesheet>( tex, rectMap );
     }
     else
     {
-        AssertAlways();
+        AssertAlwaysMsg( fmt::format( "Unknown spriteseet type: {}", sheetType ).c_str() );
     }
 }
 

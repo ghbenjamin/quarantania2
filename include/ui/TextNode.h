@@ -12,8 +12,8 @@ namespace UI
 class TextNode : public Element
 {
 public:
-    TextNode();
-    explicit TextNode(TextStyle const& style);
+    TextNode(Manager* manager, Element* parent);
+    explicit TextNode(Manager* manager, Element* parent, TextStyle const& style);
     ~TextNode() override = default;
 
     void setText( std::string const& text );

@@ -10,7 +10,7 @@ namespace UI
 class ContextMenuItem : public Element
 {
 public:
-    explicit ContextMenuItem( std::string const& label, std::size_t idx );
+    explicit ContextMenuItem(Manager* manager, Element* parent, std::string const& label, std::size_t idx );
     ~ContextMenuItem() override = default;
 
     std::string const& label();
@@ -24,7 +24,7 @@ private:
 class ContextMenuSpacer : public Element
 {
 public:
-    ContextMenuSpacer();
+    ContextMenuSpacer(Manager* manager, Element* parent);
     ~ContextMenuSpacer() override = default;
 };
 
@@ -36,7 +36,7 @@ using ContextMenuCallback = std::function<void(std::size_t)>;
 class ContextMenu : public Element
 {
 public:
-    explicit ContextMenu( ContextMenuList const& items, ContextMenuCallback callback);
+    explicit ContextMenu( Manager* manager, Element* parent, ContextMenuList const& items, ContextMenuCallback callback);
     ~ContextMenu() override = default;
 
 private:

@@ -5,6 +5,10 @@
       "name": "tile-ui"
     },
     {
+      "key": "ui-frames",
+      "name": "ui-frames"
+    },
+    {
       "key": "dawnlike_chars",
       "name": "dawnlike_chars"
     },

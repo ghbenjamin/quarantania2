@@ -19,6 +19,7 @@
 #include <components/ItemComponent.h>
 #include <ui/ContainerView.h>
 #include <ui/EquippedItemsView.h>
+#include <ui/MainTabControl.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 :   m_ctx(std::move(ctx)),
@@ -208,11 +209,11 @@ void Level::setupUI()
 
     minimap->setPreferredOuterSize({0, 180});
 
-    m_playerEquippedView = m_uiManager.createElement<UI::EquippedItemsView>( trframe.get() );
-    m_playerEquippedView->setPreferredOuterSize({0, 200});
+    m_mainTabControl = m_uiManager.createElement<UI::MainTabControl>( trframe.get() );
+    m_playerEquippedView = m_uiManager.withId( "main-equip-view" )->asType<UI::EquippedItemsView>();
+    m_playerContainerView = m_uiManager.withId( "main-inventory-view" )->asType<UI::ContainerView>();
 
-    m_playerContainerView = m_uiManager.createElement<UI::ContainerView>( trframe.get() );
-    m_playerContainerView->setPreferredOuterSize({0, 200});
+    int a = 4;
 }
 
 void Level::layoutWindows()

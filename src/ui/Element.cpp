@@ -9,8 +9,8 @@
 
 using namespace UI;
 
-Element::Element() :
-    m_parent(nullptr), m_manager(nullptr),
+Element::Element(Manager* manager, Element* parent)
+  : m_parent(parent), m_manager(manager),
     m_hasBgColour(false), m_hasBorder(false),
     m_borderWidth(0), m_isHidden(false), m_layoutHeld(false),
     m_maxOuterSize({0, 0})
@@ -24,34 +24,9 @@ void Element::setId(std::string const &id)
     m_id = id;
 }
 
-void Element::unsetId()
-{
-    m_id = "";
-}
-
 std::string const& Element::id() const
 {
     return m_id;
-}
-
-bool Element::hasId() const
-{
-    return m_id.empty();
-}
-
-void Element::addClass(std::string const &c)
-{
-    m_classes.insert(c);
-}
-
-void Element::removeClass(std::string const &c)
-{
-    m_classes.erase(c);
-}
-
-bool Element::hasClass(std::string const &c) const
-{
-    return m_classes.find(c) != m_classes.end();
 }
 
 void Element::setParent(Element* elem)

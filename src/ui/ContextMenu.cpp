@@ -4,8 +4,8 @@
 
 #include <utility>
 
-UI::ContextMenu::ContextMenu(const UI::ContextMenuList &items, ContextMenuCallback callback)
-: m_callback(std::move(callback))
+UI::ContextMenu::ContextMenu(Manager* manager, Element* parent, const UI::ContextMenuList &items, ContextMenuCallback callback)
+: Element(manager, parent), m_callback(std::move(callback))
 {
     holdLayout();
     setLayout<UI::VerticalLayout>(0, UI::HAlignment::Fill);
@@ -14,14 +14,14 @@ UI::ContextMenu::ContextMenu(const UI::ContextMenuList &items, ContextMenuCallba
     {
         if ( items[i].empty() )
         {
-            manager()->createElement<UI::ContextMenuSpacer>( this );
+            manager->createElement<UI::ContextMenuSpacer>( this );
         }
         else
         {
-            auto ptr = manager()->createElement<UI::ContextMenuItem>( this, items[i], i );
+            auto ptr = manager->createElement<UI::ContextMenuItem>( this, items[i], i );
             ptr->addEventCallback(UEventType::Click, [this](UEvent& evt) {
                 m_callback( evt.targetElement->asType<UI::ContextMenuItem>()->index() );
-                manager()->deleteElement( shared_from_this() );
+                this->manager()->deleteElement( shared_from_this() );
             });
         }
     }
@@ -33,10 +33,10 @@ UI::ContextMenu::ContextMenu(const UI::ContextMenuList &items, ContextMenuCallba
     releaseLayout();
 }
 
-UI::ContextMenuItem::ContextMenuItem(std::string const &label, std::size_t idx)
-: m_label(label), m_idx(idx)
+UI::ContextMenuItem::ContextMenuItem(Manager* manager, Element* parent, std::string const &label, std::size_t idx)
+    : Element(manager, parent), m_label(label), m_idx(idx)
 {
-    auto tnode = manager()->createElement<UI::TextNode>( this );
+    auto tnode = manager->createElement<UI::TextNode>( this );
     tnode->setText( label );
     setPadding(0);
 
@@ -59,7 +59,8 @@ std::size_t UI::ContextMenuItem::index()
     return m_idx;
 }
 
-UI::ContextMenuSpacer::ContextMenuSpacer()
+UI::ContextMenuSpacer::ContextMenuSpacer(Manager* manager, Element* parent)
+    : Element(manager, parent)
 {
     setPreferredContentSize({15, 15});
 }

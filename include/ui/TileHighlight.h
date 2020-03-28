@@ -8,8 +8,8 @@ namespace UI
 class TileHighlight : public Element
 {
 
+    TileHighlight(Manager* manager, Element* parent);
 public:
-    TileHighlight();
     virtual ~TileHighlight() = default;
 };
 

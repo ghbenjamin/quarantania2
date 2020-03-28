@@ -49,7 +49,7 @@ class EquippedItemsView : public Element
 {
 
 public:
-    EquippedItemsView();
+    EquippedItemsView(Manager* manager, Element* parent);
     ~EquippedItemsView() override = default;
 
     void attachEntity(EntityRef entity);

@@ -45,8 +45,8 @@ RenderObject UI::TextLogLineData::getRenderObj() const
 }
 
 
-UI::TextLog::TextLog()
-: m_maxLines(10), m_scrollPos(0)
+UI::TextLog::TextLog(Manager* manager, Element* parent)
+: Element(manager, parent), m_maxLines(10), m_scrollPos(0)
 {
     setLayout<VerticalLayout>( 2, HAlignment::Left );
     setPadding(2);

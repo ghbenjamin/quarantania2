@@ -333,6 +333,7 @@ private:
     std::shared_ptr<UI::TextLog> m_textLog;
     std::shared_ptr<UI::ContainerView> m_playerContainerView;
     std::shared_ptr<UI::EquippedItemsView> m_playerEquippedView;
+    UI::ElementPtr m_mainTabControl;
 
     Camera m_camera;
 };

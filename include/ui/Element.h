@@ -30,7 +30,7 @@ class Element : public std::enable_shared_from_this<Element>
     friend class Manager;
 
 public:
-    Element();
+    Element(Manager* manager, Element* parent);
     virtual ~Element() = default;
 
     // Positioning
@@ -65,14 +65,7 @@ public:
 
     // Ids
     void setId( std::string const& id );
-    void unsetId();
     std::string const& id() const;
-    bool hasId() const;
-
-    // Classes
-    void addClass( std::string const& c );
-    void removeClass( std::string const& c );
-    bool hasClass( std::string const& c ) const;
 
     // DOM
     void setParent( Element* elem );
@@ -98,7 +91,6 @@ public:
         auto ptr = std::static_pointer_cast<Element>( child );
 
         m_children.push_back(child);
-        child->setParent( this );
 
         doLayout();
     }
@@ -176,7 +168,6 @@ private:
         return out;
     }
 
-
     virtual void updateSelf(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
     virtual void onSizeSelf();
@@ -186,7 +177,6 @@ private:
     void generateBackground();
 
     std::string m_id;
-    std::set<std::string> m_classes;
 
     Element* m_parent;
     Manager* m_manager;

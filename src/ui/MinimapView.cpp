@@ -3,8 +3,8 @@
 #include <ui/MinimapView.h>
 #include <graphics/RenderInterface.h>
 
-UI::MinimapView::MinimapView(TexturePtr texture)
-: m_texture(texture), m_viewOffset{0, 0}
+UI::MinimapView::MinimapView(Manager* manager, Element* parent, TexturePtr texture)
+: Element(manager, parent), m_texture(texture), m_viewOffset{0, 0}
 {
     setId("minimap");
 

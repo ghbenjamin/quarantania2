@@ -5,13 +5,14 @@
 
 using namespace UI;
 
-TextNode::TextNode(TextStyle const &style)
-: m_style(style)
+TextNode::TextNode(Manager* manager, Element* parent, TextStyle const &style)
+: Element(manager, parent), m_style(style)
 {
     m_font = ResourceManager::get().getResource<FontResource>( "fira-code-regular" )->get();
 }
 
-TextNode::TextNode() : TextNode({ Colour::Black })
+TextNode::TextNode(Manager* manager, Element* parent)
+    : TextNode(manager, parent, { Colour::Black })
 {
 
 }

@@ -7,8 +7,9 @@
 #include <game/Level.h>
 #include <actions/ActionDefs.h>
 
-UI::ContainerView::ContainerView()
-: m_emptySlot( createRectangle( {IconSize, IconSize}, Colour::Black ) ),
+UI::ContainerView::ContainerView(Manager* manager, Element* parent)
+: Element(manager, parent),
+  m_emptySlot( createRectangle( {IconSize, IconSize}, Colour::Black ) ),
   m_hoveredItem(nullptr)
 {
     setBackgroundColour({200, 200, 200, 255});
@@ -26,7 +27,7 @@ UI::ContainerView::ContainerView()
 void UI::ContainerView::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
     int idx = 0;
-    Vector2i offset = globalPosition() + contentOffset();
+    Vector2i offset = globalPosition() + contentOffset() + m_tileOffset;
     Vector2i curr = {PaddingThick, PaddingThick};
 
     for ( int j = 0; j < m_tileBounds.y(); j++ )
@@ -39,8 +40,7 @@ void UI::ContainerView::updateSelf(uint32_t ticks, InputInterface &iinter, Rende
             }
             else
             {
-                rInter.
-                addScreenItem( m_emptySlot.renderObject(curr + offset) );
+                rInter.addScreenItem( m_emptySlot.renderObject(curr + offset) );
             }
 
             curr.x( curr.x() + IconSize + PaddingThick );
@@ -67,6 +67,11 @@ void UI::ContainerView::rearrangeItems()
     m_tileBounds = {
         (innerBounds().w() - PaddingThick) / (IconSize + PaddingThick),
         (innerBounds().h() - PaddingThick) / (IconSize + PaddingThick)
+    };
+
+    m_tileOffset = {
+        (innerBounds().w() - ( m_tileBounds.x() * (IconSize + PaddingThick) + PaddingThick )) / 2,
+        (innerBounds().h() - ( m_tileBounds.y() * (IconSize + PaddingThick) + PaddingThick )) / 2,
     };
 }
 
@@ -98,7 +103,7 @@ void UI::ContainerView::onMouseMove(UI::UMouseMoveEvent& evt)
         {
             // hover out
         }
-    }
+     }
     else
     {
         if ( m_hoveredItem != nullptr )

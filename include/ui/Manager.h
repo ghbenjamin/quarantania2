@@ -43,7 +43,7 @@ public:
     template <typename WT, typename ...Args>
     std::shared_ptr<WT> createElement( Element* parent, Args...args )
     {
-        auto ptr = std::make_shared<WT>( std::forward<Args>(args)... );
+        auto ptr = std::make_shared<WT>( this, parent, std::forward<Args>(args)... );
         if ( parent == nullptr )
         {
             m_roots.push_back(ptr);
@@ -53,7 +53,6 @@ public:
             parent->addChild(ptr);
         }
 
-        ptr->m_manager = this;
         return ptr;
     }
 

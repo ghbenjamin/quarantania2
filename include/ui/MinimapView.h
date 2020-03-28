@@ -8,7 +8,7 @@ namespace UI
 class MinimapView : public Element
 {
 public:
-     MinimapView(TexturePtr texture);
+     MinimapView(Manager* manager, Element* parent, TexturePtr texture);
      ~MinimapView() override = default;
 
 private:

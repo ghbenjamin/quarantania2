@@ -7,7 +7,8 @@
 #include <components/ActorComponent.h>
 #include <actions/ActionDefs.h>
 
-UI::EquippedItemsView::EquippedItemsView()
+UI::EquippedItemsView::EquippedItemsView(Manager* manager, Element* parent)
+: Element(manager, parent)
 {
     // Event callbacks
     addEventCallback(UEventType::Click, [this](UEvent& evt){
