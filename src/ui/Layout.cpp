@@ -65,7 +65,7 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
         c->setLocalPosition( Vector2i{0, h } );
         c->doLayout();
 
-        auto s = c->outerSize();
+        auto s = c->outerBounds().right();
         h += s.y();
         h += m_spacing;
         w = std::max( w, s.x() );
@@ -90,7 +90,7 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
     for ( auto& c: ptr->children() )
     {
         auto pos = c->localPosition();
-        auto size = c->outerSize();
+        auto size = c->outerBounds().right();
 
         switch (m_halign)
         {
@@ -135,7 +135,7 @@ Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
         c->setLocalPosition( Vector2i{ w, 0 } );
         c->doLayout();
 
-        auto s = c->outerSize();
+        auto s = c->outerBounds().right();
         w += s.x();
         w += m_spacing;
         h = std::max( h, s.y() );
@@ -157,7 +157,7 @@ Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
     for ( auto& c: ptr->children() )
     {
         auto pos = c->localPosition();
-        auto size = c->outerSize();
+        auto size = c->outerBounds().right();
 
         switch (m_valign)
         {

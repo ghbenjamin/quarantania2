@@ -103,7 +103,7 @@ void UI::TextLog::layoutLines()
     int wOffset = globalPosition().x() + contentOffset().x();
 
     // Pixel position of the very bottom of the content area of the text box
-    int hOffset = globalPosition().y() + contentOffset().y() + contentSize().y();
+    int hOffset = globalPosition().y() + contentOffset().y() + innerBounds().h();
 
     // Walk over the lines from bottom to top, putting them one after the other
     for ( auto it = m_lines.rbegin(); it != m_lines.rend(); it++ )
@@ -127,7 +127,7 @@ void UI::TextLog::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInter
         rInter.addScreenItem( rObj );
 
         // Stop drawing once we're over the top of the text box
-        if ( currH >= contentSize().y() )
+        if ( currH >= innerBounds().h() )
         {
             break;
         }

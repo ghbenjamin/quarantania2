@@ -40,8 +40,6 @@ public:
     Vector2i contentOffset() const;
 
     // Sizing
-    Vector2i outerSize() const;
-    Vector2i contentSize() const;
     Vector2i preferredContentSize() const;
     Vector2i maxOuterSize() const;
 
@@ -186,12 +184,9 @@ private:
     Vector2i m_globalPosition;
 
     // Sizes
-    Vector2i m_actualContentSize;
-    Vector2i m_actualOuterSize;
     Vector2i m_preferredContentSize;
     Vector2i m_maxOuterSize;
     Vector2i m_contentOffset;
-
     RectI m_outerBounds;
     RectI m_innerBounds;
 

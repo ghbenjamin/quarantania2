@@ -40,11 +40,12 @@ private:
     static const int TOTAL_WIDTH = 400;
     static const int TOTAL_HEIGHT = 500;
     static const int TAB_BUTTONS_WIDTH = 50;
+    static const int TAB_BUTTONS_HEIGHT = 80;
 
     std::vector<ElementPtr> m_tabContents;
     ElementPtr m_buttonHolder;
     ElementPtr m_contentHolder;
-
+    int m_currentIdx;
 };
 
 }

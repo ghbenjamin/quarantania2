@@ -31,7 +31,7 @@ void UI::MinimapView::onSizeSelf()
 
 void UI::MinimapView::resetTexturePosition()
 {
-    auto actualSize = contentSize();
+    auto actualSize = innerBounds().right();
     auto const& txSize = m_texture->size();
 
     int actualW = std::min( txSize.x(), actualSize.x() );

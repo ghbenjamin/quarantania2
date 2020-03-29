@@ -212,8 +212,6 @@ void Level::setupUI()
     m_mainTabControl = m_uiManager.createElement<UI::MainTabControl>( trframe.get() );
     m_playerEquippedView = m_uiManager.withId( "main-equip-view" )->asType<UI::EquippedItemsView>();
     m_playerContainerView = m_uiManager.withId( "main-inventory-view" )->asType<UI::ContainerView>();
-
-    int a = 4;
 }
 
 void Level::layoutWindows()

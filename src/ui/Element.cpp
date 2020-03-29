@@ -51,14 +51,22 @@ bool Element::hasParent()
 
 void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
+    // If we're hidden, pretend we don't exist
+    if ( isHidden() )
+    {
+        return;
+    }
+
+    // Render our background, if any
     if ( m_backgroundSprite )
     {
         rInter.addScreenItem( m_backgroundSprite.renderObject( globalPosition() ) );
     }
 
-
+    // Update and render ourself
     updateSelf(ticks, iinter, rInter);
 
+    // Update and render our children, if any
     for ( auto& c : m_children )
     {
         c->update(ticks, iinter, rInter);
@@ -109,30 +117,43 @@ void Element::doLayout()
 {
     // Padding: x=top, y=right, w=bottom, h=left
 
+    // If we're hidden, we have no area
+    if ( isHidden() )
+    {
+        m_contentOffset = {0, 0};
+        m_outerBounds = { m_globalPosition, {0, 0} };
+        m_innerBounds = { m_globalPosition, {0, 0} };
+        return;
+    }
+
+    Vector2i actualContentSize;
+
     m_contentOffset = {
         m_borderWidth + m_padding.h(),
         m_borderWidth + m_padding.x(),
     };
 
+    // We have children - size to the size of our children, w.r.t. our current layout
     if ( hasChildren() )
     {
         Assert( !!m_layout );
-        m_actualContentSize = m_layout->doLayout(this);
+        actualContentSize = m_layout->doLayout(this);
     }
 
     // No children = size to our preferred size
     else
     {
-        m_actualContentSize = m_preferredContentSize;
+        actualContentSize = m_preferredContentSize;
     }
 
-    m_actualOuterSize = {
-        (2 * m_borderWidth) + m_padding.y() + m_padding.h() + m_actualContentSize.x(),
-        (2 * m_borderWidth) + m_padding.x() + m_padding.w() + m_actualContentSize.y(),
+    m_outerBounds = RectI{
+        m_globalPosition.x(),
+        m_globalPosition.y(),
+        (2 * m_borderWidth) + m_padding.y() + m_padding.h() + actualContentSize.x(),
+        (2 * m_borderWidth) + m_padding.x() + m_padding.w() + actualContentSize.y(),
     };
 
-    m_outerBounds = RectI{ m_globalPosition, m_actualOuterSize };
-    m_innerBounds = RectI{ m_globalPosition + m_contentOffset, m_actualContentSize };
+    m_innerBounds = RectI{ m_globalPosition + m_contentOffset, actualContentSize };
 
     generateBackground();
 }
@@ -148,8 +169,8 @@ void Element::recachePosition()
         m_globalPosition = m_localPosition;
     }
 
-    m_outerBounds = RectI{ m_globalPosition, m_actualOuterSize };
-    m_innerBounds = RectI{ m_globalPosition + m_contentOffset, m_actualContentSize };
+    m_outerBounds = RectI{ m_globalPosition, m_outerBounds.right() };
+    m_innerBounds = RectI{ m_globalPosition + m_contentOffset, m_innerBounds.right() };
 }
 
 bool Element::hasChildren()
@@ -177,16 +198,6 @@ Element *Element::rootParent()
     }
 
     return curr;
-}
-
-Vector2i Element::outerSize() const
-{
-    return m_actualOuterSize;
-}
-
-Vector2i Element::contentSize() const
-{
-    return m_actualContentSize;
 }
 
 void Element::setPreferredContentSize(Vector2i size)
@@ -272,7 +283,7 @@ void Element::setPadding(int top, int right, int bottom, int left)
 
 void Element::generateBackground()
 {
-    if ( m_actualOuterSize.x() == 0 || m_actualOuterSize.y() == 0 )
+    if ( m_outerBounds.w() == 0 || m_outerBounds.h() == 0 )
     {
         return;
     }
@@ -286,11 +297,11 @@ void Element::generateBackground()
     {
         if ( m_hasBorder )
         {
-            m_backgroundSprite = createBorderedRectangle( m_actualOuterSize, m_borderColour, m_bgColour, m_borderWidth );
+            m_backgroundSprite = createBorderedRectangle( m_outerBounds.right(), m_borderColour, m_bgColour, m_borderWidth );
         }
         else
         {
-            m_backgroundSprite = createRectangle( m_actualOuterSize, m_bgColour );
+            m_backgroundSprite = createRectangle( m_outerBounds.right(), m_bgColour );
         }
     }
 

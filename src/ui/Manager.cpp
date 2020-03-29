@@ -46,7 +46,7 @@ void Manager::doLayout()
 
     for ( auto const& wa : m_windowAlignments )
     {
-        auto pos = alignRectWithinRect( windowSize, wa.element->outerSize(), wa.alignment );
+        auto pos = alignRectWithinRect( windowSize, wa.element->outerBounds().right(), wa.alignment );
         wa.element->setLocalPosition(pos);
     }
 }
