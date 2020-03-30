@@ -2,6 +2,7 @@
 #include <ui/Manager.h>
 #include <ui/EquippedItemsView.h>
 #include <ui/ContainerView.h>
+#include <utils/Assert.h>
 
 using namespace UI;
 
@@ -52,6 +53,8 @@ MainTabControl::MainTabControl(Manager* manager, Element* parent)
 
 ElementPtr MainTabControl::addTab()
 {
+    int idx = m_tabContents.size();
+
     ElementPtr tabContainer = manager()->createElement<Element>( m_contentHolder.get() );
     tabContainer->setPreferredOuterSize({TOTAL_WIDTH - TAB_BUTTONS_WIDTH, TOTAL_HEIGHT});
     tabContainer->setLayout<UI::VerticalLayout>( 0, UI::HAlignment::Fill );
@@ -59,21 +62,33 @@ ElementPtr MainTabControl::addTab()
 
     m_tabContents.push_back( tabContainer );
 
-    ElementPtr tabButton = manager()->createElement<TabControlButton>( m_buttonHolder.get() );
+    ElementPtr tabButton = manager()->createElement<TabControlButton>( m_buttonHolder.get(), idx );
     tabButton->setPreferredOuterSize({0, TAB_BUTTONS_HEIGHT});
+    tabButton->addEventCallback(UEventType::Click, [this, idx](UEvent& evt) {
+        this->setCurrentTab( idx );
+    });
 
     return tabContainer;
 }
 
 void MainTabControl::setCurrentTab( int idx )
 {
+    Assert( idx < m_tabContents.size() );
+
     m_tabContents[ m_currentIdx ]->setHidden( true );
     m_tabContents[ idx ]->setHidden( false );
+
+    m_currentIdx = idx;
 }
 
-TabControlButton::TabControlButton(Manager *manager, Element *parent)
-        : Element(manager, parent)
+TabControlButton::TabControlButton(Manager *manager, Element *parent, int idx)
+        : Element(manager, parent), m_index(idx)
 {
     setBackgroundColour(Colour::Apricot);
     setBorder(2, Colour::Olive);
+}
+
+int TabControlButton::index() const
+{
+    return m_index;
 }

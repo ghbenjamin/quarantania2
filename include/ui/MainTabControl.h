@@ -17,8 +17,14 @@ enum class MainTabSection
 class TabControlButton : public Element
 {
 public:
-    TabControlButton(Manager *manager, Element *parent);
+    TabControlButton(Manager *manager, Element *parent, int idx);
     ~TabControlButton() = default;
+
+    int index() const;
+
+private:
+
+    int m_index;
 };
 
 

@@ -779,7 +779,7 @@ void LevelFactory::assignSpecialRooms()
         }
     }
 
-    AssertMsg( terminalRooms.size() > 2, "Expected more than two terminal rooms" );
+    // AssertMsg( terminalRooms.size() > 2, "Expected more than two terminal rooms" );
 
     const std::vector<RoomType> specialOrder = {
         RoomType::Entrance, RoomType::Exit,
