@@ -52,6 +52,7 @@ public:
     ~ImageResource() override = default;
 
     const TexturePtr &get() const;
+    Sprite getSprite() const;
     void load() override;
     void unload() override;
 

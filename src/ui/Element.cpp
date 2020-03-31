@@ -374,6 +374,14 @@ void Element::setBackgroundSprite(SpritesheetKey const &sp)
     generateBackground();
 }
 
+void Element::setBackgroundSprite(Sprite const& s)
+{
+    m_backgroundTexture = s;
+    m_backgroundTexture.setRenderLayer( RenderLayer::UI );
+    generateBackground();
+}
+
+
 void Element::removeBackgroundSprite()
 {
     m_backgroundTexture = Sprite();
@@ -400,4 +408,5 @@ Vector2i Element::contentOffset() const
 {
     return m_contentOffset;
 }
+
 

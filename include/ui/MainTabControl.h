@@ -18,7 +18,7 @@ class TabControlButton : public Element
 {
 public:
     TabControlButton(Manager *manager, Element *parent, int idx);
-    ~TabControlButton() = default;
+    ~TabControlButton() override = default;
 
     int index() const;
 
@@ -45,8 +45,8 @@ private:
 
     static const int TOTAL_WIDTH = 400;
     static const int TOTAL_HEIGHT = 500;
-    static const int TAB_BUTTONS_WIDTH = 50;
-    static const int TAB_BUTTONS_HEIGHT = 80;
+    static const int TAB_BUTTONS_WIDTH = 51;
+    static const int TAB_BUTTONS_HEIGHT = 100;
 
     std::vector<ElementPtr> m_tabContents;
     ElementPtr m_buttonHolder;

@@ -60,6 +60,9 @@ public:
     [[nodiscard]]
     Sprite getSprite( SpritesheetKey const& key );
 
+    [[nodiscard]]
+    Sprite getSprite( std::string const& imgName );
+
 private:
 
     ResourceManager() = default;

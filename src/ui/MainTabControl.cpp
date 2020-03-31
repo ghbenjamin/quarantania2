@@ -3,6 +3,7 @@
 #include <ui/EquippedItemsView.h>
 #include <ui/ContainerView.h>
 #include <utils/Assert.h>
+#include <resource/ResourceManager.h>
 
 using namespace UI;
 
@@ -35,9 +36,16 @@ MainTabControl::MainTabControl(Manager* manager, Element* parent)
     // Character stats
 
     ElementPtr tabCharStats = addTab();
+    tabCharStats->setBackgroundSprite( ResourceManager::get().getSprite( "equip-inventory-tab" ) );
 
     auto dummyElem = manager->createElement<UI::Element>( tabCharStats.get() );
     dummyElem->setPreferredOuterSize({20, 100});
+
+
+    ElementPtr dummyTab1 = addTab();
+    ElementPtr dummyTab2 = addTab();
+    ElementPtr dummyTab3 = addTab();
+
 
 
     setCurrentTab(0);
@@ -76,8 +84,7 @@ void MainTabControl::setCurrentTab( int idx )
 TabControlButton::TabControlButton(Manager *manager, Element *parent, int idx)
         : Element(manager, parent), m_index(idx)
 {
-    setBackgroundColour(Colour::Apricot);
-    setBorder(2, Colour::Olive);
+    setBackgroundSprite( ResourceManager::get().getSprite( "main-tab-button" ) );
 }
 
 int TabControlButton::index() const

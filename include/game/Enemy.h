@@ -9,13 +9,8 @@
 
 // Forward declarations
 class Enemy;
-class EnemyBehaviour;
 class EnemyManager;
 struct EnemyData;
-
-// Typedefs
-using EnemyBehaviourPtr = std::unique_ptr<EnemyBehaviour>;
-
 
 class Enemy
 {
@@ -29,9 +24,7 @@ public:
 
 private:
     Enemy(EnemyData const& data);
-
     EnemyData const& m_data;
-    EnemyBehaviourPtr m_behaviour;
 };
 
 struct EnemyData
@@ -61,12 +54,6 @@ struct EnemyData
 
     // Attack
     DiceRoll attack;
-};
-
-class EnemyBehaviour
-{
-public:
-private:
 };
 
 

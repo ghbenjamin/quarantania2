@@ -42,12 +42,17 @@ const TexturePtr &ImageResource::get() const
 
 void ImageResource::load()
 {
-    m_texture = Texture::loadTexture( "../resource/img/" + m_path );
+    m_texture = Texture::loadTexture( "../resource/img/" + m_path + ".png" );
 }
 
 void ImageResource::unload()
 {
     m_texture = TexturePtr();
+}
+
+Sprite ImageResource::getSprite() const
+{
+    return Sprite( m_texture );
 }
 
 FontResource::FontResource(std::string const &key, std::string const &path, int fontSize)

@@ -100,6 +100,7 @@ public:
     void setBackgroundColour( Colour colour );
     void removeBackgroundColour();
     void setBackgroundSprite( SpritesheetKey const& sp );
+    void setBackgroundSprite( Sprite const& s );
     void removeBackgroundSprite();
 
     void setPadding( RectI const& rect );

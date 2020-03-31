@@ -118,12 +118,24 @@ Sprite ResourceManager::getSprite(std::string const &sheet, std::string const &n
         Logging::log( "ERROR: Unknown sprite pair [{}, {}]\n", sheet, name );
         std::terminate();
     }
-
 }
 
 Sprite ResourceManager::getSprite(SpritesheetKey const& key)
 {
     return getSprite(key.first, key.second);
+}
+
+Sprite ResourceManager::getSprite(std::string const& imgName)
+{
+    try
+    {
+        return getResource<ImageResource>( imgName )->getSprite();
+    }
+    catch ( [[maybe_unused]] std::exception const& ex )
+    {
+        Logging::log( "ERROR: Unknown image [{}]\n", imgName );
+        std::terminate();
+    }
 }
 
 

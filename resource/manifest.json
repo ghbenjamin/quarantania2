@@ -31,6 +31,14 @@
   ],
 
   "img": [
+    {
+      "key": "equip-inventory-tab",
+      "name": "equip-inventory-tab"
+    },
+    {
+      "key": "main-tab-button",
+      "name": "main-tab-button"
+    }
   ],
 
   "font": [
