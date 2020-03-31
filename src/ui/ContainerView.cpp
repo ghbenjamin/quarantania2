@@ -10,10 +10,8 @@
 
 UI::ContainerView::ContainerView(Manager* manager, Element* parent)
 : Element(manager, parent),
-  m_hoveredItem(nullptr)
+  m_hoveredItem(nullptr), m_tileBounds{8, 4}, m_tileOffset{4, 22}
 {
-    setBackgroundColour({200, 200, 200, 255});
-
     m_emptySlot = ResourceManager::get().getSprite("ui-frames", "inventory-slot");
     m_emptySlot.setRenderLayer(RenderLayer::UI);
 
@@ -39,8 +37,6 @@ void UI::ContainerView::updateSelf(uint32_t ticks, InputInterface &iinter, Rende
     {
         for ( int i = 0; i < m_tileBounds.x(); i++ )
         {
-            rInter.addScreenItem( m_emptySlot.renderObject(curr + offset) );
-
             if (idx < m_items.size())
             {
                 rInter.addScreenItem( m_items[idx].sprite.renderObject(curr + offset + innerOffset) );
@@ -57,25 +53,10 @@ void UI::ContainerView::updateSelf(uint32_t ticks, InputInterface &iinter, Rende
 
 void UI::ContainerView::onSizeSelf()
 {
-    rearrangeItems();
 }
 
 void UI::ContainerView::onMoveSelf()
 {
-    rearrangeItems();
-}
-
-void UI::ContainerView::rearrangeItems()
-{
-    m_tileBounds = {
-        (innerBounds().w() - PaddingThick) / (IconSize + PaddingThick),
-        (innerBounds().h() - PaddingThick) / (IconSize + PaddingThick)
-    };
-
-    m_tileOffset = {
-        (innerBounds().w() - ( m_tileBounds.x() * (IconSize + PaddingThick) + PaddingThick )) / 2,
-        (innerBounds().h() - ( m_tileBounds.y() * (IconSize + PaddingThick) + PaddingThick )) / 2,
-    };
 }
 
 void UI::ContainerView::reimportItems()

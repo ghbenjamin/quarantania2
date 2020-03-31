@@ -24,29 +24,20 @@ MainTabControl::MainTabControl(Manager* manager, Element* parent)
     // Inventory & equip
 
     ElementPtr tabInvEquip = addTab();
+    tabInvEquip->setBackgroundSprite( ResourceManager::get().getSprite( "equip-inventory-tab" ) );
 
     auto equipView = manager->createElement<UI::EquippedItemsView>( tabInvEquip.get() );
-    equipView->setPreferredOuterSize({20, 250});
+    equipView->setPreferredOuterSize({20, 300});
     equipView->setId( "main-equip-view" );
 
     auto inventoryView = manager->createElement<UI::ContainerView>( tabInvEquip.get() );
     inventoryView->setPreferredOuterSize({20, 200});
     inventoryView->setId( "main-inventory-view" );
 
-    // Character stats
-
-    ElementPtr tabCharStats = addTab();
-    tabCharStats->setBackgroundSprite( ResourceManager::get().getSprite( "equip-inventory-tab" ) );
-
-    auto dummyElem = manager->createElement<UI::Element>( tabCharStats.get() );
-    dummyElem->setPreferredOuterSize({20, 100});
-
-
     ElementPtr dummyTab1 = addTab();
     ElementPtr dummyTab2 = addTab();
     ElementPtr dummyTab3 = addTab();
-
-
+    ElementPtr dummyTab4 = addTab();
 
     setCurrentTab(0);
 }

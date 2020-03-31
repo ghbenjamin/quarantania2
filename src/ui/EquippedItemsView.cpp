@@ -28,15 +28,13 @@ void UI::EquippedItemsView::updateSelf(uint32_t ticks, InputInterface &iinter, R
 
     for ( auto const& item : m_slotData )
     {
-        rInter.addScreenItem( m_emptySlot.renderObject( item.pos ) );
-
         if ( item.equippedItem )
         {
-            rInter.addScreenItem( item.itemSprite.renderObject(item.pos + innerOffset) );
+            rInter.addScreenItem( item.itemSprite.renderObject(item.pos + innerOffset + DEBUG_OFFSET) );
         }
         else
         {
-            rInter.addScreenItem( item.emptySprite.renderObject(item.pos + innerOffset) );
+            rInter.addScreenItem( item.emptySprite.renderObject(item.pos + innerOffset + DEBUG_OFFSET) );
         }
     }
 }
@@ -83,8 +81,8 @@ const UI::EquippedItemSlot *UI::EquippedItemsView::itemFromPosition(Vector2i pos
 {
     for ( auto const& slot : m_slotData )
     {
-        int dX = position.x() - slot.pos.x();
-        int dY = position.y() - slot.pos.y();
+        int dX = position.x() - slot.pos.x() - DEBUG_OFFSET.x();
+        int dY = position.y() - slot.pos.y() - DEBUG_OFFSET.y();
 
         if ( dX >= 0 && dY >= 0 && dX < SlotIconSize && dY < SlotIconSize )
         {

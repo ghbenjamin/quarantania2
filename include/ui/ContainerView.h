@@ -35,8 +35,6 @@ private:
     void onClick( UMouseButtonEvent& evt );
     void onMouseMove( UMouseMoveEvent& evt );
 
-    void rearrangeItems();
-
     ContainerViewItem const* itemFromPosition( Vector2i position ) const;
 
 private:
@@ -47,7 +45,7 @@ private:
     Vector2i m_tileOffset;
 
     static const int IconSize = 38;
-    static const int PaddingThick = 2;
+    static const int PaddingThick = 4;
 
     Sprite m_emptySlot;
     ContainerViewItem const* m_hoveredItem;
