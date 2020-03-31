@@ -10,34 +10,27 @@ MainTabControl::MainTabControl(Manager* manager, Element* parent)
     : Element(manager, parent), m_currentIdx(0)
 {
     setPreferredOuterSize( {TOTAL_WIDTH, TOTAL_HEIGHT} );
-//    setBackgroundSprite({"ui-frames", "main-ui-tab-control"});
     setLayout<UI::HorizontalLayout>( 0, UI::VAlignment::Top );
-    setBackgroundColour( Colour::Magenta );
 
     m_buttonHolder = manager->createElement<Element>( this );
     m_buttonHolder->setLayout<UI::VerticalLayout>( 0, UI::HAlignment::Fill );
     m_buttonHolder->setPreferredOuterSize({TAB_BUTTONS_WIDTH, TOTAL_HEIGHT});
-    m_buttonHolder->setBackgroundColour(Colour::Maroon);
 
     m_contentHolder = manager->createElement<Element>( this );
     m_contentHolder->setLayout<UI::VerticalLayout>( 0, UI::HAlignment::Left );
     m_contentHolder->setPreferredOuterSize({TOTAL_WIDTH - TAB_BUTTONS_WIDTH, TOTAL_HEIGHT});
-    m_contentHolder->setBackgroundColour(Colour::Mint);
 
     // Inventory & equip
 
     ElementPtr tabInvEquip = addTab();
 
     auto equipView = manager->createElement<UI::EquippedItemsView>( tabInvEquip.get() );
-    equipView->setPreferredOuterSize({20, 200});
+    equipView->setPreferredOuterSize({20, 250});
     equipView->setId( "main-equip-view" );
-    equipView->setBackgroundColour(Colour::Blue);
 
     auto inventoryView = manager->createElement<UI::ContainerView>( tabInvEquip.get() );
     inventoryView->setPreferredOuterSize({20, 200});
     inventoryView->setId( "main-inventory-view" );
-    inventoryView->setBackgroundColour(Colour::Green);
-
 
     // Character stats
 
@@ -45,7 +38,6 @@ MainTabControl::MainTabControl(Manager* manager, Element* parent)
 
     auto dummyElem = manager->createElement<UI::Element>( tabCharStats.get() );
     dummyElem->setPreferredOuterSize({20, 100});
-    dummyElem->setBackgroundColour(Colour::Brown);
 
 
     setCurrentTab(0);

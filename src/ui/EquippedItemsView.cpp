@@ -10,60 +10,33 @@
 UI::EquippedItemsView::EquippedItemsView(Manager* manager, Element* parent)
 : Element(manager, parent)
 {
+    m_emptySlot = ResourceManager::get().getSprite("ui-frames", "inventory-slot");
+    m_emptySlot.setRenderLayer(RenderLayer::UI);
+
     // Event callbacks
     addEventCallback(UEventType::Click, [this](UEvent& evt){
         onClick( evt.mouseButtonEvent );
     });
 
-    // Setup slot information
-    static const std::string SpritesheetName = "game-icons";
-
-    auto addSlot = [this](auto&& slotType, auto&& spriteName, auto&& offset){
-        static const std::string SpritesheetName = "game-icons";
-
-        m_slotData.push_back({
-                slotType,
-                ResourceManager::get().getSprite(SpritesheetName, spriteName),
-                offset,
-                Vector2i{0, 0}
-        });
-
-        m_slotData.back().emptySprite.setRenderLayer(RenderLayer::UI);
-    };
-
-    addSlot(EquipSlot::Head,      "cowled",          Vector2i{16, 0});
-    addSlot(EquipSlot::Headband,  "headband-knot",   Vector2i{52, 0});
-    addSlot(EquipSlot::Eyes,      "spectacles",      Vector2i{88, 0});
-
-    addSlot(EquipSlot::Shoulders, "pauldrons",       Vector2i{16, 36});
-    addSlot(EquipSlot::Neck,      "necklace",        Vector2i{52, 36});
-    addSlot(EquipSlot::Face,      "helmet",          Vector2i{88, 36});
-
-    addSlot(EquipSlot::Chest,     "shirt",           Vector2i{16, 72});
-    addSlot(EquipSlot::Body,      "robe",            Vector2i{52, 72});
-    addSlot(EquipSlot::Armour,    "mail-shirt",      Vector2i{88, 72});
-
-    addSlot(EquipSlot::MainHand,  "sword-hilt",      Vector2i{0, 108});
-    addSlot(EquipSlot::Belt,      "belt",            Vector2i{36, 108});
-    addSlot(EquipSlot::Wrists,    "gloves",          Vector2i{72, 108});
-    addSlot(EquipSlot::OffHand,   "sword-hilt",      Vector2i{108, 108});
-
-    addSlot(EquipSlot::LeftRing,  "ring",            Vector2i{16, 144});
-    addSlot(EquipSlot::Feet,      "boots",           Vector2i{52, 144});
-    addSlot(EquipSlot::RightRing, "ring",            Vector2i{88, 144});
+    setupSlots();
 }
 
 void UI::EquippedItemsView::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
+    int innerOffsetW = (SlotIconSize - GlobalConfig::TileSizePx) / 2;
+    Vector2i innerOffset = { innerOffsetW, innerOffsetW };
+
     for ( auto const& item : m_slotData )
     {
+        rInter.addScreenItem( m_emptySlot.renderObject( item.pos ) );
+
         if ( item.equippedItem )
         {
-            rInter.addScreenItem( item.itemSprite.renderObject(item.pos) );
+            rInter.addScreenItem( item.itemSprite.renderObject(item.pos + innerOffset) );
         }
         else
         {
-            rInter.addScreenItem( item.emptySprite.renderObject(item.pos) );
+            rInter.addScreenItem( item.emptySprite.renderObject(item.pos + innerOffset) );
         }
     }
 }
@@ -113,7 +86,7 @@ const UI::EquippedItemSlot *UI::EquippedItemsView::itemFromPosition(Vector2i pos
         int dX = position.x() - slot.pos.x();
         int dY = position.y() - slot.pos.y();
 
-        if ( dX >= 0 && dY >= 0 && dX < GlobalConfig::TileSizePx && dY < GlobalConfig::TileSizePx )
+        if ( dX >= 0 && dY >= 0 && dX < SlotIconSize && dY < SlotIconSize )
         {
             return &slot;
         }
@@ -148,6 +121,50 @@ void UI::EquippedItemsView::reimportItems()
             slot.equippedItem = ItemPtr();
         }
     }
+}
+
+void UI::EquippedItemsView::setupSlots()
+{
+    // Setup slot information
+    static const std::string SpritesheetName = "game-icons";
+
+    auto addSlot = [this](auto&& slotType, auto&& spriteName, auto&& offset){
+        static const std::string SpritesheetName = "game-icons";
+
+        m_slotData.push_back({
+                slotType,
+                ResourceManager::get().getSprite(SpritesheetName, spriteName),
+                offset,
+                Vector2i{0, 0}
+        });
+
+        m_slotData.back().emptySprite.setRenderLayer(RenderLayer::UI);
+    };
+
+    const int halfIconSize = SlotIconSize / 2;
+    const int vSpacing = SlotIconSize + SlotIconVSpacing;
+    const int hSpacing = SlotIconSize + SlotIconHSpacing;
+
+    addSlot(EquipSlot::Head,      "cowled",          Vector2i{halfIconSize + hSpacing * 0, vSpacing * 0});
+    addSlot(EquipSlot::Headband,  "headband-knot",   Vector2i{halfIconSize + hSpacing * 1, vSpacing * 0});
+    addSlot(EquipSlot::Eyes,      "spectacles",      Vector2i{halfIconSize + hSpacing * 2, vSpacing * 0});
+
+    addSlot(EquipSlot::Shoulders, "pauldrons",       Vector2i{halfIconSize + hSpacing * 0, vSpacing * 1});
+    addSlot(EquipSlot::Neck,      "necklace",        Vector2i{halfIconSize + hSpacing * 1, vSpacing * 1});
+    addSlot(EquipSlot::Face,      "helmet",          Vector2i{halfIconSize + hSpacing * 2, vSpacing * 1});
+
+    addSlot(EquipSlot::Chest,     "shirt",           Vector2i{halfIconSize + hSpacing * 0, vSpacing * 2});
+    addSlot(EquipSlot::Body,      "robe",            Vector2i{halfIconSize + hSpacing * 1, vSpacing * 2});
+    addSlot(EquipSlot::Armour,    "mail-shirt",      Vector2i{halfIconSize + hSpacing * 2, vSpacing * 2});
+
+    addSlot(EquipSlot::MainHand,  "sword-hilt",      Vector2i{hSpacing * 0, vSpacing * 3});
+    addSlot(EquipSlot::Belt,      "belt",            Vector2i{hSpacing * 1, vSpacing * 3});
+    addSlot(EquipSlot::Wrists,    "gloves",          Vector2i{hSpacing * 2, vSpacing * 3});
+    addSlot(EquipSlot::OffHand,   "sword-hilt",      Vector2i{hSpacing * 3, vSpacing * 3});
+
+    addSlot(EquipSlot::LeftRing,  "ring",            Vector2i{halfIconSize + hSpacing * 0, vSpacing * 4});
+    addSlot(EquipSlot::Feet,      "boots",           Vector2i{halfIconSize + hSpacing * 1, vSpacing * 4});
+    addSlot(EquipSlot::RightRing, "ring",            Vector2i{halfIconSize + hSpacing * 2, vSpacing * 4});
 }
 
 UI::EquippedItemSlot::EquippedItemSlot(EquipSlot type, const Sprite &emptySprite, const Vector2i &offset,

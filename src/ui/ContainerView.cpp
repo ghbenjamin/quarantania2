@@ -6,13 +6,15 @@
 #include <resource/ResourceManager.h>
 #include <game/Level.h>
 #include <actions/ActionDefs.h>
+#include <utils/GlobalConfig.h>
 
 UI::ContainerView::ContainerView(Manager* manager, Element* parent)
 : Element(manager, parent),
-  m_emptySlot( createRectangle( {IconSize, IconSize}, Colour::Black ) ),
   m_hoveredItem(nullptr)
 {
     setBackgroundColour({200, 200, 200, 255});
+
+    m_emptySlot = ResourceManager::get().getSprite("ui-frames", "inventory-slot");
     m_emptySlot.setRenderLayer(RenderLayer::UI);
 
     addEventCallback(UEventType::Click, [this](UEvent& evt){
@@ -30,17 +32,18 @@ void UI::ContainerView::updateSelf(uint32_t ticks, InputInterface &iinter, Rende
     Vector2i offset = globalPosition() + contentOffset() + m_tileOffset;
     Vector2i curr = {PaddingThick, PaddingThick};
 
+    int innerOffsetW = (IconSize - GlobalConfig::TileSizePx) / 2;
+    Vector2i innerOffset = { innerOffsetW, innerOffsetW };
+
     for ( int j = 0; j < m_tileBounds.y(); j++ )
     {
         for ( int i = 0; i < m_tileBounds.x(); i++ )
         {
+            rInter.addScreenItem( m_emptySlot.renderObject(curr + offset) );
+
             if (idx < m_items.size())
             {
-                rInter.addScreenItem( m_items[idx].sprite.renderObject(curr + offset) );
-            }
-            else
-            {
-                rInter.addScreenItem( m_emptySlot.renderObject(curr + offset) );
+                rInter.addScreenItem( m_items[idx].sprite.renderObject(curr + offset + innerOffset) );
             }
 
             curr.x( curr.x() + IconSize + PaddingThick );
@@ -151,6 +154,7 @@ void UI::ContainerView::onClick(UI::UMouseButtonEvent& evt)
 UI::ContainerViewItem const* UI::ContainerView::itemFromPosition(Vector2i position) const
 {
     position -= { PaddingThick, PaddingThick };
+    position -= m_tileOffset;
     Vector2i tileCoords = position / ( IconSize + PaddingThick );
 
     int idx = tileCoords.x() + m_tileBounds.x() * tileCoords.y();

@@ -21,6 +21,8 @@ INPUT_TILE_SIZE = 32
 # to work this out
 OUTPUT_TILE_SIZE = 10, 64
 
+ADD_DIGITS = False
+
 def main():
     # Grab the input path from the system arguments - this is hopefully a directory described in a way
     # pathlib can understand
@@ -74,7 +76,10 @@ def main():
                         last_stem = p_stem
                         last_stem_idx = 1
 
-                    gid_list.append([f"{p_stem}_{last_stem_idx:03}", gid])
+                    if ADD_DIGITS:
+                        gid_list.append([f"{p_stem}_{last_stem_idx:03}", gid])
+                    else:
+                        gid_list.append([f"{p_stem}", gid])
                     gid += 1
 
                     next_tile_coord[0] += 1

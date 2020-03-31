@@ -63,13 +63,19 @@ private:
     void onSizeSelf() override;
     void onMoveSelf() override;
 
+    void setupSlots();
     void layoutSlots();
 
 private:
     EquippedItemSlot const* itemFromPosition( Vector2i position ) const;
 
+    static const int SlotIconSize = 38;
+    static const int SlotIconHSpacing = 2;
+    static const int SlotIconVSpacing = 2;
+
     std::vector<EquippedItemSlot> m_slotData;
     EntityRef m_entity;
+    Sprite m_emptySlot;
 };
 
 }

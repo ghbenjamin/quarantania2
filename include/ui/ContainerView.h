@@ -46,7 +46,7 @@ private:
     Vector2i m_tileBounds;
     Vector2i m_tileOffset;
 
-    static const int IconSize = 32;
+    static const int IconSize = 38;
     static const int PaddingThick = 2;
 
     Sprite m_emptySlot;

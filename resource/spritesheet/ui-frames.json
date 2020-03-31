@@ -4,6 +4,7 @@
   },
   "data":
   {
-    "main-ui-tab-control": [ 0, 0, 400, 500 ]
+    "main-ui-tab-control": [ 0, 0, 400, 500 ],
+    "inventory-slot": [ 0, 500, 38, 38 ]
   }
 }
