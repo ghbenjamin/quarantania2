@@ -21,6 +21,11 @@ MainTabControl::MainTabControl(Manager* manager, Element* parent)
     m_contentHolder->setLayout<UI::VerticalLayout>( 0, UI::HAlignment::Left );
     m_contentHolder->setPreferredOuterSize({TOTAL_WIDTH - TAB_BUTTONS_WIDTH, TOTAL_HEIGHT});
 
+    // Character stats
+
+    ElementPtr tabCharStats = addTab();
+    tabCharStats->setBackgroundSprite( ResourceManager::get().getSprite( "char-stats-tab" ) );
+
     // Inventory & equip
 
     ElementPtr tabInvEquip = addTab();
@@ -34,7 +39,8 @@ MainTabControl::MainTabControl(Manager* manager, Element* parent)
     inventoryView->setPreferredOuterSize({20, 200});
     inventoryView->setId( "main-inventory-view" );
 
-    ElementPtr dummyTab1 = addTab();
+
+
     ElementPtr dummyTab2 = addTab();
     ElementPtr dummyTab3 = addTab();
     ElementPtr dummyTab4 = addTab();

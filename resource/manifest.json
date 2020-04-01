@@ -38,6 +38,10 @@
     {
       "key": "main-tab-button",
       "name": "main-tab-button"
+    },
+    {
+      "key": "char-stats-tab",
+      "name": "char-stats-tab"
     }
   ],
 
