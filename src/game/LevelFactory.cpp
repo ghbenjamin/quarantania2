@@ -674,7 +674,7 @@ void LevelFactory::constructPlayer()
 
     // DEBUG
 //    m_level->m_entFactory.createEnemy("rat", startPos + Vector2{0, 1});
-    m_level->m_entFactory.createItem("Light mace", startPos + Vector2{1, 0});
+    m_level->m_entFactory.createItem("Battleaxe", startPos + Vector2{1, 0});
     m_level->m_entFactory.createItem("Dagger", startPos + Vector2{-1, 0});
     m_level->m_entFactory.createItem("Sickle", startPos + Vector2{0, -1});
 

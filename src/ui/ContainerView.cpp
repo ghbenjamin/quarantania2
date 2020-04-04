@@ -66,7 +66,7 @@ void UI::ContainerView::reimportItems()
     m_items.clear();
     for ( auto const& item : container->items )
     {
-        auto sprite = ResourceManager::get().getSprite( item->data()->sprite );
+        auto sprite = ResourceManager::get().getSprite( item->getSprite() );
         sprite.setRenderLayer(RenderLayer::UI);
         m_items.push_back( ContainerViewItem{sprite, item} );
     }

@@ -209,7 +209,7 @@ bool EquipItemAction::doAction() const
 {
     auto containerC = m_level->getComponents<ContainerComponent>( m_actor );
     auto actorC = m_level->getComponents<ActorComponent>( m_actor );
-    auto possibleSlots = m_item->data()->equipSlots.unpack();
+    auto possibleSlots = m_item->getEquipSlots().unpack();
 
     if ( possibleSlots.empty() )
     {

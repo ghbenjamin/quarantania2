@@ -471,7 +471,7 @@ std::string_view Level::getDescriptionForEnt(EntityRef ent)
     else if ( entityHas<ItemComponent>(ent) )
     {
         auto comp = getComponents<ItemComponent>(ent);
-        return comp->item->data()->name;
+        return comp->item->getName();
     }
 
     return "<unknown>";
@@ -479,7 +479,7 @@ std::string_view Level::getDescriptionForEnt(EntityRef ent)
 
 std::string_view Level::getDescriptionForItem(ItemPtr item)
 {
-    return item->data()->name;
+    return item->getName();
 }
 
 

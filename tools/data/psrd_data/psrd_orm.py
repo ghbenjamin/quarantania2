@@ -24,8 +24,10 @@ class ItemData(Base):
     weight = Column(INTEGER)
     value = Column(INTEGER)
     description = Column(TEXT)
-    aura = Column(TEXT)
+    aura_strength = Column(TEXT)
+    aura_value = Column(TEXT)
     slot = Column(TEXT)
+    item_type = Column(TEXT)
 
 class CreatureData(Base):
     __tablename__ = "creature_data"
@@ -59,7 +61,7 @@ class CreatureData(Base):
     cmb = Column(INTEGER)
 
 
-engine = create_engine('sqlite+pysqlite:///../psrd_data.db')
+engine = create_engine('sqlite+pysqlite:///../../../resource/data/psrd_data.db')
 Session = sessionmaker(bind=engine)
 
 Base.metadata.drop_all(engine)

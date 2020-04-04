@@ -1,7 +1,7 @@
 cmake-build-debug
 tools/data/PSRD-Data-release/
-resource/content.db
-tools/data/psrd_data.db
+tools/data/psrd_data_modified/
+*.db
 
 # User-specific files
 *.suo

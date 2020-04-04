@@ -24,3 +24,11 @@
 - Add description view 
 - Add spell/ability/feat interface 
 - Add menus of all sorts 
+
+
+
+## Items
+
+- Ioun Stones
+- Figurines of wonderous power
+- Golem manual

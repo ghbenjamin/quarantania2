@@ -38,7 +38,7 @@ private:
 
     EnemyManager m_enemyManager;
     WeaponManager m_weaponManager;
-    ItemManager m_itemManager;
+//    ItemManager m_itemManager;
 
     std::unordered_map<PrefabType, std::shared_ptr<PrefabObj>> m_prefabs;
 };

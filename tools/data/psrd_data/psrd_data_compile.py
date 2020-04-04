@@ -1,74 +1,48 @@
 import json, pathlib, re
 from psrd_orm import *
 
-ROOT_PSRF = pathlib.Path("../psrd_data_modified").absolute().resolve()
+ROOT_FINAL_PSRF = pathlib.Path("../psrd_final").absolute().resolve()
 
 def import_items():
 
     items = []
     weapons = []
 
-    for fpath in ROOT_PSRF.joinpath("core_rulebook").joinpath("item").rglob( "*.json" ):
-        f_json = json.loads( fpath.read_text() )
-        try:
+    all_json = json.loads( ROOT_FINAL_PSRF.joinpath("items.json").read_text() )
+    for f_json in all_json:
 
+        try:
             itemdata = ItemData()
 
-            # Name
             itemdata.item_name = f_json["name"]
-            name_comma_re = re.search( r"([^,]+),([^,]+)", itemdata.item_name )
-            if name_comma_re:
-                itemdata.item_name = f"{ name_comma_re.group(2) } { name_comma_re.group(1) }".strip()
+            itemdata.weight = f_json["weight"]
+            itemdata.value = f_json["price"]
+            itemdata.description = f_json["description"]
+            itemdata.item_type = f_json["item_type"]
 
-            # Weight
-            try:
-                itemdata.weight = int( re.search("(\d+)", f_json["weight"]).group(0) )
-            except:
-                itemdata.weight = 0
-
-            # Price
-            if "price" in f_json:
-                price_str = f_json["price"].replace(",", "")
-                price_re = re.match( "(\d+) ([csgp])p", price_str )
-                if price_re:
-                    price_num = int(price_re.group(1))
-                    price_unit = price_re.group(2)
-                    if price_unit == "s":
-                        price_num *= 10
-                    elif price_unit == "g":
-                        price_num *= 100
-                    elif price_unit == "p":
-                        price_num *= 1000
-                    itemdata.value = price_num
-                else:
-                    itemdata.value = 0
-            else:
-                itemdata.value = 0
-
-            # Description
-            if "body" in f_json:
-                itemdata.description = f_json["body"]
-            elif "sections" in f_json and "body" in f_json["sections"][0]:
-                itemdata.description = f_json["sections"][0]["body"]
-
-            # Aura
-
-            if "aura" in f_json:
-                itemdata.aura = f_json['aura']
-
-            # Slot
-
-            if "slot" in f_json and f_json["slot"] != "none":
+            if "slot" in f_json:
                 itemdata.slot = f_json["slot"]
+            if "aura_strength" in f_json:
+                itemdata.aura_strength = f_json["aura_strength"]
+            if "aura_value" in f_json:
+                itemdata.aura_value = f_json["aura_value"]
 
             items.append(itemdata)
+
+            if "weapon" in f_json:
+                weapon_json = f_json["weapon"]
+                weapon_obj = WeaponData()
+                weapon_obj.item_name = itemdata.item_name
+                weapon_obj.weapon_class = weapon_json["Weapon Class"].replace(" Weapons", "")
+                weapon_obj.proficiency = weapon_json["Proficiency"]
+
 
             if "misc" in f_json:
                 if "Weapon" in f_json["misc"]:
                     weapon_json = f_json["misc"]["Weapon"]
                     weapon_obj = WeaponData()
                     weapon_obj.item_name = itemdata.item_name
-                    weapon_obj.weapon_class = weapon_json["Weapon Class"].replace(" Weapons", "")
+                    weapon_obj.weapon_class = weapon_json["Weapon Class"]
                     weapon_obj.proficiency = weapon_json["Proficiency"]
 
                     if "Type" in weapon_json:
@@ -79,8 +53,8 @@ def import_items():
                     else:
                         weapon_obj.critical = "x2"
 
-                    if "Dmg (M)" in weapon_json:
-                        weapon_obj.damage = weapon_json["Dmg (M)"]
+                    if "Damage" in weapon_json:
+                        weapon_obj.damage = weapon_json["Damage"]
 
                     if "Special" in weapon_json:
                         weapon_obj.specials = weapon_json["Special"]
@@ -101,56 +75,36 @@ def import_items():
 
 def import_creatures():
     creatures = []
-    for fpath in ROOT_PSRF.joinpath("bestiary").joinpath("creature").rglob( "*.json" ):
 
-        f_json = json.loads( fpath.read_text() )
+    all_json = json.loads( ROOT_FINAL_PSRF.joinpath("creatures.json").read_text() )
+    for f_json in all_json:
+
         try:
-
             cdata = CreatureData()
-            cdata.name = " ".join( [i.strip() for i in reversed(f_json["name"].split(","))] )
+            cdata.name = f_json["name"]
 
             if "description" in f_json:
                 cdata.description = f_json["description"]
 
-            try:
-                cdata.attr_str = int( f_json["strength"] )
-            except:
-                cdata.attr_str = 10
-
-            cdata.attr_dex = int( f_json["dexterity"] )
-
-            try:
-                cdata.attr_con = int( f_json["constitution"] )
-            except:
-                cdata.attr_con = 10
-
-            try:
-                cdata.attr_int = int( f_json["intelligence"] )
-            except:
-                cdata.attr_int = 0
-
-            cdata.attr_wis = int( f_json["wisdom"] )
-            cdata.attr_cha = int( f_json["charisma"] )
-
-            cdata.xp = int( f_json["xp"].replace(",", "") )
-            cdata.alignment = f_json["alignment"]
+            cdata.attr_str = f_json["strength"]
+            cdata.attr_dex = f_json["dexterity"]
+            cdata.attr_con = f_json["constitution"]
+            cdata.attr_int = f_json["intelligence"]
+            cdata.attr_wis = f_json["wisdom"]
+            cdata.attr_cha = f_json["charisma"]
+            cdata.xp = f_json["xp"]
             cdata.size = f_json["size"]
+            cdata.save_fort = f_json["fortitude"]
+            cdata.save_ref = f_json["reflex"]
+            cdata.save_will = f_json["will"]
+            cdata.cmb = f_json["cmb"]
+            cdata.cmd = f_json["cmd"]
 
-
-            def parse_save( save ):
-                try:
-                    return int( f_json[save] )
-                except:
-                    return int( re.search( r"([+-]\d+)", f_json[save] ).group(1) )
-
-            cdata.save_fort = parse_save("fortitude")
-            cdata.save_ref = parse_save("reflex")
-            cdata.save_will = parse_save("will")
-
-            cdata.hp = int( re.search( r"^(\d+) ", f_json["hp"] ).group(1) )
 
             if "reach" in f_json:
-                cdata.reach = int( re.search( r"^(\d+) ft", f_json["reach"] ).group(1) )
+                cdata.reach = f_json["reach"]
+
+            cdata.hp = int( re.search( r"^(\d+) ", f_json["hp"] ).group(1) )
 
             # Speed
             speed_str = f_json["speed"]
@@ -173,12 +127,6 @@ def import_creatures():
                 cdata.speed_swim = 0
 
 
-            cdata.cmb = int( re.match( r"^([+-]?\d+)", f_json["cmb"] ).group(1) )
-            cdata.cmd = int( re.match( r"^([+-]?\d+)", f_json["cmd"] ).group(1) )
-
-            print( f_json["senses"])
-
-
             creatures.append( cdata )
 
         except:
@@ -189,11 +137,9 @@ def import_creatures():
     session.bulk_save_objects(creatures)
     session.commit()
 
-
 def main():
     import_items()
     import_creatures()
-
 
 if __name__ == "__main__":
     main()
