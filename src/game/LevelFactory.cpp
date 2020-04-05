@@ -673,10 +673,10 @@ void LevelFactory::constructPlayer()
     m_level->setPlayer( m_level->m_entFactory.createPlayer( impData, startPos ) );
 
     // DEBUG
-//    m_level->m_entFactory.createEnemy("rat", startPos + Vector2{0, 1});
+//    m_level->m_entFactory.createEnemy("Dire Rat", startPos + Vector2{0, 1});
     m_level->m_entFactory.createItem("Battleaxe", startPos + Vector2{1, 0});
-    m_level->m_entFactory.createItem("Dagger", startPos + Vector2{-1, 0});
-    m_level->m_entFactory.createItem("Sickle", startPos + Vector2{0, -1});
+//    m_level->m_entFactory.createItem("Dagger", startPos + Vector2{-1, 0});
+//    m_level->m_entFactory.createItem("Sickle", startPos + Vector2{0, -1});
 
     m_createdEntities.push_back( m_level->m_player->ref() );
 }

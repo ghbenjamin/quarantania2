@@ -1,131 +1,27 @@
 #include <game/Items.h>
 #include <utils/Json.h>
 #include <utils/Logging.h>
+#include <db/RawData.h>
+#include <db/ResourceDatabase.h>
 
-//
-//ItemData const* ItemManager::getItemData(std::string const &name) const
-//{
-//    return &m_itemData.at(name);
-////}
-//
-//EquipSlotMask ItemManager::equipSlotsFromStr(std::vector<std::string_view> const& tokens)
-//{
-//    std::uint32_t mask = 0;
-//
-//    for ( auto const& tok : tokens )
-//    {
-//        if ( tok == "Head" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::Head;
-//        }
-//        else if ( tok == "Headband" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::Headband;
-//        }
-//        else if ( tok == "Eyes" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::Eyes;
-//        }
-//        else if ( tok == "Shoulders" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::Shoulders;
-//        }
-//        else if ( tok == "Neck" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::Neck;
-//        }
-//        else if ( tok == "Face" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::Face;
-//        }
-//        else if ( tok == "Chest" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::Chest;
-//        }
-//        else if ( tok == "Body" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::Body;
-//        }
-//        else if ( tok == "Armour" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::Armour;
-//        }
-//        else if ( tok == "Belt" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::Belt;
-//        }
-//        else if ( tok == "Wrists" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::Wrists;
-//        }
-//        else if ( tok == "Feet" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::Feet;
-//        }
-//        else if ( tok == "MainHand" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::MainHand;
-//        }
-//        else if ( tok == "OffHand" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::OffHand;
-//        }
-//        else if ( tok == "LeftRing" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::LeftRing;
-//        }
-//        else if ( tok == "RightRing" )
-//        {
-//            mask |= (std::uint32_t) EquipSlot::RightRing;
-//        }
-//    }
-//
-//    return mask;
-//}
 
-EquipSlotMask::EquipSlotMask(int32_t mask)
-    : m_mask(mask)
-{}
-
-EquipSlotMask::EquipSlotMask()
-    : m_mask(0)
-{}
-
-EquipSlotMask::EquipSlotMask(std::initializer_list<EquipSlot> slots)
+Weapon::Weapon(RawWeaponData const& rawData)
 {
-    m_mask = 0;
-    for ( EquipSlot const& s : slots )
-    {
-        m_mask |= (std::uint32_t) s;
-    }
+    initFromData( rawData );
 }
 
-std::int32_t EquipSlotMask::mask() const
+Weapon::Weapon(std::string_view name)
 {
-    return m_mask;
+    RawWeaponData rawData = ResourceDatabase::instance().weaponFromName( name );
+    initFromData( rawData );
 }
 
-std::set<EquipSlot> EquipSlotMask::unpack() const
+void Weapon::initFromData(RawWeaponData const &rawData)
 {
-    std::set<EquipSlot> out{};
-
-    for ( int i = 0; i < 16; i++ )
-    {
-        std::uint32_t flag = (1u << i);
-        if ( m_mask & flag )
-        {
-            out.insert( static_cast<EquipSlot>(flag) );
-        }
-    }
-
-    return out;
+    m_critLower = rawData.crit_lower;
+    m_critMult = rawData.crit_mult;
 }
 
-Item::Item(const std::string &name, ItemType type, int baseValue, int weight, const SpritesheetKey &sprite,
-           const EquipSlotMask &equipSlots)
-        : m_name(name), m_type(type), m_baseValue(baseValue), m_weight(weight), m_sprite(sprite), m_equipSlots(equipSlots)
-{
-}
 
 const std::string &Item::getName() const
 {
@@ -134,12 +30,12 @@ const std::string &Item::getName() const
 
 ItemType Item::getType() const
 {
-    return m_type;
+    return m_itemType;
 }
 
-int Item::getBaseValue() const
+int Item::getValue() const
 {
-    return m_baseValue;
+    return m_value;
 }
 
 int Item::getWeight() const
@@ -152,7 +48,169 @@ const SpritesheetKey &Item::getSprite() const
     return m_sprite;
 }
 
-const EquipSlotMask &Item::getEquipSlots() const
+Item::Item(RawItemData const &rawData)
 {
-    return m_equipSlots;
+    initFromData( rawData );
+}
+
+Item::Item(std::string_view name)
+{
+    RawItemData rawData = ResourceDatabase::instance().itemFromName( name );
+    initFromData( rawData );
+}
+
+void Item::initFromData(RawItemData const &rawData)
+{
+    m_name = rawData.name;
+    m_value = rawData.value;
+    m_weight = rawData.weight;
+    m_sprite = rawData.sprite;
+    m_description = rawData.description;
+    m_equipSlot = equipSlotFromString( rawData.slot );
+
+    if ( rawData.item_type == "armour" )
+    {
+        m_itemType = ItemType::Armour;
+    }
+    else if ( rawData.item_type == "consumable" )
+    {
+        m_itemType = ItemType::Consumable;
+    }
+    else if ( rawData.item_type == "equippable" )
+    {
+        m_itemType = ItemType::Equippable;
+    }
+    else if ( rawData.item_type == "gear" )
+    {
+        m_itemType = ItemType::Gear;
+    }
+    else if ( rawData.item_type == "weapon" )
+    {
+        m_itemType = ItemType::Weapon;
+        m_weapon = std::make_unique<Weapon>( m_name );
+    }
+    else
+    {
+        m_itemType = ItemType::Unknown;
+    }
+}
+
+EquipSlot Item::equipSlotFromString(std::string_view str)
+{
+    if ( str == "armor" )
+    {
+        return EquipSlot::Armor;
+    }
+    else if ( str == "arms" )
+    {
+        return EquipSlot::Arms;
+    }
+    else if ( str == "belt" )
+    {
+        return EquipSlot::Belt;
+    }
+    else if ( str == "body" )
+    {
+        return EquipSlot::Body;
+    }
+    else if ( str == "chest" )
+    {
+        return EquipSlot::Chest;
+    }
+    else if ( str == "eyes" )
+    {
+        return EquipSlot::Eyes;
+    }
+    else if ( str == "feet" )
+    {
+        return EquipSlot::Feet;
+    }
+    else if ( str == "hands" )
+    {
+        return EquipSlot::Hands;
+    }
+    else if ( str == "head" )
+    {
+        return EquipSlot::Head;
+    }
+    else if ( str == "headband" )
+    {
+        return EquipSlot::Headband;
+    }
+    else if ( str == "neck" )
+    {
+        return EquipSlot::Neck;
+    }
+    else if ( str == "ring" )
+    {
+        return EquipSlot::Ring;
+    }
+    else if ( str == "shield" )
+    {
+        return EquipSlot::Shield;
+    }
+    else if ( str == "shoulders" )
+    {
+        return EquipSlot::Shoulders;
+    }
+    else if ( str == "wrists" )
+    {
+        return EquipSlot::Wrists;
+    }
+    else if ( str == "weapon" )
+    {
+        return EquipSlot::Weapon;
+    }
+    else
+    {
+        return EquipSlot::None;
+    }
+}
+
+EquipSlot Item::getEquipSlot() const
+{
+    return m_equipSlot;
+}
+
+Armour::Armour(RawArmourData const &rawData)
+{
+    initFromData( rawData );
+}
+
+Armour::Armour(std::string_view name)
+{
+    RawArmourData rawData = ResourceDatabase::instance().armourFromName( name );
+    initFromData( rawData );
+}
+
+void Armour::initFromData(RawArmourData const &rawData)
+{
+    m_arcaneFailureChance = rawData.arcaneFailureChance;
+    m_shieldBonus = rawData.shieldBonus;
+    m_armourBonus = rawData.armourBonus;
+    m_maxDex = rawData.maxDex;
+    m_speed20 = rawData.speed20;
+    m_speed30 = rawData.speed30;
+    m_armourCheck = rawData.armourCheck;
+
+    if ( rawData.armour_type == "Light armor" )
+    {
+        m_armourType = ArmourType::Light;
+    }
+    else if ( rawData.armour_type == "Medium armor" )
+    {
+        m_armourType = ArmourType::Medium;
+    }
+    else if ( rawData.armour_type == "Heavy armor" )
+    {
+        m_armourType = ArmourType::Heavy;
+    }
+    if ( rawData.armour_type == "Shields" )
+    {
+        m_armourType = ArmourType::Shield;
+    }
+    else
+    {
+        AssertAlwaysMsg( "Unknown armour type" );
+    }
 }

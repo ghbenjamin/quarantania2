@@ -2,6 +2,7 @@
 #include <utils/Json.h>
 #include <utils/Logging.h>
 #include <utils/Assert.h>
+#include <db/ResourceDatabase.h>
 
 Enemy::Enemy(EnemyData const &data)
 : m_data(data)

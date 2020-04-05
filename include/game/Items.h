@@ -5,94 +5,165 @@
 #include <set>
 
 #include <resource/Spritesheet.h>
+#include <db/RawData.h>
 
+class Armor;
+
+struct RawItemData;
 
 enum class ItemType
 {
-    None,
-    Weapon,
-    Apparel
+    Unknown,
+    Armour,
+    Consumable,
+    Equippable,
+    Gear,
+    Weapon
 };
 
 enum class EquipSlot
 {
-    Head        = (1u << 0),
-    Headband    = (1u << 1),
-    Eyes        = (1u << 2),
-    Shoulders   = (1u << 3),
-    Neck        = (1u << 4),
-    Face        = (1u << 5),
-    Chest       = (1u << 6),
-    Body        = (1u << 7),
-    Armour      = (1u << 8),
-    Belt        = (1u << 9),
-    Wrists      = (1u << 10),
-    Feet        = (1u << 11),
-    MainHand    = (1u << 12),
-    OffHand     = (1u << 13),
-    LeftRing    = (1u << 14),
-    RightRing   = (1u << 15),
+    None,
+    Armor,
+    Arms,
+    Belt,
+    Body,
+    Chest,
+    Eyes,
+    Feet,
+    Hands,
+    Head,
+    Headband,
+    Neck,
+    Ring,
+    Shield,
+    Shoulders,
+    Weapon,
+    Wrists,
 };
 
-class EquipSlotMask
+
+enum class WeaponHandedness
+{
+    OneHanded,
+    TwoHanded,
+};
+
+enum class WeaponType
+{
+    Melee,
+    Ranged,
+    Ammo
+};
+
+enum class WeaponProficiency
+{
+    Simple,
+    Martial,
+    Exotic
+};
+
+enum class PhysDamageType
+{
+    Piercing = 0x1,
+    Bludgeoning = 0x2,
+    Slashing = 0x4
+};
+
+enum class WeaponSpecials
+{
+    Trip,
+    Reach,
+    Nonlethal,
+    Double,
+    Disarm,
+    Brace,
+};
+
+using PhysDamageMask = std::uint8_t;
+
+enum class ArmourType
+{
+    Heavy,
+    Medium,
+    Light,
+    Shield
+};
+
+
+class Armour
 {
 public:
-    EquipSlotMask();
-    EquipSlotMask(int32_t mask);
-    EquipSlotMask(std::initializer_list<EquipSlot> slots);
-
-    ~EquipSlotMask() = default;
-
-    std::int32_t mask( ) const;
-    std::set<EquipSlot> unpack( ) const;
+    Armour( RawArmourData const& rawData );
+    Armour( std::string_view name );
+    ~Armour() = default;
 
 private:
-    std::int32_t m_mask;
+    void initFromData( RawArmourData const& rawData );
+
+private:
+    int m_arcaneFailureChance;
+    int m_armourBonus;
+    int m_shieldBonus;
+    int m_armourCheck;
+    int m_maxDex;
+    int m_speed20;
+    int m_speed30;
+    ArmourType m_armourType;
+};
+
+
+class Weapon
+{
+public:
+    Weapon( RawWeaponData const& rawData );
+    Weapon( std::string_view name );
+    ~Weapon() = default;
+
+private:
+    void initFromData( RawWeaponData const& rawData );
+
+private:
+    WeaponHandedness m_handedness;
+    WeaponType m_weaponType;
+    WeaponProficiency m_proficiency;
+    int m_critLower;
+    int m_critMult;
+    PhysDamageMask m_damageType;
+    std::set<WeaponSpecials> m_specials;
 };
 
 
 class Item
 {
 public:
-    Item(const std::string &name, ItemType type, int baseValue, int weight, const SpritesheetKey &sprite,
-         const EquipSlotMask &equipSlots);
+    Item( RawItemData const& rawData );
+    Item( std::string_view name );
     virtual ~Item() = default;
 
     const std::string &getName() const;
     ItemType getType() const;
-    int getBaseValue() const;
+    int getValue() const;
     int getWeight() const;
+    EquipSlot getEquipSlot() const;
+
     const SpritesheetKey &getSprite() const;
-    const EquipSlotMask &getEquipSlots() const;
+
+private:
+    void initFromData( RawItemData const& rawData );
+    static EquipSlot equipSlotFromString( std::string_view str );
 
 private:
     std::string m_name;
-    ItemType m_type = ItemType::None;
-    int m_baseValue;
+    ItemType m_itemType;
+    int m_value;
     int m_weight;
     SpritesheetKey m_sprite;
-    EquipSlotMask m_equipSlots;
+    std::string m_description;
+    EquipSlot m_equipSlot;
+
+    std::unique_ptr<Weapon> m_weapon;
+    std::unique_ptr<Armour> m_armour;
 };
 
-
-
-
 using ItemPtr = std::shared_ptr<Item>;
-
-//
-//class ItemManager
-//{
-//public:
-//    ItemManager() = default;
-//    ~ItemManager() = default;
-//
-//    void loadAllData();
-//    ItemPtr getItemData( std::string const& name) const;
-//
-//private:
-//
-//    static EquipSlotMask equipSlotsFromStr( std::vector<std::string_view> const& tokens );
-//
-//private:
-//    std::unordered_map<std::string, const ItemData> m_itemData;
-//};;

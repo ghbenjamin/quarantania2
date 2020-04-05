@@ -149,20 +149,20 @@ void UI::EquippedItemsView::setupSlots()
 
     addSlot(EquipSlot::Shoulders, "pauldrons",       Vector2i{halfIconSize + hSpacing * 0, vSpacing * 1});
     addSlot(EquipSlot::Neck,      "necklace",        Vector2i{halfIconSize + hSpacing * 1, vSpacing * 1});
-    addSlot(EquipSlot::Face,      "helmet",          Vector2i{halfIconSize + hSpacing * 2, vSpacing * 1});
+    addSlot(EquipSlot::Arms,      "helmet",          Vector2i{halfIconSize + hSpacing * 2, vSpacing * 1});
 
     addSlot(EquipSlot::Chest,     "shirt",           Vector2i{halfIconSize + hSpacing * 0, vSpacing * 2});
     addSlot(EquipSlot::Body,      "robe",            Vector2i{halfIconSize + hSpacing * 1, vSpacing * 2});
-    addSlot(EquipSlot::Armour,    "mail-shirt",      Vector2i{halfIconSize + hSpacing * 2, vSpacing * 2});
+    addSlot(EquipSlot::Armor,     "mail-shirt",      Vector2i{halfIconSize + hSpacing * 2, vSpacing * 2});
 
-    addSlot(EquipSlot::MainHand,  "sword-hilt",      Vector2i{hSpacing * 0, vSpacing * 3});
+    addSlot(EquipSlot::Weapon,    "sword-hilt",      Vector2i{hSpacing * 0, vSpacing * 3});
     addSlot(EquipSlot::Belt,      "belt",            Vector2i{hSpacing * 1, vSpacing * 3});
     addSlot(EquipSlot::Wrists,    "gloves",          Vector2i{hSpacing * 2, vSpacing * 3});
-    addSlot(EquipSlot::OffHand,   "sword-hilt",      Vector2i{hSpacing * 3, vSpacing * 3});
+    addSlot(EquipSlot::Shield,    "sword-hilt",      Vector2i{hSpacing * 3, vSpacing * 3});
 
-    addSlot(EquipSlot::LeftRing,  "ring",            Vector2i{halfIconSize + hSpacing * 0, vSpacing * 4});
+    addSlot(EquipSlot::Ring,      "ring",            Vector2i{halfIconSize + hSpacing * 0, vSpacing * 4});
     addSlot(EquipSlot::Feet,      "boots",           Vector2i{halfIconSize + hSpacing * 1, vSpacing * 4});
-    addSlot(EquipSlot::RightRing, "ring",            Vector2i{halfIconSize + hSpacing * 2, vSpacing * 4});
+    addSlot(EquipSlot::Ring,      "ring",            Vector2i{halfIconSize + hSpacing * 2, vSpacing * 4});
 }
 
 UI::EquippedItemSlot::EquippedItemSlot(EquipSlot type, const Sprite &emptySprite, const Vector2i &offset,

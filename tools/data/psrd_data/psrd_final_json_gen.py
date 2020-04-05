@@ -164,11 +164,15 @@ def do_items():
         # Weapon parsing
 
         if "weapon" in f_json:
+
+            if not "slot" in f_json:
+                f_json["slot"] = "weapon"
+
             for v in ["Dmg (T)", "Dmg (S)", "Dmg (L)"]:
                 if v in f_json["weapon"]:
                     del( f_json["weapon"][v] )
             if "Dmg (M)" in f_json["weapon"]:
-                f_json["weapon"]["Damage"] = f_json["weapon"]["Dmg (M)"]
+                f_json["weapon"]["damage"] = f_json["weapon"]["Dmg (M)"]
                 del( f_json["weapon"]["Dmg (M)"] )
             if "Range" in f_json["weapon"]:
                 try:
@@ -177,9 +181,34 @@ def do_items():
                 except:
                     print( f_json["name"], f_json["weapon"])
                     raise
+            if "Type" in f_json["weapon"]:
+                f_json["weapon"]["damage_type"] = f_json["weapon"]["Type"].replace(" or ", ",").replace(" and ", ",")
+                del( f_json["weapon"]["Type"] )
 
+            if "Weapon Class" in f_json["weapon"]:
+                f_json["weapon"]["weapon_class"] = f_json["weapon"]["Weapon Class"].replace(" Weapons", "")
+                del( f_json["weapon"]["Weapon Class"] )
 
+            if "Proficiency" in f_json["weapon"]:
+                f_json["weapon"]["proficiency"] = f_json["weapon"]["Proficiency"].replace(" Weapons", "")
+                del( f_json["weapon"]["Proficiency"] )
 
+            crit_lower = 20
+            crit_mult = 2
+            if "Critical" in f_json["weapon"]:
+                crit_str = f_json["weapon"]["Critical"]
+                crit_re = re.search( r"^x(\d+)", crit_str )
+                if crit_re:
+                    crit_lower = 20
+                    crit_mult = int( crit_re.group(1) )
+                else:
+                    crit_re = re.search( r"^(\d+)-20/x(\d+)", crit_str )
+                    if crit_re:
+                        crit_lower = int( crit_re.group(1) )
+                        crit_mult = int( crit_re.group(2) )
+                del ( f_json["weapon"]["Critical"] )
+            f_json["weapon"]["crit_lower"] = crit_lower
+            f_json["weapon"]["crit_mult"] = crit_mult
 
 
         all_items.append( f_json )

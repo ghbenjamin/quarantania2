@@ -61,23 +61,3 @@ ItemPtr Character::equippedWeaponData() const
 {
     return m_equippedWeapon;
 }
-
-WeaponData *Character::getCurrentWeaponData()
-{
-    if ( m_equippedWeapon )
-    {
-        // foo
-    }
-    else if ( m_naturalWeapon != nullptr )
-    {
-        return m_naturalWeapon;
-    }
-
-    return nullptr;
-}
-
-void Character::setNaturalWeaponData( WeaponData* data )
-{
-    m_naturalWeapon = data;
-}
-

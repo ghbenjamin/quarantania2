@@ -155,9 +155,12 @@
     "item_type": "weapon",
     "name": "Arrows",
     "price": 100,
+    "slot": "weapon",
     "weapon": {
-      "Proficiency": "Martial Weapons",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "proficiency": "Martial",
+      "weapon_class": "Ranged"
     },
     "weight": 3
   },
@@ -200,13 +203,15 @@
     "item_type": "weapon",
     "name": "Orc Double Axe",
     "price": 6000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d8/1d8",
-      "Proficiency": "Exotic Weapons",
       "Special": "double",
-      "Type": "S",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d8/1d8",
+      "damage_type": "S",
+      "proficiency": "Exotic",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 15
   },
@@ -293,12 +298,14 @@
     "item_type": "weapon",
     "name": "Battleaxe",
     "price": 1000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d8",
-      "Proficiency": "Martial Weapons",
-      "Type": "S",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d8",
+      "damage_type": "S",
+      "proficiency": "Martial",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 6
   },
@@ -435,13 +442,15 @@
     "item_type": "weapon",
     "name": "Blowgun",
     "price": 200,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d2",
-      "Proficiency": "Simple Weapons",
       "Range": 20,
-      "Type": "P",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d2",
+      "damage_type": "P",
+      "proficiency": "Simple",
+      "weapon_class": "Ranged"
     },
     "weight": 1
   },
@@ -450,9 +459,12 @@
     "item_type": "weapon",
     "name": "Blowgun Darts",
     "price": 50,
+    "slot": "weapon",
     "weapon": {
-      "Proficiency": "Simple Weapons",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "proficiency": "Simple",
+      "weapon_class": "Ranged"
     },
     "weight": 0
   },
@@ -471,14 +483,16 @@
     "item_type": "weapon",
     "name": "Bolas",
     "price": 500,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d4",
-      "Proficiency": "Exotic Weapons",
       "Range": 10,
       "Special": "nonlethal, trip",
-      "Type": "B",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d4",
+      "damage_type": "B",
+      "proficiency": "Exotic",
+      "weapon_class": "Ranged"
     },
     "weight": 2
   },
@@ -487,9 +501,12 @@
     "item_type": "weapon",
     "name": "Bolts",
     "price": 100,
+    "slot": "weapon",
     "weapon": {
-      "Proficiency": "Exotic Weapons",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "proficiency": "Exotic",
+      "weapon_class": "Ranged"
     },
     "weight": 1
   },
@@ -747,9 +764,12 @@
     "item_type": "weapon",
     "name": "Sling Bullets",
     "price": 10,
+    "slot": "weapon",
     "weapon": {
-      "Proficiency": "Exotic Weapons",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "proficiency": "Exotic",
+      "weapon_class": "Ranged"
     },
     "weight": 5
   },
@@ -881,13 +901,15 @@
     "item_type": "weapon",
     "name": "Spiked Chain",
     "price": 2500,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "2d4",
-      "Proficiency": "Exotic Weapons",
       "Special": "disarm, trip",
-      "Type": "P",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "2d4",
+      "damage_type": "P",
+      "proficiency": "Exotic",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 10
   },
@@ -1036,13 +1058,15 @@
     "item_type": "weapon",
     "name": "Club",
     "price": 0,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d6",
-      "Proficiency": "Simple Weapons",
       "Range": 10,
-      "Type": "B",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d6",
+      "damage_type": "B",
+      "proficiency": "Simple",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 3
   },
@@ -1061,13 +1085,15 @@
     "item_type": "weapon",
     "name": "Hand Crossbow",
     "price": 10000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "19-20/x2",
-      "Damage": "1d4",
-      "Proficiency": "Exotic Weapons",
       "Range": 30,
-      "Type": "P",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 19,
+      "crit_mult": 2,
+      "damage": "1d4",
+      "damage_type": "P",
+      "proficiency": "Exotic",
+      "weapon_class": "Ranged"
     },
     "weight": 2
   },
@@ -1076,13 +1102,15 @@
     "item_type": "weapon",
     "name": "Heavy Crossbow",
     "price": 5000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "19-20/x2",
-      "Damage": "1d10",
-      "Proficiency": "Simple Weapons",
       "Range": 120,
-      "Type": "P",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 19,
+      "crit_mult": 2,
+      "damage": "1d10",
+      "damage_type": "P",
+      "proficiency": "Simple",
+      "weapon_class": "Ranged"
     },
     "weight": 8
   },
@@ -1091,13 +1119,15 @@
     "item_type": "weapon",
     "name": "Light Crossbow",
     "price": 3500,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "19-20/x2",
-      "Damage": "1d8",
-      "Proficiency": "Simple Weapons",
       "Range": 80,
-      "Type": "P",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 19,
+      "crit_mult": 2,
+      "damage": "1d8",
+      "damage_type": "P",
+      "proficiency": "Simple",
+      "weapon_class": "Ranged"
     },
     "weight": 4
   },
@@ -1106,13 +1136,15 @@
     "item_type": "weapon",
     "name": "Repeating Heavy Crossbow",
     "price": 40000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "19-20/x2",
-      "Damage": "1d10",
-      "Proficiency": "Exotic Weapons",
       "Range": 120,
-      "Type": "P",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 19,
+      "crit_mult": 2,
+      "damage": "1d10",
+      "damage_type": "P",
+      "proficiency": "Exotic",
+      "weapon_class": "Ranged"
     },
     "weight": 12
   },
@@ -1121,13 +1153,15 @@
     "item_type": "weapon",
     "name": "Repeating Light Crossbow",
     "price": 25000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "19-20/x2",
-      "Damage": "1d8",
-      "Proficiency": "Exotic Weapons",
       "Range": 80,
-      "Type": "P",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 19,
+      "crit_mult": 2,
+      "damage": "1d8",
+      "damage_type": "P",
+      "proficiency": "Exotic",
+      "weapon_class": "Ranged"
     },
     "weight": 6
   },
@@ -1215,12 +1249,14 @@
     "item_type": "weapon",
     "name": "Elven Curve Blade",
     "price": 8000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "18-20/x2",
-      "Damage": "1d10",
-      "Proficiency": "Exotic Weapons",
-      "Type": "S",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 18,
+      "crit_mult": 2,
+      "damage": "1d10",
+      "damage_type": "S",
+      "proficiency": "Exotic",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 7
   },
@@ -1229,13 +1265,15 @@
     "item_type": "weapon",
     "name": "Dagger",
     "price": 200,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "19-20/x2",
-      "Damage": "1d4",
-      "Proficiency": "Simple Weapons",
       "Range": 10,
-      "Type": "P or S",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 19,
+      "crit_mult": 2,
+      "damage": "1d4",
+      "damage_type": "P,S",
+      "proficiency": "Simple",
+      "weapon_class": "Light Melee"
     },
     "weight": 1
   },
@@ -1254,12 +1292,14 @@
     "item_type": "weapon",
     "name": "Punching Dagger",
     "price": 200,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d4",
-      "Proficiency": "Simple Weapons",
-      "Type": "P",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d4",
+      "damage_type": "P",
+      "proficiency": "Simple",
+      "weapon_class": "Light Melee"
     },
     "weight": 1
   },
@@ -1296,13 +1336,15 @@
     "item_type": "weapon",
     "name": "Dart",
     "price": 50,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d4",
-      "Proficiency": "Simple Weapons",
       "Range": 20,
-      "Type": "P",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d4",
+      "damage_type": "P",
+      "proficiency": "Simple",
+      "weapon_class": "Ranged"
     },
     "weight": 1
   },
@@ -1638,12 +1680,14 @@
     "item_type": "weapon",
     "name": "Falchion",
     "price": 7500,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "18-20/x2",
-      "Damage": "2d4",
-      "Proficiency": "Martial Weapons",
-      "Type": "S",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 18,
+      "crit_mult": 2,
+      "damage": "2d4",
+      "damage_type": "S",
+      "proficiency": "Martial",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 8
   },
@@ -1683,13 +1727,15 @@
     "item_type": "weapon",
     "name": "Flail",
     "price": 800,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d8",
-      "Proficiency": "Martial Weapons",
       "Special": "disarm, trip",
-      "Type": "B",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d8",
+      "damage_type": "B",
+      "proficiency": "Martial",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 5
   },
@@ -1698,13 +1744,15 @@
     "item_type": "weapon",
     "name": "Dire Flail",
     "price": 9000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d8/1d8",
-      "Proficiency": "Exotic Weapons",
       "Special": "disarm, double, trip",
-      "Type": "B",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d8/1d8",
+      "damage_type": "B",
+      "proficiency": "Exotic",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 10
   },
@@ -1713,13 +1761,15 @@
     "item_type": "weapon",
     "name": "Heavy Flail",
     "price": 1500,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "19-20/x2",
-      "Damage": "1d10",
-      "Proficiency": "Martial Weapons",
       "Special": "disarm, trip",
-      "Type": "B",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 19,
+      "crit_mult": 2,
+      "damage": "1d10",
+      "damage_type": "B",
+      "proficiency": "Martial",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 10
   },
@@ -1830,13 +1880,15 @@
     "item_type": "weapon",
     "name": "Glaive",
     "price": 800,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d10",
-      "Proficiency": "Martial Weapons",
       "Special": "reach",
-      "Type": "S",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d10",
+      "damage_type": "S",
+      "proficiency": "Martial",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 10
   },
@@ -1907,12 +1959,14 @@
     "item_type": "weapon",
     "name": "Greataxe",
     "price": 2000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d12",
-      "Proficiency": "Martial Weapons",
-      "Type": "S",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d12",
+      "damage_type": "S",
+      "proficiency": "Martial",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 12
   },
@@ -1921,12 +1975,14 @@
     "item_type": "weapon",
     "name": "Greatclub",
     "price": 500,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d10",
-      "Proficiency": "Martial Weapons",
-      "Type": "B",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d10",
+      "damage_type": "B",
+      "proficiency": "Martial",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 8
   },
@@ -1935,12 +1991,14 @@
     "item_type": "weapon",
     "name": "Greatsword",
     "price": 5000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "19-20/x2",
-      "Damage": "2d6",
-      "Proficiency": "Martial Weapons",
-      "Type": "S",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 19,
+      "crit_mult": 2,
+      "damage": "2d6",
+      "damage_type": "S",
+      "proficiency": "Martial",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 8
   },
@@ -1949,13 +2007,15 @@
     "item_type": "weapon",
     "name": "Guisarme",
     "price": 900,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "2d4",
-      "Proficiency": "Martial Weapons",
       "Special": "reach, trip",
-      "Type": "S",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "2d4",
+      "damage_type": "S",
+      "proficiency": "Martial",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 12
   },
@@ -1964,13 +2024,15 @@
     "item_type": "weapon",
     "name": "Halberd",
     "price": 1000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d10",
-      "Proficiency": "Martial Weapons",
       "Special": "brace, trip",
-      "Type": "P or S",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d10",
+      "damage_type": "P,S",
+      "proficiency": "Martial",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 12
   },
@@ -2002,13 +2064,15 @@
     "item_type": "weapon",
     "name": "Gnome Hooked Hammer",
     "price": 2000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3/x4",
-      "Damage": "1d8/1d6",
-      "Proficiency": "Exotic Weapons",
       "Special": "double, trip",
-      "Type": "B or P",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d8/1d6",
+      "damage_type": "B,P",
+      "proficiency": "Exotic",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 6
   },
@@ -2017,12 +2081,14 @@
     "item_type": "weapon",
     "name": "Handaxe",
     "price": 600,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d6",
-      "Proficiency": "Martial Weapons",
-      "Type": "S",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d6",
+      "damage_type": "S",
+      "proficiency": "Martial",
+      "weapon_class": "Light Melee"
     },
     "weight": 3
   },
@@ -2146,12 +2212,14 @@
     "item_type": "weapon",
     "name": "Heavy Pick",
     "price": 800,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x4",
-      "Damage": "1d6",
-      "Proficiency": "Martial Weapons",
-      "Type": "P",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 4,
+      "damage": "1d6",
+      "damage_type": "P",
+      "proficiency": "Martial",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 6
   },
@@ -2419,13 +2487,15 @@
     "item_type": "weapon",
     "name": "Javelin",
     "price": 100,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d6",
-      "Proficiency": "Simple Weapons",
       "Range": 30,
-      "Type": "P",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d6",
+      "damage_type": "P",
+      "proficiency": "Simple",
+      "weapon_class": "Ranged"
     },
     "weight": 2
   },
@@ -2451,13 +2521,15 @@
     "item_type": "weapon",
     "name": "Kama",
     "price": 200,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d6",
-      "Proficiency": "Exotic Weapons",
       "Special": "monk, trip",
-      "Type": "S",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d6",
+      "damage_type": "S",
+      "proficiency": "Exotic",
+      "weapon_class": "Light Melee"
     },
     "weight": 2
   },
@@ -2466,12 +2538,14 @@
     "item_type": "weapon",
     "name": "Kukri",
     "price": 800,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "18-20/x2",
-      "Damage": "1d4",
-      "Proficiency": "Martial Weapons",
-      "Type": "S",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 18,
+      "crit_mult": 2,
+      "damage": "1d4",
+      "damage_type": "S",
+      "proficiency": "Martial",
+      "weapon_class": "Light Melee"
     },
     "weight": 2
   },
@@ -2494,13 +2568,15 @@
     "item_type": "weapon",
     "name": "Lance",
     "price": 1000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d8",
-      "Proficiency": "Martial Weapons",
       "Special": "reach",
-      "Type": "P",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d8",
+      "damage_type": "P",
+      "proficiency": "Martial",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 10
   },
@@ -2570,13 +2646,15 @@
     "item_type": "weapon",
     "name": "Light Hammer",
     "price": 100,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d4",
-      "Proficiency": "Martial Weapons",
       "Range": 20,
-      "Type": "B",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d4",
+      "damage_type": "B",
+      "proficiency": "Martial",
+      "weapon_class": "Light Melee"
     },
     "weight": 2
   },
@@ -2585,12 +2663,14 @@
     "item_type": "weapon",
     "name": "Light Pick",
     "price": 400,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x4",
-      "Damage": "1d4",
-      "Proficiency": "Martial Weapons",
-      "Type": "P",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 4,
+      "damage": "1d4",
+      "damage_type": "P",
+      "proficiency": "Martial",
+      "weapon_class": "Light Melee"
     },
     "weight": 3
   },
@@ -2610,13 +2690,15 @@
     "item_type": "weapon",
     "name": "Longbow",
     "price": 7500,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d8",
-      "Proficiency": "Martial Weapons",
       "Range": 100,
-      "Type": "P",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d8",
+      "damage_type": "P",
+      "proficiency": "Martial",
+      "weapon_class": "Ranged"
     },
     "weight": 3
   },
@@ -2625,13 +2707,15 @@
     "item_type": "weapon",
     "name": "Composite Longbow",
     "price": 10000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d8",
-      "Proficiency": "Martial Weapons",
       "Range": 110,
-      "Type": "P",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d8",
+      "damage_type": "P",
+      "proficiency": "Martial",
+      "weapon_class": "Ranged"
     },
     "weight": 3
   },
@@ -2640,13 +2724,15 @@
     "item_type": "weapon",
     "name": "Longspear",
     "price": 500,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d8",
-      "Proficiency": "Simple Weapons",
       "Special": "brace, reach",
-      "Type": "P",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d8",
+      "damage_type": "P",
+      "proficiency": "Simple",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 9
   },
@@ -2655,12 +2741,14 @@
     "item_type": "weapon",
     "name": "Longsword",
     "price": 1500,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "19-20/x2",
-      "Damage": "1d8",
-      "Proficiency": "Martial Weapons",
-      "Type": "S",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 19,
+      "crit_mult": 2,
+      "damage": "1d8",
+      "damage_type": "S",
+      "proficiency": "Martial",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 4
   },
@@ -2697,12 +2785,14 @@
     "item_type": "weapon",
     "name": "Mace",
     "price": 500,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d6",
-      "Proficiency": "Simple Weapons",
-      "Type": "B",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d6",
+      "damage_type": "B",
+      "proficiency": "Simple",
+      "weapon_class": "Light Melee"
     },
     "weight": 4
   },
@@ -2711,12 +2801,14 @@
     "item_type": "weapon",
     "name": "Heavy Mace",
     "price": 1200,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d8",
-      "Proficiency": "Simple Weapons",
-      "Type": "B",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d8",
+      "damage_type": "B",
+      "proficiency": "Simple",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 8
   },
@@ -2993,12 +3085,14 @@
     "item_type": "weapon",
     "name": "Morningstar",
     "price": 800,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d8",
-      "Proficiency": "Simple Weapons",
-      "Type": "B and P",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d8",
+      "damage_type": "B,P",
+      "proficiency": "Simple",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 6
   },
@@ -3047,12 +3141,15 @@
     "item_type": "weapon",
     "name": "Net",
     "price": 2000,
+    "slot": "weapon",
     "weapon": {
       "Burst": "DC 25 Strength Check",
       "Hit Points": "5",
-      "Proficiency": "Exotic Weapons",
       "Range": 10,
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "proficiency": "Exotic",
+      "weapon_class": "Ranged"
     },
     "weight": 6
   },
@@ -3081,13 +3178,15 @@
     "item_type": "weapon",
     "name": "Nunchaku",
     "price": 200,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d6",
-      "Proficiency": "Exotic Weapons",
       "Special": "disarm, monk",
-      "Type": "B",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d6",
+      "damage_type": "B",
+      "proficiency": "Exotic",
+      "weapon_class": "Light Melee"
     },
     "weight": 2
   },
@@ -3367,13 +3466,15 @@
     "item_type": "weapon",
     "name": "Quarterstaff",
     "price": 0,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d6/1d6",
-      "Proficiency": "Simple Weapons",
       "Special": "double, monk",
-      "Type": "B",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d6/1d6",
+      "damage_type": "B",
+      "proficiency": "Simple",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 4
   },
@@ -3389,13 +3490,15 @@
     "item_type": "weapon",
     "name": "Ranseur",
     "price": 1000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "2d4",
-      "Proficiency": "Martial Weapons",
       "Special": "disarm, reach",
-      "Type": "P",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "2d4",
+      "damage_type": "P",
+      "proficiency": "Martial",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 12
   },
@@ -3404,12 +3507,14 @@
     "item_type": "weapon",
     "name": "Rapier",
     "price": 2000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "18-20/x2",
-      "Damage": "1d6",
-      "Proficiency": "Martial Weapons",
-      "Type": "P",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 18,
+      "crit_mult": 2,
+      "damage": "1d6",
+      "damage_type": "P",
+      "proficiency": "Martial",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 2
   },
@@ -4155,13 +4260,15 @@
     "item_type": "weapon",
     "name": "Sai",
     "price": 100,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d4",
-      "Proficiency": "Exotic Weapons",
       "Special": "disarm, monk",
-      "Type": "B",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d4",
+      "damage_type": "B",
+      "proficiency": "Exotic",
+      "weapon_class": "Light Melee"
     },
     "weight": 1
   },
@@ -4180,13 +4287,15 @@
     "item_type": "weapon",
     "name": "Sap",
     "price": 100,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d6",
-      "Proficiency": "Martial Weapons",
       "Special": "nonlethal",
-      "Type": "B",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d6",
+      "damage_type": "B",
+      "proficiency": "Martial",
+      "weapon_class": "Light Melee"
     },
     "weight": 2
   },
@@ -4261,12 +4370,14 @@
     "item_type": "weapon",
     "name": "Scimitar",
     "price": 1500,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "18-20/x2",
-      "Damage": "1d6",
-      "Proficiency": "Martial Weapons",
-      "Type": "S",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 18,
+      "crit_mult": 2,
+      "damage": "1d6",
+      "damage_type": "S",
+      "proficiency": "Martial",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 4
   },
@@ -4292,13 +4403,15 @@
     "item_type": "weapon",
     "name": "Scythe",
     "price": 1800,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x4",
-      "Damage": "2d4",
-      "Proficiency": "Martial Weapons",
       "Special": "trip",
-      "Type": "P or S",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 4,
+      "damage": "2d4",
+      "damage_type": "P,S",
+      "proficiency": "Martial",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 10
   },
@@ -4338,12 +4451,14 @@
     "item_type": "weapon",
     "name": "Heavy; Steel Shield",
     "price": 2000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d4",
-      "Proficiency": "Martial Weapons",
-      "Type": "B",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d4",
+      "damage_type": "B",
+      "proficiency": "Martial",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 15
   },
@@ -4359,12 +4474,14 @@
     "item_type": "weapon",
     "name": "Heavy; Wooden Shield",
     "price": 700,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d4",
-      "Proficiency": "Martial Weapons",
-      "Type": "B",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d4",
+      "damage_type": "B",
+      "proficiency": "Martial",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 10
   },
@@ -4425,13 +4542,15 @@
     "item_type": "weapon",
     "name": "Shortbow",
     "price": 3000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d6",
-      "Proficiency": "Martial Weapons",
       "Range": 60,
-      "Type": "P",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d6",
+      "damage_type": "P",
+      "proficiency": "Martial",
+      "weapon_class": "Ranged"
     },
     "weight": 2
   },
@@ -4440,13 +4559,15 @@
     "item_type": "weapon",
     "name": "Composite Shortbow",
     "price": 7500,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d6",
-      "Proficiency": "Martial Weapons",
       "Range": 70,
-      "Type": "P",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d6",
+      "damage_type": "P",
+      "proficiency": "Martial",
+      "weapon_class": "Ranged"
     },
     "weight": 2
   },
@@ -4455,13 +4576,15 @@
     "item_type": "weapon",
     "name": "Shortspear",
     "price": 100,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d6",
-      "Proficiency": "Simple Weapons",
       "Range": 20,
-      "Type": "P",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d6",
+      "damage_type": "P",
+      "proficiency": "Simple",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 3
   },
@@ -4470,12 +4593,14 @@
     "item_type": "weapon",
     "name": "Shortsword",
     "price": 1000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "19-20/x2",
-      "Damage": "1d6",
-      "Proficiency": "Martial Weapons",
-      "Type": "P",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 19,
+      "crit_mult": 2,
+      "damage": "1d6",
+      "damage_type": "P",
+      "proficiency": "Martial",
+      "weapon_class": "Light Melee"
     },
     "weight": 2
   },
@@ -4491,14 +4616,16 @@
     "item_type": "weapon",
     "name": "Shuriken",
     "price": 100,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d2",
-      "Proficiency": "Exotic Weapons",
       "Range": 10,
       "Special": "monk",
-      "Type": "P",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d2",
+      "damage_type": "P",
+      "proficiency": "Exotic",
+      "weapon_class": "Ranged"
     },
     "weight": 1
   },
@@ -4507,13 +4634,15 @@
     "item_type": "weapon",
     "name": "Siangham",
     "price": 300,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d6",
-      "Proficiency": "Exotic Weapons",
       "Special": "monk",
-      "Type": "P",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d6",
+      "damage_type": "P",
+      "proficiency": "Exotic",
+      "weapon_class": "Light Melee"
     },
     "weight": 1
   },
@@ -4522,13 +4651,15 @@
     "item_type": "weapon",
     "name": "Sickle",
     "price": 600,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d6",
-      "Proficiency": "Simple Weapons",
       "Special": "trip",
-      "Type": "S",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d6",
+      "damage_type": "S",
+      "proficiency": "Simple",
+      "weapon_class": "Light Melee"
     },
     "weight": 2
   },
@@ -4596,13 +4727,15 @@
     "item_type": "weapon",
     "name": "Sling",
     "price": 0,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d4",
-      "Proficiency": "Simple Weapons",
       "Range": 50,
-      "Type": "B",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d4",
+      "damage_type": "B",
+      "proficiency": "Simple",
+      "weapon_class": "Ranged"
     },
     "weight": 0
   },
@@ -4611,13 +4744,15 @@
     "item_type": "weapon",
     "name": "Halfling Sling Staff",
     "price": 2000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d8",
-      "Proficiency": "Exotic Weapons",
       "Range": 80,
-      "Type": "B",
-      "Weapon Class": "Ranged Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d8",
+      "damage_type": "B",
+      "proficiency": "Exotic",
+      "weapon_class": "Ranged"
     },
     "weight": 3
   },
@@ -4661,14 +4796,16 @@
     "item_type": "weapon",
     "name": "Spear",
     "price": 200,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d8",
-      "Proficiency": "Simple Weapons",
       "Range": 20,
       "Special": "brace",
-      "Type": "P",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d8",
+      "damage_type": "P",
+      "proficiency": "Simple",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 6
   },
@@ -4972,13 +5109,15 @@
     "item_type": "weapon",
     "name": "Starknife",
     "price": 2400,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d4",
-      "Proficiency": "Martial Weapons",
       "Range": 20,
-      "Type": "P",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d4",
+      "damage_type": "P",
+      "proficiency": "Martial",
+      "weapon_class": "Light Melee"
     },
     "weight": 3
   },
@@ -5089,12 +5228,14 @@
     "item_type": "weapon",
     "name": "Bastard Sword",
     "price": 3500,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "19-20/x2",
-      "Damage": "1d10",
-      "Proficiency": "Exotic Weapons",
-      "Type": "S",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 19,
+      "crit_mult": 2,
+      "damage": "1d10",
+      "damage_type": "S",
+      "proficiency": "Exotic",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 6
   },
@@ -5143,13 +5284,15 @@
     "item_type": "weapon",
     "name": "Two-Bladed Sword",
     "price": 10000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "19-20/x2",
-      "Damage": "1d8/1d8",
-      "Proficiency": "Exotic Weapons",
       "Special": "double",
-      "Type": "S",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 19,
+      "crit_mult": 2,
+      "damage": "1d8/1d8",
+      "damage_type": "S",
+      "proficiency": "Exotic",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 10
   },
@@ -5236,13 +5379,15 @@
     "item_type": "weapon",
     "name": "Throwing Axe",
     "price": 800,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d6",
-      "Proficiency": "Martial Weapons",
       "Range": 10,
-      "Type": "S",
-      "Weapon Class": "Light Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d6",
+      "damage_type": "S",
+      "proficiency": "Martial",
+      "weapon_class": "Light Melee"
     },
     "weight": 2
   },
@@ -5316,14 +5461,16 @@
     "item_type": "weapon",
     "name": "Trident",
     "price": 1500,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d8",
-      "Proficiency": "Martial Weapons",
       "Range": 10,
       "Special": "brace",
-      "Type": "P",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d8",
+      "damage_type": "P",
+      "proficiency": "Martial",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 4
   },
@@ -5372,13 +5519,15 @@
     "item_type": "weapon",
     "name": "Dwarven Urgrosh",
     "price": 5000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d8/1d6",
-      "Proficiency": "Exotic Weapons",
       "Special": "brace, double",
-      "Type": "P or S",
-      "Weapon Class": "Two-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d8/1d6",
+      "damage_type": "P,S",
+      "proficiency": "Exotic",
+      "weapon_class": "Two-Handed Melee"
     },
     "weight": 12
   },
@@ -5426,12 +5575,14 @@
     "item_type": "weapon",
     "name": "Dwarven Waraxe",
     "price": 3000,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d10",
-      "Proficiency": "Exotic Weapons",
-      "Type": "S",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d10",
+      "damage_type": "S",
+      "proficiency": "Exotic",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 8
   },
@@ -5440,12 +5591,14 @@
     "item_type": "weapon",
     "name": "Warhammer",
     "price": 1200,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x3",
-      "Damage": "1d8",
-      "Proficiency": "Martial Weapons",
-      "Type": "B",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 3,
+      "damage": "1d8",
+      "damage_type": "B",
+      "proficiency": "Martial",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 5
   },
@@ -5485,13 +5638,15 @@
     "item_type": "weapon",
     "name": "Whip",
     "price": 100,
+    "slot": "weapon",
     "weapon": {
-      "Critical": "x2",
-      "Damage": "1d3",
-      "Proficiency": "Exotic Weapons",
       "Special": "disarm, nonlethal, reach, trip",
-      "Type": "S",
-      "Weapon Class": "One-Handed Melee Weapons"
+      "crit_lower": 20,
+      "crit_mult": 2,
+      "damage": "1d3",
+      "damage_type": "S",
+      "proficiency": "Exotic",
+      "weapon_class": "One-Handed Melee"
     },
     "weight": 2
   },

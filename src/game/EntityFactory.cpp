@@ -9,8 +9,6 @@
 EntityFactory::EntityFactory(Level *parent, RandomGenerator* rg )
 : m_parent(parent), m_rg(rg)
 {
-    m_weaponManager.loadAllData();
-//    m_itemManager.loadAllData();
     m_enemyManager.loadAllData();
 
     addPrefabType<PrefabObjects::Door>(PrefabType::Door, SpritesheetKey{"dawnlike_objects", "Door_001"});
@@ -27,7 +25,6 @@ EntityRef EntityFactory::createPrefab(PrefabType ptype, Vector2i pos) const
     auto eref = m_parent->createEntity();
     auto it = m_prefabs.find(ptype);
 
-    // TODO Do we always want a tile position?
     m_parent->addComponent<PositionComponent>(eref, pos);
 
     Assert(it != m_prefabs.end() );
@@ -82,20 +79,8 @@ EntityRef EntityFactory::createEnemy(std::string const &name, Vector2i pos) cons
 
 EntityRef EntityFactory::createItem(std::string const &name, Vector2i pos) const
 {
-    auto eref = m_parent->createEntity();
-
-    std::shared_ptr<Item> item = ResourceDatabase::instance().itemFromName( name );
-
-    auto sprite = ResourceManager::get().getSprite( item->getSprite() );
-    sprite.setRenderLayer(RenderLayer::Entity);
-
-    m_parent->addComponent<PositionComponent>(eref, pos);
-    m_parent->addComponent<RenderComponent>(eref, sprite);
-    m_parent->addComponent<ColliderComponent>(eref, false, false);
-    m_parent->addComponent<ItemComponent>(eref, item);
-
-    m_parent->entityReady(eref);
-    return eref;
+    ItemPtr item = std::make_shared<Item>( name );
+    return createItem( item, pos );
 }
 
 EntityRef EntityFactory::createItem(std::shared_ptr<Item> item, Vector2i pos) const

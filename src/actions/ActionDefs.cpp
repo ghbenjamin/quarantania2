@@ -209,31 +209,14 @@ bool EquipItemAction::doAction() const
 {
     auto containerC = m_level->getComponents<ContainerComponent>( m_actor );
     auto actorC = m_level->getComponents<ActorComponent>( m_actor );
-    auto possibleSlots = m_item->getEquipSlots().unpack();
+    auto slot = m_item->getEquipSlot();
 
-    if ( possibleSlots.empty() )
+    if ( slot == EquipSlot::None )
     {
         AssertAlwaysMsg( "Equipping an item with no equip slots marked" );
     }
 
-    // Find the first slot that this item will accept which is empty on the target actor
-    std::optional<EquipSlot> toEquip;
-    for ( auto const& slot : possibleSlots )
-    {
-        if ( !actorC->character.hasEquipped(slot) )
-        {
-            toEquip = slot;
-            break;
-        }
-    }
-
-    // If none of the potential slots are free, replace the currently equipped item
-    if ( !toEquip.has_value() )
-    {
-        toEquip = *possibleSlots.begin();
-    }
-
-    m_level->events().broadcast<GEvents::ItemEquip>( m_actor, m_item, toEquip.value() );
+    m_level->events().broadcast<GEvents::ItemEquip>( m_actor, m_item, slot );
 
     return true;
 }
