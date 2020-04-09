@@ -7,6 +7,7 @@ ROOT_FINAL_PSRF = pathlib.Path("../psrd_final").absolute().resolve()
 def do_items():
 
     all_items = []
+    item_sprites = json.loads( pathlib.Path( "items_icons.json" ).read_text() )
 
     for fpath in ROOT_RAW_PSRF.joinpath("core_rulebook").joinpath("item").rglob( "*.json" ):
         f_json = json.loads( fpath.read_text()
@@ -211,6 +212,13 @@ def do_items():
             f_json["weapon"]["crit_mult"] = crit_mult
 
 
+        if f_json["name"] in item_sprites:
+            f_json["sprite_sheet"] = item_sprites[f_json["name"]]["sheet"]
+            f_json["sprite_name"] = item_sprites[f_json["name"]]["sprite"]
+        else:
+            print( f"MISSING SPRITE: { f_json['name']}")
+
+
         all_items.append( f_json )
 
     ROOT_FINAL_PSRF.joinpath( "items.json" ).write_text(
@@ -221,6 +229,7 @@ def do_items():
 def do_creatures():
 
     all_creatures = []
+    creature_sprites = json.loads( pathlib.Path( "creatures_icons.json" ).read_text() )
 
     for fpath in ROOT_RAW_PSRF.joinpath("bestiary").joinpath("creature").rglob( "*.json" ):
         f_json = json.loads( fpath.read_text()
@@ -231,7 +240,7 @@ def do_creatures():
                              )
 
         # Delete junk fields
-        for keyname in [ "url", "organization", "racial_modifiers", "sections", "cr", "skills", "source", "environment", "type", "treasure"]:
+        for keyname in [ "url", "aura", "organization", "racial_modifiers", "sections", "cr", "skills", "source", "environment", "type", "treasure"]:
             if keyname in f_json:
                 del( f_json[keyname] )
 
@@ -294,6 +303,24 @@ def do_creatures():
 
             del( f_json["spells"] )
 
+
+        f_json["hp"] = int( re.search( r"^(\d+) ", f_json["hp"] ).group(1) )
+
+        if "dr" in f_json:
+            dr_val, dr_str = f_json["dr"].split("/")
+            dr_val = int(dr_val)
+            dr_str = dr_str.replace("-", "all")
+            if " and " in dr_str:
+                dr_toks = dr_str.split(" and ")
+            else:
+                dr_toks = dr_str.split(" or ")
+            f_json["dr"] = ";".join([ f"{dr_val}/{t}" for t in dr_toks ])
+
+        if f_json["name"] in creature_sprites:
+            f_json["sprite_sheet"] = creature_sprites[f_json["name"]]["sheet"]
+            f_json["sprite_name"] = creature_sprites[f_json["name"]]["sprite"]
+        else:
+            print( f"MISSING SPRITE: { f_json['name']}")
 
         all_creatures.append( f_json )
 

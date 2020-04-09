@@ -8,6 +8,8 @@
     "name": "Absorbing Shield",
     "price": 5017000,
     "slot": "shield",
+    "sprite_name": "Shield_003",
+    "sprite_sheet": "dawnlike_items",
     "weight": 15
   },
   {
@@ -15,31 +17,8 @@
     "item_type": "consumable",
     "name": "Acid",
     "price": 1000,
-    "weight": 1
-  },
-  {
-    "cl": "-",
-    "description": "This nonmagical axe is made out of adamantine. As a masterwork weapon, it has a +1 enhancement bonus on attack rolls. ",
-    "item_type": "misc",
-    "name": "Adamantine Battleaxe",
-    "price": 301000,
-    "weight": 6
-  },
-  {
-    "cl": "-",
-    "description": "This nonmagical breastplate is made of adamantine, giving its wearer damage reduction of 2/-. ",
-    "item_type": "equippable",
-    "name": "Adamantine Breastplate",
-    "price": 1020000,
-    "slot": "armor",
-    "weight": 30
-  },
-  {
-    "cl": "-",
-    "description": "This nonmagical dagger is made out of adamantine. As a masterwork weapon, it has a +1 enhancement bonus on attack rolls. ",
-    "item_type": "misc",
-    "name": "Adamantine Dagger",
-    "price": 300200,
+    "sprite_name": "Potion_032",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -47,6 +26,8 @@
     "item_type": "consumable",
     "name": "Alchemist's Fire",
     "price": 2000,
+    "sprite_name": "Potion_034",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -54,6 +35,8 @@
     "item_type": "gear",
     "name": "Alchemist's Lab",
     "price": 20000,
+    "sprite_name": "Chest_014",
+    "sprite_sheet": "dawnlike_items",
     "weight": 40
   },
   {
@@ -65,6 +48,8 @@
     "name": "Amulet of Inescapable Location",
     "price": 0,
     "slot": "neck",
+    "sprite_name": "Amulet_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -76,6 +61,8 @@
     "name": "Amulet of Mighty Fists",
     "price": 400000,
     "slot": "neck",
+    "sprite_name": "Amulet_003",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -87,6 +74,8 @@
     "name": "Amulet of Natural Armor",
     "price": 200000,
     "slot": "neck",
+    "sprite_name": "Amulet_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -98,6 +87,8 @@
     "name": "Amulet of Proof against Detection and Location",
     "price": 3500000,
     "slot": "neck",
+    "sprite_name": "Amulet_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -109,6 +100,8 @@
     "name": "Amulet of the Planes",
     "price": 12000000,
     "slot": "neck",
+    "sprite_name": "Amulet_006",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -116,17 +109,9 @@
     "item_type": "consumable",
     "name": "Antitoxin",
     "price": 5000,
+    "sprite_name": "Potion_033",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "unknown",
-    "cl": "19th",
-    "description": "At first glance, an inactive apparatus of the crab appears to be a large, sealed iron barrel big enough to hold two Medium creatures. Close examination, and a DC 20 Perception check, reveals a secret catch that opens a hatch at one end. Anyone who crawls inside finds 10 (unlabeled) levers and seating for two Medium or Small occupants. These levers allow those inside to activate and control the apparatus's movements and actions.",
-    "item_type": "misc",
-    "name": "Apparatus of the Crab",
-    "price": 9000000,
-    "weight": 500
   },
   {
     "aura_strength": "strong",
@@ -137,6 +122,8 @@
     "name": "Armor of Arrow Attraction",
     "price": 0,
     "slot": "armor",
+    "sprite_name": "Armor_003",
+    "sprite_sheet": "dawnlike_items",
     "weight": 50
   },
   {
@@ -148,6 +135,8 @@
     "name": "Armor of Rage",
     "price": 0,
     "slot": "body",
+    "sprite_name": "Armor_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 50
   },
   {
@@ -156,6 +145,8 @@
     "name": "Arrows",
     "price": 100,
     "slot": "weapon",
+    "sprite_name": "Ammo_015",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -169,6 +160,8 @@
     "item_type": "gear",
     "name": "Artisan's Tools",
     "price": 500,
+    "sprite_name": "Food_035",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -176,6 +169,8 @@
     "item_type": "gear",
     "name": "Masterwork Artisan's Tools",
     "price": 5500,
+    "sprite_name": "Food_035",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -186,6 +181,8 @@
     "item_type": "misc",
     "name": "Assassin's Dagger",
     "price": 1030200,
+    "sprite_name": "ShortWep_010",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -196,6 +193,8 @@
     "item_type": "misc",
     "name": "Axe of the Dwarvish Lords",
     "price": 0,
+    "sprite_name": "LongWep_023",
+    "sprite_sheet": "dawnlike_items",
     "weight": 12
   },
   {
@@ -204,6 +203,8 @@
     "name": "Orc Double Axe",
     "price": 6000,
     "slot": "weapon",
+    "sprite_name": "LongWep_024",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "double",
       "crit_lower": 20,
@@ -220,6 +221,8 @@
     "item_type": "gear",
     "name": "Backpack",
     "price": 200,
+    "sprite_name": "Chest_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -230,6 +233,8 @@
     "item_type": "misc",
     "name": "Bag of Devouring",
     "price": 0,
+    "sprite_name": "Chest_016",
+    "sprite_sheet": "dawnlike_items",
     "weight": 15
   },
   {
@@ -240,6 +245,8 @@
     "item_type": "misc",
     "name": "Bag of Holding",
     "price": 0,
+    "sprite_name": "Chest_014",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -250,6 +257,8 @@
     "item_type": "misc",
     "name": "Bag of Tricks",
     "price": 340000,
+    "sprite_name": "Chest_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -266,6 +275,8 @@
     "item_type": "armour",
     "name": "Banded Mail",
     "price": 25000,
+    "sprite_name": "Armor_053",
+    "sprite_sheet": "dawnlike_items",
     "weight": 35
   },
   {
@@ -277,6 +288,8 @@
     "name": "Banded Mail of Luck",
     "price": 1890000,
     "slot": "armor",
+    "sprite_name": "Armor_058",
+    "sprite_sheet": "dawnlike_items",
     "weight": 35
   },
   {
@@ -284,6 +297,8 @@
     "item_type": "gear",
     "name": "Barrel",
     "price": 200,
+    "sprite_name": "Chest_009",
+    "sprite_sheet": "dawnlike_items",
     "weight": 30
   },
   {
@@ -291,6 +306,8 @@
     "item_type": "gear",
     "name": "Basket",
     "price": 40,
+    "sprite_name": "Flesh_050",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -299,6 +316,8 @@
     "name": "Battleaxe",
     "price": 1000,
     "slot": "weapon",
+    "sprite_name": "LongWep_025",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
@@ -317,6 +336,8 @@
     "item_type": "misc",
     "name": "Bead of Force",
     "price": 300000,
+    "sprite_name": "Ammo_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -324,6 +345,8 @@
     "item_type": "gear",
     "name": "Bedroll",
     "price": 10,
+    "sprite_name": "Food_033",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -331,6 +354,8 @@
     "item_type": "gear",
     "name": "Bell",
     "price": 100,
+    "sprite_name": "Music_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -342,6 +367,8 @@
     "name": "Belt of Dwarvenkind",
     "price": 1490000,
     "slot": "belt",
+    "sprite_name": "Hat_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -353,6 +380,8 @@
     "name": "Belt of Giant Strength",
     "price": 400000,
     "slot": "belt",
+    "sprite_name": "Hat_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -364,6 +393,8 @@
     "name": "Belt of Incredible Dexterity",
     "price": 400000,
     "slot": "belt",
+    "sprite_name": "Hat_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -375,6 +406,8 @@
     "name": "Belt of Mighty Constitution",
     "price": 400000,
     "slot": "belt",
+    "sprite_name": "Hat_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -386,6 +419,8 @@
     "name": "Belt of Physical Might",
     "price": 1000000,
     "slot": "belt",
+    "sprite_name": "Hat_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -397,28 +432,9 @@
     "name": "Belt of Physical Perfection",
     "price": 1600000,
     "slot": "belt",
+    "sprite_name": "Hat_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
-  },
-  {
-    "description": "A typical leather or cloth belt pouch has a leather cord to cinch it shut and another to tie it to your belt. It is large enough to hold 100-200 coins or two apples.",
-    "item_type": "gear",
-    "name": "Belt Pouch",
-    "price": 100,
-    "weight": 1
-  },
-  {
-    "description": "This is headgear used by a rider to control a mount. Bit and bridles for horses, ponies, and riding dogs can be readily purchased in most settlements and bits and bridles can be crafted for any creature that serves as a mount. ",
-    "item_type": "gear",
-    "name": "Bit and Bridle",
-    "price": 200,
-    "weight": 1
-  },
-  {
-    "description": "This warm, woven blanket has straps so it can be rolled up and tied. Blankets are often used in conjunction with bedrolls to provide additional warmth or a ground cushion.",
-    "item_type": "gear",
-    "name": "Blanket",
-    "price": 50,
-    "weight": 3
   },
   {
     "aura_strength": "moderate",
@@ -428,55 +444,9 @@
     "item_type": "misc",
     "name": "Blessed Book",
     "price": 1250000,
+    "sprite_name": "Book_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
-  },
-  {
-    "description": "Whether it is used to hoist treasure from a pit or move supplies, a simple block-and-tackle pulley, when it is properly secured, adds a +5 circumstance bonus on Strength checks to lift heavy objects. Securing the pulley requires 1 minute.",
-    "item_type": "gear",
-    "name": "Block and Tackle",
-    "price": 500,
-    "weight": 5
-  },
-  {
-    "description": "Blowguns are generally used to deliver debilitating (but rarely fatal) poisons from a distance. They are nearly silent when fired. For a list of appropriate poisons, see Poison.",
-    "item_type": "weapon",
-    "name": "Blowgun",
-    "price": 200,
-    "slot": "weapon",
-    "weapon": {
-      "Range": 20,
-      "crit_lower": 20,
-      "crit_mult": 2,
-      "damage": "1d2",
-      "damage_type": "P",
-      "proficiency": "Simple",
-      "weapon_class": "Ranged"
-    },
-    "weight": 1
-  },
-  {
-    "description": "The thin, light darts used in a blowgun are usually made of hardwood with a stabilizing fletching of down or fur. A dart is usually loaded from the back end just before firing.",
-    "item_type": "weapon",
-    "name": "Blowgun Darts",
-    "price": 50,
-    "slot": "weapon",
-    "weapon": {
-      "crit_lower": 20,
-      "crit_mult": 2,
-      "proficiency": "Simple",
-      "weapon_class": "Ranged"
-    },
-    "weight": 0
-  },
-  {
-    "aura_strength": "moderate",
-    "aura_value": "transmutation",
-    "cl": "6th",
-    "description": "A folding boat looks like a small wooden box about 12 inches long, 6 inches wide, and 6 inches deep when it is inactive. In this mode, it can be used to store items just like any other box. Yet when the proper command word is given, the box unfolds itself rapidly in the space of a single round to form a boat 10 feet long, 4 feet wide, and 2 feet in depth. A second command word causes it to unfold even further into a ship 24 feet long, 8 feet wide, and 6 feet deep. The folding boat cannot unfold if there isn't enough open space for it to occupy once unfolded. Any objects formerly stored in the box now rest inside the boat or ship.In its smaller form, the boat has one pair of oars, an anchor, a mast, and a lateen sail. In its larger form, the boat has a deck, single rowing seats, five sets of oars, a rudder, an anchor, a deck cabin, and a mast with a square sail. The boat can hold 4 people comfortably, while the ship carries 15 with ease.A third word of command causes the boat or ship to fold itself into a box once again, but only when it is unoccupied. ",
-    "item_type": "misc",
-    "name": "Folding Boat",
-    "price": 720000,
-    "weight": 4
   },
   {
     "description": "A bolas is a pair of weights, connected by a thin rope or cord. You can use this weapon to make a ranged trip attack against an opponent. You can't be tripped during your own trip attempt when using a bolas.",
@@ -484,6 +454,8 @@
     "name": "Bolas",
     "price": 500,
     "slot": "weapon",
+    "sprite_name": "LongWep_029",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 10,
       "Special": "nonlethal, trip",
@@ -502,6 +474,8 @@
     "name": "Bolts",
     "price": 100,
     "slot": "weapon",
+    "sprite_name": "Ammo_019",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -518,6 +492,8 @@
     "item_type": "misc",
     "name": "Book of Infinite Spells",
     "price": 0,
+    "sprite_name": "Book_014",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
   },
   {
@@ -529,6 +505,8 @@
     "name": "Boots of Dancing",
     "price": 0,
     "slot": "feet",
+    "sprite_name": "Boot_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -540,6 +518,8 @@
     "name": "Boots of Elvenkind",
     "price": 250000,
     "slot": "feet",
+    "sprite_name": "Boot_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -551,6 +531,8 @@
     "name": "Boots of Levitation",
     "price": 750000,
     "slot": "feet",
+    "sprite_name": "Boot_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -562,17 +544,8 @@
     "name": "Boots of Speed",
     "price": 1200000,
     "slot": "feet",
-    "weight": 1
-  },
-  {
-    "aura_strength": "faint",
-    "aura_value": "transmutation",
-    "cl": "3rd",
-    "description": "These boots increase the wearer's base land speed by 10 feet. In addition to this striding ability (considered an enhancement bonus), these boots allow the wearer to make great leaps. She can jump with a +5 competence bonus on Acrobatics checks. ",
-    "item_type": "equippable",
-    "name": "Boots of Striding and Springing",
-    "price": 550000,
-    "slot": "feet",
+    "sprite_name": "Boot_006",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -584,6 +557,8 @@
     "name": "Boots of Teleportation",
     "price": 4900000,
     "slot": "feet",
+    "sprite_name": "Boot_008",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
   },
   {
@@ -595,6 +570,8 @@
     "name": "Boots of the Winterlands",
     "price": 250000,
     "slot": "feet",
+    "sprite_name": "Boot_010",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -606,6 +583,8 @@
     "name": "Winged Boots",
     "price": 1600000,
     "slot": "feet",
+    "sprite_name": "Boot_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -613,6 +592,8 @@
     "item_type": "gear",
     "name": "Bottle",
     "price": 200,
+    "sprite_name": "Potion_016",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -623,6 +604,8 @@
     "item_type": "misc",
     "name": "Bottle of Air",
     "price": 725000,
+    "sprite_name": "Potion_027",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -634,6 +617,8 @@
     "name": "Bracelet of Friends",
     "price": 1900000,
     "slot": "wrists",
+    "sprite_name": "Ring_044",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -645,6 +630,8 @@
     "name": "Greater Bracers of Archery",
     "price": 2500000,
     "slot": "wrists",
+    "sprite_name": "Food_037",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -656,6 +643,8 @@
     "name": "Lesser Bracers of Archery",
     "price": 500000,
     "slot": "wrists",
+    "sprite_name": "Food_037",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -667,6 +656,8 @@
     "name": "Bracers of Armor",
     "price": 100000,
     "slot": "wrists",
+    "sprite_name": "Food_037",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -678,6 +669,8 @@
     "name": "Bracers of Defenselessness",
     "price": 0,
     "slot": "arms",
+    "sprite_name": "Food_037",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -694,6 +687,8 @@
     "item_type": "armour",
     "name": "Breastplate",
     "price": 20000,
+    "sprite_name": "Armor_039",
+    "sprite_sheet": "dawnlike_items",
     "weight": 30
   },
   {
@@ -705,6 +700,8 @@
     "name": "Breastplate of Command",
     "price": 2540000,
     "slot": "armor",
+    "sprite_name": "Armor_008",
+    "sprite_sheet": "dawnlike_items",
     "weight": 30
   },
   {
@@ -716,33 +713,17 @@
     "name": "Brooch of Shielding",
     "price": 150000,
     "slot": "neck",
+    "sprite_name": "Amulet_011",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
-  },
-  {
-    "aura_strength": "moderate",
-    "aura_value": "transmutation",
-    "cl": "10th",
-    "description": "This item is indistinguishable in appearance from a normal broom. It is identical to a broom of flying by all tests short of attempted use.If a creature attempts to fly using the broom, the broom does a loop-the-loop with its hopeful rider, dumping him on his head from 1d4+5 feet off the ground (no falling damage, since the fall is less than 10 feet). The broom then attacks the victim, swatting the victim's face with the straw or twig end and beating him with the handle end. The broom gets two attacks per round with each end (two swats with the straw and two with the handle, for a total of four attacks per round). It attacks with a +5 bonus on each attack roll. The straw end causes a victim to be blinded for 1 round when it hits. The handle deals 1d6 points of damage when it hits. The broom has AC 13, CMD 17, 18 hit points, and hardness 4. ",
-    "item_type": "misc",
-    "name": "Broom of Animated Attack",
-    "price": 0,
-    "weight": 3
-  },
-  {
-    "aura_strength": "moderate",
-    "aura_value": "transmutation",
-    "cl": "9th",
-    "description": "This broom is able to fly through the air as if affected by an overland flight spell (+4 on Fly skill checks) for up to 9 hours per day (split up as its owner desires). The broom can carry 200 pounds and fly at a speed of 40 feet, or up to 400 pounds at a speed at 30 feet. In addition, the broom can travel alone to any destination named by the owner as long as she has a good idea of the location and layout of that destination. It flies to its owner from as far away as 300 yards when she speaks the command word. The broom of flying has a speed of 40 feet when it has no rider. ",
-    "item_type": "misc",
-    "name": "Broom of Flying",
-    "price": 1700000,
-    "weight": 3
   },
   {
     "description": "A typical bucket has a rope handle and can hold 1-2 gallons of liquid.",
     "item_type": "gear",
     "name": "Bucket",
     "price": 50,
+    "sprite_name": "Tool_011",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -757,6 +738,8 @@
     "item_type": "armour",
     "name": "Buckler",
     "price": 500,
+    "sprite_name": "Shield_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -765,6 +748,8 @@
     "name": "Sling Bullets",
     "price": 10,
     "slot": "weapon",
+    "sprite_name": "Ammo_006",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -778,6 +763,8 @@
     "item_type": "gear",
     "name": "Caltrops",
     "price": 100,
+    "sprite_name": "Ammo_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -785,6 +772,8 @@
     "item_type": "gear",
     "name": "Candle",
     "price": 1,
+    "sprite_name": "Light_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -795,6 +784,8 @@
     "item_type": "misc",
     "name": "Candle of Invocation",
     "price": 840000,
+    "sprite_name": "Light_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -805,13 +796,8 @@
     "item_type": "misc",
     "name": "Candle of Truth",
     "price": 250000,
-    "weight": 1
-  },
-  {
-    "description": "This square yard of heavy cloth is suitable for painting, for covering items in a rainstorm, for creating a sail, or as an improvised bag. It is not waterproof but can be treated with oil, wax, or resin to make it water-resistant.",
-    "item_type": "gear",
-    "name": "Canvas",
-    "price": 10,
+    "sprite_name": "Light_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -823,17 +809,9 @@
     "name": "Cape of the Mountebank",
     "price": 1080000,
     "slot": "shoulders",
+    "sprite_name": "Armor_027",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
-  },
-  {
-    "aura_strength": "moderate",
-    "aura_value": "transmutation",
-    "cl": "10th",
-    "description": "This rug is able to fly through the air as if affected by an overland flight spell of unlimited duration. The size, carrying capacity, and speed of the different carpets of flying are shown on the table below. Beautifully and intricately made, each carpet has its own command word to activate it-if the device is within voice range, the command word activates it, whether the speaker is on the rug or not. The carpet is then controlled by spoken directions.",
-    "item_type": "misc",
-    "name": "Carpet of Flying",
-    "price": 2000000,
-    "weight": 8
   },
   {
     "aura_strength": "moderate",
@@ -844,6 +822,8 @@
     "name": "Caster's Shield",
     "price": 315300,
     "slot": "shield",
+    "sprite_name": "Shield_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -855,14 +835,9 @@
     "name": "Celestial Armor",
     "price": 2240000,
     "slot": "armor",
+    "sprite_name": "Armor_010",
+    "sprite_sheet": "dawnlike_items",
     "weight": 20
-  },
-  {
-    "description": "Chain has hardness 10 and 5 hit points. It can be burst with a DC 26 Strength check.",
-    "item_type": "gear",
-    "name": "Chain",
-    "price": 3000,
-    "weight": 2
   },
   {
     "armour": {
@@ -878,6 +853,8 @@
     "item_type": "armour",
     "name": "Chainmail",
     "price": 15000,
+    "sprite_name": "Armor_043",
+    "sprite_sheet": "dawnlike_items",
     "weight": 40
   },
   {
@@ -894,6 +871,8 @@
     "item_type": "armour",
     "name": "Chain Shirt",
     "price": 10000,
+    "sprite_name": "Armor_055",
+    "sprite_sheet": "dawnlike_items",
     "weight": 25
   },
   {
@@ -902,6 +881,8 @@
     "name": "Spiked Chain",
     "price": 2500,
     "slot": "weapon",
+    "sprite_name": "ShortWep_020",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "disarm, trip",
       "crit_lower": 20,
@@ -914,17 +895,12 @@
     "weight": 10
   },
   {
-    "description": "This fat piece of white chalk easily marks wood, metal, or stone. You can write with it for about 24 hours before it is expended. Chalk also comes in other colors, but these are rarer and can be more expensive. ",
-    "item_type": "gear",
-    "name": "Chalk",
-    "price": 1,
-    "weight": 0
-  },
-  {
     "description": "A common small wooden chest (2 cubic feet, 1 hit point, break DC 17). Most include a simple inset lock. ",
     "item_type": "gear",
     "name": "Chest",
     "price": 200,
+    "sprite_name": "Chest_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 25
   },
   {
@@ -935,6 +911,8 @@
     "item_type": "misc",
     "name": "Chime of Interruption",
     "price": 1680000,
+    "sprite_name": "Music_011",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -945,6 +923,8 @@
     "item_type": "misc",
     "name": "Chime of Opening",
     "price": 300000,
+    "sprite_name": "Music_012",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -956,6 +936,8 @@
     "name": "Circlet of Persuasion",
     "price": 450000,
     "slot": "head",
+    "sprite_name": "Ring_033",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -963,6 +945,8 @@
     "item_type": "gear",
     "name": "Climber's Kit",
     "price": 8000,
+    "sprite_name": "Tool_019",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -974,6 +958,8 @@
     "name": "Cloak of Arachnida",
     "price": 1400000,
     "slot": "shoulders",
+    "sprite_name": "Armor_028",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -985,6 +971,8 @@
     "name": "Major Cloak of Displacement",
     "price": 5000000,
     "slot": "shoulders",
+    "sprite_name": "Armor_026",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -996,6 +984,8 @@
     "name": "Minor Cloak of Displacement",
     "price": 2400000,
     "slot": "shoulders",
+    "sprite_name": "Armor_033",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1007,6 +997,8 @@
     "name": "Cloak of Elvenkind",
     "price": 250000,
     "slot": "shoulders",
+    "sprite_name": "Armor_029",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1018,6 +1010,8 @@
     "name": "Cloak of Etherealness",
     "price": 5500000,
     "slot": "shoulders",
+    "sprite_name": "Armor_031",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1029,6 +1023,8 @@
     "name": "Cloak of Resistance",
     "price": 100000,
     "slot": "shoulders",
+    "sprite_name": "Armor_032",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1040,6 +1036,8 @@
     "name": "Cloak of the Bat",
     "price": 2600000,
     "slot": "shoulders",
+    "sprite_name": "Armor_033",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1051,6 +1049,8 @@
     "name": "Cloak of the Manta Ray",
     "price": 720000,
     "slot": "shoulders",
+    "sprite_name": "Armor_034",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1059,6 +1059,8 @@
     "name": "Club",
     "price": 0,
     "slot": "weapon",
+    "sprite_name": "ShortWep_013",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 10,
       "crit_lower": 20,
@@ -1078,6 +1080,8 @@
     "item_type": "misc",
     "name": "Codex of the Infinite Planes",
     "price": 0,
+    "sprite_name": "Book_021",
+    "sprite_sheet": "dawnlike_items",
     "weight": 300
   },
   {
@@ -1086,6 +1090,8 @@
     "name": "Hand Crossbow",
     "price": 10000,
     "slot": "weapon",
+    "sprite_name": "Ammo_014",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 30,
       "crit_lower": 19,
@@ -1103,6 +1109,8 @@
     "name": "Heavy Crossbow",
     "price": 5000,
     "slot": "weapon",
+    "sprite_name": "Ammo_014",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 120,
       "crit_lower": 19,
@@ -1120,6 +1128,8 @@
     "name": "Light Crossbow",
     "price": 3500,
     "slot": "weapon",
+    "sprite_name": "Ammo_014",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 80,
       "crit_lower": 19,
@@ -1137,6 +1147,8 @@
     "name": "Repeating Heavy Crossbow",
     "price": 40000,
     "slot": "weapon",
+    "sprite_name": "Ammo_014",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 120,
       "crit_lower": 19,
@@ -1154,6 +1166,8 @@
     "name": "Repeating Light Crossbow",
     "price": 25000,
     "slot": "weapon",
+    "sprite_name": "Ammo_014",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 80,
       "crit_lower": 19,
@@ -1166,13 +1180,6 @@
     "weight": 6
   },
   {
-    "description": "A crowbar grants a +2 circumstance bonus on Strength checks made to force open a door or chest. If used in combat, treat a crowbar as a one-handed improvised weapon that deals bludgeoning damage equal to that of a club of its size.",
-    "item_type": "gear",
-    "name": "Crowbar",
-    "price": 200,
-    "weight": 5
-  },
-  {
     "aura_strength": "strong",
     "aura_value": "evocation",
     "cl": "17th",
@@ -1181,6 +1188,8 @@
     "name": "Major Crown of Blasting",
     "price": 2376000,
     "slot": "head",
+    "sprite_name": "Hat_015",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1192,6 +1201,8 @@
     "name": "Minor Crown of Blasting",
     "price": 648000,
     "slot": "head",
+    "sprite_name": "Hat_014",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1202,6 +1213,8 @@
     "item_type": "misc",
     "name": "Crystal Ball",
     "price": 4200000,
+    "sprite_name": "Tool_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 7
   },
   {
@@ -1212,6 +1225,8 @@
     "item_type": "misc",
     "name": "Crystal Hypnosis Ball",
     "price": 0,
+    "sprite_name": "Tool_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 7
   },
   {
@@ -1222,6 +1237,8 @@
     "item_type": "misc",
     "name": "Cube of Force",
     "price": 6200000,
+    "sprite_name": "Money_015",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1232,16 +1249,8 @@
     "item_type": "misc",
     "name": "Cube of Frost Resistance",
     "price": 2700000,
-    "weight": 2
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "conjuration",
-    "cl": "13th",
-    "description": "This potent magical item is a small cube fashioned from carnelian. Each of the six sides of the cube is keyed to a different plane of existence or dimension, one of which is the Material Plane. The character creating the item chooses the planes to which the other five sides are keyed.If a side of the cubic gate is pressed once, it opens a gate to a random point on the plane keyed to that side. There is a 10% chance per minute that an outsider from that plane (determine randomly) comes through it looking for food, fun, or trouble. Pressing the side a second time closes the gate. It is impossible to open more than one gate at a time.If a side is pressed twice in quick succession, the character so doing is transported to a random point on the other plane, along with all creatures in adjacent squares. The other creatures may avoid this fate by succeeding on DC 23 Will saves. ",
-    "item_type": "misc",
-    "name": "Cubic Gate",
-    "price": 16400000,
+    "sprite_name": "Money_007",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -1250,6 +1259,8 @@
     "name": "Elven Curve Blade",
     "price": 8000,
     "slot": "weapon",
+    "sprite_name": "LongWep_012",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
@@ -1266,6 +1277,8 @@
     "name": "Dagger",
     "price": 200,
     "slot": "weapon",
+    "sprite_name": "ShortWep_001",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 10,
       "crit_lower": 19,
@@ -1285,6 +1298,8 @@
     "item_type": "misc",
     "name": "Dagger of Venom",
     "price": 830200,
+    "sprite_name": "ShortWep_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1293,6 +1308,8 @@
     "name": "Punching Dagger",
     "price": 200,
     "slot": "weapon",
+    "sprite_name": "MedWep_005",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
@@ -1304,22 +1321,14 @@
     "weight": 1
   },
   {
-    "aura_strength": "moderate",
-    "aura_value": "unknown",
-    "cl": "9th",
-    "description": "This skull, carved from ebony, is wholly evil. Wherever the skull goes, the area around it is treated as though an unhallow spell had been cast with the skull as the touched point of origin. Each darkskull has a single spell effect tied to it. This spell is from the standard list given in the unhallow spell description, and it cannot be changed. ",
-    "item_type": "misc",
-    "name": "Darkskull",
-    "price": 6000000,
-    "weight": 5
-  },
-  {
     "cl": "-",
     "description": "This nonmagical light wooden shield is made out of darkwood. It has no enhancement bonus, but its construction material makes it lighter than a normal wooden shield. It has no armor check penalty. ",
     "item_type": "equippable",
     "name": "Darkwood Buckler",
     "price": 20300,
     "slot": "shield",
+    "sprite_name": "Shield_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
   },
   {
@@ -1329,6 +1338,8 @@
     "name": "Darkwood Shield",
     "price": 25700,
     "slot": "shield",
+    "sprite_name": "Shield_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -1337,6 +1348,8 @@
     "name": "Dart",
     "price": 50,
     "slot": "weapon",
+    "sprite_name": "Ammo_021",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 20,
       "crit_lower": 20,
@@ -1356,6 +1369,8 @@
     "item_type": "misc",
     "name": "Decanter of Endless Water",
     "price": 900000,
+    "sprite_name": "Potion_029",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -1366,6 +1381,8 @@
     "item_type": "misc",
     "name": "Deck of Illusions",
     "price": 810000,
+    "sprite_name": "Book_022",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1376,6 +1393,8 @@
     "item_type": "misc",
     "name": "Deck of Many Things",
     "price": 0,
+    "sprite_name": "Book_023",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1387,46 +1406,9 @@
     "name": "Demon Armor",
     "price": 5226000,
     "slot": "armor",
+    "sprite_name": "Armor_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 50
-  },
-  {
-    "aura_strength": "moderate",
-    "aura_value": "abjuration",
-    "cl": "11th",
-    "description": "These shackles have golden runes traced across their cold iron links. Any creature bound within them is affected as if a dimensional anchor spell were cast upon it (no save). They fit any Small to Large creature. The DC to break or slip out of the shackles is 30. ",
-    "item_type": "equippable",
-    "name": "Dimensional Shackles",
-    "price": 2800000,
-    "slot": "wrists",
-    "weight": 5
-  },
-  {
-    "description": "The kit is the perfect tool for disguise and provides a +2 circumstance bonus on Disguise checks. A disguise kit is exhausted after 10 uses.",
-    "item_type": "gear",
-    "name": "Disguise Kit",
-    "price": 5000,
-    "weight": 8
-  },
-  {
-    "description": "This Small, combat-trained dog is bred for battle; breeders favor strength, a thick body, and a low center of gravity. Guard dogs are sold in most large cities and some cultures use them for sport fighting or in some armies' special infantry.",
-    "item_type": "gear",
-    "name": "Guard Dog",
-    "price": 2500,
-    "weight": 0
-  },
-  {
-    "description": "This Medium dog is specially trained to carry a Small humanoid rider. It is brave in combat like a combat-trained horse. Due to its smaller stature, you take no damage when you fall from a riding dog.",
-    "item_type": "gear",
-    "name": "Riding Dog",
-    "price": 15000,
-    "weight": 0
-  },
-  {
-    "description": "Donkeys and mules are stolid in the face of danger, hardy, surefooted, and capable of carrying heavy loads over vast distances. Unlike a horse, a donkey or a mule is willing (though not eager) to enter dungeons and other strange or threatening places.",
-    "item_type": "gear",
-    "name": "Donkey or Mule",
-    "price": 800,
-    "weight": 0
   },
   {
     "cl": "-",
@@ -1435,6 +1417,8 @@
     "name": "Dragonhide Plate",
     "price": 330000,
     "slot": "armor",
+    "sprite_name": "Armor_012",
+    "sprite_sheet": "dawnlike_items",
     "weight": 50
   },
   {
@@ -1445,6 +1429,8 @@
     "item_type": "misc",
     "name": "Drums of Panic",
     "price": 3000000,
+    "sprite_name": "Music_010",
+    "sprite_sheet": "dawnlike_items",
     "weight": 10
   },
   {
@@ -1455,6 +1441,8 @@
     "item_type": "misc",
     "name": "Dust of Appearance",
     "price": 180000,
+    "sprite_name": "Rock_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1465,6 +1453,8 @@
     "item_type": "misc",
     "name": "Dust of Disappearance",
     "price": 350000,
+    "sprite_name": "Rock_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1475,6 +1465,8 @@
     "item_type": "misc",
     "name": "Dust of Dryness",
     "price": 85000,
+    "sprite_name": "Rock_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1485,6 +1477,8 @@
     "item_type": "misc",
     "name": "Dust of Sneezing and Choking",
     "price": 0,
+    "sprite_name": "Rock_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1495,6 +1489,8 @@
     "item_type": "misc",
     "name": "Dust of Tracelessness",
     "price": 25000,
+    "sprite_name": "Rock_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1504,17 +1500,9 @@
     "name": "Dwarven Plate",
     "price": 1650000,
     "slot": "armor",
+    "sprite_name": "Armor_040",
+    "sprite_sheet": "dawnlike_items",
     "weight": 50
-  },
-  {
-    "aura_strength": "moderate",
-    "aura_value": "evocation",
-    "cl": "10th",
-    "description": "This weapon functions as a +2 warhammer in the hands of most users. Yet in the hands of a dwarf, the warhammer gains an additional +1 enhancement bonus (for a total enhancement bonus of +3) and gains the returning special ability. It can be hurled with a 30-foot range increment. When hurled, a dwarven thrower deals an extra 2d8 points of damage against creatures of the giant subtype or an extra 1d8 points of damage against any other target. ",
-    "item_type": "misc",
-    "name": "Dwarven Thrower",
-    "price": 6031200,
-    "weight": 5
   },
   {
     "aura_strength": "moderate",
@@ -1524,6 +1512,8 @@
     "item_type": "misc",
     "name": "Efficient Quiver",
     "price": 180000,
+    "sprite_name": "Ammo_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -1534,6 +1524,8 @@
     "item_type": "misc",
     "name": "Efreeti Bottle",
     "price": 14500000,
+    "sprite_name": "Potion_040",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1544,6 +1536,8 @@
     "item_type": "misc",
     "name": "Elemental Gem",
     "price": 225000,
+    "sprite_name": "Money_019",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1554,6 +1548,8 @@
     "item_type": "misc",
     "name": "Elixir of Fire Breath",
     "price": 110000,
+    "sprite_name": "Potion_030",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1564,6 +1560,8 @@
     "item_type": "misc",
     "name": "Elixir of Hiding",
     "price": 25000,
+    "sprite_name": "Potion_031",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1574,6 +1572,8 @@
     "item_type": "misc",
     "name": "Elixir of Love",
     "price": 15000,
+    "sprite_name": "Potion_032",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1584,6 +1584,8 @@
     "item_type": "misc",
     "name": "Elixir of Swimming",
     "price": 25000,
+    "sprite_name": "Potion_033",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1594,6 +1596,8 @@
     "item_type": "misc",
     "name": "Elixir of Truth",
     "price": 50000,
+    "sprite_name": "Potion_034",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1604,6 +1608,8 @@
     "item_type": "misc",
     "name": "Elixir of Tumbling",
     "price": 25000,
+    "sprite_name": "Potion_035",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1614,22 +1620,17 @@
     "item_type": "misc",
     "name": "Elixir of Vision",
     "price": 25000,
+    "sprite_name": "Potion_036",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
-  },
-  {
-    "cl": "-",
-    "description": "This extremely light chainmail is made of very fine mithral links. This armor is treated, in all ways, like light armor, including when determining proficiency. The armor has an arcane spell failure chance of 20%, a maximum Dexterity bonus of +4, and an armor check penalty of -2. ",
-    "item_type": "equippable",
-    "name": "Elven Chain",
-    "price": 515000,
-    "slot": "armor",
-    "weight": 20
   },
   {
     "description": "This otherwise normal torch has a continual flame spell cast on it. This causes it to shed light like an ordinary torch, but it does not emit heat or deal fire damage if used as a weapon. ",
     "item_type": "consumable",
     "name": "Everburning Torch",
     "price": 11000,
+    "sprite_name": "Music_007",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1640,6 +1641,8 @@
     "item_type": "misc",
     "name": "Eversmoking Bottle",
     "price": 540000,
+    "sprite_name": "Potion_028",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1651,6 +1654,8 @@
     "name": "Eyes of Charming",
     "price": 5600000,
     "slot": "eyes",
+    "sprite_name": "Tool_003",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1662,6 +1667,8 @@
     "name": "Eyes of Doom",
     "price": 2500000,
     "slot": "eyes",
+    "sprite_name": "Tool_003",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1673,6 +1680,8 @@
     "name": "Eyes of the Eagle",
     "price": 250000,
     "slot": "eyes",
+    "sprite_name": "Tool_003",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1681,6 +1690,8 @@
     "name": "Falchion",
     "price": 7500,
     "slot": "weapon",
+    "sprite_name": "MedWep_005",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
@@ -1692,42 +1703,13 @@
     "weight": 8
   },
   {
-    "aura_strength": "strong",
-    "aura_value": "conjuration",
-    "cl": "12th",
-    "description": "Each of these items is a small feather that has a power to suit a special need. The kinds of tokens are described below. Each token is usable once. A particular feather token has no specific features to identify it unless its magic aura is viewed-even tokens with identical powers can be wildly different in appearance.",
-    "item_type": "misc",
-    "name": "Feather Token",
-    "price": 5000,
-    "weight": 0
-  },
-  {
-    "description": "This bundle of dry wood includes twigs and logs.",
-    "item_type": "gear",
-    "name": "Firewood",
-    "price": 1,
-    "weight": 20
-  },
-  {
-    "description": "This metal hook is little more than a stiff, bent needle.",
-    "item_type": "gear",
-    "name": "Fishhook",
-    "price": 10,
-    "weight": 0
-  },
-  {
-    "description": "This net measures 5 feet by 5 feet, and can be used to cover a pit or to block Tiny or larger creatures from entering an area.",
-    "item_type": "gear",
-    "name": "Fishing Net",
-    "price": 400,
-    "weight": 5
-  },
-  {
     "description": "A flail consists of a spiked metal ball, connected to a handle by a sturdy chain.",
     "item_type": "weapon",
     "name": "Flail",
     "price": 800,
     "slot": "weapon",
+    "sprite_name": "LongWep_030",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "disarm, trip",
       "crit_lower": 20,
@@ -1745,6 +1727,8 @@
     "name": "Dire Flail",
     "price": 9000,
     "slot": "weapon",
+    "sprite_name": "LongWep_030",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "disarm, double, trip",
       "crit_lower": 20,
@@ -1762,6 +1746,8 @@
     "name": "Heavy Flail",
     "price": 1500,
     "slot": "weapon",
+    "sprite_name": "LongWep_030",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "disarm, trip",
       "crit_lower": 19,
@@ -1774,20 +1760,12 @@
     "weight": 10
   },
   {
-    "aura_strength": "strong",
-    "aura_value": "evocation",
-    "cl": "12th",
-    "description": "This is a +1 flaming burst longsword. Once per day, the sword can blast forth a fiery ray at any target within 30 feet as a ranged touch attack. The ray deals 4d6 points of fire damage on a successful hit. ",
-    "item_type": "misc",
-    "name": "Flame Tongue",
-    "price": 2071500,
-    "weight": 4
-  },
-  {
     "description": "This glass bottle holds 1 pint. It is relatively fragile and breaks if thrown at a creature or hard surface. Flasks may be simple blown glass, or they may be elaborate affairs embossed with family crests and other artwork.",
     "item_type": "gear",
     "name": "Flask",
     "price": 3,
+    "sprite_name": "Potion_038",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -1798,6 +1776,8 @@
     "item_type": "misc",
     "name": "Flask of Curses",
     "price": 0,
+    "sprite_name": "Potion_039",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -1805,17 +1785,9 @@
     "item_type": "gear",
     "name": "Flint and Steel",
     "price": 100,
+    "sprite_name": "Chest_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "evocation",
-    "cl": "14th",
-    "description": "This +3 frost greatsword sheds light as a torch when the temperature drops below 0\u00b0 F. At such times it cannot be concealed when drawn, nor can its light be shut off. Its wielder is protected from fire; the sword absorbs the first 10 points of fire damage each round that the wielder would otherwise take.A frost brand extinguishes all nonmagical fires in a 20-foot radius. As a standard action, it can also dispel lasting fire spells, but not instantaneous effects. You must succeed on a dispel check (1d20 +14) against each spell to dispel it. The DC to dispel such spells is 11 + the caster level of the fire spell. ",
-    "item_type": "misc",
-    "name": "Frost Brand",
-    "price": 5447500,
-    "weight": 8
   },
   {
     "armour": {
@@ -1831,6 +1803,8 @@
     "item_type": "armour",
     "name": "Full Plate",
     "price": 150000,
+    "sprite_name": "Armor_044",
+    "sprite_sheet": "dawnlike_items",
     "weight": 50
   },
   {
@@ -1842,6 +1816,8 @@
     "name": "Gauntlets of Fumbling",
     "price": 0,
     "slot": "hands",
+    "sprite_name": "Glove_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -1853,6 +1829,8 @@
     "name": "Gauntlet of Rust",
     "price": 1150000,
     "slot": "hands",
+    "sprite_name": "Glove_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -1863,6 +1841,8 @@
     "item_type": "misc",
     "name": "Gem of Brightness",
     "price": 1300000,
+    "sprite_name": "Money_026",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1873,6 +1853,8 @@
     "item_type": "misc",
     "name": "Gem of Seeing",
     "price": 7500000,
+    "sprite_name": "Money_023",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1881,6 +1863,8 @@
     "name": "Glaive",
     "price": 800,
     "slot": "weapon",
+    "sprite_name": "LongWep_021",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "reach",
       "crit_lower": 20,
@@ -1901,6 +1885,8 @@
     "name": "Gloves of Arrow Snaring",
     "price": 400000,
     "slot": "hands",
+    "sprite_name": "Glove_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1912,6 +1898,8 @@
     "name": "Gloves of Swimming and Climbing",
     "price": 625000,
     "slot": "hands",
+    "sprite_name": "Glove_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1923,6 +1911,8 @@
     "name": "Glove of Storing",
     "price": 1000000,
     "slot": "hands",
+    "sprite_name": "Glove_003",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1934,6 +1924,8 @@
     "name": "Goggles of Minute Seeing",
     "price": 250000,
     "slot": "eyes",
+    "sprite_name": "Tool_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1945,6 +1937,8 @@
     "name": "Goggles of Night",
     "price": 1200000,
     "slot": "eyes",
+    "sprite_name": "Tool_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -1952,6 +1946,8 @@
     "item_type": "gear",
     "name": "Grappling Hook",
     "price": 100,
+    "sprite_name": "Tool_006",
+    "sprite_sheet": "dawnlike_items",
     "weight": 4
   },
   {
@@ -1960,6 +1956,8 @@
     "name": "Greataxe",
     "price": 2000,
     "slot": "weapon",
+    "sprite_name": "LongWep_025",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
@@ -1976,6 +1974,8 @@
     "name": "Greatclub",
     "price": 500,
     "slot": "weapon",
+    "sprite_name": "ShortWep_014",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -1992,6 +1992,8 @@
     "name": "Greatsword",
     "price": 5000,
     "slot": "weapon",
+    "sprite_name": "LongWep_010",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 19,
       "crit_mult": 2,
@@ -2008,6 +2010,8 @@
     "name": "Guisarme",
     "price": 900,
     "slot": "weapon",
+    "sprite_name": "LongWep_017",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "reach, trip",
       "crit_lower": 20,
@@ -2025,6 +2029,8 @@
     "name": "Halberd",
     "price": 1000,
     "slot": "weapon",
+    "sprite_name": "LongWep_020",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "brace, trip",
       "crit_lower": 20,
@@ -2050,6 +2056,8 @@
     "item_type": "armour",
     "name": "Half-Plate",
     "price": 60000,
+    "sprite_name": "Armor_042",
+    "sprite_sheet": "dawnlike_items",
     "weight": 50
   },
   {
@@ -2057,6 +2065,8 @@
     "item_type": "gear",
     "name": "Hammer",
     "price": 50,
+    "sprite_name": "LongWep_032",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -2065,6 +2075,8 @@
     "name": "Gnome Hooked Hammer",
     "price": 2000,
     "slot": "weapon",
+    "sprite_name": "LongWep_022",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "double, trip",
       "crit_lower": 20,
@@ -2082,6 +2094,8 @@
     "name": "Handaxe",
     "price": 600,
     "slot": "weapon",
+    "sprite_name": "MedWep_007",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
@@ -2100,6 +2114,8 @@
     "item_type": "misc",
     "name": "Handy Haversack",
     "price": 200000,
+    "sprite_name": "Chest_014",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -2111,6 +2127,8 @@
     "name": "Hand of Glory",
     "price": 800000,
     "slot": "neck",
+    "sprite_name": "Glove_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -2122,6 +2140,8 @@
     "name": "Hand of the Mage",
     "price": 90000,
     "slot": "neck",
+    "sprite_name": "Glove_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -2132,18 +2152,9 @@
     "item_type": "misc",
     "name": "Harp of Charming",
     "price": 750000,
+    "sprite_name": "Music_012",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
-  },
-  {
-    "aura_strength": "faint",
-    "aura_value": "illusion",
-    "cl": "1st",
-    "description": "This apparently normal hat allows its wearer to alter her appearance as with a disguise self spell. As part of the disguise, the hat can be changed to appear as a comb, ribbon, headband, cap, coif, hood, helmet, and so on. ",
-    "item_type": "equippable",
-    "name": "Hat of Disguise",
-    "price": 180000,
-    "slot": "head",
-    "weight": 0
   },
   {
     "aura_strength": "moderate",
@@ -2154,6 +2165,8 @@
     "name": "Headband of Alluring Charisma",
     "price": 400000,
     "slot": "headband",
+    "sprite_name": "Hat_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2165,6 +2178,8 @@
     "name": "Headband of Inspired Wisdom",
     "price": 400000,
     "slot": "headband",
+    "sprite_name": "Hat_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2176,6 +2191,8 @@
     "name": "Headband of Mental Prowess",
     "price": 1000000,
     "slot": "headband",
+    "sprite_name": "Hat_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2187,6 +2204,8 @@
     "name": "Headband of Mental Superiority",
     "price": 1600000,
     "slot": "headband",
+    "sprite_name": "Hat_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2198,6 +2217,8 @@
     "name": "Headband of Vast Intelligence",
     "price": 400000,
     "slot": "headband",
+    "sprite_name": "Hat_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2205,6 +2226,8 @@
     "item_type": "gear",
     "name": "Healer's Kit",
     "price": 5000,
+    "sprite_name": "Food_035",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2213,6 +2236,8 @@
     "name": "Heavy Pick",
     "price": 800,
     "slot": "weapon",
+    "sprite_name": "ShortWep_017",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 4,
@@ -2232,6 +2257,8 @@
     "name": "Helm of Brilliance",
     "price": 12500000,
     "slot": "head",
+    "sprite_name": "Hat_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
   },
   {
@@ -2243,6 +2270,8 @@
     "name": "Helm of Comprehend Languages and Read Magic",
     "price": 520000,
     "slot": "head",
+    "sprite_name": "Hat_008",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
   },
   {
@@ -2254,6 +2283,8 @@
     "name": "Helm of Opposite Alignment",
     "price": 0,
     "slot": "head",
+    "sprite_name": "Hat_007",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
   },
   {
@@ -2265,6 +2296,8 @@
     "name": "Helm of Telepathy",
     "price": 2700000,
     "slot": "head",
+    "sprite_name": "Hat_006",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
   },
   {
@@ -2276,6 +2309,8 @@
     "name": "Helm of Teleportation",
     "price": 7350000,
     "slot": "head",
+    "sprite_name": "Hat_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
   },
   {
@@ -2287,6 +2322,8 @@
     "name": "Helm of Underwater Action",
     "price": 2400000,
     "slot": "head",
+    "sprite_name": "Hat_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
   },
   {
@@ -2303,6 +2340,8 @@
     "item_type": "armour",
     "name": "Hide",
     "price": 1500,
+    "sprite_name": "Armor_059",
+    "sprite_sheet": "dawnlike_items",
     "weight": 25
   },
   {
@@ -2310,6 +2349,8 @@
     "item_type": "gear",
     "name": "Holly and Mistletoe",
     "price": 0,
+    "sprite_name": "Food_024",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -2320,6 +2361,8 @@
     "item_type": "misc",
     "name": "Holy Avenger",
     "price": 12063000,
+    "sprite_name": "MedWep_003",
+    "sprite_sheet": "dawnlike_items",
     "weight": 4
   },
   {
@@ -2327,6 +2370,8 @@
     "item_type": "consumable",
     "name": "Holy Water",
     "price": 2500,
+    "sprite_name": "Potion_018",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2337,6 +2382,8 @@
     "item_type": "misc",
     "name": "Horn of Blasting",
     "price": 2000000,
+    "sprite_name": "Music_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2347,6 +2394,8 @@
     "item_type": "misc",
     "name": "Greater Horn of Blasting",
     "price": 7000000,
+    "sprite_name": "Music_008",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2357,6 +2406,8 @@
     "item_type": "misc",
     "name": "Horn of Fog",
     "price": 200000,
+    "sprite_name": "Music_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2367,6 +2418,8 @@
     "item_type": "misc",
     "name": "Horn of Goodness/Evil",
     "price": 650000,
+    "sprite_name": "Music_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2377,36 +2430,9 @@
     "item_type": "misc",
     "name": "Horn of Valhalla",
     "price": 5000000,
+    "sprite_name": "Music_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
-  },
-  {
-    "aura_strength": "faint",
-    "aura_value": "transmutation",
-    "cl": "3rd",
-    "description": "These four iron shoes are affixed like normal horseshoes. They allow a horse to travel without actually touching the ground. The horse must still run above (always around 4 inches above) a roughly horizontal surface. This means that non-solid or unstable surfaces can be crossed, and that movement is possible without leaving tracks on any sort of ground. The horse moves at its normal base land speed. All four shoes must be worn by the same animal for the magic to be effective. ",
-    "item_type": "equippable",
-    "name": "Horseshoes of a Zephyr",
-    "price": 600000,
-    "slot": "feet",
-    "weight": 4
-  },
-  {
-    "aura_strength": "faint",
-    "aura_value": "transmutation",
-    "cl": "3rd",
-    "description": "These iron shoes come in sets of four like ordinary horseshoes. When affixed to an animal's hooves, they increase the animal's base land speed by 30 feet; this counts as an enhancement bonus. As with other effects that increase speed, jumping distances increase proportionally (see Using Skills). All four shoes must be worn by the same animal for the magic to be effective. ",
-    "item_type": "equippable",
-    "name": "Horseshoes of Speed",
-    "price": 300000,
-    "slot": "feet",
-    "weight": 12
-  },
-  {
-    "description": "The standard hourglass takes 1 hour to empty the sand from the upper chamber.",
-    "item_type": "gear",
-    "name": "Hourglass",
-    "price": 2500,
-    "weight": 1
   },
   {
     "aura_strength": "moderate",
@@ -2416,6 +2442,8 @@
     "item_type": "misc",
     "name": "Immovable Rod",
     "price": 500000,
+    "sprite_name": "Wand_006",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -2426,6 +2454,8 @@
     "item_type": "misc",
     "name": "Incense of Meditation",
     "price": 490000,
+    "sprite_name": "Wand_028",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2436,31 +2466,9 @@
     "item_type": "misc",
     "name": "Incense of Obsession",
     "price": 0,
+    "sprite_name": "Wand_028",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
-  },
-  {
-    "description": "Ink in colors other than black costs twice as much.",
-    "item_type": "gear",
-    "name": "Ink",
-    "price": 800,
-    "weight": 0
-  },
-  {
-    "description": "This is a wooden stylus with a metal tip that retains a small amount of ink after you dip it in a vial of ink.",
-    "item_type": "gear",
-    "name": "Inkpen",
-    "price": 10,
-    "weight": 0
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "conjuration",
-    "cl": "13th",
-    "description": "This metal cube is small, but when activated by speaking a command word it grows to form a tower 20 feet square and 30 feet high, with arrow slits on all sides and a crenellated battlement atop it. The metal walls extend 10 feet into the ground, rooting it to the spot and preventing it from being tipped over. The fortress has a small door that opens only at the command of the owner of the fortress-even knock spells can't open the door.The adamantine walls of an instant fortress have 100 hit points and hardness 20. The fortress cannot be repaired except by a wish or a miracle, which restores 50 points of damage taken.The fortress springs up in just 1 round, with the door facing the device's owner. The door opens and closes instantly at his command. People and creatures nearby (except the owner) must be careful not to be caught by the fortress's sudden growth. Anyone so caught takes 10d10 points of damage (Reflex DC 19 half).The fortress is deactivated by speaking a command word (different from the one used to activate it). It cannot be deactivated unless it is empty. ",
-    "item_type": "misc",
-    "name": "Instant Fortress",
-    "price": 5500000,
-    "weight": 1
   },
   {
     "aura_strength": "strong",
@@ -2470,6 +2478,8 @@
     "item_type": "misc",
     "name": "Iron Bands of Binding",
     "price": 2600000,
+    "sprite_name": "Wand_028",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2480,6 +2490,8 @@
     "item_type": "misc",
     "name": "Iron Flask",
     "price": 17000000,
+    "sprite_name": "Potion_039",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2488,6 +2500,8 @@
     "name": "Javelin",
     "price": 100,
     "slot": "weapon",
+    "sprite_name": "LongWep_001",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 30,
       "crit_lower": 20,
@@ -2507,30 +2521,8 @@
     "item_type": "misc",
     "name": "Javelin of Lightning",
     "price": 150000,
-    "weight": 2
-  },
-  {
-    "description": "This basic jug is fitted with a stopper and holds 1 gallon of liquid.",
-    "item_type": "gear",
-    "name": "Clay Jug",
-    "price": 3,
-    "weight": 9
-  },
-  {
-    "description": "Similar to a sickle, a kama is a short, curved blade attached to a simple handle.",
-    "item_type": "weapon",
-    "name": "Kama",
-    "price": 200,
-    "slot": "weapon",
-    "weapon": {
-      "Special": "monk, trip",
-      "crit_lower": 20,
-      "crit_mult": 2,
-      "damage": "1d6",
-      "damage_type": "S",
-      "proficiency": "Exotic",
-      "weapon_class": "Light Melee"
-    },
+    "sprite_name": "LongWep_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -2539,6 +2531,8 @@
     "name": "Kukri",
     "price": 800,
     "slot": "weapon",
+    "sprite_name": "LongWep_008",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
@@ -2550,25 +2544,13 @@
     "weight": 2
   },
   {
-    "description": "This simple 10-foot ladder consists of two long boards with wooden steps nailed into them at 1-foot increments.",
-    "item_type": "gear",
-    "name": "Ladder",
-    "price": 20,
-    "weight": 20
-  },
-  {
-    "description": "A lamp illuminates a small area, providing normal light in a 15-foot radius and increasing the light level by one step for an additional 15 feet beyond that area (darkness becomes dim light and dim light becomes normal light). A lamp does not increase the light level in normal light or bright light. A lamp burns for 6 hours on one pint of oil. You can carry a lamp in one hand.",
-    "item_type": "gear",
-    "name": "Common Lamp",
-    "price": 10,
-    "weight": 1
-  },
-  {
     "description": "A lance deals double damage when used from the back of a charging mount. While mounted, you can wield a lance with one hand.",
     "item_type": "weapon",
     "name": "Lance",
     "price": 1000,
     "slot": "weapon",
+    "sprite_name": "LongWep_033",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "reach",
       "crit_lower": 20,
@@ -2579,30 +2561,6 @@
       "weapon_class": "Two-Handed Melee"
     },
     "weight": 10
-  },
-  {
-    "description": "A bullseye lantern provides normal light in a 60-foot cone and increases the light level by one step in the area beyond that, out to a 120-foot cone (darkness becomes dim light and dim light becomes normal light). A bullseye lantern does not increase the light level in normal light or bright light. A lantern burns for 6 hours on one pint of oil. You can carry a lantern in one hand.",
-    "item_type": "gear",
-    "name": "Bullseye Lantern",
-    "price": 1200,
-    "weight": 3
-  },
-  {
-    "description": "A hooded lantern sheds normal light in a 30-foot radius and increases the light level by one step for an additional 30 feet beyond that area (darkness becomes dim light and dim light becomes normal light). A hooded lantern does not increase the light level in normal light or bright light. A lantern burns for 6 hours on one pint of oil. You can carry a lantern in one hand.",
-    "item_type": "gear",
-    "name": "Hooded Lantern",
-    "price": 700,
-    "weight": 2
-  },
-  {
-    "aura_strength": "faint",
-    "aura_value": "evocation",
-    "cl": "5th",
-    "description": "This lantern operates as a normal hooded lantern. While it is lit, it also reveals all invisible creatures and objects within 25 feet of it, just like the spell invisibility purge. ",
-    "item_type": "misc",
-    "name": "Lantern of Revealing",
-    "price": 3000000,
-    "weight": 2
   },
   {
     "armour": {
@@ -2618,6 +2576,8 @@
     "item_type": "armour",
     "name": "Leather",
     "price": 1000,
+    "sprite_name": "Armor_045",
+    "sprite_sheet": "dawnlike_items",
     "weight": 15
   },
   {
@@ -2629,6 +2589,8 @@
     "name": "Lens of Detection",
     "price": 350000,
     "slot": "eyes",
+    "sprite_name": "Tool_003",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -2639,6 +2601,8 @@
     "item_type": "misc",
     "name": "Life-Drinker",
     "price": 4032000,
+    "sprite_name": "LongWep_009",
+    "sprite_sheet": "dawnlike_items",
     "weight": 12
   },
   {
@@ -2647,6 +2611,8 @@
     "name": "Light Hammer",
     "price": 100,
     "slot": "weapon",
+    "sprite_name": "LongWep_032",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 20,
       "crit_lower": 20,
@@ -2664,6 +2630,8 @@
     "name": "Light Pick",
     "price": 400,
     "slot": "weapon",
+    "sprite_name": "ShortWep_016",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 4,
@@ -2683,6 +2651,8 @@
     "name": "Lion's Shield",
     "price": 917000,
     "slot": "shield",
+    "sprite_name": "Shield_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 15
   },
   {
@@ -2691,6 +2661,8 @@
     "name": "Longbow",
     "price": 7500,
     "slot": "weapon",
+    "sprite_name": "Ammo_010",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 100,
       "crit_lower": 20,
@@ -2708,6 +2680,8 @@
     "name": "Composite Longbow",
     "price": 10000,
     "slot": "weapon",
+    "sprite_name": "Ammo_012",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 110,
       "crit_lower": 20,
@@ -2725,6 +2699,8 @@
     "name": "Longspear",
     "price": 500,
     "slot": "weapon",
+    "sprite_name": "LongWep_014",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "brace, reach",
       "crit_lower": 20,
@@ -2742,6 +2718,8 @@
     "name": "Longsword",
     "price": 1500,
     "slot": "weapon",
+    "sprite_name": "MedWep_001",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 19,
       "crit_mult": 2,
@@ -2758,6 +2736,8 @@
     "item_type": "misc",
     "name": "Cold Iron Masterwork Longsword",
     "price": 33000,
+    "sprite_name": "LongWep_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 4
   },
   {
@@ -2768,6 +2748,8 @@
     "item_type": "misc",
     "name": "Luck Blade",
     "price": 2206000,
+    "sprite_name": "LongWep_008",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -2778,6 +2760,8 @@
     "item_type": "misc",
     "name": "Lyre of Building",
     "price": 1300000,
+    "sprite_name": "Music_011",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -2786,6 +2770,8 @@
     "name": "Mace",
     "price": 500,
     "slot": "weapon",
+    "sprite_name": "LongWep_032",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -2802,6 +2788,8 @@
     "name": "Heavy Mace",
     "price": 1200,
     "slot": "weapon",
+    "sprite_name": "LongWep_028",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -2820,6 +2808,8 @@
     "item_type": "misc",
     "name": "Mace of Blood",
     "price": 0,
+    "sprite_name": "LongWep_007",
+    "sprite_sheet": "dawnlike_items",
     "weight": 8
   },
   {
@@ -2830,6 +2820,8 @@
     "item_type": "misc",
     "name": "Mace of Smiting",
     "price": 7531200,
+    "sprite_name": "LongWep_007",
+    "sprite_sheet": "dawnlike_items",
     "weight": 8
   },
   {
@@ -2840,14 +2832,9 @@
     "item_type": "misc",
     "name": "Mace of Terror",
     "price": 3855200,
+    "sprite_name": "LongWep_007",
+    "sprite_sheet": "dawnlike_items",
     "weight": 8
-  },
-  {
-    "description": "This simple lens allows a closer look at small objects. It is also useful as a substitute for flint and steel when starting fires. Lighting a fire with a magnifying glass requires bright light, such as sunlight to focus, tinder to ignite, and at least a full-round action. A magnifying glass grants a +2 circumstance bonus on Appraise checks involving any item that is small or highly detailed.",
-    "item_type": "gear",
-    "name": "Magnifying Glass",
-    "price": 10000,
-    "weight": 0
   },
   {
     "aura_strength": "strong",
@@ -2858,6 +2845,8 @@
     "name": "Mantle of Faith",
     "price": 7600000,
     "slot": "chest",
+    "sprite_name": "Armor_048",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -2869,6 +2858,8 @@
     "name": "Mantle of Spell Resistance",
     "price": 9000000,
     "slot": "chest",
+    "sprite_name": "Armor_049",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -2879,6 +2870,8 @@
     "item_type": "misc",
     "name": "Manual of Bodily Health",
     "price": 2750000,
+    "sprite_name": "Book_026",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -2889,6 +2882,8 @@
     "item_type": "misc",
     "name": "Manual of Gainful Exercise",
     "price": 2750000,
+    "sprite_name": "Book_027",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -2899,17 +2894,9 @@
     "item_type": "misc",
     "name": "Manual of Quickness of Action",
     "price": 2750000,
+    "sprite_name": "Book_028",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "conjuration",
-    "cl": "15th",
-    "description": "These pigments enable their possessor to create actual, permanent objects simply by depicting their form in two dimensions. The pigments are applied by a stick tipped with bristles, hair, or fur. The emulsion flows from the application to form the desired object as the artist concentrates on the image. One pot of marvelous pigments is sufficient to create a 1,000-cubic-foot object by depicting it two-dimensionally over a 100-square-foot surface. Only normal, inanimate objects can be created. Creatures can't be created. The pigments must be applied to a surface. It takes 10 minutes and a DC 15 Craft (painting) check to depict an object with the pigments. Marvelous pigments cannot create magic items. Objects of value depicted by the pigments-precious metals, gems, jewelry, ivory, and so on-appear to be valuable but are really made of tin, lead, glass, brass, bone, and other such inexpensive materials. The user can create normal weapons, armor, and any other mundane item (including foodstuffs) whose value does not exceed 2,000 gp. The effect is instantaneous. ",
-    "item_type": "misc",
-    "name": "Marvelous Pigments",
-    "price": 400000,
-    "weight": 0
   },
   {
     "aura_strength": "strong",
@@ -2920,17 +2907,9 @@
     "name": "Mask of the Skull",
     "price": 2200000,
     "slot": "head",
+    "sprite_name": "Hat_006",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "transmutation",
-    "cl": "16th",
-    "description": "This digging tool is 10 feet long. Any creature of at least Huge size can use it to loosen or tumble earth or earthen ramparts (a 10-foot cube every 10 minutes). It also smashes rock (a 10-foot cube per hour). If used as a weapon, it is the equivalent of a Gargantuan +3 adamantine warhammer, dealing 4d6 points of base damage. ",
-    "item_type": "misc",
-    "name": "Mattock of the Titans",
-    "price": 2334800,
-    "weight": 120
   },
   {
     "aura_strength": "strong",
@@ -2940,6 +2919,8 @@
     "item_type": "misc",
     "name": "Maul of the Titans",
     "price": 2530500,
+    "sprite_name": "ShortWep_020",
+    "sprite_sheet": "dawnlike_items",
     "weight": 160
   },
   {
@@ -2951,6 +2932,8 @@
     "name": "Medallion of Thoughts",
     "price": 1200000,
     "slot": "neck",
+    "sprite_name": "Amulet_015",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -2962,74 +2945,9 @@
     "name": "Medallion of Thought Projection",
     "price": 0,
     "slot": "neck",
+    "sprite_name": "Amulet_014",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "unknown",
-    "cl": "17th",
-    "description": "The wielder can cast up to three spells per day that are empowered as though using the Empower Spell feat. ",
-    "item_type": "misc",
-    "name": "Empower Metamagic",
-    "price": 900000,
-    "weight": 5
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "unknown",
-    "cl": "17th",
-    "description": "The wielder can cast up to three spells per day that are enlarged as though using the Enlarge Spell feat. ",
-    "item_type": "misc",
-    "name": "Enlarge Metamagic",
-    "price": 300000,
-    "weight": 5
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "unknown",
-    "cl": "17th",
-    "description": "The wielder can cast up to three spells per day that are extended as though using the Extend Spell feat. ",
-    "item_type": "misc",
-    "name": "Extend Metamagic",
-    "price": 300000,
-    "weight": 5
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "unknown",
-    "cl": "17th",
-    "description": "The wielder can cast up to three spells per day that are maximized as though using the Maximize Spell feat. ",
-    "item_type": "misc",
-    "name": "Maximize Metamagic",
-    "price": 1400000,
-    "weight": 5
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "unknown",
-    "cl": "17th",
-    "description": "The wielder can cast up to three spells per day that are quickened as though using the Quicken Spell feat. ",
-    "item_type": "misc",
-    "name": "Quicken Metamagic",
-    "price": 3500000,
-    "weight": 5
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "unknown",
-    "cl": "17th",
-    "description": "The wielder can cast up to three spells per day without verbal components as though using the Silent Spell feat. ",
-    "item_type": "misc",
-    "name": "Silent Metamagic",
-    "price": 300000,
-    "weight": 5
-  },
-  {
-    "description": "This hand-held mirror is about a foot across. Unlike many higher-quality glass mirrors, this one is made out of polished steel and sturdy enough that you can drop it without risk of breakage.",
-    "item_type": "gear",
-    "name": "Mirror",
-    "price": 1000,
-    "weight": 1
   },
   {
     "aura_strength": "strong",
@@ -3039,6 +2957,8 @@
     "item_type": "misc",
     "name": "Mirror of Life Trapping",
     "price": 20000000,
+    "sprite_name": "Tool_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 50
   },
   {
@@ -3049,6 +2969,8 @@
     "item_type": "misc",
     "name": "Mirror of Opposition",
     "price": 9200000,
+    "sprite_name": "Tool_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 45
   },
   {
@@ -3060,6 +2982,8 @@
     "name": "Mithral Full Plate of Speed",
     "price": 2650000,
     "slot": "armor",
+    "sprite_name": "Armor_003",
+    "sprite_sheet": "dawnlike_items",
     "weight": 25
   },
   {
@@ -3069,6 +2993,8 @@
     "name": "Mithral Heavy Shield",
     "price": 102000,
     "slot": "shield",
+    "sprite_name": "Shield_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -3078,6 +3004,8 @@
     "name": "Mithral Shirt",
     "price": 110000,
     "slot": "armor",
+    "sprite_name": "Armor_053",
+    "sprite_sheet": "dawnlike_items",
     "weight": 10
   },
   {
@@ -3086,6 +3014,8 @@
     "name": "Morningstar",
     "price": 800,
     "slot": "weapon",
+    "sprite_name": "ShortWep_019",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -3097,13 +3027,6 @@
     "weight": 6
   },
   {
-    "description": "Whether it is a simple pottery cup or an elaborate drinking stein with a handle and decorative lid that flips up, this cup may be used to hold any sort of beverage. Tankards are commonly made out of clay or tin.",
-    "item_type": "gear",
-    "name": "Mug/Tankard",
-    "price": 2,
-    "weight": 1
-  },
-  {
     "aura_strength": "moderate",
     "aura_value": "transmutation",
     "cl": "7th",
@@ -3112,6 +3035,8 @@
     "name": "Necklace of Adaptation",
     "price": 900000,
     "slot": "neck",
+    "sprite_name": "Amulet_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -3123,6 +3048,8 @@
     "name": "Necklace of Fireballs",
     "price": 165000,
     "slot": "neck",
+    "sprite_name": "Amulet_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -3134,44 +3061,9 @@
     "name": "Necklace of Strangulation",
     "price": 0,
     "slot": "neck",
+    "sprite_name": "Amulet_006",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
-  },
-  {
-    "description": "A net is used to entangle enemies. When you throw a net, you make a ranged touch attack against your target. A net's maximum range is 10 feet. If you hit, the target is entangled. An entangled creature takes a -2 penalty on attack rolls and a -4 penalty on Dexterity, can move at only half speed, and cannot charge or run. If you control the trailing rope by succeeding on an opposed Strength check while holding it, the entangled creature can move only within the limits that the rope allows. If the entangled creature attempts to cast a spell, it must make a concentration check with a DC of 15 + the spell's level or be unable to cast the spell.An entangled creature can escape with a DC 20 Escape Artist check (a full-round action). The net has 5 hit points and can be burst with a DC 25 Strength check (also a full-round action). A net is useful only against creatures within one size category of you.A net must be folded to be thrown effectively. The first time you throw your net in a fight, you make a normal ranged touch attack roll. After the net is unfolded, you take a -4 penalty on attack rolls with it. It takes 2 rounds for a proficient user to fold a net and twice that long for a nonproficient one to do so.",
-    "item_type": "weapon",
-    "name": "Net",
-    "price": 2000,
-    "slot": "weapon",
-    "weapon": {
-      "Burst": "DC 25 Strength Check",
-      "Hit Points": "5",
-      "Range": 10,
-      "crit_lower": 20,
-      "crit_mult": 2,
-      "proficiency": "Exotic",
-      "weapon_class": "Ranged"
-    },
-    "weight": 6
-  },
-  {
-    "aura_strength": "moderate",
-    "aura_value": "evocation",
-    "cl": "8th",
-    "description": "This net provides a +3 bonus on attack rolls but can only be used underwater. Underwater, it can be commanded to shoot forth up to 30 feet to trap a creature. If thrown on land, it changes course to target the creature that threw it.",
-    "item_type": "misc",
-    "name": "Net of Snaring",
-    "price": 0,
-    "weight": 6
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "unknown",
-    "cl": "13th",
-    "description": "This longsword always performs as a +2 longsword, but it also has the power to draw the life force from an opponent. It can do this nine times before the ability is lost. At that point, the sword becomes a simple +2 longsword (with a faint evil aura). A critical hit must be dealt for the sword's death-dealing ability to function, and this weapon has no effect on creatures not subject to critical hits. The victim is entitled to a DC 20 Fortitude save to avoid death. If the save is successful, the sword's death-dealing ability does not function, no use of the ability is expended, and normal critical damage is determined. This sword is evil, and any good character attempting to wield it gains two negative levels. These negative levels remain as long as the sword is in hand and disappear when the sword is no longer wielded. These negative levels never result in actual level loss, but they cannot be overcome in any way (including restoration spells) while the sword is wielded. ",
-    "item_type": "misc",
-    "name": "Nine Lives Stealer",
-    "price": 2305700,
-    "weight": 4
   },
   {
     "description": "A nunchaku is made up of two wooden or metal bars connected by a small length of rope or chain.",
@@ -3179,6 +3071,8 @@
     "name": "Nunchaku",
     "price": 200,
     "slot": "weapon",
+    "sprite_name": "ShortWep_015",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "disarm, monk",
       "crit_lower": 20,
@@ -3198,14 +3092,9 @@
     "item_type": "misc",
     "name": "Oathbow",
     "price": 2560000,
+    "sprite_name": "Ammo_010",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
-  },
-  {
-    "description": "A pint of oil burns for 6 hours in a lantern or lamp. You can also use a flask of oil as a splash weapon. Use the rules for alchemist's fire (see Special Substances and Items on Table: Goods and Services), except that it takes a full-round action to prepare a flask with a fuse. Once it is thrown, there is a 50% chance of the flask igniting successfully.You can pour a pint of oil on the ground to cover an area 5 feet square, provided that the surface is smooth. If lit, the oil burns for 2 rounds and deals 1d3 points of fire damage to each creature in the area.",
-    "item_type": "gear",
-    "name": "Oil",
-    "price": 10,
-    "weight": 1
   },
   {
     "aura_strength": "strong",
@@ -3215,6 +3104,8 @@
     "item_type": "misc",
     "name": "Orb of Storms",
     "price": 4800000,
+    "sprite_name": "Food_007",
+    "sprite_sheet": "dawnlike_items",
     "weight": 6
   },
   {
@@ -3231,21 +3122,9 @@
     "item_type": "armour",
     "name": "Padded",
     "price": 500,
+    "sprite_name": "Armor_037",
+    "sprite_sheet": "dawnlike_items",
     "weight": 10
-  },
-  {
-    "description": "A sheet of ordinary paper typically measures 9 inches by 6 inches and is unsuitable for making magical scrolls. It has hardness 0, 1 hit point, and a break DC of 5. ",
-    "item_type": "gear",
-    "name": "Paper",
-    "price": 40,
-    "weight": 0
-  },
-  {
-    "description": "This sheet of thin, treated animal skin is a durable writing surface and is suitable for making magic scrolls. It has hardness 0, 2 hit points, and a break DC of 5.",
-    "item_type": "gear",
-    "name": "Parchment",
-    "price": 20,
-    "weight": 0
   },
   {
     "aura_strength": "strong",
@@ -3255,6 +3134,8 @@
     "item_type": "misc",
     "name": "Pearl of Power",
     "price": 100000,
+    "sprite_name": "Money_024",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3265,6 +3146,8 @@
     "item_type": "misc",
     "name": "Pearl of the Sirines",
     "price": 1530000,
+    "sprite_name": "Money_024",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3276,6 +3159,8 @@
     "name": "Periapt of Foul Rotting",
     "price": 0,
     "slot": "neck",
+    "sprite_name": "Amulet_007",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3287,6 +3172,8 @@
     "name": "Periapt of Health",
     "price": 750000,
     "slot": "neck",
+    "sprite_name": "Amulet_008",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3298,6 +3185,8 @@
     "name": "Periapt of Proof against Poison",
     "price": 2700000,
     "slot": "neck",
+    "sprite_name": "Amulet_009",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3309,6 +3198,8 @@
     "name": "Periapt of Wound Closure",
     "price": 1500000,
     "slot": "neck",
+    "sprite_name": "Amulet_010",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3319,6 +3210,8 @@
     "item_type": "misc",
     "name": "Philosopher's Stone",
     "price": 0,
+    "sprite_name": "Money_017",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
   },
   {
@@ -3330,6 +3223,8 @@
     "name": "Phylactery of Faithfulness",
     "price": 100000,
     "slot": "headband",
+    "sprite_name": "Flesh_053",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3341,6 +3236,8 @@
     "name": "Phylactery of Negative Channeling",
     "price": 1100000,
     "slot": "headband",
+    "sprite_name": "Flesh_059",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3352,6 +3249,8 @@
     "name": "Phylactery of Positive Channeling",
     "price": 1100000,
     "slot": "headband",
+    "sprite_name": "Flesh_040",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3359,6 +3258,8 @@
     "item_type": "gear",
     "name": "Miner's Pick",
     "price": 300,
+    "sprite_name": "ShortWep_017",
+    "sprite_sheet": "dawnlike_items",
     "weight": 10
   },
   {
@@ -3369,6 +3270,8 @@
     "item_type": "misc",
     "name": "Pipes of Haunting",
     "price": 600000,
+    "sprite_name": "Music_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
   },
   {
@@ -3379,6 +3282,8 @@
     "item_type": "misc",
     "name": "Pipes of Sounding",
     "price": 180000,
+    "sprite_name": "Music_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
   },
   {
@@ -3389,21 +3294,9 @@
     "item_type": "misc",
     "name": "Pipes of the Sewers",
     "price": 115000,
+    "sprite_name": "Music_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
-  },
-  {
-    "description": "This basic clay pitcher has a handle and an open top with a groove for easy pouring. It holds 1/2 gallon of liquid. The listed weight is for a pitcher filled with water, wine, or ale; empty, it weighs about 1/2 pound.",
-    "item_type": "gear",
-    "name": "Pitcher",
-    "price": 2,
-    "weight": 5
-  },
-  {
-    "description": "A piton is an iron spike with a loop or ring on the end so you can tie a rope to it.",
-    "item_type": "gear",
-    "name": "Piton",
-    "price": 10,
-    "weight": 1
   },
   {
     "aura_strength": "moderate",
@@ -3414,6 +3307,8 @@
     "name": "Plate Armor of the Deep",
     "price": 2465000,
     "slot": "armor",
+    "sprite_name": "Armor_009",
+    "sprite_sheet": "dawnlike_items",
     "weight": 50
   },
   {
@@ -3425,31 +3320,9 @@
     "name": "Poisonous Cloak",
     "price": 0,
     "slot": "shoulders",
+    "sprite_name": "Armor_025",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
-  },
-  {
-    "description": "This 10-foot length of wood is useful for probing pits, flagstones, and murky liquids from a safe distance.",
-    "item_type": "gear",
-    "name": "Pole",
-    "price": 5,
-    "weight": 8
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "conjuration",
-    "cl": "12th",
-    "description": "A portable hole is a circle of cloth spun from the webs of a phase spider interwoven with strands of ether and beams of starlight, resulting in a portable extradimensional space. When opened fully, a portable hole is 6 feet in diameter, but it can be folded up to be as small as a pocket handkerchief. When spread upon any surface, it causes an extradimensional space 10 feet deep to come into being. This hole can be picked up from inside or out by simply taking hold of the edges of the cloth and folding it up. Either way, the entrance disappears, but anything inside the hole remains, traveling with the item.The only air in the hole is that which enters when the hole is opened. It contains enough air to supply one Medium creature or two Small creatures for 10 minutes. The cloth does not accumulate weight even if its hole is filled. Each portable hole opens on its own particular nondimensional space. If a bag of holding is placed within a portable hole, a rift to the Astral Plane is torn in that place. Both the bag and the cloth are sucked into the void and forever lost. If a portable hole is placed within a bag of holding, it opens a gate to the Astral Plane. The hole, the bag, and any creatures within a 10-foot radius are drawn there, the portable hole and bag of holding being destroyed in the process. ",
-    "item_type": "misc",
-    "name": "Portable Hole",
-    "price": 2000000,
-    "weight": 0
-  },
-  {
-    "description": "This 8-inch-diameter iron pot is sturdy and has feet, a lid, and a rounded handle. It can hold enough stew to feed one hungry human for one meal. A mithral pot is lighter and food rarely sticks to it.",
-    "item_type": "gear",
-    "name": "Pot",
-    "price": 80,
-    "weight": 4
   },
   {
     "aura_strength": "strong",
@@ -3459,6 +3332,8 @@
     "item_type": "misc",
     "name": "Potion of Poison",
     "price": 0,
+    "sprite_name": "Potion_006",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3467,6 +3342,8 @@
     "name": "Quarterstaff",
     "price": 0,
     "slot": "weapon",
+    "sprite_name": "LongWep_006",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "double, monk",
       "crit_lower": 20,
@@ -3479,18 +3356,13 @@
     "weight": 4
   },
   {
-    "description": "This iron-shod wooden beam gives you a +2 circumstance bonus on Strength checks made to break open a door and allows a second person to help, automatically increasing your bonus by 2.",
-    "item_type": "gear",
-    "name": "Portable Ram",
-    "price": 1000,
-    "weight": 20
-  },
-  {
     "description": "Similar in appearance to a trident, a ranseur has a single spear at its tip, flanked by a pair of short, curving blades.",
     "item_type": "weapon",
     "name": "Ranseur",
     "price": 1000,
     "slot": "weapon",
+    "sprite_name": "LongWep_020",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "disarm, reach",
       "crit_lower": 20,
@@ -3508,6 +3380,8 @@
     "name": "Rapier",
     "price": 2000,
     "slot": "weapon",
+    "sprite_name": "MedWep_006",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
@@ -3526,6 +3400,8 @@
     "item_type": "misc",
     "name": "Rapier of Puncturing",
     "price": 5032000,
+    "sprite_name": "ShortWep_008",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -3536,6 +3412,8 @@
     "item_type": "misc",
     "name": "Restorative Ointment",
     "price": 400000,
+    "sprite_name": "Potion_025",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -3547,6 +3425,8 @@
     "name": "Rhino Hide",
     "price": 516500,
     "slot": "armor",
+    "sprite_name": "Armor_039",
+    "sprite_sheet": "dawnlike_items",
     "weight": 25
   },
   {
@@ -3557,6 +3437,8 @@
     "item_type": "misc",
     "name": "Ring Gates",
     "price": 4000000,
+    "sprite_name": "Tool_018",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -3568,6 +3450,8 @@
     "name": "Ring of Animal Friendship",
     "price": 1080000,
     "slot": "ring",
+    "sprite_name": "Ring_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3579,6 +3463,8 @@
     "name": "Ring of Blinking",
     "price": 2700000,
     "slot": "ring",
+    "sprite_name": "Ring_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3590,6 +3476,8 @@
     "name": "Ring of Chameleon Power",
     "price": 1270000,
     "slot": "ring",
+    "sprite_name": "Ring_003",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3601,6 +3489,8 @@
     "name": "Ring of Climbing",
     "price": 250000,
     "slot": "ring",
+    "sprite_name": "Ring_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3612,6 +3502,8 @@
     "name": "Improved Ring of Climbing",
     "price": 1000000,
     "slot": "ring",
+    "sprite_name": "Ring_025",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3623,6 +3515,8 @@
     "name": "Ring of Clumsiness",
     "price": 0,
     "slot": "ring",
+    "sprite_name": "Ring_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3634,6 +3528,8 @@
     "name": "Ring of Counterspells",
     "price": 400000,
     "slot": "ring",
+    "sprite_name": "Ring_006",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3645,6 +3541,8 @@
     "name": "Ring of Djinni Calling",
     "price": 12500000,
     "slot": "ring",
+    "sprite_name": "Ring_007",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3656,6 +3554,8 @@
     "name": "Ring of Elemental Command",
     "price": 20000000,
     "slot": "ring",
+    "sprite_name": "Ring_008",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3667,6 +3567,8 @@
     "name": "Ring of Energy Resistance",
     "price": 1200000,
     "slot": "ring",
+    "sprite_name": "Ring_009",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3678,17 +3580,8 @@
     "name": "Ring of Evasion",
     "price": 2500000,
     "slot": "ring",
-    "weight": 0
-  },
-  {
-    "aura_strength": "faint",
-    "aura_value": "transmutation",
-    "cl": "1st",
-    "description": "This ring is crafted with a feather pattern all around its edge. It acts exactly like a feather fall spell, activated immediately if the wearer falls more than 5 feet. ",
-    "item_type": "equippable",
-    "name": "Ring of Feather Falling",
-    "price": 220000,
-    "slot": "ring",
+    "sprite_name": "Ring_010",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3700,6 +3593,8 @@
     "name": "Ring of Force Shield",
     "price": 850000,
     "slot": "ring",
+    "sprite_name": "Ring_012",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3711,6 +3606,8 @@
     "name": "Ring of Freedom of Movement",
     "price": 4000000,
     "slot": "ring",
+    "sprite_name": "Ring_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3722,6 +3619,8 @@
     "name": "Ring of Friend Shield",
     "price": 5000000,
     "slot": "ring",
+    "sprite_name": "Ring_014",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3733,6 +3632,8 @@
     "name": "Ring of Invisibility",
     "price": 2000000,
     "slot": "ring",
+    "sprite_name": "Ring_015",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3744,6 +3645,8 @@
     "name": "Ring of Jumping",
     "price": 250000,
     "slot": "ring",
+    "sprite_name": "Ring_016",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3755,6 +3658,8 @@
     "name": "Improved Ring of Jumping",
     "price": 1000000,
     "slot": "ring",
+    "sprite_name": "Ring_026",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3766,6 +3671,8 @@
     "name": "Ring of Mind Shielding",
     "price": 800000,
     "slot": "ring",
+    "sprite_name": "Ring_017",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3777,6 +3684,8 @@
     "name": "Ring of Protection",
     "price": 200000,
     "slot": "ring",
+    "sprite_name": "Ring_018",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3788,6 +3697,8 @@
     "name": "Ring of Regeneration",
     "price": 9000000,
     "slot": "ring",
+    "sprite_name": "Ring_019",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3799,6 +3710,8 @@
     "name": "Ring of Shooting Stars",
     "price": 5000000,
     "slot": "ring",
+    "sprite_name": "Ring_020",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3810,6 +3723,8 @@
     "name": "Ring of Spell Storing",
     "price": 5000000,
     "slot": "ring",
+    "sprite_name": "Ring_021",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3821,6 +3736,8 @@
     "name": "Major Ring of Spell Storing",
     "price": 20000000,
     "slot": "ring",
+    "sprite_name": "Ring_028",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3832,6 +3749,8 @@
     "name": "Minor Ring of Spell Storing",
     "price": 1800000,
     "slot": "ring",
+    "sprite_name": "Ring_031",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3843,6 +3762,8 @@
     "name": "Ring of Spell Turning",
     "price": 10000000,
     "slot": "ring",
+    "sprite_name": "Ring_022",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3854,6 +3775,8 @@
     "name": "Ring of Sustenance",
     "price": 250000,
     "slot": "ring",
+    "sprite_name": "Ring_023",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3865,6 +3788,8 @@
     "name": "Ring of Swimming",
     "price": 250000,
     "slot": "ring",
+    "sprite_name": "Ring_024",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3876,6 +3801,8 @@
     "name": "Improved Ring of Swimming",
     "price": 1000000,
     "slot": "ring",
+    "sprite_name": "Ring_027",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3887,6 +3814,8 @@
     "name": "Ring of Telekinesis",
     "price": 7500000,
     "slot": "ring",
+    "sprite_name": "Ring_025",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3898,6 +3827,8 @@
     "name": "Ring of the Ram",
     "price": 860000,
     "slot": "ring",
+    "sprite_name": "Ring_030",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3909,6 +3840,8 @@
     "name": "Ring of Three Wishes",
     "price": 12000000,
     "slot": "ring",
+    "sprite_name": "Ring_026",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3920,6 +3853,8 @@
     "name": "Ring of Water Walking",
     "price": 1500000,
     "slot": "ring",
+    "sprite_name": "Ring_027",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3931,6 +3866,8 @@
     "name": "Ring of Wizardry",
     "price": 2000000,
     "slot": "ring",
+    "sprite_name": "Ring_028",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3942,6 +3879,8 @@
     "name": "Ring of X-Ray Vision",
     "price": 2500000,
     "slot": "ring",
+    "sprite_name": "Ring_029",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -3953,6 +3892,8 @@
     "name": "Monk's Robe",
     "price": 1300000,
     "slot": "body",
+    "sprite_name": "Armor_046",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -3964,6 +3905,8 @@
     "name": "Robe of Blending",
     "price": 840000,
     "slot": "body",
+    "sprite_name": "Armor_025",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -3975,6 +3918,8 @@
     "name": "Robe of Bones",
     "price": 240000,
     "slot": "body",
+    "sprite_name": "Armor_026",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -3986,6 +3931,8 @@
     "name": "Robe of Eyes",
     "price": 12000000,
     "slot": "body",
+    "sprite_name": "Armor_027",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -3997,6 +3944,8 @@
     "name": "Robe of Powerlessness",
     "price": 0,
     "slot": "body",
+    "sprite_name": "Armor_028",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -4008,6 +3957,8 @@
     "name": "Robe of Scintillating Colors",
     "price": 2700000,
     "slot": "body",
+    "sprite_name": "Armor_029",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -4019,6 +3970,8 @@
     "name": "Robe of Stars",
     "price": 5800000,
     "slot": "body",
+    "sprite_name": "Armor_031",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -4030,6 +3983,8 @@
     "name": "Robe of the Archmagi",
     "price": 7500000,
     "slot": "body",
+    "sprite_name": "Armor_034",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -4041,6 +3996,8 @@
     "name": "Robe of Useful Items",
     "price": 700000,
     "slot": "body",
+    "sprite_name": "Armor_032",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -4052,6 +4009,8 @@
     "name": "Robe of Vermin",
     "price": 0,
     "slot": "body",
+    "sprite_name": "Armor_033",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -4062,6 +4021,8 @@
     "item_type": "misc",
     "name": "Rod of Absorption",
     "price": 5000000,
+    "sprite_name": "Wand_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4072,6 +4033,8 @@
     "item_type": "misc",
     "name": "Rod of Alertness",
     "price": 8500000,
+    "sprite_name": "Wand_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 4
   },
   {
@@ -4082,6 +4045,8 @@
     "item_type": "misc",
     "name": "Rod of Cancellation",
     "price": 1100000,
+    "sprite_name": "Wand_006",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4092,6 +4057,8 @@
     "item_type": "misc",
     "name": "Rod of Enemy Detection",
     "price": 2350000,
+    "sprite_name": "Wand_007",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4102,6 +4069,8 @@
     "item_type": "misc",
     "name": "Rod of Flailing",
     "price": 5000000,
+    "sprite_name": "Wand_008",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4112,6 +4081,8 @@
     "item_type": "misc",
     "name": "Rod of Flame Extinguishing",
     "price": 1500000,
+    "sprite_name": "Wand_009",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4122,6 +4093,8 @@
     "item_type": "misc",
     "name": "Rod of Metal and Mineral Detection",
     "price": 1050000,
+    "sprite_name": "Wand_010",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4132,6 +4105,8 @@
     "item_type": "misc",
     "name": "Rod of Negation",
     "price": 3700000,
+    "sprite_name": "Wand_011",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4142,6 +4117,8 @@
     "item_type": "misc",
     "name": "Rod of Rulership",
     "price": 6000000,
+    "sprite_name": "Wand_012",
+    "sprite_sheet": "dawnlike_items",
     "weight": 8
   },
   {
@@ -4152,6 +4129,8 @@
     "item_type": "misc",
     "name": "Rod of Security",
     "price": 6100000,
+    "sprite_name": "Wand_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4162,6 +4141,8 @@
     "item_type": "misc",
     "name": "Rod of Splendor",
     "price": 2500000,
+    "sprite_name": "Wand_014",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4172,6 +4153,8 @@
     "item_type": "misc",
     "name": "Rod of the Python",
     "price": 1300000,
+    "sprite_name": "Wand_018",
+    "sprite_sheet": "dawnlike_items",
     "weight": 10
   },
   {
@@ -4182,6 +4165,8 @@
     "item_type": "misc",
     "name": "Rod of the Viper",
     "price": 1900000,
+    "sprite_name": "Wand_019",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4192,6 +4177,8 @@
     "item_type": "misc",
     "name": "Rod of Thunder and Lightning",
     "price": 3300000,
+    "sprite_name": "Wand_015",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4202,6 +4189,8 @@
     "item_type": "misc",
     "name": "Rod of Withering",
     "price": 2500000,
+    "sprite_name": "Wand_016",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4212,6 +4201,8 @@
     "item_type": "misc",
     "name": "Rod of Wonder",
     "price": 1200000,
+    "sprite_name": "Wand_017",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4219,6 +4210,8 @@
     "item_type": "gear",
     "name": "Hemp Rope",
     "price": 100,
+    "sprite_name": "Tool_019",
+    "sprite_sheet": "dawnlike_items",
     "weight": 10
   },
   {
@@ -4229,6 +4222,8 @@
     "item_type": "misc",
     "name": "Rope of Climbing",
     "price": 300000,
+    "sprite_name": "Tool_019",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
   },
   {
@@ -4239,6 +4234,8 @@
     "item_type": "misc",
     "name": "Rope of Entanglement",
     "price": 2100000,
+    "sprite_name": "Tool_019",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4246,14 +4243,9 @@
     "item_type": "gear",
     "name": "Silk Rope",
     "price": 1000,
+    "sprite_name": "Tool_019",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
-  },
-  {
-    "description": "This heavy canvas sack, useful for carrying adventuring gear and other supplies, holds about 4 cubic feet. A leather thong threaded through loops at the bag's end allows it to be tied shut easily.",
-    "item_type": "gear",
-    "name": "Sack",
-    "price": 10,
-    "weight": 1
   },
   {
     "description": "A sai is a metal spike flanked by a pair of prongs used to trap an enemy's weapon. With a sai, you get a +2 bonus on Combat Maneuver Checks to sunder an enemy's weapon. Though pointed, a sai is used primarily to bludgeon foes and to disarm weapons.",
@@ -4261,6 +4253,8 @@
     "name": "Sai",
     "price": 100,
     "slot": "weapon",
+    "sprite_name": "MedWep_004",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "disarm, monk",
       "crit_lower": 20,
@@ -4280,6 +4274,8 @@
     "item_type": "misc",
     "name": "Salve of Slipperiness",
     "price": 100000,
+    "sprite_name": "Scroll_027",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -4288,6 +4284,8 @@
     "name": "Sap",
     "price": 100,
     "slot": "weapon",
+    "sprite_name": "ShortWep_013",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "nonlethal",
       "crit_lower": 20,
@@ -4307,6 +4305,8 @@
     "item_type": "misc",
     "name": "Scabbard of Keen Edges",
     "price": 1600000,
+    "sprite_name": "Tool_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -4323,14 +4323,9 @@
     "item_type": "armour",
     "name": "Scale Mail",
     "price": 5000,
+    "sprite_name": "Armor_040",
+    "sprite_sheet": "dawnlike_items",
     "weight": 30
-  },
-  {
-    "description": "A merchant's scale grants a +2 circumstance bonus on Appraise checks involving items that are valued by weight, including anything made of precious metals.",
-    "item_type": "gear",
-    "name": "Merchant's Scale",
-    "price": 200,
-    "weight": 1
   },
   {
     "aura_strength": "moderate",
@@ -4341,6 +4336,8 @@
     "name": "Golembane Scarab",
     "price": 250000,
     "slot": "neck",
+    "sprite_name": "Flesh_034",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -4352,6 +4349,8 @@
     "name": "Scarab of Death",
     "price": 0,
     "slot": "neck",
+    "sprite_name": "Flesh_007",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -4363,6 +4362,8 @@
     "name": "Scarab of Protection",
     "price": 3800000,
     "slot": "neck",
+    "sprite_name": "Flesh_034",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -4371,6 +4372,8 @@
     "name": "Scimitar",
     "price": 1500,
     "slot": "weapon",
+    "sprite_name": "LongWep_012",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
@@ -4389,6 +4392,8 @@
     "item_type": "misc",
     "name": "Screaming Bolt",
     "price": 26700,
+    "sprite_name": "Ammo_021",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -4396,6 +4401,8 @@
     "item_type": "gear",
     "name": "Scroll Case",
     "price": 100,
+    "sprite_name": "Chest_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -4404,6 +4411,8 @@
     "name": "Scythe",
     "price": 1800,
     "slot": "weapon",
+    "sprite_name": "LongWep_027",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "trip",
       "crit_lower": 20,
@@ -4420,6 +4429,8 @@
     "item_type": "gear",
     "name": "Sealing Wax",
     "price": 100,
+    "sprite_name": "Tool_012",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -4427,6 +4438,8 @@
     "item_type": "gear",
     "name": "Sewing Needle",
     "price": 50,
+    "sprite_name": "Tool_020",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -4437,6 +4450,8 @@
     "item_type": "misc",
     "name": "Shatterspike",
     "price": 431500,
+    "sprite_name": "ShortWep_016",
+    "sprite_sheet": "dawnlike_items",
     "weight": 4
   },
   {
@@ -4449,9 +4464,11 @@
     },
     "description": "You strap a shield to your forearm and grip it with your hand. A heavy shield is so heavy that you can't use your shield hand for anything else.",
     "item_type": "weapon",
-    "name": "Heavy; Steel Shield",
+    "name": "Heavy Steel Shield",
     "price": 2000,
     "slot": "weapon",
+    "sprite_name": "Shield_005",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -4472,9 +4489,11 @@
     },
     "description": "You strap a shield to your forearm and grip it with your hand. A heavy shield is so heavy that you can't use your shield hand for anything else.",
     "item_type": "weapon",
-    "name": "Heavy; Wooden Shield",
+    "name": "Heavy Wooden Shield",
     "price": 700,
     "slot": "weapon",
+    "sprite_name": "Shield_004",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -4495,8 +4514,10 @@
     },
     "description": "You strap a shield to your forearm and grip it with your hand. A light shield's weight lets you carry other items in that hand, although you cannot use weapons with it.",
     "item_type": "armour",
-    "name": "Light; Steel Shield",
+    "name": "Light Steel Shield",
     "price": 900,
+    "sprite_name": "Shield_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 6
   },
   {
@@ -4509,8 +4530,10 @@
     },
     "description": "You strap a shield to your forearm and grip it with your hand. A light shield's weight lets you carry other items in that hand, although you cannot use weapons with it.",
     "item_type": "armour",
-    "name": "Light; Wooden Shield",
+    "name": "Light Wooden Shield",
     "price": 300,
+    "sprite_name": "Shield_006",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4525,17 +4548,9 @@
     "item_type": "armour",
     "name": "Tower Shield",
     "price": 3000,
+    "sprite_name": "Shield_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 45
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "transmutation",
-    "cl": "15th",
-    "description": "This +1/+1 two-bladed sword has blades of alchemical silver. The weapon deals an extra 2d6 points of damage against any creature with the shapechanger subtype. When a shapechanger or a creature in an alternate form (such as a druid using wild shape) is struck by the weapon, it must make a DC 15 Will save or return to its natural form. ",
-    "item_type": "misc",
-    "name": "Shifter's Sorrow",
-    "price": 1278000,
-    "weight": 10
   },
   {
     "description": "A shortbow is made up of one piece of wood, about 3 feet in length. You need two hands to use a bow, regardless of its size. You can use a shortbow while mounted. If you have a penalty for low Strength, apply it to damage rolls when you use a shortbow. If you have a bonus for high Strength, you can apply it to damage rolls when you use a composite shortbow (see below), but not a regular shortbow.",
@@ -4543,6 +4558,8 @@
     "name": "Shortbow",
     "price": 3000,
     "slot": "weapon",
+    "sprite_name": "Ammo_011",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 60,
       "crit_lower": 20,
@@ -4560,6 +4577,8 @@
     "name": "Composite Shortbow",
     "price": 7500,
     "slot": "weapon",
+    "sprite_name": "Ammo_011",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 70,
       "crit_lower": 20,
@@ -4577,6 +4596,8 @@
     "name": "Shortspear",
     "price": 100,
     "slot": "weapon",
+    "sprite_name": "LongWep_004",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 20,
       "crit_lower": 20,
@@ -4594,6 +4615,8 @@
     "name": "Shortsword",
     "price": 1000,
     "slot": "weapon",
+    "sprite_name": "MedWep_002",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 19,
       "crit_mult": 2,
@@ -4609,42 +4632,9 @@
     "item_type": "gear",
     "name": "Shovel",
     "price": 200,
+    "sprite_name": "LongWep_028",
+    "sprite_sheet": "dawnlike_items",
     "weight": 8
-  },
-  {
-    "description": "A shuriken is a small piece of metal with sharpened edges, designed for throwing. A shuriken can't be used as a melee weapon. Although they are thrown weapons, shuriken are treated as ammunition for the purposes of drawing them, crafting masterwork or otherwise special versions of them, and what happens to them after they are thrown.",
-    "item_type": "weapon",
-    "name": "Shuriken",
-    "price": 100,
-    "slot": "weapon",
-    "weapon": {
-      "Range": 10,
-      "Special": "monk",
-      "crit_lower": 20,
-      "crit_mult": 2,
-      "damage": "1d2",
-      "damage_type": "P",
-      "proficiency": "Exotic",
-      "weapon_class": "Ranged"
-    },
-    "weight": 1
-  },
-  {
-    "description": "This weapon is a handheld shaft fitted with a pointed tip for stabbing foes.",
-    "item_type": "weapon",
-    "name": "Siangham",
-    "price": 300,
-    "slot": "weapon",
-    "weapon": {
-      "Special": "monk",
-      "crit_lower": 20,
-      "crit_mult": 2,
-      "damage": "1d6",
-      "damage_type": "P",
-      "proficiency": "Exotic",
-      "weapon_class": "Light Melee"
-    },
-    "weight": 1
   },
   {
     "description": "Originating as a farming tool used for reaping grain, this one-handed weapon has a blade with a strong curve that can easily catch an opponent's limb or armor. Its blade can be either smooth or serrated, and some fighting sickles are sharpened on both sides near the point, making it easier to hook into an opponent's flesh.",
@@ -4652,6 +4642,8 @@
     "name": "Sickle",
     "price": 600,
     "slot": "weapon",
+    "sprite_name": "LongWep_019",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "trip",
       "crit_lower": 20,
@@ -4664,27 +4656,12 @@
     "weight": 2
   },
   {
-    "description": "With a DC 5 Perform (wind instruments) check, you can use a whistle to signal the same sorts of situations as signal horns. A whistle's piercing report can be clearly heard (Perception DC 0) up to a quarter-mile away. For each quarter-mile beyond, Perception checks to hear a whistle take a -2 penalty. Silent whistles that only animals and other creatures with keen hearing can hear also exist. ",
-    "item_type": "gear",
-    "name": "Signal Whistle",
-    "price": 80,
-    "weight": 0
-  },
-  {
     "description": "This ring has an embossed design, typically a family crest or official icon. You press a signet ring into softened wax to leave an impression of this symbol.",
     "item_type": "gear",
     "name": "Signet Ring",
     "price": 500,
-    "weight": 0
-  },
-  {
-    "aura_strength": "faint",
-    "aura_value": "transmutation",
-    "cl": "5th",
-    "description": "This shimmering paste-like substance can be applied to a weapon as a standard action. It gives the weapon the properties of alchemical silver for 1 hour, replacing the properties of any other special material it might have. One vial coats a single melee weapon or 20 units of ammunition. ",
-    "item_type": "misc",
-    "name": "Silversheen",
-    "price": 25000,
+    "sprite_name": "Ring_017",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -4693,6 +4670,8 @@
     "item_type": "misc",
     "name": "Masterwork Silver Dagger",
     "price": 32200,
+    "sprite_name": "ShortWep_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -4703,6 +4682,8 @@
     "item_type": "misc",
     "name": "Slaying Arrow",
     "price": 228200,
+    "sprite_name": "Ammo_017",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -4710,6 +4691,8 @@
     "item_type": "gear",
     "name": "Sledge",
     "price": 100,
+    "sprite_name": "LongWep_032",
+    "sprite_sheet": "dawnlike_items",
     "weight": 10
   },
   {
@@ -4720,6 +4703,8 @@
     "item_type": "misc",
     "name": "Sleep Arrow",
     "price": 13200,
+    "sprite_name": "Ammo_018",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -4728,6 +4713,8 @@
     "name": "Sling",
     "price": 0,
     "slot": "weapon",
+    "sprite_name": "Ammo_013",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 50,
       "crit_lower": 20,
@@ -4740,23 +4727,6 @@
     "weight": 0
   },
   {
-    "description": "Made from a specially designed sling attached to a short club, a halfling sling staff can be used by a proficient wielder to devastating effect. Your Strength modifier applies to damage rolls when you use a halfling sling staff, just as it does for thrown weapons. You can fire, but not load, a halfling sling staff with one hand. Loading a halfling sling staff is a move action that requires two hands and provokes attacks of opportunity. You can hurl ordinary stones with a halfling sling staff, but stones are not as dense or as round as bullets. Thus, such an attack deals damage as if the weapon were designed for a creature one size category smaller than you and you take a -1 penalty on attack rolls.A halfling sling staff can be used as a simple weapon that deals bludgeoning damage equal to that of a club of its size. Halflings treat halfling sling staves as martial weapons.",
-    "item_type": "weapon",
-    "name": "Halfling Sling Staff",
-    "price": 2000,
-    "slot": "weapon",
-    "weapon": {
-      "Range": 80,
-      "crit_lower": 20,
-      "crit_mult": 3,
-      "damage": "1d8",
-      "damage_type": "B",
-      "proficiency": "Exotic",
-      "weapon_class": "Ranged"
-    },
-    "weight": 3
-  },
-  {
     "aura_strength": "faint",
     "aura_value": "transmutation",
     "cl": "4th",
@@ -4765,6 +4735,8 @@
     "name": "Slippers of Spider Climbing",
     "price": 480000,
     "slot": "feet",
+    "sprite_name": "Boot_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -4772,6 +4744,8 @@
     "item_type": "consumable",
     "name": "Smokestick",
     "price": 2000,
+    "sprite_name": "Music_003",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -4779,6 +4753,8 @@
     "item_type": "gear",
     "name": "Soap",
     "price": 50,
+    "sprite_name": "Flesh_023",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -4789,6 +4765,8 @@
     "item_type": "misc",
     "name": "Sovereign Glue",
     "price": 240000,
+    "sprite_name": "Potion_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -4797,6 +4775,8 @@
     "name": "Spear",
     "price": 200,
     "slot": "weapon",
+    "sprite_name": "LongWep_002",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 20,
       "Special": "brace",
@@ -4810,20 +4790,12 @@
     "weight": 6
   },
   {
-    "aura_strength": "moderate",
-    "aura_value": "evocation",
-    "cl": "10th",
-    "description": "This is a +2 shortspear, but each time it is used in melee against a foe and the attack roll is a natural 1, it damages its wielder instead of her intended target. When the curse takes effect, the spear curls around to strike its wielder in the back, automatically dealing the damage to the wielder. The curse even functions when the spear is hurled, and in such a case the damage to the hurler is doubled. ",
-    "item_type": "misc",
-    "name": "Cursed Backbiter Spear",
-    "price": 0,
-    "weight": 3
-  },
-  {
     "description": "A spellbook has 100 pages of parchment, and each spell takes up one page per spell level (one page each for 0-level spells).",
     "item_type": "gear",
     "name": "Wizard's Spellbook",
     "price": 1500,
+    "sprite_name": "Book_040",
+    "sprite_sheet": "dawnlike_items",
     "weight": 3
   },
   {
@@ -4831,6 +4803,8 @@
     "item_type": "gear",
     "name": "Spell Component Pouch",
     "price": 500,
+    "sprite_name": "Chest_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -4841,6 +4815,8 @@
     "item_type": "misc",
     "name": "Sphere of Annihilation",
     "price": 0,
+    "sprite_name": "Food_003",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -4852,6 +4828,8 @@
     "name": "Spined Shield",
     "price": 558000,
     "slot": "shield",
+    "sprite_name": "Shield_005",
+    "sprite_sheet": "dawnlike_items",
     "weight": 15
   },
   {
@@ -4868,21 +4846,9 @@
     "item_type": "armour",
     "name": "Splint Mail",
     "price": 20000,
+    "sprite_name": "Armor_041",
+    "sprite_sheet": "dawnlike_items",
     "weight": 45
-  },
-  {
-    "description": "Objects viewed through a spyglass are magnified to twice their size. Characters using a spyglass take a -1 penalty on Perception skill checks per 20 feet of distance to the target, if the target is visible.",
-    "item_type": "gear",
-    "name": "Spyglass",
-    "price": 100000,
-    "weight": 1
-  },
-  {
-    "description": "This is the amount it costs to stable a single creature that is Large or smaller for one day, at a typical stable or hostler. Particularly fancy stables may cost more, and larger or more exotic creatures cost double.",
-    "item_type": "gear",
-    "name": "Stabling",
-    "price": 50,
-    "weight": 0
   },
   {
     "aura_strength": "strong",
@@ -4892,6 +4858,8 @@
     "item_type": "misc",
     "name": "Staff of Abjuration",
     "price": 8200000,
+    "sprite_name": "Wand_023",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4902,6 +4870,8 @@
     "item_type": "misc",
     "name": "Staff of Charming",
     "price": 1760000,
+    "sprite_name": "Wand_024",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4912,6 +4882,8 @@
     "item_type": "misc",
     "name": "Staff of Conjuration",
     "price": 8200000,
+    "sprite_name": "Wand_025",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4922,6 +4894,8 @@
     "item_type": "misc",
     "name": "Staff of Defense",
     "price": 6200000,
+    "sprite_name": "Wand_026",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4932,6 +4906,8 @@
     "item_type": "misc",
     "name": "Staff of Divination",
     "price": 8200000,
+    "sprite_name": "Wand_027",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4942,6 +4918,8 @@
     "item_type": "misc",
     "name": "Staff of Earth and Stone",
     "price": 8580000,
+    "sprite_name": "Wand_028",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4952,6 +4930,8 @@
     "item_type": "misc",
     "name": "Staff of Enchantment",
     "price": 8200000,
+    "sprite_name": "Wand_029",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4962,6 +4942,8 @@
     "item_type": "misc",
     "name": "Staff of Evocation",
     "price": 8200000,
+    "sprite_name": "Wand_030",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4972,6 +4954,8 @@
     "item_type": "misc",
     "name": "Staff of Fire",
     "price": 1895000,
+    "sprite_name": "Wand_031",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4982,6 +4966,8 @@
     "item_type": "misc",
     "name": "Staff of Frost",
     "price": 4140000,
+    "sprite_name": "Wand_032",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -4992,6 +4978,8 @@
     "item_type": "misc",
     "name": "Staff of Healing",
     "price": 2960000,
+    "sprite_name": "Wand_033",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -5002,6 +4990,8 @@
     "item_type": "misc",
     "name": "Staff of Illumination",
     "price": 5150000,
+    "sprite_name": "Wand_034",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -5012,6 +5002,8 @@
     "item_type": "misc",
     "name": "Staff of Illusion",
     "price": 8200000,
+    "sprite_name": "Wand_035",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -5022,6 +5014,8 @@
     "item_type": "misc",
     "name": "Staff of Life",
     "price": 10940000,
+    "sprite_name": "Wand_036",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -5032,6 +5026,8 @@
     "item_type": "misc",
     "name": "Staff of Necromancy",
     "price": 8200000,
+    "sprite_name": "Wand_037",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -5042,6 +5038,8 @@
     "item_type": "misc",
     "name": "Staff of Passage",
     "price": 20690000,
+    "sprite_name": "Wand_038",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -5052,6 +5050,8 @@
     "item_type": "misc",
     "name": "Staff of Power",
     "price": 23500000,
+    "sprite_name": "Wand_039",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -5062,6 +5062,8 @@
     "item_type": "misc",
     "name": "Staff of Size Alteration",
     "price": 2615000,
+    "sprite_name": "Wand_040",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -5072,6 +5074,8 @@
     "item_type": "misc",
     "name": "Staff of Swarming Insects",
     "price": 2280000,
+    "sprite_name": "Wand_041",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -5082,6 +5086,8 @@
     "item_type": "misc",
     "name": "Staff of the Magi",
     "price": 0,
+    "sprite_name": "Wand_043",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -5092,6 +5098,8 @@
     "item_type": "misc",
     "name": "Staff of the Woodlands",
     "price": 10040000,
+    "sprite_name": "Wand_044",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -5102,6 +5110,8 @@
     "item_type": "misc",
     "name": "Staff of Transmutation",
     "price": 8200000,
+    "sprite_name": "Wand_042",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -5110,6 +5120,8 @@
     "name": "Starknife",
     "price": 2400,
     "slot": "weapon",
+    "sprite_name": "MedWep_003",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 20,
       "crit_lower": 20,
@@ -5129,6 +5141,8 @@
     "item_type": "misc",
     "name": "Stone of Alarm",
     "price": 270000,
+    "sprite_name": "Money_028",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -5140,6 +5154,8 @@
     "item_type": "misc",
     "name": "Stone of Good Luck",
     "price": 2000000,
+    "sprite_name": "Money_033",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -5150,6 +5166,8 @@
     "item_type": "misc",
     "name": "Stone of Weight (Loadstone)",
     "price": 0,
+    "sprite_name": "Money_035",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -5160,6 +5178,8 @@
     "item_type": "misc",
     "name": "Stone Salve",
     "price": 400000,
+    "sprite_name": "Potion_023",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -5168,6 +5188,8 @@
     "item_type": "misc",
     "name": "Strand of Prayer Beads",
     "price": 960000,
+    "sprite_name": "Tool_018",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -5184,6 +5206,8 @@
     "item_type": "armour",
     "name": "Studded Leather",
     "price": 2500,
+    "sprite_name": "Armor_046",
+    "sprite_sheet": "dawnlike_items",
     "weight": 20
   },
   {
@@ -5191,6 +5215,8 @@
     "item_type": "consumable",
     "name": "Sunrod",
     "price": 200,
+    "sprite_name": "Music_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -5201,6 +5227,8 @@
     "item_type": "misc",
     "name": "Sun Blade",
     "price": 5033500,
+    "sprite_name": "MedWep_003",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -5211,17 +5239,9 @@
     "item_type": "misc",
     "name": "Sustaining Spoon",
     "price": 540000,
+    "sprite_name": "Tool_016",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "evocation",
-    "cl": "15th",
-    "description": "This longsword performs well against targets in practice, but when used in combat its wielder takes a -2 penalty on attack rolls.All damage dealt is also reduced by 2 points, but never below a minimum of 1 point of damage on any successful hit. The sword always forces that character to employ it rather than another weapon. The sword's owner automatically draws it and fights with it even when she meant to draw or ready some other weapon.",
-    "item_type": "misc",
-    "name": "-2 Cursed Sword",
-    "price": 0,
-    "weight": 4
   },
   {
     "description": "A bastard sword is about 4 feet in length, making it too large to use in one hand without special training; thus, it is an exotic weapon. A character can use a bastard sword two-handed as a martial weapon.",
@@ -5229,6 +5249,8 @@
     "name": "Bastard Sword",
     "price": 3500,
     "slot": "weapon",
+    "sprite_name": "LongWep_010",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 19,
       "crit_mult": 2,
@@ -5247,6 +5269,8 @@
     "item_type": "misc",
     "name": "Berserking Sword",
     "price": 0,
+    "sprite_name": "LongWep_009",
+    "sprite_sheet": "dawnlike_items",
     "weight": 12
   },
   {
@@ -5257,6 +5281,8 @@
     "item_type": "misc",
     "name": "Sword of Life Stealing",
     "price": 2571500,
+    "sprite_name": "MedWep_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 4
   },
   {
@@ -5267,6 +5293,8 @@
     "item_type": "misc",
     "name": "Sword of Subtlety",
     "price": 2231000,
+    "sprite_name": "MedWep_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -5277,6 +5305,8 @@
     "item_type": "misc",
     "name": "Sword of the Planes",
     "price": 2231500,
+    "sprite_name": "MedWep_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 4
   },
   {
@@ -5285,6 +5315,8 @@
     "name": "Two-Bladed Sword",
     "price": 10000,
     "slot": "weapon",
+    "sprite_name": "LongWep_021",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Special": "double",
       "crit_lower": 19,
@@ -5304,6 +5336,8 @@
     "item_type": "misc",
     "name": "Sylvan Scimitar",
     "price": 4731500,
+    "sprite_name": "LongWep_012",
+    "sprite_sheet": "dawnlike_items",
     "weight": 4
   },
   {
@@ -5314,6 +5348,8 @@
     "item_type": "misc",
     "name": "Talisman of Pure Good",
     "price": 0,
+    "sprite_name": "Amulet_011",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -5324,6 +5360,8 @@
     "item_type": "misc",
     "name": "Talisman of the Sphere",
     "price": 0,
+    "sprite_name": "Amulet_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -5334,6 +5372,8 @@
     "item_type": "misc",
     "name": "Talisman of Ultimate Evil",
     "price": 0,
+    "sprite_name": "Amulet_012",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -5341,14 +5381,9 @@
     "item_type": "consumable",
     "name": "Tanglefoot Bag",
     "price": 5000,
+    "sprite_name": "Chest_013",
+    "sprite_sheet": "dawnlike_items",
     "weight": 4
-  },
-  {
-    "description": "A small tents. Holds one Medium creature and takes 20 minutes to assemble. Packing up a tent takes half as long as assembling it. ",
-    "item_type": "gear",
-    "name": "Tent",
-    "price": 1000,
-    "weight": 20
   },
   {
     "aura_strength": "strong",
@@ -5358,6 +5393,8 @@
     "item_type": "misc",
     "name": "The Shadowstaff",
     "price": 0,
+    "sprite_name": "Wand_028",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -5365,6 +5402,8 @@
     "item_type": "gear",
     "name": "Thieves' Tools",
     "price": 3000,
+    "sprite_name": "Food_035",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -5372,6 +5411,8 @@
     "item_type": "gear",
     "name": "Masterwork Thieves' Tools",
     "price": 10000,
+    "sprite_name": "Food_036",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -5380,6 +5421,8 @@
     "name": "Throwing Axe",
     "price": 800,
     "slot": "weapon",
+    "sprite_name": "MedWep_007",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 10,
       "crit_lower": 20,
@@ -5396,6 +5439,8 @@
     "item_type": "consumable",
     "name": "Thunderstone",
     "price": 3000,
+    "sprite_name": "Money_039",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -5403,6 +5448,8 @@
     "item_type": "consumable",
     "name": "Tindertwig",
     "price": 100,
+    "sprite_name": "Flesh_030",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -5413,6 +5460,8 @@
     "item_type": "misc",
     "name": "Tome of Clear Thought",
     "price": 2750000,
+    "sprite_name": "Book_033",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -5423,6 +5472,8 @@
     "item_type": "misc",
     "name": "Tome of Leadership and Influence",
     "price": 2750000,
+    "sprite_name": "Book_034",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
   },
   {
@@ -5433,20 +5484,17 @@
     "item_type": "misc",
     "name": "Tome of Understanding",
     "price": 2750000,
+    "sprite_name": "Book_035",
+    "sprite_sheet": "dawnlike_items",
     "weight": 5
-  },
-  {
-    "description": "This well-made item is the perfect tool for the job. It grants a +2 circumstance bonus on a related skill check (if any). Bonuses provided by multiple masterwork items do not stack.",
-    "item_type": "gear",
-    "name": "Masterwork Tool",
-    "price": 5000,
-    "weight": 1
   },
   {
     "description": "A torch burns for 1 hour, shedding normal light in a 20-foot radius and increasing the light level by one step for an additional 20 feet beyond that area (darkness becomes dim light and dim light becomes normal light). A torch does not increase the light level in normal light or bright light. If a torch is used in combat, treat it as a one-handed improvised weapon that deals bludgeoning damage equal to that of a gauntlet of its size, plus 1 point of fire damage.",
     "item_type": "gear",
     "name": "Torch",
     "price": 1,
+    "sprite_name": "Light_001",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -5454,6 +5502,8 @@
     "item_type": "gear",
     "name": "Trail Rations",
     "price": 50,
+    "sprite_name": "Food_034",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
   },
   {
@@ -5462,6 +5512,8 @@
     "name": "Trident",
     "price": 1500,
     "slot": "weapon",
+    "sprite_name": "LongWep_016",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "Range": 10,
       "Special": "brace",
@@ -5476,22 +5528,14 @@
   },
   {
     "aura_strength": "moderate",
-    "aura_value": "enchantment",
-    "cl": "7th",
-    "description": "The magical properties of this +1 trident with a 6-foot-long haft enable its wielder to charm up to 14 HD of aquatic animals as per the spell charm animals (Will DC 16 negates, animals get a +5 bonus if currently under attack by the wielder or his allies), no two of which can be more than 30 feet apart. The wielder can use this effect up to three times per day. The wielder can communicate with the animals as if using a speak with animals spell. Animals making their saving throws are free of control, but they will not approach within 10 feet of the trident. ",
-    "item_type": "misc",
-    "name": "Trident of Fish Command",
-    "price": 1865000,
-    "weight": 4
-  },
-  {
-    "aura_strength": "moderate",
     "aura_value": "divination",
     "cl": "7th",
     "description": "A weapon of this type enables its wielder to determine the location, depth, kind, and number of aquatic predators within 680 feet. A trident of warning must be grasped and pointed in order for the character using it to gain such information, and it requires 1 round to scan a hemisphere with a radius of 680 feet. The weapon is otherwise a +2 trident. ",
     "item_type": "misc",
     "name": "Trident of Warning",
     "price": 1011500,
+    "sprite_name": "LongWep_016",
+    "sprite_sheet": "dawnlike_items",
     "weight": 4
   },
   {
@@ -5502,6 +5546,8 @@
     "item_type": "misc",
     "name": "Unguent of Timelessness",
     "price": 15000,
+    "sprite_name": "Potion_032",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -5512,24 +5558,9 @@
     "item_type": "misc",
     "name": "Universal Solvent",
     "price": 5000,
+    "sprite_name": "Potion_007",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
-  },
-  {
-    "description": "A dwarven urgrosh is a double weapon-an axe head and a spear point on opposite ends of a long haft. The urgrosh's axe head is a slashing weapon that deals 1d8 points of damage. Its spear head is a piercing weapon that deals 1d6 points of damage. You can use either head as the primary weapon. The other becomes the off-hand weapon. If you use an urgrosh against a charging character, the spear head is the part of the weapon that deals damage. Dwarves treat dwarven urgroshes as martial weapons.",
-    "item_type": "weapon",
-    "name": "Dwarven Urgrosh",
-    "price": 5000,
-    "slot": "weapon",
-    "weapon": {
-      "Special": "brace, double",
-      "crit_lower": 20,
-      "crit_mult": 3,
-      "damage": "1d8/1d6",
-      "damage_type": "P,S",
-      "proficiency": "Exotic",
-      "weapon_class": "Two-Handed Melee"
-    },
-    "weight": 12
   },
   {
     "aura_strength": "strong",
@@ -5539,6 +5570,8 @@
     "item_type": "misc",
     "name": "Vacuous Grimoire",
     "price": 0,
+    "sprite_name": "Book_022",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   },
   {
@@ -5550,6 +5583,8 @@
     "name": "Druid's Vestment",
     "price": 375000,
     "slot": "body",
+    "sprite_name": "Armor_025",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -5561,6 +5596,8 @@
     "name": "Vest of Escape",
     "price": 520000,
     "slot": "chest",
+    "sprite_name": "Armor_033",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -5568,6 +5605,8 @@
     "item_type": "gear",
     "name": "Vial",
     "price": 100,
+    "sprite_name": "Potion_038",
+    "sprite_sheet": "dawnlike_items",
     "weight": 0
   },
   {
@@ -5576,6 +5615,8 @@
     "name": "Dwarven Waraxe",
     "price": 3000,
     "slot": "weapon",
+    "sprite_name": "MedWep_008",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
@@ -5592,6 +5633,8 @@
     "name": "Warhammer",
     "price": 1200,
     "slot": "weapon",
+    "sprite_name": "LongWep_032",
+    "sprite_sheet": "dawnlike_items",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
@@ -5603,62 +5646,13 @@
     "weight": 5
   },
   {
-    "description": "This bag is made of an animal bladder or treated leather. It is watertight and holds about 1/2 gallon of liquid. The listed weight is for a waterskin full of water; empty, it weighs about 2 pounds.",
-    "item_type": "gear",
-    "name": "Waterskin",
-    "price": 100,
-    "weight": 4
-  },
-  {
-    "description": "This large, bulky contrivance gives the time accurately to within half an hour per day since it was last set. It requires a source of water, and it must be kept still because it marks time by the regulated flow of droplets of water.",
-    "item_type": "gear",
-    "name": "Water Clock",
-    "price": 100000,
-    "weight": 200
-  },
-  {
-    "aura_strength": "strong",
-    "aura_value": "conjuration",
-    "cl": "17th",
-    "description": "This strange, interdimensional device looks just like a portable hole. Anything placed within it is immediately cast to another world-a parallel world, another planet, or a different plane (chosen randomly). If the well is moved, it opens to a new plane (also randomly determined). It can be picked up, folded, or rolled, just as a portable hole can be. Objects from the world the well touches can come through the opening just as easily-it is a two-way portal.",
-    "item_type": "misc",
-    "name": "Well of Many Worlds",
-    "price": 8200000,
-    "weight": 0
-  },
-  {
     "description": "A whetstone allows you to sharpen a blade by sliding it against the stone at a precise angle. Honing a blade with a whetstone requires about 15 minutes of work and grants the weapon a +1 bonus on your damage roll the first time you hit with it. This only works on nonmagical blades. ",
     "item_type": "gear",
     "name": "Whetstone",
     "price": 2,
+    "sprite_name": "Rock_004",
+    "sprite_sheet": "dawnlike_items",
     "weight": 1
-  },
-  {
-    "description": "A whip deals no damage to any creature with an armor bonus of +1 or higher or a natural armor bonus of +3 or higher. The whip is treated as a melee weapon with 15-foot reach, though you don't threaten the area into which you can make an attack. In addition, unlike most other weapons with reach, you can use it against foes anywhere within your reach (including adjacent foes).Using a whip provokes an attack of opportunity, just as if you had used a ranged weapon.You can use the Weapon Finesse feat to apply your Dexterity modifier instead of your Strength modifier to attack rolls with a whip sized for you, even though it isn't a light weapon.",
-    "item_type": "weapon",
-    "name": "Whip",
-    "price": 100,
-    "slot": "weapon",
-    "weapon": {
-      "Special": "disarm, nonlethal, reach, trip",
-      "crit_lower": 20,
-      "crit_mult": 2,
-      "damage": "1d3",
-      "damage_type": "S",
-      "proficiency": "Exotic",
-      "weapon_class": "One-Handed Melee"
-    },
-    "weight": 2
-  },
-  {
-    "aura_strength": "faint",
-    "aura_value": "evocation",
-    "cl": "5th",
-    "description": "A wind fan appears to be nothing more than a wood and papyrus or cloth instrument with which to create a cooling breeze. By uttering the command word, its possessor causes the fan to duplicate a gust of wind spell. The fan can be used once per day with no risk. If it is used more frequently, there is a 20% cumulative chance per usage during that day that the device tears into useless, nonmagical tatters. ",
-    "item_type": "misc",
-    "name": "Wind Fan",
-    "price": 550000,
-    "weight": 0
   },
   {
     "aura_strength": "faint",
@@ -5669,6 +5663,8 @@
     "name": "Winged Shield",
     "price": 1725700,
     "slot": "shield",
+    "sprite_name": "Shield_002",
+    "sprite_sheet": "dawnlike_items",
     "weight": 10
   },
   {
@@ -5680,6 +5676,8 @@
     "name": "Wings of Flying",
     "price": 5400000,
     "slot": "shoulders",
+    "sprite_name": "Armor_036",
+    "sprite_sheet": "dawnlike_items",
     "weight": 2
   }
 ]

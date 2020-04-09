@@ -1,0 +1,1746 @@
+{
+  "Banded Mail": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_053"
+  },
+  "Breastplate": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_039"
+  },
+  "Buckler": {
+    "sheet": "dawnlike_items",
+    "sprite": "Shield_001"
+  },
+  "Chain Shirt": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_055"
+  },
+  "Chainmail": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_043"
+  },
+  "Full Plate": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_044"
+  },
+  "Half-Plate": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_042"
+  },
+  "Hide": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_059"
+  },
+  "Leather": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_045"
+  },
+  "Light Steel Shield": {
+    "sheet": "dawnlike_items",
+    "sprite": "Shield_002"
+  },
+  "Light Wooden Shield": {
+    "sheet": "dawnlike_items",
+    "sprite": "Shield_006"
+  },
+  "Padded": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_037"
+  },
+  "Scale Mail": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_040"
+  },
+  "Splint Mail": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_041"
+  },
+  "Studded Leather": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_046"
+  },
+  "Tower Shield": {
+    "sheet": "dawnlike_items",
+    "sprite": "Shield_005"
+  },
+  "Acid": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_032"
+  },
+  "Alchemist's Fire": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_034"
+  },
+  "Antitoxin": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_033"
+  },
+  "Everburning Torch": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_007"
+  },
+  "Holy Water": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_018"
+  },
+  "Smokestick": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_003"
+  },
+  "Sunrod": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_004"
+  },
+  "Tanglefoot Bag": {
+    "sheet": "dawnlike_items",
+    "sprite": "Chest_013"
+  },
+  "Thunderstone": {
+    "sheet": "dawnlike_items",
+    "sprite": "Money_039"
+  },
+  "Tindertwig": {
+    "sheet": "dawnlike_items",
+    "sprite": "Flesh_030"
+  },
+  "Absorbing Shield": {
+    "sheet": "dawnlike_items",
+    "sprite": "Shield_003"
+  },
+  "Adamantine Breastplate": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_009"
+  },
+  "Amulet of Inescapable Location": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_002"
+  },
+  "Amulet of Mighty Fists": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_003"
+  },
+  "Amulet of Natural Armor": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_004"
+  },
+  "Amulet of Proof against Detection and Location": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_005"
+  },
+  "Amulet of the Planes": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_006"
+  },
+  "Armor of Arrow Attraction": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_003"
+  },
+  "Armor of Rage": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_001"
+  },
+  "Banded Mail of Luck": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_058"
+  },
+  "Belt of Dwarvenkind": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_013"
+  },
+  "Belt of Giant Strength": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_013"
+  },
+  "Belt of Incredible Dexterity": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_013"
+  },
+  "Belt of Mighty Constitution": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_013"
+  },
+  "Belt of Physical Might": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_013"
+  },
+  "Belt of Physical Perfection": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_013"
+  },
+  "Boots of Dancing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Boot_001"
+  },
+  "Boots of Elvenkind": {
+    "sheet": "dawnlike_items",
+    "sprite": "Boot_004"
+  },
+  "Boots of Levitation": {
+    "sheet": "dawnlike_items",
+    "sprite": "Boot_005"
+  },
+  "Boots of Speed": {
+    "sheet": "dawnlike_items",
+    "sprite": "Boot_006"
+  },
+  "Boots of Striding and Springing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Boot_007"
+  },
+  "Boots of Teleportation": {
+    "sheet": "dawnlike_items",
+    "sprite": "Boot_008"
+  },
+  "Boots of the Winterlands": {
+    "sheet": "dawnlike_items",
+    "sprite": "Boot_010"
+  },
+  "Bracelet of Friends": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_044"
+  },
+  "Bracers of Armor": {
+    "sheet": "dawnlike_items",
+    "sprite": "Food_037"
+  },
+  "Bracers of Defenselessness": {
+    "sheet": "dawnlike_items",
+    "sprite": "Food_037"
+  },
+  "Breastplate of Command": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_008"
+  },
+  "Brooch of Shielding": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_011"
+  },
+  "Cape of the Mountebank": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_027"
+  },
+  "Caster's Shield": {
+    "sheet": "dawnlike_items",
+    "sprite": "Shield_004"
+  },
+  "Celestial Armor": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_010"
+  },
+  "Circlet of Persuasion": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_033"
+  },
+  "Cloak of Arachnida": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_028"
+  },
+  "Cloak of Elvenkind": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_029"
+  },
+  "Cloak of Etherealness": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_031"
+  },
+  "Cloak of Resistance": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_032"
+  },
+  "Cloak of the Bat": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_033"
+  },
+  "Cloak of the Manta Ray": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_034"
+  },
+  "Darkwood Buckler": {
+    "sheet": "dawnlike_items",
+    "sprite": "Shield_001"
+  },
+  "Darkwood Shield": {
+    "sheet": "dawnlike_items",
+    "sprite": "Shield_002"
+  },
+  "Demon Armor": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_001"
+  },
+  "Dragonhide Plate": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_012"
+  },
+  "Druid's Vestment": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_025"
+  },
+  "Dwarven Plate": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_040"
+  },
+  "Elven Chain": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_001"
+  },
+  "Eyes of Charming": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_003"
+  },
+  "Eyes of Doom": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_003"
+  },
+  "Eyes of the Eagle": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_003"
+  },
+  "Gauntlet of Rust": {
+    "sheet": "dawnlike_items",
+    "sprite": "Glove_002"
+  },
+  "Gauntlets of Fumbling": {
+    "sheet": "dawnlike_items",
+    "sprite": "Glove_001"
+  },
+  "Glove of Storing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Glove_003"
+  },
+  "Gloves of Arrow Snaring": {
+    "sheet": "dawnlike_items",
+    "sprite": "Glove_004"
+  },
+  "Gloves of Swimming and Climbing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Glove_002"
+  },
+  "Goggles of Minute Seeing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_004"
+  },
+  "Goggles of Night": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_004"
+  },
+  "Golembane Scarab": {
+    "sheet": "dawnlike_items",
+    "sprite": "Flesh_034"
+  },
+  "Greater Bracers of Archery": {
+    "sheet": "dawnlike_items",
+    "sprite": "Food_037"
+  },
+  "Hand of Glory": {
+    "sheet": "dawnlike_items",
+    "sprite": "Glove_002"
+  },
+  "Hand of the Mage": {
+    "sheet": "dawnlike_items",
+    "sprite": "Glove_004"
+  },
+  "Hat of Disguise": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_011"
+  },
+  "Headband of Alluring Charisma": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_013"
+  },
+  "Headband of Inspired Wisdom": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_013"
+  },
+  "Headband of Mental Prowess": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_013"
+  },
+  "Headband of Mental Superiority": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_013"
+  },
+  "Headband of Vast Intelligence": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_013"
+  },
+  "Helm of Brilliance": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_005"
+  },
+  "Helm of Comprehend Languages and Read Magic": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_008"
+  },
+  "Helm of Opposite Alignment": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_007"
+  },
+  "Helm of Telepathy": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_006"
+  },
+  "Helm of Teleportation": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_004"
+  },
+  "Helm of Underwater Action": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_002"
+  },
+  "Improved Ring of Climbing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_025"
+  },
+  "Improved Ring of Jumping": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_026"
+  },
+  "Improved Ring of Swimming": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_027"
+  },
+  "Lens of Detection": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_003"
+  },
+  "Lesser Bracers of Archery": {
+    "sheet": "dawnlike_items",
+    "sprite": "Food_037"
+  },
+  "Lion's Shield": {
+    "sheet": "dawnlike_items",
+    "sprite": "Shield_004"
+  },
+  "Major Cloak of Displacement": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_026"
+  },
+  "Major Crown of Blasting": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_015"
+  },
+  "Major Ring of Spell Storing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_028"
+  },
+  "Mantle of Faith": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_048"
+  },
+  "Mantle of Spell Resistance": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_049"
+  },
+  "Mask of the Skull": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_006"
+  },
+  "Medallion of Thought Projection": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_014"
+  },
+  "Medallion of Thoughts": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_015"
+  },
+  "Minor Cloak of Displacement": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_033"
+  },
+  "Minor Crown of Blasting": {
+    "sheet": "dawnlike_items",
+    "sprite": "Hat_014"
+  },
+  "Minor Ring of Spell Storing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_031"
+  },
+  "Mithral Full Plate of Speed": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_003"
+  },
+  "Mithral Heavy Shield": {
+    "sheet": "dawnlike_items",
+    "sprite": "Shield_005"
+  },
+  "Mithral Shirt": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_053"
+  },
+  "Monk's Robe": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_046"
+  },
+  "Necklace of Adaptation": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_004"
+  },
+  "Necklace of Fireballs": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_005"
+  },
+  "Necklace of Strangulation": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_006"
+  },
+  "Periapt of Foul Rotting": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_007"
+  },
+  "Periapt of Health": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_008"
+  },
+  "Periapt of Proof against Poison": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_009"
+  },
+  "Periapt of Wound Closure": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_010"
+  },
+  "Phylactery of Faithfulness": {
+    "sheet": "dawnlike_items",
+    "sprite": "Flesh_053"
+  },
+  "Phylactery of Negative Channeling": {
+    "sheet": "dawnlike_items",
+    "sprite": "Flesh_059"
+  },
+  "Phylactery of Positive Channeling": {
+    "sheet": "dawnlike_items",
+    "sprite": "Flesh_040"
+  },
+  "Plate Armor of the Deep": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_009"
+  },
+  "Poisonous Cloak": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_025"
+  },
+  "Rhino Hide": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_039"
+  },
+  "Ring of Animal Friendship": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_001"
+  },
+  "Ring of Blinking": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_002"
+  },
+  "Ring of Chameleon Power": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_003"
+  },
+  "Ring of Climbing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_004"
+  },
+  "Ring of Clumsiness": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_005"
+  },
+  "Ring of Counterspells": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_006"
+  },
+  "Ring of Djinni Calling": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_007"
+  },
+  "Ring of Elemental Command": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_008"
+  },
+  "Ring of Energy Resistance": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_009"
+  },
+  "Ring of Evasion": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_010"
+  },
+  "Ring of Feather Falling": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_011"
+  },
+  "Ring of Force Shield": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_012"
+  },
+  "Ring of Freedom of Movement": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_013"
+  },
+  "Ring of Friend Shield": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_014"
+  },
+  "Ring of Invisibility": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_015"
+  },
+  "Ring of Jumping": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_016"
+  },
+  "Ring of Mind Shielding": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_017"
+  },
+  "Ring of Protection": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_018"
+  },
+  "Ring of Regeneration": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_019"
+  },
+  "Ring of Shooting Stars": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_020"
+  },
+  "Ring of Spell Storing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_021"
+  },
+  "Ring of Spell Turning": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_022"
+  },
+  "Ring of Sustenance": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_023"
+  },
+  "Ring of Swimming": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_024"
+  },
+  "Ring of Telekinesis": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_025"
+  },
+  "Ring of Three Wishes": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_026"
+  },
+  "Ring of Water Walking": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_027"
+  },
+  "Ring of Wizardry": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_028"
+  },
+  "Ring of X-Ray Vision": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_029"
+  },
+  "Ring of the Ram": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_030"
+  },
+  "Robe of Blending": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_025"
+  },
+  "Robe of Bones": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_026"
+  },
+  "Robe of Eyes": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_027"
+  },
+  "Robe of Powerlessness": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_028"
+  },
+  "Robe of Scintillating Colors": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_029"
+  },
+  "Robe of Stars": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_031"
+  },
+  "Robe of Useful Items": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_032"
+  },
+  "Robe of Vermin": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_033"
+  },
+  "Robe of the Archmagi": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_034"
+  },
+  "Scarab of Death": {
+    "sheet": "dawnlike_items",
+    "sprite": "Flesh_007"
+  },
+  "Scarab of Protection": {
+    "sheet": "dawnlike_items",
+    "sprite": "Flesh_034"
+  },
+  "Slippers of Spider Climbing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Boot_001"
+  },
+  "Spined Shield": {
+    "sheet": "dawnlike_items",
+    "sprite": "Shield_005"
+  },
+  "Vest of Escape": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_033"
+  },
+  "Winged Boots": {
+    "sheet": "dawnlike_items",
+    "sprite": "Boot_005"
+  },
+  "Winged Shield": {
+    "sheet": "dawnlike_items",
+    "sprite": "Shield_002"
+  },
+  "Wings of Flying": {
+    "sheet": "dawnlike_items",
+    "sprite": "Armor_036"
+  },
+  "Alchemist's Lab": {
+    "sheet": "dawnlike_items",
+    "sprite": "Chest_014"
+  },
+  "Artisan's Tools": {
+    "sheet": "dawnlike_items",
+    "sprite": "Food_035"
+  },
+  "Backpack": {
+    "sheet": "dawnlike_items",
+    "sprite": "Chest_013"
+  },
+  "Barrel": {
+    "sheet": "dawnlike_items",
+    "sprite": "Chest_009"
+  },
+  "Basket": {
+    "sheet": "dawnlike_items",
+    "sprite": "Flesh_050"
+  },
+  "Bedroll": {
+    "sheet": "dawnlike_items",
+    "sprite": "Food_033"
+  },
+  "Bell": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_013"
+  },
+  "Bottle": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_016"
+  },
+  "Bucket": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_011"
+  },
+  "Caltrops": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_002"
+  },
+  "Candle": {
+    "sheet": "dawnlike_items",
+    "sprite": "Light_002"
+  },
+  "Chest": {
+    "sheet": "dawnlike_items",
+    "sprite": "Chest_002"
+  },
+  "Climber's Kit": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_019"
+  },
+  "Flask": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_038"
+  },
+  "Flint and Steel": {
+    "sheet": "dawnlike_items",
+    "sprite": "Chest_004"
+  },
+  "Grappling Hook": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_006"
+  },
+  "Hammer": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_032"
+  },
+  "Healer's Kit": {
+    "sheet": "dawnlike_items",
+    "sprite": "Food_035"
+  },
+  "Hemp Rope": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_019"
+  },
+  "Holly and Mistletoe": {
+    "sheet": "dawnlike_items",
+    "sprite": "Food_024"
+  },
+  "Masterwork Artisan's Tools": {
+    "sheet": "dawnlike_items",
+    "sprite": "Food_035"
+  },
+  "Masterwork Thieves' Tools": {
+    "sheet": "dawnlike_items",
+    "sprite": "Food_036"
+  },
+  "Miner's Pick": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_017"
+  },
+  "Scroll Case": {
+    "sheet": "dawnlike_items",
+    "sprite": "Chest_001"
+  },
+  "Sealing Wax": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_012"
+  },
+  "Sewing Needle": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_020"
+  },
+  "Shovel": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_028"
+  },
+  "Signet Ring": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ring_017"
+  },
+  "Silk Rope": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_019"
+  },
+  "Sledge": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_032"
+  },
+  "Soap": {
+    "sheet": "dawnlike_items",
+    "sprite": "Flesh_023"
+  },
+  "Spell Component Pouch": {
+    "sheet": "dawnlike_items",
+    "sprite": "Chest_013"
+  },
+  "Thieves' Tools": {
+    "sheet": "dawnlike_items",
+    "sprite": "Food_035"
+  },
+  "Torch": {
+    "sheet": "dawnlike_items",
+    "sprite": "Light_001"
+  },
+  "Trail Rations": {
+    "sheet": "dawnlike_items",
+    "sprite": "Food_034"
+  },
+  "Vial": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_038"
+  },
+  "Whetstone": {
+    "sheet": "dawnlike_items",
+    "sprite": "Rock_004"
+  },
+  "Wizard's Spellbook": {
+    "sheet": "dawnlike_items",
+    "sprite": "Book_040"
+  },
+  "Assassin's Dagger": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_010"
+  },
+  "Axe of the Dwarvish Lords": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_023"
+  },
+  "Bag of Devouring": {
+    "sheet": "dawnlike_items",
+    "sprite": "Chest_016"
+  },
+  "Bag of Holding": {
+    "sheet": "dawnlike_items",
+    "sprite": "Chest_014"
+  },
+  "Bag of Tricks": {
+    "sheet": "dawnlike_items",
+    "sprite": "Chest_013"
+  },
+  "Bead of Force": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_005"
+  },
+  "Berserking Sword": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_009"
+  },
+  "Blessed Book": {
+    "sheet": "dawnlike_items",
+    "sprite": "Book_013"
+  },
+  "Book of Infinite Spells": {
+    "sheet": "dawnlike_items",
+    "sprite": "Book_014"
+  },
+  "Bottle of Air": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_027"
+  },
+  "Candle of Invocation": {
+    "sheet": "dawnlike_items",
+    "sprite": "Light_001"
+  },
+  "Candle of Truth": {
+    "sheet": "dawnlike_items",
+    "sprite": "Light_002"
+  },
+  "Chime of Interruption": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_011"
+  },
+  "Chime of Opening": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_012"
+  },
+  "Codex of the Infinite Planes": {
+    "sheet": "dawnlike_items",
+    "sprite": "Book_021"
+  },
+  "Cold Iron Masterwork Longsword": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_013"
+  },
+  "Crystal Ball": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_002"
+  },
+  "Crystal Hypnosis Ball": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_002"
+  },
+  "Cube of Force": {
+    "sheet": "dawnlike_items",
+    "sprite": "Money_015"
+  },
+  "Cube of Frost Resistance": {
+    "sheet": "dawnlike_items",
+    "sprite": "Money_007"
+  },
+  "Dagger of Venom": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_002"
+  },
+  "Decanter of Endless Water": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_029"
+  },
+  "Deck of Illusions": {
+    "sheet": "dawnlike_items",
+    "sprite": "Book_022"
+  },
+  "Deck of Many Things": {
+    "sheet": "dawnlike_items",
+    "sprite": "Book_023"
+  },
+  "Drums of Panic": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_010"
+  },
+  "Dust of Appearance": {
+    "sheet": "dawnlike_items",
+    "sprite": "Rock_001"
+  },
+  "Dust of Disappearance": {
+    "sheet": "dawnlike_items",
+    "sprite": "Rock_002"
+  },
+  "Dust of Dryness": {
+    "sheet": "dawnlike_items",
+    "sprite": "Rock_001"
+  },
+  "Dust of Sneezing and Choking": {
+    "sheet": "dawnlike_items",
+    "sprite": "Rock_002"
+  },
+  "Dust of Tracelessness": {
+    "sheet": "dawnlike_items",
+    "sprite": "Rock_001"
+  },
+  "Efficient Quiver": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_013"
+  },
+  "Efreeti Bottle": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_040"
+  },
+  "Elemental Gem": {
+    "sheet": "dawnlike_items",
+    "sprite": "Money_019"
+  },
+  "Elixir of Fire Breath": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_030"
+  },
+  "Elixir of Hiding": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_031"
+  },
+  "Elixir of Love": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_032"
+  },
+  "Elixir of Swimming": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_033"
+  },
+  "Elixir of Truth": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_034"
+  },
+  "Elixir of Tumbling": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_035"
+  },
+  "Elixir of Vision": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_036"
+  },
+  "Eversmoking Bottle": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_028"
+  },
+  "Flask of Curses": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_039"
+  },
+  "Gem of Brightness": {
+    "sheet": "dawnlike_items",
+    "sprite": "Money_026"
+  },
+  "Gem of Seeing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Money_023"
+  },
+  "Greater Horn of Blasting": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_008"
+  },
+  "Handy Haversack": {
+    "sheet": "dawnlike_items",
+    "sprite": "Chest_014"
+  },
+  "Harp of Charming": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_012"
+  },
+  "Holy Avenger": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_003"
+  },
+  "Horn of Blasting": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_005"
+  },
+  "Horn of Fog": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_005"
+  },
+  "Horn of Goodness/Evil": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_005"
+  },
+  "Horn of Valhalla": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_005"
+  },
+  "Immovable Rod": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_006"
+  },
+  "Incense of Meditation": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_028"
+  },
+  "Incense of Obsession": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_028"
+  },
+  "Iron Bands of Binding": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_028"
+  },
+  "Iron Flask": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_039"
+  },
+  "Javelin of Lightning": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_005"
+  },
+  "Lantern of Revealing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Light_004"
+  },
+  "Life-Drinker": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_009"
+  },
+  "Luck Blade": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_008"
+  },
+  "Lyre of Building": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_011"
+  },
+  "Mace of Blood": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_007"
+  },
+  "Mace of Smiting": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_007"
+  },
+  "Mace of Terror": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_007"
+  },
+  "Manual of Bodily Health": {
+    "sheet": "dawnlike_items",
+    "sprite": "Book_026"
+  },
+  "Manual of Gainful Exercise": {
+    "sheet": "dawnlike_items",
+    "sprite": "Book_027"
+  },
+  "Manual of Quickness of Action": {
+    "sheet": "dawnlike_items",
+    "sprite": "Book_028"
+  },
+  "Masterwork Silver Dagger": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_004"
+  },
+  "Maul of the Titans": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_020"
+  },
+  "Mirror of Life Trapping": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_001"
+  },
+  "Mirror of Opposition": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_001"
+  },
+  "Oathbow": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_010"
+  },
+  "Orb of Storms": {
+    "sheet": "dawnlike_items",
+    "sprite": "Food_007"
+  },
+  "Pearl of Power": {
+    "sheet": "dawnlike_items",
+    "sprite": "Money_024"
+  },
+  "Pearl of the Sirines": {
+    "sheet": "dawnlike_items",
+    "sprite": "Money_024"
+  },
+  "Philosopher's Stone": {
+    "sheet": "dawnlike_items",
+    "sprite": "Money_017"
+  },
+  "Pipes of Haunting": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_004"
+  },
+  "Pipes of Sounding": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_004"
+  },
+  "Pipes of the Sewers": {
+    "sheet": "dawnlike_items",
+    "sprite": "Music_004"
+  },
+  "Potion of Poison": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_006"
+  },
+  "Rapier of Puncturing": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_008"
+  },
+  "Restorative Ointment": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_025"
+  },
+  "Ring Gates": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_018"
+  },
+  "Rod of Absorption": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_004"
+  },
+  "Rod of Alertness": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_005"
+  },
+  "Rod of Cancellation": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_006"
+  },
+  "Rod of Enemy Detection": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_007"
+  },
+  "Rod of Flailing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_008"
+  },
+  "Rod of Flame Extinguishing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_009"
+  },
+  "Rod of Metal and Mineral Detection": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_010"
+  },
+  "Rod of Negation": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_011"
+  },
+  "Rod of Rulership": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_012"
+  },
+  "Rod of Security": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_013"
+  },
+  "Rod of Splendor": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_014"
+  },
+  "Rod of Thunder and Lightning": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_015"
+  },
+  "Rod of Withering": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_016"
+  },
+  "Rod of Wonder": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_017"
+  },
+  "Rod of the Python": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_018"
+  },
+  "Rod of the Viper": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_019"
+  },
+  "Rope of Climbing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_019"
+  },
+  "Rope of Entanglement": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_019"
+  },
+  "Salve of Slipperiness": {
+    "sheet": "dawnlike_items",
+    "sprite": "Scroll_027"
+  },
+  "Scabbard of Keen Edges": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_013"
+  },
+  "Screaming Bolt": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_021"
+  },
+  "Shatterspike": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_016"
+  },
+  "Slaying Arrow": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_017"
+  },
+  "Sleep Arrow": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_018"
+  },
+  "Sovereign Glue": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_013"
+  },
+  "Sphere of Annihilation": {
+    "sheet": "dawnlike_items",
+    "sprite": "Food_003"
+  },
+  "Staff of Abjuration": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_023"
+  },
+  "Staff of Charming": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_024"
+  },
+  "Staff of Conjuration": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_025"
+  },
+  "Staff of Defense": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_026"
+  },
+  "Staff of Divination": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_027"
+  },
+  "Staff of Earth and Stone": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_028"
+  },
+  "Staff of Enchantment": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_029"
+  },
+  "Staff of Evocation": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_030"
+  },
+  "Staff of Fire": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_031"
+  },
+  "Staff of Frost": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_032"
+  },
+  "Staff of Healing": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_033"
+  },
+  "Staff of Illumination": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_034"
+  },
+  "Staff of Illusion": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_035"
+  },
+  "Staff of Life": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_036"
+  },
+  "Staff of Necromancy": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_037"
+  },
+  "Staff of Passage": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_038"
+  },
+  "Staff of Power": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_039"
+  },
+  "Staff of Size Alteration": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_040"
+  },
+  "Staff of Swarming Insects": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_041"
+  },
+  "Staff of Transmutation": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_042"
+  },
+  "Staff of the Magi": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_043"
+  },
+  "Staff of the Woodlands": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_044"
+  },
+  "Stone Salve": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_023"
+  },
+  "Stone of Alarm": {
+    "sheet": "dawnlike_items",
+    "sprite": "Money_028"
+  },
+  "Stone of Good Luck": {
+    "sheet": "dawnlike_items",
+    "sprite": "Money_033"
+  },
+  "Stone of Weight (Loadstone)": {
+    "sheet": "dawnlike_items",
+    "sprite": "Money_035"
+  },
+  "Strand of Prayer Beads": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_018"
+  },
+  "Sun Blade": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_003"
+  },
+  "Sustaining Spoon": {
+    "sheet": "dawnlike_items",
+    "sprite": "Tool_016"
+  },
+  "Sword of Life Stealing": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_001"
+  },
+  "Sword of Subtlety": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_002"
+  },
+  "Sword of the Planes": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_004"
+  },
+  "Sylvan Scimitar": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_012"
+  },
+  "Talisman of Pure Good": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_011"
+  },
+  "Talisman of Ultimate Evil": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_012"
+  },
+  "Talisman of the Sphere": {
+    "sheet": "dawnlike_items",
+    "sprite": "Amulet_013"
+  },
+  "The Shadowstaff": {
+    "sheet": "dawnlike_items",
+    "sprite": "Wand_028"
+  },
+  "Tome of Clear Thought": {
+    "sheet": "dawnlike_items",
+    "sprite": "Book_033"
+  },
+  "Tome of Leadership and Influence": {
+    "sheet": "dawnlike_items",
+    "sprite": "Book_034"
+  },
+  "Tome of Understanding": {
+    "sheet": "dawnlike_items",
+    "sprite": "Book_035"
+  },
+  "Trident of Warning": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_016"
+  },
+  "Unguent of Timelessness": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_032"
+  },
+  "Universal Solvent": {
+    "sheet": "dawnlike_items",
+    "sprite": "Potion_007"
+  },
+  "Vacuous Grimoire": {
+    "sheet": "dawnlike_items",
+    "sprite": "Book_022"
+  },
+  "Arrows": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_015"
+  },
+  "Bastard Sword": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_010"
+  },
+  "Battleaxe": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_025"
+  },
+  "Bolas": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_029"
+  },
+  "Bolts": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_019"
+  },
+  "Club": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_013"
+  },
+  "Composite Longbow": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_012"
+  },
+  "Composite Shortbow": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_011"
+  },
+  "Dagger": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_001"
+  },
+  "Dart": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_021"
+  },
+  "Dire Flail": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_030"
+  },
+  "Dwarven Waraxe": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_008"
+  },
+  "Elven Curve Blade": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_012"
+  },
+  "Falchion": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_005"
+  },
+  "Flail": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_030"
+  },
+  "Glaive": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_021"
+  },
+  "Gnome Hooked Hammer": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_022"
+  },
+  "Greataxe": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_025"
+  },
+  "Greatclub": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_014"
+  },
+  "Greatsword": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_010"
+  },
+  "Guisarme": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_017"
+  },
+  "Halberd": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_020"
+  },
+  "Hand Crossbow": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_014"
+  },
+  "Handaxe": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_007"
+  },
+  "Heavy Crossbow": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_014"
+  },
+  "Heavy Flail": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_030"
+  },
+  "Heavy Mace": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_028"
+  },
+  "Heavy Pick": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_017"
+  },
+  "Heavy Steel Shield": {
+    "sheet": "dawnlike_items",
+    "sprite": "Shield_005"
+  },
+  "Heavy Wooden Shield": {
+    "sheet": "dawnlike_items",
+    "sprite": "Shield_004"
+  },
+  "Javelin": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_001"
+  },
+  "Kukri": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_008"
+  },
+  "Lance": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_033"
+  },
+  "Light Crossbow": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_014"
+  },
+  "Light Hammer": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_032"
+  },
+  "Light Pick": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_016"
+  },
+  "Longbow": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_010"
+  },
+  "Longspear": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_014"
+  },
+  "Longsword": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_001"
+  },
+  "Mace": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_032"
+  },
+  "Morningstar": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_019"
+  },
+  "Nunchaku": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_015"
+  },
+  "Orc Double Axe": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_024"
+  },
+  "Punching Dagger": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_005"
+  },
+  "Quarterstaff": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_006"
+  },
+  "Ranseur": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_020"
+  },
+  "Rapier": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_006"
+  },
+  "Repeating Heavy Crossbow": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_014"
+  },
+  "Repeating Light Crossbow": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_014"
+  },
+  "Sai": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_004"
+  },
+  "Sap": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_013"
+  },
+  "Scimitar": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_012"
+  },
+  "Scythe": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_027"
+  },
+  "Shortbow": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_011"
+  },
+  "Shortspear": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_004"
+  },
+  "Shortsword": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_002"
+  },
+  "Sickle": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_019"
+  },
+  "Sling": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_013"
+  },
+  "Sling Bullets": {
+    "sheet": "dawnlike_items",
+    "sprite": "Ammo_006"
+  },
+  "Spear": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_002"
+  },
+  "Spiked Chain": {
+    "sheet": "dawnlike_items",
+    "sprite": "ShortWep_020"
+  },
+  "Starknife": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_003"
+  },
+  "Throwing Axe": {
+    "sheet": "dawnlike_items",
+    "sprite": "MedWep_007"
+  },
+  "Trident": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_016"
+  },
+  "Two-Bladed Sword": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_021"
+  },
+  "Warhammer": {
+    "sheet": "dawnlike_items",
+    "sprite": "LongWep_032"
+  }
+}

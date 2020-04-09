@@ -1,0 +1,522 @@
+Banded Mail,armour,97
+Breastplate,armour,83
+Buckler,armour,580
+Chain Shirt,armour,99
+Chainmail,armour,87
+Full Plate,armour,88
+Half-Plate,armour,86
+Hide,armour,103
+Leather,armour,89
+Light Steel Shield,armour,581
+Light Wooden Shield,armour,585
+Padded,armour,81
+Scale Mail,armour,84
+Splint Mail,armour,85
+Studded Leather,armour,90
+Tower Shield,armour,584
+Acid,consumable,475
+Alchemist's Fire,consumable,477
+Antitoxin,consumable,476
+Everburning Torch,consumable,435
+Holy Water,consumable,461
+Smokestick,consumable,431
+Sunrod,consumable,432
+Tanglefoot Bag,consumable,191
+Thunderstone,consumable,407
+Tindertwig,consumable,224
+Absorbing Shield,equippable,582
+Adamantine Breastplate,equippable,53
+Amulet of Inescapable Location,equippable,29
+Amulet of Mighty Fists,equippable,30
+Amulet of Natural Armor,equippable,31
+Amulet of Proof against Detection and Location,equippable,32
+Amulet of the Planes,equippable,33
+Armor of Arrow Attraction,equippable,47
+Armor of Rage,equippable,45
+Banded Mail of Luck,equippable,102
+Belt of Dwarvenkind,equippable,315
+Belt of Giant Strength,equippable,315
+Belt of Incredible Dexterity,equippable,315
+Belt of Mighty Constitution,equippable,315
+Belt of Physical Might,equippable,315
+Belt of Physical Perfection,equippable,315
+Boots of Dancing,equippable,169
+Boots of Elvenkind,equippable,172
+Boots of Levitation,equippable,173
+Boots of Speed,equippable,174
+Boots of Striding and Springing,equippable,175
+Boots of Teleportation,equippable,176
+Boots of the Winterlands,equippable,178
+Bracelet of Friends,equippable,527
+Bracers of Armor,equippable,293
+Bracers of Defenselessness,equippable,293
+Breastplate of Command,equippable,52
+Brooch of Shielding,equippable,38
+Cape of the Mountebank,equippable,71
+Caster's Shield,equippable,583
+Celestial Armor,equippable,54
+Circlet of Persuasion,equippable,516
+Cloak of Arachnida,equippable,72
+Cloak of Elvenkind,equippable,73
+Cloak of Etherealness,equippable,75
+Cloak of Resistance,equippable,76
+Cloak of the Bat,equippable,77
+Cloak of the Manta Ray,equippable,78
+Darkwood Buckler,equippable,580
+Darkwood Shield,equippable,581
+Demon Armor,equippable,45
+,,
+Dragonhide Plate,equippable,56
+Druid's Vestment,equippable,69
+Dwarven Plate,equippable,84
+Elven Chain,equippable,28
+Eyes of Charming,equippable,609
+Eyes of Doom,equippable,609
+Eyes of the Eagle,equippable,609
+Gauntlet of Rust,equippable,300
+Gauntlets of Fumbling,equippable,299
+Glove of Storing,equippable,301
+Gloves of Arrow Snaring,equippable,302
+Gloves of Swimming and Climbing,equippable,300
+Goggles of Minute Seeing,equippable,610
+Goggles of Night,equippable,610
+Golembane Scarab,equippable,228
+Greater Bracers of Archery,equippable,293
+Hand of Glory,equippable,300
+Hand of the Mage,equippable,302
+Hat of Disguise,equippable,313
+Headband of Alluring Charisma,equippable,315
+Headband of Inspired Wisdom,equippable,315
+Headband of Mental Prowess,equippable,315
+Headband of Mental Superiority,equippable,315
+Headband of Vast Intelligence,equippable,315
+Helm of Brilliance,equippable,307
+Helm of Comprehend Languages and Read Magic,equippable,310
+Helm of Opposite Alignment,equippable,309
+Helm of Telepathy,equippable,308
+Helm of Teleportation,equippable,306
+Helm of Underwater Action,equippable,304
+,,
+,,
+Improved Ring of Climbing,equippable,508
+Improved Ring of Jumping,equippable,509
+Improved Ring of Swimming,equippable,510
+Lens of Detection,equippable,609
+Lesser Bracers of Archery,equippable,293
+Lion's Shield,equippable,583
+Major Cloak of Displacement,equippable,70
+Major Crown of Blasting,equippable,317
+Major Ring of Spell Storing,equippable,511
+Mantle of Faith,equippable,92
+Mantle of Spell Resistance,equippable,93
+Mask of the Skull,equippable,308
+Medallion of Thought Projection,equippable,41
+Medallion of Thoughts,equippable,42
+Minor Cloak of Displacement,equippable,77
+Minor Crown of Blasting,equippable,316
+Minor Ring of Spell Storing,equippable,514
+Mithral Full Plate of Speed,equippable,47
+Mithral Heavy Shield,equippable,584
+Mithral Shirt,equippable,97
+Monk's Robe,equippable,90
+Necklace of Adaptation,equippable,31
+Necklace of Fireballs,equippable,32
+Necklace of Strangulation,equippable,33
+Periapt of Foul Rotting,equippable,34
+Periapt of Health,equippable,35
+Periapt of Proof against Poison,equippable,36
+Periapt of Wound Closure,equippable,37
+Phylactery of Faithfulness,equippable,247
+Phylactery of Negative Channeling,equippable,253
+Phylactery of Positive Channeling,equippable,234
+Plate Armor of the Deep,equippable,53
+Poisonous Cloak,equippable,69
+Rhino Hide,equippable,83
+Ring of Animal Friendship,equippable,484
+Ring of Blinking,equippable,485
+Ring of Chameleon Power,equippable,486
+Ring of Climbing,equippable,487
+Ring of Clumsiness,equippable,488
+Ring of Counterspells,equippable,489
+Ring of Djinni Calling,equippable,490
+Ring of Elemental Command,equippable,491
+Ring of Energy Resistance,equippable,492
+Ring of Evasion,equippable,493
+Ring of Feather Falling,equippable,494
+Ring of Force Shield,equippable,495
+Ring of Freedom of Movement,equippable,496
+Ring of Friend Shield,equippable,497
+Ring of Invisibility,equippable,498
+Ring of Jumping,equippable,499
+Ring of Mind Shielding,equippable,500
+Ring of Protection,equippable,501
+Ring of Regeneration,equippable,502
+Ring of Shooting Stars,equippable,503
+Ring of Spell Storing,equippable,504
+Ring of Spell Turning,equippable,505
+Ring of Sustenance,equippable,506
+Ring of Swimming,equippable,507
+Ring of Telekinesis,equippable,508
+Ring of Three Wishes,equippable,509
+Ring of Water Walking,equippable,510
+Ring of Wizardry,equippable,511
+Ring of X-Ray Vision,equippable,512
+Ring of the Ram,equippable,513
+Robe of Blending,equippable,69
+Robe of Bones,equippable,70
+Robe of Eyes,equippable,71
+Robe of Powerlessness,equippable,72
+Robe of Scintillating Colors,equippable,73
+Robe of Stars,equippable,75
+Robe of Useful Items,equippable,76
+Robe of Vermin,equippable,77
+Robe of the Archmagi,equippable,78
+Scarab of Death,equippable,201
+Scarab of Protection,equippable,228
+Slippers of Spider Climbing,equippable,169
+Spined Shield,equippable,584
+Vest of Escape,equippable,77
+Winged Boots,equippable,173
+Winged Shield,equippable,581
+Wings of Flying,equippable,80
+Alchemist's Lab,gear,192
+Artisan's Tools,gear,291
+Backpack,gear,191
+Barrel,gear,187
+Basket,gear,244
+Bedroll,gear,289
+Bell,gear,441
+,,
+,,
+,,
+,,
+Bottle,gear,459
+Bucket,gear,617
+,,
+Caltrops,gear,1
+Candle,gear,322
+,,
+,,
+,,
+Chest,gear,180
+,,
+Climber's Kit,gear,625
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Flask,gear,481
+Flint and Steel,gear,182
+Grappling Hook,gear,612
+,,
+Hammer,gear,359
+Healer's Kit,gear,291
+Hemp Rope,gear,625
+Holly and Mistletoe,gear,280
+,,
+,,
+,,
+,,
+,,
+,,
+Masterwork Artisan's Tools,gear,291
+Masterwork Thieves' Tools,gear,292
+,,
+,,
+Miner's Pick,gear,603
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Scroll Case,gear,179
+Sealing Wax,gear,618
+Sewing Needle,gear,626
+Shovel,gear,355
+,,
+Signet Ring,gear,500
+Silk Rope,gear,625
+Sledge,gear,359
+Soap,gear,217
+Spell Component Pouch,gear,191
+,,
+,,
+,,
+Thieves' Tools,gear,291
+Torch,gear,321
+Trail Rations,gear,290
+Vial,gear,481
+,,
+,,
+Whetstone,gear,531
+Wizard's Spellbook,gear,143
+,,
+,,
+,,
+,,
+Assassin's Dagger,misc,596
+Axe of the Dwarvish Lords,misc,350
+Bag of Devouring,misc,194
+Bag of Holding,misc,192
+Bag of Tricks,misc,191
+Bead of Force,misc,4
+Berserking Sword,misc,336
+Blessed Book,misc,116
+Book of Infinite Spells,misc,117
+Bottle of Air,misc,470
+,,
+,,
+Candle of Invocation,misc,321
+Candle of Truth,misc,322
+,,
+Chime of Interruption,misc,439
+Chime of Opening,misc,440
+Codex of the Infinite Planes,misc,124
+Cold Iron Masterwork Longsword,misc,340
+Crystal Ball,misc,608
+Crystal Hypnosis Ball,misc,608
+Cube of Force,misc,383
+Cube of Frost Resistance,misc,375
+,,
+,,
+Dagger of Venom,misc,588
+Darkskull,misc,
+Decanter of Endless Water,misc,472
+Deck of Illusions,misc,125
+Deck of Many Things,misc,126
+Drums of Panic,misc,438
+Dust of Appearance,misc,528
+Dust of Disappearance,misc,529
+Dust of Dryness,misc,528
+Dust of Sneezing and Choking,misc,529
+Dust of Tracelessness,misc,528
+,,
+Efficient Quiver,misc,12
+Efreeti Bottle,misc,483
+Elemental Gem,misc,387
+Elixir of Fire Breath,misc,473
+Elixir of Hiding,misc,474
+Elixir of Love,misc,475
+Elixir of Swimming,misc,476
+Elixir of Truth,misc,477
+Elixir of Tumbling,misc,478
+Elixir of Vision,misc,479
+,,
+,,
+Eversmoking Bottle,misc,471
+,,
+,,
+,,
+Flask of Curses,misc,482
+,,
+,,
+Gem of Brightness,misc,394
+Gem of Seeing,misc,391
+Greater Horn of Blasting,misc,436
+Handy Haversack,misc,192
+Harp of Charming,misc,440
+Holy Avenger,misc,363
+Horn of Blasting,misc,433
+Horn of Fog,misc,433
+Horn of Goodness/Evil,misc,433
+Horn of Valhalla,misc,433
+Immovable Rod,misc,632
+Incense of Meditation,misc,654
+Incense of Obsession,misc,654
+,,
+Iron Bands of Binding,misc,654
+Iron Flask,misc,482
+Javelin of Lightning,misc,332
+Lantern of Revealing,misc,324
+Life-Drinker,misc,336
+Luck Blade,misc,335
+Lyre of Building,misc,439
+Mace of Blood,misc,334
+Mace of Smiting,misc,334
+Mace of Terror,misc,334
+Manual of Bodily Health,misc,129
+Manual of Gainful Exercise,misc,130
+Manual of Quickness of Action,misc,131
+,,
+Masterwork Silver Dagger,misc,590
+,,
+Maul of the Titans,misc,606
+,,
+Mirror of Life Trapping,misc,607
+Mirror of Opposition,misc,607
+,,
+,,
+Oathbow,misc,9
+Orb of Storms,misc,263
+Pearl of Power,misc,392
+Pearl of the Sirines,misc,392
+Philosopher's Stone,misc,385
+Pipes of Haunting,misc,432
+Pipes of Sounding,misc,432
+Pipes of the Sewers,misc,432
+,,
+Potion of Poison,misc,449
+,,
+Rapier of Puncturing,misc,594
+Restorative Ointment,misc,468
+Ring Gates,misc,624
+Rod of Absorption,misc,630
+Rod of Alertness,misc,631
+Rod of Cancellation,misc,632
+Rod of Enemy Detection,misc,633
+Rod of Flailing,misc,634
+Rod of Flame Extinguishing,misc,635
+Rod of Metal and Mineral Detection,misc,636
+Rod of Negation,misc,637
+Rod of Rulership,misc,638
+Rod of Security,misc,639
+Rod of Splendor,misc,640
+Rod of Thunder and Lightning,misc,641
+Rod of Withering,misc,642
+Rod of Wonder,misc,643
+Rod of the Python,misc,644
+Rod of the Viper,misc,645
+Rope of Climbing,misc,625
+Rope of Entanglement,misc,625
+Salve of Slipperiness,misc,562
+Scabbard of Keen Edges,misc,619
+Screaming Bolt,misc,20
+Shatterspike,misc,602
+,,
+,,
+,,
+Slaying Arrow,misc,16
+Sleep Arrow,misc,17
+Sovereign Glue,misc,456
+Sphere of Annihilation,misc,259
+Staff of Abjuration,misc,649
+Staff of Charming,misc,650
+Staff of Conjuration,misc,651
+Staff of Defense,misc,652
+Staff of Divination,misc,653
+Staff of Earth and Stone,misc,654
+Staff of Enchantment,misc,655
+Staff of Evocation,misc,656
+Staff of Fire,misc,657
+Staff of Frost,misc,658
+Staff of Healing,misc,659
+Staff of Illumination,misc,660
+Staff of Illusion,misc,661
+Staff of Life,misc,662
+Staff of Necromancy,misc,663
+Staff of Passage,misc,664
+Staff of Power,misc,665
+Staff of Size Alteration,misc,666
+Staff of Swarming Insects,misc,667
+Staff of Transmutation,misc,668
+Staff of the Magi,misc,669
+Staff of the Woodlands,misc,670
+Stone Salve,misc,466
+Stone of Alarm,misc,396
+Stone of Good Luck,misc,401
+Stone of Weight (Loadstone),misc,403
+Strand of Prayer Beads,misc,624
+Sun Blade,misc,363
+Sustaining Spoon,misc,622
+Sword of Life Stealing,misc,361
+Sword of Subtlety,misc,362
+Sword of the Planes,misc,364
+Sylvan Scimitar,misc,339
+Talisman of Pure Good,misc,38
+Talisman of Ultimate Evil,misc,39
+Talisman of the Sphere,misc,40
+The Shadowstaff,misc,654
+Tome of Clear Thought,misc,136
+Tome of Leadership and Influence,misc,137
+Tome of Understanding,misc,138
+,,
+Trident of Warning,misc,343
+Unguent of Timelessness,misc,475
+Universal Solvent,misc,450
+Vacuous Grimoire,misc,125
+,,
+,,
+Arrows,weapon,14
+Bastard Sword,weapon,337
+Battleaxe,weapon,352
+,,
+,,
+Bolas,weapon,356
+Bolts,weapon,18
+Club,weapon,599
+Composite Longbow,weapon,11
+Composite Shortbow,weapon,10
+Dagger,weapon,587
+Dart,weapon,20
+Dire Flail,weapon,357
+,,
+Dwarven Waraxe,weapon,368
+Elven Curve Blade,weapon,339
+Falchion,weapon,365
+Flail,weapon,357
+Glaive,weapon,348
+Gnome Hooked Hammer,weapon,349
+Greataxe,weapon,352
+Greatclub,weapon,600
+Greatsword,weapon,337
+Guisarme,weapon,344
+Halberd,weapon,347
+,,
+Hand Crossbow,weapon,13
+Handaxe,weapon,367
+Heavy Crossbow,weapon,13
+Heavy Flail,weapon,357
+Heavy Mace,weapon,355
+Heavy Pick,weapon,603
+Heavy Steel Shield,weapon,584
+Heavy Wooden Shield,weapon,583
+Javelin,weapon,328
+,,
+Kukri,weapon,335
+Lance,weapon,360
+Light Crossbow,weapon,13
+Light Hammer,weapon,359
+Light Pick,weapon,602
+Longbow,weapon,9
+Longspear,weapon,341
+Longsword,weapon,361
+Mace,weapon,359
+Morningstar,weapon,605
+,,
+Nunchaku,weapon,601
+Orc Double Axe,weapon,351
+Punching Dagger,weapon,365
+Quarterstaff,weapon,333
+Ranseur,weapon,347
+Rapier,weapon,366
+Repeating Heavy Crossbow,weapon,13
+Repeating Light Crossbow,weapon,13
+Sai,weapon,364
+Sap,weapon,599
+Scimitar,weapon,339
+Scythe,weapon,354
+Shortbow,weapon,10
+Shortspear,weapon,331
+Shortsword,weapon,362
+,,
+,,
+Sickle,weapon,346
+Sling,weapon,12
+Sling Bullets,weapon,5
+Spear,weapon,329
+Spiked Chain,weapon,606
+Starknife,weapon,363
+Throwing Axe,weapon,367
+Trident,weapon,343
+Two-Bladed Sword,weapon,348
+Warhammer,weapon,359

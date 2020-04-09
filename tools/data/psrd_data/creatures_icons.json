@@ -1,0 +1,1150 @@
+{
+  "Aboleth": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_021"
+  },
+  "Choker": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_021"
+  },
+  "Chuul": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_019"
+  },
+  "Cloaker": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Avian_012"
+  },
+  "Dark Naga": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_008"
+  },
+  "Drider": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_017"
+  },
+  "Ettercap": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Plant_031"
+  },
+  "Froghemoth": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_037"
+  },
+  "Gibbering Mouther": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Slime_005"
+  },
+  "Guardian Naga": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_041"
+  },
+  "Intellect Devourer": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Slime_003"
+  },
+  "Mimic": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_039"
+  },
+  "Neothelid": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_036"
+  },
+  "Otyugh": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_026"
+  },
+  "Roper": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_033"
+  },
+  "Rust Monster": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_059"
+  },
+  "Spirit Naga": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_044"
+  },
+  "Will-o'-Wisp": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_044"
+  },
+  "Bat Swarm": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Avian_075"
+  },
+  "Boar": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Quadraped_005"
+  },
+  "Cheetah Cat": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Cat_002"
+  },
+  "Constrictor Snake": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_040"
+  },
+  "Crocodile": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_057"
+  },
+  "Dire Ape": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Misc_018"
+  },
+  "Dire Bat": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Avian_077"
+  },
+  "Dire Bear": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Cat_015"
+  },
+  "Dire Boar": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Quadraped_005"
+  },
+  "Dire Crocodile": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_058"
+  },
+  "Dire Hyena": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Cat_003"
+  },
+  "Dire Lion": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Cat_005"
+  },
+  "Dire Rat": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Rodent_009"
+  },
+  "Dire Shark": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_010"
+  },
+  "Dire Tiger": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Cat_004"
+  },
+  "Dire Wolf": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Dog_008"
+  },
+  "Dire Wolverine": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Misc_002"
+  },
+  "Dog": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Dog_007"
+  },
+  "Dolphin": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_012"
+  },
+  "Eagle": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Avian_053"
+  },
+  "Electric Eel": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_018"
+  },
+  "Elephant": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Quadraped_044"
+  },
+  "Giant Frilled Lizard": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_054"
+  },
+  "Giant Frog": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_037"
+  },
+  "Giant Moray Eel": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_015"
+  },
+  "Giant Octopus": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_022"
+  },
+  "Giant Squid": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_008"
+  },
+  "Goblin Dog": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Dog_014"
+  },
+  "Gorilla Ape": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Misc_016"
+  },
+  "Grizzly Bear": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Cat_015"
+  },
+  "Horse": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Quadraped_015"
+  },
+  "Hyena": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Dog_009"
+  },
+  "Leopard Cat": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Cat_002"
+  },
+  "Lion": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Cat_005"
+  },
+  "Mastodon Elephant": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Quadraped_045"
+  },
+  "Monitor Lizard": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_053"
+  },
+  "Octopus": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_022"
+  },
+  "Orca Dolphin": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_013"
+  },
+  "Poison Frog": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_053"
+  },
+  "Pony Horse": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Quadraped_015"
+  },
+  "Rat Swarm": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Rodent_006"
+  },
+  "Rhinoceros": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Quadraped_046"
+  },
+  "Riding Dog": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Dog_013"
+  },
+  "Shark": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_009"
+  },
+  "Tiger": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Cat_004"
+  },
+  "Venomous Snake": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_038"
+  },
+  "Wolf": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Dog_020"
+  },
+  "Wolverine": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Misc_001"
+  },
+  "Woolly Rhinoceros": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Quadraped_044"
+  },
+  "Clay Golem": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_009"
+  },
+  "Flesh Golem": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_008"
+  },
+  "Ice Golem": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_011"
+  },
+  "Iron Golem": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_012"
+  },
+  "Stone Golem": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_010"
+  },
+  "Wood Golem": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_007"
+  },
+  "Adult Black Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_018"
+  },
+  "Adult Blue Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_029"
+  },
+  "Adult Brass Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_024"
+  },
+  "Adult Bronze Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_026"
+  },
+  "Adult Copper Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_025"
+  },
+  "Adult Gold Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_014"
+  },
+  "Adult Green Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_008"
+  },
+  "Adult Red Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_028"
+  },
+  "Adult Silver Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_030"
+  },
+  "Adult White Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_020"
+  },
+  "Ancient Black Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_018"
+  },
+  "Ancient Blue Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_029"
+  },
+  "Ancient Brass Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_024"
+  },
+  "Ancient Bronze Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_026"
+  },
+  "Ancient Copper Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_025"
+  },
+  "Ancient Gold Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_014"
+  },
+  "Ancient Green Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_008"
+  },
+  "Ancient Red Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_028"
+  },
+  "Ancient Silver Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_030"
+  },
+  "Ancient White Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_020"
+  },
+  "Crag Linnorm": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_003"
+  },
+  "Dracolisk": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_003"
+  },
+  "Dragon Turtle": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_003"
+  },
+  "Ice Linnorm": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_003"
+  },
+  "Pseudodragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_003"
+  },
+  "Tarn Linnorm": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_003"
+  },
+  "Wyvern": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_004"
+  },
+  "Young Black Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_018"
+  },
+  "Young Blue Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_029"
+  },
+  "Young Brass Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_024"
+  },
+  "Young Bronze Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_026"
+  },
+  "Young Copper Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_025"
+  },
+  "Young Gold Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_014"
+  },
+  "Young Green Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_008"
+  },
+  "Young Red Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_028"
+  },
+  "Young Silver Metallic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_030"
+  },
+  "Young White Chromatic Dragon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_020"
+  },
+  "Dryad": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_046"
+  },
+  "Mite": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_020"
+  },
+  "Nymph": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_046"
+  },
+  "Pixie": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_021"
+  },
+  "Satyr": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_075"
+  },
+  "Boggard": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Plant_030"
+  },
+  "Bugbear": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_048"
+  },
+  "Cloud Giant": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_013"
+  },
+  "Cyclops": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_010"
+  },
+  "Dark Creeper": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_035"
+  },
+  "Dark Stalker": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_033"
+  },
+  "Drow": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Player_046"
+  },
+  "Drow Noble": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Player_027"
+  },
+  "Duergar": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Player_068"
+  },
+  "Ettin": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_021"
+  },
+  "Fire Giant": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_023"
+  },
+  "Frost Giant": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_022"
+  },
+  "Gnoll": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Rodent_005"
+  },
+  "Goblin": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Player_060"
+  },
+  "Hill Giant": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_024"
+  },
+  "Hobgoblin": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Player_060"
+  },
+  "Kobold": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Player_069"
+  },
+  "Lizardfolk": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Player_073"
+  },
+  "Merfolk": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_048"
+  },
+  "Ogre": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_109"
+  },
+  "Orc": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Player_065"
+  },
+  "Stone Giant": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_010"
+  },
+  "Storm Giant": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_014"
+  },
+  "Svirfneblin": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Player_053"
+  },
+  "Tengu": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_095"
+  },
+  "Troglodyte": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Player_076"
+  },
+  "Troll": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Misc_009"
+  },
+  "Werewolf": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Misc_004"
+  },
+  "Ankheg": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_046"
+  },
+  "Basilisk": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_040"
+  },
+  "Behir": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_015"
+  },
+  "Bulette": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_004"
+  },
+  "Chimera": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_029"
+  },
+  "Cockatrice": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_052"
+  },
+  "Darkmantle": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_032"
+  },
+  "Giant Eagle": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Avian_068"
+  },
+  "Girallon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Misc_018"
+  },
+  "Gorgon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_109"
+  },
+  "Griffon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Avian_068"
+  },
+  "Hydra": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_030"
+  },
+  "Manticore": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Cat_005"
+  },
+  "Owlbear": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Avian_063"
+  },
+  "Pegasus": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Quadraped_042"
+  },
+  "Phase Spider": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_016"
+  },
+  "Phoenix": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Avian_020"
+  },
+  "Purple Worm": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_017"
+  },
+  "Remorhaz": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_029"
+  },
+  "Sea Serpent": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_017"
+  },
+  "Shocker Lizard": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_060"
+  },
+  "Sphinx": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Cat_006"
+  },
+  "Stirge": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_041"
+  },
+  "Tarrasque": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_065"
+  },
+  "Unicorn": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Quadraped_030"
+  },
+  "Winter Wolf Worg": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Quadraped_010"
+  },
+  "Worg": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Quadraped_011"
+  },
+  "Centaur": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_078"
+  },
+  "Green Hag": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Misc_008"
+  },
+  "Harpy": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_090"
+  },
+  "Lamia": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_088"
+  },
+  "Medusa": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_109"
+  },
+  "Sahuagin": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_044"
+  },
+  "Sea Hag": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Reptile_043"
+  },
+  "Yeti": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_100"
+  },
+  "Black Pudding": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Slime_009"
+  },
+  "Gelatinous Cube": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Slime_012"
+  },
+  "Gray Ooze": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Slime_013"
+  },
+  "Ochre Jelly": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Slime_015"
+  },
+  "Shoggoth": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Slime_010"
+  },
+  "Aasimar": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_047"
+  },
+  "Astral Deva Angel": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_101"
+  },
+  "Babau Demon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_009"
+  },
+  "Balor Demon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_010"
+  },
+  "Barbed Devil": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_011"
+  },
+  "Barghest": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_012"
+  },
+  "Bearded Devil": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_013"
+  },
+  "Bebilith": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_014"
+  },
+  "Bone Devil": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_015"
+  },
+  "Bralani Azata": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_016"
+  },
+  "Djinni Genie": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_091"
+  },
+  "Dretch Demon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_023"
+  },
+  "Efreeti Genie": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_091"
+  },
+  "Elder Air Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_019"
+  },
+  "Elder Earth Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_018"
+  },
+  "Elder Fire Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_020"
+  },
+  "Elder Water Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_017"
+  },
+  "Erinyes Devil": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_011"
+  },
+  "Glabrezu Demon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_023"
+  },
+  "Greater Air Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_019"
+  },
+  "Greater Barghest": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_015"
+  },
+  "Greater Earth Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_018"
+  },
+  "Greater Fire Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_020"
+  },
+  "Greater Water Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_017"
+  },
+  "Half-Celestial": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_092"
+  },
+  "Half-Fiend": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_093"
+  },
+  "Hell Hound": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Dog_022"
+  },
+  "Hezrou Demon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_010"
+  },
+  "Horned Devil": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_013"
+  },
+  "Hound Archon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Dog_023"
+  },
+  "Huge Air Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_019"
+  },
+  "Huge Earth Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_018"
+  },
+  "Huge Fire Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_020"
+  },
+  "Huge Water Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_017"
+  },
+  "Ice Devil": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_007"
+  },
+  "Imp Devil": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_026"
+  },
+  "Invisible Stalker": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_037"
+  },
+  "Janni Genie": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_091"
+  },
+  "Large Air Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_019"
+  },
+  "Large Earth Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_018"
+  },
+  "Large Fire Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_020"
+  },
+  "Large Water Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_017"
+  },
+  "Marid Genie": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_091"
+  },
+  "Marilith Demon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_012"
+  },
+  "Medium Air Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_019"
+  },
+  "Medium Earth Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_018"
+  },
+  "Medium Fire Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_020"
+  },
+  "Medium Water Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_017"
+  },
+  "Mephit": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_045"
+  },
+  "Nabasu Demon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_013"
+  },
+  "Nalfeshnee Demon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_014"
+  },
+  "Nessian Hell Hound": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Dog_008"
+  },
+  "Nightmare": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_036"
+  },
+  "Ogre Mage Oni": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Player_058"
+  },
+  "Pit Fiend": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_014"
+  },
+  "Planetar Angel": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_101"
+  },
+  "Quasit Demon": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Demon_024"
+  },
+  "Shaitan Genie": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_091"
+  },
+  "Small Air Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_019"
+  },
+  "Small Earth Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_018"
+  },
+  "Small Fire Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_020"
+  },
+  "Small Water Elemental": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Elemental_017"
+  },
+  "Solar Angel": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Humanoid_085"
+  },
+  "Assassin Vine": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Plant_027"
+  },
+  "Basidirond": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Plant_013"
+  },
+  "Giant Flytrap": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Plant_017"
+  },
+  "Shambling Mound": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Plant_029"
+  },
+  "Treant": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Plant_001"
+  },
+  "Vegepygmy": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Plant_014"
+  },
+  "Violet Fungus": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Plant_007"
+  },
+  "Yellow Musk Creeper": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Plant_003"
+  },
+  "Devourer": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_042"
+  },
+  "Ghost": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_030"
+  },
+  "Ghoul": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_031"
+  },
+  "Greater Shadow": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_043"
+  },
+  "Human Skeleton": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_017"
+  },
+  "Human Zombie": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_023"
+  },
+  "Lich": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_038"
+  },
+  "Mohrg": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_041"
+  },
+  "Mummy": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_016"
+  },
+  "Shadow": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_043"
+  },
+  "Skeletal Champion": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_018"
+  },
+  "Spectre": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_035"
+  },
+  "Vampire": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_025"
+  },
+  "Wight": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_036"
+  },
+  "Wraith": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Undead_033"
+  },
+  "Army Ant Swarm": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_027"
+  },
+  "Cave Fisher": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_003"
+  },
+  "Centipede Swarm": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_009"
+  },
+  "Crab Swarm": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_006"
+  },
+  "Fire Beetle": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_046"
+  },
+  "Giant Ant": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_027"
+  },
+  "Giant Centipede": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_009"
+  },
+  "Giant Crab": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Aquatic_006"
+  },
+  "Giant Leech": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_006"
+  },
+  "Giant Mantis": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_033"
+  },
+  "Giant Scorpion": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_020"
+  },
+  "Giant Slug": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_038"
+  },
+  "Giant Spider": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_043"
+  },
+  "Giant Stag Beetle": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_044"
+  },
+  "Giant Wasp": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_042"
+  },
+  "Leech Swarm": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_011"
+  },
+  "Spider Swarm": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_043"
+  },
+  "Wasp Swarm": {
+    "sheet": "dawnlike_chars",
+    "sprite": "Pest_041"
+  }
+}

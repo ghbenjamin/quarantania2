@@ -42,6 +42,8 @@ class ItemData(Base):
     aura_value = Column(TEXT)
     slot = Column(TEXT)
     item_type = Column(TEXT, nullable=False)
+    sprite_sheet = Column(TEXT, nullable=False)
+    sprite_name = Column(TEXT, nullable=False)
 
 class CreatureData(Base):
     __tablename__ = "creature_data"
@@ -76,7 +78,12 @@ class CreatureData(Base):
 
     cmd = Column(INTEGER, nullable=False)
     cmb = Column(INTEGER, nullable=False)
+    dr = Column(TEXT)
+    resist = Column(TEXT)
+    immune = Column(TEXT)
 
+    sprite_sheet = Column(TEXT, nullable=False)
+    sprite_name = Column(TEXT, nullable=False)
 
 engine = create_engine('sqlite+pysqlite:///../../../resource/data/psrd_data.db')
 Session = sessionmaker(bind=engine)

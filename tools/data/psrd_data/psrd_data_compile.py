@@ -20,6 +20,8 @@ def import_items():
             itemdata.value = f_json["price"]
             itemdata.description = f_json["description"]
             itemdata.item_type = f_json["item_type"]
+            itemdata.sprite_sheet = f_json["sprite_sheet"]
+            itemdata.sprite_name = f_json["sprite_name"]
 
             if "slot" in f_json:
                 itemdata.slot = f_json["slot"]
@@ -114,13 +116,20 @@ def import_creatures():
             cdata.cmd = f_json["cmd"]
             cdata.alignment = f_json["alignment"]
             cdata.creature_type = f_json["creature_type"]
+            cdata.hp = f_json["hp"]
+            cdata.sprite_sheet = f_json["sprite_sheet"]
+            cdata.sprite_name = f_json["sprite_name"]
 
             if "creature_subtype" in f_json:
                 cdata.creature_subtype = f_json["creature_subtype"]
             if "reach" in f_json:
                 cdata.reach = f_json["reach"]
-
-            cdata.hp = int( re.search( r"^(\d+) ", f_json["hp"] ).group(1) )
+            if "dr" in f_json:
+                cdata.dr = f_json["dr"]
+            if "resist" in f_json:
+                cdata.resist = f_json["resist"]
+            if "immune" in f_json:
+                cdata.immune = f_json["immune"]
 
             # Speed
             speed_str = f_json["speed"]

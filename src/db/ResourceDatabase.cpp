@@ -38,7 +38,8 @@ RawItemData ResourceDatabase::itemFromName(std::string_view name)
         data.aura_value = getStringColumn(stmt, 5);
         data.slot = getStringColumn(stmt, 6);
         data.item_type = getStringColumn(stmt, 7);
-        data.sprite = { "dawnlike_items", "LongWep_028" }; // TODO DEBUG
+        data.sprite = { getStringColumn(stmt, 8),
+                        getStringColumn(stmt, 9) };
 
     }, data.name.c_str() );
 
