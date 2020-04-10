@@ -64,7 +64,14 @@ struct RawCreatureData
     int attr_int;
     int attr_wis;
     int attr_cha;
+
     int reach;
+    std::string damageResist;
+    std::string feats;
+    std::string immune;
+    std::string languages;
+    std::string resist;
+    std::string senses;
 
     int speed_land;
     int speed_fly;
@@ -72,6 +79,7 @@ struct RawCreatureData
 
     int cmd;
     int cmb;
+    int bab;
 
     SpritesheetKey sprite;
 };

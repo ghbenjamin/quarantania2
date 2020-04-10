@@ -218,7 +218,6 @@ def do_items():
         else:
             print( f"MISSING SPRITE: { f_json['name']}")
 
-
         all_items.append( f_json )
 
     ROOT_FINAL_PSRF.joinpath( "items.json" ).write_text(
@@ -321,6 +320,39 @@ def do_creatures():
             f_json["sprite_name"] = creature_sprites[f_json["name"]]["sprite"]
         else:
             print( f"MISSING SPRITE: { f_json['name']}")
+
+        if "melee" in f_json:
+            melee_str = f_json["melee"]
+            melee_split = melee_str.split(",")
+            melee_objects = []
+            for m in melee_split:
+                m = m.strip()
+                mmatch = re.match( r"^(\d+)?\s*(\+\d)?\s*([^-+]+)?\s*([-+/0-9]+)\s*([a-z ]+)?\s*\(([^)]+)\)", m )
+                if mmatch:
+                    m_obj = {}
+                    m_count, m_ench, m_name, m_tohits, m_misc, m_dmg = mmatch.groups()
+                    m_name = m_name.strip()
+                    m_dmg = m_dmg.strip()
+                    if m_count:
+                        m_obj["count"] = int(m_count)
+                    if m_ench:
+                        m_obj["name"] = m_ench + " " + m_name
+                    else:
+                        m_obj["name"] = m_name
+
+                    m_obj["to_hit"] = int( re.match( r"^([-+]\d+)", m_tohits ).group(1) )
+
+                    dmg_re = re.match( r"^(\d+)d(\d+)([+-]\d+)?", m_dmg )
+                    if dmg_re:
+                        m_dmg = dmg_re.group(0)
+                    else:
+                        m_dmg = "1d4"
+                    m_obj["damage"] = m_dmg
+
+                    melee_objects.append(m_obj)
+                else:
+                    print (m)
+            f_json["melee"] = melee_objects
 
         all_creatures.append( f_json )
 

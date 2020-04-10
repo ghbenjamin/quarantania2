@@ -9,8 +9,6 @@
 EntityFactory::EntityFactory(Level *parent, RandomGenerator* rg )
 : m_parent(parent), m_rg(rg)
 {
-    m_enemyManager.loadAllData();
-
     addPrefabType<PrefabObjects::Door>(PrefabType::Door, SpritesheetKey{"dawnlike_objects", "Door_001"});
     addPrefabType<PrefabObjects::Door>(PrefabType::Door_Locked, SpritesheetKey{"dawnlike_objects", "Door_005"});
     addPrefabType<PrefabObjects::Entrance>(PrefabType::Stairs_Up, SpritesheetKey{"dawnlike_objects", "Door_037"});
@@ -61,17 +59,17 @@ EntityRef EntityFactory::createEnemy(std::string const &name, Vector2i pos) cons
 {
     auto eref = m_parent->createEntity();
 
-    Enemy enemy = m_enemyManager.createEnemy(name);
-
-    auto sprite = ResourceManager::get().getSprite(enemy.sprite());
-    sprite.setRenderLayer(RenderLayer::Actor);
-
-    m_parent->addComponent<PositionComponent>(eref, pos);
-    m_parent->addComponent<RenderComponent>(eref, sprite);
-    m_parent->addComponent<ColliderComponent>(eref, false, true);
-
-    auto actComp = m_parent->addComponent<ActorComponent>(eref);
-    actComp->name = enemy.data().name;
+//    Enemy enemy = m_enemyManager.createEnemy(name);
+//
+//    auto sprite = ResourceManager::get().getSprite(enemy.sprite());
+//    sprite.setRenderLayer(RenderLayer::Actor);
+//
+//    m_parent->addComponent<PositionComponent>(eref, pos);
+//    m_parent->addComponent<RenderComponent>(eref, sprite);
+//    m_parent->addComponent<ColliderComponent>(eref, false, true);
+//
+//    auto actComp = m_parent->addComponent<ActorComponent>(eref);
+//    actComp->name = enemy.data().name;
 
     m_parent->entityReady(eref);
     return eref;

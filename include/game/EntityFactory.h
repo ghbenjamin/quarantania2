@@ -35,7 +35,5 @@ private:
     Level* m_parent;
     RandomGenerator* m_rg;
 
-    EnemyManager m_enemyManager;
-
     std::unordered_map<PrefabType, std::shared_ptr<PrefabObj>> m_prefabs;
 };

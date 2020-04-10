@@ -14,8 +14,8 @@ rapidjson::Document JsonUtils::loadFromPath(std::string const &path)
     rapidjson::Document doc;
     doc.Parse( buffer.str().c_str() );
 
-    Assert( doc.IsObject() );
-    Assert( !doc.ObjectEmpty() );
+//    Assert( !doc.ObjectEmpty() );
+//    Assert( !doc.Empty() );
 
     return doc;
 }
