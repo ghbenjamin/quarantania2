@@ -673,13 +673,12 @@ void LevelFactory::constructPlayer()
     m_level->setPlayer( m_level->m_entFactory.createPlayer( impData, startPos ) );
 
     // DEBUG
-//    m_level->m_entFactory.createEnemy("Dire Rat", startPos + Vector2{0, 1});
-    m_level->m_entFactory.createItem("Battleaxe", startPos + Vector2{1, 0});
-    m_level->m_entFactory.createItem("Amulet of Natural Armor", startPos + Vector2{0, 1});
-//    m_level->m_entFactory.createItem("Dagger", startPos + Vector2{-1, 0});
-//    m_level->m_entFactory.createItem("Sickle", startPos + Vector2{0, -1});
+    m_level->m_entFactory.createEnemy("Dire Crocodile", startPos + Vector2{0, 2});
 
-    m_createdEntities.push_back( m_level->m_player->ref() );
+    m_level->m_entFactory.createItem("Battleaxe", startPos + Vector2{1, 0});
+    m_level->m_entFactory.createItem("Buckler", startPos + Vector2{1, 1});
+    m_level->m_entFactory.createItem("Amulet of Natural Armor", startPos + Vector2{0, 1});
+
 }
 
 void LevelFactory::constructDoors()
@@ -688,9 +687,7 @@ void LevelFactory::constructDoors()
     {
         if ( j.type == JunctionType::Door )
         {
-            auto ref = m_level->m_entFactory
-                              .createPrefab(PrefabType::Door, p);
-            m_createdEntities.push_back(ref);
+            m_level->m_entFactory.createPrefab(PrefabType::Door, p);
         }
     }
 }
@@ -715,7 +712,6 @@ void LevelFactory::decorateRooms()
             {
                 auto eref = m_level->m_entFactory
                                    .createPrefab(PrefabType::Stairs_Up, room.centre());
-                m_createdEntities.push_back(eref);
 
                 break;
             }
@@ -723,7 +719,6 @@ void LevelFactory::decorateRooms()
             {
                 auto eref = m_level->m_entFactory
                                    .createPrefab(PrefabType::Stairs_Down, room.centre());
-                m_createdEntities.push_back(eref);
                 break;
             }
             case RoomType::Vault:

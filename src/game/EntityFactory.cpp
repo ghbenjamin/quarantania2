@@ -58,18 +58,16 @@ PlayerPtr EntityFactory::createPlayer(ImPlayerData &data, Vector2i startPos) con
 EntityRef EntityFactory::createEnemy(std::string const &name, Vector2i pos) const
 {
     auto eref = m_parent->createEntity();
+    auto creatureData = ResourceDatabase::instance().creatureFromName( name );
 
-//    Enemy enemy = m_enemyManager.createEnemy(name);
-//
-//    auto sprite = ResourceManager::get().getSprite(enemy.sprite());
-//    sprite.setRenderLayer(RenderLayer::Actor);
-//
-//    m_parent->addComponent<PositionComponent>(eref, pos);
-//    m_parent->addComponent<RenderComponent>(eref, sprite);
-//    m_parent->addComponent<ColliderComponent>(eref, false, true);
-//
-//    auto actComp = m_parent->addComponent<ActorComponent>(eref);
-//    actComp->name = enemy.data().name;
+    auto sprite = ResourceManager::get().getSprite( creatureData.sprite );
+    sprite.setRenderLayer(RenderLayer::Actor);
+
+    m_parent->addComponent<PositionComponent>(eref, pos);
+    m_parent->addComponent<RenderComponent>(eref, sprite);
+    m_parent->addComponent<ColliderComponent>(eref, false, true);
+
+    auto actComp = m_parent->addComponent<ActorComponent>(eref, std::move(creatureData));
 
     m_parent->entityReady(eref);
     return eref;

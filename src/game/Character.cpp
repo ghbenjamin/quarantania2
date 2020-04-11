@@ -2,8 +2,12 @@
 #include <algorithm>
 
 Character::Character()
-: m_equippedWeapon(nullptr)
 {
+}
+
+Character::Character(const RawCreatureData& rcd)
+{
+    m_name = rcd.name;
 }
 
 
@@ -53,11 +57,3 @@ ItemPtr Character::equipItem(EquipSlot slot, ItemPtr item)
     return lastEquipped;
 }
 
-bool Character::hasEquippedWeapon() const
-{
-    return !!m_equippedWeapon;
-}
-ItemPtr Character::equippedWeaponData() const
-{
-    return m_equippedWeapon;
-}

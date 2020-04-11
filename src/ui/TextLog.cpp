@@ -52,7 +52,7 @@ UI::TextLog::TextLog(Manager* manager, Element* parent)
     setPadding(2);
     setBackgroundColour( Colour::Black );
 
-    m_font = ResourceManager::get().getResource<FontResource>( "fira-code-regular" )->get();
+    m_font = ResourceManager::get().getResource<FontResource>( "inconsolata-14" )->get();
 
 }
 

@@ -5,12 +5,14 @@
 
 #include <game/Items.h>
 
+struct RawCreatureData;
 
 class Character
 {
 public:
 
     Character();
+    Character(RawCreatureData const& rcd);
     ~Character() = default;
 
     std::string_view name() const;
@@ -20,14 +22,7 @@ public:
     ItemPtr unequipItem( EquipSlot slot );
     ItemPtr equipItem( EquipSlot slot, ItemPtr item );
 
-    bool hasEquippedWeapon() const;
-    ItemPtr equippedWeaponData() const;
-
-
 private:
-
     std::string m_name;
-
-    ItemPtr m_equippedWeapon;
     std::unordered_map<EquipSlot, ItemPtr> m_equippedItems;
 };

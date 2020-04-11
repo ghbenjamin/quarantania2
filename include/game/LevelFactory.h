@@ -132,8 +132,5 @@ private:
     // Flattened 1d array of positions of walls surrounding each tile
     std::vector<GridBitmask> m_wallPositionMasks;
 
-    // All the entities which we create while generating the level
-    std::vector<EntityRef> m_createdEntities;
-
     std::unordered_map<LD::RoomType, LD::RegionRef> m_specialRooms;
 };

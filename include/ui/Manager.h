@@ -7,6 +7,7 @@
 #include <ui/UEvent.h>
 #include <ui/ContextMenu.h>
 #include <game/InputInterface.h>
+#include <ui/Tooltips.h>
 
 struct IEvent;
 class Level;
@@ -93,6 +94,10 @@ public:
 
     void addTileHighlight(Vector2i screenPos);
     void removeTileHighlight();
+
+    void openTooltip( TooltipData const& data, Vector2i pos );
+    void closeTooltip();
+
 
 private:
     bool handleMouseMove( IEventMouseMove evt );

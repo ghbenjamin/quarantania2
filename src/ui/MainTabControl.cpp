@@ -45,7 +45,7 @@ MainTabControl::MainTabControl(Manager* manager, Element* parent)
     ElementPtr dummyTab3 = addTab();
     ElementPtr dummyTab4 = addTab();
 
-    setCurrentTab(0);
+    setCurrentTab(1);
 }
 
 ElementPtr MainTabControl::addTab()

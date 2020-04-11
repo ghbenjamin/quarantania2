@@ -204,8 +204,15 @@ void Element::setPreferredContentSize(Vector2i size)
 {
     m_preferredContentSize = size;
 
-    doLayout();
-//    rootParent()->doLayout();
+    if ( m_parent != nullptr )
+    {
+        m_parent->doLayout();
+    }
+    else
+    {
+        doLayout();
+    }
+
     onSizeSelf();
 }
 

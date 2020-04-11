@@ -466,7 +466,7 @@ std::string_view Level::getDescriptionForEnt(EntityRef ent)
     if ( entityHas<ActorComponent>(ent) )
     {
         auto comp = getComponents<ActorComponent>(ent);
-        return comp->name;
+        return comp->character.name();
     }
     else if ( entityHas<ItemComponent>(ent) )
     {

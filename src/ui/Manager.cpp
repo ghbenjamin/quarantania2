@@ -137,6 +137,11 @@ UI::ElementList Manager::windowsAtPoint(Vector2i pos) const
         }
     }
 
+    // Ignore the highlight elements
+    out.erase( std::remove_if( out.begin(), out.end(), [](auto const& item){
+        return item->id() == "tile-highlight" || item->id() == "tooltip";
+    }), out.end());
+
     return out;
 }
 
@@ -165,10 +170,10 @@ bool Manager::handleMouseDown(IEventMouseDown evt)
     // Get all the elements under the mouse cursor
     auto elems = windowsAtPoint(evt.screenPos);
 
-    // Ignore the highlight elements
-    elems.erase( std::remove_if( elems.begin(), elems.end(), [](auto const& item){
-        return item->id() == "tile-highlight";
-    }), elems.end());
+//    // Ignore the highlight elements
+//    elems.erase( std::remove_if( elems.begin(), elems.end(), [](auto const& item){
+//        return item->id() == "tile-highlight";
+//    }), elems.end());
 
     if ( elems.empty() )
     {
@@ -325,6 +330,17 @@ Manager::Manager(Level *level)
 Level *Manager::level()
 {
     return m_level;
+}
+
+void Manager::openTooltip( TooltipData const& data, Vector2i pos )
+{
+    auto tooltip = createElement<Tooltip>( nullptr, data );
+    tooltip->setLocalPosition( pos );
+}
+
+void Manager::closeTooltip()
+{
+    deleteElement( withId( "tooltip" ) );
 }
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, int offset)

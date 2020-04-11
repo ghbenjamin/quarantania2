@@ -5,3 +5,9 @@ ActorComponent::ActorComponent()
 {
 
 }
+
+ActorComponent::ActorComponent(RawCreatureData &&data)
+: character(data)
+{
+
+}

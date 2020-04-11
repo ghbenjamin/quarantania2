@@ -5,9 +5,8 @@
 #include <set>
 
 #include <resource/Spritesheet.h>
+#include <ui/Defines.h>
 #include <db/RawData.h>
-
-class Armor;
 
 struct RawItemData;
 
@@ -98,6 +97,16 @@ public:
     Armour( std::string_view name );
     ~Armour() = default;
 
+    ArmourType armourType( ) const;
+
+    int arcaneFailureChance( ) const;
+    int armourBonus( ) const;
+    int shieldBonus( ) const;
+    int armourCheck( ) const;
+    int maxDex( ) const;
+    int speed20( ) const;
+    int speed30( ) const;
+
 private:
     void initFromData( RawArmourData const& rawData );
 
@@ -146,8 +155,17 @@ public:
     int getValue() const;
     int getWeight() const;
     EquipSlot getEquipSlot() const;
-
     const SpritesheetKey &getSprite() const;
+    std::string_view getDescription() const;
+
+    bool isWeapon() const;
+    std::unique_ptr<Weapon> const& getWeapon() const;
+
+    bool isArmour() const;
+    std::unique_ptr<Armour> const& getArmour() const;
+
+    UI::TooltipData tooltipData() const;
+
 
 private:
     void initFromData( RawItemData const& rawData );

@@ -27,7 +27,6 @@ private:
     void onMoveSelf() override;
     void renderText();
 
-    FontPtr m_font;
     TexturePtr m_rendered;
     RenderObject m_renderObject;
     std::string m_data;

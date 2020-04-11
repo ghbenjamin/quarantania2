@@ -72,6 +72,9 @@ void ResourceDatabase::loadAllCreatureData()
         rcd.alignment = cr.FindMember( "alignment" )->value.GetString();
         rcd.creature_type = cr.FindMember( "creature_type" )->value.GetString();
 
+        rcd.sprite = { cr.FindMember( "sprite_sheet" )->value.GetString(),
+                       cr.FindMember( "sprite_name" )->value.GetString()};
+
         if ( cr.HasMember("description") )
         {
             rcd.description = cr.FindMember( "description" )->value.GetString();

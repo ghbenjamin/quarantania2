@@ -7,6 +7,7 @@
 #include <components/ActorComponent.h>
 #include <components/DescriptionComponent.h>
 #include <utils/GlobalConfig.h>
+#include <components/ItemComponent.h>
 
 DefaultLController::DefaultLController(Level *level)
 : LevelController(level)
@@ -113,6 +114,7 @@ void DefaultLController::doMovePlayer(SDL_Keycode kcode)
 void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 {
     m_level->ui().removeTileHighlight();
+    m_level->ui().closeTooltip();
 
 	if (!m_level->grid().inBounds(curr))
 	{
@@ -128,9 +130,18 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     auto ents = m_level->grid().entitiesAtTile(curr);
 
     // Highlight hovered entities
-    if ( m_level->grid().inBounds( curr ) && !ents.empty() )
+    if ( !ents.empty() )
     {
         m_level->ui().addTileHighlight( m_level->tileCoordsToScreen(curr) );
+    }
+
+    if ( ents.size() == 1 )
+    {
+        if ( m_level->entityHas<ItemComponent>(ents[0]) )
+        {
+            auto itemComp = m_level->getComponents<ItemComponent>( ents[0] );
+            m_level->ui().openTooltip( itemComp->item->tooltipData(), m_level->tileCoordsToScreen(curr) + Vector2i{20, 20}  );
+        }
     }
 }
 

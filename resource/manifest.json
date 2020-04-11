@@ -47,9 +47,19 @@
 
   "font": [
     {
-      "key": "roboto-regular",
-      "name": "RobotoSlab-Regular.ttf",
+      "key": "inconsolata-14",
+      "name": "Inconsolata-Regular.ttf",
       "fontSize": 14
+    },
+    {
+      "key": "inconsolata-16",
+      "name": "Inconsolata-Regular.ttf",
+      "fontSize": 16
+    },
+    {
+      "key": "inconsolata-12",
+      "name": "Inconsolata-Regular.ttf",
+      "fontSize": 12
     },
     {
       "key": "fira-code-regular",

@@ -123,9 +123,6 @@ void UI::EquippedItemsView::reimportItems()
 
 void UI::EquippedItemsView::setupSlots()
 {
-    // Setup slot information
-    static const std::string SpritesheetName = "game-icons";
-
     auto addSlot = [this](auto&& slotType, auto&& spriteName, auto&& offset){
         static const std::string SpritesheetName = "game-icons";
 

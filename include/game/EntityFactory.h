@@ -3,7 +3,6 @@
 #include <game/Entity.h>
 #include <game/Player.h>
 #include <game/Prefab.h>
-#include <game/Enemy.h>
 #include <game/Items.h>
 #include <utils/Containers.h>
 #include <utils/Random.h>

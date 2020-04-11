@@ -22,6 +22,11 @@ UI::ContainerView::ContainerView(Manager* manager, Element* parent)
     addEventCallback(UEventType::MouseMove, [this](UEvent& evt){
         onMouseMove( evt.mouseMoveEvent );
     });
+
+    addEventCallback(UEventType::MouseOut, [this](UEvent& evt){
+        // Stop leaving tooltips about
+        this->manager()->closeTooltip();
+    });
 }
 
 void UI::ContainerView::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
@@ -86,8 +91,9 @@ void UI::ContainerView::onMouseMove(UI::UMouseMoveEvent& evt)
         if ( m_hoveredItem != nullptr )
         {
             // hover out
+            manager()->closeTooltip();
         }
-     }
+    }
     else
     {
         if ( m_hoveredItem != nullptr )
@@ -99,11 +105,14 @@ void UI::ContainerView::onMouseMove(UI::UMouseMoveEvent& evt)
             else
             {
                 // Hover change
+                manager()->closeTooltip();
+                manager()->openTooltip( selectedItem->item->tooltipData(), evt.pos );
             }
         }
         else
         {
             // Hover in
+            manager()->openTooltip( selectedItem->item->tooltipData(), evt.pos );
         }
     }
 

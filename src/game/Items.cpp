@@ -1,6 +1,7 @@
 #include <game/Items.h>
 #include <utils/Json.h>
 #include <utils/Logging.h>
+#include <ui/Tooltips.h>
 #include <db/RawData.h>
 #include <db/ResourceDatabase.h>
 
@@ -89,6 +90,11 @@ void Item::initFromData(RawItemData const &rawData)
         m_itemType = ItemType::Weapon;
         m_weapon = std::make_unique<Weapon>( m_name );
     }
+    else if ( rawData.item_type == "armour" )
+    {
+        m_itemType = ItemType::Armour;
+        m_armour = std::make_unique<Armour>( m_name );
+    }
     else
     {
         m_itemType = ItemType::Unknown;
@@ -172,6 +178,45 @@ EquipSlot Item::getEquipSlot() const
     return m_equipSlot;
 }
 
+bool Item::isWeapon() const
+{
+    return !!m_weapon;
+}
+
+std::unique_ptr<Weapon> const &Item::getWeapon() const
+{
+    return m_weapon;
+}
+
+bool Item::isArmour() const
+{
+    return !!m_armour;
+}
+
+std::unique_ptr<Armour> const &Item::getArmour() const
+{
+    return m_armour;
+}
+
+std::string_view Item::getDescription() const
+{
+    return m_description;
+}
+
+UI::TooltipData Item::tooltipData() const
+{
+    UI::TooltipData td;
+    td.title = m_name;
+    td.subtitle = "FOO";
+    td.content = m_description;
+
+    auto fc = td.title.at(0);
+    fc = std::toupper(fc);
+    td.title[0] = fc;
+
+    return td;
+}
+
 Armour::Armour(RawArmourData const &rawData)
 {
     initFromData( rawData );
@@ -213,4 +258,44 @@ void Armour::initFromData(RawArmourData const &rawData)
     {
         AssertAlwaysMsg( "Unknown armour type" );
     }
+}
+
+ArmourType Armour::armourType() const
+{
+    return m_armourType;
+}
+
+int Armour::arcaneFailureChance() const
+{
+    return m_arcaneFailureChance;
+}
+
+int Armour::armourBonus() const
+{
+    return m_armourBonus;
+}
+
+int Armour::shieldBonus() const
+{
+    return m_shieldBonus;
+}
+
+int Armour::armourCheck() const
+{
+    return m_armourCheck;
+}
+
+int Armour::maxDex() const
+{
+    return m_maxDex;
+}
+
+int Armour::speed20() const
+{
+    return m_speed20;
+}
+
+int Armour::speed30() const
+{
+    return m_speed30 ;
 }

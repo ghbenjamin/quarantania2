@@ -8,13 +8,11 @@ using namespace UI;
 TextNode::TextNode(Manager* manager, Element* parent, TextStyle const &style)
 : Element(manager, parent), m_style(style)
 {
-    m_font = ResourceManager::get().getResource<FontResource>( "fira-code-regular" )->get();
 }
 
 TextNode::TextNode(Manager* manager, Element* parent)
-    : TextNode(manager, parent, { Colour::Black })
+    : TextNode(manager, parent, { Colour::Black, ResourceManager::get().getFont( "inconsolata-14" )})
 {
-
 }
 
 
@@ -33,11 +31,11 @@ void TextNode::renderText()
 
     if ( hasMaximumOuterSize() )
     {
-        m_rendered = m_font->renderText( m_data, m_style.textColour, maxOuterSize().x() );
+        m_rendered = m_style.font->renderText( m_data, m_style.textColour, maxOuterSize().x() );
     }
     else
     {
-        m_rendered = m_font->renderText( m_data, m_style.textColour );
+        m_rendered = m_style.font->renderText( m_data, m_style.textColour );
     }
 
     m_renderObject.texture = m_rendered->raw();

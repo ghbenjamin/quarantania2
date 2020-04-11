@@ -138,5 +138,18 @@ Sprite ResourceManager::getSprite(std::string const& imgName)
     }
 }
 
+FontPtr ResourceManager::getFont(std::string const &fname)
+{
+    try
+    {
+        return getResource<FontResource>( fname )->get();
+    }
+    catch ( [[maybe_unused]] std::exception const& ex )
+    {
+        Logging::log( "ERROR: Unknown font [{}]\n", fname );
+        std::terminate();
+    }
+}
+
 
 
