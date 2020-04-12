@@ -99,5 +99,4 @@ struct ItemUnequip : public GEvent<ItemUnequip>
     EquipSlot slot;
 };
 
-
 }

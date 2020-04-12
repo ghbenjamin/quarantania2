@@ -1,27 +1,30 @@
-#include <game/Character.h>
+#include <game/Actor.h>
 #include <algorithm>
+#include <game/Player.h>
 
-Character::Character()
-{
-}
 
-Character::Character(const RawCreatureData& rcd)
+Actor::Actor(const RawCreatureData& rcd)
 {
     m_name = rcd.name;
 }
 
 
-std::string_view Character::name() const
+Actor::Actor(PlayerData const& pdata)
+{
+    m_name = pdata.name;
+}
+
+std::string_view Actor::name() const
 {
     return m_name;
 }
 
-bool Character::hasEquipped(EquipSlot slot) const
+bool Actor::hasEquipped(EquipSlot slot) const
 {
     return m_equippedItems.find(slot) != m_equippedItems.end();
 }
 
-const ItemPtr Character::getEquipped(EquipSlot slot) const
+const ItemPtr Actor::getEquipped(EquipSlot slot) const
 {
     auto it = m_equippedItems.find(slot);
     if ( it != m_equippedItems.end() )
@@ -34,7 +37,7 @@ const ItemPtr Character::getEquipped(EquipSlot slot) const
     }
 }
 
-ItemPtr Character::unequipItem(EquipSlot slot)
+ItemPtr Actor::unequipItem(EquipSlot slot)
 {
     auto it = m_equippedItems.find(slot);
     auto ptr = it->second;
@@ -43,7 +46,7 @@ ItemPtr Character::unequipItem(EquipSlot slot)
     return ptr;
 }
 
-ItemPtr Character::equipItem(EquipSlot slot, ItemPtr item)
+ItemPtr Actor::equipItem(EquipSlot slot, ItemPtr item)
 {
     auto lastEquipped = std::shared_ptr<Item>();
 

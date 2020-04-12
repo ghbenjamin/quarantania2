@@ -69,7 +69,6 @@ void ItemSystem::accept(GEvents::ItemUnequip *evt)
     containerC->items.push_back( item );
 }
 
-
 void ItemSystem::eraseItemFromContainer(std::shared_ptr<ContainerComponent> container, std::shared_ptr<Item> item)
 {
     auto it = std::find( container->items.begin(), container->items.end(), item );

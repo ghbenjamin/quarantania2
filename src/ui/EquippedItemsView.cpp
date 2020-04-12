@@ -96,6 +96,7 @@ const UI::EquippedItemSlot *UI::EquippedItemsView::itemFromPosition(Vector2i pos
 void UI::EquippedItemsView::attachEntity(EntityRef entity)
 {
     m_entity = entity;
+    reimportItems();
 }
 
 void UI::EquippedItemsView::reimportItems()

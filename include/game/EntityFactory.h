@@ -15,7 +15,7 @@ public:
     explicit EntityFactory( Level* parent, RandomGenerator* rg );
     ~EntityFactory() = default;
 
-    PlayerPtr createPlayer(ImPlayerData & data, Vector2i startPos) const;
+    PlayerPtr createPlayer(PlayerData const& data, Vector2i startPos) const;
     EntityRef createPrefab(PrefabType ptype, Vector2i pos) const;
     EntityRef createEnemy(std::string const& name, Vector2i pos) const;
 

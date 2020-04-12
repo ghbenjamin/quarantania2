@@ -22,9 +22,9 @@ UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, TooltipData cons
     subtitleNode->setMaximumOuterSize({ TOOLTIP_WIDTH, 100 });
     subtitleNode->setText( data.subtitle );
 
-    auto contentNode = manager->createElement<TextNode>(this, TextStyle{ Colour::Black, contentFont });
-    contentNode->setMaximumOuterSize({ TOOLTIP_WIDTH, 100 });
-    contentNode->setText( data.content );
+//    auto contentNode = manager->createElement<TextNode>(this, TextStyle{ Colour::Black, contentFont });
+//    contentNode->setMaximumOuterSize({ TOOLTIP_WIDTH, 100 });
+//    contentNode->setText( data.content );
 
     setBackgroundColour( Colour::Grey.withAlpha(180) );
 }

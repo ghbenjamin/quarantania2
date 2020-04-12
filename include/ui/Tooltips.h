@@ -13,7 +13,7 @@ public:
     ~Tooltip() override = default;
 
 private:
-    static const int TOOLTIP_WIDTH = 300;
+    static const int TOOLTIP_WIDTH = 250;
 
 };
 

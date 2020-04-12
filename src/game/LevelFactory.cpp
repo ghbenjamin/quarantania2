@@ -17,7 +17,7 @@ LevelFactory::LevelFactory()
 {
 }
 
-LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &ctx)
+LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &ctx, PlayerData const& pdata)
 {
     m_level = std::make_unique<Level>( config.size, ctx, RandomGenerator{ m_rd() } );
 
@@ -60,7 +60,7 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     decorateRooms();
 
     // Add the player at an appropriate place
-    constructPlayer();
+    constructPlayer(pdata);
 
     // Mark the level construction as completed
     m_level->setReady();
@@ -663,17 +663,14 @@ void LevelFactory::calcAllAdjacentWalls()
     Assert(m_wallPositionMasks.size() == m_level->m_tileCount);
 }
 
-void LevelFactory::constructPlayer()
+void LevelFactory::constructPlayer(PlayerData const& pdata)
 {
-    ImPlayerData impData;
-    impData.name = "Urist McUrist";
-
     auto startPos = m_rooms.at( m_specialRooms.at( RoomType::Entrance ) ).centre();
 
-    m_level->setPlayer( m_level->m_entFactory.createPlayer( impData, startPos ) );
+    m_level->setPlayer( m_level->m_entFactory.createPlayer( pdata, startPos ) );
 
     // DEBUG
-    m_level->m_entFactory.createEnemy("Dire Crocodile", startPos + Vector2{0, 2});
+    m_level->m_entFactory.createEnemy("Dire Crocodile", startPos + Vector2{-1, -1});
 
     m_level->m_entFactory.createItem("Battleaxe", startPos + Vector2{1, 0});
     m_level->m_entFactory.createItem("Buckler", startPos + Vector2{1, 1});

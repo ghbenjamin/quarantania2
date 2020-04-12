@@ -22,7 +22,7 @@ RawItemData ResourceDatabase::itemFromName(std::string_view name)
         return item.name == name;
     });
 
-    Assert( it != m_itemData.end() );
+    AssertMsg( it != m_itemData.end(), fmt::format( "Unexpected item: {}", name ).c_str() );
     return RawItemData( *it );
 }
 

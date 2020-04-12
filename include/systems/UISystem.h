@@ -12,6 +12,8 @@ class UISystem : public System,
                  public GEventSub<GEvents::ItemUnequip>,
                  public GEventSub<GEvents::ItemPickup>,
                  public GEventSub<GEvents::ItemDrop>
+
+
 {
 public:
     explicit UISystem(Level *parent);

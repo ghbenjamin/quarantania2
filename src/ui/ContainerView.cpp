@@ -80,6 +80,7 @@ void UI::ContainerView::reimportItems()
 void UI::ContainerView::attachEntity(EntityRef entity)
 {
     m_entity = entity;
+    reimportItems();
 }
 
 void UI::ContainerView::onMouseMove(UI::UMouseMoveEvent& evt)

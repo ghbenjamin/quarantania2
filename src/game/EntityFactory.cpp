@@ -34,7 +34,7 @@ EntityRef EntityFactory::createPrefab(PrefabType ptype, Vector2i pos) const
     return eref;
 }
 
-PlayerPtr EntityFactory::createPlayer(ImPlayerData &data, Vector2i startPos) const
+PlayerPtr EntityFactory::createPlayer(PlayerData const& data, Vector2i startPos) const
 {
     auto eref = m_parent->createEntity();
 
@@ -45,14 +45,17 @@ PlayerPtr EntityFactory::createPlayer(ImPlayerData &data, Vector2i startPos) con
     m_parent->addComponent<PositionComponent>(eref, startPos);
     m_parent->addComponent<RenderComponent>(eref, sprite);
     m_parent->addComponent<ColliderComponent>(eref, false, true);
-    m_parent->addComponent<ContainerComponent>(eref);
-
-    auto cActor = m_parent->addComponent<ActorComponent>(eref);
-    cActor->name = data.name;
+    auto cContainer = m_parent->addComponent<ContainerComponent>(eref);
+    m_parent->addComponent<ActorComponent>(eref, data);
 
     m_parent->entityReady(eref);
 
-    return std::make_unique<Player>( std::move(data), eref );
+    for ( auto const& iname : data.startingHeldItems )
+    {
+        cContainer->items.push_back( std::make_shared<Item>( iname ) );
+    }
+
+    return std::make_unique<Player>( data, eref );
 }
 
 EntityRef EntityFactory::createEnemy(std::string const &name, Vector2i pos) const

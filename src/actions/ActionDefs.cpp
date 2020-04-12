@@ -159,7 +159,7 @@ bool PickUpItemAction::doAction() const
 {
     auto container = m_level->getComponents<ContainerComponent>( m_actor );
 
-    if ( container->items.size() + 1 > container->maxItems ) return false;
+    if ( (int)container->items.size() + 1 > container->maxItems ) return false;
 
     m_level->events().broadcast<GEvents::ItemPickup>( m_actor, m_subject );
     return true;

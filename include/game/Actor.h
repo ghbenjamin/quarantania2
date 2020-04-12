@@ -6,17 +6,21 @@
 #include <game/Items.h>
 
 struct RawCreatureData;
+struct PlayerData;
 
-class Character
+class Actor
 {
 public:
 
-    Character();
-    Character(RawCreatureData const& rcd);
-    ~Character() = default;
+    Actor(PlayerData const& pdata);
+    Actor(RawCreatureData const& rcd);
+    ~Actor() = default;
 
+    // Getters
     std::string_view name() const;
 
+
+    // Items
     bool hasEquipped( EquipSlot slot ) const;
     const ItemPtr getEquipped( EquipSlot slot ) const;
     ItemPtr unequipItem( EquipSlot slot );

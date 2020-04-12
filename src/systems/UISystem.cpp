@@ -65,4 +65,3 @@ void UISystem::accept(GEvents::ItemUnequip *evt)
         m_level->getUIPlayerEquip()->reimportItems();
     }
 }
-

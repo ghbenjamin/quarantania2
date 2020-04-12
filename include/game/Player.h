@@ -2,12 +2,16 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 
 #include <game/Entity.h>
 
-struct ImPlayerData
+struct PlayerData
 {
     std::string name;
+
+    std::vector<std::string> startingHeldItems;
+    std::vector<std::string> startingEquippedItems;
 };
 
 
@@ -15,7 +19,7 @@ class Player
 {
 public:
 
-    explicit Player( ImPlayerData&& data, EntityRef ref);
+    explicit Player(PlayerData const& data, EntityRef ref);
     ~Player() = default;
 
     EntityRef ref();
@@ -23,7 +27,7 @@ public:
 private:
 
     EntityRef m_ref;
-    const ImPlayerData m_imData;
+    PlayerData m_imData;
 
 };
 

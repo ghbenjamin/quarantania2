@@ -9,6 +9,8 @@
 #include <utils/GridUtils.h>
 #include <resource/RoomTemplates.h>
 
+struct PlayerData;
+
 
 class LevelFactory
 {
@@ -25,7 +27,7 @@ public:
      * @param ctx
      * @return
      */
-    LevelPtr create( LevelConfig const& config, LevelContextPtr const& ctx );
+    LevelPtr create( LevelConfig const& config, LevelContextPtr const& ctx, PlayerData const& pdata );
 
 private:
 
@@ -99,7 +101,7 @@ private:
     void assignSpecialRooms();
     void decorateRooms();
     void constructRoomFromTemplate( LD::Room const& room, RoomTemplate* rt );
-    void constructPlayer();
+    void constructPlayer(PlayerData const& pdata);
     void constructDoors();
 
 

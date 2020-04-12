@@ -8,9 +8,16 @@
 LevelState::LevelState( LevelConfig const& config, LevelContextPtr ctx )
 : m_levelCtx(ctx)
 {
+    PlayerData pdata;
+    pdata.name = "Angus Mackenzie";
+
+    pdata.startingHeldItems.push_back( "Longsword" );
+    pdata.startingHeldItems.push_back( "Rope of Climbing" );
+    pdata.startingEquippedItems.push_back( "Amulet of Mighty Fists" );
+
     // Create the level
     LevelFactory factory;
-    m_level = factory.create( config, m_levelCtx );
+    m_level = factory.create( config, m_levelCtx, pdata );
 }
 
 bool LevelState::input(IEvent &evt)
