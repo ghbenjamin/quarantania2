@@ -2,6 +2,8 @@
 
 #include <string>
 #include <resource/Spritesheet.h>
+#include <game/Items.h>
+#include <game/Defines.h>
 
 struct RawItemData
 {
@@ -21,8 +23,8 @@ struct RawWeaponData
 {
     std::string item_name;
     std::string weapon_class;
-    std::string damage;
-    std::string proficiency;
+    DiceRoll damage;
+    WeaponProficiency proficiency;
     int crit_lower;
     int crit_mult;
     std::string damage_type;

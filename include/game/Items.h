@@ -6,9 +6,12 @@
 
 #include <resource/Spritesheet.h>
 #include <ui/Defines.h>
-#include <db/RawData.h>
+#include <game/Defines.h>
 
 struct RawItemData;
+struct RawWeaponData;
+struct RawArmourData;
+struct RawCreatureData;
 
 enum class ItemType
 {
@@ -17,7 +20,8 @@ enum class ItemType
     Consumable,
     Equippable,
     Gear,
-    Weapon
+    Weapon,
+    Ammo,
 };
 
 enum class EquipSlot
@@ -97,6 +101,8 @@ public:
     Armour( std::string_view name );
     ~Armour() = default;
 
+    static std::unique_ptr<Armour> fromName( std::string_view name );
+
     ArmourType armourType( ) const;
 
     int arcaneFailureChance( ) const;
@@ -121,34 +127,42 @@ private:
     ArmourType m_armourType;
 };
 
+using ArmourPtr = std::unique_ptr<Armour>;
+
 
 class Weapon
 {
 public:
     Weapon( RawWeaponData const& rawData );
-    Weapon( std::string_view name );
     ~Weapon() = default;
+
+    static std::unique_ptr<Weapon> fromName( std::string_view name );
+
 
 private:
     void initFromData( RawWeaponData const& rawData );
 
 private:
+    std::string m_name;
     WeaponHandedness m_handedness;
     WeaponType m_weaponType;
     WeaponProficiency m_proficiency;
-    int m_critLower;
-    int m_critMult;
+    CritData m_critData;
+    DiceRoll m_baseDamage;
     PhysDamageMask m_damageType;
     std::set<WeaponSpecials> m_specials;
 };
 
+using WeaponPtr = std::unique_ptr<Weapon>;
 
 class Item
 {
 public:
     Item( RawItemData const& rawData );
-    Item( std::string_view name );
     virtual ~Item() = default;
+
+    static std::shared_ptr<Item> fromName( std::string_view name );
+
 
     const std::string &getName() const;
     ItemType getType() const;
@@ -180,8 +194,8 @@ private:
     std::string m_description;
     EquipSlot m_equipSlot;
 
-    std::unique_ptr<Weapon> m_weapon;
-    std::unique_ptr<Armour> m_armour;
+    WeaponPtr m_weapon;
+    ArmourPtr m_armour;
 };
 
 using ItemPtr = std::shared_ptr<Item>;

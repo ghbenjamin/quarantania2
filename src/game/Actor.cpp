@@ -1,6 +1,7 @@
 #include <game/Actor.h>
 #include <algorithm>
 #include <game/Player.h>
+#include <db/RawData.h>
 
 
 Actor::Actor(const RawCreatureData& rcd)
@@ -58,5 +59,23 @@ ItemPtr Actor::equipItem(EquipSlot slot, ItemPtr item)
     m_equippedItems.emplace( slot, item );
 
     return lastEquipped;
+}
+
+WeaponPtr const &Actor::getActiveWeapon() const
+{
+    auto it = m_equippedItems.find( EquipSlot::Weapon );
+    if ( it != m_equippedItems.end() )
+    {
+        return it->second->getWeapon();
+    }
+    else
+    {
+        return getNaturalWeapon();
+    }
+}
+
+WeaponPtr const &Actor::getNaturalWeapon() const
+{
+    return m_naturalWeapons.front();
 }
 

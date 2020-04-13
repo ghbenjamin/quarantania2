@@ -2,6 +2,7 @@ import pathlib, json, re
 
 ROOT_RAW_PSRF = pathlib.Path("../psrd_data_modified").absolute().resolve()
 ROOT_FINAL_PSRF = pathlib.Path("../psrd_final").absolute().resolve()
+RESOURCE_DIR = pathlib.Path("../../../resource/data").absolute().resolve()
 
 
 def do_items():
@@ -99,12 +100,13 @@ def do_items():
                 item_type = "gear"
             elif gt in ["Special Substances and Items", "Food, Drink, and Lodging"]:
                 item_type = "consumable"
+            elif gt == "Ammo":
+                item_type = "ammo"
             else:
                 raise Exception
         else:
             raise Exception
         f_json["item_type"] = item_type
-
 
 
         # Deal with 'misc' section
@@ -194,6 +196,14 @@ def do_items():
                 f_json["weapon"]["proficiency"] = f_json["weapon"]["Proficiency"].replace(" Weapons", "")
                 del( f_json["weapon"]["Proficiency"] )
 
+            dmg_re = re.match( r"^(\d+)d(\d+)", f_json["weapon"]["damage"] )
+            if dmg_re:
+                f_json["weapon"]["damage_dcount"] = int( dmg_re.group(1) )
+                f_json["weapon"]["damage_dsize"] = int( dmg_re.group(2) )
+                del( f_json["weapon"]["damage"])
+            else:
+                raise Exception( f"Item: { f_json['name'] } has damage str { f_json['weapon']['damage'] }" )
+
             crit_lower = 20
             crit_mult = 2
             if "Critical" in f_json["weapon"]:
@@ -220,7 +230,7 @@ def do_items():
 
         all_items.append( f_json )
 
-    ROOT_FINAL_PSRF.joinpath( "items.json" ).write_text(
+    RESOURCE_DIR.joinpath( "items.json" ).write_text(
         json.dumps( all_items, indent=2, sort_keys=True )
     )
 
@@ -356,7 +366,7 @@ def do_creatures():
 
         all_creatures.append( f_json )
 
-    ROOT_FINAL_PSRF.joinpath( "creatures.json" ).write_text(
+    RESOURCE_DIR.joinpath( "creatures.json" ).write_text(
         json.dumps( all_creatures, indent=2, sort_keys=True )
     )
 

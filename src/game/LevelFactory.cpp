@@ -747,12 +747,12 @@ void LevelFactory::setInitialCollisionData()
         switch ( m_level->m_baseTilemap[i] )
         {
             case LD::BaseTileType::Wall:
-                m_level->grid().pass().setFixed( i, Rules::Passibility::Impassable );
+                m_level->grid().pass().setFixed( i, Passibility::Impassable );
                 break;
 
             case LD::BaseTileType::Floor:
             case LD::BaseTileType::Junction:
-                m_level->grid().pass().setFixed( i, Rules::Passibility::Passable );
+                m_level->grid().pass().setFixed( i, Passibility::Passable );
                 break;
         }
     }

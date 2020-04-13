@@ -39,11 +39,11 @@ void FOVSystem::update(uint32_t ticks, RenderInterface &rInter)
 
         // If the current tile is hidden, block it out entirely with a black square. If the tile is explored
         // but not visible, overlay it with a partially transparent black square (fog of war)
-        if ( visibility == Rules::Visibility::Hidden )
+        if ( visibility == Visibility::Hidden )
         {
             rInter.addWorldItem( m_fovHidden.renderObject(currPos) );
         }
-        else if ( visibility == Rules::Visibility::Explored )
+        else if ( visibility == Visibility::Explored )
         {
             rInter.addWorldItem( m_fovFog.renderObject(currPos) );
         }

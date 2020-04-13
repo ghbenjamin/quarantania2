@@ -3,6 +3,7 @@
 #include <utils/Logging.h>
 #include <utils/Assert.h>
 #include <utils/Json.h>
+#include <game/Items.h>
 
 ResourceDatabase::ResourceDatabase()
 {
@@ -172,14 +173,31 @@ void ResourceDatabase::loadAllItemData()
             rwd.item_name = rit.name;
             rwd.crit_lower = wObj.FindMember( "crit_lower" )->value.GetInt();
             rwd.crit_mult = wObj.FindMember( "crit_mult" )->value.GetInt();
-            rwd.damage = wObj.FindMember( "damage" )->value.GetString();
+            rwd.damage = {
+                    wObj.FindMember( "damage_dcount" )->value.GetInt(),
+                    wObj.FindMember( "damage_dsize" )->value.GetInt(),
+            };
+
             rwd.damage_type = wObj.FindMember( "damage_type" )->value.GetString();
-            rwd.proficiency = wObj.FindMember( "proficiency" )->value.GetString();
             rwd.weapon_class = wObj.FindMember( "weapon_class" )->value.GetString();
 
             if ( wObj.HasMember("Special") )
             {
                 rwd.specials = wObj.FindMember( "Special" )->value.GetString();
+            }
+
+            std::string profStr = wObj.FindMember( "proficiency" )->value.GetString();
+            if ( profStr == "Simple" )
+            {
+                rwd.proficiency = WeaponProficiency::Simple;
+            }
+            else if ( profStr == "Martial" )
+            {
+                rwd.proficiency = WeaponProficiency::Martial;
+            }
+            else
+            {
+                rwd.proficiency = WeaponProficiency::Exotic;
             }
 
             m_weaponData.push_back( std::move(rwd) );

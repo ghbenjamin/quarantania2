@@ -16,7 +16,7 @@
 #include <game/LevelContext.h>
 #include <game/EntityFactory.h>
 #include <game/GridFeature.h>
-#include <game/Rules.h>
+#include <game/Defines.h>
 #include <game/Grid.h>
 #include <game/UISystem.h>
 #include <game/Camera.h>

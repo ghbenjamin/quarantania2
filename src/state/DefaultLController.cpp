@@ -122,7 +122,7 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 	}
 
     // Only let us interact with things which we can actually see
-    if ( m_level->grid().fov().valueAt(curr) != Rules::Visibility::Visible )
+    if ( m_level->grid().fov().valueAt(curr) != Visibility::Visible )
     {
         return;
     }

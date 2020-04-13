@@ -13,7 +13,7 @@ LevelState::LevelState( LevelConfig const& config, LevelContextPtr ctx )
 
     pdata.startingHeldItems.push_back( "Longsword" );
     pdata.startingHeldItems.push_back( "Rope of Climbing" );
-    pdata.startingEquippedItems.push_back( "Amulet of Mighty Fists" );
+    pdata.startingHeldItems.push_back( "Amulet of Mighty Fists" );
 
     // Create the level
     LevelFactory factory;

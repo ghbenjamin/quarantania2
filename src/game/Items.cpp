@@ -1,7 +1,6 @@
 #include <game/Items.h>
 #include <utils/Json.h>
 #include <utils/Logging.h>
-#include <ui/Tooltips.h>
 #include <db/RawData.h>
 #include <db/ResourceDatabase.h>
 
@@ -11,16 +10,18 @@ Weapon::Weapon(RawWeaponData const& rawData)
     initFromData( rawData );
 }
 
-Weapon::Weapon(std::string_view name)
-{
-    RawWeaponData rawData = ResourceDatabase::instance().weaponFromName( name );
-    initFromData( rawData );
-}
-
 void Weapon::initFromData(RawWeaponData const &rawData)
 {
-    m_critLower = rawData.crit_lower;
-    m_critMult = rawData.crit_mult;
+    m_name = rawData.item_name;
+    m_critData = { rawData.crit_lower, rawData.crit_mult };
+    m_baseDamage = rawData.damage;
+    m_proficiency = rawData.proficiency;
+}
+
+std::unique_ptr<Weapon> Weapon::fromName(std::string_view name)
+{
+    RawWeaponData rawData = ResourceDatabase::instance().weaponFromName( name );
+    return std::make_unique<Weapon>( rawData );
 }
 
 
@@ -54,10 +55,10 @@ Item::Item(RawItemData const &rawData)
     initFromData( rawData );
 }
 
-Item::Item(std::string_view name)
+std::shared_ptr<Item> Item::fromName(std::string_view name)
 {
     RawItemData rawData = ResourceDatabase::instance().itemFromName( name );
-    initFromData( rawData );
+    return std::make_shared<Item>( rawData );
 }
 
 void Item::initFromData(RawItemData const &rawData)
@@ -85,15 +86,19 @@ void Item::initFromData(RawItemData const &rawData)
     {
         m_itemType = ItemType::Gear;
     }
+    else if ( rawData.item_type == "ammo" )
+    {
+        m_itemType = ItemType::Ammo;
+    }
     else if ( rawData.item_type == "weapon" )
     {
         m_itemType = ItemType::Weapon;
-        m_weapon = std::make_unique<Weapon>( m_name );
+        m_weapon = Weapon::fromName( m_name );
     }
     else if ( rawData.item_type == "armour" )
     {
         m_itemType = ItemType::Armour;
-        m_armour = std::make_unique<Armour>( m_name );
+        m_armour = Armour::fromName( m_name );
     }
     else
     {
@@ -207,7 +212,7 @@ UI::TooltipData Item::tooltipData() const
 {
     UI::TooltipData td;
     td.title = m_name;
-    td.subtitle = "FOO";
+    td.subtitle = "Item";
     td.content = m_description;
 
     auto fc = td.title.at(0);
@@ -226,6 +231,13 @@ Armour::Armour(std::string_view name)
 {
     RawArmourData rawData = ResourceDatabase::instance().armourFromName( name );
     initFromData( rawData );
+}
+
+
+std::unique_ptr<Armour> Armour::fromName(std::string_view name)
+{
+    RawArmourData rawData = ResourceDatabase::instance().armourFromName( name );
+    return std::make_unique<Armour>( rawData );
 }
 
 void Armour::initFromData(RawArmourData const &rawData)
@@ -299,3 +311,4 @@ int Armour::speed30() const
 {
     return m_speed30 ;
 }
+

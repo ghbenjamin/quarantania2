@@ -7,17 +7,17 @@ Grid::Grid(Vector2i bounds)
 {
 }
 
-GridFeature<Rules::Passibility, EntityRef> &Grid::pass()
+GridFeature<Passibility, EntityRef> &Grid::pass()
 {
     return m_passGrid;
 }
 
-GridFeature<Rules::Visibility, EntityRef> &Grid::fov()
+GridFeature<Visibility, EntityRef> &Grid::fov()
 {
     return m_visGrid;
 }
 
-GridFeature<Rules::LightLevel, EntityRef> &Grid::light()
+GridFeature<LightLevel, EntityRef> &Grid::light()
 {
     return m_lightGrid;
 }
@@ -46,9 +46,9 @@ void Grid::calculateFOV(Vector2i source, int maxLength)
     for ( int i = 0;  i < tcount; i++ )
     {
         // Reset all the visible tiles to explored tiles
-        if (m_visGrid.valueAt(i) != Rules::Visibility::Hidden)
+        if (m_visGrid.valueAt(i) != Visibility::Hidden)
         {
-            m_visGrid.setFixed(i, Rules::Visibility::Explored);
+            m_visGrid.setFixed(i, Visibility::Explored);
         }
     }
 
@@ -59,7 +59,7 @@ void Grid::calculateFOV(Vector2i source, int maxLength)
         FOVWorker(source, maxLength, 1, 1.0f, 0.0f, &MatrixTransform::octantTransforms[i] );
     }
 
-    m_visGrid.setFixed(source, Rules::Visibility::Visible);
+    m_visGrid.setFixed(source, Visibility::Visible);
 }
 
 
@@ -108,12 +108,12 @@ void Grid::FOVWorker(Vector2i source, int maxLength, int row,
             int radius2 = maxLength * maxLength;
             if ( (dx * dx + dy * dy) < radius2 )
             {
-                m_visGrid.setFixed(curr, Rules::Visibility::Visible);
+                m_visGrid.setFixed(curr, Visibility::Visible);
             }
 
             if (blocked)
             {
-                if ( m_passGrid.valueAt(curr) == Rules::Passibility::Impassable )
+                if ( m_passGrid.valueAt(curr) == Passibility::Impassable )
                 {
                     next_start_slope = r_slope;
                     continue;
@@ -124,7 +124,7 @@ void Grid::FOVWorker(Vector2i source, int maxLength, int row,
                     start_slope = next_start_slope;
                 }
             }
-            else if ( m_passGrid.valueAt(curr) == Rules::Passibility::Impassable )
+            else if ( m_passGrid.valueAt(curr) == Passibility::Impassable )
             {
                 blocked = true;
                 next_start_slope = r_slope;
@@ -196,6 +196,6 @@ void Grid::exploreAllTiles()
 
     for ( int i = 0;  i < tcount; i++ )
     {
-        m_visGrid.setFixed(i, Rules::Visibility::Explored);
+        m_visGrid.setFixed(i, Visibility::Explored);
     }
 }

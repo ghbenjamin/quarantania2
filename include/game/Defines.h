@@ -1,8 +1,6 @@
 #pragma once
 
 
-namespace Rules
-{
 
 enum class Passibility
 {
@@ -21,5 +19,14 @@ enum class Visibility
 using LightLevel = std::uint8_t;
 
 
-}
+struct DiceRoll
+{
+    int diceCount;
+    int diceSize;
+};
 
+struct CritData
+{
+    int lowerRange;
+    int multiplier;
+};

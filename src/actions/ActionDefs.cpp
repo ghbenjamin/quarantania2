@@ -25,7 +25,7 @@ bool StepAction::canTryAction() const
         return false;
     }
 
-    else if ( m_level->grid().pass().valueAt(m_tile) == Rules::Passibility::Impassable )
+    else if ( m_level->grid().pass().valueAt(m_tile) == Passibility::Impassable )
     {
         return false;
     }

@@ -21,8 +21,8 @@ void CollisionSystem::accept(GEvents::EntityMove *evt)
 
         if ( collider->blocksMovement )
         {
-            m_level->grid().pass().setDynamic( evt->newPos, evt->ent, Rules::Passibility::Impassable );
-            m_level->grid().pass().removeDynamic(  evt->oldPos, evt->ent, Rules::Passibility::Impassable );
+            m_level->grid().pass().setDynamic( evt->newPos, evt->ent, Passibility::Impassable );
+            m_level->grid().pass().removeDynamic(  evt->oldPos, evt->ent, Passibility::Impassable );
         }
     }
 }
@@ -37,7 +37,7 @@ void CollisionSystem::accept(GEvents::EntityReady *evt)
 
         if ( collider->blocksMovement )
         {
-            m_level->grid().pass().setDynamic( tilePos->position, evt->ent, Rules::Passibility::Impassable );
+            m_level->grid().pass().setDynamic( tilePos->position, evt->ent, Passibility::Impassable );
         }
     }
 }
@@ -59,7 +59,7 @@ void CollisionSystem::accept(GEvents::EntityOpenClose *evt)
         if ( !openable->lightOnly )
         {
             collider->blocksMovement = false;
-            m_level->grid().pass().removeDynamic(position->position, evt->ent, Rules::Passibility::Impassable);
+            m_level->grid().pass().removeDynamic(position->position, evt->ent, Passibility::Impassable);
         }
     }
     else
@@ -70,7 +70,7 @@ void CollisionSystem::accept(GEvents::EntityOpenClose *evt)
         if ( !openable->lightOnly )
         {
             collider->blocksMovement = true;
-            m_level->grid().pass().setDynamic(position->position, evt->ent, Rules::Passibility::Impassable);
+            m_level->grid().pass().setDynamic(position->position, evt->ent, Passibility::Impassable);
         }
     }
 }

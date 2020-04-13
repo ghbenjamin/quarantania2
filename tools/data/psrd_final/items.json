@@ -141,18 +141,11 @@
   },
   {
     "description": "An arrow used as a melee weapon is treated as a light improvised weapon (-4 penalty on attack rolls) and deals damage as a dagger of its size (critical multiplier x2). Arrows come in a leather quiver that holds 20 arrows.",
-    "item_type": "weapon",
+    "item_type": "ammo",
     "name": "Arrows",
     "price": 100,
-    "slot": "weapon",
     "sprite_name": "Ammo_015",
     "sprite_sheet": "dawnlike_items",
-    "weapon": {
-      "crit_lower": 20,
-      "crit_mult": 2,
-      "proficiency": "Martial",
-      "weapon_class": "Ranged"
-    },
     "weight": 3
   },
   {
@@ -209,7 +202,8 @@
       "Special": "double",
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d8/1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "S",
       "proficiency": "Exotic",
       "weapon_class": "Two-Handed Melee"
@@ -321,7 +315,8 @@
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "S",
       "proficiency": "Martial",
       "weapon_class": "One-Handed Melee"
@@ -461,7 +456,8 @@
       "Special": "nonlethal, trip",
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d4",
+      "damage_dcount": 1,
+      "damage_dsize": 4,
       "damage_type": "B",
       "proficiency": "Exotic",
       "weapon_class": "Ranged"
@@ -470,18 +466,11 @@
   },
   {
     "description": "A crossbow bolt used as a melee weapon is treated as a light improvised weapon (-4 penalty on attack rolls) and deals damage as a dagger of its size (crit x2). Bolts come in a case or quiver that holds 10 bolts (or 5, for a repeating crossbow). ",
-    "item_type": "weapon",
+    "item_type": "ammo",
     "name": "Bolts",
     "price": 100,
-    "slot": "weapon",
     "sprite_name": "Ammo_019",
     "sprite_sheet": "dawnlike_items",
-    "weapon": {
-      "crit_lower": 20,
-      "crit_mult": 2,
-      "proficiency": "Exotic",
-      "weapon_class": "Ranged"
-    },
     "weight": 1
   },
   {
@@ -744,18 +733,11 @@
   },
   {
     "description": "Bullets are shaped metal balls, designed to be used by a sling or halfling sling staff. Bullets come in a leather pouch that holds 10 bullets.",
-    "item_type": "weapon",
+    "item_type": "ammo",
     "name": "Sling Bullets",
     "price": 10,
-    "slot": "weapon",
     "sprite_name": "Ammo_006",
     "sprite_sheet": "dawnlike_items",
-    "weapon": {
-      "crit_lower": 20,
-      "crit_mult": 2,
-      "proficiency": "Exotic",
-      "weapon_class": "Ranged"
-    },
     "weight": 5
   },
   {
@@ -887,7 +869,8 @@
       "Special": "disarm, trip",
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "2d4",
+      "damage_dcount": 2,
+      "damage_dsize": 4,
       "damage_type": "P",
       "proficiency": "Exotic",
       "weapon_class": "Two-Handed Melee"
@@ -1065,7 +1048,8 @@
       "Range": 10,
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "B",
       "proficiency": "Simple",
       "weapon_class": "One-Handed Melee"
@@ -1096,7 +1080,8 @@
       "Range": 30,
       "crit_lower": 19,
       "crit_mult": 2,
-      "damage": "1d4",
+      "damage_dcount": 1,
+      "damage_dsize": 4,
       "damage_type": "P",
       "proficiency": "Exotic",
       "weapon_class": "Ranged"
@@ -1115,7 +1100,8 @@
       "Range": 120,
       "crit_lower": 19,
       "crit_mult": 2,
-      "damage": "1d10",
+      "damage_dcount": 1,
+      "damage_dsize": 10,
       "damage_type": "P",
       "proficiency": "Simple",
       "weapon_class": "Ranged"
@@ -1134,7 +1120,8 @@
       "Range": 80,
       "crit_lower": 19,
       "crit_mult": 2,
-      "damage": "1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "P",
       "proficiency": "Simple",
       "weapon_class": "Ranged"
@@ -1153,7 +1140,8 @@
       "Range": 120,
       "crit_lower": 19,
       "crit_mult": 2,
-      "damage": "1d10",
+      "damage_dcount": 1,
+      "damage_dsize": 10,
       "damage_type": "P",
       "proficiency": "Exotic",
       "weapon_class": "Ranged"
@@ -1172,7 +1160,8 @@
       "Range": 80,
       "crit_lower": 19,
       "crit_mult": 2,
-      "damage": "1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "P",
       "proficiency": "Exotic",
       "weapon_class": "Ranged"
@@ -1264,7 +1253,8 @@
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
-      "damage": "1d10",
+      "damage_dcount": 1,
+      "damage_dsize": 10,
       "damage_type": "S",
       "proficiency": "Exotic",
       "weapon_class": "Two-Handed Melee"
@@ -1283,7 +1273,8 @@
       "Range": 10,
       "crit_lower": 19,
       "crit_mult": 2,
-      "damage": "1d4",
+      "damage_dcount": 1,
+      "damage_dsize": 4,
       "damage_type": "P,S",
       "proficiency": "Simple",
       "weapon_class": "Light Melee"
@@ -1313,7 +1304,8 @@
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d4",
+      "damage_dcount": 1,
+      "damage_dsize": 4,
       "damage_type": "P",
       "proficiency": "Simple",
       "weapon_class": "Light Melee"
@@ -1354,7 +1346,8 @@
       "Range": 20,
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d4",
+      "damage_dcount": 1,
+      "damage_dsize": 4,
       "damage_type": "P",
       "proficiency": "Simple",
       "weapon_class": "Ranged"
@@ -1695,7 +1688,8 @@
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
-      "damage": "2d4",
+      "damage_dcount": 2,
+      "damage_dsize": 4,
       "damage_type": "S",
       "proficiency": "Martial",
       "weapon_class": "Two-Handed Melee"
@@ -1714,7 +1708,8 @@
       "Special": "disarm, trip",
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "B",
       "proficiency": "Martial",
       "weapon_class": "One-Handed Melee"
@@ -1733,7 +1728,8 @@
       "Special": "disarm, double, trip",
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d8/1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "B",
       "proficiency": "Exotic",
       "weapon_class": "Two-Handed Melee"
@@ -1752,7 +1748,8 @@
       "Special": "disarm, trip",
       "crit_lower": 19,
       "crit_mult": 2,
-      "damage": "1d10",
+      "damage_dcount": 1,
+      "damage_dsize": 10,
       "damage_type": "B",
       "proficiency": "Martial",
       "weapon_class": "Two-Handed Melee"
@@ -1869,7 +1866,8 @@
       "Special": "reach",
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d10",
+      "damage_dcount": 1,
+      "damage_dsize": 10,
       "damage_type": "S",
       "proficiency": "Martial",
       "weapon_class": "Two-Handed Melee"
@@ -1961,7 +1959,8 @@
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d12",
+      "damage_dcount": 1,
+      "damage_dsize": 12,
       "damage_type": "S",
       "proficiency": "Martial",
       "weapon_class": "Two-Handed Melee"
@@ -1979,7 +1978,8 @@
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d10",
+      "damage_dcount": 1,
+      "damage_dsize": 10,
       "damage_type": "B",
       "proficiency": "Martial",
       "weapon_class": "Two-Handed Melee"
@@ -1997,7 +1997,8 @@
     "weapon": {
       "crit_lower": 19,
       "crit_mult": 2,
-      "damage": "2d6",
+      "damage_dcount": 2,
+      "damage_dsize": 6,
       "damage_type": "S",
       "proficiency": "Martial",
       "weapon_class": "Two-Handed Melee"
@@ -2016,7 +2017,8 @@
       "Special": "reach, trip",
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "2d4",
+      "damage_dcount": 2,
+      "damage_dsize": 4,
       "damage_type": "S",
       "proficiency": "Martial",
       "weapon_class": "Two-Handed Melee"
@@ -2035,7 +2037,8 @@
       "Special": "brace, trip",
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d10",
+      "damage_dcount": 1,
+      "damage_dsize": 10,
       "damage_type": "P,S",
       "proficiency": "Martial",
       "weapon_class": "Two-Handed Melee"
@@ -2081,7 +2084,8 @@
       "Special": "double, trip",
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d8/1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "B,P",
       "proficiency": "Exotic",
       "weapon_class": "Two-Handed Melee"
@@ -2099,7 +2103,8 @@
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "S",
       "proficiency": "Martial",
       "weapon_class": "Light Melee"
@@ -2241,7 +2246,8 @@
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 4,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "P",
       "proficiency": "Martial",
       "weapon_class": "One-Handed Melee"
@@ -2506,7 +2512,8 @@
       "Range": 30,
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "P",
       "proficiency": "Simple",
       "weapon_class": "Ranged"
@@ -2536,7 +2543,8 @@
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
-      "damage": "1d4",
+      "damage_dcount": 1,
+      "damage_dsize": 4,
       "damage_type": "S",
       "proficiency": "Martial",
       "weapon_class": "Light Melee"
@@ -2555,7 +2563,8 @@
       "Special": "reach",
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "P",
       "proficiency": "Martial",
       "weapon_class": "Two-Handed Melee"
@@ -2617,7 +2626,8 @@
       "Range": 20,
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d4",
+      "damage_dcount": 1,
+      "damage_dsize": 4,
       "damage_type": "B",
       "proficiency": "Martial",
       "weapon_class": "Light Melee"
@@ -2635,7 +2645,8 @@
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 4,
-      "damage": "1d4",
+      "damage_dcount": 1,
+      "damage_dsize": 4,
       "damage_type": "P",
       "proficiency": "Martial",
       "weapon_class": "Light Melee"
@@ -2667,7 +2678,8 @@
       "Range": 100,
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "P",
       "proficiency": "Martial",
       "weapon_class": "Ranged"
@@ -2686,7 +2698,8 @@
       "Range": 110,
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "P",
       "proficiency": "Martial",
       "weapon_class": "Ranged"
@@ -2705,7 +2718,8 @@
       "Special": "brace, reach",
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "P",
       "proficiency": "Simple",
       "weapon_class": "Two-Handed Melee"
@@ -2723,7 +2737,8 @@
     "weapon": {
       "crit_lower": 19,
       "crit_mult": 2,
-      "damage": "1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "S",
       "proficiency": "Martial",
       "weapon_class": "One-Handed Melee"
@@ -2775,7 +2790,8 @@
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "B",
       "proficiency": "Simple",
       "weapon_class": "Light Melee"
@@ -2793,7 +2809,8 @@
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "B",
       "proficiency": "Simple",
       "weapon_class": "One-Handed Melee"
@@ -3019,7 +3036,8 @@
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "B,P",
       "proficiency": "Simple",
       "weapon_class": "One-Handed Melee"
@@ -3077,7 +3095,8 @@
       "Special": "disarm, monk",
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "B",
       "proficiency": "Exotic",
       "weapon_class": "Light Melee"
@@ -3348,7 +3367,8 @@
       "Special": "double, monk",
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d6/1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "B",
       "proficiency": "Simple",
       "weapon_class": "Two-Handed Melee"
@@ -3367,7 +3387,8 @@
       "Special": "disarm, reach",
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "2d4",
+      "damage_dcount": 2,
+      "damage_dsize": 4,
       "damage_type": "P",
       "proficiency": "Martial",
       "weapon_class": "Two-Handed Melee"
@@ -3385,7 +3406,8 @@
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "P",
       "proficiency": "Martial",
       "weapon_class": "One-Handed Melee"
@@ -4259,7 +4281,8 @@
       "Special": "disarm, monk",
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d4",
+      "damage_dcount": 1,
+      "damage_dsize": 4,
       "damage_type": "B",
       "proficiency": "Exotic",
       "weapon_class": "Light Melee"
@@ -4290,7 +4313,8 @@
       "Special": "nonlethal",
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "B",
       "proficiency": "Martial",
       "weapon_class": "Light Melee"
@@ -4377,7 +4401,8 @@
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "S",
       "proficiency": "Martial",
       "weapon_class": "One-Handed Melee"
@@ -4417,7 +4442,8 @@
       "Special": "trip",
       "crit_lower": 20,
       "crit_mult": 4,
-      "damage": "2d4",
+      "damage_dcount": 2,
+      "damage_dsize": 4,
       "damage_type": "P,S",
       "proficiency": "Martial",
       "weapon_class": "Two-Handed Melee"
@@ -4472,7 +4498,8 @@
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d4",
+      "damage_dcount": 1,
+      "damage_dsize": 4,
       "damage_type": "B",
       "proficiency": "Martial",
       "weapon_class": "One-Handed Melee"
@@ -4497,7 +4524,8 @@
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d4",
+      "damage_dcount": 1,
+      "damage_dsize": 4,
       "damage_type": "B",
       "proficiency": "Martial",
       "weapon_class": "One-Handed Melee"
@@ -4564,7 +4592,8 @@
       "Range": 60,
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "P",
       "proficiency": "Martial",
       "weapon_class": "Ranged"
@@ -4583,7 +4612,8 @@
       "Range": 70,
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "P",
       "proficiency": "Martial",
       "weapon_class": "Ranged"
@@ -4602,7 +4632,8 @@
       "Range": 20,
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "P",
       "proficiency": "Simple",
       "weapon_class": "One-Handed Melee"
@@ -4620,7 +4651,8 @@
     "weapon": {
       "crit_lower": 19,
       "crit_mult": 2,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "P",
       "proficiency": "Martial",
       "weapon_class": "Light Melee"
@@ -4648,7 +4680,8 @@
       "Special": "trip",
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "S",
       "proficiency": "Simple",
       "weapon_class": "Light Melee"
@@ -4719,7 +4752,8 @@
       "Range": 50,
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d4",
+      "damage_dcount": 1,
+      "damage_dsize": 4,
       "damage_type": "B",
       "proficiency": "Simple",
       "weapon_class": "Ranged"
@@ -4782,7 +4816,8 @@
       "Special": "brace",
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "P",
       "proficiency": "Simple",
       "weapon_class": "Two-Handed Melee"
@@ -5126,7 +5161,8 @@
       "Range": 20,
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d4",
+      "damage_dcount": 1,
+      "damage_dsize": 4,
       "damage_type": "P",
       "proficiency": "Martial",
       "weapon_class": "Light Melee"
@@ -5254,7 +5290,8 @@
     "weapon": {
       "crit_lower": 19,
       "crit_mult": 2,
-      "damage": "1d10",
+      "damage_dcount": 1,
+      "damage_dsize": 10,
       "damage_type": "S",
       "proficiency": "Exotic",
       "weapon_class": "One-Handed Melee"
@@ -5321,7 +5358,8 @@
       "Special": "double",
       "crit_lower": 19,
       "crit_mult": 2,
-      "damage": "1d8/1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "S",
       "proficiency": "Exotic",
       "weapon_class": "Two-Handed Melee"
@@ -5427,7 +5465,8 @@
       "Range": 10,
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d6",
+      "damage_dcount": 1,
+      "damage_dsize": 6,
       "damage_type": "S",
       "proficiency": "Martial",
       "weapon_class": "Light Melee"
@@ -5519,7 +5558,8 @@
       "Special": "brace",
       "crit_lower": 20,
       "crit_mult": 2,
-      "damage": "1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "P",
       "proficiency": "Martial",
       "weapon_class": "One-Handed Melee"
@@ -5620,7 +5660,8 @@
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d10",
+      "damage_dcount": 1,
+      "damage_dsize": 10,
       "damage_type": "S",
       "proficiency": "Exotic",
       "weapon_class": "One-Handed Melee"
@@ -5638,7 +5679,8 @@
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
-      "damage": "1d8",
+      "damage_dcount": 1,
+      "damage_dsize": 8,
       "damage_type": "B",
       "proficiency": "Martial",
       "weapon_class": "One-Handed Melee"

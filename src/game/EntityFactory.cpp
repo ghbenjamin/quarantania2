@@ -52,7 +52,7 @@ PlayerPtr EntityFactory::createPlayer(PlayerData const& data, Vector2i startPos)
 
     for ( auto const& iname : data.startingHeldItems )
     {
-        cContainer->items.push_back( std::make_shared<Item>( iname ) );
+        cContainer->items.push_back( Item::fromName( iname ) );
     }
 
     return std::make_unique<Player>( data, eref );
@@ -78,7 +78,7 @@ EntityRef EntityFactory::createEnemy(std::string const &name, Vector2i pos) cons
 
 EntityRef EntityFactory::createItem(std::string const &name, Vector2i pos) const
 {
-    ItemPtr item = std::make_shared<Item>( name );
+    ItemPtr item = Item::fromName( name );
     return createItem( item, pos );
 }
 

@@ -280,7 +280,7 @@ std::vector<ActionPtr> Level::actionsForTile(EntityRef actor, Vector2i tile)
 {
     std::vector<ActionPtr> out;
 
-    if ( grid().pass().valueAt(tile) != Rules::Passibility::Impassable )
+    if ( grid().pass().valueAt(tile) != Passibility::Impassable )
     {
         auto moveAct = std::make_shared<StepAction>(this, actor, tile);
         out.push_back( std::static_pointer_cast<Action>(moveAct) );
@@ -412,7 +412,7 @@ void Level::generateMinimapData()
     for ( std::size_t i = 0; i < m_baseTilemap.size(); i++ )
     {
         // Tiles which we've not explored yet should be black
-        if ( m_grid.fov().valueAt(i) == Rules::Visibility::Hidden )
+        if ( m_grid.fov().valueAt(i) == Visibility::Hidden )
         {
             m_minimap.setTile(i, Colour::Black);
         }

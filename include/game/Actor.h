@@ -26,7 +26,13 @@ public:
     ItemPtr unequipItem( EquipSlot slot );
     ItemPtr equipItem( EquipSlot slot, ItemPtr item );
 
+    // Weapons
+    WeaponPtr const& getActiveWeapon() const;
+    WeaponPtr const& getNaturalWeapon() const;
+
+
 private:
     std::string m_name;
     std::unordered_map<EquipSlot, ItemPtr> m_equippedItems;
+    std::vector<WeaponPtr> m_naturalWeapons;
 };
