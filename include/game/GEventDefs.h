@@ -4,7 +4,6 @@
 #include <game/Entity.h>
 #include <game/Items.h>
 
-class Item;
 
 namespace GEvents
 {
@@ -55,11 +54,12 @@ struct GameTick : public GEvent<GameTick>
 
 struct MeleeAttack : public GEvent<MeleeAttack>
 {
-    MeleeAttack(EntityRef attacker, EntityRef defender);
+    MeleeAttack(EntityRef attacker, EntityRef defender, WeaponPtr const& weapon);
     ~MeleeAttack() override = default;
 
     EntityRef attacker;
     EntityRef defender;
+    WeaponPtr weapon;
 };
 
 struct ItemPickup : public GEvent<ItemPickup>

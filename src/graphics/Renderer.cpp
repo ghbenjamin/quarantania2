@@ -10,8 +10,6 @@ Renderer::Renderer( SDL_Window* target )
         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
     );
 
-//    SDL_RenderSetScale( m_renderer, 2.0f, 2.0f );
-
     Assert( m_renderer != nullptr );
 }
 
@@ -52,7 +50,7 @@ void Renderer::render(RenderInterface const &objs)
             SDL_RenderSetClipRect( m_renderer, NULL );
         }
 
-        // If the current clip is the same as the requested clip, do noghing
+        // If the current clip is the same as the requested clip, do nothing
 
         // Render the item, respecting the above clip
         SDL_RenderCopy(m_renderer, item.texture, &item.sourceRect, &item.targetRect);

@@ -18,12 +18,16 @@ void Weapon::initFromData(RawWeaponData const &rawData)
     m_proficiency = rawData.proficiency;
 }
 
-std::unique_ptr<Weapon> Weapon::fromName(std::string_view name)
+std::shared_ptr<Weapon> Weapon::fromName(std::string_view name)
 {
     RawWeaponData rawData = ResourceDatabase::instance().weaponFromName( name );
-    return std::make_unique<Weapon>( rawData );
+    return std::make_shared<Weapon>( rawData );
 }
 
+std::string const &Weapon::name() const
+{
+    return m_name;
+}
 
 const std::string &Item::getName() const
 {
@@ -188,7 +192,7 @@ bool Item::isWeapon() const
     return !!m_weapon;
 }
 
-std::unique_ptr<Weapon> const &Item::getWeapon() const
+WeaponPtr const &Item::getWeapon() const
 {
     return m_weapon;
 }
@@ -198,7 +202,7 @@ bool Item::isArmour() const
     return !!m_armour;
 }
 
-std::unique_ptr<Armour> const &Item::getArmour() const
+ArmourPtr const &Item::getArmour() const
 {
     return m_armour;
 }
@@ -234,10 +238,10 @@ Armour::Armour(std::string_view name)
 }
 
 
-std::unique_ptr<Armour> Armour::fromName(std::string_view name)
+std::shared_ptr<Armour> Armour::fromName(std::string_view name)
 {
     RawArmourData rawData = ResourceDatabase::instance().armourFromName( name );
-    return std::make_unique<Armour>( rawData );
+    return std::make_shared<Armour>( rawData );
 }
 
 void Armour::initFromData(RawArmourData const &rawData)

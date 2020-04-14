@@ -16,8 +16,10 @@ void CombatSystem::accept(GEvents::MeleeAttack *evt)
     m_level->addTextLogMessage( fmt::format( "{} attacks {} with their {}!",
             m_level->getDescriptionForEnt(evt->attacker),
             m_level->getDescriptionForEnt(evt->defender),
-            "BFG"
+            evt->weapon->name()
     ));
+
+    // TODO Actually attack
 }
 
 

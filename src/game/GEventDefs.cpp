@@ -9,8 +9,8 @@ GEvents::EntityReady::EntityReady(EntityRef ent)
 GEvents::EntityOpenClose::EntityOpenClose(EntityRef ent, bool isOpen)
     : ent(ent), isOpen(isOpen) {}
 
-GEvents::MeleeAttack::MeleeAttack(EntityRef attacker, EntityRef defender)
-    : attacker(attacker), defender(defender) {}
+GEvents::MeleeAttack::MeleeAttack(EntityRef attacker, EntityRef defender, WeaponPtr const& weapon)
+    : attacker(attacker), defender(defender), weapon(weapon) {}
 
 GEvents::ItemPickup::ItemPickup(EntityRef actor, EntityRef item)
     : actor(actor), item(item) {}

@@ -101,7 +101,7 @@ public:
     Armour( std::string_view name );
     ~Armour() = default;
 
-    static std::unique_ptr<Armour> fromName( std::string_view name );
+    static std::shared_ptr<Armour> fromName( std::string_view name );
 
     ArmourType armourType( ) const;
 
@@ -127,7 +127,7 @@ private:
     ArmourType m_armourType;
 };
 
-using ArmourPtr = std::unique_ptr<Armour>;
+using ArmourPtr = std::shared_ptr<Armour>;
 
 
 class Weapon
@@ -136,8 +136,9 @@ public:
     Weapon( RawWeaponData const& rawData );
     ~Weapon() = default;
 
-    static std::unique_ptr<Weapon> fromName( std::string_view name );
+    static std::shared_ptr<Weapon> fromName( std::string_view name );
 
+    std::string const& name( ) const;
 
 private:
     void initFromData( RawWeaponData const& rawData );
@@ -153,7 +154,7 @@ private:
     std::set<WeaponSpecials> m_specials;
 };
 
-using WeaponPtr = std::unique_ptr<Weapon>;
+using WeaponPtr = std::shared_ptr<Weapon>;
 
 class Item
 {
@@ -173,10 +174,10 @@ public:
     std::string_view getDescription() const;
 
     bool isWeapon() const;
-    std::unique_ptr<Weapon> const& getWeapon() const;
+    WeaponPtr const& getWeapon() const;
 
     bool isArmour() const;
-    std::unique_ptr<Armour> const& getArmour() const;
+    ArmourPtr const& getArmour() const;
 
     UI::TooltipData tooltipData() const;
 

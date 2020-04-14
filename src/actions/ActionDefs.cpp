@@ -131,6 +131,11 @@ bool MeleeAttackAction::canTryAction() const
 {
     if ( m_actor == m_subject ) return false;
 
+    auto actorC = m_level->getComponents<ActorComponent>( m_actor );
+    auto weapon = actorC->character.getActiveWeapon();
+
+    if ( !weapon ) return false;
+
     // TODO Account for weapons with variable reach
     if (m_level->squaredEntityDistance( m_actor, m_subject ) > 2) return false;
 
@@ -139,7 +144,10 @@ bool MeleeAttackAction::canTryAction() const
 
 bool MeleeAttackAction::doAction() const
 {
-    m_level->events().broadcast<GEvents::MeleeAttack>( m_actor, m_subject );
+    auto actorC = m_level->getComponents<ActorComponent>( m_actor );
+    auto weapon = actorC->character.getActiveWeapon();
+
+    m_level->events().broadcast<GEvents::MeleeAttack>( m_actor, m_subject, weapon );
     return true;
 }
 

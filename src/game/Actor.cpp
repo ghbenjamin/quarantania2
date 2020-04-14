@@ -61,7 +61,7 @@ ItemPtr Actor::equipItem(EquipSlot slot, ItemPtr item)
     return lastEquipped;
 }
 
-WeaponPtr const &Actor::getActiveWeapon() const
+WeaponPtr Actor::getActiveWeapon() const
 {
     auto it = m_equippedItems.find( EquipSlot::Weapon );
     if ( it != m_equippedItems.end() )
@@ -70,12 +70,19 @@ WeaponPtr const &Actor::getActiveWeapon() const
     }
     else
     {
+        // Might return a null ptr
         return getNaturalWeapon();
     }
 }
 
-WeaponPtr const &Actor::getNaturalWeapon() const
+WeaponPtr Actor::getNaturalWeapon() const
 {
+    if ( m_naturalWeapons.empty() )
+    {
+        return WeaponPtr();
+    }
+
+    // TODO Don't just return the front weapon
     return m_naturalWeapons.front();
 }
 

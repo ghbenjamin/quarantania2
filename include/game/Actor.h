@@ -27,8 +27,8 @@ public:
     ItemPtr equipItem( EquipSlot slot, ItemPtr item );
 
     // Weapons
-    WeaponPtr const& getActiveWeapon() const;
-    WeaponPtr const& getNaturalWeapon() const;
+    WeaponPtr getActiveWeapon() const;
+    WeaponPtr getNaturalWeapon() const;
 
 
 private:
