@@ -46,13 +46,19 @@ PlayerPtr EntityFactory::createPlayer(PlayerData const& data, Vector2i startPos)
     m_parent->addComponent<RenderComponent>(eref, sprite);
     m_parent->addComponent<ColliderComponent>(eref, false, true);
     auto cContainer = m_parent->addComponent<ContainerComponent>(eref);
-    m_parent->addComponent<ActorComponent>(eref, data);
+    auto cActor = m_parent->addComponent<ActorComponent>(eref, data);
 
     m_parent->entityReady(eref);
 
     for ( auto const& iname : data.startingHeldItems )
     {
         cContainer->items.push_back( Item::fromName( iname ) );
+    }
+
+    for ( auto const& iname : data.startingEquippedItems )
+    {
+        auto ptr = Item::fromName( iname );
+        cActor->character.equipItem( ptr->getEquipSlot(), ptr );
     }
 
     return std::make_unique<Player>( data, eref );

@@ -180,3 +180,8 @@ UI::HorizontalLayout::HorizontalLayout(int spacing, UI::VAlignment valign)
 {
 
 }
+
+Vector2i UI::FreeLayout::doLayout(UI::Element *ptr)
+{
+    return ptr->preferredContentSize();
+}

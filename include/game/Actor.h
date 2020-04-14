@@ -19,7 +19,6 @@ public:
     // Getters
     std::string_view name() const;
 
-
     // Items
     bool hasEquipped( EquipSlot slot ) const;
     const ItemPtr getEquipped( EquipSlot slot ) const;
@@ -32,7 +31,11 @@ public:
 
 
 private:
+    // Info
     std::string m_name;
+
+    // Items
     std::unordered_map<EquipSlot, ItemPtr> m_equippedItems;
     std::vector<WeaponPtr> m_naturalWeapons;
+
 };

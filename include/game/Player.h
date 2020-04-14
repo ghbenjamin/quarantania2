@@ -5,20 +5,15 @@
 #include <vector>
 
 #include <game/Entity.h>
+#include <game/Defines.h>
 
 struct PlayerData
 {
     std::string name;
     std::string race;
 
-    int attr_str;
-    int attr_dex;
-    int attr_con;
-    int attr_int;
-    int attr_wis;
-    int attr_cha;
-
     std::vector<std::string> startingHeldItems;
+    std::vector<std::string> startingEquippedItems;
 };
 
 

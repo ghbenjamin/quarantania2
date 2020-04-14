@@ -1,7 +1,6 @@
 #pragma once
 
 
-
 enum class Passibility
 {
     Passable,
@@ -30,3 +29,14 @@ struct CritData
     int lowerRange;
     int multiplier;
 };
+
+enum class Attribute
+{
+    STR,
+    DEX,
+    CON,
+    INT,
+    WIS,
+    CHA
+};
+

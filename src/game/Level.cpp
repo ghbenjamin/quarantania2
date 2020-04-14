@@ -20,6 +20,7 @@
 #include <ui/ContainerView.h>
 #include <ui/EquippedItemsView.h>
 #include <ui/MainTabControl.h>
+#include <ui/CharStatsView.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 :   m_ctx(std::move(ctx)),
@@ -49,6 +50,7 @@ void Level::setReady()
 
     m_playerContainerView->attachEntity(ref);
     m_playerEquippedView->attachEntity(ref);
+    m_playerCharStatsView->attachEntity(ref);
 
     m_gevents.broadcast<GEvents::LevelReady>();
 
@@ -212,6 +214,7 @@ void Level::setupUI()
     m_mainTabControl = m_uiManager.createElement<UI::MainTabControl>( trframe.get() );
     m_playerEquippedView = m_uiManager.withId( "main-equip-view" )->asType<UI::EquippedItemsView>();
     m_playerContainerView = m_uiManager.withId( "main-inventory-view" )->asType<UI::ContainerView>();
+    m_playerCharStatsView = m_uiManager.withId( "player-stats-view" )->asType<UI::CharStatsView>();
 }
 
 void Level::layoutWindows()

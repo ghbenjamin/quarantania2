@@ -4,6 +4,7 @@
 #include <ui/ContainerView.h>
 #include <utils/Assert.h>
 #include <resource/ResourceManager.h>
+#include <ui/CharStatsView.h>
 
 using namespace UI;
 
@@ -25,6 +26,9 @@ MainTabControl::MainTabControl(Manager* manager, Element* parent)
 
     ElementPtr tabCharStats = addTab();
     tabCharStats->setBackgroundSprite( ResourceManager::get().getSprite( "char-stats-tab" ) );
+
+    auto charStatsView = manager->createElement<UI::CharStatsView>( tabCharStats.get() );
+    charStatsView->setPreferredOuterSize({1, TOTAL_HEIGHT});
 
     // Inventory & equip
 

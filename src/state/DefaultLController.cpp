@@ -140,7 +140,7 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
         if ( m_level->entityHas<ItemComponent>(ents[0]) )
         {
             auto itemComp = m_level->getComponents<ItemComponent>( ents[0] );
-            m_level->ui().openTooltip( itemComp->item->tooltipData(), m_level->tileCoordsToScreen(curr) + Vector2i{20, 20}  );
+            m_level->ui().openTooltip( itemComp->item->tooltipData(), m_level->tileCoordsToScreen(curr) + Vector2i{30, 30}  );
         }
     }
 }

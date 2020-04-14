@@ -11,9 +11,10 @@ LevelState::LevelState( LevelConfig const& config, LevelContextPtr ctx )
     PlayerData pdata;
     pdata.name = "Angus Mackenzie";
 
-    pdata.startingHeldItems.push_back( "Longsword" );
     pdata.startingHeldItems.push_back( "Rope of Climbing" );
-    pdata.startingHeldItems.push_back( "Amulet of Mighty Fists" );
+
+    pdata.startingEquippedItems.push_back( "Longsword" );
+    pdata.startingEquippedItems.push_back( "Amulet of Mighty Fists" );
 
     // Create the level
     LevelFactory factory;

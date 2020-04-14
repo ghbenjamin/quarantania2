@@ -62,9 +62,9 @@
       "fontSize": 12
     },
     {
-      "key": "fira-code-regular",
-      "name": "FiraCode-Regular.ttf",
-      "fontSize": 14
+      "key": "inconsolata-18",
+      "name": "Inconsolata-Regular.ttf",
+      "fontSize": 18
     }
   ],
 

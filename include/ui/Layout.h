@@ -52,7 +52,7 @@ public:
 class VerticalLayout : public ElementLayout
 {
 public:
-    explicit VerticalLayout(int spacing = 0, HAlignment halign=HAlignment::Left);
+    VerticalLayout(int spacing = 0, HAlignment halign=HAlignment::Left);
     ~VerticalLayout() override = default;
 
     Vector2i doLayout(Element *ptr) override;
@@ -60,14 +60,13 @@ public:
 private:
     int m_spacing;
     HAlignment m_halign;
-
 };
 
 
 class HorizontalLayout : public ElementLayout
 {
 public:
-    explicit HorizontalLayout(int spacing = 0, VAlignment valign=VAlignment::Centre);
+    HorizontalLayout(int spacing = 0, VAlignment valign=VAlignment::Centre);
     ~HorizontalLayout() override = default;
 
     Vector2i doLayout(Element *ptr) override;
@@ -75,9 +74,17 @@ public:
 private:
     int m_spacing;
     VAlignment m_valign;
-
 };
 
+
+class FreeLayout : public ElementLayout
+{
+public:
+    FreeLayout() = default;
+    ~FreeLayout() = default;
+
+    Vector2i doLayout(Element *ptr) override;
+};
 
 
 }

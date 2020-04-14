@@ -18,7 +18,7 @@
 #include <game/GridFeature.h>
 #include <game/Defines.h>
 #include <game/Grid.h>
-#include <game/UISystem.h>
+#include <game/Minimap.h>
 #include <game/Camera.h>
 #include <state/LevelController.h>
 #include <systems/System.h>
@@ -38,10 +38,12 @@ struct IEventWindowResize;
 class LevelFactory;
 class Action;
 
-namespace UI {
+namespace UI
+{
     class TextLog;
     class ContainerView;
     class EquippedItemsView;
+    class CharStatsView;
 }
 
 // Typedefs 
@@ -333,6 +335,7 @@ private:
     std::shared_ptr<UI::TextLog> m_textLog;
     std::shared_ptr<UI::ContainerView> m_playerContainerView;
     std::shared_ptr<UI::EquippedItemsView> m_playerEquippedView;
+    std::shared_ptr<UI::CharStatsView> m_playerCharStatsView;
     UI::ElementPtr m_mainTabControl;
 
     Camera m_camera;
