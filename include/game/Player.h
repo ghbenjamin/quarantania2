@@ -11,6 +11,7 @@ struct PlayerData
 {
     std::string name;
     std::string race;
+    Alignment alignment;
 
     std::vector<std::string> startingHeldItems;
     std::vector<std::string> startingEquippedItems;

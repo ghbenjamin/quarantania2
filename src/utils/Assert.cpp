@@ -1,6 +1,8 @@
 #include <utils/Assert.h>
+#include <string>
 
-void _assert_with_msg(const char* expr_str, bool expr, const char* file, int line, const char* msg)
+template <typename T>
+void assert_with_msg(const char* expr_str, bool expr, const char* file, int line, T msg)
 {
     if (!expr)
     {
@@ -11,7 +13,10 @@ void _assert_with_msg(const char* expr_str, bool expr, const char* file, int lin
     }
 }
 
-void _assert_without_msg(const char* expr_str, bool expr, const char* file, int line)
+template void assert_with_msg<std::string>(const char* expr_str, bool expr, const char* file, int line, std::string msg);
+template void assert_with_msg<const char*>(const char* expr_str, bool expr, const char* file, int line, const char* msg);
+
+void assert_without_msg(const char* expr_str, bool expr, const char* file, int line)
 {
     if (!expr)
     {

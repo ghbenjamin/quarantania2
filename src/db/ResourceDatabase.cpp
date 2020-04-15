@@ -23,7 +23,7 @@ RawItemData ResourceDatabase::itemFromName(std::string_view name)
         return item.name == name;
     });
 
-    AssertMsg( it != m_itemData.end(), fmt::format( "Unexpected item: {}", name ).c_str() );
+    AssertMsg( it != m_itemData.end(), fmt::format( "Unexpected item: {}", name ) );
     return RawItemData( *it );
 }
 
@@ -255,6 +255,147 @@ void ResourceDatabase::loadAllItemData()
 
 
         m_itemData.push_back( std::move(rit) );
+    }
+}
+
+Alignment ResourceDatabase::parseAlignmentFromStr(std::string_view sv)
+{
+    if ( sv == "LG" )
+    {
+        return Alignment::LG;
+    }
+    else if ( sv == "NG" )
+    {
+        return Alignment::NG;
+    }
+    else if ( sv == "CG" )
+    {
+        return Alignment::CG;
+    }
+    else if ( sv == "LN" )
+    {
+        return Alignment::LN;
+    }
+    else if ( sv == "N" )
+    {
+        return Alignment::TN;
+    }
+    else if ( sv == "CN" )
+    {
+        return Alignment::CN;
+    }
+    else if ( sv == "LE" )
+    {
+        return Alignment::LE;
+    }
+    else if ( sv == "NE" )
+    {
+        return Alignment::NE;
+    }
+    else if ( sv == "CE" )
+    {
+        return Alignment::CE;
+    }
+    else
+    {
+        AssertAlwaysMsg( fmt::format( "Unexpected alignment: '{}'", sv ) );
+        return Alignment::TN;
+    }
+}
+
+EquipSlot ResourceDatabase::parseEquipSlotFromStr(std::string_view sv)
+{
+    if ( sv == "armor" )
+    {
+        return EquipSlot::Armor;
+    }
+    else if ( sv == "arms" )
+    {
+        return EquipSlot::Arms;
+    }
+    else if ( sv == "belt" )
+    {
+        return EquipSlot::Belt;
+    }
+    else if ( sv == "body" )
+    {
+        return EquipSlot::Body;
+    }
+    else if ( sv == "chest" )
+    {
+        return EquipSlot::Chest;
+    }
+    else if ( sv == "eyes" )
+    {
+        return EquipSlot::Eyes;
+    }
+    else if ( sv == "feet" )
+    {
+        return EquipSlot::Feet;
+    }
+    else if ( sv == "hands" )
+    {
+        return EquipSlot::Hands;
+    }
+    else if ( sv == "head" )
+    {
+        return EquipSlot::Head;
+    }
+    else if ( sv == "headband" )
+    {
+        return EquipSlot::Headband;
+    }
+    else if ( sv == "neck" )
+    {
+        return EquipSlot::Neck;
+    }
+    else if ( sv == "ring" )
+    {
+        return EquipSlot::Ring;
+    }
+    else if ( sv == "shield" )
+    {
+        return EquipSlot::Shield;
+    }
+    else if ( sv == "shoulders" )
+    {
+        return EquipSlot::Shoulders;
+    }
+    else if ( sv == "wrists" )
+    {
+        return EquipSlot::Wrists;
+    }
+    else if ( sv == "weapon" )
+    {
+        return EquipSlot::Weapon;
+    }
+    else
+    {
+        return EquipSlot::None;
+    }
+}
+
+ArmourType ResourceDatabase::parseArmourTypeFromStr(std::string_view sv)
+{
+    if ( sv == "Light armor" )
+    {
+        return ArmourType::Light;
+    }
+    else if ( sv == "Medium armor" )
+    {
+        return ArmourType::Medium;
+    }
+    else if ( sv == "Heavy armor" )
+    {
+        return ArmourType::Heavy;
+    }
+    if ( sv == "Shields" )
+    {
+        return ArmourType::Shield;
+    }
+    else
+    {
+        AssertAlwaysMsg( "Unknown armour type" );
     }
 }
 

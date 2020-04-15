@@ -406,7 +406,7 @@ void LevelFactory::addJunction( Vector2i pos, RegionRef r1, RegionRef r2 )
 void LevelFactory::removeJunction(Vector2i pos)
 {
     auto jc_it = m_junctions.find( pos );
-    AssertMsg( jc_it != m_junctions.end(), "deleting non-existant junction" );
+    AssertMsg(jc_it != m_junctions.end(), "deleting non-existant junction");
 
     tileSet( pos, BaseTileType::Wall );
     auto jc = jc_it->second;

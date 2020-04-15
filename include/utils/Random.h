@@ -22,3 +22,16 @@ inline bool coinflip( RandomGenerator& rg )
 {
     return std::uniform_int_distribution<>(1, 2)(rg) == 1;
 }
+
+inline int diceroll( int dcount, int dsize, RandomGenerator& rd )
+{
+    std::uniform_int_distribution dist(1, dsize);
+    int out = 0;
+
+    for ( int i = 0; i < dcount; i++ )
+    {
+        out += dist(rd);
+    }
+
+    return out;
+}

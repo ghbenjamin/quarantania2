@@ -64,6 +64,7 @@ public:
     // Core
     bool input(IEvent &evt);
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
+    RandomGenerator& random();
 
     Grid& grid();
     GEventHub& events();

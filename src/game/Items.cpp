@@ -29,6 +29,31 @@ std::string const &Weapon::name() const
     return m_name;
 }
 
+WeaponHandedness Weapon::handedness() const
+{
+    return m_handedness;
+}
+
+WeaponType Weapon::type() const
+{
+    return m_weaponType;
+}
+
+WeaponProficiency Weapon::proficiency() const
+{
+    return m_proficiency;
+}
+
+CritData const &Weapon::critData() const
+{
+    return m_critData;
+}
+
+DiceRoll const &Weapon::damage() const
+{
+    return m_baseDamage;
+}
+
 const std::string &Item::getName() const
 {
     return m_name;
@@ -72,7 +97,7 @@ void Item::initFromData(RawItemData const &rawData)
     m_weight = rawData.weight;
     m_sprite = rawData.sprite;
     m_description = rawData.description;
-    m_equipSlot = equipSlotFromString( rawData.slot );
+    m_equipSlot = ResourceDatabase::parseEquipSlotFromStr( rawData.slot );
 
     if ( rawData.item_type == "armour" )
     {
@@ -107,78 +132,6 @@ void Item::initFromData(RawItemData const &rawData)
     else
     {
         m_itemType = ItemType::Unknown;
-    }
-}
-
-EquipSlot Item::equipSlotFromString(std::string_view str)
-{
-    if ( str == "armor" )
-    {
-        return EquipSlot::Armor;
-    }
-    else if ( str == "arms" )
-    {
-        return EquipSlot::Arms;
-    }
-    else if ( str == "belt" )
-    {
-        return EquipSlot::Belt;
-    }
-    else if ( str == "body" )
-    {
-        return EquipSlot::Body;
-    }
-    else if ( str == "chest" )
-    {
-        return EquipSlot::Chest;
-    }
-    else if ( str == "eyes" )
-    {
-        return EquipSlot::Eyes;
-    }
-    else if ( str == "feet" )
-    {
-        return EquipSlot::Feet;
-    }
-    else if ( str == "hands" )
-    {
-        return EquipSlot::Hands;
-    }
-    else if ( str == "head" )
-    {
-        return EquipSlot::Head;
-    }
-    else if ( str == "headband" )
-    {
-        return EquipSlot::Headband;
-    }
-    else if ( str == "neck" )
-    {
-        return EquipSlot::Neck;
-    }
-    else if ( str == "ring" )
-    {
-        return EquipSlot::Ring;
-    }
-    else if ( str == "shield" )
-    {
-        return EquipSlot::Shield;
-    }
-    else if ( str == "shoulders" )
-    {
-        return EquipSlot::Shoulders;
-    }
-    else if ( str == "wrists" )
-    {
-        return EquipSlot::Wrists;
-    }
-    else if ( str == "weapon" )
-    {
-        return EquipSlot::Weapon;
-    }
-    else
-    {
-        return EquipSlot::None;
     }
 }
 
@@ -253,27 +206,7 @@ void Armour::initFromData(RawArmourData const &rawData)
     m_speed20 = rawData.speed20;
     m_speed30 = rawData.speed30;
     m_armourCheck = rawData.armourCheck;
-
-    if ( rawData.armour_type == "Light armor" )
-    {
-        m_armourType = ArmourType::Light;
-    }
-    else if ( rawData.armour_type == "Medium armor" )
-    {
-        m_armourType = ArmourType::Medium;
-    }
-    else if ( rawData.armour_type == "Heavy armor" )
-    {
-        m_armourType = ArmourType::Heavy;
-    }
-    if ( rawData.armour_type == "Shields" )
-    {
-        m_armourType = ArmourType::Shield;
-    }
-    else
-    {
-        AssertAlwaysMsg( "Unknown armour type" );
-    }
+    m_armourType = ResourceDatabase::parseArmourTypeFromStr(rawData.armour_type);
 }
 
 ArmourType Armour::armourType() const

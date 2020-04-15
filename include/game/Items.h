@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <unordered_map>
-#include <set>
 
 #include <resource/Spritesheet.h>
 #include <ui/Defines.h>
@@ -12,87 +11,6 @@ struct RawItemData;
 struct RawWeaponData;
 struct RawArmourData;
 struct RawCreatureData;
-
-enum class ItemType
-{
-    Unknown,
-    Armour,
-    Consumable,
-    Equippable,
-    Gear,
-    Weapon,
-    Ammo,
-};
-
-enum class EquipSlot
-{
-    None,
-    Armor,
-    Arms,
-    Belt,
-    Body,
-    Chest,
-    Eyes,
-    Feet,
-    Hands,
-    Head,
-    Headband,
-    Neck,
-    Ring,
-    Shield,
-    Shoulders,
-    Weapon,
-    Wrists,
-};
-
-
-enum class WeaponHandedness
-{
-    OneHanded,
-    TwoHanded,
-};
-
-enum class WeaponType
-{
-    Melee,
-    Ranged,
-    Ammo
-};
-
-enum class WeaponProficiency
-{
-    Simple,
-    Martial,
-    Exotic
-};
-
-enum class PhysDamageType
-{
-    Piercing = 0x1,
-    Bludgeoning = 0x2,
-    Slashing = 0x4
-};
-
-enum class WeaponSpecials
-{
-    Trip,
-    Reach,
-    Nonlethal,
-    Double,
-    Disarm,
-    Brace,
-};
-
-using PhysDamageMask = std::uint8_t;
-
-enum class ArmourType
-{
-    Heavy,
-    Medium,
-    Light,
-    Shield
-};
-
 
 class Armour
 {
@@ -139,6 +57,11 @@ public:
     static std::shared_ptr<Weapon> fromName( std::string_view name );
 
     std::string const& name( ) const;
+    WeaponHandedness handedness() const;
+    WeaponType type() const;
+    WeaponProficiency proficiency() const;
+    CritData const& critData() const;
+    DiceRoll const& damage() const;
 
 private:
     void initFromData( RawWeaponData const& rawData );
@@ -151,7 +74,7 @@ private:
     CritData m_critData;
     DiceRoll m_baseDamage;
     PhysDamageMask m_damageType;
-    std::set<WeaponSpecials> m_specials;
+    WeaponSpecialMask m_specials;
 };
 
 using WeaponPtr = std::shared_ptr<Weapon>;
@@ -184,7 +107,6 @@ public:
 
 private:
     void initFromData( RawItemData const& rawData );
-    static EquipSlot equipSlotFromString( std::string_view str );
 
 private:
     std::string m_name;

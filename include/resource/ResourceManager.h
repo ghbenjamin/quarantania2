@@ -45,7 +45,7 @@ public:
     {
         auto it = m_resources.find(key);
 
-        AssertMsg( it != m_resources.end(), ("Missing resource: " + key).c_str() );
+        AssertMsg(it != m_resources.end(), ("Missing resource: " + key).c_str());
 
         auto bPtr = it->second;
         auto dPtr = std::static_pointer_cast<RType>(bPtr);

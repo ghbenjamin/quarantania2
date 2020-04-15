@@ -501,3 +501,8 @@ EntityFactory &Level::entityFactory()
     return m_entFactory;
 }
 
+RandomGenerator &Level::random()
+{
+    return m_rg;
+}
+

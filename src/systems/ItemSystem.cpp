@@ -64,7 +64,7 @@ void ItemSystem::accept(GEvents::ItemUnequip *evt)
     auto actorC = m_level->getComponents<ActorComponent>( evt->actor );
 
     auto item = actorC->character.unequipItem( evt->slot );
-    AssertMsg( !!item, "Unequipping empty item slot" );
+    AssertMsg(!!item, "Unequipping empty item slot");
 
     containerC->items.push_back( item );
 }

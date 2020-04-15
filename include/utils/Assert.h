@@ -9,9 +9,9 @@
 #ifndef NDEBUG
 
 #define AssertMsg(Expr, Msg) \
-    _assert_with_msg(#Expr, Expr, __FILE__, __LINE__, Msg)
+    assert_with_msg(#Expr, Expr, __FILE__, __LINE__, Msg)
 #define AssertNoMsg(Expr) \
-    _assert_without_msg(#Expr, Expr, __FILE__, __LINE__)
+    assert_without_msg(#Expr, Expr, __FILE__, __LINE__)
 
 #else
 #   define AssertMsg(Expr, Msg) ;
@@ -30,6 +30,7 @@
 #define AssertNotImplemented() \
     AssertMsg(0, "Not implemented")
 
+template <typename T>
+void assert_with_msg(const char* expr_str, bool expr, const char* file, int line, T msg);
 
-void _assert_with_msg(const char* expr_str, bool expr, const char* file, int line, const char* msg);
-void _assert_without_msg(const char* expr_str, bool expr, const char* file, int line);
+void assert_without_msg(const char* expr_str, bool expr, const char* file, int line);

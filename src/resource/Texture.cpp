@@ -62,7 +62,7 @@ TexturePtr Texture::loadTexture(std::string const &path)
     AssertMsg( image != nullptr, "Expected loaded surface" );
 
     auto texture = SDL_CreateTextureFromSurface( ResourceManager::get().getWindow()->renderer()->raw(), image );
-    AssertMsg( texture != nullptr, "Expected loaded texture");
+    AssertMsg(texture != nullptr, "Expected loaded texture");
 
     SDL_FreeSurface( image );
 

@@ -22,6 +22,11 @@ public:
     RawArmourData armourFromName( std::string_view name );
     RawCreatureData creatureFromName( std::string_view name );
 
+
+    static Alignment parseAlignmentFromStr( std::string_view sv );
+    static EquipSlot parseEquipSlotFromStr( std::string_view sv );
+    static ArmourType parseArmourTypeFromStr( std::string_view sv );
+
 private:
     ResourceDatabase();
 
