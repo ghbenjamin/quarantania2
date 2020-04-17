@@ -11,11 +11,11 @@ Actor::Actor(const RawCreatureData& rcd)
     m_name = rcd.name;
     m_alignment = ResourceDatabase::parseAlignmentFromStr( rcd.alignment );
 
-    m_abilityScores = { rcd.attr_str, rcd.attr_dex, rcd.attr_con,
-                        rcd.attr_int, rcd.attr_wis, rcd.attr_cha };
-    m_baseFortSave = rcd.save_fort;
-    m_baseRefSave = rcd.save_ref;
-    m_baseWillSave = rcd.save_will;
+    m_abilityScores = {rcd.attrStr, rcd.attrDex, rcd.attrCon,
+                       rcd.attrInt, rcd.attrWis, rcd.attrCha };
+    m_baseFortSave = rcd.saveFort;
+    m_baseRefSave = rcd.saveRef;
+    m_baseWillSave = rcd.saveWill;
     m_baseBAB = rcd.bab;
 
     m_maxHP = rcd.hp;
@@ -28,13 +28,16 @@ Actor::Actor(PlayerData const& pdata)
     m_name = pdata.name;
     m_alignment = pdata.alignment;
 
-    m_baseFortSave = 0;
-    m_baseRefSave = 0;
-    m_baseWillSave = 0;
-    m_baseBAB = 0;
-    m_maxHP = 10;
+    m_abilityScores = {pdata.attrStr, pdata.attrDex, pdata.attrCon,
+                       pdata.attrInt, pdata.attrWis, pdata.attrCha };
 
-    m_currentHP = m_maxHP;
+    m_baseFortSave = pdata.saveFort;
+    m_baseRefSave = pdata.saveRef;
+    m_baseWillSave = pdata.saveWill;
+    m_baseBAB = pdata.bab;
+
+    m_maxHP = pdata.maxHP;
+    m_currentHP = pdata.currHP;
 }
 
 std::string_view Actor::name() const

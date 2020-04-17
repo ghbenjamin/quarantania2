@@ -15,8 +15,21 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
 {
     m_levelCtx->depth++;
 
+    PlayerGenData pgd;
+    pgd.name = "Angus MacKenzie";
+    pgd.alignment = Alignment::TN;
+    pgd.race = "Human";
+    pgd.clazz = "Fighter";
+
+    pgd.attrStr = 10;
+    pgd.attrDex = 10;
+    pgd.attrCon = 10;
+    pgd.attrInt = 10;
+    pgd.attrWis = 10;
+    pgd.attrCha = 10;
+
     auto config = generateNextLevelConfig();
-    setNextState<LevelState>( config, m_levelCtx );
+    setNextState<LevelState>( config, m_levelCtx, pgd );
 }
 
 LevelConfig InitState::generateNextLevelConfig()

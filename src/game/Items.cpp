@@ -12,8 +12,8 @@ Weapon::Weapon(RawWeaponData const& rawData)
 
 void Weapon::initFromData(RawWeaponData const &rawData)
 {
-    m_name = rawData.item_name;
-    m_critData = { rawData.crit_lower, rawData.crit_mult };
+    m_name = rawData.itemName;
+    m_critData = {rawData.critLower, rawData.critMult };
     m_baseDamage = rawData.damage;
     m_proficiency = rawData.proficiency;
 }
@@ -99,32 +99,32 @@ void Item::initFromData(RawItemData const &rawData)
     m_description = rawData.description;
     m_equipSlot = ResourceDatabase::parseEquipSlotFromStr( rawData.slot );
 
-    if ( rawData.item_type == "armour" )
+    if (rawData.itemType == "armour" )
     {
         m_itemType = ItemType::Armour;
     }
-    else if ( rawData.item_type == "consumable" )
+    else if (rawData.itemType == "consumable" )
     {
         m_itemType = ItemType::Consumable;
     }
-    else if ( rawData.item_type == "equippable" )
+    else if (rawData.itemType == "equippable" )
     {
         m_itemType = ItemType::Equippable;
     }
-    else if ( rawData.item_type == "gear" )
+    else if (rawData.itemType == "gear" )
     {
         m_itemType = ItemType::Gear;
     }
-    else if ( rawData.item_type == "ammo" )
+    else if (rawData.itemType == "ammo" )
     {
         m_itemType = ItemType::Ammo;
     }
-    else if ( rawData.item_type == "weapon" )
+    else if (rawData.itemType == "weapon" )
     {
         m_itemType = ItemType::Weapon;
         m_weapon = Weapon::fromName( m_name );
     }
-    else if ( rawData.item_type == "armour" )
+    else if (rawData.itemType == "armour" )
     {
         m_itemType = ItemType::Armour;
         m_armour = Armour::fromName( m_name );
@@ -206,7 +206,7 @@ void Armour::initFromData(RawArmourData const &rawData)
     m_speed20 = rawData.speed20;
     m_speed30 = rawData.speed30;
     m_armourCheck = rawData.armourCheck;
-    m_armourType = ResourceDatabase::parseArmourTypeFromStr(rawData.armour_type);
+    m_armourType = ResourceDatabase::parseArmourTypeFromStr(rawData.armourType);
 }
 
 ArmourType Armour::armourType() const

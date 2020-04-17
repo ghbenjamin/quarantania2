@@ -157,9 +157,9 @@ GEventHub &Level::events()
     return m_gevents;
 }
 
-void Level::setPlayer(PlayerPtr &&player)
+void Level::setPlayer(PlayerPtr player)
 {
-    m_player = std::move(player);
+    m_player = player;
 }
 
 Grid& Level::grid( )

@@ -78,7 +78,7 @@ public:
     EntityFactory& entityFactory();
 
     // Player Management
-    void setPlayer( PlayerPtr&& player );
+    void setPlayer( PlayerPtr player );
     PlayerPtr& getPlayer();
     bool isPlayer(EntityRef ref) const;
 
@@ -320,7 +320,7 @@ private:
     // Entities
     IdPool<EntityRef> m_entityPool;
     EntityFactory m_entFactory;
-    std::unique_ptr<Player> m_player;
+    PlayerPtr m_player;
 
     // Systems
     std::vector<SystemPtr> m_systems;

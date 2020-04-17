@@ -5,14 +5,12 @@
 #include <utils/Logging.h>
 
 
-LevelState::LevelState( LevelConfig const& config, LevelContextPtr ctx )
+LevelState::LevelState( LevelConfig const& config, LevelContextPtr ctx, PlayerGenData const& pgen )
 : m_levelCtx(ctx)
 {
-    PlayerData pdata;
-    pdata.name = "Angus Mackenzie";
+    PlayerData pdata = Player::generateNewPlayer( pgen );
 
     pdata.startingHeldItems.push_back( "Rope of Climbing" );
-
     pdata.startingEquippedItems.push_back( "Longsword" );
     pdata.startingEquippedItems.push_back( "Amulet of Mighty Fists" );
 

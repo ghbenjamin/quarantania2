@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <array>
 #include <resource/Spritesheet.h>
 #include <game/Items.h>
 #include <game/Defines.h>
@@ -11,29 +12,29 @@ struct RawItemData
     int weight;
     int value;
     std::string description;
-    std::string aura_value;
-    std::string aura_strength;
+    std::string auraValue;
+    std::string auraStrength;
     std::string slot;
-    std::string item_type;
+    std::string itemType;
 
     SpritesheetKey sprite;
 };
 
 struct RawWeaponData
 {
-    std::string item_name;
-    std::string weapon_class;
+    std::string itemName;
+    std::string weaponClass;
     DiceRoll damage;
     WeaponProficiency proficiency;
-    int crit_lower;
-    int crit_mult;
-    std::string damage_type;
+    int critLower;
+    int critMult;
+    std::string damageType;
     std::string specials;
 };
 
 struct RawArmourData
 {
-    std::string item_name;
+    std::string itemName;
     int arcaneFailureChance;
     int armourBonus;
     int shieldBonus;
@@ -41,7 +42,7 @@ struct RawArmourData
     int maxDex;
     int speed20;
     int speed30;
-    std::string armour_type;
+    std::string armourType;
 };
 
 struct RawCreatureData
@@ -54,18 +55,18 @@ struct RawCreatureData
     std::string alignment;
     std::string size;
 
-    std::string creature_type;
-    std::string creature_subtype;
+    std::string creatureType;
+    std::string creatureSubtype;
 
-    int save_fort;
-    int save_ref;
-    int save_will;
-    int attr_str;
-    int attr_dex;
-    int attr_con;
-    int attr_int;
-    int attr_wis;
-    int attr_cha;
+    int saveFort;
+    int saveRef;
+    int saveWill;
+    int attrStr;
+    int attrDex;
+    int attrCon;
+    int attrInt;
+    int attrWis;
+    int attrCha;
 
     int reach;
     std::string damageResist;
@@ -75,13 +76,31 @@ struct RawCreatureData
     std::string resist;
     std::string senses;
 
-    int speed_land;
-    int speed_fly;
-    int speed_swim;
+    int speedLand;
+    int speedFly;
+    int speedSwim;
 
     int cmd;
     int cmb;
     int bab;
 
     SpritesheetKey sprite;
+};
+
+struct RawPlayerRaceData
+{
+    std::string name;
+    int baseSpeed;
+};
+
+struct RawPlayerClassData
+{
+    std::string name;
+    std::string description;
+    int hitDie;
+    int skillsPerLevel;
+    std::array<int, 20> babByLevel;
+    std::array<int, 20> fortByLevel;
+    std::array<int, 20> refByLevel;
+    std::array<int, 20> willByLevel;
 };

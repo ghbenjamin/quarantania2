@@ -31,9 +31,11 @@ void UI::CharStatsView::attachEntity(EntityRef entity)
 
 void UI::CharStatsView::reimportItems()
 {
-    auto actorC = manager()->level()->getComponents<ActorComponent>( m_entity );
+    auto player = manager()->level()->getPlayer();
+
+    auto actorC = manager()->level()->getComponents<ActorComponent>( player->ref() );
     Assert( !!actorC );
 
-    m_nameNode->setText( std::string(actorC->character.name()) );
-    m_classNode->setText( "Human Cleric" );
+    m_nameNode->setText( player->data().name );
+    m_classNode->setText( fmt::format( "{} {}", player->data().race, player->data().clazz ) );
 }
