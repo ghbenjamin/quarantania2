@@ -99,4 +99,12 @@ struct ItemUnequip : public GEvent<ItemUnequip>
     EquipSlot slot;
 };
 
+struct EntityDeath : public GEvent<EntityDeath>
+{
+    EntityDeath(EntityRef actor);
+    ~EntityDeath() = default;
+
+    EntityRef actor;
+};
+
 }

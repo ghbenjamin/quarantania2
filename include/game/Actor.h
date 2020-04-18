@@ -8,7 +8,7 @@
 
 struct RawCreatureData;
 struct PlayerData;
-
+struct Damage;
 
 // Things which can be dynamically altered about an actor
 enum class ActorModifier
@@ -148,6 +148,9 @@ public:
     WeaponPtr getActiveWeapon() const;
     WeaponPtr getNaturalWeapon() const;
 
+    // Damage
+    int acceptDamage( Damage const& dmg );
+
 private:
 
     // Modifiers
@@ -167,7 +170,7 @@ private:
     // Health
     int m_maxHP;
     int m_currentHP;
-    int m_nonLethalHP;
+    int m_nonLethalDamage;
 
     // Items
     std::unordered_map<EquipSlot, ItemPtr> m_equippedItems;

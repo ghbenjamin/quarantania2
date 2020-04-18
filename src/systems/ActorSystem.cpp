@@ -5,6 +5,7 @@
 ActorSystem::ActorSystem(Level *parent) : System(parent)
 {
     m_level->events().subscribe<GEvents::GameTick>( this );
+    m_level->events().subscribe<GEvents::EntityDeath>( this );
 }
 
 void ActorSystem::accept(GEvents::GameTick *evt)
@@ -39,4 +40,9 @@ void ActorSystem::accept(GEvents::GameTick *evt)
             }
         }
     }
+}
+
+void ActorSystem::accept(GEvents::EntityDeath *evt)
+{
+    Logging::log("DEAD");
 }

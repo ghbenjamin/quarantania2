@@ -12,15 +12,11 @@
 - Entities marked as non-light blocking shouldn't block light 
 - Some entities shouldn't be visible within fog of war (ones which might move!)
 
-### Gameplay 
-- Implement (re-implement) a level-controller system to handle the different UI states we might be in  
-
 ### UI
 - Finish text log 
     -  Extension - including scrollback
 - Add dialogs
     - Add message boxes and confirmation boxes
-- Add character info view 
 - Add description view 
 - Add spell/ability/feat interface 
 - Add menus of all sorts 
@@ -32,3 +28,5 @@
 - Ioun Stones
 - Figurines of wonderous power
 - Golem manual
+- Scrolls, potions, wands, staves of arbitrary spells
+ 

@@ -88,6 +88,7 @@ void ResourceDatabase::loadAllCreatureData()
 
         rcd.name = cr.FindMember( "name" )->value.GetString();
         rcd.xp = cr.FindMember( "xp" )->value.GetInt();
+        rcd.hp = cr.FindMember( "hp" )->value.GetInt();
         rcd.alignment = cr.FindMember( "alignment" )->value.GetString();
         rcd.creatureType = cr.FindMember("creature_type" )->value.GetString();
 

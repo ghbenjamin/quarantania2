@@ -1,6 +1,7 @@
 #include <systems/CombatSystem.h>
 #include <game/Level.h>
 #include <components/ActorComponent.h>
+#include <game/Damage.h>
 
 CombatSystem::CombatSystem(Level *parent)
         : System(parent)
@@ -45,7 +46,7 @@ void CombatSystem::accept(GEvents::MeleeAttack *evt)
 
     // Perform the attack roll
     auto attackRoll = doAttackRoll();
-    int finalDamage = -1;
+    int rawDamage = -1;
     bool isCrit = false;
 
     if ( attackRoll.isHit )
@@ -67,7 +68,7 @@ void CombatSystem::accept(GEvents::MeleeAttack *evt)
                     );
                 }
 
-                finalDamage = total;
+                rawDamage = total;
                 isCrit = true;
             }
         }
@@ -75,7 +76,7 @@ void CombatSystem::accept(GEvents::MeleeAttack *evt)
         // Not a crit, but is a hit
         if (!isCrit)
         {
-            finalDamage = diceroll(
+            rawDamage = diceroll(
                     evt->weapon->damage().diceCount,
                     evt->weapon->damage().diceSize,
                     m_level->random()
@@ -83,6 +84,14 @@ void CombatSystem::accept(GEvents::MeleeAttack *evt)
         }
 
         // TODO Do actual damaging
+
+        Damage dmg;
+        dmg.total = rawDamage;
+        dmg.type = DamageType::Physical;
+        dmg.subType = DamageSubType::Untyped;
+        dmg.source = evt->attacker;
+
+        int finalDamage = defActor->acceptDamage( dmg );
 
         m_level->addTextLogMessage( fmt::format( "{}{} hits for {}",
                 (isCrit ? "Critical hit! " : ""),

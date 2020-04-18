@@ -670,7 +670,7 @@ void LevelFactory::constructPlayer(PlayerData const& pdata)
     m_level->setPlayer( m_level->m_entFactory.createPlayer( pdata, startPos ) );
 
     // DEBUG
-    m_level->m_entFactory.createEnemy("Dire Crocodile", startPos + Vector2{-1, -1});
+    m_level->m_entFactory.createEnemy("Giant Crab", startPos + Vector2{-1, -1});
 
     m_level->m_entFactory.createItem("Battleaxe", startPos + Vector2{1, 0});
     m_level->m_entFactory.createItem("Buckler", startPos + Vector2{1, 1});

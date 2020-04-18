@@ -23,3 +23,6 @@ GEvents::ItemEquip::ItemEquip(EntityRef actor, std::shared_ptr<Item> item, Equip
 
 GEvents::ItemUnequip::ItemUnequip(EntityRef actor, EquipSlot slot)
     : actor(actor), slot(slot) {}
+
+GEvents::EntityDeath::EntityDeath(EntityRef actor)
+    : actor(actor) {}

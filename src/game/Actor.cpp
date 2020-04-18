@@ -4,6 +4,8 @@
 #include <fmt/format.h>
 #include <utils/Assert.h>
 #include <db/ResourceDatabase.h>
+#include <game/Damage.h>
+#include <utils/Logging.h>
 
 
 Actor::Actor(const RawCreatureData& rcd)
@@ -20,6 +22,7 @@ Actor::Actor(const RawCreatureData& rcd)
 
     m_maxHP = rcd.hp;
     m_currentHP = m_maxHP;
+    m_nonLethalDamage = 0;
 }
 
 
@@ -38,6 +41,7 @@ Actor::Actor(PlayerData const& pdata)
 
     m_maxHP = pdata.maxHP;
     m_currentHP = pdata.currHP;
+    m_nonLethalDamage = 0;
 }
 
 std::string_view Actor::name() const
@@ -365,4 +369,51 @@ bool operator==(const TypedModifier &lhs, const TypedModifier &rhs)
 bool operator!=(const TypedModifier &lhs, const TypedModifier &rhs)
 {
     return !(rhs == lhs);
+}
+
+int Actor::acceptDamage( Damage const& dmg )
+{
+    int finalDamage = dmg.total;
+
+    // TODO Resistances and immunities
+
+    if ( finalDamage < 1 || dmg.type == DamageType::Nonlethal )
+    {
+        if ( finalDamage < 1 )
+        {
+            finalDamage = 1;
+        }
+
+        m_nonLethalDamage += finalDamage;
+
+        if ( m_nonLethalDamage == m_currentHP )
+        {
+            // Staggered
+        }
+        else if ( m_nonLethalDamage > m_currentHP )
+        {
+            // Unconsious
+        }
+    }
+    else
+    {
+        // Lethal damage
+
+        m_currentHP -= finalDamage;
+
+        if ( m_currentHP == 0 )
+        {
+            // Disabled
+        }
+        else if ( m_currentHP < 0 && m_currentHP > -getConMod() )
+        {
+            // Dying
+        }
+        else if ( m_currentHP < -getConMod() )
+        {
+            // Dead
+        }
+    }
+
+    return finalDamage;
 }
