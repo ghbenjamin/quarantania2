@@ -50,7 +50,6 @@ void Level::setReady()
 
     m_playerContainerView->attachEntity(ref);
     m_playerEquippedView->attachEntity(ref);
-    m_playerCharStatsView->attachEntity(ref);
 
     m_gevents.broadcast<GEvents::LevelReady>();
 

@@ -23,12 +23,6 @@ UI::CharStatsView::CharStatsView(UI::Manager *manager, UI::Element *parent)
     m_classNode->setLocalPosition({10, 30});
 }
 
-void UI::CharStatsView::attachEntity(EntityRef entity)
-{
-    m_entity = entity;
-    reimportItems();
-}
-
 void UI::CharStatsView::reimportItems()
 {
     auto player = manager()->level()->getPlayer();
