@@ -6,7 +6,8 @@
 
 class ActorSystem : public System,
                     public GEventSub<GEvents::GameTick>,
-                    public GEventSub<GEvents::EntityDeath>
+                    public GEventSub<GEvents::EntityDeath>,
+                    public GEventSub<GEvents::EntityDamage>
 {
 public:
     explicit ActorSystem(Level* parent);
@@ -14,4 +15,5 @@ public:
 
     void accept(GEvents::GameTick *evt) override;
     void accept(GEvents::EntityDeath *evt) override;
+    void accept(GEvents::EntityDamage *evt) override;
 };

@@ -132,7 +132,7 @@ bool MeleeAttackAction::canTryAction() const
     if ( m_actor == m_subject ) return false;
 
     auto actorC = m_level->getComponents<ActorComponent>( m_actor );
-    auto weapon = actorC->character.getActiveWeapon();
+    auto weapon = actorC->getActiveWeapon();
 
     if ( !weapon ) return false;
 
@@ -145,7 +145,7 @@ bool MeleeAttackAction::canTryAction() const
 bool MeleeAttackAction::doAction() const
 {
     auto actorC = m_level->getComponents<ActorComponent>( m_actor );
-    auto weapon = actorC->character.getActiveWeapon();
+    auto weapon = actorC->getActiveWeapon();
 
     m_level->events().broadcast<GEvents::MeleeAttack>( m_actor, m_subject, weapon );
     return true;

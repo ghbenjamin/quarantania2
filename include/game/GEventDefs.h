@@ -4,6 +4,7 @@
 #include <game/Entity.h>
 #include <game/Items.h>
 
+struct Damage;
 
 namespace GEvents
 {
@@ -105,6 +106,15 @@ struct EntityDeath : public GEvent<EntityDeath>
     ~EntityDeath() = default;
 
     EntityRef actor;
+};
+
+struct EntityDamage : public GEvent<EntityDamage>
+{
+    EntityDamage(EntityRef target, Damage const* dmg );
+    ~EntityDamage() = default;
+
+    EntityRef target;
+    Damage const* damage;
 };
 
 }

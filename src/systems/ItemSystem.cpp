@@ -51,7 +51,7 @@ void ItemSystem::accept(GEvents::ItemEquip *evt)
 
     eraseItemFromContainer(containerC, evt->item);
 
-    auto oldItem = actorC->character.equipItem( evt->slot, evt->item );
+    auto oldItem = actorC->equipItem( evt->slot, evt->item );
     if ( oldItem )
     {
         containerC->items.push_back( oldItem );
@@ -63,7 +63,7 @@ void ItemSystem::accept(GEvents::ItemUnequip *evt)
     auto containerC = m_level->getComponents<ContainerComponent>( evt->actor );
     auto actorC = m_level->getComponents<ActorComponent>( evt->actor );
 
-    auto item = actorC->character.unequipItem( evt->slot );
+    auto item = actorC->unequipItem( evt->slot );
     AssertMsg(!!item, "Unequipping empty item slot");
 
     containerC->items.push_back( item );

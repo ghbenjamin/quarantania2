@@ -468,7 +468,7 @@ std::string_view Level::getDescriptionForEnt(EntityRef ent)
     if ( entityHas<ActorComponent>(ent) )
     {
         auto comp = getComponents<ActorComponent>(ent);
-        return comp->character.name();
+        return comp->name;
     }
     else if ( entityHas<ItemComponent>(ent) )
     {
@@ -503,5 +503,10 @@ EntityFactory &Level::entityFactory()
 RandomGenerator &Level::random()
 {
     return m_rg;
+}
+
+std::shared_ptr<UI::CharStatsView> Level::getPlayerStatsView()
+{
+    return m_playerCharStatsView;
 }
 

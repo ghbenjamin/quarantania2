@@ -26,3 +26,6 @@ GEvents::ItemUnequip::ItemUnequip(EntityRef actor, EquipSlot slot)
 
 GEvents::EntityDeath::EntityDeath(EntityRef actor)
     : actor(actor) {}
+
+GEvents::EntityDamage::EntityDamage(EntityRef target, Damage const *dmg)
+    : target(target), damage(dmg){}

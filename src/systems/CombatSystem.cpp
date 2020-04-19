@@ -11,8 +11,8 @@ CombatSystem::CombatSystem(Level *parent)
 
 void CombatSystem::accept(GEvents::MeleeAttack *evt)
 {
-    auto* atkActor = &m_level->getComponents<ActorComponent>(evt->attacker)->character;
-    auto* defActor = &m_level->getComponents<ActorComponent>(evt->defender)->character;
+    auto atkActor = m_level->getComponents<ActorComponent>(evt->attacker);
+    auto defActor = m_level->getComponents<ActorComponent>(evt->defender);
 
     m_level->addTextLogMessage( fmt::format( "{} attacks {} with the {}!",
             m_level->getDescriptionForEnt(evt->attacker),

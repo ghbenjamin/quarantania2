@@ -234,6 +234,7 @@ public:
 
     std::shared_ptr<UI::EquippedItemsView> getUIPlayerEquip();
     std::shared_ptr<UI::ContainerView> getUIPlayerInventory();
+    std::shared_ptr<UI::CharStatsView> getPlayerStatsView();
 
     std::string_view getDescriptionForEnt( EntityRef ent );
     std::string_view getDescriptionForItem( ItemPtr item );

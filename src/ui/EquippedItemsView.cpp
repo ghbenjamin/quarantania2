@@ -106,9 +106,9 @@ void UI::EquippedItemsView::reimportItems()
 
     for ( auto& slot : m_slotData )
     {
-        if ( actorC->character.hasEquipped(slot.type) )
+        if ( actorC->hasEquipped(slot.type) )
         {
-            auto item = actorC->character.getEquipped(slot.type);
+            auto item = actorC->getEquipped(slot.type);
             auto sprite = ResourceManager::get().getSprite( item->getSprite() );
             sprite.setRenderLayer( RenderLayer::UI );
             slot.itemSprite = sprite;

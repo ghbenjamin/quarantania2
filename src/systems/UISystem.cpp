@@ -1,12 +1,13 @@
 #include <systems/UISystem.h>
 #include <game/Level.h>
 #include <ui/ContainerView.h>
+#include <ui/CharStatsView.h>
 #include <ui/EquippedItemsView.h>
 
 UISystem::UISystem(Level *parent)
         : System(parent)
 {
-    m_level->events().subscribe<GEvents::LevelReady>( this );
+    m_level->events().subscribe<GEvents::LevelReady>( this, GEventTiming::After );
     m_level->events().subscribe<GEvents::EntityMove>( this, GEventTiming::After );
     m_level->events().subscribe<GEvents::ItemPickup>( this, GEventTiming::After );
     m_level->events().subscribe<GEvents::ItemDrop>( this, GEventTiming::After );
@@ -17,6 +18,7 @@ UISystem::UISystem(Level *parent)
 void UISystem::accept(GEvents::LevelReady *evt)
 {
     m_level->generateMinimapData();
+    m_level->getPlayerStatsView()->reimportItems();
 }
 
 void UISystem::accept(GEvents::EntityMove *evt)

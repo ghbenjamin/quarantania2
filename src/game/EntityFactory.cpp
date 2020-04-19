@@ -58,7 +58,7 @@ PlayerPtr EntityFactory::createPlayer(PlayerData const& data, Vector2i startPos)
     for ( auto const& iname : data.startingEquippedItems )
     {
         auto ptr = Item::fromName( iname );
-        cActor->character.equipItem( ptr->getEquipSlot(), ptr );
+        cActor->equipItem( ptr->getEquipSlot(), ptr );
     }
 
     return std::make_unique<Player>( data, eref );
