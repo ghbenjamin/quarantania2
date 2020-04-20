@@ -91,14 +91,7 @@ void CombatSystem::accept(GEvents::MeleeAttack *evt)
         dmg.subType = DamageSubType::Untyped;
         dmg.source = evt->attacker;
 
-        int finalDamage = defActor->acceptDamage( dmg );
-
-        m_level->addTextLogMessage( fmt::format( "{}{} hits for {}",
-                (isCrit ? "Critical hit! " : ""),
-                m_level->getDescriptionForEnt(evt->attacker),
-                finalDamage
-        ));
-
+        m_level->events().broadcast<GEvents::EntityDamage>( evt->defender, &dmg );
     }
     else
     {
@@ -107,9 +100,5 @@ void CombatSystem::accept(GEvents::MeleeAttack *evt)
             // Critical miss
             // Maybe do something extra bad?
         }
-
-        m_level->addTextLogMessage( fmt::format( "{} misses",
-            m_level->getDescriptionForEnt(evt->attacker)
-        ));
     }
 }

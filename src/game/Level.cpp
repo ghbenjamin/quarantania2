@@ -84,6 +84,12 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
 {
     rInter.setCamera(&m_camera);
 
+    // Delete our delayed delete entities
+    for ( EntityRef ent : m_delayedDeleteEnts )
+    {
+        deleteEntity( ent );
+    }
+
     m_controller->update(ticks, iinter, rInter);
 
     // Render statics: tiles, etc.
@@ -508,5 +514,10 @@ RandomGenerator &Level::random()
 std::shared_ptr<UI::CharStatsView> Level::getPlayerStatsView()
 {
     return m_playerCharStatsView;
+}
+
+void Level::deleteEntityDelayed(EntityRef ent)
+{
+    m_delayedDeleteEnts.push_back( ent );
 }
 

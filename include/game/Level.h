@@ -75,6 +75,7 @@ public:
 
     EntityRef createEntity();
     void deleteEntity(EntityRef ent);
+    void deleteEntityDelayed(EntityRef ent);
     EntityFactory& entityFactory();
 
     // Player Management
@@ -320,6 +321,7 @@ private:
 
     // Entities
     IdPool<EntityRef> m_entityPool;
+    std::vector<EntityRef> m_delayedDeleteEnts;
     EntityFactory m_entFactory;
     PlayerPtr m_player;
 

@@ -1,5 +1,6 @@
 #include <systems/ActorSystem.h>
 #include <game/Level.h>
+#include <game/Damage.h>
 #include <components/ActorComponent.h>
 
 ActorSystem::ActorSystem(Level *parent) : System(parent)
@@ -45,10 +46,63 @@ void ActorSystem::accept(GEvents::GameTick *evt)
 
 void ActorSystem::accept(GEvents::EntityDeath *evt)
 {
+    if ( m_level->isPlayer( evt->actor ) )
+    {
+        // Uh oh...
+    }
+    else
+    {
+        m_level->addTextLogMessage( fmt::format( "{} was struck down",
+                m_level->getDescriptionForEnt(evt->actor)
+        ));
 
+        m_level->deleteEntityDelayed( evt->actor );
+    }
 }
 
 void ActorSystem::accept(GEvents::EntityDamage *evt)
 {
+    int finalDamage = evt->damage->total;
+    auto actorC = m_level->getComponents<ActorComponent>( evt->target );
 
+    // TODO Resistances and immunities
+
+    if ( finalDamage < 1 || evt->damage->type == DamageType::Nonlethal )
+    {
+        if ( finalDamage < 1 )
+        {
+            finalDamage = 1;
+        }
+
+        actorC->nonLethalDamage += finalDamage;
+
+        if (actorC->nonLethalDamage == actorC->currentHP )
+        {
+            // Staggered
+        }
+        else if (actorC->nonLethalDamage > actorC->currentHP )
+        {
+            // Unconsious
+        }
+    }
+    else
+    {
+        // Lethal damage
+
+        actorC->currentHP -= finalDamage;
+
+        if (actorC->currentHP == 0 )
+        {
+            // Disabled
+        }
+        else if (actorC->currentHP < 0 && actorC->currentHP > -actorC->getConMod() )
+        {
+            // Dying
+        }
+        else if (actorC->currentHP < -actorC->getConMod() )
+        {
+            // Dead
+            m_level->events().broadcast<GEvents::EntityDeath>( evt->target );
+        }
+    }
 }

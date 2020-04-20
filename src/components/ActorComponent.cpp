@@ -119,9 +119,9 @@ WeaponPtr ActorComponent::getNaturalWeapon() const
 
 int ActorComponent::getModifier(ActorModifier mod) const
 {
-    auto it = m_modifiers.find(mod);
+    auto it = modifiers.find(mod);
 
-    if ( it != m_modifiers.end() )
+    if (it != modifiers.end() )
     {
         return it->second.get();
     }
@@ -133,20 +133,20 @@ int ActorComponent::getModifier(ActorModifier mod) const
 
 void ActorComponent::addModifier(ActorModifier mod, TypedModifier val)
 {
-    auto it = m_modifiers.find(mod);
+    auto it = modifiers.find(mod);
 
-    if ( it == m_modifiers.end() )
+    if (it == modifiers.end() )
     {
-        m_modifiers[mod] = ExModifierGroup();
+        modifiers[mod] = ExModifierGroup();
     }
 
-    m_modifiers[mod].addModifier( val );
+    modifiers[mod].addModifier( val );
 }
 
 void ActorComponent::removeModifier(ActorModifier mod, TypedModifier val)
 {
-    auto it = m_modifiers.find(mod);
-    Assert ( it != m_modifiers.end() );
+    auto it = modifiers.find(mod);
+    Assert (it != modifiers.end() );
 
     it->second.removeModifier( val );
 }
@@ -344,55 +344,34 @@ bool operator!=(const TypedModifier &lhs, const TypedModifier &rhs)
     return !(rhs == lhs);
 }
 
-
-int ActorComponent::acceptDamage( Damage const& dmg )
-{
-    int finalDamage = dmg.total;
-
-// TODO Resistances and immunities
-
-    if ( finalDamage < 1 || dmg.type == DamageType::Nonlethal )
-    {
-        if ( finalDamage < 1 )
-        {
-            finalDamage = 1;
-        }
-
-        nonLethalDamage += finalDamage;
-
-        if (nonLethalDamage == currentHP )
-        {
-            // Staggered
-        }
-        else if (nonLethalDamage > currentHP )
-        {
-            // Unconsious
-        }
-    }
-    else
-    {
-        // Lethal damage
-
-        currentHP -= finalDamage;
-
-        if (currentHP == 0 )
-        {
-            // Disabled
-        }
-        else if (currentHP < 0 && currentHP > -getConMod() )
-        {
-            // Dying
-        }
-        else if (currentHP < -getConMod() )
-        {
-            // Dead
-        }
-    }
-
-    return finalDamage;
-}
-
 constexpr int ActorComponent::modifierFromVal(int val)
 {
     return (val - 10) / 2;
+}
+
+int ActorComponent::getIthAbilityScore(int i) const
+{
+    switch (i)
+    {
+        case 0:
+            return getStr();
+        case 1:
+            return getDex();
+        case 2:
+            return getCon();
+        case 3:
+            return getInt();
+        case 4:
+            return getWis();
+        case 5:
+            return getCha();
+        default:
+            AssertAlways();
+            return -1;
+    }
+}
+
+int ActorComponent::getIthAbilityScoreMod(int i) const
+{
+    return ActorComponent::modifierFromVal( getIthAbilityScore(i) );
 }

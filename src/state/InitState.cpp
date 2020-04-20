@@ -21,12 +21,12 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
     pgd.race = "Human";
     pgd.clazz = "Fighter";
 
-    pgd.attrStr = 10;
-    pgd.attrDex = 10;
-    pgd.attrCon = 10;
-    pgd.attrInt = 10;
+    pgd.attrStr = 16;
+    pgd.attrDex = 12;
+    pgd.attrCon = 14;
+    pgd.attrInt = 9;
     pgd.attrWis = 10;
-    pgd.attrCha = 10;
+    pgd.attrCha = 12;
 
     auto config = generateNextLevelConfig();
     setNextState<LevelState>( config, m_levelCtx, pgd );

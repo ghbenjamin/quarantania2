@@ -21,7 +21,9 @@ private:
     std::shared_ptr<TextNode> m_nameNode;
     std::shared_ptr<TextNode> m_classNode;
 
-
+    std::vector<std::shared_ptr<TextNode>> m_abilityScoreHeaders;
+    std::vector<std::shared_ptr<TextNode>> m_abilityScoreValues;
+    std::vector<std::shared_ptr<TextNode>> m_abilityScoreModifiers;
 };
 }
 

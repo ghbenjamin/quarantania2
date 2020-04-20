@@ -9,7 +9,6 @@
 
 struct RawCreatureData;
 struct PlayerData;
-
 struct RawCreatureData;
 struct PlayerData;
 struct Damage;
@@ -102,6 +101,8 @@ struct ActorComponent : public Component<ActorComponent>
     int getWisMod() const;
     int getCha() const;
     int getChaMod() const;
+    int getIthAbilityScore(int i) const;
+    int getIthAbilityScoreMod(int i) const;
 
     // Saves
     int getFortSave() const;
@@ -129,9 +130,6 @@ struct ActorComponent : public Component<ActorComponent>
     WeaponPtr getActiveWeapon() const;
     WeaponPtr getNaturalWeapon() const;
 
-    // Damage
-    int acceptDamage( Damage const& dmg );
-
 
     static constexpr int modifierFromVal( int val );
 
@@ -139,7 +137,7 @@ struct ActorComponent : public Component<ActorComponent>
 
 
     // Modifiers
-    std::unordered_map<ActorModifier, ExModifierGroup> m_modifiers;
+    std::unordered_map<ActorModifier, ExModifierGroup> modifiers;
 
     // Info
     const std::string name;
