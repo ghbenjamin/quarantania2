@@ -2,29 +2,56 @@
 #include <resource/ResourceManager.h>
 #include <ui/Manager.h>
 
-UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, TooltipData const& data)
+UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipData const& data, bool longContent)
         : Element(manager, parent)
 {
     auto titleFont = ResourceManager::get().getFont( "inconsolata-16" );
-    auto subFont = ResourceManager::get().getFont( "inconsolata-14" );
     auto contentFont = ResourceManager::get().getFont( "inconsolata-14" );
 
     setLayout<VerticalLayout>( 4, HAlignment::Fill );
-    setPadding( 4 );
-    setPreferredContentSize({TOOLTIP_WIDTH, 10});
-    setId( "tooltip" );
+    setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000});
 
     auto titleNode = manager->createElement<TextNode>(this, TextStyle{ Colour::Black, titleFont });
-    titleNode->setMaximumOuterSize({ TOOLTIP_WIDTH, 100 });
+    titleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
     titleNode->setText( data.title );
 
-    auto subtitleNode = manager->createElement<TextNode>(this, TextStyle{ Colour::Black, subFont });
-    subtitleNode->setMaximumOuterSize({ TOOLTIP_WIDTH, 100 });
+    auto subtitleNode = manager->createElement<TextNode>(this, TextStyle{ Colour::Black, contentFont });
+    subtitleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
     subtitleNode->setText( data.subtitle );
 
-//    auto contentNode = manager->createElement<TextNode>(this, TextStyle{ Colour::Black, contentFont });
-//    contentNode->setMaximumOuterSize({ TOOLTIP_WIDTH, 100 });
-//    contentNode->setText( data.content );
+    if ( longContent )
+    {
+        auto contentNode = manager->createElement<TextNode>(this, TextStyle{ Colour::Black, contentFont });
+        contentNode->setMaximumOuterSize({ TOOLTIP_MAX_WIDTH, 1000 });
+        contentNode->setText( data.content );
+    }
 
-    setBackgroundColour( Colour::Grey.withAlpha(180) );
+    setBackgroundColour( Colour::Grey.withAlpha(210) );
+}
+
+UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, const std::vector<TooltipData> &data, bool longContent)
+        : Element(manager, parent)
+{
+    sharedInit();
+
+    for ( auto const& td : data )
+    {
+        manager->createElement<TooltipItem>( this, td, longContent );
+    }
+}
+
+UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, const UI::TooltipData &data, bool longContent)
+        : Element(manager, parent)
+{
+    sharedInit();
+
+    manager->createElement<TooltipItem>( this, data, longContent );
+}
+
+void UI::Tooltip::sharedInit()
+{
+    setLayout<VerticalLayout>( 4, HAlignment::Left );
+    setPadding( 4 );
+    setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000});
+    setId( "tooltip" );
 }

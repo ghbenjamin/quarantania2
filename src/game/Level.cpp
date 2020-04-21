@@ -220,6 +220,11 @@ void Level::setupUI()
     m_playerEquippedView = m_uiManager.withId( "main-equip-view" )->asType<UI::EquippedItemsView>();
     m_playerContainerView = m_uiManager.withId( "main-inventory-view" )->asType<UI::ContainerView>();
     m_playerCharStatsView = m_uiManager.withId( "player-stats-view" )->asType<UI::CharStatsView>();
+
+
+    // UI DEBUG ZONE
+
+//    auto dialog = m_uiManager.createElement<UI::MsgBoxDialog>( nullptr, "Hello world!", 300, "I am a very important dialog" );
 }
 
 void Level::layoutWindows()

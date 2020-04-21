@@ -3,6 +3,7 @@
 #include <game/Component.h>
 #include <actions/Action.h>
 
+
 struct ActionComponent : public Component<ActionComponent>
 {
     ActionComponent();

@@ -42,7 +42,7 @@ void UI::ContainerView::updateSelf(uint32_t ticks, InputInterface &iinter, Rende
     {
         for ( int i = 0; i < m_tileBounds.x(); i++ )
         {
-            if (idx < m_items.size())
+            if ( idx < (int) m_items.size() )
             {
                 rInter.addScreenItem( m_items[idx].sprite.renderObject(curr + offset + innerOffset) );
             }
@@ -150,7 +150,7 @@ UI::ContainerViewItem const* UI::ContainerView::itemFromPosition(Vector2i positi
 
     int idx = tileCoords.x() + m_tileBounds.x() * tileCoords.y();
 
-    if ( idx < m_items.size() )
+    if ( idx < (int) m_items.size() )
     {
         return &m_items[idx];
     }

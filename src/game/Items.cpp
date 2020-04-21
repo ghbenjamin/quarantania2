@@ -160,17 +160,14 @@ ArmourPtr const &Item::getArmour() const
     return m_armour;
 }
 
-std::string_view Item::getDescription() const
+std::string const& Item::getDescription() const
 {
     return m_description;
 }
 
 UI::TooltipData Item::tooltipData() const
 {
-    UI::TooltipData td;
-    td.title = m_name;
-    td.subtitle = "Item";
-    td.content = m_description;
+    UI::TooltipData td { m_name, "Item", m_description };
 
     auto fc = td.title.at(0);
     fc = std::toupper(fc);

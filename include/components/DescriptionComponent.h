@@ -2,13 +2,12 @@
 
 #include <game/Component.h>
 
-// Do I have a description?
 struct DescriptionComponent : public Component<DescriptionComponent>
 {
-    explicit DescriptionComponent(std::string val);
-    explicit DescriptionComponent(std::vector<std::string> const& vals);
+    DescriptionComponent(std::string const&, std::string const&, std::string const&);
     ~DescriptionComponent() override = default;
 
-    int current;
-    std::vector<std::string> descriptions;
+    std::string title;
+    std::string shortDescription;
+    std::string longDescription;
 };

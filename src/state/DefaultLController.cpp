@@ -129,18 +129,26 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 
     auto ents = m_level->grid().entitiesAtTile(curr);
 
-    // Highlight hovered entities
+
     if ( !ents.empty() )
     {
+        // Highlight hovered entities
         m_level->ui().addTileHighlight( m_level->tileCoordsToScreen(curr) );
-    }
 
-    if ( ents.size() == 1 )
-    {
-        if ( m_level->entityHas<ItemComponent>(ents[0]) )
+        std::vector<UI::TooltipData> tooltipData;
+
+        for ( auto const& ent : ents )
         {
-            auto itemComp = m_level->getComponents<ItemComponent>( ents[0] );
-            m_level->ui().openTooltip( itemComp->item->tooltipData(), m_level->tileCoordsToScreen(curr) + Vector2i{30, 30}  );
+            if ( m_level->entityHas<DescriptionComponent>(ent) )
+            {
+                auto descC = m_level->getComponents<DescriptionComponent>( ent );
+                tooltipData.emplace_back( descC->title, descC->shortDescription, descC->longDescription );
+            }
+        }
+
+        if ( !tooltipData.empty() )
+        {
+            m_level->ui().openTooltip( tooltipData, m_level->tileCoordsToScreen(curr) + Vector2i{30, 30}  );
         }
     }
 }

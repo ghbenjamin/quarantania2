@@ -7,17 +7,25 @@ namespace UI
 class Dialog : public Element
 {
 public:
-    Dialog( Manager* manager, Element* parent, std::string const& title, std::string const& contents, int maxWidth = -1, bool isModal = false );
+    Dialog( Manager* manager, Element* parent, std::string const& title, int maxWidth );
     ~Dialog() override = default;
 
 protected:
-    std::string m_title;
-    std::string m_contents;
     int m_maxWidth;
-    bool m_isModal;
+
+    ElementPtr m_contentHolder;
+    ElementPtr m_buttonHolder;
 };
 
 
+
+
+class MsgBoxDialog : public Dialog
+{
+public:
+    MsgBoxDialog( Manager* manager, Element* parent, std::string const& title, int maxWidth, std::string const& message );
+    ~MsgBoxDialog() override = default;
+};
 
 
 }

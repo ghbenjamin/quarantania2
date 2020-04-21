@@ -95,8 +95,11 @@ public:
     void addTileHighlight(Vector2i screenPos);
     void removeTileHighlight();
 
-    void openTooltip( TooltipData const& data, Vector2i pos );
+    void openTooltip( TooltipData const& data, Vector2i pos, bool longContent = false );
+    void openTooltip( std::vector<TooltipData> const& data, Vector2i pos, bool longContent = false );
     void closeTooltip();
+
+
 
 
 private:

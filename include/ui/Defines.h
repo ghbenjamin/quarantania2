@@ -15,6 +15,8 @@ struct TextStyle
 
 struct TooltipData
 {
+    TooltipData(const std::string &title, const std::string &subtitle, const std::string &content);
+
     std::string title;
     std::string subtitle;
     std::string content;

@@ -45,6 +45,7 @@ PlayerPtr EntityFactory::createPlayer(PlayerData const& data, Vector2i startPos)
     m_parent->addComponent<PositionComponent>(eref, startPos);
     m_parent->addComponent<RenderComponent>(eref, sprite);
     m_parent->addComponent<ColliderComponent>(eref, false, true);
+    m_parent->addComponent<DescriptionComponent>( eref, data.name, "You!", data.name );
     auto cContainer = m_parent->addComponent<ContainerComponent>(eref);
     auto cActor = m_parent->addComponent<ActorComponent>(eref, data);
 
@@ -75,6 +76,7 @@ EntityRef EntityFactory::createEnemy(std::string const &name, Vector2i pos) cons
     m_parent->addComponent<PositionComponent>(eref, pos);
     m_parent->addComponent<RenderComponent>(eref, sprite);
     m_parent->addComponent<ColliderComponent>(eref, false, true);
+    m_parent->addComponent<DescriptionComponent>( eref, creatureData.name, "Creature", creatureData.description );
 
     auto actComp = m_parent->addComponent<ActorComponent>(eref, std::move(creatureData));
 
@@ -99,6 +101,7 @@ EntityRef EntityFactory::createItem(std::shared_ptr<Item> item, Vector2i pos) co
     m_parent->addComponent<RenderComponent>(eref, sprite);
     m_parent->addComponent<ColliderComponent>(eref, false, false);
     m_parent->addComponent<ItemComponent>(eref, item);
+    m_parent->addComponent<DescriptionComponent>( eref, item->getName(), "Item", item->getDescription() );
 
     m_parent->entityReady(eref);
     return eref;

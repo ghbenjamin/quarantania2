@@ -332,9 +332,15 @@ Level *Manager::level()
     return m_level;
 }
 
-void Manager::openTooltip( TooltipData const& data, Vector2i pos )
+void Manager::openTooltip( TooltipData const& data, Vector2i pos, bool longContent )
 {
-    auto tooltip = createElement<Tooltip>( nullptr, data );
+    auto tooltip = createElement<Tooltip>( nullptr, data, longContent );
+    tooltip->setLocalPosition( pos );
+}
+
+void Manager::openTooltip(std::vector<TooltipData> const &data, Vector2i pos, bool longContent )
+{
+    auto tooltip = createElement<Tooltip>( nullptr, data, longContent );
     tooltip->setLocalPosition( pos );
 }
 
@@ -342,6 +348,7 @@ void Manager::closeTooltip()
 {
     deleteElement( withId( "tooltip" ) );
 }
+
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, int offset)
 : element(std::move(element)), alignment(alignment), offset(offset)

@@ -94,7 +94,7 @@ public:
     int getWeight() const;
     EquipSlot getEquipSlot() const;
     const SpritesheetKey &getSprite() const;
-    std::string_view getDescription() const;
+    std::string const& getDescription() const;
 
     bool isWeapon() const;
     WeaponPtr const& getWeapon() const;
