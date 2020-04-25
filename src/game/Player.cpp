@@ -14,6 +14,7 @@ PlayerData Player::generateNewPlayer(PlayerGenData const &pgd)
 {
     PlayerData pd;
 
+    pd.sprite = { "dawnlike_chars", "Player_001" };
     pd.name = pgd.name;
     pd.alignment = pgd.alignment;
     pd.clazz = pgd.clazz;

@@ -5,41 +5,17 @@
 #include <components/All.h>
 #include <components/ContainerComponent.h>
 #include <db/ResourceDatabase.h>
+#include <actions/ActionDefs.h>
 
 EntityFactory::EntityFactory(Level *parent, RandomGenerator* rg )
-: m_parent(parent), m_rg(rg)
-{
-    addPrefabType<PrefabObjects::Door>(PrefabType::Door, SpritesheetKey{"dawnlike_objects", "Door_001"});
-    addPrefabType<PrefabObjects::Door>(PrefabType::Door_Locked, SpritesheetKey{"dawnlike_objects", "Door_005"});
-    addPrefabType<PrefabObjects::Entrance>(PrefabType::Stairs_Up, SpritesheetKey{"dawnlike_objects", "Door_037"});
-    addPrefabType<PrefabObjects::Exit>(PrefabType::Stairs_Down, SpritesheetKey{"dawnlike_objects", "Door_038"});
-    addPrefabType<PrefabObjects::Container>(PrefabType::Cont_Bookcase_Small, SpritesheetKey{"dawnlike_objects", "Decor_038"});
-    addPrefabType<PrefabObjects::Container>(PrefabType::Cont_Bookcase_Large, SpritesheetKey{"dawnlike_objects", "Decor_039"});
-    addPrefabType<PrefabObjects::Decor>(PrefabType::Decor_Bed, SpritesheetKey{"dawnlike_objects", "Decor_073"});
-}
+: m_parent(parent), m_rg(rg) {}
 
-EntityRef EntityFactory::createPrefab(PrefabType ptype, Vector2i pos) const
-{
-    auto eref = m_parent->createEntity();
-    auto it = m_prefabs.find(ptype);
-
-    m_parent->addComponent<PositionComponent>(eref, pos);
-
-    Assert(it != m_prefabs.end() );
-
-    it->second->generate(m_parent, eref);
-
-    m_parent->entityReady( eref );
-
-    return eref;
-}
 
 PlayerPtr EntityFactory::createPlayer(PlayerData const& data, Vector2i startPos) const
 {
     auto eref = m_parent->createEntity();
 
-    // TODO Don't hardcode the player appearance
-    auto sprite = ResourceManager::get().getSprite("dawnlike_chars", "Player_001");
+    auto sprite = ResourceManager::get().getSprite(data.sprite);
     sprite.setRenderLayer(RenderLayer::Actor);
 
     m_parent->addComponent<PositionComponent>(eref, startPos);
@@ -102,6 +78,49 @@ EntityRef EntityFactory::createItem(std::shared_ptr<Item> item, Vector2i pos) co
     m_parent->addComponent<ColliderComponent>(eref, false, false);
     m_parent->addComponent<ItemComponent>(eref, item);
     m_parent->addComponent<DescriptionComponent>( eref, item->getName(), "Item", item->getDescription() );
+
+    m_parent->entityReady(eref);
+    return eref;
+}
+
+EntityRef EntityFactory::createObject(std::string const &ptype, Vector2i pos) const
+{
+    auto eref = m_parent->createEntity();
+    auto objData = ResourceDatabase::instance().objectFromName( ptype );
+
+    auto sprite = ResourceManager::get().getSprite( objData.sprites[0] );
+    sprite.setRenderLayer(RenderLayer::Entity);
+
+    m_parent->addComponent<PositionComponent>(eref, pos);
+    m_parent->addComponent<RenderComponent>(eref, sprite);
+
+    if ( objData.type == "door" )
+    {
+        m_parent->addComponent<RenderComponent>(eref, sprite);
+        m_parent->addComponent<ColliderComponent>(eref, true, true);
+        m_parent->addComponent<OpenableComponent>(eref);
+    }
+    else if ( objData.type == "level_entrance" )
+    {
+        m_parent->addComponent<ColliderComponent>(eref, true, true);
+    }
+    else if ( objData.type == "level_exit" )
+    {
+        m_parent->addComponent<ColliderComponent>(eref, true, true);
+
+        auto actions = m_parent->addComponent<ActionComponent>(eref);
+        actions->actions.push_back( std::make_shared<ExitLevelAction>(m_parent) );
+    }
+    else if ( objData.type == "container" )
+    {
+    }
+    else if ( objData.type == "decor" )
+    {
+    }
+    else
+    {
+        AssertAlways();
+    }
 
     m_parent->entityReady(eref);
     return eref;

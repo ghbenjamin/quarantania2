@@ -6,6 +6,7 @@
 
 #include <game/Entity.h>
 #include <game/Defines.h>
+#include <resource/Spritesheet.h>
 
 
 // Data given by the player in the level gen menu to construct a new starting player
@@ -28,6 +29,7 @@ struct PlayerData
     std::string race;
     std::string clazz;
     Alignment alignment;
+    SpritesheetKey sprite;
 
     int level;
     int currXP;

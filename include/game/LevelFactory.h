@@ -7,10 +7,9 @@
 #include <game/LevelData.h>
 #include <game/LevelConfig.h>
 #include <utils/GridUtils.h>
-#include <resource/RoomTemplates.h>
+#include <db/RawData.h>
 
 struct PlayerData;
-
 
 class LevelFactory
 {
@@ -100,15 +99,13 @@ private:
 
     void assignSpecialRooms();
     void decorateRooms();
-    void constructRoomFromTemplate( LD::Room const& room, RoomTemplate* rt );
+    void constructRoomFromTemplate( LD::Room const& room, RawRoomTemplateData const& td );
     void constructPlayer(PlayerData const& pdata);
     void constructDoors();
 
 
 private:
     LevelPtr m_level;
-
-    RoomTemplateManager m_roomTemplates;
 
     // Random
     std::random_device m_rd;

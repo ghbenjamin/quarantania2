@@ -5,6 +5,7 @@
 
 #include <db/RawData.h>
 #include <utils/Assert.h>
+#include <utils/Random.h>
 
 class ResourceDatabase
 {
@@ -24,6 +25,8 @@ public:
     RawCreatureData creatureFromName( std::string_view name );
     RawPlayerRaceData playerRaceFromName( std::string_view name );
     RawPlayerClassData playerClassFromName( std::string_view name );
+    RawObjectData objectFromName( std::string_view name );
+    RawRoomTemplateData randomRoomTemplate( Vector2i size, RandomGenerator& rg );
 
     static Alignment parseAlignmentFromStr( std::string_view sv );
     static EquipSlot parseEquipSlotFromStr( std::string_view sv );
@@ -35,6 +38,8 @@ private:
     void loadAllCreatureData( );
     void loadAllItemData( );
     void loadAllPlayerData( );
+    void loadAllObjectData( );
+    void loadAllRoomTemplateData( );
 
 private:
     std::vector<RawCreatureData> m_creatureData;
@@ -43,4 +48,7 @@ private:
     std::vector<RawArmourData> m_armourData;
     std::vector<RawPlayerClassData> m_playerClassData;
     std::vector<RawPlayerRaceData> m_playerRaceData;
+    std::vector<RawObjectData> m_objectData;
+
+    std::unordered_multimap<Vector2i, RawRoomTemplateData, Vector2iHash> m_roomTemplateData;
 };

@@ -24,7 +24,6 @@
 #include <systems/System.h>
 #include <game/GEvent.h>
 #include <game/GEventDefs.h>
-#include <game/Prefab.h>
 
 
 // Forward definitions

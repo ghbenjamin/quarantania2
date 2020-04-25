@@ -13,9 +13,7 @@
 using namespace LD;
 
 LevelFactory::LevelFactory()
-    : m_rd(), m_regionIndex(0)
-{
-}
+    : m_rd(), m_regionIndex(0) {}
 
 LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &ctx, PlayerData const& pdata)
 {
@@ -46,9 +44,6 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
 
     // Construct a map of sprites for the prebaked tiles we are going to need
     constructMapRendering(config, ctx);
-
-    // Load the prefab entity and room data
-    m_roomTemplates.loadAllTemplates( "../resource/data/room_templates.json" );
 
     // Construct basic door prefabs at most of our junction points
     constructDoors();
@@ -684,7 +679,7 @@ void LevelFactory::constructDoors()
     {
         if ( j.type == JunctionType::Door )
         {
-            m_level->m_entFactory.createPrefab(PrefabType::Door, p);
+            m_level->entityFactory().createObject( "door", p );
         }
     }
 }
@@ -697,25 +692,18 @@ void LevelFactory::decorateRooms()
         {
             case RoomType::Normal:
             {
-                auto rt = m_roomTemplates.randomTemplate( room.bounds.right(), m_level->m_rg );
-                if ( rt != nullptr )
-                {
-                    constructRoomFromTemplate(room, rt);
-                }
-
+                auto rt = ResourceDatabase::instance().randomRoomTemplate( room.bounds.right(), m_level->m_rg );
+                constructRoomFromTemplate(room, rt);
                 break;
             }
             case RoomType::Entrance:
             {
-                auto eref = m_level->m_entFactory
-                                   .createPrefab(PrefabType::Stairs_Up, room.centre());
-
+                auto eref = m_level->entityFactory().createObject( "level_entrance", room.centre() );
                 break;
             }
             case RoomType::Exit:
             {
-                auto eref = m_level->m_entFactory
-                                   .createPrefab(PrefabType::Stairs_Down, room.centre());
+                auto eref = m_level->entityFactory().createObject( "level_exit", room.centre() );
                 break;
             }
             case RoomType::Vault:
@@ -793,13 +781,11 @@ void LevelFactory::assignSpecialRooms()
     }
 }
 
-void LevelFactory::constructRoomFromTemplate(LD::Room const& room, RoomTemplate* rt)
+void LevelFactory::constructRoomFromTemplate(LD::Room const& room, RawRoomTemplateData const& rt)
 {
-    // Construct prefabs
-    for ( auto const& prefab : rt->prefabs )
+    for ( auto const& objs : rt.objects )
     {
-        Vector2i translated = prefab.position + room.bounds.left();
-        m_level->m_entFactory
-               .createPrefab(prefab.type, translated);
+        Vector2i translated = objs.offset + room.bounds.left();
+        m_level->entityFactory().createObject( objs.name, translated );
     }
 }

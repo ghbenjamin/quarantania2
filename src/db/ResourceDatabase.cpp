@@ -10,6 +10,8 @@ ResourceDatabase::ResourceDatabase()
     loadAllItemData();
     loadAllCreatureData();
     loadAllPlayerData();
+    loadAllObjectData();
+    loadAllRoomTemplateData();
 }
 
 RawItemData ResourceDatabase::itemFromName(std::string_view name)
@@ -77,6 +79,18 @@ RawArmourData ResourceDatabase::armourFromName(std::string_view name)
     Assert( it != m_armourData.end() );
     return RawArmourData( *it );
 }
+
+RawObjectData ResourceDatabase::objectFromName(std::string_view name)
+{
+    auto it = std::find_if( m_objectData.begin(), m_objectData.end(),
+            [name](auto const& item){
+                return item.name == name;
+            });
+
+    Assert( it != m_objectData.end() );
+    return RawObjectData( *it );
+}
+
 
 void ResourceDatabase::loadAllCreatureData()
 {
@@ -461,5 +475,80 @@ ArmourType ResourceDatabase::parseArmourTypeFromStr(std::string_view sv)
         AssertAlwaysMsg( "Unknown armour type" );
         return ArmourType::Light;
     }
+}
+
+void ResourceDatabase::loadAllObjectData()
+{
+    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/objects.json" );
+    for ( auto const& it_raw : doc.GetArray() )
+    {
+        RawObjectData robj;
+        auto it = it_raw.GetObject();
+
+        robj.name = it.FindMember("name")->value.GetString();
+        robj.description = it.FindMember("description")->value.GetString();
+        robj.type = it.FindMember("type")->value.GetString();
+
+        for ( auto const& sprite_node : it.FindMember("sprites")->value.GetArray() )
+        {
+            auto sprite_obj = sprite_node.GetObject();
+            robj.sprites.emplace_back( sprite_obj.FindMember("sprite_sheet")->value.GetString(),
+                    sprite_obj.FindMember("sprite_name")->value.GetString() );
+        }
+
+        m_objectData.push_back( robj );
+    }
+}
+
+void ResourceDatabase::loadAllRoomTemplateData()
+{
+    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/rooms.json" );
+
+    for ( auto const& hnode : doc.FindMember("normal_rooms")->value.GetObject() )
+    {
+        int hval = std::atoi( hnode.name.GetString() );
+        for ( auto const& vnode : hnode.value.GetObject() )
+        {
+            int vval = std::atoi( vnode.name.GetString() );
+            Vector2i key = {hval, vval};
+
+            for ( auto const& rt : vnode.value.GetArray() )
+            {
+                auto rt_obj = rt.GetObject();
+                RawRoomTemplateData rawrt;
+                rawrt.size = key;
+
+                for ( auto const& objs_item : rt_obj.FindMember("objects")->value.GetArray() )
+                {
+                    RawRoomObjectData robjd;
+                    auto objs_obj = objs_item.GetObject();
+
+                    robjd.name = objs_obj.FindMember("name")->value.GetString();
+
+                    auto offset_arr = objs_obj.FindMember("position")->value.GetArray();
+                    robjd.offset = { offset_arr[0].GetInt(), offset_arr[1].GetInt() };
+
+                    rawrt.objects.push_back( robjd );
+                }
+
+                m_roomTemplateData.emplace( key, rawrt );
+            }
+        }
+    }
+
+}
+
+RawRoomTemplateData ResourceDatabase::randomRoomTemplate(Vector2i size, RandomGenerator& rg)
+{
+    auto it = m_roomTemplateData.equal_range(size);
+
+    if ( it.first == it.second )
+    {
+        // Default to empty room;
+        return RawRoomTemplateData{size, {}};
+    }
+
+    auto rit = randomElement( it.first, it.second, rg );
+    return rit->second;
 }
 

@@ -1,0 +1,46 @@
+{
+  "normal_rooms": {
+    "3": {
+      "3": [
+        {
+          "objects": [
+            {
+              "name": "table",
+              "position": [0, 0]
+            },
+            {
+              "name": "chair",
+              "position": [0, 1]
+            }
+          ]
+        }
+      ],
+      "5": [
+        {
+          "objects": [
+            {
+              "name": "pot",
+              "position": [1, 4]
+            },
+            {
+              "name": "table",
+              "position": [2, 4]
+            }
+          ]
+        }
+      ]
+    },
+    "5": {
+      "5": [
+        {
+          "objects": [
+            {
+              "name": "coffin",
+              "position": [2, 2]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

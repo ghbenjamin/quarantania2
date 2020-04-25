@@ -104,3 +104,23 @@ struct RawPlayerClassData
     std::array<int, 20> refByLevel;
     std::array<int, 20> willByLevel;
 };
+
+struct RawObjectData
+{
+    std::string name;
+    std::string description;
+    std::string type;
+    std::vector<SpritesheetKey> sprites;
+};
+
+struct RawRoomObjectData
+{
+    std::string name;
+    Vector2i offset;
+};
+
+struct RawRoomTemplateData
+{
+    Vector2i size;
+    std::vector<RawRoomObjectData> objects;
+};
