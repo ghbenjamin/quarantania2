@@ -3,13 +3,15 @@
 #include <type_traits>
 #include <utils/Containers.h>
 
+// Quick and dirty matrix implementation
+
 template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
 class Matrix2
 {
 public:
 
-    Matrix2() : m_xx(0), m_xy(0), m_yx(0), m_yy(0) {}
-    Matrix2(T xx, T xy, T yx, T yy)
+    constexpr Matrix2() : m_xx(0), m_xy(0), m_yx(0), m_yy(0) {}
+    constexpr Matrix2(T xx, T xy, T yx, T yy)
     : m_xx(xx), m_xy(xy), m_yx(yx), m_yy(yy) {}
 
     ~Matrix2() = default;

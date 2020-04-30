@@ -22,9 +22,6 @@ public:
      * Create a single level from the given configuration and context.
      * Place rooms, connect them with corridors and generate doors. Fill the rooms with
      * stuff. Generate other NPCs. Add appropriately placed entrances and exits.
-     * @param config
-     * @param ctx
-     * @return
      */
     LevelPtr create( LevelConfig const& config, LevelContextPtr const& ctx, PlayerData const& pdata );
 
@@ -99,7 +96,7 @@ private:
 
     void assignSpecialRooms();
     void decorateRooms();
-    void constructRoomFromTemplate( LD::Room const& room, RawRoomTemplateData const& td );
+    void constructRoomFromTemplate(LD::Room const& room, RawRoomTemplateData const& td, bool flip);
     void constructPlayer(PlayerData const& pdata);
     void constructDoors();
 

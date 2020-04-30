@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <array>
 #include <utils/Containers.h>
 #include <utils/Matrix.h>
 
@@ -31,36 +32,32 @@ enum class Direction : GridBitmask
 
 namespace MatrixTransform
 {
-    using TransMat = int[4];
+    static constexpr Matrix2i identity =    {  1,  0,  0,  1  };
+    static constexpr Matrix2i rot270 =      {  0,  1, -1,  0  };
+    static constexpr Matrix2i rot180 =      { -1,  0,  0, -1  };
+    static constexpr Matrix2i rot90 =       {  0, -1,  1,  0  };
+    static constexpr Matrix2i ref0 =        {  1,  0,  0, -1  };
+    static constexpr Matrix2i ref45 =       {  0,  1,  1,  0  };
+    static constexpr Matrix2i ref90 =       { -1,  0,  0,  1  };
+    static constexpr Matrix2i ref135 =      {  0, -1, -1,  0  };
 
-    static constexpr TransMat identity = {1, 0, 0, 1};
-    static constexpr TransMat rot270 = { 0, 1, -1, 0 };
-    static constexpr TransMat rot180 = { -1, 0, 0, -1 };
-    static constexpr TransMat rot90 = { 0, -1, 1, 0 };
-
-    static constexpr int nthToFirstOctant [8][4] = {
-        {1, 0, 0, 1},
-        {0, 1, 1, 0},
-        {0, -1, 1, 0},
-        {-1, 0, 0, 1},
-        {-1, 0, 0, -1},
-        {0, -1, -1, 0},
-        {0, 1, -1, 0},
-        {1, 0, 0, -1}
+    static const std::array<Matrix2i, 8> squareTransforms = {
+        identity,
+        ref45,
+        rot90,
+        ref90,
+        rot180,
+        ref135,
+        rot270,
+        ref0
     };
 
-    static const Matrix2i octantTransforms [8] = {
-        Matrix2i{1, 0, 0, 1},
-        Matrix2i{0, 1, 1, 0},
-        Matrix2i{0, -1, 1, 0},
-        Matrix2i{-1, 0, 0, 1},
-        Matrix2i{-1, 0, 0, -1},
-        Matrix2i{0, -1, -1, 0},
-        Matrix2i{0, 1, -1, 0},
-        Matrix2i{1, 0, 0, -1}
+    static const std::array<Matrix2i, 4> rectangularTransforms = {
+        identity,
+        rot180,
+        ref0,
+        ref90
     };
-
-    Vector2i transform( TransMat const* mat, Vector2i target );
 }
 
 Direction operator | (Direction lhs, Direction rhs);
@@ -87,13 +84,9 @@ public:
     static GridRegion createCircle( Vector2i origin, int radius );
     static GridRegion createCone( Vector2i origin, int length, Direction direction );
 
-    static Vector2i mapToFirstOctant( Vector2i pos, int octant );
-
-
     static bool isAdjacent(Vector2i lhs, Vector2i rhs);
 
 private:
-
     static GridRegion createLineLow( int x0, int y0, int x1, int y1 );
     static GridRegion createLineHigh( int x0, int y0, int x1, int y1 );
 

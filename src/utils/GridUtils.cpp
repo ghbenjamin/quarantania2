@@ -186,7 +186,7 @@ GridRegion GridUtils::createCone(Vector2i origin, int length, Direction directio
         }
     }
 
-    MatrixTransform::TransMat const* transform;
+    Matrix2i const* transform;
 
     // Determine how the the N/NE oriented shape needs to be rotated
     switch ( direction )
@@ -211,17 +211,10 @@ GridRegion GridUtils::createCone(Vector2i origin, int length, Direction directio
 
     // Rotate each of the tiles in the cone shape, then translate them to the correct position.
     std::transform(out.begin(), out.end(), out.begin(), [&](auto& elem) {
-        return MatrixTransform::transform(transform, elem) + AllNeighbours[direction] + origin;
+        return transform->transform(elem) + AllNeighbours[direction] + origin;
     });
 
     return out;
-}
-
-
-Vector2i GridUtils::mapToFirstOctant(Vector2i pos, int octant)
-{
-   auto& mat = MatrixTransform::nthToFirstOctant[octant];
-   return Vector2i{ mat[0] * pos.x() + mat[1] * pos.y(), mat[2] * pos.x() + mat[3] * pos.y()  };
 }
 
 bool GridUtils::isCardinal(Direction dir)
@@ -257,14 +250,7 @@ GridBitmask& operator|= (GridBitmask& lhs, Direction rhs)
     return lhs;
 }
 
-
 bool operator== (GridBitmask& lhs, Direction rhs)
 {
     return lhs == static_cast<GridBitmask>(rhs);
-}
-
-Vector2i MatrixTransform::transform(MatrixTransform::TransMat const* mat, Vector2i target)
-{
-    return Vector2i{ (*mat)[0] * target.x() + (*mat)[1] * target.y(),
-                     (*mat)[2] * target.x() + (*mat)[3] * target.y()  };
 }

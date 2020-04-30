@@ -13,6 +13,30 @@
               "position": [0, 1]
             }
           ]
+        },
+        {
+          "objects": [
+            {
+              "name": "bookcase",
+              "position": [0, 0]
+            },
+            {
+              "name": "bookcase",
+              "position": [0, 1]
+            },
+            {
+              "name": "bookcase",
+              "position": [0, 2]
+            }
+          ]
+        },
+        {
+          "objects": [
+            {
+              "name": "pot",
+              "position": [1, 1]
+            }
+          ]
         }
       ],
       "5": [
@@ -28,15 +52,29 @@
             }
           ]
         }
+      ],
+      "7": [
+        {
+          "objects": [
+            {
+              "name": "pot",
+              "position": [1, 4]
+            },
+            {
+              "name": "pot",
+              "position": [2, 4]
+            }
+          ]
+        }
       ]
     },
     "5": {
-      "5": [
+      "7": [
         {
           "objects": [
             {
               "name": "coffin",
-              "position": [2, 2]
+              "position": [2, 4]
             }
           ]
         }

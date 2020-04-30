@@ -534,7 +534,6 @@ void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContext
 
 TerrainTile LevelFactory::getCorrectWallTile(int idx)
 {
-
     GridBitmask fullMask = m_wallPositionMasks[idx];
     GridBitmask mask = fullMask & GridUtils::CardinalOnly;
 
@@ -692,8 +691,10 @@ void LevelFactory::decorateRooms()
         {
             case RoomType::Normal:
             {
-                auto rt = ResourceDatabase::instance().randomRoomTemplate( room.bounds.right(), m_level->m_rg );
-                constructRoomFromTemplate(room, rt);
+                auto rsize = room.bounds.right();
+                bool flip = rsize.x() > rsize.y();
+                auto rt = ResourceDatabase::instance().randomRoomTemplate( rsize, m_level->m_rg );
+                constructRoomFromTemplate(room, rt, flip);
                 break;
             }
             case RoomType::Entrance:
@@ -781,11 +782,56 @@ void LevelFactory::assignSpecialRooms()
     }
 }
 
-void LevelFactory::constructRoomFromTemplate(LD::Room const& room, RawRoomTemplateData const& rt)
+void LevelFactory::constructRoomFromTemplate(LD::Room const& room, RawRoomTemplateData const& rt, bool flip)
 {
+    // Work out whether or not we can use square symmetry
+
+    Matrix2i matrixTransform;
+    if ( room.bounds.w() == room.bounds.h() )
+    {
+        matrixTransform = *randomElement(
+                MatrixTransform::squareTransforms.begin(),
+                MatrixTransform::squareTransforms.end(),
+                m_level->random()
+        );
+    }
+    else
+    {
+        matrixTransform = *randomElement(
+                MatrixTransform::rectangularTransforms.begin(),
+                MatrixTransform::rectangularTransforms.end(),
+                m_level->random()
+        );
+    }
+
+    auto centre = room.centre() - room.bounds.left();
+
     for ( auto const& objs : rt.objects )
     {
-        Vector2i translated = objs.offset + room.bounds.left();
+        // Move origin to the centre of the room
+        Vector2i translated = objs.offset - centre;
+
+        // Apply the transformation(s)
+        translated = matrixTransform.transform(translated);
+        translated = translated + centre + room.bounds.left();
+
+        // If the transformed vector is adjacent to a door, skip it
+        bool doorAdj = false;
+        for ( auto const& door : room.junctions )
+        {
+            if ( GridUtils::isAdjacent( translated, door ))
+            {
+                doorAdj = true;
+                break;
+            }
+        }
+
+        if ( doorAdj )
+        {
+            continue;
+        }
+
+        // Otherwise construct the new object
         m_level->entityFactory().createObject( objs.name, translated );
     }
 }

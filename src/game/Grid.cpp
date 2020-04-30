@@ -56,7 +56,7 @@ void Grid::calculateFOV(Vector2i source, int maxLength)
 
     for ( int i = 0; i < 8; i++ )
     {
-        FOVWorker(source, maxLength, 1, 1.0f, 0.0f, &MatrixTransform::octantTransforms[i] );
+        FOVWorker(source, maxLength, 1, 1.0f, 0.0f, &MatrixTransform::squareTransforms[i] );
     }
 
     m_visGrid.setFixed(source, Visibility::Visible);
