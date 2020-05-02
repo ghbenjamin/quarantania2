@@ -37,7 +37,7 @@ void CombatSystem::accept(GEvents::MeleeAttack *evt)
     // Helper for performing a single attack roll
     auto doAttackRoll = [this, attackBonus, defenceBonus, &evt]() -> AttackRollResult {
         AttackRollResult arr;
-        arr.roll = diceroll(1, 20, m_level->random() );
+        arr.roll = m_level->random().diceroll(1, 20);
         arr.isCritHit = arr.roll >= evt->weapon->critData().lowerRange;
         arr.isCritMiss = arr.roll == 1;
         arr.isHit =  !arr.isCritMiss && ( (attackBonus + arr.roll >= defenceBonus) || arr.isCritHit );
@@ -61,10 +61,9 @@ void CombatSystem::accept(GEvents::MeleeAttack *evt)
                 int total = 0;
                 for ( int i = 0; i < evt->weapon->critData().multiplier; i++ )
                 {
-                    total += diceroll(
-                            evt->weapon->damage().diceCount,
-                            evt->weapon->damage().diceSize,
-                            m_level->random()
+                    total +=  m_level->random().diceroll(
+                        evt->weapon->damage().diceCount,
+                        evt->weapon->damage().diceSize
                     );
                 }
 
@@ -76,10 +75,9 @@ void CombatSystem::accept(GEvents::MeleeAttack *evt)
         // Not a crit, but is a hit
         if (!isCrit)
         {
-            rawDamage = diceroll(
-                    evt->weapon->damage().diceCount,
-                    evt->weapon->damage().diceSize,
-                    m_level->random()
+            rawDamage = m_level->random().diceroll(
+                evt->weapon->damage().diceCount,
+                evt->weapon->damage().diceSize
             );
         }
 

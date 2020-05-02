@@ -63,7 +63,7 @@ public:
     // Core
     bool input(IEvent &evt);
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
-    RandomGenerator& random();
+    RandomInterface& random();
 
     Grid& grid();
     GEventHub& events();
@@ -304,7 +304,7 @@ private:
     static constexpr int RightFrameWidth = 400;
 
     // Misc
-    RandomGenerator m_rg;
+    RandomInterface m_random;
     LevelContextPtr m_ctx;
     LevelControllerPtr m_controller;
     bool m_isComplete;

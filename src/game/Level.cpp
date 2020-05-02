@@ -27,8 +27,8 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     m_bounds(size),
     m_grid(size),
     m_tileCount(size.x() * size.y()),
-    m_rg(rg),
-    m_entFactory(this, &m_rg),
+    m_random(rg),
+    m_entFactory(this),
     m_isComplete(false),
     m_minimap{ m_bounds, 5 },
     m_camera( m_bounds * GlobalConfig::TileSizePx ),
@@ -511,9 +511,9 @@ EntityFactory &Level::entityFactory()
     return m_entFactory;
 }
 
-RandomGenerator &Level::random()
+RandomInterface &Level::random()
 {
-    return m_rg;
+    return m_random;
 }
 
 std::shared_ptr<UI::CharStatsView> Level::getPlayerStatsView()

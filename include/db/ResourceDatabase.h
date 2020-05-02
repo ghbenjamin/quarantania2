@@ -7,6 +7,8 @@
 #include <utils/Assert.h>
 #include <utils/Random.h>
 
+class RandomInterface;
+
 class ResourceDatabase
 {
 public:
@@ -26,7 +28,7 @@ public:
     RawPlayerRaceData playerRaceFromName( std::string_view name );
     RawPlayerClassData playerClassFromName( std::string_view name );
     RawObjectData objectFromName( std::string_view name );
-    RawRoomTemplateData randomRoomTemplate( Vector2i size, RandomGenerator& rg );
+    RawRoomTemplateData randomRoomTemplate( Vector2i size, RandomInterface& ri );
 
     static Alignment parseAlignmentFromStr( std::string_view sv );
     static EquipSlot parseEquipSlotFromStr( std::string_view sv );

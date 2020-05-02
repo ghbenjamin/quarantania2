@@ -11,7 +11,7 @@ class Level;
 class EntityFactory
 {
 public:
-    explicit EntityFactory( Level* parent, RandomGenerator* rg );
+    explicit EntityFactory( Level* parent );
     ~EntityFactory() = default;
 
     PlayerPtr createPlayer(PlayerData const& data, Vector2i startPos) const;
@@ -22,5 +22,4 @@ public:
 
 private:
     Level* m_parent;
-    RandomGenerator* m_rg;
 };

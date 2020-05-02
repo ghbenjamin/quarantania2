@@ -7,8 +7,8 @@
 #include <db/ResourceDatabase.h>
 #include <actions/ActionDefs.h>
 
-EntityFactory::EntityFactory(Level *parent, RandomGenerator* rg )
-: m_parent(parent), m_rg(rg) {}
+EntityFactory::EntityFactory(Level *parent)
+: m_parent(parent) {}
 
 
 PlayerPtr EntityFactory::createPlayer(PlayerData const& data, Vector2i startPos) const

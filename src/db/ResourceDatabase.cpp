@@ -3,6 +3,7 @@
 #include <utils/Logging.h>
 #include <utils/Assert.h>
 #include <utils/Json.h>
+#include <utils/Random.h>
 #include <game/Items.h>
 
 ResourceDatabase::ResourceDatabase()
@@ -538,7 +539,7 @@ void ResourceDatabase::loadAllRoomTemplateData()
 
 }
 
-RawRoomTemplateData ResourceDatabase::randomRoomTemplate(Vector2i size, RandomGenerator& rg)
+RawRoomTemplateData ResourceDatabase::randomRoomTemplate(Vector2i size, RandomInterface& ri)
 {
     auto it = m_roomTemplateData.equal_range(size);
 
@@ -548,7 +549,7 @@ RawRoomTemplateData ResourceDatabase::randomRoomTemplate(Vector2i size, RandomGe
         return RawRoomTemplateData{size, {}};
     }
 
-    auto rit = randomElement( it.first, it.second, rg );
+    auto rit = ri.randomElement( it.first, it.second );
     return rit->second;
 }
 

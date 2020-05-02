@@ -85,7 +85,7 @@ void LevelFactory::growMaze(Vector2i start)
 
         if (!dirs.empty())
         {
-            auto dir = *randomElement(dirs.begin(), dirs.end(), m_level->m_rg);
+            auto dir = *m_level->random().randomElement(dirs.begin(), dirs.end());
             auto nextCell = currCell + (GridUtils::CardinalNeighbours[dir] * 2);
 
             tileSet( currCell + GridUtils::CardinalNeighbours[dir], BaseTileType::Floor);
@@ -140,12 +140,12 @@ void LevelFactory::addRooms( int maxTries )
     for ( int idx = 0; idx < maxTries; idx++ )
     {
         auto roomSize = generateRandomRoomSize();
-
+        
         std::uniform_int_distribution<> mtRoomX(1, m_level->m_bounds.x() - roomSize.x() - 1);
         std::uniform_int_distribution<> mtRoomY(1, m_level->m_bounds.y() - roomSize.y() - 1);
 
-        int x = (mtRoomX(m_level->m_rg) / 2) * 2 + 1;
-        int y = (mtRoomY(m_level->m_rg) / 2) * 2 + 1;
+        int x = ( mtRoomX(m_level->random().generator() ) / 2) * 2 + 1;
+        int y = ( mtRoomY(m_level->random().generator() ) / 2) * 2 + 1;
 
         Room room;
         room.bounds = { x, y, roomSize.x(), roomSize.y() };
@@ -180,18 +180,23 @@ void LevelFactory::addRooms( int maxTries )
 
 Vector2i LevelFactory::generateRandomRoomSize()
 {
-    std::uniform_int_distribution<> roomSizing(1, 3);
-    auto primary = roomSizing(m_level->m_rg) * 2 + 1;
+    static const int MIN_ROOM_W = 1;
+    static const int MIN_ROOM_H = 4;
 
-    std::uniform_int_distribution<> secSizing(primary - 2, primary);
-    auto secondary = secSizing(m_level->m_rg) * 2 + 1;
+    int rawW, rawH;
 
-    if ( coinflip(m_level->m_rg) )
+    std::uniform_int_distribution<> roomSizing(MIN_ROOM_W, MIN_ROOM_H);
+    rawW = roomSizing(m_level->random().generator());
+
+    std::uniform_int_distribution<> secSizing( std::max(1, rawW - 1), rawW );
+    rawH = secSizing(m_level->random().generator());
+
+    if ( m_level->random().coinflip() )
     {
-        std::swap(primary, secondary);
+        std::swap(rawW, rawH);
     }
 
-    return {primary, secondary};
+    return { rawW * 2 + 1, rawH * 2 + 1 };
 }
 
 void LevelFactory::fillAllMazes()
@@ -278,7 +283,7 @@ void LevelFactory::connectRooms()
     while ( openRegions.size() > 1 )
     {
         // Select a random tile from the pool of possible connectors
-        auto rand_it = randomElement(allConnectors.begin(), allConnectors.end(), m_level->m_rg);
+        auto rand_it = m_level->random().randomElement( allConnectors.begin(), allConnectors.end() );
         auto& rand_regions = connectorMap[*rand_it];
 
         // Create a new junction
@@ -332,7 +337,7 @@ void LevelFactory::connectRooms()
 
             // A small percentage of the time, add another random door. This will help keep the network of rooms
             // and corridors connected rather than tree-ish
-            if ( weightedFlip(30, m_level->m_rg) )
+            if ( m_level->random().weightedFlip(30) )
             {
                 addJunction( pos, cmp.x(), cmp.y() );
                 return true;
@@ -352,7 +357,7 @@ void LevelFactory::addJunction( Vector2i pos, RegionRef r1, RegionRef r2 )
     jc.region1 = r1;
     jc.region2 = r2;
 
-    if ( weightedFlip(5, m_level->m_rg) )
+    if ( m_level->random().weightedFlip(5) )
     {
         tileSet( jc.pos, BaseTileType::Floor );
         jc.type = JunctionType::Open;
@@ -693,7 +698,7 @@ void LevelFactory::decorateRooms()
             {
                 auto rsize = room.bounds.right();
                 bool flip = rsize.x() > rsize.y();
-                auto rt = ResourceDatabase::instance().randomRoomTemplate( rsize, m_level->m_rg );
+                auto rt = ResourceDatabase::instance().randomRoomTemplate( rsize, m_level->random() );
                 constructRoomFromTemplate(room, rt, flip);
                 break;
             }
@@ -775,7 +780,7 @@ void LevelFactory::assignSpecialRooms()
         if ( terminalRooms.empty() )
             break;
 
-        auto it = randomElement( terminalRooms.begin(), terminalRooms.end(), m_level->m_rg );
+        auto it = m_level->random().randomElement( terminalRooms.begin(), terminalRooms.end() );
         m_specialRooms.emplace( srt, *it );
         m_rooms.at(*it).roomType = srt;
         terminalRooms.erase(it);
@@ -789,18 +794,16 @@ void LevelFactory::constructRoomFromTemplate(LD::Room const& room, RawRoomTempla
     Matrix2i matrixTransform;
     if ( room.bounds.w() == room.bounds.h() )
     {
-        matrixTransform = *randomElement(
+        matrixTransform = *m_level->random().randomElement(
                 MatrixTransform::squareTransforms.begin(),
-                MatrixTransform::squareTransforms.end(),
-                m_level->random()
+                MatrixTransform::squareTransforms.end()
         );
     }
     else
     {
-        matrixTransform = *randomElement(
+        matrixTransform = *m_level->random().randomElement(
                 MatrixTransform::rectangularTransforms.begin(),
-                MatrixTransform::rectangularTransforms.end(),
-                m_level->random()
+                MatrixTransform::rectangularTransforms.end()
         );
     }
 
