@@ -21,6 +21,7 @@ public:
     bool weightedFlip(int odds);
     bool coinflip();
     int diceroll(int dcount, int dsize);
+    int randomInt( int lower, int upper );
 
     RandomGenerator& generator();
 

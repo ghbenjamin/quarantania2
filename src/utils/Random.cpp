@@ -31,3 +31,9 @@ RandomGenerator &RandomInterface::generator()
 {
     return m_mt;
 }
+
+int RandomInterface::randomInt(int lower, int upper)
+{
+    std::uniform_int_distribution<> dist( lower, upper );
+    return dist( m_mt );
+}

@@ -238,7 +238,7 @@ public:
         m_rect.y = (int) m_y;
     }
 
-    bool intersect( Rect<T>const& other )
+    bool intersect( Rect<T>const& other ) const
     {
         return SDL_HasIntersection( &m_rect, &other.raw() ) == SDL_TRUE;
     }

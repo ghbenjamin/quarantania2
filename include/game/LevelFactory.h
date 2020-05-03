@@ -18,18 +18,9 @@ public:
     LevelFactory();
     ~LevelFactory() = default;
 
-    /**
-     * Create a single level from the given configuration and context.
-     * Place rooms, connect them with corridors and generate doors. Fill the rooms with
-     * stuff. Generate other NPCs. Add appropriately placed entrances and exits.
-     */
     LevelPtr create( LevelConfig const& config, LevelContextPtr const& ctx, PlayerData const& pdata );
 
 private:
-
-    /**
-     *  Basic level layout construction: placement of rooms, corridors, doors.
-     */
 
     // Walk over the level as it currently exists, and generate + place the correct sprites to render
     // the level.
@@ -40,6 +31,8 @@ private:
     TerrainTile getCorrectWallTile(int idx );
 
     // Base level layout methods
+
+    void placeSpecialRooms();
 
     // Attempt to place a random number of rooms. maxTries determines how sparsely packed the room will be:
     // high maxTries -> densely packed rooms
@@ -64,9 +57,6 @@ private:
     // Return the type of the specified tile
     LD::BaseTileType tileGet( Vector2i tile );
 
-    // Generate a random-ish room size. Sizes are guaranteed to be odd.
-    Vector2i generateRandomRoomSize();
-
     // Add a junction between two regions - normally a door
     void addJunction(Vector2i pos, LD::RegionRef r1, LD::RegionRef r2);
     void removeJunction(Vector2i pos);
@@ -89,19 +79,17 @@ private:
     void newRegion( LD::RegionType type );
 
     void setInitialCollisionData();
-
-    /**
-     *  Fill the level with actual stuff: entity placement, room decoration.
-     */
-
+    Vector2i generateRandomRoomSize();
+    Vector2i randomRoomPosition(Vector2i roomSize);
+    bool isRoomValid( LD::Room const& room );
     void assignSpecialRooms();
     void decorateRooms();
     void constructRoomFromTemplate(LD::Room const& room, RawRoomTemplateData const& td, bool flip);
     void constructPlayer(PlayerData const& pdata);
     void constructDoors();
 
-
 private:
+
     LevelPtr m_level;
 
     // Random

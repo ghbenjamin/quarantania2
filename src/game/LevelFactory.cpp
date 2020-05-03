@@ -139,28 +139,13 @@ void LevelFactory::addRooms( int maxTries )
 {
     for ( int idx = 0; idx < maxTries; idx++ )
     {
-        auto roomSize = generateRandomRoomSize();
-        
-        std::uniform_int_distribution<> mtRoomX(1, m_level->m_bounds.x() - roomSize.x() - 1);
-        std::uniform_int_distribution<> mtRoomY(1, m_level->m_bounds.y() - roomSize.y() - 1);
-
-        int x = ( mtRoomX(m_level->random().generator() ) / 2) * 2 + 1;
-        int y = ( mtRoomY(m_level->random().generator() ) / 2) * 2 + 1;
+        Vector2i roomSize = generateRandomRoomSize();
+        Vector2i randomPosition = randomRoomPosition(roomSize);
 
         Room room;
-        room.bounds = { x, y, roomSize.x(), roomSize.y() };
+        room.bounds = { randomPosition, roomSize };
 
-        bool invalid = false;
-        for ( auto const &[k, v] : m_rooms )
-        {
-            if ( room.bounds.intersect(v.bounds) )
-            {
-                invalid = true;
-                break;
-            }
-        }
-
-        if (invalid)
+        if ( !isRoomValid(room) )
         {
             continue;
         }
@@ -180,21 +165,17 @@ void LevelFactory::addRooms( int maxTries )
 
 Vector2i LevelFactory::generateRandomRoomSize()
 {
+    // From 3 to 7
     static const int MIN_ROOM_W = 1;
-    static const int MIN_ROOM_H = 4;
+    static const int MIN_ROOM_H = 3;
 
-    int rawW, rawH;
+    int rawW = m_level->random().randomInt( MIN_ROOM_W, MIN_ROOM_H );
+    int rawH = m_level->random().randomInt( MIN_ROOM_W, MIN_ROOM_H );
 
-    std::uniform_int_distribution<> roomSizing(MIN_ROOM_W, MIN_ROOM_H);
-    rawW = roomSizing(m_level->random().generator());
-
-    std::uniform_int_distribution<> secSizing( std::max(1, rawW - 1), rawW );
-    rawH = secSizing(m_level->random().generator());
-
-    if ( m_level->random().coinflip() )
-    {
-        std::swap(rawW, rawH);
-    }
+//    if ( m_level->random().coinflip() )
+//    {
+//        std::swap(rawW, rawH);
+//    }
 
     return { rawW * 2 + 1, rawH * 2 + 1 };
 }
@@ -837,4 +818,34 @@ void LevelFactory::constructRoomFromTemplate(LD::Room const& room, RawRoomTempla
         // Otherwise construct the new object
         m_level->entityFactory().createObject( objs.name, translated );
     }
+}
+
+
+void LevelFactory::placeSpecialRooms()
+{
+
+}
+
+Vector2i LevelFactory::randomRoomPosition(Vector2i roomSize)
+{
+    int randX = m_level->random().randomInt( 1, m_level->m_bounds.x() - roomSize.x() - 1 ) / 2;
+    int randY = m_level->random().randomInt( 1, m_level->m_bounds.y() - roomSize.y() - 1 ) / 2;
+
+    randX = randX * 2 + 1;
+    randY = randY * 2 + 1;
+
+    return { randX, randY };
+}
+
+bool LevelFactory::isRoomValid(const LD::Room &room)
+{
+    for ( auto const &[k, v] : m_rooms )
+    {
+        if ( room.bounds.intersect(v.bounds) )
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
