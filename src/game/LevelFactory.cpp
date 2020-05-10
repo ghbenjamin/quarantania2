@@ -19,8 +19,16 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
 {
     m_level = std::make_unique<Level>( config.size, ctx, RandomGenerator{ m_rd() } );
 
+    /**
+     * Construction of the basic level layout: rooms, corridors, doors
+     */
+
     // Start off with a map full of walls
-    m_level->m_baseTilemap = std::vector<BaseTileType>( config.size.x() * config.size.y(), BaseTileType::Wall );
+    m_level->m_baseTilemap = std::vector<BaseTileType>( config.size.area(), BaseTileType::Wall );
+
+    // Attempt to place special rooms (start, exit, boss, etc.)
+    // Do this first so that we can be sure that they're definitely there
+    placeSpecialRooms();
 
     // Attempt to add a random selection of rooms of various sizes and locations
     addRooms( config.roomDensity );
@@ -48,14 +56,28 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     // Construct basic door prefabs at most of our junction points
     constructDoors();
 
+
+    /**
+     * Filling the rooms and corridors with things
+     */
+
+
     // Semi-randomly assign our special rooms
     assignSpecialRooms();
 
     // Fill each of our rooms with entities
     decorateRooms();
 
+    /**
+     * Constucting the player
+     */
+
     // Add the player at an appropriate place
     constructPlayer(pdata);
+
+    /**
+     * Cleanup.
+     */
 
     // Mark the level construction as completed
     m_level->setReady();
@@ -64,9 +86,11 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
 
 void LevelFactory::growMaze(Vector2i start)
 {
+    // The start position can be turned into floor always (caller responsible for assuring this)
     newRegion(RegionType::Corridor);
     tileSet(start, BaseTileType::Floor);
 
+    // Add the start tile to our stack and begin
     std::vector<Vector2i> cells;
     cells.push_back(start);
 
@@ -74,6 +98,8 @@ void LevelFactory::growMaze(Vector2i start)
     {
         auto currCell = cells.back();
 
+        // For each cardinal direction from our current position, work out whether or not we can grow the maze
+        // to that position
         std::vector<Direction> dirs;
         for ( auto &[k, v] : GridUtils::CardinalNeighbours )
         {
@@ -83,9 +109,10 @@ void LevelFactory::growMaze(Vector2i start)
             }
         }
 
-        if (!dirs.empty())
+        // If we can grow the maze to any of the neighbors of our current cell, pick one at random and grow it.
+        if ( !dirs.empty() )
         {
-            auto dir = *m_level->random().randomElement(dirs.begin(), dirs.end());
+            auto dir = *m_level->random().randomElement(dirs);
             auto nextCell = currCell + (GridUtils::CardinalNeighbours[dir] * 2);
 
             tileSet( currCell + GridUtils::CardinalNeighbours[dir], BaseTileType::Floor);
@@ -127,6 +154,9 @@ Vector2i LevelFactory::coordsFromIndex(int idx)
 
 bool LevelFactory::canFloor(Vector2i coord, Direction dir)
 {
+    // Can the given position be grown in the given direction without hitting a room
+    // or the edge of the map?
+
     auto delta = GridUtils::CardinalNeighbours[dir];
 
     if ( !m_level->m_grid.inBounds(coord + (delta * 3)) )
@@ -172,16 +202,14 @@ Vector2i LevelFactory::generateRandomRoomSize()
     int rawW = m_level->random().randomInt( MIN_ROOM_W, MIN_ROOM_H );
     int rawH = m_level->random().randomInt( MIN_ROOM_W, MIN_ROOM_H );
 
-//    if ( m_level->random().coinflip() )
-//    {
-//        std::swap(rawW, rawH);
-//    }
-
     return { rawW * 2 + 1, rawH * 2 + 1 };
 }
 
 void LevelFactory::fillAllMazes()
 {
+    // Walk over every tile in the level. For any tile which is still a wall, try to grow a
+    // random maze of corridors at that position.
+
     for ( int y = 1; y < m_level->m_bounds.y(); y += 2 )
     {
         for ( int x = 1; x < m_level->m_bounds.x(); x += 2 )

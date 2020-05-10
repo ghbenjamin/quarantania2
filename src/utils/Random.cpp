@@ -27,11 +27,6 @@ int RandomInterface::diceroll(int dcount, int dsize)
     return out;
 }
 
-RandomGenerator &RandomInterface::generator()
-{
-    return m_mt;
-}
-
 int RandomInterface::randomInt(int lower, int upper)
 {
     std::uniform_int_distribution<> dist( lower, upper );

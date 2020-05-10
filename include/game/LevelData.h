@@ -57,12 +57,6 @@ struct Room
     Vector2i centre() const;
 };
 
-struct LevelTransition
-{
-    Vector2i pos;
-    RegionRef containingRegion = -1;
-};
-
 using BaseTileMap = std::vector<BaseTileType>;
 
 }
