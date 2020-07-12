@@ -18,7 +18,7 @@ public:
     LevelFactory();
     ~LevelFactory() = default;
 
-    LevelPtr create( LevelConfig const& config, LevelContextPtr const& ctx, PlayerData const& pdata );
+    LevelPtr create( LevelConfig const& config, LevelContextPtr const& ctx, PartyData const& pdata );
 
 private:
 
@@ -85,7 +85,7 @@ private:
     void assignSpecialRooms();
     void decorateRooms();
     void constructRoomFromTemplate(LD::Room const& room, RawRoomTemplateData const& td, bool flip);
-    void constructPlayer(PlayerData const& pdata);
+    void constructParty(PartyData const& pdata);
     void constructDoors();
 
 private:

@@ -9,18 +9,6 @@
 #include <resource/Spritesheet.h>
 
 
-// Data given by the player in the level gen menu to construct a new starting player
-struct PlayerGenData
-{
-    std::string name;
-    std::string race;
-    std::string clazz;
-    Alignment alignment;
-
-    int attrStr, attrDex, attrCon, attrInt, attrWis, attrCha;
-};
-
-
 // Complete description of an active player - this is the data which will be carried
 // from level to level
 struct PlayerData
@@ -37,8 +25,16 @@ struct PlayerData
     int maxHP;
     int currHP;
 
-    int attrStr, attrDex, attrCon, attrInt, attrWis, attrCha;
-    int saveFort, saveRef, saveWill;
+    int attrStr;
+    int attrDex;
+    int attrCon;
+    int attrInt;
+    int attrWis;
+    int attrCha;
+
+    int saveFort;
+    int saveRef;
+    int saveWill;
 
     int baseSpeed;
     int bab;
@@ -48,23 +44,27 @@ struct PlayerData
 };
 
 
-class Player
+
+// Data given by the player in the level gen menu to construct a new starting player
+struct PCData
 {
-public:
+    std::string name;
+    std::string race;
+    std::string clazz;
+    Alignment alignment;
+    SpritesheetKey sprite;
 
-    static PlayerData generateNewPlayer( PlayerGenData const& pgd );
+    int attrStr;
+    int attrDex;
+    int attrCon;
+    int attrInt;
+    int attrWis;
+    int attrCha;
 
-    explicit Player(PlayerData const& data, EntityRef ref);
-    ~Player() = default;
-
-    EntityRef ref();
-    PlayerData& data();
-
-private:
-
-    EntityRef m_ref;
-    PlayerData m_pData;
-
+    PlayerData generateNewPlayer() const;
 };
 
-using PlayerPtr = std::shared_ptr<Player>;
+struct PartyData
+{
+    std::vector<PCData> playerChars;
+};

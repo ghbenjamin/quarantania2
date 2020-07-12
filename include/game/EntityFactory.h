@@ -14,7 +14,7 @@ public:
     explicit EntityFactory( Level* parent );
     ~EntityFactory() = default;
 
-    PlayerPtr createPlayer(PlayerData const& data, Vector2i startPos) const;
+    EntityRef createPlayer(PlayerData const& data, Vector2i startPos) const;
     EntityRef createObject(std::string const& ptype, Vector2i pos) const;
     EntityRef createEnemy(std::string const& name, Vector2i pos) const;
     EntityRef createItem(std::string const& name, Vector2i pos) const;

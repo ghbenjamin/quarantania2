@@ -5,15 +5,9 @@
 #include <utils/Logging.h>
 
 
-LevelState::LevelState( LevelConfig const& config, LevelContextPtr ctx, PlayerGenData const& pgen )
+LevelState::LevelState(LevelConfig const& config, LevelContextPtr ctx, PartyData const& pdata )
 : m_levelCtx(ctx)
 {
-    PlayerData pdata = Player::generateNewPlayer( pgen );
-
-    pdata.startingHeldItems.push_back( "Rope of Climbing" );
-    pdata.startingEquippedItems.push_back( "Longsword" );
-    pdata.startingEquippedItems.push_back( "Amulet of Mighty Fists" );
-
     // Create the level
     LevelFactory factory;
     m_level = factory.create( config, m_levelCtx, pdata );

@@ -1,7 +1,6 @@
 #include <game/EntityFactory.h>
 #include <game/Level.h>
 #include <resource/ResourceManager.h>
-#include <rapidjson/document.h>
 #include <components/All.h>
 #include <components/ContainerComponent.h>
 #include <game/ResourceDatabase.h>
@@ -11,7 +10,7 @@ EntityFactory::EntityFactory(Level *parent)
 : m_parent(parent) {}
 
 
-PlayerPtr EntityFactory::createPlayer(PlayerData const& data, Vector2i startPos) const
+EntityRef EntityFactory::createPlayer(PlayerData const& data, Vector2i startPos) const
 {
     auto eref = m_parent->createEntity();
 
@@ -21,7 +20,8 @@ PlayerPtr EntityFactory::createPlayer(PlayerData const& data, Vector2i startPos)
     m_parent->addComponent<PositionComponent>(eref, startPos);
     m_parent->addComponent<RenderComponent>(eref, sprite);
     m_parent->addComponent<ColliderComponent>(eref, false, true);
-    m_parent->addComponent<DescriptionComponent>( eref, data.name, "You!", data.name );
+    m_parent->addComponent<PCComponent>(eref);
+
     auto cContainer = m_parent->addComponent<ContainerComponent>(eref);
     auto cActor = m_parent->addComponent<ActorComponent>(eref, data);
 
@@ -38,7 +38,7 @@ PlayerPtr EntityFactory::createPlayer(PlayerData const& data, Vector2i startPos)
         cActor->equipItem( ptr->getEquipSlot(), ptr );
     }
 
-    return std::make_unique<Player>( data, eref );
+    return eref;
 }
 
 EntityRef EntityFactory::createEnemy(std::string const &name, Vector2i pos) const

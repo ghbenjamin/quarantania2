@@ -2,30 +2,23 @@
 #include <algorithm>
 #include <game/ResourceDatabase.h>
 
-Player::Player(PlayerData const& data, EntityRef ref)
-: m_pData(data), m_ref(ref) {}
 
-EntityRef Player::ref()
-{
-    return m_ref;
-}
-
-PlayerData Player::generateNewPlayer(PlayerGenData const &pgd)
+PlayerData PCData::generateNewPlayer() const
 {
     PlayerData pd;
 
-    pd.sprite = { "dawnlike_chars", "Player_001" };
-    pd.name = pgd.name;
-    pd.alignment = pgd.alignment;
-    pd.clazz = pgd.clazz;
-    pd.race = pgd.race;
+    pd.sprite = this->sprite;
+    pd.name = this->name;
+    pd.alignment = this->alignment;
+    pd.clazz = this->clazz;
+    pd.race = this->race;
 
-    pd.attrStr = pgd.attrStr;
-    pd.attrDex = pgd.attrDex;
-    pd.attrCon = pgd.attrCon;
-    pd.attrInt = pgd.attrInt;
-    pd.attrWis = pgd.attrWis;
-    pd.attrCha = pgd.attrCha;
+    pd.attrStr = this->attrStr;
+    pd.attrDex = this->attrDex;
+    pd.attrCon = this->attrCon;
+    pd.attrInt = this->attrInt;
+    pd.attrWis = this->attrWis;
+    pd.attrCha = this->attrCha;
 
     pd.level = 1;
     pd.currXP = 0;
@@ -44,9 +37,4 @@ PlayerData Player::generateNewPlayer(PlayerGenData const &pgd)
     pd.currHP = pd.maxHP;
 
     return pd;
-}
-
-PlayerData &Player::data()
-{
-    return m_pData;
 }

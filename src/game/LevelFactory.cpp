@@ -15,7 +15,7 @@ using namespace LD;
 LevelFactory::LevelFactory()
     : m_rd(), m_regionIndex(0) {}
 
-LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &ctx, PlayerData const& pdata)
+LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &ctx, PartyData const& pdata)
 {
     m_level = std::make_unique<Level>( config.size, ctx, RandomGenerator{ m_rd() } );
 
@@ -73,7 +73,7 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
      */
 
     // Add the player at an appropriate place
-    constructPlayer(pdata);
+    constructParty(pdata);
 
     /**
      * Cleanup.
@@ -671,16 +671,15 @@ void LevelFactory::calcAllAdjacentWalls()
     Assert(m_wallPositionMasks.size() == m_level->m_tileCount);
 }
 
-void LevelFactory::constructPlayer(PlayerData const& pdata)
+void LevelFactory::constructParty(PartyData const& pdata)
 {
     auto startPos = m_rooms.at( m_specialRooms.at( RoomType::Entrance ) ).centre();
-
-    // DEBUG
-//    m_level->m_entFactory.createEnemy("Crocodile", startPos + Vector2{-1, -1});
-//    m_level->m_entFactory.createItem("Battleaxe", startPos + Vector2{1, 0});
-//    m_level->m_entFactory.createItem("Buckler", startPos + Vector2{1, 1});
-//    m_level->m_entFactory.createItem("Amulet of Natural Armor", startPos + Vector2{0, 1});
-
+    auto it = GridUtils::AllNeighbours.begin();
+    for ( auto const& pc : pdata.playerChars )
+    {
+        auto pos = startPos + (it++)->second;
+        m_level->entityFactory().createPlayer( pc.generateNewPlayer(), pos );
+    }
 }
 
 void LevelFactory::constructDoors()

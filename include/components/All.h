@@ -11,6 +11,7 @@
 #include <components/OpenableComponent.h>
 #include <components/RenderComponent.h>
 #include <components/PositionComponent.h>
+#include <components/PCComponent.h>
 
 template <typename ... Ts >
 struct ComponentTypes {};
@@ -26,5 +27,6 @@ using AllComponents = ComponentTypes<
     LockableComponent,
     OpenableComponent,
     RenderComponent,
-    PositionComponent
+    PositionComponent,
+    PCComponent
             >;

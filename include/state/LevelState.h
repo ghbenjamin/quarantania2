@@ -5,13 +5,13 @@
 
 
 struct LevelConfig;
-struct PlayerGenData;
+struct PCData;
 
 class LevelState : public GameState
 {
 public:
 
-    LevelState( LevelConfig const& config, LevelContextPtr ctx, PlayerGenData const& pgen );
+    LevelState(LevelConfig const& config, LevelContextPtr ctx, PartyData const& pgen );
     ~LevelState() override = default;
 
     bool input(IEvent &evt) override;

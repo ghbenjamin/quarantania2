@@ -15,27 +15,45 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
 {
     m_levelCtx->depth++;
 
-    PlayerGenData pgd;
-    pgd.name = "Angus MacKenzie";
-    pgd.alignment = Alignment::TN;
-    pgd.race = "Human";
-    pgd.clazz = "Fighter";
+    PCData p1;
+    p1.name = "Angus MacKenzie";
+    p1.alignment = Alignment::TN;
+    p1.race = "Human";
+    p1.clazz = "Fighter";
+    p1.sprite = { "dawnlike_chars", "Player_001" };
 
-    pgd.attrStr = 16;
-    pgd.attrDex = 12;
-    pgd.attrCon = 14;
-    pgd.attrInt = 9;
-    pgd.attrWis = 10;
-    pgd.attrCha = 12;
+    p1.attrStr = 16;
+    p1.attrDex = 12;
+    p1.attrCon = 14;
+    p1.attrInt = 9;
+    p1.attrWis = 10;
+    p1.attrCha = 12;
+
+    PCData p2;
+    p2.name = "Gwendlyn Di Corci";
+    p2.alignment = Alignment::TN;
+    p2.race = "Human";
+    p2.clazz = "Fighter";
+    p2.sprite = { "dawnlike_chars", "Player_003" };
+
+    p2.attrStr = 16;
+    p2.attrDex = 12;
+    p2.attrCon = 14;
+    p2.attrInt = 9;
+    p2.attrWis = 10;
+    p2.attrCha = 12;
+
+    PartyData pdata;
+    pdata.playerChars = { p1, p2 };
 
     auto config = generateNextLevelConfig();
-    setNextState<LevelState>( config, m_levelCtx, pgd );
+    setNextState<LevelState>( config, m_levelCtx, pdata );
 }
 
 LevelConfig InitState::generateNextLevelConfig()
 {
     LevelConfig config;
-    config.size = {41, 25};
+    config.size = {21, 17};
     config.roomDensity = 400;
 
     return config;
