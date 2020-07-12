@@ -46,18 +46,11 @@ void ActorSystem::accept(GEvents::GameTick *evt)
 
 void ActorSystem::accept(GEvents::EntityDeath *evt)
 {
-    if ( m_level->isPlayer( evt->actor ) )
-    {
-        // Uh oh...
-    }
-    else
-    {
-        m_level->addTextLogMessage( fmt::format( "{} was struck down",
-                m_level->getDescriptionForEnt(evt->actor)
-        ));
+    m_level->addTextLogMessage( fmt::format( "{} was struck down",
+            m_level->getDescriptionForEnt(evt->actor)
+    ));
 
-        m_level->deleteEntityDelayed( evt->actor );
-    }
+    m_level->deleteEntityDelayed( evt->actor );
 }
 
 void ActorSystem::accept(GEvents::EntityDamage *evt)

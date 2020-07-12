@@ -1,26 +1,24 @@
 #include <utility>
 
-#include <game/ActionDefs.h>
 #include <components/All.h>
-#include <game/GEventDefs.h>
+#include <components/ItemComponent.h>
 #include <engine/InputInterface.h>
+#include <game/ActionDefs.h>
+#include <game/GEventDefs.h>
 #include <game/Level.h>
 #include <graphics/RenderInterface.h>
 #include <resource/ResourceManager.h>
 #include <state/DefaultLController.h>
 #include <systems/All.h>
+#include <ui/ContainerView.h>
+#include <ui/Dialogs.h>
 #include <ui/Layout.h>
+#include <ui/MinimapView.h>
 #include <ui/TextLog.h>
 #include <utils/Assert.h>
-#include <utils/Logging.h>
-#include <ui/Dialogs.h>
-#include <ui/MinimapView.h>
 #include <utils/GlobalConfig.h>
-#include <components/ItemComponent.h>
-#include <ui/ContainerView.h>
-#include <ui/EquippedItemsView.h>
-#include <ui/MainTabControl.h>
-#include <ui/CharStatsView.h>
+#include <utils/Logging.h>
+
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 :   m_ctx(std::move(ctx)),
@@ -44,15 +42,7 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 
 void Level::setReady()
 {
-    auto ref = getPlayer()->ref();
-    auto tpos = getComponents<PositionComponent>(ref);
-    m_camera.centreOnTile(tpos->position);
-
-    m_playerContainerView->attachEntity(ref);
-    m_playerEquippedView->attachEntity(ref);
-
     m_gevents.broadcast<GEvents::LevelReady>();
-
     addTextLogMessage( fmt::format("Welcome to level {}!", m_ctx->depth), Colour::White );
 }
 
@@ -162,11 +152,6 @@ GEventHub &Level::events()
     return m_gevents;
 }
 
-void Level::setPlayer(PlayerPtr player)
-{
-    m_player = player;
-}
-
 Grid& Level::grid( )
 {
     return m_grid;
@@ -215,14 +200,6 @@ void Level::setupUI()
     );
 
     minimap->setPreferredOuterSize({0, 180});
-
-    m_mainTabControl = m_uiManager.createElement<UI::MainTabControl>( trframe.get() );
-    m_playerEquippedView = m_uiManager.withId( "main-equip-view" )->asType<UI::EquippedItemsView>();
-    m_playerContainerView = m_uiManager.withId( "main-inventory-view" )->asType<UI::ContainerView>();
-    m_playerCharStatsView = m_uiManager.withId( "player-stats-view" )->asType<UI::CharStatsView>();
-
-
-    // UI DEBUG ZONE
 
 //    auto dialog = m_uiManager.createElement<UI::MsgBoxDialog>( nullptr, "Hello world!", 300, "I am a very important dialog" );
 }
@@ -277,16 +254,6 @@ Vector2i Level::tileCoordsToScreen( Vector2i const& tile )
 UI::Manager& Level::ui()
 {
     return m_uiManager;
-}
-
-PlayerPtr &Level::getPlayer()
-{
-    return m_player;
-}
-
-bool Level::isPlayer(EntityRef ref) const
-{
-    return ref == m_player->ref();
 }
 
 std::vector<ActionPtr> Level::actionsForTile(EntityRef actor, Vector2i tile)
@@ -447,9 +414,9 @@ void Level::generateMinimapData()
         }
     }
 
-    // Place a dot at the position of the player
-    auto playerPos = getComponents<PositionComponent>( m_player->ref() );
-    m_minimap.movePlayer(playerPos->position);
+//    // Place a dot at the position of the player
+//    auto playerPos = getComponents<PositionComponent>( m_player->ref() );
+//    m_minimap.movePlayer(playerPos->position);
 
     m_minimap.updateTexture();
 }
@@ -495,17 +462,6 @@ std::string_view Level::getDescriptionForItem(ItemPtr item)
     return item->getName();
 }
 
-
-std::shared_ptr<UI::EquippedItemsView> Level::getUIPlayerEquip()
-{
-    return m_playerEquippedView;
-}
-
-std::shared_ptr<UI::ContainerView> Level::getUIPlayerInventory()
-{
-    return m_playerContainerView;
-}
-
 EntityFactory &Level::entityFactory()
 {
     return m_entFactory;
@@ -514,11 +470,6 @@ EntityFactory &Level::entityFactory()
 RandomInterface &Level::random()
 {
     return m_random;
-}
-
-std::shared_ptr<UI::CharStatsView> Level::getPlayerStatsView()
-{
-    return m_playerCharStatsView;
 }
 
 void Level::deleteEntityDelayed(EntityRef ent)

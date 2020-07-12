@@ -40,9 +40,6 @@ class Action;
 namespace UI
 {
     class TextLog;
-    class ContainerView;
-    class EquippedItemsView;
-    class CharStatsView;
 }
 
 // Typedefs 
@@ -77,10 +74,6 @@ public:
     void deleteEntityDelayed(EntityRef ent);
     EntityFactory& entityFactory();
 
-    // Player Management
-    void setPlayer( PlayerPtr player );
-    PlayerPtr& getPlayer();
-    bool isPlayer(EntityRef ref) const;
 
     template <typename CT, typename... Args>
     std::shared_ptr<CT> addComponent(EntityRef ent, Args&&... args)
@@ -232,10 +225,6 @@ public:
     void addTextLogMessage( std::string_view sv, Colour const& colour );
     void addTextLogMessage( std::string_view sv );
 
-    std::shared_ptr<UI::EquippedItemsView> getUIPlayerEquip();
-    std::shared_ptr<UI::ContainerView> getUIPlayerInventory();
-    std::shared_ptr<UI::CharStatsView> getPlayerStatsView();
-
     std::string_view getDescriptionForEnt( EntityRef ent );
     std::string_view getDescriptionForItem( ItemPtr item );
 
@@ -322,7 +311,6 @@ private:
     IdPool<EntityRef> m_entityPool;
     std::vector<EntityRef> m_delayedDeleteEnts;
     EntityFactory m_entFactory;
-    PlayerPtr m_player;
 
     // Systems
     std::vector<SystemPtr> m_systems;
@@ -336,10 +324,6 @@ private:
     // UI
     UI::Manager m_uiManager;
     std::shared_ptr<UI::TextLog> m_textLog;
-    std::shared_ptr<UI::ContainerView> m_playerContainerView;
-    std::shared_ptr<UI::EquippedItemsView> m_playerEquippedView;
-    std::shared_ptr<UI::CharStatsView> m_playerCharStatsView;
-    UI::ElementPtr m_mainTabControl;
 
     Camera m_camera;
 };

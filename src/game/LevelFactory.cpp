@@ -675,14 +675,11 @@ void LevelFactory::constructPlayer(PlayerData const& pdata)
 {
     auto startPos = m_rooms.at( m_specialRooms.at( RoomType::Entrance ) ).centre();
 
-    m_level->setPlayer( m_level->m_entFactory.createPlayer( pdata, startPos ) );
-
     // DEBUG
-    m_level->m_entFactory.createEnemy("Crocodile", startPos + Vector2{-1, -1});
-
-    m_level->m_entFactory.createItem("Battleaxe", startPos + Vector2{1, 0});
-    m_level->m_entFactory.createItem("Buckler", startPos + Vector2{1, 1});
-    m_level->m_entFactory.createItem("Amulet of Natural Armor", startPos + Vector2{0, 1});
+//    m_level->m_entFactory.createEnemy("Crocodile", startPos + Vector2{-1, -1});
+//    m_level->m_entFactory.createItem("Battleaxe", startPos + Vector2{1, 0});
+//    m_level->m_entFactory.createItem("Buckler", startPos + Vector2{1, 1});
+//    m_level->m_entFactory.createItem("Amulet of Natural Armor", startPos + Vector2{0, 1});
 
 }
 

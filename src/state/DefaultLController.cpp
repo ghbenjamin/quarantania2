@@ -33,25 +33,25 @@ bool DefaultLController::onMouseDown(IEventMouseDown evt)
         }
         case RIGHT_MOUSE_BUTTON:
         {
-            // Grab the actions possible at the given tile RE. the player
-            EntityRef player = m_level->getPlayer()->ref();
-            auto tileCoords = m_level->screenCoordsToTile(evt.screenPos);
-            auto actions = m_level->actionsForPosition(player, tileCoords);
-            UI::ContextMenuList cml;
-
-            // If we've got no actions, do nothing
-            if ( !actions.empty() )
-            {
-                for ( auto const& item : actions )
-                {
-                    cml.push_back( item->description() );
-                }
-
-                // Otherwise, open a context menu containing the actions
-                m_level->ui().openContextMenu(cml, evt.screenPos, [actList = std::move(actions), player] (auto arg) {
-                    actList[arg]->doAction();
-                });
-            }
+//            // Grab the actions possible at the given tile RE. the player
+//            EntityRef player = m_level->getPlayer()->ref();
+//            auto tileCoords = m_level->screenCoordsToTile(evt.screenPos);
+//            auto actions = m_level->actionsForPosition(player, tileCoords);
+//            UI::ContextMenuList cml;
+//
+//            // If we've got no actions, do nothing
+//            if ( !actions.empty() )
+//            {
+//                for ( auto const& item : actions )
+//                {
+//                    cml.push_back( item->description() );
+//                }
+//
+//                // Otherwise, open a context menu containing the actions
+//                m_level->ui().openContextMenu(cml, evt.screenPos, [actList = std::move(actions), player] (auto arg) {
+//                    actList[arg]->doAction();
+//                });
+//            }
 
             break;
         }
@@ -64,51 +64,13 @@ bool DefaultLController::onMouseDown(IEventMouseDown evt)
 
 bool DefaultLController::onKeyDown(IEventKeyPress evt)
 {
-    // TODO more robust key handling
     switch ( evt.keyCode )
     {
-        case SDLK_w:
-        case SDLK_a:
-        case SDLK_s:
-        case SDLK_d:
-            doMovePlayer( evt.keyCode );
-            break;
-
         default:
             break;
     }
 
     return false;
-}
-
-
-void DefaultLController::doMovePlayer(SDL_Keycode kcode)
-{
-    auto ref = m_level->getPlayer()->ref();
-    auto tpos = m_level->getComponents<PositionComponent>(ref);
-
-    Vector2i delta;
-
-    switch (kcode)
-    {
-        case SDLK_w:
-            delta = {0, -1};
-            break;
-        case SDLK_a:
-            delta = {-1, 0};
-            break;
-        case SDLK_s:
-            delta = {0, 1};
-            break;
-        case SDLK_d:
-            delta = {1, 0};
-            break;
-        default:
-            AssertAlways();
-            break;
-    }
-
-    tryDefaultAction(tpos->position + delta);
 }
 
 void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
@@ -179,20 +141,5 @@ void DefaultLController::update(std::uint32_t ticks, InputInterface &iinter, Ren
         {
             m_level->camera().moveBy(delta * (float)ticks);
         }
-    }
-}
-
-void DefaultLController::tryDefaultAction(Vector2i playerLoc)
-{
-    auto ref = m_level->getPlayer()->ref();
-    auto defAction = m_level->getDefaultAction(ref, playerLoc);
-
-    if (defAction)
-    {
-        m_level->getComponents<ActorComponent>(ref)->nextAction = defAction;
-        m_level->events().broadcast<GEvents::GameTick>();
-
-        // This action may have moved the player - recentre the camera
-        m_level->camera().centreOnTile(playerLoc);
     }
 }
