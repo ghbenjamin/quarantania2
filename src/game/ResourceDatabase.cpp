@@ -1,4 +1,4 @@
-#include <db/ResourceDatabase.h>
+#include <game/ResourceDatabase.h>
 #include <exception>
 #include <utils/Logging.h>
 #include <utils/Assert.h>

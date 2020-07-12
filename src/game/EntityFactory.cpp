@@ -4,8 +4,8 @@
 #include <rapidjson/document.h>
 #include <components/All.h>
 #include <components/ContainerComponent.h>
-#include <db/ResourceDatabase.h>
-#include <actions/ActionDefs.h>
+#include <game/ResourceDatabase.h>
+#include <game/ActionDefs.h>
 
 EntityFactory::EntityFactory(Level *parent)
 : m_parent(parent) {}

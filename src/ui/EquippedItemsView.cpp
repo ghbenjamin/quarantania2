@@ -5,7 +5,7 @@
 #include <game/Level.h>
 #include <ui/Manager.h>
 #include <components/ActorComponent.h>
-#include <actions/ActionDefs.h>
+#include <game/ActionDefs.h>
 
 UI::EquippedItemsView::EquippedItemsView(Manager* manager, Element* parent)
 : Element(manager, parent)

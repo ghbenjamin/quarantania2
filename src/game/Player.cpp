@@ -1,6 +1,6 @@
 #include <game/Player.h>
 #include <algorithm>
-#include <db/ResourceDatabase.h>
+#include <game/ResourceDatabase.h>
 
 Player::Player(PlayerData const& data, EntityRef ref)
 : m_pData(data), m_ref(ref) {}

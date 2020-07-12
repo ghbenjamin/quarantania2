@@ -7,7 +7,7 @@
 #include <game/LevelData.h>
 #include <game/LevelConfig.h>
 #include <utils/GridUtils.h>
-#include <db/RawData.h>
+#include <game/RawData.h>
 
 struct PlayerData;
 

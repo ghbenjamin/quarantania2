@@ -2,7 +2,7 @@
 
 #include <array>
 
-#include <actions/Action.h>
+#include <game/Action.h>
 #include <game/Component.h>
 #include <game/Defines.h>
 #include <game/Items.h>

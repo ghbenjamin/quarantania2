@@ -1,7 +1,7 @@
 #include <state/DefaultLController.h>
 #include <game/Level.h>
 #include <utils/Assert.h>
-#include <actions/ActionDefs.h>
+#include <game/ActionDefs.h>
 
 #include <components/PositionComponent.h>
 #include <components/ActorComponent.h>

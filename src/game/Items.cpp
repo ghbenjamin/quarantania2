@@ -1,8 +1,8 @@
 #include <game/Items.h>
 #include <utils/Json.h>
 #include <utils/Logging.h>
-#include <db/RawData.h>
-#include <db/ResourceDatabase.h>
+#include <game/RawData.h>
+#include <game/ResourceDatabase.h>
 
 
 Weapon::Weapon(RawWeaponData const& rawData)

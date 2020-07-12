@@ -1,9 +1,9 @@
 #include <components/ActorComponent.h>
 #include <game/Player.h>
-#include <db/RawData.h>
+#include <game/RawData.h>
 #include <fmt/format.h>
 #include <utils/Assert.h>
-#include <db/ResourceDatabase.h>
+#include <game/ResourceDatabase.h>
 #include <game/Damage.h>
 #include <utils/Logging.h>
 

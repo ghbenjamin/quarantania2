@@ -3,7 +3,7 @@
 #include <memory>
 #include <string_view>
 
-#include <db/RawData.h>
+#include <game/RawData.h>
 #include <utils/Assert.h>
 #include <utils/Random.h>
 

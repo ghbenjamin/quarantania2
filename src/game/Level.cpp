@@ -1,6 +1,6 @@
 #include <utility>
 
-#include <actions/ActionDefs.h>
+#include <game/ActionDefs.h>
 #include <components/All.h>
 #include <game/GEventDefs.h>
 #include <game/InputInterface.h>

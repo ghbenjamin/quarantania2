@@ -6,7 +6,7 @@
 #include <utils/Logging.h>
 #include <utils/Random.h>
 #include <utils/Assert.h>
-#include <db/ResourceDatabase.h>
+#include <game/ResourceDatabase.h>
 
 // With help from https://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
