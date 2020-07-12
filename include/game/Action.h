@@ -2,7 +2,7 @@
 
 #include <functional>
 #include <utils/Containers.h>
-#include <game/Entity.h>
+#include <engine/Entity.h>
 
 // Forward definitions
 class Level;

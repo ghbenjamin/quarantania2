@@ -1,6 +1,6 @@
 #pragma once
 
-#include <game/Entity.h>
+#include <engine/Entity.h>
 #include <game/Player.h>
 #include <game/Items.h>
 #include <utils/Containers.h>

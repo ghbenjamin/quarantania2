@@ -3,7 +3,7 @@
 #include <array>
 
 #include <game/Action.h>
-#include <game/Component.h>
+#include <engine/Component.h>
 #include <game/Defines.h>
 #include <game/Items.h>
 

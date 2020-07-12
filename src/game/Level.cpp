@@ -3,7 +3,7 @@
 #include <game/ActionDefs.h>
 #include <components/All.h>
 #include <game/GEventDefs.h>
-#include <game/InputInterface.h>
+#include <engine/InputInterface.h>
 #include <game/Level.h>
 #include <graphics/RenderInterface.h>
 #include <resource/ResourceManager.h>

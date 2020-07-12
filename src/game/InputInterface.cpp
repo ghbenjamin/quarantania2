@@ -1,4 +1,4 @@
-#include <game/InputInterface.h>
+#include <engine/InputInterface.h>
 #include <utils/Logging.h>
 
 InputInterface::InputInterface()

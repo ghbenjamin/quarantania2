@@ -8,18 +8,18 @@
 
 #include <utils/IdPool.h>
 #include <ui/Manager.h>
-#include <game/Component.h>
+#include <engine/Component.h>
 #include <game/GEvent.h>
-#include <game/Tiles.h>
+#include <engine/Tiles.h>
 #include <game/Player.h>
 #include <game/LevelData.h>
 #include <game/LevelContext.h>
 #include <game/EntityFactory.h>
-#include <game/GridFeature.h>
+#include <engine/GridFeature.h>
 #include <game/Defines.h>
 #include <game/Grid.h>
 #include <game/Minimap.h>
-#include <game/Camera.h>
+#include <engine/Camera.h>
 #include <state/LevelController.h>
 #include <systems/System.h>
 #include <game/GEvent.h>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <game/Component.h>
+#include <engine/Component.h>
 #include <game/Action.h>
 
 

@@ -6,7 +6,7 @@
 #include <ui/Layout.h>
 #include <ui/UEvent.h>
 #include <ui/ContextMenu.h>
-#include <game/InputInterface.h>
+#include <engine/InputInterface.h>
 #include <ui/Tooltips.h>
 
 struct IEvent;

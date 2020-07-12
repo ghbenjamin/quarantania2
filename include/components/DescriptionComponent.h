@@ -1,6 +1,6 @@
 #pragma once
 
-#include <game/Component.h>
+#include <engine/Component.h>
 
 struct DescriptionComponent : public Component<DescriptionComponent>
 {

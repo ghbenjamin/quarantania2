@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ui/Element.h>
-#include <game/Entity.h>
+#include <engine/Entity.h>
 
 namespace UI
 {

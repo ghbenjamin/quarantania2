@@ -1,7 +1,7 @@
 #pragma once
 
-#include <game/Component.h>
-#include <game/Entity.h>
+#include <engine/Component.h>
+#include <engine/Entity.h>
 #include <game/Items.h>
 
 struct OpenableComponent : public Component<OpenableComponent>

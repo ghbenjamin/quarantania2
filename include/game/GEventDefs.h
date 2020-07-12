@@ -1,7 +1,7 @@
 #pragma once
 
 #include <game/GEvent.h>
-#include <game/Entity.h>
+#include <engine/Entity.h>
 #include <game/Items.h>
 
 struct Damage;

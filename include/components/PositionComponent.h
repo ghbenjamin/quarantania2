@@ -1,6 +1,6 @@
 #pragma once
 
-#include <game/Component.h>
+#include <engine/Component.h>
 #include <utils/Containers.h>
 
 // Do I have a localised position? E.g. I'm not a trigger or a static effect

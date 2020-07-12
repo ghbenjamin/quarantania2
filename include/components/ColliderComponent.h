@@ -1,6 +1,6 @@
 #pragma once
 
-#include <game/Component.h>
+#include <engine/Component.h>
 
 
 // Can I block the movement of light or other objects?

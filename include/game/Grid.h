@@ -1,8 +1,8 @@
 #pragma once
 
 #include <utils/Containers.h>
-#include <game/Entity.h>
-#include <game/GridFeature.h>
+#include <engine/Entity.h>
+#include <engine/GridFeature.h>
 #include <game/Defines.h>
 
 class Grid

@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include <game/Entity.h>
+#include <engine/Entity.h>
 #include <game/Defines.h>
 #include <resource/Spritesheet.h>
 

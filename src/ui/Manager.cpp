@@ -1,7 +1,7 @@
 #include <ui/Manager.h>
 
 #include <graphics/RenderInterface.h>
-#include <game/InputInterface.h>
+#include <engine/InputInterface.h>
 #include <utils/Logging.h>
 #include <resource/ResourceManager.h>
 

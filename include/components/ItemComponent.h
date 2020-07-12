@@ -1,8 +1,8 @@
 #pragma once
 
 #include <memory>
-#include <game/Component.h>
-#include <game/Entity.h>
+#include <engine/Component.h>
+#include <engine/Entity.h>
 
 class Item;
 

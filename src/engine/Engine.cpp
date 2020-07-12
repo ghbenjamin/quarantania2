@@ -1,6 +1,6 @@
 #include <memory>
 
-#include <game/Engine.h>
+#include <engine/Engine.h>
 #include <graphics/Window.h>
 #include <graphics/RenderInterface.h>
 #include <resource/ResourceManager.h>
@@ -8,7 +8,7 @@
 #include <utils/GlobalConfig.h>
 #include <state/State.h>
 #include <state/LevelState.h>
-#include <game/InputInterface.h>
+#include <engine/InputInterface.h>
 #include <state/InitState.h>
 
 void Engine::run()

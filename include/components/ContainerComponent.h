@@ -1,6 +1,6 @@
 #pragma once
 
-#include <game/Component.h>
+#include <engine/Component.h>
 #include <game/Items.h>
 
 struct ContainerComponent : public Component<ContainerComponent>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <game/Entity.h>
+#include <engine/Entity.h>
 
 enum class DamageType
 {

@@ -1,4 +1,4 @@
-#include <game/Camera.h>
+#include <engine/Camera.h>
 #include <utils/Assert.h>
 #include <utils/Logging.h>
 #include <utils/GlobalConfig.h>

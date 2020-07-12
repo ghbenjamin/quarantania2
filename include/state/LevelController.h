@@ -2,7 +2,7 @@
 
 #include <cstdint>
 #include <memory>
-#include <game/InputInterface.h>
+#include <engine/InputInterface.h>
 
 class Level;
 struct IEvent;

@@ -2,7 +2,7 @@
 
 #include <graphics/RenderInterface.h>
 #include <utils/Logging.h>
-#include <game/Camera.h>
+#include <engine/Camera.h>
 
 RenderInterface::RenderInterface()
 : m_camera(nullptr)
