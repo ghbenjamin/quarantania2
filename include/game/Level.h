@@ -34,7 +34,7 @@ struct IEventKeyPress;
 struct IEventMouseMove;
 struct IEventMouseDown;
 struct IEventWindowResize;
-class LevelFactory;
+class RandomLevelFactory;
 class Action;
 
 namespace UI

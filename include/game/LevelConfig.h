@@ -2,7 +2,13 @@
 
 #include <utils/Containers.h>
 
-struct LevelConfig
+
+struct FixedLevelConfig
+{
+    std::string levelName;
+};
+
+struct RandomLevelConfig
 {
     Vector2i size;
     int roomDensity = -1;

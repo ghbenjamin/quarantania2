@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.1" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="9">
+ <tileset firstgid="1" source="dawnlike_wall.tsx"/>
+ <tileset firstgid="209" source="dawnlike_objects.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztzzEOQFAURcEXa/vrQoIGi3Z3oNA8yRTTnzOmqgEAAADAqzmWWBu0fLHFHkeDFh9VZ1xxN2gBAAAAgL97AAcqrr0=
+  </data>
+ </layer>
+ <layer id="2" name="Tile Layer 2" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt1kEKgDAQA8CtQvtn3+0D7N1eFGRbmYHck1siAP6h9GyD7JmlXqg9Z7mnZhd7yI652DGXFuMdLbsYwAeO1c4YAAAAAACwtAvUNR2M
+  </data>
+ </layer>
+ <objectgroup id="3" name="Object Layer 1">
+  <object id="2" x="256" y="192" width="224" height="224"/>
+  <object id="3" x="655.799" y="242.198">
+   <point/>
+  </object>
+  <object id="4" x="871.914" y="400.559">
+   <point/>
+  </object>
+  <object id="5" x="644.62" y="737.774">
+   <point/>
+  </object>
+  <object id="6" x="1009.78" y="970.657">
+   <point/>
+  </object>
+  <object id="7" x="1238.94" y="674.429">
+   <point/>
+  </object>
+  <object id="8" x="1231.49" y="322.31">
+   <point/>
+  </object>
+ </objectgroup>
+</map>

@@ -4,14 +4,14 @@
 #include <game/Level.h>
 
 
-struct LevelConfig;
+struct RandomLevelConfig;
 struct PCData;
 
 class LevelState : public GameState
 {
 public:
 
-    LevelState(LevelConfig const& config, LevelContextPtr ctx, PartyData const& pgen );
+    LevelState(RandomLevelConfig const& config, LevelContextPtr ctx, PartyData const& pgen );
     ~LevelState() override = default;
 
     bool input(IEvent &evt) override;

@@ -50,9 +50,9 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
     setNextState<LevelState>( config, m_levelCtx, pdata );
 }
 
-LevelConfig InitState::generateNextLevelConfig()
+RandomLevelConfig InitState::generateNextLevelConfig()
 {
-    LevelConfig config;
+    RandomLevelConfig config;
     config.size = {21, 17};
     config.roomDensity = 400;
 

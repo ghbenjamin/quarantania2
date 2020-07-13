@@ -11,20 +11,20 @@
 
 struct PlayerData;
 
-class LevelFactory
+class RandomLevelFactory
 {
 public:
 
-    LevelFactory();
-    ~LevelFactory() = default;
+    RandomLevelFactory();
+    ~RandomLevelFactory() = default;
 
-    LevelPtr create( LevelConfig const& config, LevelContextPtr const& ctx, PartyData const& pdata );
+    LevelPtr create(RandomLevelConfig const& config, LevelContextPtr const& ctx, PartyData const& pdata);
 
 private:
 
     // Walk over the level as it currently exists, and generate + place the correct sprites to render
     // the level.
-    void constructMapRendering(LevelConfig const &config, LevelContextPtr const &ctx);
+    void constructMapRendering(RandomLevelConfig const &config, LevelContextPtr const &ctx);
 
     // Which wall sprite (straight vs corner vs T-junction etc.) should be placed at the given
     // position given the wall tiles that surround it if any?

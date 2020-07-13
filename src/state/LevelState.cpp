@@ -1,15 +1,15 @@
 #include <state/LevelState.h>
 #include <game/LevelConfig.h>
 #include <game/Level.h>
-#include <game/LevelFactory.h>
+#include <game/RandomLevelFactory.h>
 #include <utils/Logging.h>
 
 
-LevelState::LevelState(LevelConfig const& config, LevelContextPtr ctx, PartyData const& pdata )
+LevelState::LevelState(RandomLevelConfig const& config, LevelContextPtr ctx, PartyData const& pdata )
 : m_levelCtx(ctx)
 {
     // Create the level
-    LevelFactory factory;
+    RandomLevelFactory factory;
     m_level = factory.create( config, m_levelCtx, pdata );
 }
 

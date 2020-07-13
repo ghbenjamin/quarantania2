@@ -1,4 +1,4 @@
-#include <game/LevelFactory.h>
+#include <game/RandomLevelFactory.h>
 
 #include <random>
 #include <bitset>
@@ -12,10 +12,10 @@
 
 using namespace LD;
 
-LevelFactory::LevelFactory()
+RandomLevelFactory::RandomLevelFactory()
     : m_rd(), m_regionIndex(0) {}
 
-LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &ctx, PartyData const& pdata)
+LevelPtr RandomLevelFactory::create(RandomLevelConfig const &config, LevelContextPtr const &ctx, PartyData const& pdata)
 {
     m_level = std::make_unique<Level>( config.size, ctx, RandomGenerator{ m_rd() } );
 
@@ -84,7 +84,7 @@ LevelPtr LevelFactory::create(LevelConfig const &config, LevelContextPtr const &
     return std::move(m_level);
 }
 
-void LevelFactory::growMaze(Vector2i start)
+void RandomLevelFactory::growMaze(Vector2i start)
 {
     // The start position can be turned into floor always (caller responsible for assuring this)
     newRegion(RegionType::Corridor);
@@ -127,7 +127,7 @@ void LevelFactory::growMaze(Vector2i start)
     }
 }
 
-void LevelFactory::tileSet(Vector2i tile, BaseTileType ttype)
+void RandomLevelFactory::tileSet(Vector2i tile, BaseTileType ttype)
 {
     m_level->m_baseTilemap[indexFromCoords(tile)] = ttype;
 
@@ -137,22 +137,22 @@ void LevelFactory::tileSet(Vector2i tile, BaseTileType ttype)
     }
 }
 
-BaseTileType LevelFactory::tileGet(Vector2i tile)
+BaseTileType RandomLevelFactory::tileGet(Vector2i tile)
 {
     return m_level->m_baseTilemap[indexFromCoords(tile)];
 }
 
-int LevelFactory::indexFromCoords(Vector2i coord)
+int RandomLevelFactory::indexFromCoords(Vector2i coord)
 {
     return coord.x() + (coord.y() * m_level->m_bounds.x());
 }
 
-Vector2i LevelFactory::coordsFromIndex(int idx)
+Vector2i RandomLevelFactory::coordsFromIndex(int idx)
 {
     return {idx % m_level->m_bounds.x(), idx / m_level->m_bounds.x() };
 }
 
-bool LevelFactory::canFloor(Vector2i coord, Direction dir)
+bool RandomLevelFactory::canFloor(Vector2i coord, Direction dir)
 {
     // Can the given position be grown in the given direction without hitting a room
     // or the edge of the map?
@@ -165,7 +165,7 @@ bool LevelFactory::canFloor(Vector2i coord, Direction dir)
     return tileGet(coord + (delta * 2)) == BaseTileType::Wall;
 }
 
-void LevelFactory::addRooms( int maxTries )
+void RandomLevelFactory::addRooms(int maxTries )
 {
     for ( int idx = 0; idx < maxTries; idx++ )
     {
@@ -193,7 +193,7 @@ void LevelFactory::addRooms( int maxTries )
     }
 }
 
-Vector2i LevelFactory::generateRandomRoomSize()
+Vector2i RandomLevelFactory::generateRandomRoomSize()
 {
     // From 3 to 7
     static const int MIN_ROOM_W = 1;
@@ -205,7 +205,7 @@ Vector2i LevelFactory::generateRandomRoomSize()
     return { rawW * 2 + 1, rawH * 2 + 1 };
 }
 
-void LevelFactory::fillAllMazes()
+void RandomLevelFactory::fillAllMazes()
 {
     // Walk over every tile in the level. For any tile which is still a wall, try to grow a
     // random maze of corridors at that position.
@@ -226,7 +226,7 @@ void LevelFactory::fillAllMazes()
     }
 }
 
-void LevelFactory::connectRooms()
+void RandomLevelFactory::connectRooms()
 {
     // Find every wall tile which is adjacent to two or more different regions.
     // Store the location of the tile against the regions it spans.
@@ -359,7 +359,7 @@ void LevelFactory::connectRooms()
     }
 }
 
-void LevelFactory::addJunction( Vector2i pos, RegionRef r1, RegionRef r2 )
+void RandomLevelFactory::addJunction(Vector2i pos, RegionRef r1, RegionRef r2 )
 {
     Junction jc;
     jc.pos = pos;
@@ -412,7 +412,7 @@ void LevelFactory::addJunction( Vector2i pos, RegionRef r1, RegionRef r2 )
     }
 }
 
-void LevelFactory::removeJunction(Vector2i pos)
+void RandomLevelFactory::removeJunction(Vector2i pos)
 {
     auto jc_it = m_junctions.find( pos );
     AssertMsg(jc_it != m_junctions.end(), "deleting non-existant junction");
@@ -452,7 +452,7 @@ void LevelFactory::removeJunction(Vector2i pos)
 }
 
 
-void LevelFactory::pruneCorridors()
+void RandomLevelFactory::pruneCorridors()
 {
     std::vector<LD::RegionRef> pointlessCorridors;
 
@@ -503,13 +503,13 @@ void LevelFactory::pruneCorridors()
     }
 }
 
-void LevelFactory::newRegion(RegionType type)
+void RandomLevelFactory::newRegion(RegionType type)
 {
     m_regionIndex++;
     m_regionTypeMap[m_regionIndex] = type;
 }
 
-void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContextPtr const &ctx)
+void RandomLevelFactory::constructMapRendering(RandomLevelConfig const &config, LevelContextPtr const &ctx)
 {
     m_level->m_renderTileMap.addTile(TerrainTile::Wall_T_N,  {"dawnlike_wall", "Wall_013"});
     m_level->m_renderTileMap.addTile(TerrainTile::Wall_T_S,  {"dawnlike_wall", "Wall_005"});
@@ -546,7 +546,7 @@ void LevelFactory::constructMapRendering(LevelConfig const &config, LevelContext
     }
 }
 
-TerrainTile LevelFactory::getCorrectWallTile(int idx)
+TerrainTile RandomLevelFactory::getCorrectWallTile(int idx)
 {
     GridBitmask fullMask = m_wallPositionMasks[idx];
     GridBitmask mask = fullMask & GridUtils::CardinalOnly;
@@ -639,7 +639,7 @@ TerrainTile LevelFactory::getCorrectWallTile(int idx)
     return TerrainTile::Wall_Center;
 }
 
-GridBitmask LevelFactory::adjacentWalls(Vector2i coord)
+GridBitmask RandomLevelFactory::adjacentWalls(Vector2i coord)
 {
     GridBitmask mask = 0;
     for ( auto const&[k, v] : GridUtils::AllNeighbours )
@@ -655,7 +655,7 @@ GridBitmask LevelFactory::adjacentWalls(Vector2i coord)
     return mask;
 }
 
-void LevelFactory::calcAllAdjacentWalls()
+void RandomLevelFactory::calcAllAdjacentWalls()
 {
     m_wallPositionMasks.clear();
     m_wallPositionMasks.reserve( m_level->m_tileCount );
@@ -671,7 +671,7 @@ void LevelFactory::calcAllAdjacentWalls()
     Assert(m_wallPositionMasks.size() == m_level->m_tileCount);
 }
 
-void LevelFactory::constructParty(PartyData const& pdata)
+void RandomLevelFactory::constructParty(PartyData const& pdata)
 {
     auto startPos = m_rooms.at( m_specialRooms.at( RoomType::Entrance ) ).centre();
     auto it = GridUtils::AllNeighbours.begin();
@@ -682,7 +682,7 @@ void LevelFactory::constructParty(PartyData const& pdata)
     }
 }
 
-void LevelFactory::constructDoors()
+void RandomLevelFactory::constructDoors()
 {
     for ( auto const &[p, j] : m_junctions)
     {
@@ -693,7 +693,7 @@ void LevelFactory::constructDoors()
     }
 }
 
-void LevelFactory::decorateRooms()
+void RandomLevelFactory::decorateRooms()
 {
     for ( auto const& [ref, room] : m_rooms )
     {
@@ -736,7 +736,7 @@ void LevelFactory::decorateRooms()
     }
 }
 
-void LevelFactory::setInitialCollisionData()
+void RandomLevelFactory::setInitialCollisionData()
 {
     // Set the initial fixed collision data for the level
     m_level->grid().pass().disableCache();
@@ -759,7 +759,7 @@ void LevelFactory::setInitialCollisionData()
     m_level->grid().pass().enableCache();
 }
 
-void LevelFactory::assignSpecialRooms()
+void RandomLevelFactory::assignSpecialRooms()
 {
     std::unordered_set<RegionRef> toDecorate;
     std::unordered_set<RegionRef> terminalRooms;
@@ -792,7 +792,7 @@ void LevelFactory::assignSpecialRooms()
     }
 }
 
-void LevelFactory::constructRoomFromTemplate(LD::Room const& room, RawRoomTemplateData const& rt, bool flip)
+void RandomLevelFactory::constructRoomFromTemplate(LD::Room const& room, RawRoomTemplateData const& rt, bool flip)
 {
     // Work out whether or not we can use square symmetry
 
@@ -845,12 +845,12 @@ void LevelFactory::constructRoomFromTemplate(LD::Room const& room, RawRoomTempla
 }
 
 
-void LevelFactory::placeSpecialRooms()
+void RandomLevelFactory::placeSpecialRooms()
 {
 
 }
 
-Vector2i LevelFactory::randomRoomPosition(Vector2i roomSize)
+Vector2i RandomLevelFactory::randomRoomPosition(Vector2i roomSize)
 {
     int randX = m_level->random().randomInt( 1, m_level->m_bounds.x() - roomSize.x() - 1 ) / 2;
     int randY = m_level->random().randomInt( 1, m_level->m_bounds.y() - roomSize.y() - 1 ) / 2;
@@ -861,7 +861,7 @@ Vector2i LevelFactory::randomRoomPosition(Vector2i roomSize)
     return { randX, randY };
 }
 
-bool LevelFactory::isRoomValid(const LD::Room &room)
+bool RandomLevelFactory::isRoomValid(const LD::Room &room)
 {
     for ( auto const &[k, v] : m_rooms )
     {

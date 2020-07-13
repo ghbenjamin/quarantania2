@@ -16,7 +16,7 @@ public:
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter) override;
 
 private:
-    LevelConfig generateNextLevelConfig();
+    RandomLevelConfig generateNextLevelConfig();
 
     LevelContextPtr m_levelCtx;
 };
