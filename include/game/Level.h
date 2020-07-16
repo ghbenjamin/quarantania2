@@ -49,19 +49,18 @@ using ActionPtr = std::shared_ptr<Action>;
 class Level
 {
 public:
-    friend class LevelFactory;
-
     explicit Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg);
     virtual ~Level() = default;
 
     // Indicate that the level is constructed and ready to begin
+    void setLayout(LD::LevelLayout const& llayout);
     void setReady();
 
     // Core
     bool input(IEvent &evt);
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
-    RandomInterface& random();
 
+    RandomInterface& random();
     Grid& grid();
     GEventHub& events();
     UI::Manager& ui();
@@ -207,8 +206,7 @@ public:
     Vector2i worldCoordsToTile( Vector2i const& world);
     Vector2i screenCoordsToTile( Vector2i const& screen);
     Vector2i tileCoordsToScreen( Vector2i const& tile );
-    Vector2i const& bounds() const;
-    int tileCount() const;
+
     int squaredEntityDistance(EntityRef a, EntityRef b);
     void generateMinimapData();
 
@@ -216,7 +214,6 @@ public:
     std::vector<ActionPtr> actionsForTile(EntityRef actor, Vector2i tile);
     std::vector<ActionPtr> actionsForEntity(EntityRef actor, EntityRef subject);
     std::vector<ActionPtr> actionsForPosition(EntityRef actor, Vector2i position);
-    ActionPtr getDefaultAction(EntityRef actor, Vector2i position);
 
     // Communication
     bool isComplete() const;
@@ -263,7 +260,6 @@ private:
         registerComponentsImpl( CTList{} );
     }
 
-
     template <typename ST>
     void registerSystem()
     {
@@ -299,8 +295,6 @@ private:
     bool m_isComplete;
 
     // Map
-    int m_tileCount;
-    Vector2i m_bounds;
     TileRenderMap m_renderTileMap;
     std::vector<TileRef> m_mapRendering;
     LD::BaseTileMap m_baseTilemap;

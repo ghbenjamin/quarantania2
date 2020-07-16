@@ -31,7 +31,7 @@ void FOVSystem::update(uint32_t ticks, RenderInterface &rInter)
 {
     Vector2i currPos;
 
-    int tcount =  m_level->tileCount();
+    int tcount =  m_level->grid().bounds().area();
     for ( int i = 0; i < tcount; i++ )
     {
         currPos = m_level->grid().idxToPos(i) * GlobalConfig::TileSizePx;

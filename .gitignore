@@ -9,6 +9,8 @@ tools/data/psrd_data_modified/
 *.userosscache
 *.sln.docstates
 
+*.tiled-session
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

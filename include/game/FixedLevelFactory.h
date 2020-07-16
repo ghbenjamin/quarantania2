@@ -4,6 +4,8 @@
 #include <game/LevelData.h>
 #include <game/LevelConfig.h>
 
+struct TiledMap;
+
 class FixedLevelFactory
 {
 public:
@@ -11,5 +13,5 @@ public:
     FixedLevelFactory();
     ~FixedLevelFactory() = default;
 
-    LevelPtr create(FixedLevelConfig const& config, LevelContextPtr const& ctx, PartyData const& pdata);
+    LevelPtr create(TiledMap const& map, LevelContextPtr const& ctx, PartyData const& pdata);
 };

@@ -3,11 +3,19 @@
 #include <game/Level.h>
 #include <game/RandomLevelFactory.h>
 #include <utils/Logging.h>
+#include <resource/Tiled.h>
+#include <game/FixedLevelFactory.h>
 
 
 LevelState::LevelState(RandomLevelConfig const& config, LevelContextPtr ctx, PartyData const& pdata )
 : m_levelCtx(ctx)
 {
+    TiledMapLoader loader;
+    TiledMap tm = loader.load( "../resource/maps/example_map.json" );
+
+//    FixedLevelFactory ffactory;
+//    m_level = ffactory.create(tm, m_levelCtx, pdata);
+//
     // Create the level
     RandomLevelFactory factory;
     m_level = factory.create( config, m_levelCtx, pdata );

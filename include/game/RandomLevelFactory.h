@@ -91,6 +91,8 @@ private:
 private:
 
     LevelPtr m_level;
+    LD::LevelLayout m_levelLayout;
+
 
     // Random
     std::random_device m_rd;

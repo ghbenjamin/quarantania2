@@ -22,14 +22,12 @@
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 :   m_ctx(std::move(ctx)),
-    m_bounds(size),
     m_grid(size),
-    m_tileCount(size.x() * size.y()),
     m_random(rg),
     m_entFactory(this),
     m_isComplete(false),
-    m_minimap{ m_bounds, 5 },
-    m_camera( m_bounds * GlobalConfig::TileSizePx ),
+    m_minimap{ size, 5 },
+    m_camera( size * GlobalConfig::TileSizePx ),
     m_controller( std::make_unique<DefaultLController>(this) ),
     m_uiManager(this)
 {
@@ -100,8 +98,7 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
     Vector2i offset;
     Vector2i currPos;
     int row, col;
-    int width = m_bounds.x();
-
+    int width = m_grid.bounds().x();
 
     offset = {0, 0};
     row = 0;
@@ -155,16 +152,6 @@ GEventHub &Level::events()
 Grid& Level::grid( )
 {
     return m_grid;
-}
-
-Vector2i const &Level::bounds() const
-{
-    return m_bounds;
-}
-
-int Level::tileCount() const
-{
-    return m_tileCount;
 }
 
 Vector2i Level::screenCoordsToWorld(Vector2i const &screen)
@@ -354,20 +341,6 @@ std::vector<ActionPtr> Level::actionsForPosition(EntityRef actor, Vector2i posit
     return out;
 }
 
-ActionPtr Level::getDefaultAction(EntityRef actor, Vector2i position)
-{
-    auto actions = actionsForPosition(actor, position);
-
-    if ( actions.empty() )
-    {
-        return ActionPtr();
-    }
-    else
-    {
-        return actions.front();
-    }
-}
-
 bool Level::isComplete() const
 {
     return m_isComplete;
@@ -475,5 +448,12 @@ RandomInterface &Level::random()
 void Level::deleteEntityDelayed(EntityRef ent)
 {
     m_delayedDeleteEnts.push_back( ent );
+}
+
+void Level::setLayout(const LD::LevelLayout &llayout)
+{
+    m_baseTilemap = llayout.baseTilemap;
+    m_renderTileMap = llayout.renderTilemap;
+    m_mapRendering = llayout.mapData;
 }
 

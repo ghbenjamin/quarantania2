@@ -34,3 +34,6 @@ target_include_directories(quarantania2 PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
 
 find_package(fmt CONFIG REQUIRED)
 target_link_libraries(quarantania2 PRIVATE fmt::fmt fmt::fmt-header-only)
+
+find_package(ZLIB REQUIRED)
+target_link_libraries(quarantania2 PRIVATE ZLIB::ZLIB)

@@ -24,7 +24,7 @@ LevelPtr RandomLevelFactory::create(RandomLevelConfig const &config, LevelContex
      */
 
     // Start off with a map full of walls
-    m_level->m_baseTilemap = std::vector<BaseTileType>( config.size.area(), BaseTileType::Wall );
+    m_levelLayout.baseTilemap = std::vector<BaseTileType>( config.size.area(), BaseTileType::Wall );
 
     // Attempt to place special rooms (start, exit, boss, etc.)
     // Do this first so that we can be sure that they're definitely there
@@ -80,6 +80,7 @@ LevelPtr RandomLevelFactory::create(RandomLevelConfig const &config, LevelContex
      */
 
     // Mark the level construction as completed
+    m_level->setLayout(m_levelLayout);
     m_level->setReady();
     return std::move(m_level);
 }
@@ -129,7 +130,7 @@ void RandomLevelFactory::growMaze(Vector2i start)
 
 void RandomLevelFactory::tileSet(Vector2i tile, BaseTileType ttype)
 {
-    m_level->m_baseTilemap[indexFromCoords(tile)] = ttype;
+    m_levelLayout.baseTilemap[indexFromCoords(tile)] = ttype;
 
     if ( ttype == BaseTileType::Floor )
     {
@@ -139,17 +140,17 @@ void RandomLevelFactory::tileSet(Vector2i tile, BaseTileType ttype)
 
 BaseTileType RandomLevelFactory::tileGet(Vector2i tile)
 {
-    return m_level->m_baseTilemap[indexFromCoords(tile)];
+    return m_levelLayout.baseTilemap[indexFromCoords(tile)];
 }
 
 int RandomLevelFactory::indexFromCoords(Vector2i coord)
 {
-    return coord.x() + (coord.y() * m_level->m_bounds.x());
+    return coord.x() + (coord.y() * m_level->grid().bounds().x());
 }
 
 Vector2i RandomLevelFactory::coordsFromIndex(int idx)
 {
-    return {idx % m_level->m_bounds.x(), idx / m_level->m_bounds.x() };
+    return {idx % m_level->grid().bounds().x(), idx / m_level->grid().bounds().x() };
 }
 
 bool RandomLevelFactory::canFloor(Vector2i coord, Direction dir)
@@ -159,7 +160,7 @@ bool RandomLevelFactory::canFloor(Vector2i coord, Direction dir)
 
     auto delta = GridUtils::CardinalNeighbours[dir];
 
-    if ( !m_level->m_grid.inBounds(coord + (delta * 3)) )
+    if ( !m_level->grid().inBounds(coord + (delta * 3)) )
         return false;
 
     return tileGet(coord + (delta * 2)) == BaseTileType::Wall;
@@ -210,9 +211,9 @@ void RandomLevelFactory::fillAllMazes()
     // Walk over every tile in the level. For any tile which is still a wall, try to grow a
     // random maze of corridors at that position.
 
-    for ( int y = 1; y < m_level->m_bounds.y(); y += 2 )
+    for ( int y = 1; y < m_level->grid().bounds().y(); y += 2 )
     {
-        for ( int x = 1; x < m_level->m_bounds.x(); x += 2 )
+        for ( int x = 1; x < m_level->grid().bounds().x(); x += 2 )
         {
             if ( tileGet({x, y}) != BaseTileType::Wall )
             {
@@ -232,9 +233,9 @@ void RandomLevelFactory::connectRooms()
     // Store the location of the tile against the regions it spans.
     std::unordered_map<Vector2i, Vector2i, Vector2Hash<int>> connectorMap;
 
-    for ( int y = 1; y < m_level->m_bounds.y() - 1; y++ )
+    for ( int y = 1; y < m_level->grid().bounds().y() - 1; y++ )
     {
-        for ( int x = 1; x < m_level->m_bounds.x() - 1; x++ )
+        for ( int x = 1; x < m_level->grid().bounds().x() - 1; x++ )
         {
             auto pos = Vector2i{x, y};
 
@@ -470,9 +471,9 @@ void RandomLevelFactory::pruneCorridors()
         finished = true;
 
         // Walk over each of our tiles
-        for ( int y = 1; y < m_level->m_bounds.y() - 1; y++ )
+        for ( int y = 1; y < m_level->grid().bounds().y() - 1; y++ )
         {
-            for ( int x = 1; x < m_level->m_bounds.x() - 1; x++ )
+            for ( int x = 1; x < m_level->grid().bounds().x() - 1; x++ )
             {
                 auto pos = Vector2i{x, y};
 
@@ -511,34 +512,34 @@ void RandomLevelFactory::newRegion(RegionType type)
 
 void RandomLevelFactory::constructMapRendering(RandomLevelConfig const &config, LevelContextPtr const &ctx)
 {
-    m_level->m_renderTileMap.addTile(TerrainTile::Wall_T_N,  {"dawnlike_wall", "Wall_013"});
-    m_level->m_renderTileMap.addTile(TerrainTile::Wall_T_S,  {"dawnlike_wall", "Wall_005"});
-    m_level->m_renderTileMap.addTile(TerrainTile::Wall_T_E,   {"dawnlike_wall", "Wall_008"});
-    m_level->m_renderTileMap.addTile(TerrainTile::Wall_T_W,  {"dawnlike_wall", "Wall_010"});
-    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Corner_NE, {"dawnlike_wall", "Wall_003"});
-    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Corner_SE, {"dawnlike_wall", "Wall_012"});
-    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Corner_SW, {"dawnlike_wall", "Wall_011"});
-    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Corner_NW, {"dawnlike_wall", "Wall_001"});
-    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Vertical, {"dawnlike_wall", "Wall_006"});
-    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Horizontal, {"dawnlike_wall", "Wall_002"});
-    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Cross,  {"dawnlike_wall", "Wall_009"});
-    m_level->m_renderTileMap.addTile(TerrainTile::Wall_Center, {"dawnlike_wall", "Wall_004"});
-    m_level->m_renderTileMap.addTile(TerrainTile::Floor, {"dawnlike_objects", "Floor_103"});
+    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_T_N,          {"dawnlike_wall", "Wall_013"});
+    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_T_S,          {"dawnlike_wall", "Wall_005"});
+    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_T_E,          {"dawnlike_wall", "Wall_008"});
+    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_T_W,          {"dawnlike_wall", "Wall_010"});
+    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Corner_NE,    {"dawnlike_wall", "Wall_003"});
+    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Corner_SE,    {"dawnlike_wall", "Wall_012"});
+    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Corner_SW,    {"dawnlike_wall", "Wall_011"});
+    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Corner_NW,    {"dawnlike_wall", "Wall_001"});
+    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Vertical,     {"dawnlike_wall", "Wall_006"});
+    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Horizontal,   {"dawnlike_wall", "Wall_002"});
+    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Cross,        {"dawnlike_wall", "Wall_009"});
+    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Center,       {"dawnlike_wall", "Wall_004"});
+    m_levelLayout.renderTilemap.addTile(TerrainTile::Floor,             {"dawnlike_objects", "Floor_103"});
 
-    m_level->m_mapRendering = std::vector<TileRef>( m_level->m_baseTilemap.size(), -1 );
+    m_levelLayout.mapData = std::vector<TileRef>( m_levelLayout.baseTilemap.size(), -1 );
 
-    for ( size_t i = 0; i < m_level->m_baseTilemap.size(); i++ )
+    for ( size_t i = 0; i < m_levelLayout.baseTilemap.size(); i++ )
     {
-        switch ( m_level->m_baseTilemap[i] )
+        switch ( m_levelLayout.baseTilemap[i] )
         {
             case BaseTileType::Wall:
-                m_level->m_mapRendering[i] = m_level->m_renderTileMap.getRef(getCorrectWallTile(i) );
+                m_levelLayout.mapData[i] = m_levelLayout.renderTilemap.getRef(getCorrectWallTile(i) );
                 break;
             case BaseTileType::Floor:
-                m_level->m_mapRendering[i] = m_level->m_renderTileMap.getRef( TerrainTile::Floor );
+                m_levelLayout.mapData[i] = m_levelLayout.renderTilemap.getRef( TerrainTile::Floor );
                 break;
             case BaseTileType::Junction:
-                m_level->m_mapRendering[i] = m_level->m_renderTileMap.getRef(getCorrectWallTile(i) );
+                m_levelLayout.mapData[i] = m_levelLayout.renderTilemap.getRef(getCorrectWallTile(i) );
                 break;
             default:
                 AssertAlways();
@@ -646,7 +647,7 @@ GridBitmask RandomLevelFactory::adjacentWalls(Vector2i coord)
     {
         Vector2i pos = coord + v;
 
-        if (m_level->m_grid.inBounds(pos) && (tileGet(pos) == BaseTileType::Wall
+        if (m_level->grid().inBounds(pos) && (tileGet(pos) == BaseTileType::Wall
             || tileGet(pos) == BaseTileType::Junction))
         {
             mask |= k;
@@ -658,17 +659,17 @@ GridBitmask RandomLevelFactory::adjacentWalls(Vector2i coord)
 void RandomLevelFactory::calcAllAdjacentWalls()
 {
     m_wallPositionMasks.clear();
-    m_wallPositionMasks.reserve( m_level->m_tileCount );
+    m_wallPositionMasks.reserve( m_level->grid().bounds().area() );
 
-    for ( int j = 0; j < m_level->m_bounds.y(); j++ )
+    for ( int j = 0; j < m_level->grid().bounds().y(); j++ )
     {
-        for ( int i = 0; i < m_level->m_bounds.x(); i++ )
+        for ( int i = 0; i < m_level->grid().bounds().x(); i++ )
         {
             m_wallPositionMasks.push_back( adjacentWalls({i, j}) );
         }
     }
 
-    Assert(m_wallPositionMasks.size() == m_level->m_tileCount);
+    Assert(m_wallPositionMasks.size() == m_level->grid().bounds().area());
 }
 
 void RandomLevelFactory::constructParty(PartyData const& pdata)
@@ -741,9 +742,9 @@ void RandomLevelFactory::setInitialCollisionData()
     // Set the initial fixed collision data for the level
     m_level->grid().pass().disableCache();
 
-    for ( size_t i = 0; i < m_level->m_baseTilemap.size(); i++ )
+    for ( size_t i = 0; i < m_levelLayout.baseTilemap.size(); i++ )
     {
-        switch ( m_level->m_baseTilemap[i] )
+        switch ( m_levelLayout.baseTilemap[i] )
         {
             case LD::BaseTileType::Wall:
                 m_level->grid().pass().setFixed( i, Passibility::Impassable );
@@ -852,8 +853,8 @@ void RandomLevelFactory::placeSpecialRooms()
 
 Vector2i RandomLevelFactory::randomRoomPosition(Vector2i roomSize)
 {
-    int randX = m_level->random().randomInt( 1, m_level->m_bounds.x() - roomSize.x() - 1 ) / 2;
-    int randY = m_level->random().randomInt( 1, m_level->m_bounds.y() - roomSize.y() - 1 ) / 2;
+    int randX = m_level->random().randomInt( 1, m_level->grid().bounds().x() - roomSize.x() - 1 ) / 2;
+    int randY = m_level->random().randomInt( 1, m_level->grid().bounds().y() - roomSize.y() - 1 ) / 2;
 
     randX = randX * 2 + 1;
     randY = randY * 2 + 1;

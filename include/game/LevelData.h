@@ -59,4 +59,12 @@ struct Room
 
 using BaseTileMap = std::vector<BaseTileType>;
 
+
+struct LevelLayout
+{
+    TileRenderMap renderTilemap;
+    std::vector<TileRef> mapData;
+    LD::BaseTileMap baseTilemap;
+};
+
 }
