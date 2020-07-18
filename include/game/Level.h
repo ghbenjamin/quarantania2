@@ -297,7 +297,7 @@ private:
     // Map
     TileRenderMap m_renderTileMap;
     std::vector<TileRef> m_mapRendering;
-    LD::BaseTileMap m_baseTilemap;
+    std::vector<LD::BaseTileType> m_baseTilemap;
     Grid m_grid;
     Minimap m_minimap;
 

@@ -57,14 +57,11 @@ struct Room
     Vector2i centre() const;
 };
 
-using BaseTileMap = std::vector<BaseTileType>;
-
-
 struct LevelLayout
 {
     TileRenderMap renderTilemap;
     std::vector<TileRef> mapData;
-    LD::BaseTileMap baseTilemap;
+    std::vector<BaseTileType> baseTilemap;
 };
 
 }
