@@ -453,7 +453,7 @@ void Level::deleteEntityDelayed(EntityRef ent)
 void Level::setLayout(const LD::LevelLayout &llayout)
 {
     m_baseTilemap = llayout.baseTilemap;
-    m_renderTileMap = llayout.renderTilemap;
+    m_renderTileMap = llayout.tileset;
     m_mapRendering = llayout.mapData;
 }
 

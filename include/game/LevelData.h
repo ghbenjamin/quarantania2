@@ -59,7 +59,7 @@ struct Room
 
 struct LevelLayout
 {
-    TileRenderMap renderTilemap;
+    Tileset tileset;
     std::vector<TileRef> mapData;
     std::vector<BaseTileType> baseTilemap;
 };

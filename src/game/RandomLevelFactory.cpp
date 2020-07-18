@@ -512,38 +512,41 @@ void RandomLevelFactory::newRegion(RegionType type)
 
 void RandomLevelFactory::constructMapRendering(RandomLevelConfig const &config, LevelContextPtr const &ctx)
 {
-    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_T_N,          {"dawnlike_wall", "Wall_013"});
-    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_T_S,          {"dawnlike_wall", "Wall_005"});
-    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_T_E,          {"dawnlike_wall", "Wall_008"});
-    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_T_W,          {"dawnlike_wall", "Wall_010"});
-    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Corner_NE,    {"dawnlike_wall", "Wall_003"});
-    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Corner_SE,    {"dawnlike_wall", "Wall_012"});
-    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Corner_SW,    {"dawnlike_wall", "Wall_011"});
-    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Corner_NW,    {"dawnlike_wall", "Wall_001"});
-    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Vertical,     {"dawnlike_wall", "Wall_006"});
-    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Horizontal,   {"dawnlike_wall", "Wall_002"});
-    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Cross,        {"dawnlike_wall", "Wall_009"});
-    m_levelLayout.renderTilemap.addTile(TerrainTile::Wall_Center,       {"dawnlike_wall", "Wall_004"});
-    m_levelLayout.renderTilemap.addTile(TerrainTile::Floor,             {"dawnlike_objects", "Floor_103"});
+    addTileTypeRender(TerrainTile::Wall_T_N,          {"dawnlike_wall", "Wall_013"});
+    addTileTypeRender(TerrainTile::Wall_T_S,          {"dawnlike_wall", "Wall_005"});
+    addTileTypeRender(TerrainTile::Wall_T_E,          {"dawnlike_wall", "Wall_008"});
+    addTileTypeRender(TerrainTile::Wall_T_W,          {"dawnlike_wall", "Wall_010"});
+    addTileTypeRender(TerrainTile::Wall_Corner_NE,    {"dawnlike_wall", "Wall_003"});
+    addTileTypeRender(TerrainTile::Wall_Corner_SE,    {"dawnlike_wall", "Wall_012"});
+    addTileTypeRender(TerrainTile::Wall_Corner_SW,    {"dawnlike_wall", "Wall_011"});
+    addTileTypeRender(TerrainTile::Wall_Corner_NW,    {"dawnlike_wall", "Wall_001"});
+    addTileTypeRender(TerrainTile::Wall_Vertical,     {"dawnlike_wall", "Wall_006"});
+    addTileTypeRender(TerrainTile::Wall_Horizontal,   {"dawnlike_wall", "Wall_002"});
+    addTileTypeRender(TerrainTile::Wall_Cross,        {"dawnlike_wall", "Wall_009"});
+    addTileTypeRender(TerrainTile::Wall_Center,       {"dawnlike_wall", "Wall_004"});
+    addTileTypeRender(TerrainTile::Floor,             {"dawnlike_objects", "Floor_103"});
 
     m_levelLayout.mapData = std::vector<TileRef>( m_levelLayout.baseTilemap.size(), -1 );
 
     for ( size_t i = 0; i < m_levelLayout.baseTilemap.size(); i++ )
     {
+        TileRef tileIdx;
+
         switch ( m_levelLayout.baseTilemap[i] )
         {
             case BaseTileType::Wall:
-                m_levelLayout.mapData[i] = m_levelLayout.renderTilemap.getRef(getCorrectWallTile(i) );
+            case BaseTileType::Junction:
+                tileIdx = m_tileRenderMap.at( getCorrectWallTile(i) );
                 break;
             case BaseTileType::Floor:
-                m_levelLayout.mapData[i] = m_levelLayout.renderTilemap.getRef( TerrainTile::Floor );
-                break;
-            case BaseTileType::Junction:
-                m_levelLayout.mapData[i] = m_levelLayout.renderTilemap.getRef(getCorrectWallTile(i) );
+                tileIdx = m_tileRenderMap.at( TerrainTile::Floor  );
                 break;
             default:
+                tileIdx = -1;
                 AssertAlways();
         }
+
+        m_levelLayout.mapData[i] = tileIdx;
     }
 }
 
@@ -873,4 +876,10 @@ bool RandomLevelFactory::isRoomValid(const LD::Room &room)
     }
 
     return true;
+}
+
+void RandomLevelFactory::addTileTypeRender(TerrainTile tt, SpritesheetKey sprite)
+{
+   TileRef idx = m_levelLayout.tileset.addTile(sprite);
+   m_tileRenderMap.emplace(tt, idx);
 }

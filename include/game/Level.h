@@ -295,7 +295,7 @@ private:
     bool m_isComplete;
 
     // Map
-    TileRenderMap m_renderTileMap;
+    Tileset m_renderTileMap;
     std::vector<TileRef> m_mapRendering;
     std::vector<LD::BaseTileType> m_baseTilemap;
     Grid m_grid;

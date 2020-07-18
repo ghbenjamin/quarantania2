@@ -33,18 +33,15 @@ enum class TerrainTile
 };
 
 
-class TileRenderMap
+class Tileset
 {
 public:
-    TileRenderMap() = default;
-    ~TileRenderMap() = default;
+    Tileset() = default;
+    ~Tileset() = default;
 
-    TileRef addTile(TerrainTile ttype, const SpritesheetKey &key);
+    TileRef addTile(SpritesheetKey const& key);
     Tile const& get( TileRef ref ) const;
-    Tile const& get( TerrainTile ttype ) const;
-    TileRef getRef( TerrainTile ttype ) const;
 
 private:
     std::vector<Tile> m_tiles;
-    std::unordered_map<TerrainTile, TileRef> m_names;
 };
