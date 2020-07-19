@@ -46,9 +46,16 @@ Sprite TiledSpritesheet::spriteFromGid(int gid)
     };
 }
 
-Sprite TiledSpritesheet::spriteFromName(std::string const &name)
+Sprite TiledSpritesheet::getSprite( SpritesheetKey const& key )
 {
-    return spriteFromGid( m_gidMap.at(name) );
+    if (key.gid >=0)
+    {
+        return spriteFromGid( key.gid );
+    }
+    else
+    {
+        return spriteFromGid( m_gidMap.at(key.spriteName) );
+    }
 }
 
 FreeSpritesheet::FreeSpritesheet(TexturePtr texture, SpritesheetRectMap const &rectMap)
@@ -57,8 +64,29 @@ FreeSpritesheet::FreeSpritesheet(TexturePtr texture, SpritesheetRectMap const &r
 
 }
 
-Sprite FreeSpritesheet::spriteFromName(std::string const &name)
+Sprite FreeSpritesheet::getSprite( SpritesheetKey const& key )
 {
-    auto& rect = m_rectMap.at(name);
+    auto& rect = m_rectMap.at(key.spriteName);
     return Sprite { m_texture, rect };
+}
+
+SpritesheetKey::SpritesheetKey()
+{
+    this->gid = -1;
+    this->sheetName = "";
+    this->spriteName = "";
+}
+
+SpritesheetKey::SpritesheetKey(const std::string &sheet, const std::string &name)
+{
+    this->spriteName = name;
+    this->sheetName = sheet;
+    this->gid = -1;
+}
+
+SpritesheetKey::SpritesheetKey(std::string const& sheet, int gid)
+{
+    this->spriteName = "";
+    this->gid = gid;
+    this->sheetName = sheet;
 }

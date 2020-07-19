@@ -1,12 +1,10 @@
 #pragma once
 
-#include <game/Level.h>
-#include <game/LevelData.h>
-#include <game/LevelConfig.h>
+#include <game/LevelFactory.h>
 
 struct TiledMap;
 
-class FixedLevelFactory
+class FixedLevelFactory : public LevelFactory
 {
 public:
 
@@ -14,4 +12,10 @@ public:
     ~FixedLevelFactory() = default;
 
     LevelPtr create(TiledMap const& map, LevelContextPtr const& ctx, PartyData const& pdata);
+
+
+private:
+
+    void assembleTiledMap(TiledMap const& map);
+
 };

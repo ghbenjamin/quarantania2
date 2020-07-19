@@ -3,15 +3,13 @@
 #include <random>
 #include <map>
 
-#include <game/Level.h>
-#include <game/LevelData.h>
-#include <game/LevelConfig.h>
+#include <game/LevelFactory.h>
 #include <utils/GridUtils.h>
 #include <game/RawData.h>
 
 struct PlayerData;
 
-class RandomLevelFactory
+class RandomLevelFactory : public LevelFactory
 {
 public:
 
@@ -91,13 +89,7 @@ private:
 
 private:
 
-    LevelPtr m_level;
-    LD::LevelLayout m_levelLayout;
-
     std::unordered_map<TerrainTile, TileRef> m_tileRenderMap;
-
-    // Random
-    std::random_device m_rd;
 
     // Base map layout
     int m_regionIndex;

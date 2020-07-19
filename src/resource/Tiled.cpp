@@ -1,8 +1,11 @@
+#include <filesystem>
+
 #include <resource/Tiled.h>
 #include <utils/Json.h>
 #include <utils/Assert.h>
 #include <utils/Base64.h>
 #include <utils/Compression.h>
+#include <utils/Logging.h>
 
 TiledMap TiledMapLoader::load(const std::string &path)
 {
@@ -16,8 +19,9 @@ TiledMap TiledMapLoader::load(const std::string &path)
     for ( auto const& layer : doc.FindMember("tilesets")->value.GetArray() )
     {
         TiledTileset ts;
-        ts.name = layer.FindMember("source")->value.GetString();
+        ts.filename = layer.FindMember("source")->value.GetString();
         ts.firstGid = layer.FindMember("firstgid")->value.GetInt();
+        ts.sheetName = std::filesystem::path(ts.filename).stem().string();
         m_map.tilesets.push_back(ts);
     }
 
@@ -61,40 +65,51 @@ void TiledMapLoader::decodeLayer(TiledTileLayer *layer)
     static constexpr unsigned FLIPPED_VERTICALLY_FLAG   = 0x40000000;
     static constexpr unsigned FLIPPED_DIAGONALLY_FLAG   = 0x20000000;
 
-    std::string buffer;
+    std::string strbuf;
+    std::vector<unsigned char> buf;
 
     if ( layer->encoding == "base64")
     {
-        buffer = base64_decode(layer->rawData);
+        strbuf = base64_decode(layer->rawData);
     }
 
     if (layer->compression == "zlib")
     {
-        buffer = zlib_decompress(buffer);
+        strbuf = zlib_decompress(strbuf);
     }
 
-    Assert( buffer.size() == layer->width * layer->height * 4 );
+    Assert( strbuf.size() == layer->width * layer->height * 4 );
 
-    for (int i = 0; i < buffer.size(); i += 4)
+    buf = std::vector<unsigned char>( strbuf.begin(), strbuf.end() );
+
+    for (int i = 0; i < (int) buf.size(); i += 4)
     {
         TiledIdPair idp;
 
-        int gid = buffer[i] |
-                  buffer[i + 1] << 8 |
-                  buffer[i + 2] << 16 |
-                  buffer[i + 3] << 24;
+        std::uint32_t gid = static_cast<std::uint32_t> (
+                  buf[i] |
+                  buf[i + 1] << 8 |
+                  buf[i + 2] << 16 |
+                  buf[i + 3] << 24
+            );
 
         gid &= ~(FLIPPED_HORIZONTALLY_FLAG |
                  FLIPPED_VERTICALLY_FLAG |
                  FLIPPED_DIAGONALLY_FLAG);
 
-
-        for (int j = (int)m_map.tilesets.size() - 1; j >= 0; j--)
+        if ( gid == 0 )
         {
-            if ( m_map.tilesets[j].firstGid <= gid )
+            idp = {0, 0};
+        }
+        else
+        {
+            for (int j = (int)m_map.tilesets.size() - 1; j >= 0; j--)
             {
-                idp = { gid - m_map.tilesets[j].firstGid, j };
-                break;
+                if ( m_map.tilesets[j].firstGid <= gid )
+                {
+                    idp = { gid - m_map.tilesets[j].firstGid, j };
+                    break;
+                }
             }
         }
 
@@ -102,7 +117,8 @@ void TiledMapLoader::decodeLayer(TiledTileLayer *layer)
     }
 }
 
-void TiledTileLayer::decode()
+bool TiledIdPair::operator==(const TiledIdPair &rhs) const
 {
-
+    return id == rhs.id &&
+           tilesheetIdx == rhs.tilesheetIdx;
 }

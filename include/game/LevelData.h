@@ -61,7 +61,7 @@ struct LevelLayout
 {
     Tileset tileset;
     std::vector<TileRef> mapData;
-    std::vector<BaseTileType> baseTilemap;
+    std::vector<BaseTileType> tileTypes;
 };
 
 }

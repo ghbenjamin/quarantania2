@@ -1,39 +1,32 @@
 { "compressionlevel":-1,
- "editorsettings":
-    {
-     "export":
-        {
-         "target":"."
-        }
-    },
- "height":32,
+ "height":8,
  "infinite":false,
  "layers":[
         {
          "compression":"zlib",
-         "data":"eJzt1jEKACAMA0AFn9qX+VJXV4ughRtuypAuhURvLYCU+cENUEX2X8bmJLtF\/9t+AGqwi2tYBYOLyg==",
+         "data":"eJxLYWRgSKEAsyBhesiRigHWwRGZ",
          "encoding":"base64",
-         "height":32,
+         "height":8,
          "id":1,
          "name":"Floor",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
-         "width":32,
+         "width":7,
          "x":0,
          "y":0
         }, 
         {
          "compression":"zlib",
-         "data":"eJztzT0KACAMg9FA738if3DRc+nYQaWDk3wPMpRAIwEAsJdMyi7FYt0rzc73rWP\/j\/2+flaXYbEOAADsTZlQG08=",
+         "data":"eJxjYMAPdjMzMOxBwnuZEXIHmFHVHqCx3FEgex8SPoamFhsAAA50Dag=",
          "encoding":"base64",
-         "height":32,
+         "height":8,
          "id":2,
          "name":"Walls",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
-         "width":32,
+         "width":7,
          "x":0,
          "y":0
         }],
@@ -55,5 +48,5 @@
  "tilewidth":32,
  "type":"map",
  "version":1.4,
- "width":32
+ "width":7
 }

@@ -12,8 +12,7 @@
 
 using namespace LD;
 
-RandomLevelFactory::RandomLevelFactory()
-    : m_rd(), m_regionIndex(0) {}
+RandomLevelFactory::RandomLevelFactory() : LevelFactory(), m_regionIndex(0) {}
 
 LevelPtr RandomLevelFactory::create(RandomLevelConfig const &config, LevelContextPtr const &ctx, PartyData const& pdata)
 {
@@ -24,7 +23,7 @@ LevelPtr RandomLevelFactory::create(RandomLevelConfig const &config, LevelContex
      */
 
     // Start off with a map full of walls
-    m_levelLayout.baseTilemap = std::vector<BaseTileType>( config.size.area(), BaseTileType::Wall );
+    m_levelLayout.tileTypes = std::vector<BaseTileType>( config.size.area(), BaseTileType::Wall );
 
     // Attempt to place special rooms (start, exit, boss, etc.)
     // Do this first so that we can be sure that they're definitely there
@@ -130,7 +129,7 @@ void RandomLevelFactory::growMaze(Vector2i start)
 
 void RandomLevelFactory::tileSet(Vector2i tile, BaseTileType ttype)
 {
-    m_levelLayout.baseTilemap[indexFromCoords(tile)] = ttype;
+    m_levelLayout.tileTypes[indexFromCoords(tile)] = ttype;
 
     if ( ttype == BaseTileType::Floor )
     {
@@ -140,7 +139,7 @@ void RandomLevelFactory::tileSet(Vector2i tile, BaseTileType ttype)
 
 BaseTileType RandomLevelFactory::tileGet(Vector2i tile)
 {
-    return m_levelLayout.baseTilemap[indexFromCoords(tile)];
+    return m_levelLayout.tileTypes[indexFromCoords(tile)];
 }
 
 int RandomLevelFactory::indexFromCoords(Vector2i coord)
@@ -526,13 +525,13 @@ void RandomLevelFactory::constructMapRendering(RandomLevelConfig const &config, 
     addTileTypeRender(TerrainTile::Wall_Center,       {"dawnlike_wall", "Wall_004"});
     addTileTypeRender(TerrainTile::Floor,             {"dawnlike_objects", "Floor_103"});
 
-    m_levelLayout.mapData = std::vector<TileRef>( m_levelLayout.baseTilemap.size(), -1 );
+    m_levelLayout.mapData = std::vector<TileRef>( m_levelLayout.tileTypes.size(), -1 );
 
-    for ( size_t i = 0; i < m_levelLayout.baseTilemap.size(); i++ )
+    for (size_t i = 0; i < m_levelLayout.tileTypes.size(); i++ )
     {
         TileRef tileIdx;
 
-        switch ( m_levelLayout.baseTilemap[i] )
+        switch ( m_levelLayout.tileTypes[i] )
         {
             case BaseTileType::Wall:
             case BaseTileType::Junction:
@@ -745,9 +744,9 @@ void RandomLevelFactory::setInitialCollisionData()
     // Set the initial fixed collision data for the level
     m_level->grid().pass().disableCache();
 
-    for ( size_t i = 0; i < m_levelLayout.baseTilemap.size(); i++ )
+    for (size_t i = 0; i < m_levelLayout.tileTypes.size(); i++ )
     {
-        switch ( m_levelLayout.baseTilemap[i] )
+        switch ( m_levelLayout.tileTypes[i] )
         {
             case LD::BaseTileType::Wall:
                 m_level->grid().pass().setFixed( i, Passibility::Impassable );

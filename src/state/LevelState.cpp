@@ -13,12 +13,13 @@ LevelState::LevelState(RandomLevelConfig const& config, LevelContextPtr ctx, Par
     TiledMapLoader loader;
     TiledMap tm = loader.load( "../resource/maps/example_map.json" );
 
-//    FixedLevelFactory ffactory;
-//    m_level = ffactory.create(tm, m_levelCtx, pdata);
-//
+    FixedLevelFactory ffactory;
+    m_level = ffactory.create(tm, m_levelCtx, pdata);
+
     // Create the level
-    RandomLevelFactory factory;
-    m_level = factory.create( config, m_levelCtx, pdata );
+//    RandomLevelFactory factory;
+//    m_level = factory.create( config, m_levelCtx, pdata );
+
 }
 
 bool LevelState::input(IEvent &evt)

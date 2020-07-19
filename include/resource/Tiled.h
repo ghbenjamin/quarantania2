@@ -5,14 +5,17 @@
 
 struct TiledTileset
 {
-    std::string name;
+    std::string filename;
+    std::string sheetName;
     int firstGid;
 };
 
 struct TiledIdPair
 {
-    int id;
-    int tilesheedIdx;
+    std::uint32_t id;
+    int tilesheetIdx;
+
+    bool operator==(const TiledIdPair &rhs) const;
 };
 
 struct TiledTileLayer
@@ -28,9 +31,6 @@ struct TiledTileLayer
     int height;
     int xOffset;
     int yOffset;
-
-
-    void decode();
 };
 
 struct TiledObjectLayer
@@ -48,6 +48,7 @@ struct TiledMap
     std::vector<TiledTileLayer> tileLayers;
     std::vector<TiledObjectLayer> objectLayers;
     std::vector<TiledTileset> tilesets;
+
 };
 
 class TiledMapLoader

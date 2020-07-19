@@ -64,11 +64,11 @@ bool DefaultLController::onMouseDown(IEventMouseDown evt)
 
 bool DefaultLController::onKeyDown(IEventKeyPress evt)
 {
-    switch ( evt.keyCode )
-    {
-        default:
-            break;
-    }
+//    switch ( evt.keyCode )
+//    {
+//        default:
+//            break;
+//    }
 
     return false;
 }
