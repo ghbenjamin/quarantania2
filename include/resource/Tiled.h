@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+using TiledGid = std::uint32_t;
+
 struct TiledTileset
 {
     std::string filename;
@@ -12,7 +14,7 @@ struct TiledTileset
 
 struct TiledIdPair
 {
-    std::uint32_t id;
+    TiledGid id;
     int tilesheetIdx;
 
     bool operator==(const TiledIdPair &rhs) const;
@@ -33,9 +35,23 @@ struct TiledTileLayer
     int yOffset;
 };
 
+struct TiledObjectData
+{
+    int gid;
+    std::string name;
+    int rawX;
+    int rawY;
+    int tileX;
+    int tileY;
+};
+
 struct TiledObjectLayer
 {
+    std::string name;
+    std::vector<TiledObjectData> objects;
 
+    int xOffset;
+    int yOffset;
 };
 
 struct TiledMap
@@ -61,6 +77,8 @@ public:
 
 private:
     void decodeLayer(TiledTileLayer* layer);
+    void calculateObjectTilePos();
+    TiledIdPair resolveGid( TiledGid gid ) const;
 
     TiledMap m_map;
 };

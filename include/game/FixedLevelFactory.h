@@ -3,6 +3,7 @@
 #include <game/LevelFactory.h>
 
 struct TiledMap;
+struct TiledObjectLayer;
 
 class FixedLevelFactory : public LevelFactory
 {
@@ -17,5 +18,6 @@ public:
 private:
 
     void assembleTiledMap(TiledMap const& map);
+    void constructFixedObjects(TiledObjectLayer const& olayer);
 
 };

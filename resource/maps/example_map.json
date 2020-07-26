@@ -36,9 +36,44 @@
          "width":32,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":5,
+         "name":"Fixed",
+         "objects":[
+                {
+                 "gid":129,
+                 "height":32,
+                 "id":4,
+                 "name":"door",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":352,
+                 "y":544
+                }, 
+                {
+                 "gid":129,
+                 "height":32,
+                 "id":5,
+                 "name":"door",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":576,
+                 "y":544
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":4,
- "nextobjectid":1,
+ "nextlayerid":6,
+ "nextobjectid":7,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.1",

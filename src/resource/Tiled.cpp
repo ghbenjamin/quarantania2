@@ -47,6 +47,22 @@ TiledMap TiledMapLoader::load(const std::string &path)
         {
             TiledObjectLayer tol;
 
+            tol.name = layer.FindMember("name")->value.GetString();
+            tol.xOffset = layer.FindMember("x")->value.GetInt();
+            tol.yOffset = layer.FindMember("y")->value.GetInt();
+
+            for ( auto const& object : layer.FindMember("objects")->value.GetArray() )
+            {
+                TiledObjectData tod;
+
+                tod.name = object.FindMember("name")->value.GetString();
+                tod.gid = object.FindMember("gid")->value.GetInt();
+                tod.rawX = object.FindMember("x")->value.GetInt();
+                tod.rawY = object.FindMember("y")->value.GetInt();
+
+                tol.objects.push_back(tod);
+            }
+
             m_map.objectLayers.push_back(tol);
         }
     }
@@ -55,6 +71,8 @@ TiledMap TiledMapLoader::load(const std::string &path)
     {
         decodeLayer(&layer);
     }
+
+    calculateObjectTilePos();
 
     return m_map;
 }
@@ -84,9 +102,7 @@ void TiledMapLoader::decodeLayer(TiledTileLayer *layer)
 
     for (int i = 0; i < (int) buf.size(); i += 4)
     {
-        TiledIdPair idp;
-
-        std::uint32_t gid = static_cast<std::uint32_t> (
+        TiledGid gid = static_cast<TiledGid> (
                   buf[i] |
                   buf[i + 1] << 8 |
                   buf[i + 2] << 16 |
@@ -97,23 +113,39 @@ void TiledMapLoader::decodeLayer(TiledTileLayer *layer)
                  FLIPPED_VERTICALLY_FLAG |
                  FLIPPED_DIAGONALLY_FLAG);
 
-        if ( gid == 0 )
+        TiledIdPair idp = resolveGid(gid);
+        layer->gids.push_back(idp);
+    }
+}
+
+TiledIdPair TiledMapLoader::resolveGid(TiledGid gid) const
+{
+    if ( gid != 0 )
+    {
+        for (int j = (int)m_map.tilesets.size() - 1; j >= 0; j--)
         {
-            idp = {0, 0};
-        }
-        else
-        {
-            for (int j = (int)m_map.tilesets.size() - 1; j >= 0; j--)
+            if ( m_map.tilesets[j].firstGid <= gid )
             {
-                if ( m_map.tilesets[j].firstGid <= gid )
-                {
-                    idp = { gid - m_map.tilesets[j].firstGid, j };
-                    break;
-                }
+                return { gid -  m_map.tilesets[j].firstGid, j };
             }
         }
+    }
 
-        layer->gids.push_back(idp);
+    return {0, 0};
+}
+
+void TiledMapLoader::calculateObjectTilePos()
+{
+    for ( auto& layer : m_map.objectLayers )
+    {
+        for ( auto& obj : layer.objects )
+        {
+            int x = layer.xOffset + obj.rawX;
+            int y = layer.yOffset + obj.rawY;
+
+            obj.tileX = x / m_map.tileWidth;
+            obj.tileY = y / m_map.tileHeight;
+        }
     }
 }
 

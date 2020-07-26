@@ -17,8 +17,13 @@ LevelPtr FixedLevelFactory::create(TiledMap const& map, const LevelContextPtr &c
 
 void FixedLevelFactory::assembleTiledMap(TiledMap const& map)
 {
+
+    // Create Tiles
+
+
     std::unordered_map<Vector2i, int, Vector2iHash> tilesSeenMap;
 
+    // Initialize empty data structures of the right size
     m_levelLayout.mapData = std::vector<TileRef>( map.width * map.height, -1 );
     m_levelLayout.tileTypes = std::vector<LD::BaseTileType>( map.width * map.height, LD::BaseTileType::Floor );
 
@@ -30,6 +35,7 @@ void FixedLevelFactory::assembleTiledMap(TiledMap const& map)
         int yEnd = yStart + tlayer.height;
         int idxOffset = xStart + yStart * map.width;
 
+        // Walk over each tile in each layer (some may be blank)
         for ( int y = yStart; y < yEnd; y++ )
         {
             for ( int x = xStart; x < xEnd; x++ )
@@ -50,17 +56,37 @@ void FixedLevelFactory::assembleTiledMap(TiledMap const& map)
                 auto it = tilesSeenMap.find( tipVec );
                 if ( it == tilesSeenMap.end() )
                 {
+                    // Any tile we've not seen yet, construct and add to our tileset
                     SpritesheetKey key = { map.tilesets.at(tip.tilesheetIdx).sheetName, (int) tip.id };
                     tileRef = m_levelLayout.tileset.addTile(key);
                     tilesSeenMap.emplace(tipVec, tileRef);
                 }
                 else
                 {
+                    // Any tile we *have* seen, retrieve from our tileset
                     tileRef = it->second;
                 }
 
                 m_levelLayout.mapData[globalIdx] = tileRef;
             }
         }
+    }
+
+    for ( auto const& olayer : map.objectLayers )
+    {
+        if ( olayer.name == "Fixed" )
+        {
+            constructFixedObjects(olayer);
+        }
+    }
+
+
+}
+
+void FixedLevelFactory::constructFixedObjects(TiledObjectLayer const& olayer)
+{
+    for ( auto const& object : olayer.objects )
+    {
+        m_level->entityFactory().createObject( object.name, {object.tileX, object.tileY} );
     }
 }
