@@ -10,14 +10,14 @@ EntityFactory::EntityFactory(Level *parent)
 : m_parent(parent) {}
 
 
-EntityRef EntityFactory::createPlayer(PlayerData const& data, Vector2i startPos) const
+EntityRef EntityFactory::createPlayer(PlayerData const& data, Vector2i pos) const
 {
     auto eref = m_parent->createEntity();
 
     auto sprite = ResourceManager::get().getSprite(data.sprite);
     sprite.setRenderLayer(RenderLayer::Actor);
 
-    m_parent->addComponent<PositionComponent>(eref, startPos);
+    m_parent->addComponent<PositionComponent>(eref, pos);
     m_parent->addComponent<RenderComponent>(eref, sprite);
     m_parent->addComponent<ColliderComponent>(eref, false, true);
     m_parent->addComponent<PCComponent>(eref);
@@ -126,4 +126,16 @@ EntityRef EntityFactory::createObject(std::string const &ptype, Vector2i pos) co
     return eref;
 }
 
+EntityRef EntityFactory::createDecor(Vector2i pos, SpritesheetKey const& key)
+{
+    auto eref = m_parent->createEntity();
 
+    auto sprite = ResourceManager::get().getSprite( key );
+    sprite.setRenderLayer(RenderLayer::Entity);
+
+    m_parent->addComponent<PositionComponent>(eref, pos);
+    m_parent->addComponent<RenderComponent>(eref, sprite);
+
+    m_parent->entityReady(eref);
+    return eref;
+}

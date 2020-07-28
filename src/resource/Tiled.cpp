@@ -56,9 +56,26 @@ TiledMap TiledMapLoader::load(const std::string &path)
                 TiledObjectData tod;
 
                 tod.name = object.FindMember("name")->value.GetString();
-                tod.gid = object.FindMember("gid")->value.GetInt();
-                tod.rawX = object.FindMember("x")->value.GetInt();
-                tod.rawY = object.FindMember("y")->value.GetInt();
+
+                if ( object.HasMember("gid") )
+                {
+                    int x = object.FindMember("x")->value.GetInt();
+                    int y = object.FindMember("y")->value.GetInt();
+
+                    tod.rawPos = { x, y };
+                    tod.gid = object.FindMember("gid")->value.GetInt();
+                    tod.sprite = resolveGid(tod.gid);
+                }
+                else if ( object.HasMember("point") )
+                {
+                    float x = object.FindMember("x")->value.GetFloat();
+                    float y = object.FindMember("y")->value.GetFloat();
+
+                    tod.rawPos = {
+                        (int) std::floorf(x),
+                        (int) std::floorf(y)
+                    };
+                }
 
                 tol.objects.push_back(tod);
             }
@@ -140,11 +157,10 @@ void TiledMapLoader::calculateObjectTilePos()
     {
         for ( auto& obj : layer.objects )
         {
-            int x = layer.xOffset + obj.rawX;
-            int y = layer.yOffset + obj.rawY;
+            int x = layer.xOffset + obj.rawPos.x();
+            int y = layer.yOffset + obj.rawPos.y();
 
-            obj.tileX = x / m_map.tileWidth;
-            obj.tileY = y / m_map.tileHeight;
+            obj.tilePos = { x / m_map.tileWidth, y / m_map.tileHeight };
         }
     }
 }
@@ -153,4 +169,9 @@ bool TiledIdPair::operator==(const TiledIdPair &rhs) const
 {
     return id == rhs.id &&
            tilesheetIdx == rhs.tilesheetIdx;
+}
+
+SpritesheetKey TiledMap::keyFromIdPair(const TiledIdPair &idp) const
+{
+    return SpritesheetKey{ tilesets.at(idp.tilesheetIdx).sheetName, (int) idp.id };
 }

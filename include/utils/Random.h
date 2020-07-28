@@ -1,6 +1,7 @@
 #pragma once
 
 #include <random>
+#include <algorithm>
 
 using RandomGenerator = std::mt19937;
 
@@ -29,6 +30,14 @@ public:
     {
         return randomElement( t.begin(), t.end() );
     }
+
+
+    template <typename T>
+    void shuffle( T& t )
+    {
+        std::shuffle( t.begin(), t.end(), m_mt );
+    }
+
 
     /**
      * Flip a weighted coin which returns true 1 in [odds] times.

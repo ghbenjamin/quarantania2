@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <resource/Spritesheet.h>
 
 using TiledGid = std::uint32_t;
 
@@ -37,12 +38,12 @@ struct TiledTileLayer
 
 struct TiledObjectData
 {
-    int gid;
+    TiledIdPair sprite = {0, 0};
+    int gid = 0;
+
     std::string name;
-    int rawX;
-    int rawY;
-    int tileX;
-    int tileY;
+    Vector2i rawPos;
+    Vector2i tilePos;
 };
 
 struct TiledObjectLayer
@@ -65,6 +66,8 @@ struct TiledMap
     std::vector<TiledObjectLayer> objectLayers;
     std::vector<TiledTileset> tilesets;
 
+
+    SpritesheetKey keyFromIdPair( TiledIdPair const& idp ) const;
 };
 
 class TiledMapLoader
@@ -75,10 +78,13 @@ public:
 
     TiledMap load( std::string const& path );
 
+
+
 private:
     void decodeLayer(TiledTileLayer* layer);
     void calculateObjectTilePos();
     TiledIdPair resolveGid( TiledGid gid ) const;
+
 
     TiledMap m_map;
 };

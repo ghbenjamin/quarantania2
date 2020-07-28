@@ -10,14 +10,23 @@ class FixedLevelFactory : public LevelFactory
 public:
 
     FixedLevelFactory();
-    ~FixedLevelFactory() = default;
+    ~FixedLevelFactory() override = default;
 
-    LevelPtr create(TiledMap const& map, LevelContextPtr const& ctx, PartyData const& pdata);
+    LevelPtr create(TiledMap const* map, LevelContextPtr const& ctx, PartyData const& pdata);
 
 
 private:
 
-    void assembleTiledMap(TiledMap const& map);
-    void constructFixedObjects(TiledObjectLayer const& olayer);
+    void constructTiles();
+    void constructObjects();
 
+    void constructFixedObjects(TiledObjectLayer const& olayer);
+    void constructDecor(TiledObjectLayer const& olayer);
+    void constructSpawnPoints(TiledObjectLayer const& olayer);
+
+    void constructParty(PartyData const& pdata);
+
+    std::vector<Vector2i> m_playerSpawns;
+
+    TiledMap const* m_map;
 };
