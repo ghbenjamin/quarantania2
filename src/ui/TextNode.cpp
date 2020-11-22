@@ -11,7 +11,7 @@ TextNode::TextNode(Manager* manager, Element* parent, TextStyle const &style)
 }
 
 TextNode::TextNode(Manager* manager, Element* parent)
-    : TextNode(manager, parent, { Colour::Black, ResourceManager::get().getFont( "inconsolata-14" )})
+    : TextNode(manager, parent, { Colour::Black, ResourceManager::get().getFont( "inconsolata-regular", 14 )})
 {
 }
 

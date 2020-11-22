@@ -3,36 +3,17 @@
 #include <utils/Json.h>
 #include <utils/Logging.h>
 
-Resource::Resource( std::string const& key, std::string const& path )
-    : m_isLoaded(false), m_type(ResourceType::Null), m_key(key), m_path(path)
-{
-
-}
-
-std::string const &Resource::getPath() const
-{
-    return m_path;
-}
+Resource::Resource( std::string const& name )
+    : m_isLoaded(false), m_name(name) {}
 
 bool Resource::isLoaded() const
 {
     return m_isLoaded;
 }
 
-ResourceType Resource::getType() const
+ImageResource::ImageResource(std::string const &name)
+: Resource(name)
 {
-    return m_type;
-}
-
-std::string const &Resource::getKey() const
-{
-    return m_key;
-}
-
-ImageResource::ImageResource(std::string const &key, std::string const &path)
-: Resource(key, path)
-{
-    m_type = ResourceType::Image;
 }
 
 const TexturePtr &ImageResource::get() const
@@ -42,7 +23,7 @@ const TexturePtr &ImageResource::get() const
 
 void ImageResource::load()
 {
-    m_texture = Texture::loadTexture( "../resource/img/" + m_path + ".png" );
+    m_texture = Texture::loadTexture( "../resource/img/" + m_name + ".png" );
 }
 
 void ImageResource::unload()
@@ -55,32 +36,37 @@ Sprite ImageResource::getSprite() const
     return Sprite( m_texture );
 }
 
-FontResource::FontResource(std::string const &key, std::string const &path, int fontSize)
-: Resource(key, path), m_fontSize(fontSize)
-{
-    m_type = ResourceType::Font;
-}
+FontResource::FontResource(std::string const &name)
+: Resource(name) {}
 
-const FontPtr &FontResource::get() const
+FontPtr const& FontResource::get(int fontSize)
 {
-    return m_font;
+    auto it = m_fonts.find(fontSize);
+    if (it == m_fonts.end())
+    {
+        loadForSize(fontSize);
+    }
+
+    return m_fonts.at(fontSize);
 }
 
 void FontResource::load()
 {
-    m_font = Font::loadFont( "../resource/font/" + m_path, m_fontSize );
+    // Do nothing - we load fonts lazily once a size has been requested
 }
 
 void FontResource::unload()
 {
-    m_font = FontPtr();
+    m_fonts.erase( m_fonts.begin(), m_fonts.end() );
 }
 
-SpritesheetResource::SpritesheetResource(std::string const &key, std::string const &path)
-: Resource(key, path)
+void FontResource::loadForSize(int fontSize)
 {
-    m_type = ResourceType::Spritesheet;
+    m_fonts.emplace(fontSize, Font::loadFont( "../resource/font/" + m_name + ".ttf", fontSize ) );
 }
+
+SpritesheetResource::SpritesheetResource(std::string const &name)
+: Resource(name) {}
 
 const SpritesheetPtr &SpritesheetResource::get() const
 {
@@ -94,9 +80,9 @@ void SpritesheetResource::load()
 #undef GetObject
 #endif
 
-    auto tex = Texture::loadTexture( "../resource/spritesheet/" + m_path + ".png" );
+    auto tex = Texture::loadTexture( "../resource/spritesheet/" + m_name + ".png" );
 
-    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/spritesheet/" + m_path + ".json" );
+    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/spritesheet/" + m_name + ".json" );
 
     auto metaObj = doc.FindMember( "meta" )->value.GetObject();
     auto dataObj = doc.FindMember( "data" )->value.GetObject();

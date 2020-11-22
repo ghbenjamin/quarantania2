@@ -1,88 +1,10 @@
-#include <resource/ResourceManager.h>
-#include <graphics/Window.h>
+
 #include <iostream>
+#include <filesystem>
+
+#include <resource/ResourceManager.h>
 #include <utils/Logging.h>
-#include <rapidjson/document.h>
-#include <utils/Json.h>
 
-
-void ResourceManager::registerAll(std::string const &manifest)
-{
-    ManifestData data = readResourceManifest(manifest);
-
-    for ( auto const& d : data.images )
-    {
-        addResource<ImageResource>( d.key, d.path );
-    }
-
-    for ( auto const& d : data.fonts )
-    {
-        addResource<FontResource>( d.key, d.path, d.fontSize );
-    }
-
-    for ( auto const& d : data.spriteSheets )
-    {
-        addResource<SpritesheetResource>( d.key, d.path );
-    }
-}
-
-ManifestData ResourceManager::readResourceManifest( std::string const& path )
-{
-    ManifestData md{};
-    rapidjson::Document doc = JsonUtils::loadFromPath( path );
-
-    {
-        auto it = doc.FindMember( "spritesheet" );
-        auto imgArr = it->value.GetArray();
-
-        for ( auto const& imgNode : imgArr )
-        {
-            auto imgObj = imgNode.GetObject();
-            ManifestSpritesheetData mid;
-
-            mid.key = imgObj.FindMember( "key" )->value.GetString();
-            mid.path = imgObj.FindMember( "name" )->value.GetString();
-
-            md.spriteSheets.push_back(mid);
-        }
-    }
-
-    {
-        auto it = doc.FindMember( "img" );
-        auto imgArr = it->value.GetArray();
-
-        for ( auto const& imgNode : imgArr )
-        {
-            auto imgObj = imgNode.GetObject();
-            ManifestImageData mid;
-
-            mid.key = imgObj.FindMember( "key" )->value.GetString();
-            mid.path = imgObj.FindMember( "name" )->value.GetString();
-
-            md.images.push_back(mid);
-        }
-    }
-
-    {
-        auto it = doc.FindMember( "font" );
-        auto fontArr = it->value.GetArray();
-
-        for ( auto const& fontNode : fontArr )
-        {
-            auto fontObj = fontNode.GetObject();
-            ManifestFontData mid;
-
-            mid.key = fontObj.FindMember( "key" )->value.GetString();
-            mid.path = fontObj.FindMember( "name" )->value.GetString();
-            mid.fontSize = fontObj.FindMember( "fontSize" )->value.GetInt();
-
-            md.fonts.push_back(mid);
-        }
-    }
-
-
-    return md;
-}
 
 void ResourceManager::setWindow(WindowPtr const &wnd)
 {
@@ -96,7 +18,59 @@ WindowPtr const &ResourceManager::getWindow() const
 
 void ResourceManager::loadAll()
 {
-    for ( auto const &[k, v] : m_resources )
+    auto resourceRoot = std::filesystem::path( "../resource/" );
+    auto spritesheetPath = resourceRoot / "spritesheet";
+    auto fontPath = resourceRoot / "font";
+    auto imgPath = resourceRoot / "img";
+
+    // Load all spritesheets
+    for ( auto const& file : std::filesystem::directory_iterator(spritesheetPath) )
+    {
+        auto const& fpath = file.path();
+        if ( fpath.has_extension() && fpath.extension().string() == ".png" )
+        {
+            auto jsonPath = fpath;
+            jsonPath.replace_extension(".json");
+
+            if ( std::filesystem::exists(jsonPath) )
+            {
+                addSpritesheetResource( fpath.stem().string() );
+            }
+        }
+    }
+
+    // Load all fonts
+    for ( auto const& file : std::filesystem::directory_iterator(fontPath) )
+    {
+        auto const& fpath = file.path();
+        if ( fpath.has_extension() && fpath.extension().string() == ".ttf" )
+        {
+            addFontResource( fpath.stem().string() );
+        }
+    }
+
+    // Load all images
+    for ( auto const& file : std::filesystem::directory_iterator(imgPath) )
+    {
+        auto const& fpath = file.path();
+        if ( fpath.has_extension() && fpath.extension().string() == ".png" )
+        {
+            addImageResource( fpath.stem().string() );
+        }
+    }
+
+
+    for ( auto const &[k, v] : m_spritesheets )
+    {
+        v->load();
+    }
+
+    for ( auto const &[k, v] : m_images )
+    {
+        v->load();
+    }
+
+    for ( auto const &[k, v] : m_fonts )
     {
         v->load();
     }
@@ -104,7 +78,9 @@ void ResourceManager::loadAll()
 
 void ResourceManager::unloadAll()
 {
-    m_resources.clear();
+    m_spritesheets.clear();
+    m_fonts.clear();
+    m_images.clear();
 }
 
 Sprite ResourceManager::getSprite(std::string const &sheet, std::string const &name)
@@ -116,7 +92,7 @@ Sprite ResourceManager::getSprite(SpritesheetKey const& key)
 {
     try
     {
-        return getResource<SpritesheetResource>(key.sheetName)->get()->getSprite(key);
+        return m_spritesheets.at(key.sheetName)->get()->getSprite(key);
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
@@ -129,7 +105,7 @@ Sprite ResourceManager::getSprite(std::string const& imgName)
 {
     try
     {
-        return getResource<ImageResource>( imgName )->getSprite();
+        return m_images.at(imgName)->getSprite();
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
@@ -138,11 +114,11 @@ Sprite ResourceManager::getSprite(std::string const& imgName)
     }
 }
 
-FontPtr ResourceManager::getFont(std::string const &fname)
+FontPtr ResourceManager::getFont(std::string const &fname, int fontSize)
 {
     try
     {
-        return getResource<FontResource>( fname )->get();
+        return m_fonts.at(fname)->get(fontSize);
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
@@ -151,5 +127,18 @@ FontPtr ResourceManager::getFont(std::string const &fname)
     }
 }
 
+void ResourceManager::addImageResource(const std::string &name)
+{
+    m_images.emplace(name, std::make_shared<ImageResource>( name ));
+}
 
+void ResourceManager::addSpritesheetResource(const std::string &name)
+{
+    m_spritesheets.emplace(name, std::make_shared<SpritesheetResource>( name ));
+}
+
+void ResourceManager::addFontResource(const std::string &name)
+{
+    m_fonts.emplace(name, std::make_shared<FontResource>( name ));
+}
 

@@ -8,47 +8,30 @@
 
 class ResourceManager;
 
-enum class ResourceType
-{
-    Null,
-    Image,
-    Spritesheet,
-    Font,
-    Audio
-};
-
 class Resource
 {
 public:
-    Resource( std::string const& key, std::string const& path );
+    Resource( std::string const& name );
 
     virtual ~Resource() = default;
     Resource( const Resource& ) = delete;
     Resource& operator=( const Resource& ) = delete;
 
-    virtual void load(  ) = 0;
+    virtual void load() = 0;
     virtual void unload() = 0;
 
-    std::string const& getKey() const;
-    std::string const& getPath() const;
-
     bool isLoaded() const;
-    ResourceType getType() const;
 
 protected:
 
-    std::string m_key;
-    std::string m_path;
-
+    std::string m_name;
     bool m_isLoaded;
-    ResourceType m_type;
-
 };
 
 class ImageResource : public Resource
 {
 public:
-    ImageResource(std::string const &key, std::string const &path);
+    ImageResource(std::string const& name);
     ~ImageResource() override = default;
 
     const TexturePtr &get() const;
@@ -58,28 +41,32 @@ public:
 
 private:
     TexturePtr m_texture;
-
 };
+
+
 
 class FontResource : public Resource
 {
 public:
-    FontResource(std::string const &key, std::string const &path, int fontSize);
+    FontResource(std::string const &name);
     ~FontResource() override = default;
 
-    const FontPtr &get() const;
+    const FontPtr &get(int fontSize);
     void load() override;
     void unload() override;
 
 private:
-    FontPtr m_font;
-    int m_fontSize;
+    void loadForSize(int fontSize);
+
+    std::unordered_map<int, FontPtr> m_fonts;
 };
+
+
 
 class SpritesheetResource : public Resource
 {
 public:
-    SpritesheetResource(std::string const &key, std::string const &path);
+    SpritesheetResource(std::string const &name);
     ~SpritesheetResource() override = default;
 
     const SpritesheetPtr &get() const;

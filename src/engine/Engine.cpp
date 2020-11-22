@@ -21,7 +21,6 @@ void Engine::run()
     );
 
     ResourceManager::get().setWindow( window );
-    ResourceManager::get().registerAll("../resource/manifest.json");
     ResourceManager::get().loadAll();
 
     RenderInterface renderInterface;

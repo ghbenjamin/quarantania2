@@ -11,7 +11,7 @@ UI::Dialog::Dialog(Manager* manager, Element* parent, std::string const &title, 
     setMaximumOuterSize({maxWidth, 1000});
     setLayout<VerticalLayout>( 1, HAlignment::Left );
 
-    auto titleFont = ResourceManager::get().getFont( "inconsolata-18" );
+    auto titleFont = ResourceManager::get().getFont( "inconsolata-regular", 14 );
 
     auto titleBar = manager->createElement<Element>( this );
     titleBar->setLayout<HorizontalLayout>( 0, VAlignment::Centre );
@@ -27,15 +27,13 @@ UI::Dialog::Dialog(Manager* manager, Element* parent, std::string const &title, 
     m_buttonHolder = manager->createElement<Element>( this );
     m_buttonHolder->setLayout<HorizontalLayout>( 4, VAlignment::Centre );
     m_buttonHolder->setPadding(4);
-
-
 }
 
 UI::MsgBoxDialog::MsgBoxDialog(UI::Manager *manager, UI::Element *parent, std::string const &title, int maxWidth,
                                std::string const &message)
        : Dialog(manager, parent, title, maxWidth)
 {
-    auto contentFont = ResourceManager::get().getFont( "inconsolata-14" );
+    auto contentFont = ResourceManager::get().getFont( "inconsolata-regular", 14 );
 
 
     auto textContent = manager->createElement<TextNode>( m_contentHolder.get(), TextStyle{ Colour::Black, contentFont });
