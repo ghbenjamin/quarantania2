@@ -14,13 +14,17 @@ public:
     explicit EntityFactory( Level* parent );
     ~EntityFactory() = default;
 
-    EntityRef createPlayer(PlayerData const& data, Vector2i pos) const;
-    EntityRef createObject(std::string const& ptype, Vector2i pos) const;
-    EntityRef createEnemy(std::string const& name, Vector2i pos) const;
-    EntityRef createItem(std::string const& name, Vector2i pos) const;
-    EntityRef createItem(std::shared_ptr<Item>, Vector2i pos) const;
+    EntityRef createPlayer(Vector2i pos, PlayerData const &data) const;
+    EntityRef createEnemy(Vector2i pos, std::string const &name) const;
 
-    EntityRef createDecor( Vector2i pos, SpritesheetKey const& key );
+    EntityRef createObject(Vector2i pos, std::string const &ptype) const;
+    EntityRef createObject(Vector2i pos, std::string const& name, SpritesheetKey const& sprite,
+            std::unordered_map<std::string, std::string> const& data) const;
+
+    EntityRef createItem(Vector2i pos, std::string const &name) const;
+    EntityRef createItem(Vector2i pos, std::shared_ptr<Item> item) const;
+
+    EntityRef createDecor(Vector2i pos, SpritesheetKey const& key) const;
 
 private:
     Level* m_parent;

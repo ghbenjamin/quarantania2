@@ -97,7 +97,8 @@ void FixedLevelFactory::constructFixedObjects(TiledObjectLayer const& olayer)
 {
     for ( auto const& object : olayer.objects )
     {
-        m_level->entityFactory().createObject( object.name, object.tilePos );
+        m_level->entityFactory().createObject(object.tilePos, object.name,
+                m_map->keyFromIdPair(object.sprite), object.props);
     }
 }
 
@@ -139,7 +140,8 @@ void FixedLevelFactory::constructParty(const PartyData &pdata)
 
     for ( ; playerIt != pdata.playerChars.end(); playerIt++,spawnIt++ )
     {
-        m_level->entityFactory().createPlayer( playerIt->generateNewPlayer(), *spawnIt );
+        m_level->entityFactory()
+               .createPlayer(*spawnIt, playerIt->generateNewPlayer());
     }
 }
 

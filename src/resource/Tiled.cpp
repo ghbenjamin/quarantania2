@@ -9,6 +9,11 @@
 
 TiledMap TiledMapLoader::load(const std::string &path)
 {
+// MSVC compiler error
+#ifdef GetObject
+#undef GetObject
+#endif
+
     rapidjson::Document doc = JsonUtils::loadFromPath( path );
 
     m_map.width = doc.FindMember("width")->value.GetInt();
@@ -56,6 +61,36 @@ TiledMap TiledMapLoader::load(const std::string &path)
                 TiledObjectData tod;
 
                 tod.name = object.FindMember("name")->value.GetString();
+
+                if ( object.HasMember("properties") )
+                {
+                    for ( auto const& prop : object.FindMember("properties")->value.GetArray() )
+                    {
+                        auto propObj = prop.GetObject();
+                        std::string value;
+                        std::string name = propObj.FindMember("name")->value.GetString();
+                        std::string type = propObj.FindMember("type")->value.GetString();
+
+                        if ( type == "string" )
+                        {
+                            value = propObj.FindMember("value")->value.GetString();
+                        }
+                        else if ( type == "bool" )
+                        {
+                            value = propObj.FindMember("value")->value.GetBool() ? "true" : "false";
+                        }
+                        else if ( type == "int" )
+                        {
+                            value = propObj.FindMember("value")->value.GetInt();
+                        }
+                        else
+                        {
+                            AssertAlwaysMsg( "unknown object prop type: " + type );
+                        }
+
+                        tod.props.emplace(name, value);
+                    }
+                }
 
                 if ( object.HasMember("gid") )
                 {

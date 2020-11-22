@@ -10,7 +10,7 @@ EntityFactory::EntityFactory(Level *parent)
 : m_parent(parent) {}
 
 
-EntityRef EntityFactory::createPlayer(PlayerData const& data, Vector2i pos) const
+EntityRef EntityFactory::createPlayer(Vector2i pos, PlayerData const &data) const
 {
     auto eref = m_parent->createEntity();
 
@@ -41,7 +41,7 @@ EntityRef EntityFactory::createPlayer(PlayerData const& data, Vector2i pos) cons
     return eref;
 }
 
-EntityRef EntityFactory::createEnemy(std::string const &name, Vector2i pos) const
+EntityRef EntityFactory::createEnemy(Vector2i pos, std::string const &name) const
 {
     auto eref = m_parent->createEntity();
     auto creatureData = ResourceDatabase::instance().creatureFromName( name );
@@ -60,13 +60,13 @@ EntityRef EntityFactory::createEnemy(std::string const &name, Vector2i pos) cons
     return eref;
 }
 
-EntityRef EntityFactory::createItem(std::string const &name, Vector2i pos) const
+EntityRef EntityFactory::createItem(Vector2i pos, std::string const &name) const
 {
     ItemPtr item = Item::fromName( name );
-    return createItem( item, pos );
+    return createItem(pos, item);
 }
 
-EntityRef EntityFactory::createItem(std::shared_ptr<Item> item, Vector2i pos) const
+EntityRef EntityFactory::createItem(Vector2i pos, std::shared_ptr<Item> item) const
 {
     auto eref = m_parent->createEntity();
 
@@ -83,7 +83,7 @@ EntityRef EntityFactory::createItem(std::shared_ptr<Item> item, Vector2i pos) co
     return eref;
 }
 
-EntityRef EntityFactory::createObject(std::string const &ptype, Vector2i pos) const
+EntityRef EntityFactory::createObject(Vector2i pos, std::string const &ptype) const
 {
     auto eref = m_parent->createEntity();
     auto objData = ResourceDatabase::instance().objectFromName( ptype );
@@ -96,7 +96,6 @@ EntityRef EntityFactory::createObject(std::string const &ptype, Vector2i pos) co
 
     if ( objData.type == "door" )
     {
-        m_parent->addComponent<RenderComponent>(eref, sprite);
         m_parent->addComponent<ColliderComponent>(eref, true, true);
         m_parent->addComponent<OpenableComponent>(eref);
     }
@@ -126,7 +125,32 @@ EntityRef EntityFactory::createObject(std::string const &ptype, Vector2i pos) co
     return eref;
 }
 
-EntityRef EntityFactory::createDecor(Vector2i pos, SpritesheetKey const& key)
+EntityRef EntityFactory::createObject(Vector2i pos, std::string const& name, SpritesheetKey const& sprite,
+        const std::unordered_map<std::string, std::string> &data) const
+{
+    auto eref = m_parent->createEntity();
+
+    m_parent->addComponent<PositionComponent>(eref, pos);
+
+    auto spriteRef = ResourceManager::get().getSprite( sprite );
+    m_parent->addComponent<RenderComponent>(eref, spriteRef);
+
+    if ( name == "door" )
+    {
+        m_parent->addComponent<ColliderComponent>(eref, true, true);
+        m_parent->addComponent<OpenableComponent>(eref);
+    }
+    else
+    {
+
+    }
+
+
+    m_parent->entityReady(eref);
+    return eref;
+}
+
+EntityRef EntityFactory::createDecor(Vector2i pos, SpritesheetKey const& key) const
 {
     auto eref = m_parent->createEntity();
 
@@ -139,3 +163,5 @@ EntityRef EntityFactory::createDecor(Vector2i pos, SpritesheetKey const& key)
     m_parent->entityReady(eref);
     return eref;
 }
+
+

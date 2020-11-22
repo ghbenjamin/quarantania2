@@ -44,6 +44,8 @@ struct TiledObjectData
     std::string name;
     Vector2i rawPos;
     Vector2i tilePos;
+
+    std::unordered_map<std::string, std::string> props;
 };
 
 struct TiledObjectLayer

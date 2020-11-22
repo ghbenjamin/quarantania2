@@ -681,7 +681,8 @@ void RandomLevelFactory::constructParty(PartyData const& pdata)
     for ( auto const& pc : pdata.playerChars )
     {
         auto pos = startPos + (it++)->second;
-        m_level->entityFactory().createPlayer( pc.generateNewPlayer(), pos );
+        m_level->entityFactory()
+               .createPlayer(pos, pc.generateNewPlayer());
     }
 }
 
@@ -691,7 +692,8 @@ void RandomLevelFactory::constructDoors()
     {
         if ( j.type == JunctionType::Door )
         {
-            m_level->entityFactory().createObject( "door", p );
+            m_level->entityFactory()
+                   .createObject(p, "door");
         }
     }
 }
@@ -712,12 +714,14 @@ void RandomLevelFactory::decorateRooms()
             }
             case RoomType::Entrance:
             {
-                auto eref = m_level->entityFactory().createObject( "level_entrance", room.centre() );
+                auto eref = m_level->entityFactory()
+                                   .createObject(room.centre(), "level_entrance");
                 break;
             }
             case RoomType::Exit:
             {
-                auto eref = m_level->entityFactory().createObject( "level_exit", room.centre() );
+                auto eref = m_level->entityFactory()
+                                   .createObject(room.centre(), "level_exit");
                 break;
             }
             case RoomType::Vault:
@@ -843,7 +847,8 @@ void RandomLevelFactory::constructRoomFromTemplate(LD::Room const& room, RawRoom
         }
 
         // Otherwise construct the new object
-        m_level->entityFactory().createObject( objs.name, translated );
+        m_level->entityFactory()
+               .createObject(translated, objs.name);
     }
 }
 

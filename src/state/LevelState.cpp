@@ -12,7 +12,8 @@ LevelState::LevelState(RandomLevelConfig const& config, LevelContextPtr ctx, Par
 {
     TiledMapLoader loader;
 //    TiledMap tm = loader.load( "../resource/maps/example_map.json" );
-    TiledMap tm = loader.load( "../resource/maps/thistletop.json" );
+//    TiledMap tm = loader.load( "../resource/maps/thistletop.json" );
+    TiledMap tm = loader.load( "../resource/maps/ancient_temple.json" );
 
     FixedLevelFactory ffactory;
     m_level = ffactory.create(&tm, m_levelCtx, pdata);
