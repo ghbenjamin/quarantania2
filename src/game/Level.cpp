@@ -13,7 +13,6 @@
 #include <ui/ContainerView.h>
 #include <ui/Dialogs.h>
 #include <ui/Layout.h>
-#include <ui/MinimapView.h>
 #include <ui/TextLog.h>
 #include <utils/Assert.h>
 #include <utils/GlobalConfig.h>
@@ -26,7 +25,6 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     m_random(rg),
     m_entFactory(this),
     m_isComplete(false),
-    m_minimap{ size, 5 },
     m_camera( size * GlobalConfig::TileSizePx ),
     m_controller( std::make_unique<DefaultLController>(this) ),
     m_uiManager(this)
@@ -177,18 +175,9 @@ void Level::setupUI()
     auto trframe = m_uiManager.createElement<UI::Element>(nullptr);
     trframe->setLayout<UI::VerticalLayout>( 2, UI::HAlignment::Fill );
     trframe->setId("right-frame");
-    trframe->setBackgroundColour(Colour::Black);
+    trframe->setBackgroundColour(Colour::Blue);
 
     m_uiManager.alignElementToWindow( trframe, UI::Alignment::CentreRight, 0 );
-
-    auto minimap = m_uiManager.createElement<UI::MinimapView>(
-        trframe.get(),
-        m_minimap.getTexture()
-    );
-
-    minimap->setPreferredOuterSize({0, 180});
-
-//    auto dialog = m_uiManager.createElement<UI::MsgBoxDialog>( nullptr, "Hello world!", 300, "I am a very important dialog" );
 }
 
 void Level::layoutWindows()
@@ -358,40 +347,6 @@ int Level::squaredEntityDistance(EntityRef a, EntityRef b)
 void Level::setComplete()
 {
     m_isComplete = true;
-}
-
-void Level::generateMinimapData()
-{
-    for ( std::size_t i = 0; i < m_baseTilemap.size(); i++ )
-    {
-        // Tiles which we've not explored yet should be black
-        if ( m_grid.fov().valueAt(i) == Visibility::Hidden )
-        {
-            m_minimap.setTile(i, Colour::Black);
-        }
-        else
-        {
-            // Otherwise, set the appropriate colour for the current tile
-            switch ( m_baseTilemap[i] )
-            {
-                case LD::BaseTileType::Wall:
-                    m_minimap.setTile(i, Colour::Grey);
-                    break;
-                case LD::BaseTileType::Floor:
-                    m_minimap.setTile(i, Colour::White);
-                    break;
-                case LD::BaseTileType::Junction:
-                    m_minimap.setTile(i, Colour::Blue);
-                    break;
-            }
-        }
-    }
-
-//    // Place a dot at the position of the player
-//    auto playerPos = getComponents<PositionComponent>( m_player->ref() );
-//    m_minimap.movePlayer(playerPos->position);
-
-    m_minimap.updateTexture();
 }
 
 Camera &Level::camera()
