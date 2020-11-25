@@ -1,5 +1,6 @@
 #include <systems/UISystem.h>
 #include <game/Level.h>
+#include <ui/LevelUi.h>
 
 UISystem::UISystem(Level *parent)
         : System(parent)
@@ -14,7 +15,8 @@ UISystem::UISystem(Level *parent)
 
 void UISystem::accept(GEvents::LevelReady *evt)
 {
-
+    auto turnOrder = m_level->ui().withId( "turn-order-container" )->asType<UI::TurnOrderContainer>();
+    turnOrder->reloadEntities();
 }
 
 void UISystem::accept(GEvents::EntityMove *evt)

@@ -47,6 +47,7 @@ void Manager::doLayout()
     for ( auto const& wa : m_windowAlignments )
     {
         auto pos = alignRectWithinRect( windowSize, wa.element->outerBounds().right(), wa.alignment );
+        pos += wa.offset;
         wa.element->setLocalPosition(pos);
     }
 }
@@ -66,10 +67,9 @@ void Manager::deleteElement(const ElementPtr& element)
     }
 }
 
-void Manager::alignElementToWindow(const ElementPtr& element, UI::Alignment alignment, int offset)
+void Manager::alignElementToWindow(const ElementPtr& element, UI::Alignment alignment, Vector2i offset)
 {
     unalignElementToWindow( element );
-
     m_windowAlignments.emplace_back( element, alignment, offset );
 
     doLayout();
@@ -350,6 +350,6 @@ void Manager::closeTooltip()
 }
 
 
-WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, int offset)
+WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, Vector2i offset)
 : element(std::move(element)), alignment(alignment), offset(offset)
 {}

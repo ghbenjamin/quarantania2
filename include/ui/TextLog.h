@@ -22,11 +22,13 @@ public:
     void setPos( Vector2i pos );
     void renderText(FontPtr& font, RectI bounds);
 
-    [[nodiscard]] RenderObject getRenderObj() const;
+    [[nodiscard]]
+    RenderObject getRenderObj() const;
 
 private:
     // Generate the text for this line, including the (count x2)
-    [[nodiscard]] std::string displayText() const;
+    [[nodiscard]]
+    std::string displayText() const;
 
     std::string m_text;
     int m_count;

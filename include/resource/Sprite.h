@@ -20,6 +20,7 @@ public:
     void setClipRect( RectI rect );
 
     [[nodiscard]] Vector2i size() const;
+    [[nodiscard]] Vector2i textureSize() const;
     [[nodiscard]] explicit operator bool() const;
     [[nodiscard]] RenderObject renderObject(Vector2i const& pos) const;
 

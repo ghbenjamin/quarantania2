@@ -21,11 +21,7 @@ Sprite::Sprite(std::shared_ptr<Texture> texture, RectI const &region)
 }
 
 Sprite::Sprite(std::shared_ptr<Texture> texture)
-    : m_texture(std::move(texture)), m_renderObj{
-        m_texture->raw(),
-        {0, 0, 0, 0},
-        {0, 0, 0, 0}
-    }
+    : m_texture(std::move(texture)), m_renderObj{ m_texture->raw(),{0, 0, 0, 0},{0, 0, 0, 0} }
 {
     auto [w, h] = m_texture->size();
 
@@ -57,10 +53,22 @@ void Sprite::setRenderLayer(RenderLayer layer)
 
 Vector2i Sprite::size() const
 {
-    return m_texture->size();
+    if (m_renderObj.sourceRect.w != 0 || m_renderObj.sourceRect.h != 0)
+    {
+        return { m_renderObj.sourceRect.w, m_renderObj.sourceRect.h };
+    }
+    else
+    {
+        return textureSize();
+    }
 }
 
 void Sprite::setClipRect(RectI rect)
 {
     m_renderObj.clipRect = rect.toSDL();
+}
+
+Vector2i Sprite::textureSize() const
+{
+    return m_texture->size();
 }

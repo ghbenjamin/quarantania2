@@ -19,12 +19,12 @@ namespace UI
 
 struct WindowAlignment
 {
-    WindowAlignment(ElementPtr element, Alignment alignment, int offset);
+    WindowAlignment(ElementPtr element, Alignment alignment, Vector2i offset);
     ~WindowAlignment() = default;
 
     ElementPtr element;
     UI::Alignment alignment;
-    int offset;
+    Vector2i offset;
 };
 
 
@@ -59,7 +59,7 @@ public:
 
     void deleteElement( const ElementPtr& element );
 
-    void alignElementToWindow( const ElementPtr& element, UI::Alignment alignment, int offset = 0);
+    void alignElementToWindow( const ElementPtr& element, UI::Alignment alignment, Vector2i offset);
     void unalignElementToWindow( ElementPtr element );
 
     ElementPtr withId( std::string const& id );
@@ -107,7 +107,7 @@ private:
     bool handleMouseDown( IEventMouseDown evt );
     bool handleMouseUp( IEventMouseUp evt );
 
-private:
+
     std::vector<ElementPtr> m_roots;
     std::vector<WindowAlignment> m_windowAlignments;
 

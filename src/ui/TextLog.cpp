@@ -1,5 +1,5 @@
 #include <ui/TextLog.h>
-#include <ui/TextNode.h>
+#include <ui/Controls.h>
 #include <ui/Manager.h>
 #include <resource/ResourceManager.h>
 #include <graphics/RenderInterface.h>

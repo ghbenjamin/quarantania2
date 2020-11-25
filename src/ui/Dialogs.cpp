@@ -1,7 +1,7 @@
 #include <ui/Dialogs.h>
 #include <ui/Manager.h>
 #include <resource/ResourceManager.h>
-#include <ui/Button.h>
+#include <ui/Controls.h>
 
 UI::Dialog::Dialog(Manager* manager, Element* parent, std::string const &title, int maxWidth )
 : Element(manager, parent), m_maxWidth(maxWidth)

@@ -223,6 +223,9 @@ public:
     std::string_view getDescriptionForEnt( EntityRef ent );
     std::string_view getDescriptionForItem( ItemPtr item );
 
+    // Game Logic
+    std::vector<EntityRef> const& turnOrder() const;
+
 private:
 
     // UI Methods
@@ -231,6 +234,12 @@ private:
     void renderTiles(uint32_t ticks, RenderInterface &rInter);
     void layoutWindows();
 
+
+    // Game logic methods
+    void generateTurnOrder();
+
+
+    // ECS Methods
 
     template <typename CT>
     EntityCompMap& mapForComponent()
@@ -298,15 +307,14 @@ private:
     std::vector<LD::BaseTileType> m_baseTilemap;
     Grid m_grid;
 
-    // Entities
+    // Game logic
+    std::vector<EntityRef> m_turnOrder;
+
+    // ECS
     IdPool<EntityRef> m_entityPool;
     std::vector<EntityRef> m_delayedDeleteEnts;
     EntityFactory m_entFactory;
-
-    // Systems
     std::vector<SystemPtr> m_systems;
-
-    // Components
     std::unordered_map<ComponentId, EntityCompMap> m_components;
 
     // Events

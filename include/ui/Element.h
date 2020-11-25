@@ -81,6 +81,7 @@ public:
     bool hasChildren();
     std::list<ElementPtr> const& children();
     void removeChild( ElementPtr const& child );
+    void removeAllChildren();
 
     template <typename ET>
     void addChild( std::shared_ptr<ET> const& child )

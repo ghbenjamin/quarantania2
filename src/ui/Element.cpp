@@ -189,6 +189,16 @@ void Element::removeChild(ElementPtr const &child)
     child->setParent( nullptr );
 }
 
+void Element::removeAllChildren()
+{
+    for ( auto const& child : m_children )
+    {
+        child->setParent(nullptr);
+    }
+
+    m_children.clear();
+}
+
 Element *Element::rootParent()
 {
     Element* curr = this;
@@ -415,5 +425,6 @@ Vector2i Element::contentOffset() const
 {
     return m_contentOffset;
 }
+
 
 

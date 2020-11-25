@@ -17,6 +17,7 @@
 #include <utils/Assert.h>
 #include <utils/GlobalConfig.h>
 #include <utils/Logging.h>
+#include <ui/LevelUi.h>
 
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
@@ -38,6 +39,8 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 
 void Level::setReady()
 {
+    generateTurnOrder();
+
     m_gevents.broadcast<GEvents::LevelReady>();
     addTextLogMessage( fmt::format("Welcome to level {}!", m_ctx->depth), Colour::White );
 }
@@ -170,14 +173,18 @@ void Level::setupUI()
     m_textLog->setPreferredOuterSize({wndSize.x() - RightFrameWidth, TextLogHeight});
     m_textLog->setId("global-text-log");
 
-    m_uiManager.alignElementToWindow( m_textLog, UI::Alignment::BottomLeft, 0 );
+    m_uiManager.alignElementToWindow( m_textLog, UI::Alignment::BottomLeft, {0, 0} );
 
     auto trframe = m_uiManager.createElement<UI::Element>(nullptr);
     trframe->setLayout<UI::VerticalLayout>( 2, UI::HAlignment::Fill );
     trframe->setId("right-frame");
     trframe->setBackgroundColour(Colour::Blue);
 
-    m_uiManager.alignElementToWindow( trframe, UI::Alignment::CentreRight, 0 );
+    m_uiManager.alignElementToWindow( trframe, UI::Alignment::CentreRight, {0, 0} );
+
+
+    auto turnOrderContainer = m_uiManager.createElement<UI::TurnOrderContainer>(nullptr);
+    m_uiManager.alignElementToWindow( turnOrderContainer, UI::Alignment::TopLeft, {10, 10} );
 }
 
 void Level::layoutWindows()
@@ -410,5 +417,19 @@ void Level::setLayout(const LD::LevelLayout &llayout)
     m_baseTilemap = llayout.tileTypes;
     m_renderTileMap = llayout.tileset;
     m_mapRendering = llayout.mapData;
+}
+
+void Level::generateTurnOrder()
+{
+    // TODO: Include the attributes of the entities in this calculation
+    auto actors = entitiesHaving<ActorComponent>();
+    random().shuffle( actors );
+
+    m_turnOrder = std::move(actors);
+}
+
+std::vector<EntityRef> const &Level::turnOrder() const
+{
+    return m_turnOrder;
 }
 
