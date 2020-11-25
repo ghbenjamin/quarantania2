@@ -14,6 +14,7 @@ LevelPtr FixedLevelFactory::create(TiledMap const* map, const LevelContextPtr &c
 
 
     constructParty(pdata);
+    constructEnemies();
 
     m_level->setLayout(m_levelLayout);
     m_level->setReady();
@@ -119,7 +120,47 @@ void FixedLevelFactory::constructSpawnPoints(TiledObjectLayer const& olayer)
     {
         if ( object.name == "player-spawn" )
         {
-            m_playerSpawns.push_back(object.tilePos);
+            PlayerSpawnData spawn;
+            spawn.pos = object.tilePos;
+            m_playerSpawns.push_back(spawn);
+        }
+        else if ( object.name == "enemy-spawn" )
+        {
+            EnemySpawnData spawn;
+            spawn.pos = object.tilePos;
+
+            for ( auto const& [k, v] : object.props )
+            {
+                if (k == "power")
+                {
+                    if ( v == "small" )
+                    {
+                        spawn.power = RandomEnemyPower::SMALL;
+                    }
+                    else if (v == "medium")
+                    {
+                        spawn.power = RandomEnemyPower::MEDIUM;
+                    }
+                    else if (v == "large")
+                    {
+                        spawn.power = RandomEnemyPower::LARGE;
+                    }
+                    else
+                    {
+                        AssertAlwaysMsg( "Unknown enemy spawn power: '" + v + "'" );
+                    }
+                }
+                else if (k == "name")
+                {
+                    spawn.name = v;
+                }
+                else
+                {
+                    AssertAlwaysMsg( "Unknown enemy spawn prop: '" + k + "'" );
+                }
+            }
+
+            m_enemySpawns.push_back(spawn);
         }
         else
         {
@@ -141,7 +182,22 @@ void FixedLevelFactory::constructParty(const PartyData &pdata)
     for ( ; playerIt != pdata.playerChars.end(); playerIt++,spawnIt++ )
     {
         m_level->entityFactory()
-               .createPlayer(*spawnIt, playerIt->generateNewPlayer());
+               .createPlayer(spawnIt->pos, playerIt->generateNewPlayer());
+    }
+}
+
+void FixedLevelFactory::constructEnemies()
+{
+    for ( auto const& spawn : m_enemySpawns )
+    {
+        if ( !spawn.name.empty() )
+        {
+            m_level->entityFactory().createEnemy( spawn.pos, spawn.name );
+        }
+        else
+        {
+            // TODO: Random or semi-random enemy generation based on power level and theme
+        }
     }
 }
 

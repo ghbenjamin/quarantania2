@@ -5,6 +5,28 @@
 struct TiledMap;
 struct TiledObjectLayer;
 
+
+enum class RandomEnemyPower
+{
+    SMALL,
+    MEDIUM,
+    LARGE
+};
+
+struct EnemySpawnData
+{
+    Vector2i pos;
+
+    RandomEnemyPower power;
+    std::string name;
+};
+
+struct PlayerSpawnData
+{
+    Vector2i pos;
+};
+
+
 class FixedLevelFactory : public LevelFactory
 {
 public:
@@ -25,8 +47,11 @@ private:
     void constructSpawnPoints(TiledObjectLayer const& olayer);
 
     void constructParty(PartyData const& pdata);
+    void constructEnemies();
 
-    std::vector<Vector2i> m_playerSpawns;
+
+    std::vector<PlayerSpawnData> m_playerSpawns;
+    std::vector<EnemySpawnData> m_enemySpawns;
 
     TiledMap const* m_map;
 };

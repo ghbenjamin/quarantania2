@@ -10,6 +10,7 @@
 #include <state/LevelState.h>
 #include <engine/InputInterface.h>
 #include <state/InitState.h>
+#include <numeric>
 
 void Engine::run()
 {
@@ -33,10 +34,10 @@ void Engine::run()
     uint32_t ticks = 0;
     bool runGame = true;
 
-    auto fpsTimer = Timer();
-    fpsTimer.start();
-    auto fpsTicks = 0;
-    auto currentFps = -1;
+//    bool measureFPS = true;
+//    static constexpr int FPS_MEASURE_INTERVAL = 32;
+//    auto fpsTicks = 0;
+//    std::vector<uint32_t> fpsInstances(FPS_MEASURE_INTERVAL, 0);
 
     while (runGame)
     {
@@ -76,8 +77,8 @@ void Engine::run()
         window->renderer()->render(renderInterface);
 
         // State checking
-        if (m_states.back()
-                    ->hasRequestedPopState() )
+
+        if (m_states.back()->hasRequestedPopState() )
         {
             // Clear the current state if we've been asked to
             m_states.pop_back();
@@ -88,13 +89,29 @@ void Engine::run()
             m_states.push_back( m_states.back()->getNextState() );
         }
 
-
-        // Hacky framerate limiting
+        // Rely on vsync for now to manage the framerate rather than hacking about with sleeps
         ticks = timer.elapsed();
-        if (ticks < msPerFrame)
-        {
-            SDL_Delay(msPerFrame - ticks);
-        }
+
+//        // Hacky framerate measuring
+//        if (measureFPS)
+//        {
+//            fpsTicks++;
+//            if (fpsTicks >= FPS_MEASURE_INTERVAL)
+//            {
+//                fpsTicks = 0;
+//
+//                double avgTicks = (double) std::accumulate(fpsInstances.begin(), fpsInstances.end(), 0) / fpsInstances.size();
+//                double fps = 1000 / avgTicks;
+//                std::cout << fps << "\n";
+//            }
+//            fpsInstances[fpsTicks] = ticks;
+//        }
+//
+//        // Hacky framerate limiting
+//        if (ticks < msPerFrame)
+//        {
+//            SDL_Delay(msPerFrame - ticks);
+//        }
     }
 
     // Cleanup

@@ -44,7 +44,7 @@ RawCreatureData ResourceDatabase::creatureFromName(std::string_view name)
                 return item.name == name;
             });
 
-    Assert( it != m_creatureData.end() );
+    AssertMsg( it != m_creatureData.end(), fmt::format("Unknown creature '{}'", name)  );
     return RawCreatureData( *it );
 }
 
