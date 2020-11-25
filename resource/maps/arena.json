@@ -1,4 +1,11 @@
 { "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "target":"."
+        }
+    },
  "height":21,
  "infinite":false,
  "layers":[
@@ -156,7 +163,7 @@
                         {
                          "name":"name",
                          "type":"string",
-                         "value":"Dire Rat"
+                         "value":"Hell Hound"
                         }],
                  "rotation":0,
                  "type":"",

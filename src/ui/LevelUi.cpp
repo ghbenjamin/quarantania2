@@ -8,9 +8,7 @@ UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, 
 {
     setBorder( 2, Colour::Orange );
     setBackgroundColour( Colour::Olive );
-    setPreferredContentSize({200, 0});
     setLayout<HorizontalLayout>( 1, VAlignment::Centre );
-
 
     auto iconSprite = manager->level()->getComponents<RenderComponent>(ref)->sprites[0];
     auto icon = manager->createElement<Icon>(this, iconSprite);
@@ -19,6 +17,7 @@ UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, 
     auto labelText = manager->level()->getDescriptionForEnt(ref);
     m_nameLabel = manager->createElement<Label>(this);
     m_nameLabel->setText( std::string(labelText) );
+    m_nameLabel->setPadding(4);
 }
 
 void UI::TurnOrderWidget::refresh()

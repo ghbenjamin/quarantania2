@@ -60,7 +60,7 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
     auto preferred = ptr->preferredContentSize();
 
     // First pass - move our children to the right vertical positions
-    for ( auto& c: ptr->children() )
+    for ( auto const& c: ptr->children() )
     {
         c->setLocalPosition( Vector2i{0, h } );
         c->doLayout();
@@ -87,7 +87,7 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
     }
 
     // Second pass over children - set the correct horizontal size & position
-    for ( auto& c: ptr->children() )
+    for ( auto const& c: ptr->children() )
     {
         auto pos = c->localPosition();
         auto size = c->outerBounds().right();
@@ -118,10 +118,7 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
 }
 
 UI::VerticalLayout::VerticalLayout(int spacing, UI::HAlignment halign)
-: m_spacing(spacing), m_halign(halign)
-{
-
-}
+: m_spacing(spacing), m_halign(halign) {}
 
 Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
 {
@@ -130,7 +127,7 @@ Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
 
     auto preferred = ptr->preferredContentSize();
 
-    for ( auto& c: ptr->children() )
+    for ( auto const& c: ptr->children() )
     {
         c->setLocalPosition( Vector2i{ w, 0 } );
         c->doLayout();
@@ -154,7 +151,7 @@ Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
         }
     }
 
-    for ( auto& c: ptr->children() )
+    for ( auto const& c: ptr->children() )
     {
         auto pos = c->localPosition();
         auto size = c->outerBounds().right();
@@ -164,10 +161,13 @@ Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
             case VAlignment::Top:
                 break;
             case VAlignment::Bottom:
+                c->setLocalPosition({ pos.x(), pos.y() + h - size.y() });
                 break;
             case VAlignment::Centre:
+                c->setLocalPosition({ pos.x(), pos.y() + (h / 2) - (size.y() / 2) });
                 break;
             case VAlignment::Fill:
+                AssertNotImplemented();
                 break;
         }
     }
@@ -176,10 +176,7 @@ Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
 }
 
 UI::HorizontalLayout::HorizontalLayout(int spacing, UI::VAlignment valign)
-    : m_spacing(spacing), m_valign(valign)
-{
-
-}
+    : m_spacing(spacing), m_valign(valign) {}
 
 Vector2i UI::FreeLayout::doLayout(UI::Element *ptr)
 {
