@@ -30,32 +30,37 @@ void Camera::enforceBounds()
 {
     m_internalOffset = {0, 0};
 
+    float overflowX = (float) m_size.x() / 3;
+    float overflowY = (float) m_size.y() / 3;
+
     if ( m_bounds.x() < m_size.x() )
     {
+        // World is smaller than viewport - center world in viewport
         m_position.x(0);
         m_internalOffset.x( (m_size.x() - m_bounds.x()) / 2 );
     }
     else
     {
-        if ( m_position.x() < 0 )
-            m_position.x(0);
+        if ( m_position.x() < -overflowX )
+            m_position.x(-overflowX);
 
-        if ( m_position.x() + m_size.x() > m_bounds.x() )
-            m_position.x( (float)(m_bounds.x() - m_size.x()) );
+        if ( m_position.x() + m_size.x() > m_bounds.x() + overflowX )
+            m_position.x( (float)(m_bounds.x() - m_size.x()) + overflowX );
     }
 
     if ( m_bounds.y() < m_size.y() )
     {
+        // World is smaller than viewport - center world in viewport
         m_position.y(0);
         m_internalOffset.y( (m_size.y() - m_bounds.y()) /2 );
     }
     else
     {
-        if ( m_position.y() < 0 )
-            m_position.y(0);
+        if ( m_position.y() < -overflowY )
+            m_position.y(-overflowY);
 
-        if ( m_position.y() + m_size.y() > m_bounds.y() )
-            m_position.y( (float)(m_bounds.y() - m_size.y()) );
+        if ( m_position.y() + m_size.y() > m_bounds.y() + overflowY )
+            m_position.y( (float)(m_bounds.y() - m_size.y()) + overflowY );
     }
 
     m_roundedPosition = m_position.convert<int>();

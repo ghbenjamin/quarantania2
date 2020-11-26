@@ -25,7 +25,7 @@
         }, 
         {
          "compression":"zlib",
-         "data":"eJxjYBgFIHCXiYHhHp3wfSZM+x9hEaMVwGbXqP2j9o\/aP2r\/qP2j9o9E+5\/Tsf5\/QUe\/DnYAAFXaS8w=",
+         "data":"eJxjYBgFIHCXiYHhHh78lIA8Kfg+E6b9j7CIkSJPCsBm1qj9o\/YTqwc9r2BLz7S0H10tqWEzFO1\/PMD241M70u1\/PMD2kwpG7ccUe05C\/f2Swvr\/BRXL8qEOAGAHZaA=",
          "encoding":"base64",
          "height":21,
          "id":3,
@@ -41,7 +41,31 @@
          "draworder":"topdown",
          "id":5,
          "name":"Decor",
-         "objects":[],
+         "objects":[
+                {
+                 "gid":118,
+                 "height":32,
+                 "id":11,
+                 "name":"cobweb",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":448,
+                 "y":288
+                }, 
+                {
+                 "gid":119,
+                 "height":32,
+                 "id":12,
+                 "name":"cobweb",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":288,
+                 "y":96
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
@@ -179,7 +203,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":11,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.1",
