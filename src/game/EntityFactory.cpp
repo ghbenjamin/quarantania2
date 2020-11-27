@@ -24,6 +24,7 @@ EntityRef EntityFactory::createPlayer(Vector2i pos, PlayerData const &data) cons
 
     auto cContainer = m_parent->addComponent<ContainerComponent>(eref);
     auto cActor = m_parent->addComponent<ActorComponent>(eref, data);
+    cActor->actorType = ActorType::PC;
 
     m_parent->entityReady(eref);
 
@@ -55,6 +56,7 @@ EntityRef EntityFactory::createEnemy(Vector2i pos, std::string const &name) cons
     m_parent->addComponent<DescriptionComponent>( eref, creatureData.name, "Creature", creatureData.description );
 
     auto actComp = m_parent->addComponent<ActorComponent>(eref, std::move(creatureData));
+    actComp->actorType = ActorType::NPC;
 
     m_parent->entityReady(eref);
     return eref;

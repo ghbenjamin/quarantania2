@@ -26,7 +26,9 @@ public:
     bool inBounds( Vector2i pos );
 
     void calculateFOV(Vector2i source, int maxLength);
-    void FOVWorker(Vector2i source, int maxLength, int row, float start_slope, float end_slope, Matrix2i const* transform);
+    void calculateFOVMulti(std::vector<Vector2i> const& sources, int maxLength);
+    void FOVWorker(Vector2i source, int maxLength, int row, float start_slope,
+                   float end_slope, Matrix2i const* transform);
 
     void exploreAllTiles();
 

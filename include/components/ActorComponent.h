@@ -71,6 +71,12 @@ private:
 };
 
 
+enum class ActorType
+{
+    PC,
+    NPC
+};
+
 struct ActorComponent : public Component<ActorComponent>
 {
     ActorComponent( PlayerData const& pdata );
@@ -142,6 +148,7 @@ struct ActorComponent : public Component<ActorComponent>
     // Info
     const std::string name;
     Alignment alignment;
+    ActorType actorType;
 
     // Stats
     int baseSTR;

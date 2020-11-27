@@ -11,8 +11,6 @@ LevelPtr FixedLevelFactory::create(TiledMap const* map, const LevelContextPtr &c
 
     constructTiles();
     constructObjects();
-
-
     constructParty(pdata);
     constructEnemies();
 
@@ -36,6 +34,7 @@ void FixedLevelFactory::constructTiles()
         int xEnd = xStart + tlayer.width;
         int yEnd = yStart + tlayer.height;
         int idxOffset = xStart + yStart * m_map->width;
+        bool isWall = tlayer.name == "Walls";
 
         // Walk over each tile in each layer (some may be blank)
         for ( int y = yStart; y < yEnd; y++ )
@@ -70,6 +69,13 @@ void FixedLevelFactory::constructTiles()
                 }
 
                 m_levelLayout.mapData[globalIdx] = tileRef;
+
+                // If this is a wall layer and we have a tile, mark the corresponding tile in the
+                // level passibility map as impassible
+                if (isWall)
+                {
+                    m_level->grid().pass().setFixed(globalIdx, Passibility::Impassable);
+                }
             }
         }
     }

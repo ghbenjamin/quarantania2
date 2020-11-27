@@ -2,13 +2,28 @@
 #include <ui/Manager.h>
 #include <game/Level.h>
 #include <components/RenderComponent.h>
+#include <components/ActorComponent.h>
 
 UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, EntityRef ref)
 : Element(manager, parent), m_entity(ref)
 {
-    setBorder( 2, Colour::Orange );
-    setBackgroundColour( Colour::Olive );
+    setBorder( 2, Colour::White );
     setLayout<HorizontalLayout>( 1, VAlignment::Centre );
+
+    auto actorC = manager->level()->getComponents<ActorComponent>(ref);
+    if ( actorC->actorType == ActorType::PC )
+    {
+        setBackgroundColour( Colour::Green );
+    }
+    else if (actorC->actorType == ActorType::NPC)
+    {
+        setBackgroundColour( Colour::Red );
+    }
+    else
+    {
+        setBackgroundColour( Colour::Grey );
+    }
+    
 
     auto iconSprite = manager->level()->getComponents<RenderComponent>(ref)->sprites[0];
     auto icon = manager->createElement<Icon>(this, iconSprite);

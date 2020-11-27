@@ -3,6 +3,7 @@
 #include <graphics/Primatives.h>
 #include <graphics/RenderInterface.h>
 #include <components/PositionComponent.h>
+#include <components/ActorComponent.h>
 #include <utils/GlobalConfig.h>
 
 FOVSystem::FOVSystem(Level *parent) : System(parent),
@@ -19,12 +20,7 @@ FOVSystem::FOVSystem(Level *parent) : System(parent),
 
 void FOVSystem::accept(GEvents::EntityMove *evt)
 {
-//    // If the player has moved, recalculate our cached FOV data
-//    if ( m_level->isPlayer( evt->ent ) )
-//    {
-//        m_level->grid()
-//               .calculateFOV(evt->newPos, 10 /*TODO DELETE*/ );
-//    }
+    recalculateFOV();
 }
 
 void FOVSystem::update(uint32_t ticks, RenderInterface &rInter)
@@ -60,10 +56,17 @@ void FOVSystem::accept(GEvents::LevelReady *evt)
 
 void FOVSystem::recalculateFOV()
 {
-    // TODO GetPlayer
-//    auto playerRef = m_level->getPlayer()->ref();
-//    auto playerPos = m_level->getComponents<PositionComponent>( playerRef )->position;
-//    m_level->grid().calculateFOV(playerPos, 10 /*TODO DELETE*/ );
+    std::vector<Vector2i> sources;
+
+    for ( auto const&[actor, position] : m_level->entitiesWith<ActorComponent, PositionComponent>() )
+    {
+        if (actor->actorType == ActorType::PC)
+        {
+            sources.push_back( position->position );
+        }
+    }
+
+    m_level->grid().calculateFOVMulti( sources, 15 /*TODO DEBUG*/ );
 }
 
 void FOVSystem::accept(GEvents::EntityOpenClose *evt)

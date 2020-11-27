@@ -40,10 +40,10 @@ bool Grid::inBounds(Vector2i pos)
 
 void Grid::calculateFOV(Vector2i source, int maxLength)
 {
-    int tcount = m_bounds.x() * m_bounds.y();
+    int tileCount = m_bounds.x() * m_bounds.y();
 
     // Debug: simple circle based FOV
-    for ( int i = 0;  i < tcount; i++ )
+    for ( int i = 0;  i < tileCount; i++ )
     {
         // Reset all the visible tiles to explored tiles
         if (m_visGrid.valueAt(i) != Visibility::Hidden)
@@ -62,6 +62,29 @@ void Grid::calculateFOV(Vector2i source, int maxLength)
     m_visGrid.setFixed(source, Visibility::Visible);
 }
 
+void Grid::calculateFOVMulti(std::vector<Vector2i> const& sources, int maxLength)
+{
+    int tileCount = m_bounds.area();
+
+    for ( int i = 0;  i < tileCount; i++ )
+    {
+        // Reset all the visible tiles to explored tiles
+        if (m_visGrid.valueAt(i) != Visibility::Hidden)
+        {
+            m_visGrid.setFixed(i, Visibility::Explored);
+        }
+    }
+
+    for ( auto const& source : sources )
+    {
+        for ( int i = 0; i < 8; i++ )
+        {
+            FOVWorker(source, maxLength, 1, 1.0f, 0.0f, &MatrixTransform::squareTransforms[i] );
+        }
+
+        m_visGrid.setFixed(source, Visibility::Visible);
+    }
+}
 
 void Grid::FOVWorker(Vector2i source, int maxLength, int row,
                      float start_slope, float end_slope, Matrix2i const* transform)
@@ -199,3 +222,4 @@ void Grid::exploreAllTiles()
         m_visGrid.setFixed(i, Visibility::Explored);
     }
 }
+

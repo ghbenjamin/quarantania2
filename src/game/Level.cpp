@@ -42,7 +42,6 @@ void Level::setReady()
     generateTurnOrder();
 
     m_gevents.broadcast<GEvents::LevelReady>();
-    addTextLogMessage( fmt::format("Welcome to level {}!", m_ctx->depth), Colour::White );
 }
 
 bool Level::input(IEvent &evt)
@@ -168,21 +167,6 @@ Vector2i Level::worldCoordsToScreen(Vector2i const &world)
 void Level::setupUI()
 {
     auto wndSize = ResourceManager::get().getWindow()->getSize();
-
-    m_textLog = m_uiManager.createElement<UI::TextLog>(nullptr);
-    m_textLog->setPreferredOuterSize({wndSize.x() - RightFrameWidth, TextLogHeight});
-    m_textLog->setId("global-text-log");
-
-    m_uiManager.alignElementToWindow( m_textLog, UI::Alignment::BottomLeft, {0, 0} );
-
-    auto trframe = m_uiManager.createElement<UI::Element>(nullptr);
-    trframe->setLayout<UI::VerticalLayout>( 2, UI::HAlignment::Fill );
-    trframe->setId("right-frame");
-    trframe->setBackgroundColour(Colour::Blue);
-
-    m_uiManager.alignElementToWindow( trframe, UI::Alignment::CentreRight, {0, 0} );
-
-
     auto turnOrderContainer = m_uiManager.createElement<UI::TurnOrderContainer>(nullptr);
     m_uiManager.alignElementToWindow( turnOrderContainer, UI::Alignment::TopLeft, {10, 10} );
 }
@@ -190,27 +174,7 @@ void Level::setupUI()
 void Level::layoutWindows()
 {
     auto wndSize = ResourceManager::get().getWindow()->getSize();
-    auto trframe = m_uiManager.withId("right-frame");
-
-    Vector2 rframeSize = {
-        RightFrameWidth,
-        wndSize.y()
-    };
-
-    Vector2 levelSize = {
-        wndSize.x() - RightFrameWidth,
-        wndSize.y() - TextLogHeight
-    };
-
-    Vector2 textLogSize = {
-        wndSize.x() - RightFrameWidth,
-        TextLogHeight
-    };
-
-    m_textLog->setPreferredOuterSize(textLogSize);
-    trframe->setPreferredOuterSize(rframeSize);
-
-    m_camera.setViewportSize(levelSize);
+    m_camera.setViewportSize(wndSize);
     m_uiManager.doLayout();
 }
 
