@@ -38,31 +38,7 @@ bool Grid::inBounds(Vector2i pos)
 		pos.y() < m_bounds.y();
 }
 
-void Grid::calculateFOV(Vector2i source, int maxLength)
-{
-    int tileCount = m_bounds.x() * m_bounds.y();
-
-    // Debug: simple circle based FOV
-    for ( int i = 0;  i < tileCount; i++ )
-    {
-        // Reset all the visible tiles to explored tiles
-        if (m_visGrid.valueAt(i) != Visibility::Hidden)
-        {
-            m_visGrid.setFixed(i, Visibility::Explored);
-        }
-    }
-
-    // Work out which tiles are now visible
-
-    for ( int i = 0; i < 8; i++ )
-    {
-        FOVWorker(source, maxLength, 1, 1.0f, 0.0f, &MatrixTransform::squareTransforms[i] );
-    }
-
-    m_visGrid.setFixed(source, Visibility::Visible);
-}
-
-void Grid::calculateFOVMulti(std::vector<Vector2i> const& sources, int maxLength)
+void Grid::calculateFOV(std::vector<FOVObserver> const& sources)
 {
     int tileCount = m_bounds.area();
 
@@ -79,10 +55,10 @@ void Grid::calculateFOVMulti(std::vector<Vector2i> const& sources, int maxLength
     {
         for ( int i = 0; i < 8; i++ )
         {
-            FOVWorker(source, maxLength, 1, 1.0f, 0.0f, &MatrixTransform::squareTransforms[i] );
+            FOVWorker(source.source, source.sightLength, 1, 1.0f, 0.0f, &MatrixTransform::squareTransforms[i] );
         }
 
-        m_visGrid.setFixed(source, Visibility::Visible);
+        m_visGrid.setFixed(source.source, Visibility::Visible);
     }
 }
 
@@ -102,8 +78,8 @@ void Grid::FOVWorker(Vector2i source, int maxLength, int row,
         bool blocked = false;
         for (int dx = -i, dy = -i; dx <= 0; dx++)
         {
-            float l_slope = (dx - 0.5f) / (dy + 0.5f);
-            float r_slope = (dx + 0.5f) / (dy - 0.5f);
+            float l_slope = ((float)dx - 0.5f) / ((float)dy + 0.5f);
+            float r_slope = ((float)dx + 0.5f) / ((float)dy - 0.5f);
             if (start_slope < r_slope)
             {
                 continue;
@@ -221,5 +197,17 @@ void Grid::exploreAllTiles()
     {
         m_visGrid.setFixed(i, Visibility::Explored);
     }
+}
+
+PathMap const& Grid::availablePathsFromTile(Vector2i source, int maxDistance)
+{
+    PathMap pm;
+    std::vector<Vector2i> queue;
+
+    queue.push_back(source);
+
+
+
+    return std::move(pm);
 }
 

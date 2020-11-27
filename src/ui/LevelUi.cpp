@@ -44,7 +44,7 @@ UI::TurnOrderContainer::TurnOrderContainer(UI::Manager *manager, UI::Element *pa
 : Element(manager, parent)
 {
     setId("turn-order-container");
-    setLayout<VerticalLayout>( 4, HAlignment::Left );
+    setLayout<VerticalLayout>( 4, HAlignment::Fill );
 }
 
 void UI::TurnOrderContainer::refresh()

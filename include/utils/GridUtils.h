@@ -74,8 +74,8 @@ class GridUtils
 public:
     static const GridBitmask CardinalOnly;
 
-    static std::unordered_map<Direction, Vector2i> AllNeighbours;
-    static std::unordered_map<Direction, Vector2i> CardinalNeighbours;
+    static const std::unordered_map<Direction, Vector2i> AllNeighbours;
+    static const std::unordered_map<Direction, Vector2i> CardinalNeighbours;
 
     static bool isCardinal( Direction dir );
 

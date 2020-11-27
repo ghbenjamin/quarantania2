@@ -1,7 +1,7 @@
 #include <utils/GridUtils.h>
 #include <utils/Logging.h>
 
-std::unordered_map<Direction, Vector2i> GridUtils::AllNeighbours = {
+const std::unordered_map<Direction, Vector2i> GridUtils::AllNeighbours = {
         { Direction::N, {0, -1} },
         { Direction::NE, {1, -1} },
         { Direction::E, {1, 0} },
@@ -12,7 +12,7 @@ std::unordered_map<Direction, Vector2i> GridUtils::AllNeighbours = {
         { Direction::NW, {-1, -1} },
 };
 
-std::unordered_map<Direction, Vector2i> GridUtils::CardinalNeighbours = {
+const std::unordered_map<Direction, Vector2i> GridUtils::CardinalNeighbours = {
         { Direction::N, {0, -1} },
         { Direction::E, {1, 0} },
         { Direction::S, {0, 1} },

@@ -56,17 +56,17 @@ void FOVSystem::accept(GEvents::LevelReady *evt)
 
 void FOVSystem::recalculateFOV()
 {
-    std::vector<Vector2i> sources;
+    std::vector<FOVObserver> sources;
 
     for ( auto const&[actor, position] : m_level->entitiesWith<ActorComponent, PositionComponent>() )
     {
         if (actor->actorType == ActorType::PC)
         {
-            sources.push_back( position->position );
+            sources.push_back({position->position, 15 /* TODO: Don't hard code this */ });
         }
     }
 
-    m_level->grid().calculateFOVMulti( sources, 15 /*TODO DEBUG*/ );
+    m_level->grid().calculateFOV(sources);
 }
 
 void FOVSystem::accept(GEvents::EntityOpenClose *evt)
