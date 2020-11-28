@@ -5,6 +5,8 @@
 
 #include <engine/InputInterface.h>
 #include <controllers/Controller.h>
+#include <engine/Entity.h>
+#include <game/Grid.h>
 
 class Level;
 class RenderInterface;
@@ -25,9 +27,6 @@ protected:
     Vector2i m_lastHoveredTile;
 };
 
-using LevelControllerPtr = std::unique_ptr<LevelController>;
-
-
 
 
 class DefaultLController : public LevelController
@@ -41,16 +40,24 @@ public:
 
 private:
 
+protected:
+    void onExit() override;
+
+private:
     bool onMouseMove(IEventMouseMove evt) override;
     bool onMouseDown(IEventMouseDown evt) override;
     bool onKeyDown(IEventKeyPress evt) override;
     void onHoveredTileChange(Vector2i prev, Vector2i curr) override;
 };
 
+
+
+
 class EntityMoveController : public DefaultLController
 {
 
 public:
+    EntityMoveController(Level*, EntityRef entity);
     void update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 
 private:
@@ -58,5 +65,6 @@ private:
     bool onKeyDown(IEventKeyPress evt) override;
     void onHoveredTileChange(Vector2i prev, Vector2i curr) override;
 
-
+    EntityRef m_entity;
+    PathMap m_pathMap;
 };

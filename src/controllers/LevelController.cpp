@@ -3,6 +3,8 @@
 #include <game/ActionDefs.h>
 #include <components/DescriptionComponent.h>
 #include <components/ItemComponent.h>
+#include <components/ActorComponent.h>
+#include <components/PositionComponent.h>
 
 LevelController::LevelController(Level *level)
 : m_level(level) { }
@@ -93,6 +95,28 @@ bool DefaultLController::onMouseMove(IEventMouseMove evt)
 
 bool DefaultLController::onMouseDown(IEventMouseDown evt)
 {
+    auto tile = m_level->screenCoordsToTile(evt.screenPos);
+    auto ents = m_level->grid().entitiesAtTile(tile);
+
+    if (!ents.empty())
+    {
+        for ( EntityRef ref : ents )
+        {
+            if ( m_level->entityHas<ActorComponent>(ref) )
+            {
+                auto actorComp = m_level->getComponents<ActorComponent>(ref);
+                if ( actorComp->actorType == ActorType::PC )
+                {
+                    // Debug
+                    // For now allow movement of any PC even when it's not their turn
+
+                    setNextController( std::make_shared<EntityMoveController>(m_level, ref) );
+                    return true;
+                }
+            }
+        }
+    }
+
     return false;
 }
 
@@ -148,6 +172,28 @@ void DefaultLController::update(std::uint32_t ticks, InputInterface &iinter, Ren
     scrollLevel(ticks, iinter);
 }
 
+void DefaultLController::onExit()
+{
+    m_level->ui().removeTileHighlight();
+    m_level->ui().closeTooltip();
+}
+
+
+
+
+
+// Entity Move Controller
+// --------------------------------------
+
+
+
+EntityMoveController::EntityMoveController(Level* level, EntityRef entity)
+        : DefaultLController(level), m_entity(entity)
+{
+    auto position = m_level->getComponents<PositionComponent>(entity);
+    m_pathMap = m_level->grid().allPathsFromTile(position->position, 5);
+}
+
 void EntityMoveController::update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
     DefaultLController::update(ticks, iinter, rInter);
@@ -167,3 +213,5 @@ void EntityMoveController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 {
 
 }
+
+

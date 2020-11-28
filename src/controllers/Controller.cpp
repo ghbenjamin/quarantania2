@@ -35,10 +35,7 @@ bool Controller::onKeyDown(IEventKeyPress evt)
     return false;
 }
 
-void Controller::setNextController(const std::shared_ptr<Controller> &next)
-{
-    m_nextController = next;
-}
+
 
 bool Controller::hasNextController() const
 {
@@ -58,4 +55,14 @@ bool Controller::shouldPopController() const
 void Controller::popController()
 {
     m_shouldPopController = true;
+}
+
+void Controller::onExit()
+{
+
+}
+
+void Controller::onEnter()
+{
+
 }
