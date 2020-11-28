@@ -1,23 +1,22 @@
 #include <utility>
 
 #include <components/All.h>
-#include <components/ItemComponent.h>
+#include <systems/All.h>
+
 #include <engine/InputInterface.h>
 #include <game/ActionDefs.h>
 #include <game/GEventDefs.h>
 #include <game/Level.h>
 #include <graphics/RenderInterface.h>
 #include <resource/ResourceManager.h>
-#include <state/DefaultLController.h>
-#include <systems/All.h>
 #include <ui/ContainerView.h>
 #include <ui/Dialogs.h>
 #include <ui/Layout.h>
 #include <ui/TextLog.h>
+#include <ui/LevelUi.h>
 #include <utils/Assert.h>
 #include <utils/GlobalConfig.h>
 #include <utils/Logging.h>
-#include <ui/LevelUi.h>
 
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
@@ -27,9 +26,10 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     m_entFactory(this),
     m_isComplete(false),
     m_camera( size * GlobalConfig::TileSizePx ),
-    m_controller( std::make_unique<DefaultLController>(this) ),
     m_uiManager(this)
 {
+    m_controllers.push_back( std::make_shared<DefaultLController>(this) );
+
     registerComponents<AllComponents>();
     registerSystems<AllSystems>();
 
@@ -60,7 +60,7 @@ bool Level::input(IEvent &evt)
             break;
     }
 
-    return m_controller->input(evt);
+    return m_controllers.back()->input(evt);
 }
 
 void Level::render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
@@ -78,7 +78,7 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
         deleteEntity( ent );
     }
 
-    m_controller->update(ticks, iinter, rInter);
+    m_controllers.back()->update(ticks, iinter, rInter);
 
     // Render statics: tiles, etc.
     render(ticks, iinter, rInter);
@@ -91,6 +91,16 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
 
     // Render the GUI
     m_uiManager.update(ticks, iinter, rInter);
+
+
+    if ( m_controllers.back()->shouldPopController() )
+    {
+        m_controllers.pop_back();
+    }
+    else if ( m_controllers.back()->hasNextController() )
+    {
+        m_controllers.push_back( m_controllers.back()->getNextController() );
+    }
 }
 
 void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)

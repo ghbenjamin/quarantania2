@@ -13,7 +13,7 @@ struct FOVObserver
 };
 
 
-using PathMap = std::unordered_map<Vector2i, std::vector<Vector2i>, Vector2iHash>;
+using PathMap = std::unordered_map<Vector2i, std::pair<Vector2i, float>, Vector2iHash>;
 
 class Grid
 {
@@ -55,7 +55,7 @@ public:
     void exploreAllTiles();
 
 
-    PathMap const& availablePathsFromTile(Vector2i source, int maxDistance);
+    PathMap allPathsFromTile(Vector2i source, int maxDistance);
 
 
 private:

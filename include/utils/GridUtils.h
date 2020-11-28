@@ -74,8 +74,8 @@ class GridUtils
 public:
     static const GridBitmask CardinalOnly;
 
-    static const std::unordered_map<Direction, Vector2i> AllNeighbours;
-    static const std::unordered_map<Direction, Vector2i> CardinalNeighbours;
+    static std::unordered_map<Direction, Vector2i> AllNeighbours;
+    static std::unordered_map<Direction, Vector2i> CardinalNeighbours;
 
     static bool isCardinal( Direction dir );
 
@@ -85,6 +85,7 @@ public:
     static GridRegion createCone( Vector2i origin, int length, Direction direction );
 
     static bool isAdjacent(Vector2i lhs, Vector2i rhs);
+    static bool isAdjacentCardinal(Vector2i lhs, Vector2i rhs);
 
 private:
     static GridRegion createLineLow( int x0, int y0, int x1, int y1 );

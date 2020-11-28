@@ -19,7 +19,7 @@
 #include <game/Defines.h>
 #include <game/Grid.h>
 #include <engine/Camera.h>
-#include <state/LevelController.h>
+#include <controllers/LevelController.h>
 #include <systems/System.h>
 #include <game/GEvent.h>
 #include <game/GEventDefs.h>
@@ -298,7 +298,7 @@ private:
     // Misc
     RandomInterface m_random;
     LevelContextPtr m_ctx;
-    LevelControllerPtr m_controller;
+    std::vector<std::shared_ptr<Controller>> m_controllers;
     bool m_isComplete;
 
     // Map

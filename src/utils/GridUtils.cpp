@@ -1,7 +1,8 @@
 #include <utils/GridUtils.h>
 #include <utils/Logging.h>
 
-const std::unordered_map<Direction, Vector2i> GridUtils::AllNeighbours = {
+
+std::unordered_map<Direction, Vector2i> GridUtils::AllNeighbours = {
         { Direction::N, {0, -1} },
         { Direction::NE, {1, -1} },
         { Direction::E, {1, 0} },
@@ -12,7 +13,7 @@ const std::unordered_map<Direction, Vector2i> GridUtils::AllNeighbours = {
         { Direction::NW, {-1, -1} },
 };
 
-const std::unordered_map<Direction, Vector2i> GridUtils::CardinalNeighbours = {
+std::unordered_map<Direction, Vector2i> GridUtils::CardinalNeighbours = {
         { Direction::N, {0, -1} },
         { Direction::E, {1, 0} },
         { Direction::S, {0, 1} },
@@ -28,6 +29,14 @@ bool GridUtils::isAdjacent(Vector2i lhs, Vector2i rhs)
 
     return ( x == 0 && y < 2) || ( y == 0 && x < 2 );
 }
+bool GridUtils::isAdjacentCardinal(Vector2i lhs, Vector2i rhs)
+{
+    int x = std::abs(rhs.x() - lhs.x());
+    int y = std::abs(rhs.y() - lhs.y());
+
+    return ( x == 0 && y == 1) || ( y == 0 && x == 1 );
+}
+
 
 GridRegion GridUtils::createLine(Vector2i start, Vector2i end)
 {

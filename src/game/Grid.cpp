@@ -199,14 +199,61 @@ void Grid::exploreAllTiles()
     }
 }
 
-PathMap const& Grid::availablePathsFromTile(Vector2i source, int maxDistance)
+PathMap Grid::allPathsFromTile(Vector2i source, int maxDistance)
 {
-    PathMap pm;
-    std::vector<Vector2i> queue;
+    std::list<Vector2i> queue;
+    std::unordered_map<Vector2i, float, Vector2iHash> weights;
+    std::unordered_map<Vector2i, Vector2i, Vector2iHash> parents;
 
     queue.push_back(source);
+    weights[source] = 0;
 
+    while ( !queue.empty() )
+    {
+        auto curr = queue.back();
+        queue.pop_back();
+        auto curr_weight = weights[curr];
 
+        for (auto const&[dir, nn] : GridUtils::AllNeighbours)
+        {
+            auto next = nn + curr;
+            auto next_weight = curr_weight + (GridUtils::isAdjacentCardinal(curr, next) ? 1.f : 1.4f);
+
+            if (!inBounds(next))
+            {
+                continue;
+            }
+
+            if (next_weight > maxDistance)
+            {
+                continue;
+            }
+
+            auto existing_weight = weights.find(next);
+            if (existing_weight == weights.end())
+            {
+                // New node!
+                parents[next] = curr;
+                weights[next] = next_weight;
+                queue.push_back(next);
+            }
+            else
+            {
+                if (next_weight < existing_weight->second)
+                {
+                    parents[next] = curr;
+                    weights[next] = next_weight;
+                }
+            }
+        }
+    }
+
+    PathMap pm;
+
+    for ( auto const& [k, v] : parents )
+    {
+        pm[k] = { k, weights[k] };
+    }
 
     return std::move(pm);
 }
