@@ -56,7 +56,7 @@ public:
 
 
     PathMap allPathsFromTile(Vector2i source, int maxDistance);
-
+    std::vector<Vector2i> pathFromPathMap(PathMap const& map, Vector2i tile);
 
 private:
     // Adjust the specified grid region so that it is entirely within bounds

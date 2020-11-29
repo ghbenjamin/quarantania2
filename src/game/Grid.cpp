@@ -217,15 +217,24 @@ PathMap Grid::allPathsFromTile(Vector2i source, int maxDistance)
         for (auto const&[dir, nn] : GridUtils::AllNeighbours)
         {
             auto next = nn + curr;
-            auto next_weight = curr_weight + (GridUtils::isAdjacentCardinal(curr, next) ? 1.f : 1.4f);
+            float dw = GridUtils::isAdjacentCardinal(curr, next) ? 1.0f : 1.41f;
+            auto next_weight = curr_weight + dw;
+
+            if (m_passGrid.valueAt(next) != Passibility::Passable)
+            {
+                // Don't walk through walls
+                continue;
+            }
 
             if (!inBounds(next))
             {
+                // Don't walk off of the map
                 continue;
             }
 
             if (next_weight > maxDistance)
             {
+                // Don't walk too far
                 continue;
             }
 
@@ -239,10 +248,12 @@ PathMap Grid::allPathsFromTile(Vector2i source, int maxDistance)
             }
             else
             {
+                // Old node, but faster path
                 if (next_weight < existing_weight->second)
                 {
                     parents[next] = curr;
                     weights[next] = next_weight;
+                    queue.push_back(next);
                 }
             }
         }
@@ -252,9 +263,23 @@ PathMap Grid::allPathsFromTile(Vector2i source, int maxDistance)
 
     for ( auto const& [k, v] : parents )
     {
-        pm[k] = { k, weights[k] };
+        pm[k] = { v, weights[k] };
     }
 
     return std::move(pm);
 }
 
+std::vector<Vector2i> Grid::pathFromPathMap(const PathMap &map, Vector2i tile)
+{
+    std::vector<Vector2i> path;
+    Vector2i curr = tile;
+    auto it = map.find(curr);
+
+    for (; it != map.end(); it = map.find(curr))
+    {
+        path.push_back(curr);
+        curr = it->second.first;
+    }
+
+    return std::move(path);
+}

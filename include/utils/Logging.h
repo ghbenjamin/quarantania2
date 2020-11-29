@@ -26,6 +26,15 @@ namespace Logging
         fmt::print( "{}\n", t );
     }
 
+    template <typename T>
+    void log(std::vector<T> const& t)
+    {
+        for (auto const& item : t)
+        {
+            log(item);
+        }
+    }
+
     template <>
     void log( Vector2i const& t );
 

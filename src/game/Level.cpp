@@ -78,6 +78,20 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
         deleteEntity( ent );
     }
 
+    // Handle controller changes if necessary
+    if ( m_controllers.back()->shouldPopController() )
+    {
+        m_controllers.back()->onExit();
+        m_controllers.pop_back();
+        m_controllers.back()->onEnter();
+    }
+    else if ( m_controllers.back()->hasNextController() )
+    {
+        m_controllers.back()->onExit();
+        m_controllers.push_back( m_controllers.back()->getNextController() );
+    }
+
+
     m_controllers.back()->update(ticks, iinter, rInter);
 
     // Render statics: tiles, etc.
@@ -93,16 +107,7 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
     m_uiManager.update(ticks, iinter, rInter);
 
 
-    if ( m_controllers.back()->shouldPopController() )
-    {
-        m_controllers.pop_back();
-        m_controllers.back()->onEnter();
-    }
-    else if ( m_controllers.back()->hasNextController() )
-    {
-        m_controllers.back()->onExit();
-        m_controllers.push_back( m_controllers.back()->getNextController() );
-    }
+
 }
 
 void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)

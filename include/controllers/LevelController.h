@@ -8,8 +8,10 @@
 #include <engine/Entity.h>
 #include <game/Grid.h>
 
+// Forward definitions
 class Level;
 class RenderInterface;
+namespace UI { class Element; }
 
 class LevelController : public Controller
 {
@@ -21,7 +23,7 @@ public:
 
 protected:
     virtual void onHoveredTileChange(Vector2i prev, Vector2i curr);
-    void scrollLevel(std::uint32_t ticks, InputInterface &iinter);
+    bool scrollLevel(std::uint32_t ticks, InputInterface &iinter);
 
     Level* m_level;
     Vector2i m_lastHoveredTile;
@@ -38,8 +40,6 @@ public:
 
     void update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 
-private:
-
 protected:
     void onExit() override;
 
@@ -48,6 +48,8 @@ private:
     bool onMouseDown(IEventMouseDown evt) override;
     bool onKeyDown(IEventKeyPress evt) override;
     void onHoveredTileChange(Vector2i prev, Vector2i curr) override;
+
+    std::shared_ptr<UI::Element> m_tileHighlight;
 };
 
 
@@ -60,11 +62,16 @@ public:
     EntityMoveController(Level*, EntityRef entity);
     void update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 
+protected:
+    void onExit() override;
+
 private:
     bool onMouseDown(IEventMouseDown evt) override;
     bool onKeyDown(IEventKeyPress evt) override;
     void onHoveredTileChange(Vector2i prev, Vector2i curr) override;
 
+    std::shared_ptr<UI::Element> m_tileHighlight;
+    std::shared_ptr<UI::Element> m_pathHighlight;
     EntityRef m_entity;
     PathMap m_pathMap;
 };

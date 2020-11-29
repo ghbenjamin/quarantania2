@@ -11,6 +11,7 @@ enum class RenderLayer
     Actor,
     GFX,
     FOV,
+    OVERLAY_UI,
     UI,
 
     End

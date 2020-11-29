@@ -10,10 +10,15 @@
 using namespace UI;
 
 Element::Element(Manager* manager, Element* parent)
-  : m_parent(parent), m_manager(manager),
-    m_hasBgColour(false), m_hasBorder(false),
-    m_borderWidth(0), m_isHidden(false), m_layoutHeld(false),
-    m_maxOuterSize({0, 0})
+  : m_parent(parent),
+    m_manager(manager),
+    m_hasBgColour(false),
+    m_hasBorder(false),
+    m_borderWidth(0),
+    m_isHidden(false),
+    m_layoutHeld(false),
+    m_maxOuterSize({0, 0}),
+    m_isDecorative(false)
 {
     // Sensible default
     setLayout<UI::VerticalLayout>();
@@ -424,6 +429,16 @@ Vector2i Element::maxOuterSize() const
 Vector2i Element::contentOffset() const
 {
     return m_contentOffset;
+}
+
+void Element::setDecorative(bool val)
+{
+    m_isDecorative = val;
+}
+
+bool Element::isDecorative() const
+{
+    return m_isDecorative;
 }
 
 

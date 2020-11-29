@@ -60,6 +60,8 @@ public:
     // State
     void setHidden( bool val );
     bool isHidden() const;
+    void setDecorative( bool val = true );
+    bool isDecorative() const;
 
     // Ids
     void setId( std::string const& id );
@@ -194,6 +196,7 @@ private:
 
     // State
     bool m_isHidden;
+    bool m_isDecorative;
 
     // Layout
     std::unique_ptr<UI::ElementLayout> m_layout;
@@ -210,8 +213,10 @@ private:
     // Events
     std::unordered_multimap<UEventType, UEventCallback> m_callbacks;
 
+    // Rendering
     Sprite m_backgroundSprite;
     Sprite m_backgroundTexture;
+
     std::list<ElementPtr> m_children;
 };
 

@@ -5,6 +5,7 @@
 #include <components/ItemComponent.h>
 #include <components/ActorComponent.h>
 #include <components/PositionComponent.h>
+#include <ui/TileHighlights.h>
 
 LevelController::LevelController(Level *level)
 : m_level(level) { }
@@ -50,7 +51,7 @@ bool LevelController::input(IEvent &evt)
 void LevelController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 { }
 
-void LevelController::scrollLevel(std::uint32_t ticks, InputInterface &iinter)
+bool LevelController::scrollLevel(std::uint32_t ticks, InputInterface &iinter)
 {
     if ( iinter.anyHeld() )
     {
@@ -75,6 +76,11 @@ void LevelController::scrollLevel(std::uint32_t ticks, InputInterface &iinter)
         if ( delta.x() != 0 || delta.y() != 0 )
         {
             m_level->camera().moveBy(delta * (float)ticks);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }
@@ -127,7 +133,7 @@ bool DefaultLController::onKeyDown(IEventKeyPress evt)
 
 void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 {
-    m_level->ui().removeTileHighlight();
+    m_level->ui().deleteElement( m_tileHighlight );
     m_level->ui().closeTooltip();
 
     if (!m_level->grid().inBounds(curr))
@@ -147,7 +153,7 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     if ( !ents.empty() )
     {
         // Highlight hovered entities
-        m_level->ui().addTileHighlight( m_level->tileCoordsToScreen(curr) );
+        m_tileHighlight = m_level->ui().createElement<UI::SingleTileHighlight>( nullptr, curr );
 
         std::vector<UI::TooltipData> tooltipData;
 
@@ -174,10 +180,9 @@ void DefaultLController::update(std::uint32_t ticks, InputInterface &iinter, Ren
 
 void DefaultLController::onExit()
 {
-    m_level->ui().removeTileHighlight();
+    m_level->ui().deleteElement( m_tileHighlight );
     m_level->ui().closeTooltip();
 }
-
 
 
 
@@ -191,7 +196,15 @@ EntityMoveController::EntityMoveController(Level* level, EntityRef entity)
         : DefaultLController(level), m_entity(entity)
 {
     auto position = m_level->getComponents<PositionComponent>(entity);
-    m_pathMap = m_level->grid().allPathsFromTile(position->position, 5);
+    m_pathMap = m_level->grid().allPathsFromTile(position->position, 8);
+
+    GridRegion gr;
+    for (auto const&[k, v] : m_pathMap )
+    {
+        gr.push_back(k);
+    }
+
+    m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, gr, Colour::Lime);
 }
 
 void EntityMoveController::update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
@@ -201,6 +214,15 @@ void EntityMoveController::update(std::uint32_t ticks, InputInterface &iinter, R
 
 bool EntityMoveController::onKeyDown(IEventKeyPress evt)
 {
+    switch (evt.keyCode)
+    {
+        case SDLK_ESCAPE:
+            popController();
+            return true;
+            break;
+        default:
+            break;
+    }
     return false;
 }
 
@@ -211,7 +233,18 @@ bool EntityMoveController::onMouseDown(IEventMouseDown evt)
 
 void EntityMoveController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 {
+    if ( m_pathMap.find(curr) != m_pathMap.end() )
+    {
+        auto path = m_level->grid().pathFromPathMap(m_pathMap, curr);
+        m_level->ui().deleteElement(m_pathHighlight);
+        m_pathHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, path, Colour::Red);
+    }
+}
 
+void EntityMoveController::onExit()
+{
+    m_level->ui().deleteElement(m_tileHighlight);
+    m_level->ui().deleteElement(m_pathHighlight);
 }
 
 

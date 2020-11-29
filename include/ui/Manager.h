@@ -92,14 +92,9 @@ public:
     void openContextMenu( ContextMenuList const& items, Vector2i pos, ContextMenuCallback callback);
     void cancelContextMenu();
 
-    void addTileHighlight(Vector2i screenPos);
-    void removeTileHighlight();
-
     void openTooltip( TooltipData const& data, Vector2i pos, bool longContent = false );
     void openTooltip( std::vector<TooltipData> const& data, Vector2i pos, bool longContent = false );
     void closeTooltip();
-
-
 
 
 private:

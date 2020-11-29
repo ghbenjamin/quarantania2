@@ -137,9 +137,9 @@ UI::ElementList Manager::windowsAtPoint(Vector2i pos) const
         }
     }
 
-    // Ignore the highlight elements
+    // Ignore decorative elements
     out.erase( std::remove_if( out.begin(), out.end(), [](auto const& item){
-        return item->id() == "tile-highlight" || item->id() == "tooltip";
+        return item->isDecorative();
     }), out.end());
 
     return out;
@@ -169,11 +169,6 @@ bool Manager::handleMouseDown(IEventMouseDown evt)
 {
     // Get all the elements under the mouse cursor
     auto elems = windowsAtPoint(evt.screenPos);
-
-//    // Ignore the highlight elements
-//    elems.erase( std::remove_if( elems.begin(), elems.end(), [](auto const& item){
-//        return item->id() == "tile-highlight";
-//    }), elems.end());
 
     if ( elems.empty() )
     {
@@ -297,24 +292,8 @@ bool Manager::handleMouseMove(IEventMouseMove evt)
 
 void Manager::openContextMenu(ContextMenuList const &items, Vector2i pos, ContextMenuCallback callback)
 {
-    removeTileHighlight();
-
     auto cmenu = createElement<UI::ContextMenu>(nullptr, items, callback);
     cmenu->setLocalPosition( pos );
-}
-
-void Manager::addTileHighlight(Vector2i screenPos)
-{
-    auto elem = createElement<Element>(nullptr);
-    elem->setPreferredContentSize({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx});
-    elem->setBackgroundSprite({"tile-ui", "green-brackets"});
-    elem->setLocalPosition( screenPos );
-    elem->setId("tile-highlight");
-}
-
-void Manager::removeTileHighlight()
-{
-    deleteElement( withId( "tile-highlight" ) );
 }
 
 void Manager::cancelContextMenu()
