@@ -1,21 +1,21 @@
 #pragma once
 
 #include <systems/System.h>
-#include <game/GEvent.h>
-#include <game/GEventDefs.h>
+#include <game/GameEvent.h>
+#include <game/GameEventDefs.h>
 
 class CollisionSystem : public System,
-                        public GEventSub<GEvents::EntityMove>,
-                        public GEventSub<GEvents::EntityReady>,
-                        public GEventSub<GEvents::EntityOpenClose>,
-                        public GEventSub<GEvents::EntityDeath>
+                        public GEventSub<GameEvents::EntityMove>,
+                        public GEventSub<GameEvents::EntityReady>,
+                        public GEventSub<GameEvents::EntityOpenClose>,
+                        public GEventSub<GameEvents::EntityDeath>
 {
 public:
     explicit CollisionSystem(Level *parent);
     ~CollisionSystem() override = default;
 
-    void accept(GEvents::EntityMove *evt) override;
-    void accept(GEvents::EntityReady *evt) override;
-    void accept(GEvents::EntityOpenClose *evt) override;
-    void accept(GEvents::EntityDeath *evt) override;
+    void accept(GameEvents::EntityMove *evt) override;
+    void accept(GameEvents::EntityReady *evt) override;
+    void accept(GameEvents::EntityOpenClose *evt) override;
+    void accept(GameEvents::EntityDeath *evt) override;
 };

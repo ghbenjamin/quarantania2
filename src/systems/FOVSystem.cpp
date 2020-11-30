@@ -13,12 +13,12 @@ FOVSystem::FOVSystem(Level *parent) : System(parent),
     m_fovHidden.setRenderLayer(RenderLayer::FOV);
     m_fovFog.setRenderLayer(RenderLayer::FOV);
 
-    m_level->events().subscribe<GEvents::EntityMove>( this );
-    m_level->events().subscribe<GEvents::LevelReady>( this );
-    m_level->events().subscribe<GEvents::EntityOpenClose>( this );
+    m_level->events().subscribe<GameEvents::EntityMove>(this );
+    m_level->events().subscribe<GameEvents::LevelReady>(this );
+    m_level->events().subscribe<GameEvents::EntityOpenClose>(this );
 }
 
-void FOVSystem::accept(GEvents::EntityMove *evt)
+void FOVSystem::accept(GameEvents::EntityMove *evt)
 {
     recalculateFOV();
 }
@@ -46,7 +46,7 @@ void FOVSystem::update(uint32_t ticks, RenderInterface &rInter)
     }
 }
 
-void FOVSystem::accept(GEvents::LevelReady *evt)
+void FOVSystem::accept(GameEvents::LevelReady *evt)
 {
     // Remove this to turn off 'explored' mode
     m_level->grid().exploreAllTiles();
@@ -69,7 +69,7 @@ void FOVSystem::recalculateFOV()
     m_level->grid().calculateFOV(sources);
 }
 
-void FOVSystem::accept(GEvents::EntityOpenClose *evt)
+void FOVSystem::accept(GameEvents::EntityOpenClose *evt)
 {
     recalculateFOV();
 }

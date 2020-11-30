@@ -9,7 +9,7 @@
 #include <utils/IdPool.h>
 #include <ui/Manager.h>
 #include <engine/Component.h>
-#include <game/GEvent.h>
+#include <game/GameEvent.h>
 #include <engine/Tiles.h>
 #include <game/Player.h>
 #include <game/LevelData.h>
@@ -21,8 +21,8 @@
 #include <engine/Camera.h>
 #include <controllers/LevelController.h>
 #include <systems/System.h>
-#include <game/GEvent.h>
-#include <game/GEventDefs.h>
+#include <game/GameEvent.h>
+#include <game/GameEventDefs.h>
 
 
 // Forward definitions

@@ -6,13 +6,13 @@
 
 CollisionSystem::CollisionSystem(Level *parent) : System(parent)
 {
-    m_level->events().subscribe<GEvents::EntityMove>( this );
-    m_level->events().subscribe<GEvents::EntityReady>( this );
-    m_level->events().subscribe<GEvents::EntityOpenClose>( this );
-    m_level->events().subscribe<GEvents::EntityDeath>( this );
+    m_level->events().subscribe<GameEvents::EntityMove>(this );
+    m_level->events().subscribe<GameEvents::EntityReady>(this );
+    m_level->events().subscribe<GameEvents::EntityOpenClose>(this );
+    m_level->events().subscribe<GameEvents::EntityDeath>(this );
 }
 
-void CollisionSystem::accept(GEvents::EntityMove *evt)
+void CollisionSystem::accept(GameEvents::EntityMove *evt)
 {
     // An entity has moved - if it had a collider component, regenerate our information on
     // which tiles are passable and which are not.
@@ -28,7 +28,7 @@ void CollisionSystem::accept(GEvents::EntityMove *evt)
     }
 }
 
-void CollisionSystem::accept(GEvents::EntityReady *evt)
+void CollisionSystem::accept(GameEvents::EntityReady *evt)
 {
     // A new entity has just finished being created - if it has a collider component, regenerate our
     // collision information.
@@ -43,7 +43,7 @@ void CollisionSystem::accept(GEvents::EntityReady *evt)
     }
 }
 
-void CollisionSystem::accept(GEvents::EntityOpenClose *evt)
+void CollisionSystem::accept(GameEvents::EntityOpenClose *evt)
 {
     auto [openable, collider, position] = m_level->getComponents<
             OpenableComponent,
@@ -76,7 +76,7 @@ void CollisionSystem::accept(GEvents::EntityOpenClose *evt)
     }
 }
 
-void CollisionSystem::accept(GEvents::EntityDeath *evt)
+void CollisionSystem::accept(GameEvents::EntityDeath *evt)
 {
     // An entity died - if it had a collider and was impassible, update the collision map
 

@@ -1,17 +1,17 @@
 #pragma once
 
 #include <systems/System.h>
-#include <game/GEvent.h>
-#include <game/GEventDefs.h>
+#include <game/GameEvent.h>
+#include <game/GameEventDefs.h>
 
 class PositionSystem : public System,
-                       public GEventSub<GEvents::EntityMove>,
-                       public GEventSub<GEvents::EntityReady>
+                       public GEventSub<GameEvents::EntityMove>,
+                       public GEventSub<GameEvents::EntityReady>
 {
 public:
     explicit PositionSystem(Level *parent);
     ~PositionSystem() override = default;
 
-    void accept(GEvents::EntityMove *evt) override;
-    void accept(GEvents::EntityReady *evt) override;
+    void accept(GameEvents::EntityMove *evt) override;
+    void accept(GameEvents::EntityReady *evt) override;
 };

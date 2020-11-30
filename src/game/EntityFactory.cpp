@@ -23,7 +23,9 @@ EntityRef EntityFactory::createPlayer(Vector2i pos, PlayerData const &data) cons
     m_parent->addComponent<PCComponent>(eref);
 
     auto cContainer = m_parent->addComponent<ContainerComponent>(eref);
-    auto cActor = m_parent->addComponent<ActorComponent>(eref, data);
+
+    auto actor = Actor(data);
+    auto cActor = m_parent->addComponent<ActorComponent>(eref, std::move(actor));
     cActor->actorType = ActorType::PC;
 
     m_parent->entityReady(eref);
@@ -36,7 +38,7 @@ EntityRef EntityFactory::createPlayer(Vector2i pos, PlayerData const &data) cons
     for ( auto const& iname : data.startingEquippedItems )
     {
         auto ptr = Item::fromName( iname );
-        cActor->equipItem( ptr->getEquipSlot(), ptr );
+        cActor->actor.equipItem( ptr->getEquipSlot(), ptr );
     }
 
     return eref;

@@ -11,7 +11,7 @@
 bool StepAction::doAction() const
 {
     auto tilePos = m_level->getComponents<PositionComponent>(m_actor);
-    m_level->events().broadcast<GEvents::EntityMove>( m_actor, tilePos->position, m_tile );
+    m_level->events().broadcast<GameEvents::EntityMove>(m_actor, tilePos->position, m_tile );
 
     return true;
 }
@@ -41,7 +41,7 @@ const char *StepAction::description() const
 
 bool OpenAction::doAction() const
 {
-    m_level->events().broadcast<GEvents::EntityOpenClose>( m_subject, true );
+    m_level->events().broadcast<GameEvents::EntityOpenClose>(m_subject, true );
     return true;
 }
 
@@ -64,7 +64,7 @@ const char *OpenAction::description() const
 
 bool CloseAction::doAction() const
 {
-    m_level->events().broadcast<GEvents::EntityOpenClose>(m_subject, false );
+    m_level->events().broadcast<GameEvents::EntityOpenClose>(m_subject, false );
     return true;
 }
 
@@ -132,7 +132,7 @@ bool MeleeAttackAction::canTryAction() const
     if ( m_actor == m_subject ) return false;
 
     auto actorC = m_level->getComponents<ActorComponent>( m_actor );
-    auto weapon = actorC->getActiveWeapon();
+    auto weapon = actorC->actor.getActiveWeapon();
 
     if ( !weapon ) return false;
 
@@ -145,9 +145,9 @@ bool MeleeAttackAction::canTryAction() const
 bool MeleeAttackAction::doAction() const
 {
     auto actorC = m_level->getComponents<ActorComponent>( m_actor );
-    auto weapon = actorC->getActiveWeapon();
+    auto weapon = actorC->actor.getActiveWeapon();
 
-    m_level->events().broadcast<GEvents::MeleeAttack>( m_actor, m_subject, weapon );
+    m_level->events().broadcast<GameEvents::MeleeAttack>(m_actor, m_subject, weapon );
     return true;
 }
 
@@ -169,7 +169,7 @@ bool PickUpItemAction::doAction() const
 
     if ( (int)container->items.size() + 1 > container->maxItems ) return false;
 
-    m_level->events().broadcast<GEvents::ItemPickup>( m_actor, m_subject );
+    m_level->events().broadcast<GameEvents::ItemPickup>(m_actor, m_subject );
     return true;
 }
 
@@ -193,7 +193,7 @@ bool DropItemAction::canTryAction() const
 bool DropItemAction::doAction() const
 {
     auto container = m_level->getComponents<ContainerComponent>( m_actor );
-    m_level->events().broadcast<GEvents::ItemDrop>( m_actor, m_item );
+    m_level->events().broadcast<GameEvents::ItemDrop>(m_actor, m_item );
 
     return true;
 }
@@ -224,7 +224,7 @@ bool EquipItemAction::doAction() const
         AssertAlwaysMsg( "Equipping an item with no equip slots marked" );
     }
 
-    m_level->events().broadcast<GEvents::ItemEquip>( m_actor, m_item, slot );
+    m_level->events().broadcast<GameEvents::ItemEquip>(m_actor, m_item, slot );
 
     return true;
 }
@@ -246,6 +246,6 @@ bool UnequipItemAction::canTryAction() const
 
 bool UnequipItemAction::doAction() const
 {
-    m_level->events().broadcast<GEvents::ItemUnequip>( m_actor, m_slot );
+    m_level->events().broadcast<GameEvents::ItemUnequip>(m_actor, m_slot );
     return true;
 }

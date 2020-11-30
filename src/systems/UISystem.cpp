@@ -5,41 +5,41 @@
 UISystem::UISystem(Level *parent)
         : System(parent)
 {
-    m_level->events().subscribe<GEvents::LevelReady>( this, GEventTiming::After );
-    m_level->events().subscribe<GEvents::EntityMove>( this, GEventTiming::After );
-    m_level->events().subscribe<GEvents::ItemPickup>( this, GEventTiming::After );
-    m_level->events().subscribe<GEvents::ItemDrop>( this, GEventTiming::After );
-    m_level->events().subscribe<GEvents::ItemEquip>( this, GEventTiming::After );
-    m_level->events().subscribe<GEvents::ItemUnequip>( this, GEventTiming::After );
+    m_level->events().subscribe<GameEvents::LevelReady>(this, GEventTiming::After );
+    m_level->events().subscribe<GameEvents::EntityMove>(this, GEventTiming::After );
+    m_level->events().subscribe<GameEvents::ItemPickup>(this, GEventTiming::After );
+    m_level->events().subscribe<GameEvents::ItemDrop>(this, GEventTiming::After );
+    m_level->events().subscribe<GameEvents::ItemEquip>(this, GEventTiming::After );
+    m_level->events().subscribe<GameEvents::ItemUnequip>(this, GEventTiming::After );
 }
 
-void UISystem::accept(GEvents::LevelReady *evt)
+void UISystem::accept(GameEvents::LevelReady *evt)
 {
     auto turnOrder = m_level->ui().withId( "turn-order-container" )->asType<UI::TurnOrderContainer>();
     turnOrder->reloadEntities();
 }
 
-void UISystem::accept(GEvents::EntityMove *evt)
+void UISystem::accept(GameEvents::EntityMove *evt)
 {
 
 }
 
-void UISystem::accept(GEvents::ItemPickup *evt)
-{
-    
-}
-
-void UISystem::accept(GEvents::ItemDrop *evt)
+void UISystem::accept(GameEvents::ItemPickup *evt)
 {
     
 }
 
-void UISystem::accept(GEvents::ItemEquip *evt)
+void UISystem::accept(GameEvents::ItemDrop *evt)
 {
     
 }
 
-void UISystem::accept(GEvents::ItemUnequip *evt)
+void UISystem::accept(GameEvents::ItemEquip *evt)
+{
+    
+}
+
+void UISystem::accept(GameEvents::ItemUnequip *evt)
 {
     
 }

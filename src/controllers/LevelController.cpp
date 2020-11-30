@@ -228,6 +228,16 @@ bool EntityMoveController::onKeyDown(IEventKeyPress evt)
 
 bool EntityMoveController::onMouseDown(IEventMouseDown evt)
 {
+    auto tile = m_level->screenCoordsToTile(evt.screenPos);
+
+    if ( m_pathMap.find(tile) != m_pathMap.end() )
+    {
+        // TODO Actually move entity
+        popController();
+        return true;
+    }
+
+
     return false;
 }
 

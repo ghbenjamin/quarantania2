@@ -27,12 +27,12 @@ protected:
 };
 
 template <typename ET>
-class GEvent : public GEventBase
+class GameEvent : public GEventBase
 {
 public:
 
-    GEvent() = default;
-    virtual ~GEvent() = default;
+    GameEvent() = default;
+    virtual ~GameEvent() = default;
 
     static GEventId id()
     {
@@ -86,7 +86,7 @@ public:
 
         GEventSubBase* base = static_cast<SubType*>(receiver);
 
-        m_subs.emplace( GEvent<EvtType>::id(), GEventCallback{ base, timing } );
+        m_subs.emplace(GameEvent<EvtType>::id(), GEventCallback{base, timing } );
     };
 
     template <typename EvtType, typename SubType>
@@ -102,7 +102,7 @@ public:
         static_assert( std::is_base_of_v<GEventBase, EvtType> );
 
         GEventSubBase* base = receiver;
-        auto it_range = m_subs.equal_range( GEvent<EvtType>::id() );
+        auto it_range = m_subs.equal_range(GameEvent<EvtType>::id() );
 
         for (auto it = it_range.first; it != it_range.second; it++)
         {
@@ -119,7 +119,7 @@ public:
     {
         static_assert( std::is_base_of_v<GEventBase, EvtType> );
 
-        auto it_range = m_subs.equal_range( GEvent<EvtType>::id() );
+        auto it_range = m_subs.equal_range(GameEvent<EvtType>::id() );
 
         for ( int i = 0; i < GEventTimingCount; i++ )
         {

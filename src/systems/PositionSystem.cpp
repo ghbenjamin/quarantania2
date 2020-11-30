@@ -4,11 +4,11 @@
 
 PositionSystem::PositionSystem(Level *parent) : System(parent)
 {
-    m_level->events().subscribe<GEvents::EntityMove>( this );
-    m_level->events().subscribe<GEvents::EntityReady>( this );
+    m_level->events().subscribe<GameEvents::EntityMove>(this );
+    m_level->events().subscribe<GameEvents::EntityReady>(this );
 }
 
-void PositionSystem::accept(GEvents::EntityMove *evt)
+void PositionSystem::accept(GameEvents::EntityMove *evt)
 {
     // Make sure the current position of the moved entity is its new position
     m_level->getComponents<PositionComponent>(evt->ent)->position = evt->newPos;
@@ -18,7 +18,7 @@ void PositionSystem::accept(GEvents::EntityMove *evt)
     m_level->grid().addEntToTile( evt->newPos, evt->ent );
 }
 
-void PositionSystem::accept(GEvents::EntityReady *evt)
+void PositionSystem::accept(GameEvents::EntityReady *evt)
 {
     // A new entity has been added - update our cache of which entities are in which tiles
     if ( m_level->entityHas<PositionComponent>(evt->ent) )

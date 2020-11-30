@@ -1,4 +1,4 @@
-#include <game/GEvent.h>
+#include <game/GameEvent.h>
 
 GEventId GEventBase::m_globalId = 0;
 

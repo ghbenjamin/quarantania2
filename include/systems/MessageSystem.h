@@ -1,19 +1,19 @@
 #pragma once
 
 #include <systems/System.h>
-#include <game/GEvent.h>
-#include <game/GEventDefs.h>
+#include <game/GameEvent.h>
+#include <game/GameEventDefs.h>
 
 class MessageSystem : public System,
-                      public GEventSub<GEvents::LevelReady>,
-                      public GEventSub<GEvents::EntityMove>,
-                      public GEventSub<GEvents::EntityOpenClose>
+                      public GEventSub<GameEvents::LevelReady>,
+                      public GEventSub<GameEvents::EntityMove>,
+                      public GEventSub<GameEvents::EntityOpenClose>
 {
 public:
     explicit MessageSystem(Level *parent);
     ~MessageSystem() override = default;
 
-    void accept(GEvents::LevelReady *evt) override;
-    void accept(GEvents::EntityMove *evt) override;
-    void accept(GEvents::EntityOpenClose *evt) override;
+    void accept(GameEvents::LevelReady *evt) override;
+    void accept(GameEvents::EntityMove *evt) override;
+    void accept(GameEvents::EntityOpenClose *evt) override;
 };

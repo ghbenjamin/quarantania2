@@ -10,15 +10,16 @@ class SingleTileHighlight : public Element
 {
 public:
     SingleTileHighlight(Manager* manager, Element* parent, Vector2i tile);
-    virtual ~SingleTileHighlight() = default;
+    ~SingleTileHighlight() override = default;
 };
+
 
 
 class TileRegionHighlight : public Element
 {
 public:
     TileRegionHighlight(Manager* manager, Element* parent, GridRegion region, Colour colour);
-    virtual ~TileRegionHighlight() override = default;
+    ~TileRegionHighlight() override = default;
 
 private:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;

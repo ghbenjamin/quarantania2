@@ -4,22 +4,22 @@
 MessageSystem::MessageSystem(Level *parent)
         : System(parent)
 {
-    m_level->events().subscribe<GEvents::LevelReady>( this );
-    m_level->events().subscribe<GEvents::EntityMove>( this );
-    m_level->events().subscribe<GEvents::EntityOpenClose>( this );
+    m_level->events().subscribe<GameEvents::LevelReady>(this );
+    m_level->events().subscribe<GameEvents::EntityMove>(this );
+    m_level->events().subscribe<GameEvents::EntityOpenClose>(this );
 }
 
-void MessageSystem::accept(GEvents::LevelReady *evt)
+void MessageSystem::accept(GameEvents::LevelReady *evt)
 {
 
 }
 
-void MessageSystem::accept(GEvents::EntityMove *evt)
+void MessageSystem::accept(GameEvents::EntityMove *evt)
 {
 
 }
 
-void MessageSystem::accept(GEvents::EntityOpenClose *evt)
+void MessageSystem::accept(GameEvents::EntityOpenClose *evt)
 {
 
 }

@@ -6,10 +6,10 @@
 CombatSystem::CombatSystem(Level *parent)
         : System(parent)
 {
-    m_level->events().subscribe<GEvents::MeleeAttack>( this );
+    m_level->events().subscribe<GameEvents::MeleeAttack>(this );
 }
 
-void CombatSystem::accept(GEvents::MeleeAttack *evt)
+void CombatSystem::accept(GameEvents::MeleeAttack *evt)
 {
     auto atkActor = m_level->getComponents<ActorComponent>(evt->attacker);
     auto defActor = m_level->getComponents<ActorComponent>(evt->defender);
@@ -22,16 +22,16 @@ void CombatSystem::accept(GEvents::MeleeAttack *evt)
 
     // Work out the AC and attack bonuses of our defender and attacke r
 
-    int attackBonus = atkActor->getBAB() + atkActor->getStr();
+    int attackBonus = atkActor->actor.getBAB() + atkActor->actor.getStr();
     int defenceBonus;
 
-    if ( defActor->isFlatFooted() )
+    if ( defActor->actor.isFlatFooted() )
     {
-        defenceBonus = defActor->getFlatAC();
+        defenceBonus = defActor->actor.getFlatAC();
     }
     else
     {
-        defenceBonus = defActor->getAC();
+        defenceBonus = defActor->actor.getAC();
     }
 
     // Helper for performing a single attack roll
@@ -89,7 +89,7 @@ void CombatSystem::accept(GEvents::MeleeAttack *evt)
         dmg.subType = DamageSubType::Untyped;
         dmg.source = evt->attacker;
 
-        m_level->events().broadcast<GEvents::EntityDamage>( evt->defender, &dmg );
+        m_level->events().broadcast<GameEvents::EntityDamage>(evt->defender, &dmg );
     }
     else
     {

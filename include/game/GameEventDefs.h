@@ -1,15 +1,15 @@
 #pragma once
 
-#include <game/GEvent.h>
+#include <game/GameEvent.h>
 #include <engine/Entity.h>
 #include <game/Items.h>
 
 struct Damage;
 
-namespace GEvents
+namespace GameEvents
 {
 
-struct EntityMove : public GEvent<EntityMove>
+struct EntityMove : public GameEvent<EntityMove>
 {
     EntityMove(EntityRef ent, const Vector2i &oldPos, const Vector2i &newPos);
     ~EntityMove() override = default;
@@ -19,7 +19,7 @@ struct EntityMove : public GEvent<EntityMove>
     Vector2i newPos;
 };
 
-struct EntityReady : public GEvent<EntityReady>
+struct EntityReady : public GameEvent<EntityReady>
 {
     explicit EntityReady(EntityRef ent);
     ~EntityReady() override = default;
@@ -27,7 +27,7 @@ struct EntityReady : public GEvent<EntityReady>
     EntityRef ent;
 };
 
-struct EntityOpenClose : public GEvent<EntityOpenClose>
+struct EntityOpenClose : public GameEvent<EntityOpenClose>
 {
     EntityOpenClose(EntityRef ent, bool isOpen);
     ~EntityOpenClose() override = default;
@@ -36,24 +36,37 @@ struct EntityOpenClose : public GEvent<EntityOpenClose>
     bool isOpen;
 };
 
-struct EntityUnlock : public GEvent<EntityUnlock>
+struct EntityUnlock : public GameEvent<EntityUnlock>
 {
     EntityRef ent;
 };
 
-struct LevelReady : public GEvent<LevelReady>
+struct LevelReady : public GameEvent<LevelReady>
 {
     LevelReady() = default;
     ~LevelReady() override = default;
 };
 
-struct GameTick : public GEvent<GameTick>
+struct TurnChange : public GameEvent<TurnChange>
+{
+    TurnChange(EntityRef prev, EntityRef curr);
+    ~TurnChange() override = default;
+
+    EntityRef previous;
+    EntityRef current;
+};
+
+struct RoundChange : public GameEvent<RoundChange>
+{
+};
+
+struct GameTick : public GameEvent<GameTick>
 {
     GameTick() = default;
     ~GameTick() override = default;
 };
 
-struct MeleeAttack : public GEvent<MeleeAttack>
+struct MeleeAttack : public GameEvent<MeleeAttack>
 {
     MeleeAttack(EntityRef attacker, EntityRef defender, WeaponPtr const& weapon);
     ~MeleeAttack() override = default;
@@ -63,7 +76,7 @@ struct MeleeAttack : public GEvent<MeleeAttack>
     WeaponPtr weapon;
 };
 
-struct ItemPickup : public GEvent<ItemPickup>
+struct ItemPickup : public GameEvent<ItemPickup>
 {
     ItemPickup(EntityRef actor, EntityRef item);
     ~ItemPickup() override = default;
@@ -72,7 +85,7 @@ struct ItemPickup : public GEvent<ItemPickup>
     EntityRef item;
 };
 
-struct ItemDrop : public GEvent<ItemDrop>
+struct ItemDrop : public GameEvent<ItemDrop>
 {
     ItemDrop(EntityRef actor, std::shared_ptr<Item> item);
     ~ItemDrop() override = default;
@@ -81,7 +94,7 @@ struct ItemDrop : public GEvent<ItemDrop>
     std::shared_ptr<Item> item;
 };
 
-struct ItemEquip : public GEvent<ItemEquip>
+struct ItemEquip : public GameEvent<ItemEquip>
 {
     ItemEquip(EntityRef actor, std::shared_ptr<Item> item, EquipSlot slot);
     ~ItemEquip() override = default;
@@ -91,7 +104,7 @@ struct ItemEquip : public GEvent<ItemEquip>
     EquipSlot slot;
 };
 
-struct ItemUnequip : public GEvent<ItemUnequip>
+struct ItemUnequip : public GameEvent<ItemUnequip>
 {
     ItemUnequip(EntityRef actor, EquipSlot slot);
     ~ItemUnequip() override = default;
@@ -100,18 +113,18 @@ struct ItemUnequip : public GEvent<ItemUnequip>
     EquipSlot slot;
 };
 
-struct EntityDeath : public GEvent<EntityDeath>
+struct EntityDeath : public GameEvent<EntityDeath>
 {
     EntityDeath(EntityRef actor);
-    ~EntityDeath() = default;
+    ~EntityDeath() override = default;
 
     EntityRef actor;
 };
 
-struct EntityDamage : public GEvent<EntityDamage>
+struct EntityDamage : public GameEvent<EntityDamage>
 {
     EntityDamage(EntityRef target, Damage const* dmg );
-    ~EntityDamage() = default;
+    ~EntityDamage() override = default;
 
     EntityRef target;
     Damage const* damage;

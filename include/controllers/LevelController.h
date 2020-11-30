@@ -19,7 +19,7 @@ public:
     explicit LevelController( Level* level );
     virtual ~LevelController() = default;
 
-    virtual bool input(IEvent &evt);
+    bool input(IEvent &evt) override;
 
 protected:
     virtual void onHoveredTileChange(Vector2i prev, Vector2i curr);

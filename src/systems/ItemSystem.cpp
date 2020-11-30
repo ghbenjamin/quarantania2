@@ -9,13 +9,13 @@
 ItemSystem::ItemSystem(Level *parent)
         : System(parent)
 {
-    m_level->events().subscribe<GEvents::ItemPickup>( this );
-    m_level->events().subscribe<GEvents::ItemDrop>( this );
-    m_level->events().subscribe<GEvents::ItemEquip>( this );
-    m_level->events().subscribe<GEvents::ItemUnequip>( this );
+    m_level->events().subscribe<GameEvents::ItemPickup>(this);
+    m_level->events().subscribe<GameEvents::ItemDrop>(this);
+    m_level->events().subscribe<GameEvents::ItemEquip>(this);
+    m_level->events().subscribe<GameEvents::ItemUnequip>(this);
 }
 
-void ItemSystem::accept(GEvents::ItemPickup *evt)
+void ItemSystem::accept(GameEvents::ItemPickup *evt)
 {
     auto cont = m_level->getComponents<ContainerComponent>(evt->actor);
     auto item = m_level->getComponents<ItemComponent>(evt->item);
@@ -29,7 +29,7 @@ void ItemSystem::accept(GEvents::ItemPickup *evt)
     m_level->deleteEntity( evt->item );
 }
 
-void ItemSystem::accept(GEvents::ItemDrop *evt)
+void ItemSystem::accept(GameEvents::ItemDrop *evt)
 {
     auto container = m_level->getComponents<ContainerComponent>( evt->actor );
     auto position = m_level->getComponents<PositionComponent>( evt->actor );
@@ -45,32 +45,32 @@ void ItemSystem::accept(GEvents::ItemDrop *evt)
     ));
 }
 
-void ItemSystem::accept(GEvents::ItemEquip *evt)
+void ItemSystem::accept(GameEvents::ItemEquip *evt)
 {
     auto containerC = m_level->getComponents<ContainerComponent>( evt->actor );
     auto actorC = m_level->getComponents<ActorComponent>( evt->actor );
 
     eraseItemFromContainer(containerC, evt->item);
 
-    auto oldItem = actorC->equipItem( evt->slot, evt->item );
+    auto oldItem = actorC->actor.equipItem( evt->slot, evt->item );
     if ( oldItem )
     {
         containerC->items.push_back( oldItem );
     }
 }
 
-void ItemSystem::accept(GEvents::ItemUnequip *evt)
+void ItemSystem::accept(GameEvents::ItemUnequip *evt)
 {
     auto containerC = m_level->getComponents<ContainerComponent>( evt->actor );
     auto actorC = m_level->getComponents<ActorComponent>( evt->actor );
 
-    auto item = actorC->unequipItem( evt->slot );
+    auto item = actorC->actor.unequipItem( evt->slot );
     AssertMsg(!!item, "Unequipping empty item slot");
 
     containerC->items.push_back( item );
 }
 
-void ItemSystem::eraseItemFromContainer(std::shared_ptr<ContainerComponent> container, std::shared_ptr<Item> item)
+void ItemSystem::eraseItemFromContainer(const std::shared_ptr<ContainerComponent>& container, std::shared_ptr<Item> item)
 {
     auto it = std::find( container->items.begin(), container->items.end(), item );
     Assert( it != container->items.end() );

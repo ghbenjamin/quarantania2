@@ -5,7 +5,7 @@
 
 #include <engine/InputInterface.h>
 #include <game/ActionDefs.h>
-#include <game/GEventDefs.h>
+#include <game/GameEventDefs.h>
 #include <game/Level.h>
 #include <graphics/RenderInterface.h>
 #include <resource/ResourceManager.h>
@@ -41,7 +41,7 @@ void Level::setReady()
 {
     generateTurnOrder();
 
-    m_gevents.broadcast<GEvents::LevelReady>();
+    m_gevents.broadcast<GameEvents::LevelReady>();
 }
 
 bool Level::input(IEvent &evt)
@@ -343,7 +343,7 @@ Camera &Level::camera()
 
 void Level::entityReady(EntityRef ent)
 {
-    m_gevents.broadcast<GEvents::EntityReady>( ent );
+    m_gevents.broadcast<GameEvents::EntityReady>(ent );
 }
 
 void Level::addTextLogMessage(std::string_view sv, Colour const& colour)
@@ -361,7 +361,7 @@ std::string_view Level::getDescriptionForEnt(EntityRef ent)
     if ( entityHas<ActorComponent>(ent) )
     {
         auto comp = getComponents<ActorComponent>(ent);
-        return comp->name;
+        return comp->actor.getName();
     }
     else if ( entityHas<ItemComponent>(ent) )
     {

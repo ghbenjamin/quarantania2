@@ -1,8 +1,8 @@
 #pragma once
 
 #include <systems/System.h>
-#include <game/GEvent.h>
-#include <game/GEventDefs.h>
+#include <game/GameEvent.h>
+#include <game/GameEventDefs.h>
 
 struct AttackRollResult
 {
@@ -13,11 +13,11 @@ struct AttackRollResult
 };
 
 class CombatSystem : public System,
-                     public GEventSub<GEvents::MeleeAttack>
+                     public GEventSub<GameEvents::MeleeAttack>
 {
 public:
     explicit CombatSystem(Level* parent);
     ~CombatSystem() override = default;
 
-    void accept(GEvents::MeleeAttack *evt) override;
+    void accept(GameEvents::MeleeAttack *evt) override;
 };

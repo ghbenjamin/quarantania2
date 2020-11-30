@@ -1,17 +1,17 @@
 #pragma once
 
 #include <systems/System.h>
-#include <game/GEvent.h>
-#include <game/GEventDefs.h>
+#include <game/GameEvent.h>
+#include <game/GameEventDefs.h>
 #include <resource/Sprite.h>
 
 class UISystem : public System,
-                 public GEventSub<GEvents::LevelReady>,
-                 public GEventSub<GEvents::EntityMove>,
-                 public GEventSub<GEvents::ItemEquip>,
-                 public GEventSub<GEvents::ItemUnequip>,
-                 public GEventSub<GEvents::ItemPickup>,
-                 public GEventSub<GEvents::ItemDrop>
+                 public GEventSub<GameEvents::LevelReady>,
+                 public GEventSub<GameEvents::EntityMove>,
+                 public GEventSub<GameEvents::ItemEquip>,
+                 public GEventSub<GameEvents::ItemUnequip>,
+                 public GEventSub<GameEvents::ItemPickup>,
+                 public GEventSub<GameEvents::ItemDrop>
 
 
 {
@@ -19,10 +19,10 @@ public:
     explicit UISystem(Level *parent);
     ~UISystem() override = default;
 
-    void accept(GEvents::LevelReady  *evt) override;
-    void accept(GEvents::EntityMove  *evt) override;
-    void accept(GEvents::ItemPickup  *evt) override;
-    void accept(GEvents::ItemDrop    *evt) override;
-    void accept(GEvents::ItemEquip   *evt) override;
-    void accept(GEvents::ItemUnequip *evt) override;
+    void accept(GameEvents::LevelReady  *evt) override;
+    void accept(GameEvents::EntityMove  *evt) override;
+    void accept(GameEvents::ItemPickup  *evt) override;
+    void accept(GameEvents::ItemDrop    *evt) override;
+    void accept(GameEvents::ItemEquip   *evt) override;
+    void accept(GameEvents::ItemUnequip *evt) override;
 };
