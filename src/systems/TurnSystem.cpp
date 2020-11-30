@@ -5,6 +5,7 @@ TurnSystem::TurnSystem(Level *parent) : System(parent)
 {
     m_level->events().subscribe<GameEvents::TurnChange>(this);
     m_level->events().subscribe<GameEvents::RoundChange>(this);
+    m_level->events().subscribe<GameEvents::EntityAction>(this);
 }
 
 void TurnSystem::accept(GameEvents::TurnChange *evt)
@@ -13,6 +14,11 @@ void TurnSystem::accept(GameEvents::TurnChange *evt)
 }
 
 void TurnSystem::accept(GameEvents::RoundChange *evt)
+{
+
+}
+
+void TurnSystem::accept(GameEvents::EntityAction *evt)
 {
 
 }

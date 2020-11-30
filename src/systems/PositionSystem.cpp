@@ -4,8 +4,8 @@
 
 PositionSystem::PositionSystem(Level *parent) : System(parent)
 {
-    m_level->events().subscribe<GameEvents::EntityMove>(this );
-    m_level->events().subscribe<GameEvents::EntityReady>(this );
+    m_level->events().subscribe<GameEvents::EntityMove>(this, GEventTiming::Before);
+    m_level->events().subscribe<GameEvents::EntityReady>(this);
 }
 
 void PositionSystem::accept(GameEvents::EntityMove *evt)

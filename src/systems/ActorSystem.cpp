@@ -5,14 +5,8 @@
 
 ActorSystem::ActorSystem(Level *parent) : System(parent)
 {
-    m_level->events().subscribe<GameEvents::GameTick>(this );
     m_level->events().subscribe<GameEvents::EntityDeath>(this );
     m_level->events().subscribe<GameEvents::EntityDamage>(this );
-}
-
-void ActorSystem::accept(GameEvents::GameTick *evt)
-{
-
 }
 
 void ActorSystem::accept(GameEvents::EntityDeath *evt)

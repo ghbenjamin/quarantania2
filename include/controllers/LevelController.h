@@ -17,7 +17,7 @@ class LevelController : public Controller
 {
 public:
     explicit LevelController( Level* level );
-    virtual ~LevelController() = default;
+    ~LevelController() override = default;
 
     bool input(IEvent &evt) override;
 
@@ -41,7 +41,7 @@ public:
     void update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 
 protected:
-    void onExit() override;
+    void onExitSelf() override;
 
 private:
     bool onMouseMove(IEventMouseMove evt) override;
@@ -55,7 +55,7 @@ private:
 
 
 
-class EntityMoveController : public DefaultLController
+class EntityMoveController : public LevelController
 {
 
 public:
@@ -63,7 +63,7 @@ public:
     void update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 
 protected:
-    void onExit() override;
+    void onExitSelf() override;
 
 private:
     bool onMouseDown(IEventMouseDown evt) override;
@@ -73,5 +73,6 @@ private:
     std::shared_ptr<UI::Element> m_tileHighlight;
     std::shared_ptr<UI::Element> m_pathHighlight;
     EntityRef m_entity;
+    Vector2i m_origin;
     PathMap m_pathMap;
 };

@@ -36,11 +36,6 @@ struct EntityOpenClose : public GameEvent<EntityOpenClose>
     bool isOpen;
 };
 
-struct EntityUnlock : public GameEvent<EntityUnlock>
-{
-    EntityRef ent;
-};
-
 struct LevelReady : public GameEvent<LevelReady>
 {
     LevelReady() = default;
@@ -60,10 +55,13 @@ struct RoundChange : public GameEvent<RoundChange>
 {
 };
 
-struct GameTick : public GameEvent<GameTick>
+struct EntityAction : public GameEvent<EntityAction>
 {
-    GameTick() = default;
-    ~GameTick() override = default;
+    EntityAction(EntityRef entity, int actionPoints);
+    ~EntityAction() override = default;
+
+    EntityRef entity;
+    int actionPoints;
 };
 
 struct MeleeAttack : public GameEvent<MeleeAttack>

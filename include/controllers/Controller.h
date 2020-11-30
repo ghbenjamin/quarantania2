@@ -15,8 +15,8 @@ public:
     virtual bool input(IEvent &evt);
     virtual void update(std::uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
-    virtual void onEnter();
-    virtual void onExit();
+    void onEnter();
+    void onExit();
 
     bool hasNextController() const;
     std::shared_ptr<Controller> getNextController();
@@ -34,6 +34,8 @@ protected:
     void popController();
 
 
+    virtual void onEnterSelf();
+    virtual void onExitSelf();
     virtual bool onMouseMove(IEventMouseMove evt);
     virtual bool onMouseDown(IEventMouseDown evt);
     virtual bool onMouseUp(IEventMouseUp evt);

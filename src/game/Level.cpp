@@ -26,7 +26,8 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     m_entFactory(this),
     m_isComplete(false),
     m_camera( size * GlobalConfig::TileSizePx ),
-    m_uiManager(this)
+    m_uiManager(this),
+    m_currentTurnEntity(EntityNull)
 {
     m_controllers.push_back( std::make_shared<DefaultLController>(this) );
 
@@ -87,10 +88,10 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
     }
     else if ( m_controllers.back()->hasNextController() )
     {
+        auto next = m_controllers.back()->getNextController();
         m_controllers.back()->onExit();
-        m_controllers.push_back( m_controllers.back()->getNextController() );
+        m_controllers.push_back( next );
     }
-
 
     m_controllers.back()->update(ticks, iinter, rInter);
 
@@ -105,9 +106,6 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
 
     // Render the GUI
     m_uiManager.update(ticks, iinter, rInter);
-
-
-
 }
 
 void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
@@ -406,6 +404,7 @@ void Level::generateTurnOrder()
     random().shuffle( actors );
 
     m_turnOrder = std::move(actors);
+    m_currentTurnEntity = m_turnOrder.front();
 }
 
 std::vector<EntityRef> const &Level::turnOrder() const

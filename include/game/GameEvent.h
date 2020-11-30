@@ -9,6 +9,7 @@ using GEventId = std::size_t;
 
 enum class GEventTiming
 {
+    Before,
     On,
     After
 };
@@ -86,7 +87,7 @@ public:
 
         GEventSubBase* base = static_cast<SubType*>(receiver);
 
-        m_subs.emplace(GameEvent<EvtType>::id(), GEventCallback{base, timing } );
+        m_subs.emplace(GameEvent<EvtType>::id(), GEventCallback{base, timing} );
     };
 
     template <typename EvtType, typename SubType>

@@ -32,3 +32,6 @@ GameEvents::EntityDamage::EntityDamage(EntityRef target, Damage const *dmg)
 
 GameEvents::TurnChange::TurnChange(EntityRef prev, EntityRef curr)
     : previous(prev), current(curr) {}
+
+GameEvents::EntityAction::EntityAction(EntityRef entity, int actionPoints)
+    : entity(entity), actionPoints(actionPoints) {}

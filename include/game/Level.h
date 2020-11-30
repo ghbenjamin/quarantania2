@@ -306,6 +306,7 @@ private:
     std::vector<TileRef> m_mapRendering;
     std::vector<LD::BaseTileType> m_baseTilemap;
     Grid m_grid;
+    Camera m_camera;
 
     // Game logic
     std::vector<EntityRef> m_turnOrder;
@@ -324,7 +325,9 @@ private:
     UI::Manager m_uiManager;
     std::shared_ptr<UI::TextLog> m_textLog;
 
-    Camera m_camera;
+    // Tuns
+    EntityRef m_currentTurnEntity;
+
 };
 
 using LevelPtr = std::unique_ptr<Level>;

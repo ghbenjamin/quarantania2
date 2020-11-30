@@ -5,6 +5,7 @@
 
 class TurnSystem : public System,
                    public GEventSub<GameEvents::TurnChange>,
+                   public GEventSub<GameEvents::EntityAction>,
                    public GEventSub<GameEvents::RoundChange>
 {
 public:
@@ -13,4 +14,5 @@ public:
 
     void accept(GameEvents::TurnChange *evt) override;
     void accept(GameEvents::RoundChange *evt) override;
+    void accept(GameEvents::EntityAction *evt) override;
 };
