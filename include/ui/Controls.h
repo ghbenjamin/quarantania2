@@ -10,15 +10,17 @@ namespace UI
 {
 
 
-class TextNode : public Element
+class Label : public Element
 {
 public:
-    TextNode(Manager* manager, Element* parent);
-    explicit TextNode(Manager* manager, Element* parent, TextStyle const& style);
-    ~TextNode() override = default;
+    Label(Manager* manager, Element* parent);
+    explicit Label(Manager* manager, Element* parent, TextStyle const& style);
+    ~Label() override = default;
 
     void setText( std::string const& text );
     void clearText();
+
+    void setColour(Colour colour);
 
 protected:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
@@ -48,21 +50,6 @@ private:
 };
 
 
-
-
-class Label : public Element
-{
-public:
-    Label(Manager* manager, Element* parent);
-    ~Label() override = default;
-
-    void setText( std::string const& text );
-
-private:
-
-    std::shared_ptr<TextNode> m_textNode;
-
-};
 
 
 class Icon : public Element

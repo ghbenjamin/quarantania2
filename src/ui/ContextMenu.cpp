@@ -36,7 +36,7 @@ UI::ContextMenu::ContextMenu(Manager* manager, Element* parent, const UI::Contex
 UI::ContextMenuItem::ContextMenuItem(Manager* manager, Element* parent, std::string const &label, std::size_t idx)
     : Element(manager, parent), m_label(label), m_idx(idx)
 {
-    auto tnode = manager->createElement<UI::TextNode>( this );
+    auto tnode = manager->createElement<UI::Label>(this );
     tnode->setText( label );
     setPadding(0);
 

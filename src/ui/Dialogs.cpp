@@ -17,7 +17,7 @@ UI::Dialog::Dialog(Manager* manager, Element* parent, std::string const &title, 
     titleBar->setLayout<HorizontalLayout>( 0, VAlignment::Centre );
     titleBar->setPadding(4);
 
-    auto titleText = manager->createElement<TextNode>( titleBar.get(), TextStyle{ Colour::Black, titleFont } );
+    auto titleText = manager->createElement<Label>(titleBar.get(), TextStyle{Colour::Black, titleFont } );
     titleText->setText( title );
 
     m_contentHolder = manager->createElement<Element>( this );
@@ -36,7 +36,7 @@ UI::MsgBoxDialog::MsgBoxDialog(UI::Manager *manager, UI::Element *parent, std::s
     auto contentFont = ResourceManager::get().getFont( "inconsolata-regular", 14 );
 
 
-    auto textContent = manager->createElement<TextNode>( m_contentHolder.get(), TextStyle{ Colour::Black, contentFont });
+    auto textContent = manager->createElement<Label>(m_contentHolder.get(), TextStyle{Colour::Black, contentFont });
     textContent->setText( message );
 
     manager->createElement<Button>( m_buttonHolder.get(), "Yes", [](){

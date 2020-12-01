@@ -385,3 +385,8 @@ void Level::nextTurn()
     }
 }
 
+EntityRef Level::getActiveEntity() const
+{
+    return m_currentTurnEntity;
+}
+

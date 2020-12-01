@@ -10,18 +10,18 @@ using namespace UI;
 // ---------------------------------------
 
 
-TextNode::TextNode(Manager* manager, Element* parent, TextStyle const &style)
+Label::Label(Manager* manager, Element* parent, TextStyle const &style)
         : Element(manager, parent), m_style(style)
 {
 }
 
-TextNode::TextNode(Manager* manager, Element* parent)
-        : TextNode(manager, parent, { Colour::Black, ResourceManager::get().getFont( "inconsolata-regular", 14 )})
+Label::Label(Manager* manager, Element* parent)
+        : Label(manager, parent, {Colour::Black, ResourceManager::get().getFont("inconsolata-regular", 14 )})
 {
 }
 
 
-void TextNode::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
+void Label::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
     if ( m_renderObject.texture != nullptr )
     {
@@ -29,7 +29,7 @@ void TextNode::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterfac
     }
 }
 
-void TextNode::renderText()
+void Label::renderText()
 {
     if ( m_data.empty() )
         return;
@@ -56,7 +56,7 @@ void TextNode::renderText()
     onMoveSelf();
 }
 
-void TextNode::setText(std::string const &text)
+void Label::setText(std::string const &text)
 {
     m_data = text;
     renderText();
@@ -64,41 +64,34 @@ void TextNode::setText(std::string const &text)
     setPreferredContentSize( m_rendered->size() );
 }
 
-void TextNode::onSizeSelf()
+void Label::onSizeSelf()
 {
 
 }
 
-void TextNode::onMoveSelf()
+void Label::onMoveSelf()
 {
-    auto pos = globalPosition();
+    auto pos = globalPosition() + contentOffset();
     m_renderObject.targetRect.x = pos.x();
     m_renderObject.targetRect.y = pos.y();
 }
 
-void TextNode::clearText()
+void Label::clearText()
 {
     m_renderObject = RenderObject();
     m_data = "";
-
-    // TODO Also update preferred size
+    setPreferredContentSize({0, 0});
 }
 
-
-
-// Label
-// ---------------------------------------
-
-Label::Label(Manager* manager, Element* parent)
-        : Element(manager, parent)
+void Label::setColour(Colour colour)
 {
-    m_textNode = manager->createElement<TextNode>(this);
+    if (colour != m_style.textColour)
+    {
+        m_style.textColour = colour;
+        renderText();
+    }
 }
 
-void Label::setText(std::string const &text)
-{
-    m_textNode->setText( text );
-}
 
 
 // Button
@@ -110,7 +103,7 @@ UI::Button::Button(Manager *manager, Element *parent, const std::string &text, s
     setPadding( 4 );
     setBackgroundColour({200, 200, 200, 255});
 
-    auto textNode = manager->createElement<UI::TextNode>( this );
+    auto textNode = manager->createElement<UI::Label>(this );
     textNode->setText( text );
 
     addEventCallback(UEventType::Click, [this] (UEvent& evt) {

@@ -82,12 +82,15 @@ public:
     std::string_view getDescriptionForItem( ItemPtr item );
 
     // Game Logic
+
+    // The list of entities in the level, in turn order
     std::vector<EntityRef> const& turnOrder() const;
 
-    /**
-     * The mark that the current entity has finished its turn, and that the turn should be passed to the next
-     * entity in the queue.
-     */
+    // The entity whose turn it is
+    EntityRef getActiveEntity() const;
+
+    // Mark that the current entity has finished its turn, and that the turn should be passed to the next
+    // entity in the queue.
     void nextTurn();
 
 private:

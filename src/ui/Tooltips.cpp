@@ -11,17 +11,17 @@ UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipD
     setLayout<VerticalLayout>( 4, HAlignment::Fill );
     setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000});
 
-    auto titleNode = manager->createElement<TextNode>(this, TextStyle{ Colour::Black, titleFont });
+    auto titleNode = manager->createElement<Label>(this, TextStyle{Colour::Black, titleFont });
     titleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
     titleNode->setText( data.title );
 
-    auto subtitleNode = manager->createElement<TextNode>(this, TextStyle{ Colour::Black, contentFont });
+    auto subtitleNode = manager->createElement<Label>(this, TextStyle{Colour::Black, contentFont });
     subtitleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
     subtitleNode->setText( data.subtitle );
 
     if ( longContent )
     {
-        auto contentNode = manager->createElement<TextNode>(this, TextStyle{ Colour::Black, contentFont });
+        auto contentNode = manager->createElement<Label>(this, TextStyle{Colour::Black, contentFont });
         contentNode->setMaximumOuterSize({ TOOLTIP_MAX_WIDTH, 1000 });
         contentNode->setText( data.content );
     }
