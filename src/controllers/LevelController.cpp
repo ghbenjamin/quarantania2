@@ -1,7 +1,6 @@
 #include <controllers/LevelController.h>
 #include <game/Level.h>
 #include <game/ActionDefs.h>
-#include <components/DescriptionComponent.h>
 #include <components/ItemComponent.h>
 #include <components/ActorComponent.h>
 #include <components/PositionComponent.h>

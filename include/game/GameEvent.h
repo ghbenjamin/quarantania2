@@ -14,7 +14,7 @@ enum class GEventTiming
     After
 };
 
-static constexpr int GEventTimingCount = 2;
+static constexpr int GEventTimingCount = 3;
 
 
 class GEventBase
