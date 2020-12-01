@@ -15,7 +15,7 @@ void ActorSystem::accept(GameEvents::EntityDeath *evt)
             m_level->getDescriptionForEnt(evt->actor)
     ));
 
-    m_level->deleteEntityDelayed( evt->actor );
+    m_level->ecs().deleteEntityDelayed( evt->actor );
 }
 
 void ActorSystem::accept(GameEvents::EntityDamage *evt)

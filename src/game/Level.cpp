@@ -1,39 +1,28 @@
 #include <utility>
 
 #include <components/All.h>
-#include <systems/All.h>
-
 #include <engine/InputInterface.h>
 #include <game/ActionDefs.h>
 #include <game/GameEventDefs.h>
 #include <game/Level.h>
 #include <graphics/RenderInterface.h>
 #include <resource/ResourceManager.h>
-#include <ui/ContainerView.h>
-#include <ui/Dialogs.h>
-#include <ui/Layout.h>
 #include <ui/TextLog.h>
 #include <ui/LevelUi.h>
-#include <utils/Assert.h>
 #include <utils/GlobalConfig.h>
-#include <utils/Logging.h>
 
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 :   m_ctx(std::move(ctx)),
     m_grid(size),
     m_random(rg),
-    m_entFactory(this),
     m_isComplete(false),
     m_camera( size * GlobalConfig::TileSizePx ),
     m_uiManager(this),
-    m_currentTurnEntity(EntityNull)
+    m_currentTurnEntity(EntityNull),
+    m_ecs(this),
+    m_controllers{ std::make_shared<DefaultLController>(this) }
 {
-    m_controllers.push_back( std::make_shared<DefaultLController>(this) );
-
-    registerComponents<AllComponents>();
-    registerSystems<AllSystems>();
-
     setupUI();
     layoutWindows();
 }
@@ -71,15 +60,12 @@ void Level::render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
 
 void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
 {
+    // Specify which camera we are using
     rInter.setCamera(&m_camera);
 
-    // Delete our delayed delete entities
-    for ( EntityRef ent : m_delayedDeleteEnts )
-    {
-        deleteEntity( ent );
-    }
 
     // Handle controller changes if necessary
+
     if ( m_controllers.back()->shouldPopController() )
     {
         m_controllers.back()->onExit();
@@ -98,11 +84,8 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
     // Render statics: tiles, etc.
     render(ticks, iinter, rInter);
 
-    // Render everything managed by the ECS
-    for ( auto const& sys : m_systems )
-    {
-        sys->update( ticks, rInter );
-    }
+    // Update + render our entities
+    m_ecs.update(ticks, iinter, rInter);
 
     // Render the GUI
     m_uiManager.update(ticks, iinter, rInter);
@@ -135,29 +118,6 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
     }
 }
 
-EntityRef Level::createEntity()
-{
-    // Requisition a new ID from the pool, but don't construct any new
-    // component objects
-    return m_entityPool.next();
-}
-
-void Level::deleteEntity(EntityRef ent)
-{
-    // Delete all the components attached to this entity
-    for ( auto &[k, v] : m_components )
-    {
-        auto it = v.find(ent);
-        if ( it != v.end() )
-        {
-            v.erase(it);
-        }
-    }
-
-    // Put the ID back into the pool
-    m_entityPool.release(ent);
-}
-
 GEventHub &Level::events()
 {
     return m_gevents;
@@ -166,6 +126,16 @@ GEventHub &Level::events()
 Grid& Level::grid( )
 {
     return m_grid;
+}
+
+Camera &Level::camera()
+{
+    return m_camera;
+}
+
+ECS &Level::ecs()
+{
+    return m_ecs;
 }
 
 Vector2i Level::screenCoordsToWorld(Vector2i const &screen)
@@ -234,25 +204,25 @@ std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subjec
 {
     std::vector<ActionPtr> out;
 
-    if ( entityHas<ActorComponent>(subject) )
+    if ( m_ecs.entityHas<ActorComponent>(subject) )
     {
-        auto actorC = getComponents<ActorComponent>(subject);
+        auto actorC = m_ecs.getComponents<ActorComponent>(subject);
 
         auto act = std::make_shared<MeleeAttackAction>(this, actor, subject);
         out.push_back( std::static_pointer_cast<Action>(act) );
     }
 
-    if ( entityHas<ItemComponent>(subject) )
+    if ( m_ecs.entityHas<ItemComponent>(subject) )
     {
-        auto itemC = getComponents<ItemComponent>(subject);
+        auto itemC = m_ecs.getComponents<ItemComponent>(subject);
 
         auto act = std::make_shared<PickUpItemAction>(this, actor, subject);
         out.push_back( std::static_pointer_cast<Action>(act) );
     }
 
-    if ( entityHas<OpenableComponent>(subject) )
+    if ( m_ecs.entityHas<OpenableComponent>(subject) )
     {
-        auto openable = getComponents<OpenableComponent>(subject);
+        auto openable = m_ecs.getComponents<OpenableComponent>(subject);
         if ( openable->isOpen)
         {
             auto act = std::make_shared<CloseAction>(this, actor, subject);
@@ -265,9 +235,9 @@ std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subjec
         }
     }
 
-    if ( entityHas<LockableComponent>(subject) )
+    if ( m_ecs.entityHas<LockableComponent>(subject) )
     {
-        auto lockable = getComponents<LockableComponent>(subject);
+        auto lockable = m_ecs.getComponents<LockableComponent>(subject);
         if ( lockable->isLocked )
         {
             auto act = std::make_shared<UnlockAction>(this, actor, subject);
@@ -275,9 +245,9 @@ std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subjec
         }
     }
 
-    if ( entityHas<ActionComponent>(subject) )
+    if ( m_ecs.entityHas<ActionComponent>(subject) )
     {
-        auto actionComp = getComponents<ActionComponent>(subject);
+        auto actionComp = m_ecs.getComponents<ActionComponent>(subject);
         for ( auto const& act : actionComp->actions )
         {
             act->setActor(actor);
@@ -322,8 +292,8 @@ bool Level::isComplete() const
 
 int Level::squaredEntityDistance(EntityRef a, EntityRef b)
 {
-    auto transformA = getComponents<PositionComponent>(a);
-    auto transformB = getComponents<PositionComponent>(b);
+    auto transformA = m_ecs.getComponents<PositionComponent>(a);
+    auto transformB = m_ecs.getComponents<PositionComponent>(b);
 
     Vector2i distance = transformB->position - transformA->position;
     return distance.x() * distance.x() + distance.y() * distance.y();
@@ -332,16 +302,6 @@ int Level::squaredEntityDistance(EntityRef a, EntityRef b)
 void Level::setComplete()
 {
     m_isComplete = true;
-}
-
-Camera &Level::camera()
-{
-    return m_camera;
-}
-
-void Level::entityReady(EntityRef ent)
-{
-    m_gevents.broadcast<GameEvents::EntityReady>(ent );
 }
 
 void Level::addTextLogMessage(std::string_view sv, Colour const& colour)
@@ -356,14 +316,14 @@ void Level::addTextLogMessage(std::string_view sv)
 
 std::string_view Level::getDescriptionForEnt(EntityRef ent)
 {
-    if ( entityHas<ActorComponent>(ent) )
+    if ( m_ecs.entityHas<ActorComponent>(ent) )
     {
-        auto comp = getComponents<ActorComponent>(ent);
+        auto comp = m_ecs.getComponents<ActorComponent>(ent);
         return comp->actor.getName();
     }
-    else if ( entityHas<ItemComponent>(ent) )
+    else if ( m_ecs.entityHas<ItemComponent>(ent) )
     {
-        auto comp = getComponents<ItemComponent>(ent);
+        auto comp = m_ecs.getComponents<ItemComponent>(ent);
         return comp->item->getName();
     }
 
@@ -375,19 +335,9 @@ std::string_view Level::getDescriptionForItem(ItemPtr item)
     return item->getName();
 }
 
-EntityFactory &Level::entityFactory()
-{
-    return m_entFactory;
-}
-
 RandomInterface &Level::random()
 {
     return m_random;
-}
-
-void Level::deleteEntityDelayed(EntityRef ent)
-{
-    m_delayedDeleteEnts.push_back( ent );
 }
 
 void Level::setLayout(const LD::LevelLayout &llayout)
@@ -400,7 +350,7 @@ void Level::setLayout(const LD::LevelLayout &llayout)
 void Level::generateTurnOrder()
 {
     // TODO: Include the attributes of the entities in this calculation
-    auto actors = entitiesHaving<ActorComponent>();
+    auto actors = m_ecs.entitiesHaving<ActorComponent>();
     random().shuffle( actors );
 
     m_turnOrder = std::move(actors);
@@ -410,5 +360,28 @@ void Level::generateTurnOrder()
 std::vector<EntityRef> const &Level::turnOrder() const
 {
     return m_turnOrder;
+}
+
+void Level::nextTurn()
+{
+    bool newRound = false;
+    auto it = std::find(m_turnOrder.begin(), m_turnOrder.end(), m_currentTurnEntity);
+    it++;
+
+    if (it == m_turnOrder.end())
+    {
+        it = m_turnOrder.begin();
+        newRound = true;
+    }
+
+    auto oldEnt = m_currentTurnEntity;
+    m_currentTurnEntity = *it;
+
+    events().broadcast<GameEvents::TurnChange>(oldEnt, m_currentTurnEntity);
+
+    if (newRound)
+    {
+        events().broadcast<GameEvents::RoundChange>();
+    }
 }
 

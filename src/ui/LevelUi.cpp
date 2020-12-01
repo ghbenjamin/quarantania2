@@ -10,7 +10,7 @@ UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, 
     setBorder( 2, Colour::White );
     setLayout<HorizontalLayout>( 1, VAlignment::Centre );
 
-    auto actorC = manager->level()->getComponents<ActorComponent>(ref);
+    auto actorC = manager->level()->ecs().getComponents<ActorComponent>(ref);
     if ( actorC->actorType == ActorType::PC )
     {
         setBackgroundColour( Colour::Green );
@@ -25,7 +25,7 @@ UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, 
     }
     
 
-    auto iconSprite = manager->level()->getComponents<RenderComponent>(ref)->sprites[0];
+    auto iconSprite = manager->level()->ecs().getComponents<RenderComponent>(ref)->sprites[0];
     auto icon = manager->createElement<Icon>(this, iconSprite);
     icon->setPadding(2);
 

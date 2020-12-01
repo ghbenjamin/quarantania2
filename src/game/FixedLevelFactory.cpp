@@ -1,6 +1,7 @@
 #include <game/FixedLevelFactory.h>
 #include <resource/Tiled.h>
 #include <utils/Assert.h>
+#include <game/ECS.h>
 
 FixedLevelFactory::FixedLevelFactory() : LevelFactory() {}
 
@@ -104,7 +105,7 @@ void FixedLevelFactory::constructFixedObjects(TiledObjectLayer const& olayer)
 {
     for ( auto const& object : olayer.objects )
     {
-        m_level->entityFactory().createObject(object.tilePos, object.name,
+        m_level->ecs().entityFactory().createObject(object.tilePos, object.name,
                 m_map->keyFromIdPair(object.sprite), object.props);
     }
 }
@@ -116,7 +117,7 @@ void FixedLevelFactory::constructDecor(const TiledObjectLayer &olayer)
         Assert( object.gid != 0 );
 
         SpritesheetKey skey = m_map->keyFromIdPair( object.sprite );
-        m_level->entityFactory().createDecor( object.tilePos, skey );
+        m_level->ecs().entityFactory().createDecor( object.tilePos, skey );
     }
 }
 
@@ -187,7 +188,7 @@ void FixedLevelFactory::constructParty(const PartyData &pdata)
 
     for ( ; playerIt != pdata.playerChars.end(); playerIt++,spawnIt++ )
     {
-        m_level->entityFactory()
+        m_level->ecs().entityFactory()
                .createPlayer(spawnIt->pos, playerIt->generateNewPlayer());
     }
 }
@@ -198,7 +199,7 @@ void FixedLevelFactory::constructEnemies()
     {
         if ( !spawn.name.empty() )
         {
-            m_level->entityFactory().createEnemy( spawn.pos, spawn.name );
+            m_level->ecs().entityFactory().createEnemy( spawn.pos, spawn.name );
         }
         else
         {

@@ -9,6 +9,7 @@
 #include <systems/UISystem.h>
 #include <systems/PositionSystem.h>
 #include <systems/RenderSystem.h>
+#include <systems/TurnSystem.h>
 
 template <typename ... Ts >
 struct SystemTypes {};
@@ -22,5 +23,6 @@ using AllSystems = SystemTypes<
     MessageSystem,
     UISystem,
     PositionSystem,
-    RenderSystem
+    RenderSystem,
+    TurnSystem
         >;

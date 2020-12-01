@@ -10,15 +10,14 @@ TurnSystem::TurnSystem(Level *parent) : System(parent)
 
 void TurnSystem::accept(GameEvents::TurnChange *evt)
 {
-
 }
 
 void TurnSystem::accept(GameEvents::RoundChange *evt)
 {
-
 }
 
 void TurnSystem::accept(GameEvents::EntityAction *evt)
 {
-
+    // TODO Don't advance the turn for every action
+    m_level->nextTurn();
 }

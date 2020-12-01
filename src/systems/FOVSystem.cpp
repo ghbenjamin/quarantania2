@@ -58,7 +58,7 @@ void FOVSystem::recalculateFOV()
 {
     std::vector<FOVObserver> sources;
 
-    for ( auto const&[actor, position] : m_level->entitiesWith<ActorComponent, PositionComponent>() )
+    for ( auto const&[actor, position] : m_level->ecs().entitiesWith<ActorComponent, PositionComponent>() )
     {
         if (actor->actorType == ActorType::PC)
         {

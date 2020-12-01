@@ -66,7 +66,7 @@ void UI::ContainerView::onMoveSelf()
 
 void UI::ContainerView::reimportItems()
 {
-    auto container = manager()->level()->getComponents<ContainerComponent>(m_entity);
+    auto container = manager()->level()->ecs().getComponents<ContainerComponent>(m_entity);
 
     m_items.clear();
     for ( auto const& item : container->items )

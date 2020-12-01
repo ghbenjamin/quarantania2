@@ -1,6 +1,7 @@
 #include <controllers/LevelController.h>
 #include <game/Level.h>
 #include <game/ActionDefs.h>
+#include <game/GameEventDefs.h>
 #include <components/ItemComponent.h>
 #include <components/ActorComponent.h>
 #include <components/PositionComponent.h>
@@ -106,9 +107,9 @@ bool DefaultLController::onMouseDown(IEventMouseDown evt)
     {
         for ( EntityRef ref : ents )
         {
-            if ( m_level->entityHas<ActorComponent>(ref) )
+            if ( m_level->ecs().entityHas<ActorComponent>(ref) )
             {
-                auto actorComp = m_level->getComponents<ActorComponent>(ref);
+                auto actorComp = m_level->ecs().getComponents<ActorComponent>(ref);
                 if ( actorComp->actorType == ActorType::PC )
                 {
                     // Debug
@@ -175,7 +176,7 @@ void DefaultLController::onExitSelf()
 EntityMoveController::EntityMoveController(Level* level, EntityRef entity)
         : LevelController(level), m_entity(entity)
 {
-    auto position = m_level->getComponents<PositionComponent>(entity);
+    auto position = m_level->ecs().getComponents<PositionComponent>(entity);
     m_origin = position->position;
     m_pathMap = m_level->grid().allPathsFromTile(m_origin, 8);
 
@@ -213,12 +214,8 @@ bool EntityMoveController::onMouseDown(IEventMouseDown evt)
 
     if ( m_pathMap.find(tile) != m_pathMap.end() )
     {
-
-        auto moveEvent = GameEvents::EntityMove(m_entity, m_origin, tile);
-        m_level->events().broadcast<GameEvents::EntityMove>(moveEvent);
-
-        auto entityActionEvent = GameEvents::EntityAction(m_entity, 5 /* TODO Actual*/);
-        m_level->events().broadcast<GameEvents::EntityAction>(entityActionEvent);
+        m_level->events().broadcast<GameEvents::EntityMove>(m_entity, m_origin, tile);
+        m_level->events().broadcast<GameEvents::EntityAction>(m_entity, 5 /* TODO Actual*/);
 
         popController();
         return true;

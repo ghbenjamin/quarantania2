@@ -4,13 +4,12 @@
 
 #include <game/Level.h>
 #include <components/All.h>
-#include <utils/GridUtils.h>
-#include <components/ContainerComponent.h>
 #include <utils/Assert.h>
+#include <game/GameEventDefs.h>
 
 bool StepAction::doAction() const
 {
-    auto tilePos = m_level->getComponents<PositionComponent>(m_actor);
+    auto tilePos = m_level->ecs().getComponents<PositionComponent>(m_actor);
     m_level->events().broadcast<GameEvents::EntityMove>(m_actor, tilePos->position, m_tile );
 
     return true;
@@ -18,7 +17,7 @@ bool StepAction::doAction() const
 
 bool StepAction::canTryAction() const
 {
-    auto tilePos = m_level->getComponents<PositionComponent>(m_actor);
+    auto tilePos = m_level->ecs().getComponents<PositionComponent>(m_actor);
 
     if ( !GridUtils::isAdjacent(tilePos->position, m_tile ) )
     {
@@ -47,7 +46,7 @@ bool OpenAction::doAction() const
 
 bool OpenAction::canTryAction() const
 {
-    auto openable = m_level->getComponents<OpenableComponent>(m_subject);
+    auto openable = m_level->ecs().getComponents<OpenableComponent>(m_subject);
     if (!openable) return false;
 
     if (openable->isOpen) return false;
@@ -70,7 +69,7 @@ bool CloseAction::doAction() const
 
 bool CloseAction::canTryAction() const
 {
-    auto openable = m_level->getComponents<OpenableComponent>(m_subject);
+    auto openable = m_level->ecs().getComponents<OpenableComponent>(m_subject);
     if (!openable) return false;
 
     if (!openable->isOpen) return false;
@@ -92,14 +91,14 @@ const char *UnlockAction::description() const
 
 bool UnlockAction::canTryAction() const
 {
-    auto lockable = m_level->getComponents<LockableComponent>(m_subject);
+    auto lockable = m_level->ecs().getComponents<LockableComponent>(m_subject);
     if (!lockable) return false;
     return lockable->isLocked;
 }
 
 bool UnlockAction::doAction() const
 {
-    auto lockable = m_level->getComponents<LockableComponent>(m_subject);
+    auto lockable = m_level->ecs().getComponents<LockableComponent>(m_subject);
     return false;
 }
 
@@ -131,7 +130,7 @@ bool MeleeAttackAction::canTryAction() const
 {
     if ( m_actor == m_subject ) return false;
 
-    auto actorC = m_level->getComponents<ActorComponent>( m_actor );
+    auto actorC = m_level->ecs().getComponents<ActorComponent>( m_actor );
     auto weapon = actorC->actor.getActiveWeapon();
 
     if ( !weapon ) return false;
@@ -144,7 +143,7 @@ bool MeleeAttackAction::canTryAction() const
 
 bool MeleeAttackAction::doAction() const
 {
-    auto actorC = m_level->getComponents<ActorComponent>( m_actor );
+    auto actorC = m_level->ecs().getComponents<ActorComponent>( m_actor );
     auto weapon = actorC->actor.getActiveWeapon();
 
     m_level->events().broadcast<GameEvents::MeleeAttack>(m_actor, m_subject, weapon );
@@ -158,14 +157,14 @@ const char *PickUpItemAction::description() const
 
 bool PickUpItemAction::canTryAction() const
 {
-    if ( !m_level->entityHas<ContainerComponent>(m_actor) ) return false;
+    if ( !m_level->ecs().entityHas<ContainerComponent>(m_actor) ) return false;
 
     return true;
 }
 
 bool PickUpItemAction::doAction() const
 {
-    auto container = m_level->getComponents<ContainerComponent>( m_actor );
+    auto container = m_level->ecs().getComponents<ContainerComponent>( m_actor );
 
     if ( (int)container->items.size() + 1 > container->maxItems ) return false;
 
@@ -192,7 +191,7 @@ bool DropItemAction::canTryAction() const
 
 bool DropItemAction::doAction() const
 {
-    auto container = m_level->getComponents<ContainerComponent>( m_actor );
+    auto container = m_level->ecs().getComponents<ContainerComponent>( m_actor );
     m_level->events().broadcast<GameEvents::ItemDrop>(m_actor, m_item );
 
     return true;
@@ -215,8 +214,8 @@ bool EquipItemAction::canTryAction() const
 
 bool EquipItemAction::doAction() const
 {
-    auto containerC = m_level->getComponents<ContainerComponent>( m_actor );
-    auto actorC = m_level->getComponents<ActorComponent>( m_actor );
+    auto containerC = m_level->ecs().getComponents<ContainerComponent>( m_actor );
+    auto actorC = m_level->ecs().getComponents<ActorComponent>( m_actor );
     auto slot = m_item->getEquipSlot();
 
     if ( slot == EquipSlot::None )

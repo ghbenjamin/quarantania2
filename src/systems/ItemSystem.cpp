@@ -17,8 +17,8 @@ ItemSystem::ItemSystem(Level *parent)
 
 void ItemSystem::accept(GameEvents::ItemPickup *evt)
 {
-    auto cont = m_level->getComponents<ContainerComponent>(evt->actor);
-    auto item = m_level->getComponents<ItemComponent>(evt->item);
+    auto cont = m_level->ecs().getComponents<ContainerComponent>(evt->actor);
+    auto item = m_level->ecs().getComponents<ItemComponent>(evt->item);
 
     m_level->addTextLogMessage( fmt::format("{} picks up the {}",
             m_level->getDescriptionForEnt( evt->actor ),
@@ -26,17 +26,17 @@ void ItemSystem::accept(GameEvents::ItemPickup *evt)
     ));
 
     cont->items.push_back( item->item );
-    m_level->deleteEntity( evt->item );
+    m_level->ecs().deleteEntity( evt->item );
 }
 
 void ItemSystem::accept(GameEvents::ItemDrop *evt)
 {
-    auto container = m_level->getComponents<ContainerComponent>( evt->actor );
-    auto position = m_level->getComponents<PositionComponent>( evt->actor );
+    auto container = m_level->ecs().getComponents<ContainerComponent>( evt->actor );
+    auto position = m_level->ecs().getComponents<PositionComponent>( evt->actor );
 
     eraseItemFromContainer(container, evt->item);
 
-    auto itemEnt = m_level->entityFactory()
+    auto itemEnt = m_level->ecs().entityFactory()
                           .createItem(position->position, evt->item);
 
     m_level->addTextLogMessage( fmt::format("{} drops the {}",
@@ -47,8 +47,8 @@ void ItemSystem::accept(GameEvents::ItemDrop *evt)
 
 void ItemSystem::accept(GameEvents::ItemEquip *evt)
 {
-    auto containerC = m_level->getComponents<ContainerComponent>( evt->actor );
-    auto actorC = m_level->getComponents<ActorComponent>( evt->actor );
+    auto containerC = m_level->ecs().getComponents<ContainerComponent>( evt->actor );
+    auto actorC = m_level->ecs().getComponents<ActorComponent>( evt->actor );
 
     eraseItemFromContainer(containerC, evt->item);
 
@@ -61,8 +61,8 @@ void ItemSystem::accept(GameEvents::ItemEquip *evt)
 
 void ItemSystem::accept(GameEvents::ItemUnequip *evt)
 {
-    auto containerC = m_level->getComponents<ContainerComponent>( evt->actor );
-    auto actorC = m_level->getComponents<ActorComponent>( evt->actor );
+    auto containerC = m_level->ecs().getComponents<ContainerComponent>( evt->actor );
+    auto actorC = m_level->ecs().getComponents<ActorComponent>( evt->actor );
 
     auto item = actorC->actor.unequipItem( evt->slot );
     AssertMsg(!!item, "Unequipping empty item slot");
