@@ -12,9 +12,6 @@ public:
     explicit TurnSystem(Level *parent);
     ~TurnSystem() override = default;
 
-
-    void consume(GEventBase* evt);
-
     void accept(GameEvents::TurnChange *evt) override;
     void accept(GameEvents::RoundChange *evt) override;
     void accept(GameEvents::EntityAction *evt) override;

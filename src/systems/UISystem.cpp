@@ -11,6 +11,7 @@ UISystem::UISystem(Level *parent)
     m_level->events().subscribe<GameEvents::ItemDrop>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::ItemEquip>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::ItemUnequip>(this, GEventTiming::After );
+    m_level->events().subscribe<GameEvents::TurnChange>(this, GEventTiming::After );
 }
 
 void UISystem::accept(GameEvents::LevelReady *evt)
@@ -42,4 +43,10 @@ void UISystem::accept(GameEvents::ItemEquip *evt)
 void UISystem::accept(GameEvents::ItemUnequip *evt)
 {
     
+}
+
+void UISystem::accept(GameEvents::TurnChange *evt)
+{
+    auto turnOrder = m_level->ui().withId( "turn-order-container" )->asType<UI::TurnOrderContainer>();
+    turnOrder->refresh();
 }

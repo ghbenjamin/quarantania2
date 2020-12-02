@@ -11,9 +11,8 @@ class UISystem : public System,
                  public GEventSub<GameEvents::ItemEquip>,
                  public GEventSub<GameEvents::ItemUnequip>,
                  public GEventSub<GameEvents::ItemPickup>,
-                 public GEventSub<GameEvents::ItemDrop>
-
-
+                 public GEventSub<GameEvents::ItemDrop>,
+                 public GEventSub<GameEvents::TurnChange>
 {
 public:
     explicit UISystem(Level *parent);
@@ -25,4 +24,6 @@ public:
     void accept(GameEvents::ItemDrop    *evt) override;
     void accept(GameEvents::ItemEquip   *evt) override;
     void accept(GameEvents::ItemUnequip *evt) override;
+
+    void accept(GameEvents::TurnChange *evt) override;
 };

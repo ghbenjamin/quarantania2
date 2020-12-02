@@ -13,11 +13,11 @@ UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, 
     auto actorC = manager->level()->ecs().getComponents<ActorComponent>(ref);
     if ( actorC->actorType == ActorType::PC )
     {
-        setBackgroundColour( Colour(0, 153, 255, 200) );
+        setBackgroundColour( Colour(0, 153, 255, 220) );
     }
     else if (actorC->actorType == ActorType::NPC)
     {
-        setBackgroundColour( Colour(255, 102, 102, 200) );
+        setBackgroundColour( Colour(255, 102, 102, 220) );
     }
     else
     {
