@@ -1,7 +1,11 @@
 #include <game/GameEventDefs.h>
 
 GameEvents::EntityMove::EntityMove(EntityRef ent, const Vector2i &oldPos, const Vector2i &newPos)
-    : ent(ent), oldPos(oldPos), newPos(newPos) {}
+    : ent(ent), oldPos(oldPos), newPos(newPos), path(std::nullopt) {}
+
+GameEvents::EntityMove::EntityMove(EntityRef ent, const Vector2i &oldPos,
+                                   const Vector2i &newPos, const std::vector<Vector2i> &path)
+    : ent(ent), oldPos(oldPos), newPos(newPos), path(path) {}
 
 GameEvents::EntityReady::EntityReady(EntityRef ent)
     : ent(ent) {}

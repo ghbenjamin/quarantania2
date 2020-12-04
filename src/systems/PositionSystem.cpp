@@ -1,6 +1,7 @@
 #include <systems/PositionSystem.h>
 #include <game/Level.h>
 #include <components/PositionComponent.h>
+#include <utils/GlobalConfig.h>
 
 PositionSystem::PositionSystem(Level *parent) : System(parent)
 {
@@ -11,7 +12,9 @@ PositionSystem::PositionSystem(Level *parent) : System(parent)
 void PositionSystem::accept(GameEvents::EntityMove *evt)
 {
     // Make sure the current position of the moved entity is its new position
-    m_level->ecs().getComponents<PositionComponent>(evt->ent)->position = evt->newPos;
+    auto posC = m_level->ecs().getComponents<PositionComponent>(evt->ent);
+    posC->tilePosition = evt->newPos;
+    posC->pixelPosition = evt->newPos * GlobalConfig::TileSizePx;
 
     // Update our cache of which entites are in which tiles
     m_level->grid().removeEntFromTile( evt->oldPos, evt->ent );
@@ -24,6 +27,6 @@ void PositionSystem::accept(GameEvents::EntityReady *evt)
     if ( m_level->ecs().entityHas<PositionComponent>(evt->ent) )
     {
         auto const& pos = m_level->ecs().getComponents<PositionComponent>(evt->ent);
-        m_level->grid().addEntToTile( pos->position, evt->ent );
+        m_level->grid().addEntToTile( pos->tilePosition, evt->ent );
     }
 }

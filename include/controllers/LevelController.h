@@ -72,6 +72,7 @@ private:
 
     std::shared_ptr<UI::Element> m_tileHighlight;
     std::shared_ptr<UI::Element> m_pathHighlight;
+    std::vector<Vector2i> m_tilePath;
     EntityRef m_entity;
     Vector2i m_origin;
     PathMap m_pathMap;

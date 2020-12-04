@@ -10,7 +10,7 @@
 bool StepAction::doAction() const
 {
     auto tilePos = m_level->ecs().getComponents<PositionComponent>(m_actor);
-    m_level->events().broadcast<GameEvents::EntityMove>(m_actor, tilePos->position, m_tile );
+    m_level->events().broadcast<GameEvents::EntityMove>(m_actor, tilePos->tilePosition, m_tile );
 
     return true;
 }
@@ -19,7 +19,7 @@ bool StepAction::canTryAction() const
 {
     auto tilePos = m_level->ecs().getComponents<PositionComponent>(m_actor);
 
-    if ( !GridUtils::isAdjacent(tilePos->position, m_tile ) )
+    if ( !GridUtils::isAdjacent(tilePos->tilePosition, m_tile ) )
     {
         return false;
     }
@@ -229,9 +229,7 @@ bool EquipItemAction::doAction() const
 }
 
 UnequipItemAction::UnequipItemAction(Level *level, EntityRef actor, EquipSlot slot)
-        : Action(level), m_actor(actor), m_slot(slot)
-{
-}
+        : Action(level), m_actor(actor), m_slot(slot) {}
 
 const char *UnequipItemAction::description() const
 {

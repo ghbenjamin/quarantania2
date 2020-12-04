@@ -53,6 +53,7 @@ EntityRef EntityFactory::createEnemy(Vector2i pos, std::string const &name) cons
     sprite.setRenderLayer(RenderLayer::Actor);
 
     m_parent->ecs().addComponent<PositionComponent>(eref, pos);
+    m_parent->ecs().addComponent<AIComponent>(eref);
     m_parent->ecs().addComponent<RenderComponent>(eref, sprite);
     m_parent->ecs().addComponent<ColliderComponent>(eref, false, true);
     m_parent->ecs().addComponent<DescriptionComponent>( eref, creatureData.name, "Creature", creatureData.description );

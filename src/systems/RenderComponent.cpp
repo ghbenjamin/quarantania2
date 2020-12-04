@@ -14,7 +14,6 @@ void RenderSystem::update(uint32_t ticks, RenderInterface &rInter)
 {
     for ( auto &[render, tile] : m_level->ecs().entitiesWith<RenderComponent, PositionComponent>() )
     {
-        rInter.addWorldItem(render->sprites[render->current]
-            .renderObject( tile->position * GlobalConfig::TileSizePx ));
+        rInter.addWorldItem(render->sprites[render->current].renderObject(tile->pixelPosition));
     }
 }

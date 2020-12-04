@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <game/GameEvent.h>
 #include <engine/Entity.h>
 #include <game/Items.h>
@@ -12,11 +13,13 @@ namespace GameEvents
 struct EntityMove : public GameEvent<EntityMove>
 {
     EntityMove(EntityRef ent, const Vector2i &oldPos, const Vector2i &newPos);
+    EntityMove(EntityRef ent, const Vector2i &oldPos, const Vector2i &newPos, std::vector<Vector2i> const& path);
     ~EntityMove() override = default;
 
     EntityRef ent;
     Vector2i oldPos;
     Vector2i newPos;
+    std::optional<std::vector<Vector2i>> path;
 };
 
 struct EntityReady : public GameEvent<EntityReady>

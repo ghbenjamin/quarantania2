@@ -62,7 +62,7 @@ void FOVSystem::recalculateFOV()
     {
         if (actor->actorType == ActorType::PC)
         {
-            sources.push_back({position->position, 15 /* TODO: Don't hard code this */ });
+            sources.push_back({position->tilePosition, 15 /* TODO: Don't hard code this */ });
         }
     }
 

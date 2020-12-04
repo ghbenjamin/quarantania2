@@ -295,7 +295,7 @@ int Level::squaredEntityDistance(EntityRef a, EntityRef b)
     auto transformA = m_ecs.getComponents<PositionComponent>(a);
     auto transformB = m_ecs.getComponents<PositionComponent>(b);
 
-    Vector2i distance = transformB->position - transformA->position;
+    Vector2i distance = transformB->tilePosition - transformA->tilePosition;
     return distance.x() * distance.x() + distance.y() * distance.y();
 }
 

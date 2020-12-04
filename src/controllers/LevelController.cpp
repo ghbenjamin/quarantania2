@@ -177,7 +177,7 @@ EntityMoveController::EntityMoveController(Level* level, EntityRef entity)
         : LevelController(level), m_entity(entity)
 {
     auto position = m_level->ecs().getComponents<PositionComponent>(entity);
-    m_origin = position->position;
+    m_origin = position->tilePosition;
     m_pathMap = m_level->grid().allPathsFromTile(m_origin, 8);
 
     GridRegion gr;
@@ -214,7 +214,7 @@ bool EntityMoveController::onMouseDown(IEventMouseDown evt)
 
     if ( m_pathMap.find(tile) != m_pathMap.end() )
     {
-        m_level->events().broadcast<GameEvents::EntityMove>(m_entity, m_origin, tile);
+        m_level->events().broadcast<GameEvents::EntityMove>(m_entity, m_origin, tile, m_tilePath);
         m_level->events().broadcast<GameEvents::EntityAction>(m_entity, 5 /* TODO Actual*/);
 
         popController();
@@ -229,9 +229,9 @@ void EntityMoveController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 {
     if ( m_pathMap.find(curr) != m_pathMap.end() )
     {
-        auto path = m_level->grid().pathFromPathMap(m_pathMap, curr);
+        m_tilePath = m_level->grid().pathFromPathMap(m_pathMap, curr);
         m_level->ui().deleteElement(m_pathHighlight);
-        m_pathHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, path, Colour::Red);
+        m_pathHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, m_tilePath, Colour::Red);
     }
 }
 

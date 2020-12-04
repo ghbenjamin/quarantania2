@@ -1,6 +1,8 @@
 #pragma once
 
 #include <systems/ActorSystem.h>
+#include <systems/AISystem.h>
+#include <systems/AnimationSystem.h>
 #include <systems/CollisionSystem.h>
 #include <systems/CombatSystem.h>
 #include <systems/FOVSystem.h>
@@ -16,6 +18,8 @@ struct SystemTypes {};
 
 using AllSystems = SystemTypes<
     ActorSystem,
+    AISystem,
+    AnimationSystem,
     CollisionSystem,
     CombatSystem,
     FOVSystem,

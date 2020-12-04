@@ -1,9 +1,9 @@
 #include <components/RenderComponent.h>
 
-RenderComponent::RenderComponent(std::vector<Sprite> const &ss)
-    : sprites(ss), current(0)
+RenderComponent::RenderComponent(std::vector<Sprite> const& sprites)
+    : sprites(sprites), current(0)
 {
-    for ( auto &s : sprites )
+    for ( auto &s : this->sprites )
     {
         s.setRenderLayer(RenderLayer::Entity);
     }
@@ -11,6 +11,4 @@ RenderComponent::RenderComponent(std::vector<Sprite> const &ss)
 
 
 RenderComponent::RenderComponent(Sprite const &s)
-    : RenderComponent::RenderComponent( std::vector<Sprite>{s} )
-{
-}
+    : RenderComponent::RenderComponent( std::vector<Sprite>{s} ) {}

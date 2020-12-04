@@ -37,7 +37,7 @@ void ItemSystem::accept(GameEvents::ItemDrop *evt)
     eraseItemFromContainer(container, evt->item);
 
     auto itemEnt = m_level->ecs().entityFactory()
-                          .createItem(position->position, evt->item);
+                          .createItem(position->tilePosition, evt->item);
 
     m_level->addTextLogMessage( fmt::format("{} drops the {}",
             m_level->getDescriptionForEnt( evt->actor ),
