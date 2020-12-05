@@ -17,6 +17,12 @@ public:
     void refresh();
 
 private:
+
+    void highlightEntity();
+    void unhighlightEntity();
+    void selectEntity();
+
+
     EntityRef m_entity;
     std::shared_ptr<Label> m_nameLabel;
 };

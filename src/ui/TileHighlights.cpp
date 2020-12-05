@@ -5,14 +5,29 @@
 #include <graphics/Primatives.h>
 #include <game/Level.h>
 
-UI::SingleTileHighlight::SingleTileHighlight(Manager* manager, Element* parent, Vector2i tile)
+
+UI::SingleTileHighlight::SingleTileHighlight(Manager* manager, Element* parent, Vector2i tile, SingleTileHighlightType type)
 : Element( manager, parent )
 {
     setPreferredContentSize({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx});
-    setBackgroundSprite({"tile-ui", "green-brackets"});
+
+    switch (type)
+    {
+        case SingleTileHighlightType::Green:
+            setBackgroundSprite({"tile-ui", "green-brackets"});
+            break;
+        case SingleTileHighlightType::Red:
+            setBackgroundSprite({"tile-ui", "red-brackets"});
+            break;
+    }
+
     setLocalPosition( manager->level()->tileCoordsToScreen(tile) );
     setDecorative();
 }
+
+
+
+
 
 UI::TileRegionHighlight::TileRegionHighlight(UI::Manager *manager, UI::Element *parent, GridRegion region, Colour colour)
     : Element(manager, parent), m_region(region)

@@ -6,10 +6,16 @@
 namespace UI
 {
 
+enum class SingleTileHighlightType
+{
+    Green,
+    Red
+};
+
 class SingleTileHighlight : public Element
 {
 public:
-    SingleTileHighlight(Manager* manager, Element* parent, Vector2i tile);
+    SingleTileHighlight(Manager* manager, Element* parent, Vector2i tile, SingleTileHighlightType type);
     ~SingleTileHighlight() override = default;
 };
 

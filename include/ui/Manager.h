@@ -8,6 +8,7 @@
 #include <ui/ContextMenu.h>
 #include <engine/InputInterface.h>
 #include <ui/Tooltips.h>
+#include "TileHighlights.h"
 
 struct IEvent;
 class Level;
@@ -96,6 +97,9 @@ public:
     void openTooltip( std::vector<TooltipData> const& data, Vector2i pos, bool longContent = false );
     void closeTooltip();
 
+    void showSingleTileHighlight(Vector2i tile, SingleTileHighlightType type);
+    void removeSingleTileHighlight();
+
 
 private:
     bool handleMouseMove( IEventMouseMove evt );
@@ -105,6 +109,8 @@ private:
 
     std::vector<ElementPtr> m_roots;
     std::vector<WindowAlignment> m_windowAlignments;
+
+    std::shared_ptr<SingleTileHighlight> m_tileHighlight;
 
     ElementList m_hoveredElems;
     ElementPtr m_mouseDownElem;

@@ -328,6 +328,22 @@ void Manager::closeTooltip()
     deleteElement( withId( "tooltip" ) );
 }
 
+void Manager::showSingleTileHighlight(Vector2i tile, SingleTileHighlightType type)
+{
+    if (m_tileHighlight)
+    {
+        deleteElement(m_tileHighlight);
+    }
+
+    m_tileHighlight = createElement<UI::SingleTileHighlight>( nullptr, tile, type );
+}
+
+void Manager::removeSingleTileHighlight()
+{
+    deleteElement(m_tileHighlight);
+    m_tileHighlight.reset();
+}
+
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, Vector2i offset)
 : element(std::move(element)), alignment(alignment), offset(offset)

@@ -5,7 +5,6 @@
 #include <components/ItemComponent.h>
 #include <components/ActorComponent.h>
 #include <components/PositionComponent.h>
-#include <ui/TileHighlights.h>
 
 LevelController::LevelController(Level *level)
 : m_level(level) { }
@@ -16,7 +15,15 @@ bool LevelController::input(IEvent &evt)
     {
         case IEventType::KeyPress:
         {
-            onKeyDown(evt.keyPress);
+            auto it = m_keybinds.find(evt.keyPress.keyCode);
+            if (it == m_keybinds.end())
+            {
+                onKeyDown(evt.keyPress);
+            }
+            else
+            {
+                it->second();
+            }
         }
 
         case IEventType::MouseDown:
@@ -84,6 +91,11 @@ bool LevelController::scrollLevel(std::uint32_t ticks, InputInterface &iinter)
     return false;
 }
 
+void LevelController::addKeybinding(SDL_KeyCode key, std::function<void()> const& callback)
+{
+    m_keybinds.emplace(key, callback);
+}
+
 
 
 // Default Level Controller
@@ -115,12 +127,9 @@ bool DefaultLController::onMouseDown(IEventMouseDown evt)
                 auto actorComp = m_level->ecs().getComponents<ActorComponent>(ref);
                 if ( actorComp->actorType == ActorType::PC )
                 {
-                    // Is it the PC whose turn it is?
-                    if (ref == m_level->getActiveEntity())
-                    {
-                        setNextController( std::make_shared<EntityMoveController>(m_level, ref) );
-                        return true;
-                    }
+                    // TODO only if its the right turn
+                    setNextController( std::make_shared<EntityMoveController>(m_level, ref) );
+                    return true;
                 }
             }
         }
@@ -136,7 +145,7 @@ bool DefaultLController::onKeyDown(IEventKeyPress evt)
 
 void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 {
-    m_level->ui().deleteElement( m_tileHighlight );
+    m_level->ui().removeSingleTileHighlight();
 
     if (!m_level->grid().inBounds(curr))
     {
@@ -154,7 +163,7 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     if ( !ents.empty() )
     {
         // Highlight hovered entities
-        m_tileHighlight = m_level->ui().createElement<UI::SingleTileHighlight>( nullptr, curr );
+        m_level->ui().showSingleTileHighlight(curr, UI::SingleTileHighlightType::Green);
     }
 }
 
@@ -165,7 +174,7 @@ void DefaultLController::update(std::uint32_t ticks, InputInterface &iinter, Ren
 
 void DefaultLController::onExitSelf()
 {
-    m_level->ui().deleteElement( m_tileHighlight );
+    m_level->ui().removeSingleTileHighlight();
     m_lastHoveredTile = {-1, -1};
 }
 
@@ -180,6 +189,11 @@ void DefaultLController::onExitSelf()
 EntityMoveController::EntityMoveController(Level* level, EntityRef entity)
         : LevelController(level), m_entity(entity)
 {
+    addKeybinding( SDLK_ESCAPE, [this]() {
+        this->popController();
+    });
+
+    // Get & cache the tile that the selected entity could move to
     auto position = m_level->ecs().getComponents<PositionComponent>(entity);
     m_origin = position->tilePosition;
     m_pathMap = m_level->grid().allPathsFromTile(m_origin, 8);
@@ -190,6 +204,7 @@ EntityMoveController::EntityMoveController(Level* level, EntityRef entity)
         gr.push_back(k);
     }
 
+    // Highlight the tiles that can be moved to
     m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, gr, Colour::Lime);
 }
 
@@ -200,15 +215,6 @@ void EntityMoveController::update(std::uint32_t ticks, InputInterface &iinter, R
 
 bool EntityMoveController::onKeyDown(IEventKeyPress evt)
 {
-    switch (evt.keyCode)
-    {
-        case SDLK_ESCAPE:
-            popController();
-            return true;
-            break;
-        default:
-            break;
-    }
     return false;
 }
 
