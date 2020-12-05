@@ -30,7 +30,7 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 void Level::setReady()
 {
     generateTurnOrder();
-
+    m_gevents.broadcast<GameEvents::TurnChange>(EntityNull, m_currentTurnEntity);
     m_gevents.broadcast<GameEvents::LevelReady>();
 }
 

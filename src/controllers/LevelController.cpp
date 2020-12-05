@@ -103,20 +103,24 @@ bool DefaultLController::onMouseDown(IEventMouseDown evt)
     auto tile = m_level->screenCoordsToTile(evt.screenPos);
     auto ents = m_level->grid().entitiesAtTile(tile);
 
+    // Is there something where we clicked?
     if (!ents.empty())
     {
         for ( EntityRef ref : ents )
         {
+            // Is the thing we clicked an actor?
             if ( m_level->ecs().entityHas<ActorComponent>(ref) )
             {
+                // Is the thing we clicked a player character?
                 auto actorComp = m_level->ecs().getComponents<ActorComponent>(ref);
                 if ( actorComp->actorType == ActorType::PC )
                 {
-                    // Debug
-                    // For now allow movement of any PC even when it's not their turn
-
-                    setNextController( std::make_shared<EntityMoveController>(m_level, ref) );
-                    return true;
+                    // Is it the PC whose turn it is?
+                    if (ref == m_level->getActiveEntity())
+                    {
+                        setNextController( std::make_shared<EntityMoveController>(m_level, ref) );
+                        return true;
+                    }
                 }
             }
         }
