@@ -39,5 +39,33 @@ public:
 };
 
 
+//struct ActionMenuWidgetItem
+//{
+//    SpritesheetKey icon;
+//    std::string label;
+//    // callback?
+//};
+//
+//using ActionMenuWidgetList = std::vector<ActionMenuWidgetItem>;
+//
+//class ActionMenuWidget : public Element
+//{
+//public:
+//    ActionMenuWidget(Manager* manager, Element* parent, SpritesheetKey menuIcon, ActionMenuWidgetList const& contents);
+//    ~ActionMenuWidget() override = default;
+//private:
+//};
+//
+//
+//class ActionMenuContainer : public Element
+//{
+//public:
+//    ActionMenuContainer(Manager* manager, Element* parent);
+//    ~ActionMenuContainer() override = default;
+//
+//private:
+//
+//};
+
 
 }

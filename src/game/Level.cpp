@@ -150,9 +150,13 @@ Vector2i Level::worldCoordsToScreen(Vector2i const &world)
 
 void Level::setupUI()
 {
-    auto wndSize = ResourceManager::get().getWindow()->getSize();
+    // Widget containing the current party and information
     auto turnOrderContainer = m_uiManager.createElement<UI::TurnOrderContainer>(nullptr);
-    m_uiManager.alignElementToWindow( turnOrderContainer, UI::Alignment::TopLeft, {10, 10} );
+    m_uiManager.alignElementToWindow( turnOrderContainer, UI::Alignment::TopLeft, {20, 20} );
+
+//    // Widget containing icons representing actions which can be taken
+//    auto actionMenu = m_uiManager.createElement<UI::ActionMenuContainer>(nullptr);
+//    m_uiManager.alignElementToWindow( actionMenu, UI::Alignment::BottomLeft, {20, -20} );
 }
 
 void Level::layoutWindows()

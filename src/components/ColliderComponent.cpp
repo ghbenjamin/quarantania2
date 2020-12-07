@@ -8,5 +8,4 @@ ColliderComponent::ColliderComponent()
 ColliderComponent::ColliderComponent(bool bl, bool bm)
 : blocksLight(bl), blocksMovement(bm)
 {
-
 }

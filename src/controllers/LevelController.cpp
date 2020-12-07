@@ -91,7 +91,7 @@ bool LevelController::scrollLevel(std::uint32_t ticks, InputInterface &iinter)
     return false;
 }
 
-void LevelController::addKeybinding(SDL_KeyCode key, std::function<void()> const& callback)
+void LevelController::addKeybinding(SDL_Keycode key, std::function<void()> const& callback)
 {
     m_keybinds.emplace(key, callback);
 }
@@ -112,23 +112,23 @@ bool DefaultLController::onMouseMove(IEventMouseMove evt)
 
 bool DefaultLController::onMouseDown(IEventMouseDown evt)
 {
-    auto tile = m_level->screenCoordsToTile(evt.screenPos);
-    auto ents = m_level->grid().entitiesAtTile(tile);
-
-    // Is there something where we clicked?
-    if (!ents.empty())
+    if ( evt.button == SDL_BUTTON_LEFT )
     {
-        for ( EntityRef ref : ents )
+        auto tile = m_level->screenCoordsToTile(evt.screenPos);
+        auto ents = m_level->grid().entitiesAtTile(tile);
+
+        // Is there something where we clicked?
+        if ( !ents.empty() )
         {
-            // Is the thing we clicked an actor?
-            if ( m_level->ecs().entityHas<ActorComponent>(ref) )
+            auto actorEnt = m_level->ecs().firstEntityWith<ActorComponent>( ents );
+            if ( actorEnt != EntityNull )
             {
                 // Is the thing we clicked a player character?
-                auto actorComp = m_level->ecs().getComponents<ActorComponent>(ref);
+                auto actorComp = m_level->ecs().getComponents<ActorComponent>( actorEnt );
                 if ( actorComp->actorType == ActorType::PC )
                 {
                     // TODO only if its the right turn
-                    setNextController( std::make_shared<EntityMoveController>(m_level, ref) );
+                    setNextController( std::make_shared<PlayerSelectedController>(m_level, actorEnt) );
                     return true;
                 }
             }
@@ -181,12 +181,12 @@ void DefaultLController::onExitSelf()
 
 
 
-// Entity Move Controller
+// Player Selected Controller
 // --------------------------------------
 
 
 
-EntityMoveController::EntityMoveController(Level* level, EntityRef entity)
+PlayerSelectedController::PlayerSelectedController(Level* level, EntityRef entity)
         : LevelController(level), m_entity(entity)
 {
     addKeybinding( SDLK_ESCAPE, [this]() {
@@ -208,34 +208,48 @@ EntityMoveController::EntityMoveController(Level* level, EntityRef entity)
     m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, gr, Colour::Lime);
 }
 
-void EntityMoveController::update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
+void PlayerSelectedController::update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
     scrollLevel(ticks, iinter);
 }
 
-bool EntityMoveController::onKeyDown(IEventKeyPress evt)
+bool PlayerSelectedController::onKeyDown(IEventKeyPress evt)
 {
     return false;
 }
 
-bool EntityMoveController::onMouseDown(IEventMouseDown evt)
+bool PlayerSelectedController::onMouseDown(IEventMouseDown evt)
 {
-    auto tile = m_level->screenCoordsToTile(evt.screenPos);
-
-    if ( m_pathMap.find(tile) != m_pathMap.end() )
+    if ( evt.button == SDL_BUTTON_LEFT )
     {
-        m_level->events().broadcast<GameEvents::EntityMove>(m_entity, m_origin, tile, m_tilePath);
-        m_level->events().broadcast<GameEvents::EntityAction>(m_entity, 5 /* TODO Actual*/);
 
-        popController();
-        return true;
+    }
+    else if ( evt.button == SDL_BUTTON_RIGHT )
+    {
+        auto tile = m_level->screenCoordsToTile(evt.screenPos);
+
+        // TODO Do something if you right-click something other an empty tile
+//        auto ents = m_level->grid().entitiesAtTile(tile);
+//        auto actorEnt = m_level->ecs().firstEntityWith<ActorComponent>( ents );
+//        if ( actorEnt != EntityNull )
+//        {
+//
+//        }
+
+        if ( m_pathMap.find(tile) != m_pathMap.end() )
+        {
+            m_level->events().broadcast<GameEvents::EntityMove>(m_entity, m_origin, tile, m_tilePath);
+            m_level->events().broadcast<GameEvents::EntityAction>(m_entity, 5 /* TODO Actual*/);
+
+            popController();
+            return true;
+        }
     }
 
-
     return false;
 }
 
-void EntityMoveController::onHoveredTileChange(Vector2i prev, Vector2i curr)
+void PlayerSelectedController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 {
     if ( m_pathMap.find(curr) != m_pathMap.end() )
     {
@@ -245,7 +259,7 @@ void EntityMoveController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     }
 }
 
-void EntityMoveController::onExitSelf()
+void PlayerSelectedController::onExitSelf()
 {
     m_level->ui().deleteElement(m_tileHighlight);
     m_level->ui().deleteElement(m_pathHighlight);

@@ -4,13 +4,6 @@
 #include <game/GameEvent.h>
 #include <game/GameEventDefs.h>
 
-struct AttackRollResult
-{
-    int roll;
-    bool isHit;
-    bool isCritHit;
-    bool isCritMiss;
-};
 
 class CombatSystem : public System,
                      public GEventSub<GameEvents::MeleeAttack>

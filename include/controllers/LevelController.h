@@ -26,7 +26,7 @@ protected:
     virtual void onHoveredTileChange(Vector2i prev, Vector2i curr);
     bool scrollLevel(std::uint32_t ticks, InputInterface &iinter);
 
-    void addKeybinding( SDL_KeyCode key, std::function<void()> const& callback );
+    void addKeybinding( SDL_Keycode key, std::function<void()> const& callback );
 
     Level* m_level;
     Vector2i m_lastHoveredTile;
@@ -56,13 +56,12 @@ private:
 
 
 
-// The state in which an entity has been selected to move it - handle displaying which tiles can be moved to
-// and associated actions
-class EntityMoveController : public LevelController
+// The state in which a player character has been selected. Show information about the PC, and highlight the moves
+// that are available to take.
+class PlayerSelectedController : public LevelController
 {
-
 public:
-    EntityMoveController(Level*, EntityRef entity);
+    PlayerSelectedController(Level*, EntityRef entity);
     void update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 
 protected:

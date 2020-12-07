@@ -31,7 +31,7 @@ struct CritData
     int multiplier;
 };
 
-enum class AbilityScore
+enum class AbilityScoreType
 {
     STR,
     DEX,

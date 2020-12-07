@@ -4,6 +4,7 @@
 #include <components/RenderComponent.h>
 #include <components/ActorComponent.h>
 #include <components/PositionComponent.h>
+#include <resource/ResourceManager.h>
 
 UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, EntityRef ref)
 : Element(manager, parent), m_entity(ref)
@@ -102,3 +103,37 @@ void UI::TurnOrderContainer::reloadEntities()
 
     refresh();
 }
+
+
+
+
+//
+//UI::ActionMenuContainer::ActionMenuContainer(UI::Manager *manager, UI::Element *parent)
+//        : Element(manager, parent)
+//{
+//    setLayout<HorizontalLayout>( 12, VAlignment::Centre );
+//    setPadding(4);
+//
+//
+//    manager->createElement<UI::ActionMenuWidget>(this,
+//            SpritesheetKey{"game_icons", "axe-sword"}, ActionMenuWidgetList{});
+//    manager->createElement<UI::ActionMenuWidget>(this,
+//            SpritesheetKey{"game_icons", "move"}, ActionMenuWidgetList{});
+//    manager->createElement<UI::ActionMenuWidget>(this,
+//            SpritesheetKey{"game_icons", "light-backpack"}, ActionMenuWidgetList{});
+//    manager->createElement<UI::ActionMenuWidget>(this,
+//            SpritesheetKey{"game_icons", "frostfire"}, ActionMenuWidgetList{});
+//}
+//
+//UI::ActionMenuWidget::ActionMenuWidget(UI::Manager *manager, UI::Element *parent, SpritesheetKey menuIcon,
+//                       const UI::ActionMenuWidgetList &contents)
+//   : Element(manager, parent)
+//{
+//    setBackgroundColour(Colour::Grey);
+//
+//    auto iconSprite = ResourceManager::get().getSprite(menuIcon);
+//    iconSprite.setRenderLayer(RenderLayer::UI);
+//
+//    auto icon = manager->createElement<Icon>(this, iconSprite);
+//    icon->setPadding(2);
+//}
