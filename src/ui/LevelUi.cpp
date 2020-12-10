@@ -104,36 +104,36 @@ void UI::TurnOrderContainer::reloadEntities()
     refresh();
 }
 
+UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *parent,
+     const std::vector<ActionMenuItem> &item)
+    : Element(manager, parent)
+{
 
+}
 
+UI::ActionMenuContainer::ActionMenuContainer(UI::Manager *manager, UI::Element *parent)
+    : Element(manager, parent)
+{
+    setId("action-menu-container");
+    setLayout<HorizontalLayout>( 8, VAlignment::Top );
 
+    manager->createElement<UI::ActionMenuSpawnItem>(this, "Combat",
+            SpritesheetKey{"game_icons", "axe-sword"}, ActionMenuCategory::Combat);
+    manager->createElement<UI::ActionMenuSpawnItem>(this, "Movement",
+            SpritesheetKey{"game_icons", "move"}, ActionMenuCategory::Movement);
+    manager->createElement<UI::ActionMenuSpawnItem>(this, "Inventory",
+            SpritesheetKey{"game_icons", "light-backpack"}, ActionMenuCategory::Inventory);
+}
+
+UI::ActionMenuSpawnItem::ActionMenuSpawnItem(UI::Manager *manager, UI::Element *parent,
+     std::string const& name, SpritesheetKey icon, ActionMenuCategory category)
+    : Element(manager, parent), m_name(name), m_category(category)
+{
+    manager->createElement<UI::Icon>(this, icon);
+    setBackgroundColour(Colour::Grey);
+    setBorder(1, Colour::White);
+
+//    addEventCallback( UEventType::MouseIn, [this](UEvent& evt) {
 //
-//UI::ActionMenuContainer::ActionMenuContainer(UI::Manager *manager, UI::Element *parent)
-//        : Element(manager, parent)
-//{
-//    setLayout<HorizontalLayout>( 12, VAlignment::Centre );
-//    setPadding(4);
-//
-//
-//    manager->createElement<UI::ActionMenuWidget>(this,
-//            SpritesheetKey{"game_icons", "axe-sword"}, ActionMenuWidgetList{});
-//    manager->createElement<UI::ActionMenuWidget>(this,
-//            SpritesheetKey{"game_icons", "move"}, ActionMenuWidgetList{});
-//    manager->createElement<UI::ActionMenuWidget>(this,
-//            SpritesheetKey{"game_icons", "light-backpack"}, ActionMenuWidgetList{});
-//    manager->createElement<UI::ActionMenuWidget>(this,
-//            SpritesheetKey{"game_icons", "frostfire"}, ActionMenuWidgetList{});
-//}
-//
-//UI::ActionMenuWidget::ActionMenuWidget(UI::Manager *manager, UI::Element *parent, SpritesheetKey menuIcon,
-//                       const UI::ActionMenuWidgetList &contents)
-//   : Element(manager, parent)
-//{
-//    setBackgroundColour(Colour::Grey);
-//
-//    auto iconSprite = ResourceManager::get().getSprite(menuIcon);
-//    iconSprite.setRenderLayer(RenderLayer::UI);
-//
-//    auto icon = manager->createElement<Icon>(this, iconSprite);
-//    icon->setPadding(2);
-//}
+//    });
+}

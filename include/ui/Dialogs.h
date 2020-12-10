@@ -18,14 +18,11 @@ protected:
 };
 
 
-
-
 class MsgBoxDialog : public Dialog
 {
 public:
     MsgBoxDialog( Manager* manager, Element* parent, std::string const& title, int maxWidth, std::string const& message );
     ~MsgBoxDialog() override = default;
 };
-
 
 }

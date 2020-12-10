@@ -127,6 +127,12 @@ FontPtr ResourceManager::getFont(std::string const &fname, int fontSize)
     }
 }
 
+FontPtr ResourceManager::getDefaultFont(int fontSize)
+{
+    return getFont( "inconsolata-regular", fontSize );
+}
+
+
 void ResourceManager::addImageResource(const std::string &name)
 {
     m_images.emplace(name, std::make_shared<ImageResource>( name ));
@@ -141,4 +147,5 @@ void ResourceManager::addFontResource(const std::string &name)
 {
     m_fonts.emplace(name, std::make_shared<FontResource>( name ));
 }
+
 

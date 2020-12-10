@@ -16,7 +16,7 @@ Label::Label(Manager* manager, Element* parent, TextStyle const &style)
 }
 
 Label::Label(Manager* manager, Element* parent)
-        : Label(manager, parent, {Colour::Black, ResourceManager::get().getFont("inconsolata-regular", 14 )})
+        : Label(manager, parent, {Colour::Black, ResourceManager::get().getDefaultFont(14)})
 {
 }
 

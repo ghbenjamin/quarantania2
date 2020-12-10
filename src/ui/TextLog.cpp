@@ -5,10 +5,7 @@
 #include <graphics/RenderInterface.h>
 
 UI::TextLogLineData::TextLogLineData(const std::string &text, int count, const Colour &colour)
-        : m_text(text), m_count(count), m_colour(colour)
-{
-
-}
+        : m_text(text), m_count(count), m_colour(colour) {}
 
 void UI::TextLogLineData::setPos(Vector2i pos)
 {
@@ -50,10 +47,10 @@ UI::TextLog::TextLog(Manager* manager, Element* parent)
 {
     setLayout<VerticalLayout>( 2, HAlignment::Left );
     setPadding(2);
-    setBackgroundColour( Colour::Black );
+    setBackgroundColour( Colour::Black.withAlpha(230) );
+    setId("main-text-log");
 
-    m_font = ResourceManager::get().getFont( "inconsolata-regular", 14 );
-
+    m_font = ResourceManager::get().getDefaultFont(14);
 }
 
 void UI::TextLog::addLine(std::string_view line, Colour const& colour)

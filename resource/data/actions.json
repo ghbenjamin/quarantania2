@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Short Step",
+    "id": "short-step",
+    "type": "move",
+    "provokes": false,
+    "description": ""
+  },
+  {
+    "name": "Move",
+    "id": "move",
+    "type": "move",
+    "provokes": true,
+    "description": ""
+  },
+  {
+    "name": "Strike",
+    "id": "strike",
+    "type": "attack",
+    "provokes": false,
+    "description": ""
+  }
+]

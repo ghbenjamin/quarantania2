@@ -31,17 +31,14 @@ public:
 
 
 
-    [[nodiscard]]
-    Sprite getSprite( std::string const& sheet, std::string const& name );
+    [[nodiscard]] Sprite getSprite( std::string const& sheet, std::string const& name );
 
-    [[nodiscard]]
-    Sprite getSprite( SpritesheetKey const& key );
+    [[nodiscard]] Sprite getSprite( SpritesheetKey const& key );
 
-    [[nodiscard]]
-    Sprite getSprite( std::string const& imgName );
+    [[nodiscard]] Sprite getSprite( std::string const& imgName );
 
-    [[nodiscard]]
-    FontPtr getFont( std::string const& fname, int fontSize );
+    [[nodiscard]] FontPtr getFont( std::string const& fname, int fontSize );
+    [[nodiscard]] FontPtr getDefaultFont( int fontSize );
 
 private:
 

@@ -154,9 +154,9 @@ void Level::setupUI()
     auto turnOrderContainer = m_uiManager.createElement<UI::TurnOrderContainer>(nullptr);
     m_uiManager.alignElementToWindow( turnOrderContainer, UI::Alignment::TopLeft, {20, 20} );
 
-//    // Widget containing icons representing actions which can be taken
-//    auto actionMenu = m_uiManager.createElement<UI::ActionMenuContainer>(nullptr);
-//    m_uiManager.alignElementToWindow( actionMenu, UI::Alignment::BottomLeft, {20, -20} );
+    // Widget containing icons representing actions which can be taken
+    auto actionMenu = m_uiManager.createElement<UI::ActionMenuContainer>(nullptr);
+    m_uiManager.alignElementToWindow( actionMenu, UI::Alignment::BottomLeft, {20, -20} );
 }
 
 void Level::layoutWindows()

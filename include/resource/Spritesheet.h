@@ -12,13 +12,21 @@ using SpritesheetRectMap = std::unordered_map<std::string, RectI>;
 struct SpritesheetKey
 {
     SpritesheetKey();
+
+    // Sheet name and sprite name
     SpritesheetKey(std::string const& sheet, std::string const& name);
-    SpritesheetKey(std::string const& sheet, int gid );
+
+    // Sheet name and gid
+    SpritesheetKey(std::string const& sheet, int gid);
+
+    // Sheet name and sprite name as a single string, separated by a '/'
+    SpritesheetKey(std::string const& key);
+
     ~SpritesheetKey() = default;
 
+    std::string sheetName;
     std::string spriteName;
     int gid;
-    std::string sheetName;
 };
 
 

@@ -5,8 +5,8 @@
 UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipData const& data, bool longContent)
         : Element(manager, parent)
 {
-    auto titleFont = ResourceManager::get().getFont( "inconsolata-regular", 16 );
-    auto contentFont = ResourceManager::get().getFont( "inconsolata-regular", 14 );
+    auto titleFont = ResourceManager::get().getDefaultFont(16);
+    auto contentFont = ResourceManager::get().getDefaultFont(14);
 
     setLayout<VerticalLayout>( 4, HAlignment::Fill );
     setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000});

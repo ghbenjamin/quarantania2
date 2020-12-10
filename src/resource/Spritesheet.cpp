@@ -3,6 +3,46 @@
 #include <utils/Logging.h>
 #include <utils/GlobalConfig.h>
 
+SpritesheetKey::SpritesheetKey()
+{
+    this->gid = -1;
+    this->sheetName = "";
+    this->spriteName = "";
+}
+
+SpritesheetKey::SpritesheetKey(const std::string &sheet, const std::string &name)
+{
+    this->spriteName = name;
+    this->sheetName = sheet;
+    this->gid = -1;
+}
+
+SpritesheetKey::SpritesheetKey(std::string const& sheet, int gid)
+{
+    this->spriteName = "";
+    this->gid = gid;
+    this->sheetName = sheet;
+}
+
+SpritesheetKey::SpritesheetKey(const std::string &key)
+{
+    auto idx = key.find('/');
+    this->sheetName = key.substr(0, idx);
+
+    idx++;
+    if ( std::isdigit(key.at(idx)) )
+    {
+        this->gid = std::stoi(key.substr(idx, key.size()));
+        this->spriteName = "";
+    }
+    else
+    {
+        this->spriteName = key.substr(idx, key.size());
+        this->gid = -1;
+    }
+}
+
+
 Spritesheet::Spritesheet(TexturePtr texture)
 : m_texture(texture)
 {
@@ -70,23 +110,3 @@ Sprite FreeSpritesheet::getSprite( SpritesheetKey const& key )
     return Sprite { m_texture, rect };
 }
 
-SpritesheetKey::SpritesheetKey()
-{
-    this->gid = -1;
-    this->sheetName = "";
-    this->spriteName = "";
-}
-
-SpritesheetKey::SpritesheetKey(const std::string &sheet, const std::string &name)
-{
-    this->spriteName = name;
-    this->sheetName = sheet;
-    this->gid = -1;
-}
-
-SpritesheetKey::SpritesheetKey(std::string const& sheet, int gid)
-{
-    this->spriteName = "";
-    this->gid = gid;
-    this->sheetName = sheet;
-}

@@ -39,33 +39,48 @@ public:
 };
 
 
-//struct ActionMenuWidgetItem
-//{
-//    SpritesheetKey icon;
-//    std::string label;
-//    // callback?
-//};
-//
-//using ActionMenuWidgetList = std::vector<ActionMenuWidgetItem>;
-//
-//class ActionMenuWidget : public Element
-//{
-//public:
-//    ActionMenuWidget(Manager* manager, Element* parent, SpritesheetKey menuIcon, ActionMenuWidgetList const& contents);
-//    ~ActionMenuWidget() override = default;
-//private:
-//};
-//
-//
-//class ActionMenuContainer : public Element
-//{
-//public:
-//    ActionMenuContainer(Manager* manager, Element* parent);
-//    ~ActionMenuContainer() override = default;
-//
-//private:
-//
-//};
+
+struct ActionMenuItem
+{
+    SpritesheetKey icon;
+    std::string name;
+    std::string description;
+    bool enabled;
+};
+
+enum class ActionMenuCategory
+{
+    Combat,
+    Movement,
+    Inventory
+};
+
+class ActionMenuPopupMenu : public Element
+{
+public:
+    ActionMenuPopupMenu(Manager* manager, Element* parent, std::vector<ActionMenuItem> const& item);
+    ~ActionMenuPopupMenu() override = default;
+};
+
+
+class ActionMenuSpawnItem : public Element
+{
+public:
+    ActionMenuSpawnItem(Manager* manager, Element* parent, std::string const& name,  SpritesheetKey icon, ActionMenuCategory category);
+    ~ActionMenuSpawnItem() override = default;
+
+private:
+    std::string m_name;
+    ActionMenuCategory m_category;
+};
+
+
+class ActionMenuContainer : public Element
+{
+public:
+    ActionMenuContainer(Manager* manager, Element* parent);
+    ~ActionMenuContainer() override = default;
+};
 
 
 }
