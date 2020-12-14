@@ -206,6 +206,11 @@ PlayerSelectedController::PlayerSelectedController(Level* level, EntityRef entit
 
     // Highlight the tiles that can be moved to
     m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, gr, Colour::Lime);
+
+
+    // Debug for now
+    auto actions = m_level->actionsForActor(m_entity);
+    Logging::log( "Action count: {}\n", actions.size() );
 }
 
 void PlayerSelectedController::update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)

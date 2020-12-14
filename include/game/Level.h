@@ -27,6 +27,7 @@ struct IEventMouseMove;
 struct IEventMouseDown;
 struct IEventWindowResize;
 class Action;
+class Action2;
 
 namespace UI
 {
@@ -67,9 +68,12 @@ public:
     int squaredEntityDistance(EntityRef a, EntityRef b);
 
     // Actions
-    std::vector<ActionPtr> actionsForTile(EntityRef actor, Vector2i tile);
-    std::vector<ActionPtr> actionsForEntity(EntityRef actor, EntityRef subject);
-    std::vector<ActionPtr> actionsForPosition(EntityRef actor, Vector2i position);
+//    std::vector<ActionPtr> actionsForTile(EntityRef actor, Vector2i tile);
+//    std::vector<ActionPtr> actionsForEntity(EntityRef actor, EntityRef subject);
+//    std::vector<ActionPtr> actionsForPosition(EntityRef actor, Vector2i position);
+
+    std::vector<std::shared_ptr<Action2>> actionsForActor( EntityRef actor );
+
 
     // Communication
     bool isComplete() const;
