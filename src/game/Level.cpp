@@ -385,14 +385,14 @@ EntityRef Level::getActiveEntity() const
     return m_currentTurnEntity;
 }
 
-std::vector<std::shared_ptr<Action2>> Level::actionsForActor(EntityRef actor)
+std::vector<std::shared_ptr<Action>> Level::actionsForActor(EntityRef actor)
 {
     auto cActor = m_ecs.getComponents<ActorComponent>(actor);
     Assert( cActor->actorType == ActorType::PC );
 
 
 
-    std::vector<std::shared_ptr<Action2>> out;
+    std::vector<std::shared_ptr<Action>> out;
     return out;
 }
 

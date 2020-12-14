@@ -2,48 +2,44 @@
 
 #include <string>
 #include <resource/Spritesheet.h>
+#include <game/RawData.h>
+#include <engine/Entity.h>
+#include <utils/GridUtils.h>
 
-class RawActionData;
+class Level;
 
-class Action2
+class Action
 {
 public:
-    Action2( RawActionData const& data );
-    virtual ~Action2() = default;
+    Action(Level* level, std::string const& id);
+    virtual ~Action() = default;
 
     std::string const& getName() const;
     std::string const& getDescription() const;
     SpritesheetKey const& getSprite() const;
     bool getProvokes() const;
 
-protected:
 
+    virtual GridRegion possibleTiles(EntityRef source) const = 0;
+
+
+protected:
+    Level* m_level;
 
 private:
-    RawActionData const* m_data;
+    const RawActionData m_data;
 
 };
 
 
-
-
-
-
-
-namespace Actionz
+class MoveAction : public Action
 {
+public:
+    MoveAction(Level* level, std::string const& id, int range);
+    ~MoveAction() override = default;
 
-class MoveAction : public Action2
-{
+    GridRegion possibleTiles(EntityRef source) const override;
+
+private:
+    int m_range;
 };
-
-class StepAction : public Action2
-{
-};
-
-class StrikeAction : public Action2
-{
-};
-
-}
-

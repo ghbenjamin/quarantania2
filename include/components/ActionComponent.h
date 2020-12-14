@@ -9,5 +9,5 @@ struct ActionComponent : public Component<ActionComponent>
     ActionComponent();
     ~ActionComponent() override = default;
 
-    std::vector<std::shared_ptr<EntityAction>> actions;
+    //std::vector<std::shared_ptr<EntityAction>> actions;
 };

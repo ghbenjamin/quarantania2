@@ -111,8 +111,8 @@ EntityRef EntityFactory::createObject(Vector2i pos, std::string const &ptype) co
     {
         m_parent->ecs().addComponent<ColliderComponent>(eref, true, true);
 
-        auto actions = m_parent->ecs().addComponent<ActionComponent>(eref);
-        actions->actions.push_back( std::make_shared<ExitLevelAction>(m_parent) );
+//        auto actions = m_parent->ecs().addComponent<ActionComponent>(eref);
+//        actions->actions.push_back( std::make_shared<ExitLevelAction>(m_parent) );
     }
     else if ( objData.type == "container" )
     {

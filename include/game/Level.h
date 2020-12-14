@@ -27,7 +27,7 @@ struct IEventMouseMove;
 struct IEventMouseDown;
 struct IEventWindowResize;
 class Action;
-class Action2;
+class Action;
 
 namespace UI
 {
@@ -72,7 +72,7 @@ public:
 //    std::vector<ActionPtr> actionsForEntity(EntityRef actor, EntityRef subject);
 //    std::vector<ActionPtr> actionsForPosition(EntityRef actor, Vector2i position);
 
-    std::vector<std::shared_ptr<Action2>> actionsForActor( EntityRef actor );
+    std::vector<std::shared_ptr<Action>> actionsForActor(EntityRef actor );
 
 
     // Communication

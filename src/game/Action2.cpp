@@ -1,28 +1,35 @@
 #include <game/Action2.h>
 #include <game/ResourceDatabase.h>
 
-Action2::Action2(const RawActionData &data)
-    : m_data(&data)
+Action::Action(Level* level, std::string const& id)
+    : m_data( ResourceDatabase::instance().actionFromId(id) ),
+      m_level(level) {}
+    
+    
+std::string const &Action::getName() const
 {
-
+    return m_data.name;
 }
 
-std::string const &Action2::getName() const
+std::string const &Action::getDescription() const
 {
-    return m_data->name;
+    return m_data.description;
 }
 
-std::string const &Action2::getDescription() const
+SpritesheetKey const &Action::getSprite() const
 {
-    return m_data->description;
+    return m_data.sprite;
 }
 
-SpritesheetKey const &Action2::getSprite() const
+bool Action::getProvokes() const
 {
-    return m_data->sprite;
+    return m_data.provokes;
 }
 
-bool Action2::getProvokes() const
+MoveAction::MoveAction(Level* level, const std::string &id, int range)
+    : Action(level, id), m_range(range) { }
+
+GridRegion MoveAction::possibleTiles(EntityRef source) const
 {
-    return m_data->provokes;
+
 }
