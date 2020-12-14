@@ -84,24 +84,6 @@ const char *CloseAction::description() const
     return "Close";
 }
 
-const char *UnlockAction::description() const
-{
-    return "Unlock";
-}
-
-bool UnlockAction::canTryAction() const
-{
-    auto lockable = m_level->ecs().getComponents<LockableComponent>(m_subject);
-    if (!lockable) return false;
-    return lockable->isLocked;
-}
-
-bool UnlockAction::doAction() const
-{
-    auto lockable = m_level->ecs().getComponents<LockableComponent>(m_subject);
-    return false;
-}
-
 const char *ExitLevelAction::description() const
 {
     return "Descend";

@@ -239,16 +239,6 @@ std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subjec
         }
     }
 
-    if ( m_ecs.entityHas<LockableComponent>(subject) )
-    {
-        auto lockable = m_ecs.getComponents<LockableComponent>(subject);
-        if ( lockable->isLocked )
-        {
-            auto act = std::make_shared<UnlockAction>(this, actor, subject);
-            out.push_back( std::static_pointer_cast<Action>(act) );
-        }
-    }
-
     if ( m_ecs.entityHas<ActionComponent>(subject) )
     {
         auto actionComp = m_ecs.getComponents<ActionComponent>(subject);

@@ -4,20 +4,23 @@
     "id": "short-step",
     "type": "move",
     "provokes": false,
-    "description": ""
+    "description": "",
+    "icon": "game_icons/walking-boot"
   },
   {
     "name": "Move",
     "id": "move",
     "type": "move",
     "provokes": true,
-    "description": ""
+    "description": "",
+    "icon": "game_icons/walk"
   },
   {
     "name": "Strike",
     "id": "strike",
     "type": "attack",
     "provokes": false,
-    "description": ""
+    "description": "",
+    "icon": "game_icons/sword-brandish"
   }
 ]

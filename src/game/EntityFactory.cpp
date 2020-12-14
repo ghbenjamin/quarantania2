@@ -20,7 +20,6 @@ EntityRef EntityFactory::createPlayer(Vector2i pos, PlayerData const &data) cons
     m_parent->ecs().addComponent<PositionComponent>(eref, pos);
     m_parent->ecs().addComponent<RenderComponent>(eref, sprite);
     m_parent->ecs().addComponent<ColliderComponent>(eref, false, true);
-    m_parent->ecs().addComponent<PCComponent>(eref);
 
     auto cContainer = m_parent->ecs().addComponent<ContainerComponent>(eref);
 

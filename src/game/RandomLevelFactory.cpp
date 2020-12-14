@@ -27,7 +27,6 @@ LevelPtr RandomLevelFactory::create(RandomLevelConfig const &config, LevelContex
 
     // Attempt to place special rooms (start, exit, boss, etc.)
     // Do this first so that we can be sure that they're definitely there
-    placeSpecialRooms();
 
     // Attempt to add a random selection of rooms of various sizes and locations
     addRooms( config.roomDensity );
@@ -706,10 +705,6 @@ void RandomLevelFactory::decorateRooms()
         {
             case RoomType::Normal:
             {
-                auto rsize = room.bounds.right();
-                bool flip = rsize.x() > rsize.y();
-                auto rt = ResourceDatabase::instance().randomRoomTemplate( rsize, m_level->random() );
-                constructRoomFromTemplate(room, rt, flip);
                 break;
             }
             case RoomType::Entrance:
@@ -777,8 +772,6 @@ void RandomLevelFactory::assignSpecialRooms()
         }
     }
 
-    // AssertMsg( terminalRooms.size() > 2, "Expected more than two terminal rooms" );
-
     const std::vector<RoomType> specialOrder = {
         RoomType::Entrance, RoomType::Exit,
         RoomType::Boss, RoomType::Shop,
@@ -795,64 +788,6 @@ void RandomLevelFactory::assignSpecialRooms()
         m_rooms.at(*it).roomType = srt;
         terminalRooms.erase(it);
     }
-}
-
-void RandomLevelFactory::constructRoomFromTemplate(LD::Room const& room, RawRoomTemplateData const& rt, bool flip)
-{
-    // Work out whether or not we can use square symmetry
-
-    Matrix2i matrixTransform;
-    if ( room.bounds.w() == room.bounds.h() )
-    {
-        matrixTransform = *m_level->random().randomElement(
-                MatrixTransform::squareTransforms.begin(),
-                MatrixTransform::squareTransforms.end()
-        );
-    }
-    else
-    {
-        matrixTransform = *m_level->random().randomElement(
-                MatrixTransform::rectangularTransforms.begin(),
-                MatrixTransform::rectangularTransforms.end()
-        );
-    }
-
-    auto centre = room.centre() - room.bounds.left();
-
-    for ( auto const& objs : rt.objects )
-    {
-        // Move origin to the centre of the room
-        Vector2i translated = objs.offset - centre;
-
-        // Apply the transformation(s)
-        translated = matrixTransform.transform(translated);
-        translated = translated + centre + room.bounds.left();
-
-        // If the transformed vector is adjacent to a door, skip it
-        bool doorAdj = false;
-        for ( auto const& door : room.junctions )
-        {
-            if ( GridUtils::isAdjacent( translated, door ))
-            {
-                doorAdj = true;
-                break;
-            }
-        }
-
-        if ( doorAdj )
-        {
-            continue;
-        }
-
-        // Otherwise construct the new object
-        m_level->ecs().entityFactory().createObject(translated, objs.name);
-    }
-}
-
-
-void RandomLevelFactory::placeSpecialRooms()
-{
-
 }
 
 Vector2i RandomLevelFactory::randomRoomPosition(Vector2i roomSize)

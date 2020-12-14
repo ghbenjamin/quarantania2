@@ -113,14 +113,20 @@ struct RawObjectData
     std::vector<SpritesheetKey> sprites;
 };
 
-struct RawRoomObjectData
+
+enum class RawActionDataType
 {
-    std::string name;
-    Vector2i offset;
+    Move,
+    Attack,
 };
 
-struct RawRoomTemplateData
+struct RawActionData
 {
-    Vector2i size;
-    std::vector<RawRoomObjectData> objects;
+    std::string id;
+
+    std::string name;
+    RawActionDataType type;
+    bool provokes;
+    std::string description;
+    SpritesheetKey sprite;
 };

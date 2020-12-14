@@ -9,6 +9,9 @@ struct OpenableComponent : public Component<OpenableComponent>
     OpenableComponent() = default;
     ~OpenableComponent() override = default;
 
-    bool isOpen = false;        // Is the entity open or closed?
-    bool lightOnly = false;     // Does opening this entity make it passable as well as allow light through?
+    // Is the entity open or closed?
+    bool isOpen = false;
+
+    // Does opening this entity make it passable as well as allow light through?
+    bool lightOnly = false;
 };

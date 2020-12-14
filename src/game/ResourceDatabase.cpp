@@ -12,7 +12,7 @@ ResourceDatabase::ResourceDatabase()
     loadAllCreatureData();
     loadAllPlayerData();
     loadAllObjectData();
-    loadAllRoomTemplateData();
+    loadAllActionData();
 }
 
 RawItemData ResourceDatabase::itemFromName(std::string_view name)
@@ -92,6 +92,17 @@ RawObjectData ResourceDatabase::objectFromName(std::string_view name)
     return RawObjectData( *it );
 }
 
+
+RawActionData ResourceDatabase::actionFromId(std::string_view id)
+{
+    auto it = std::find_if( m_actionData.begin(), m_actionData.end(),
+            [id](auto const& item){
+                return item.id == id;
+            });
+
+    Assert( it != m_actionData.end() );
+    return RawActionData( *it );
+}
 
 void ResourceDatabase::loadAllCreatureData()
 {
@@ -501,55 +512,36 @@ void ResourceDatabase::loadAllObjectData()
     }
 }
 
-void ResourceDatabase::loadAllRoomTemplateData()
+void ResourceDatabase::loadAllActionData()
 {
-    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/rooms.json" );
-
-    for ( auto const& hnode : doc.FindMember("normal_rooms")->value.GetObject() )
+    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/actions.json" );
+    for ( auto const& it_raw : doc.GetArray() )
     {
-        int hval = std::atoi( hnode.name.GetString() );
-        for ( auto const& vnode : hnode.value.GetObject() )
+        RawActionData robj;
+        auto it = it_raw.GetObject();
+
+        robj.name = it.FindMember("name")->value.GetString();
+        robj.id = it.FindMember("id")->value.GetString();
+
+        std::string typeStr = it.FindMember("type")->value.GetString();
+        if (typeStr == "move")
         {
-            int vval = std::atoi( vnode.name.GetString() );
-            Vector2i key = {hval, vval};
-
-            for ( auto const& rt : vnode.value.GetArray() )
-            {
-                auto rt_obj = rt.GetObject();
-                RawRoomTemplateData rawrt;
-                rawrt.size = key;
-
-                for ( auto const& objs_item : rt_obj.FindMember("objects")->value.GetArray() )
-                {
-                    RawRoomObjectData robjd;
-                    auto objs_obj = objs_item.GetObject();
-
-                    robjd.name = objs_obj.FindMember("name")->value.GetString();
-
-                    auto offset_arr = objs_obj.FindMember("position")->value.GetArray();
-                    robjd.offset = { offset_arr[0].GetInt(), offset_arr[1].GetInt() };
-
-                    rawrt.objects.push_back( robjd );
-                }
-
-                m_roomTemplateData.emplace( key, rawrt );
-            }
+            robj.type = RawActionDataType::Move;
         }
+        else if (typeStr == "attack")
+        {
+            robj.type = RawActionDataType::Attack;
+        }
+        else
+        {
+            AssertAlwaysMsg( fmt::format("Unknown action type: '{}'", typeStr) );
+        }
+
+        robj.provokes = it.FindMember("provokes")->value.GetBool();
+        robj.description = it.FindMember("description")->value.GetString();
+        robj.sprite = SpritesheetKey{ it.FindMember("icon")->value.GetString() };
+
+        m_actionData.push_back(robj);
     }
-
-}
-
-RawRoomTemplateData ResourceDatabase::randomRoomTemplate(Vector2i size, RandomInterface& ri)
-{
-    auto it = m_roomTemplateData.equal_range(size);
-
-    if ( it.first == it.second )
-    {
-        // Default to empty room;
-        return RawRoomTemplateData{size, {}};
-    }
-
-    auto rit = ri.randomElement( it.first, it.second );
-    return rit->second;
 }
 

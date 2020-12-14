@@ -28,7 +28,7 @@ public:
     RawPlayerRaceData playerRaceFromName( std::string_view name );
     RawPlayerClassData playerClassFromName( std::string_view name );
     RawObjectData objectFromName( std::string_view name );
-    RawRoomTemplateData randomRoomTemplate( Vector2i size, RandomInterface& ri );
+    RawActionData actionFromId(std::string_view id );
 
     static Alignment parseAlignmentFromStr( std::string_view sv );
     static EquipSlot parseEquipSlotFromStr( std::string_view sv );
@@ -41,9 +41,9 @@ private:
     void loadAllItemData( );
     void loadAllPlayerData( );
     void loadAllObjectData( );
-    void loadAllRoomTemplateData( );
+    void loadAllActionData( );
 
-private:
+
     std::vector<RawCreatureData> m_creatureData;
     std::vector<RawItemData> m_itemData;
     std::vector<RawWeaponData> m_weaponData;
@@ -51,6 +51,5 @@ private:
     std::vector<RawPlayerClassData> m_playerClassData;
     std::vector<RawPlayerRaceData> m_playerRaceData;
     std::vector<RawObjectData> m_objectData;
-
-    std::unordered_multimap<Vector2i, RawRoomTemplateData, Vector2iHash> m_roomTemplateData;
+    std::vector<RawActionData> m_actionData;
 };

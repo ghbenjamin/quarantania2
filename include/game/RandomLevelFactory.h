@@ -31,8 +31,6 @@ private:
 
     // Base level layout methods
 
-    void placeSpecialRooms();
-
     // Attempt to place a random number of rooms. maxTries determines how sparsely packed the room will be:
     // high maxTries -> densely packed rooms
     void addRooms( int maxTries );
@@ -83,11 +81,11 @@ private:
     bool isRoomValid( LD::Room const& room );
     void assignSpecialRooms();
     void decorateRooms();
-    void constructRoomFromTemplate(LD::Room const& room, RawRoomTemplateData const& td, bool flip);
     void constructParty(PartyData const& pdata);
     void constructDoors();
 
-private:
+
+
 
     std::unordered_map<TerrainTile, TileRef> m_tileRenderMap;
 

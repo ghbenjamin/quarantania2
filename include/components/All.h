@@ -7,11 +7,9 @@
 #include <components/ContainerComponent.h>
 #include <components/DescriptionComponent.h>
 #include <components/ItemComponent.h>
-#include <components/LockableComponent.h>
 #include <components/OpenableComponent.h>
 #include <components/RenderComponent.h>
 #include <components/PositionComponent.h>
-#include <components/PCComponent.h>
 
 template <typename ... Ts >
 struct ComponentTypes {};
@@ -24,9 +22,7 @@ using AllComponents = ComponentTypes<
     ContainerComponent,
     DescriptionComponent,
     ItemComponent,
-    LockableComponent,
     OpenableComponent,
     RenderComponent,
-    PositionComponent,
-    PCComponent
+    PositionComponent
             >;

@@ -14,7 +14,6 @@ struct ActorComponent : public Component<ActorComponent>
     explicit ActorComponent( Actor&& actor );
     ~ActorComponent() override = default;
 
-
     Actor actor;
     ActorType actorType;
 };
