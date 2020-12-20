@@ -68,12 +68,7 @@ public:
     int squaredEntityDistance(EntityRef a, EntityRef b);
 
     // Actions
-//    std::vector<ActionPtr> actionsForTile(EntityRef actor, Vector2i tile);
-//    std::vector<ActionPtr> actionsForEntity(EntityRef actor, EntityRef subject);
-//    std::vector<ActionPtr> actionsForPosition(EntityRef actor, Vector2i position);
-
-    std::vector<std::shared_ptr<Action>> actionsForActor(EntityRef actor );
-
+    std::vector<std::shared_ptr<Action>> actionsForActor(EntityRef actor);
 
     // Communication
     bool isComplete() const;

@@ -3,6 +3,7 @@
 #include <components/All.h>
 #include <engine/InputInterface.h>
 #include <game/ActionDefs.h>
+#include <game/Action.h>
 #include <game/GameEventDefs.h>
 #include <game/Level.h>
 #include <graphics/RenderInterface.h>
@@ -191,95 +192,6 @@ UI::Manager& Level::ui()
     return m_uiManager;
 }
 
-//std::vector<ActionPtr> Level::actionsForTile(EntityRef actor, Vector2i tile)
-//{
-//    std::vector<ActionPtr> out;
-//
-//    if ( grid().pass().valueAt(tile) != Passibility::Impassable )
-//    {
-//        auto moveAct = std::make_shared<StepAction>(this, actor, tile);
-//        out.push_back( std::static_pointer_cast<Action>(moveAct) );
-//    }
-//
-//    return out;
-//}
-//
-//std::vector<ActionPtr> Level::actionsForEntity(EntityRef actor, EntityRef subject)
-//{
-//    std::vector<ActionPtr> out;
-//
-//    if ( m_ecs.entityHas<ActorComponent>(subject) )
-//    {
-//        auto actorC = m_ecs.getComponents<ActorComponent>(subject);
-//
-//        auto act = std::make_shared<MeleeAttackAction>(this, actor, subject);
-//        out.push_back( std::static_pointer_cast<Action>(act) );
-//    }
-//
-//    if ( m_ecs.entityHas<ItemComponent>(subject) )
-//    {
-//        auto itemC = m_ecs.getComponents<ItemComponent>(subject);
-//
-//        auto act = std::make_shared<PickUpItemAction>(this, actor, subject);
-//        out.push_back( std::static_pointer_cast<Action>(act) );
-//    }
-//
-//    if ( m_ecs.entityHas<OpenableComponent>(subject) )
-//    {
-//        auto openable = m_ecs.getComponents<OpenableComponent>(subject);
-//        if ( openable->isOpen)
-//        {
-//            auto act = std::make_shared<CloseAction>(this, actor, subject);
-//            out.push_back( std::static_pointer_cast<Action>(act) );
-//        }
-//        else
-//        {
-//            auto act = std::make_shared<OpenAction>(this, actor, subject);
-//            out.push_back( std::static_pointer_cast<Action>(act) );
-//        }
-//    }
-//
-//    if ( m_ecs.entityHas<ActionComponent>(subject) )
-//    {
-//        auto actionComp = m_ecs.getComponents<ActionComponent>(subject);
-//        for ( auto const& act : actionComp->actions )
-//        {
-//            act->setActor(actor);
-//            act->setSubject(subject);
-//
-//            out.push_back( std::static_pointer_cast<Action>(act) );
-//        }
-//    }
-//
-//    out.erase( std::remove_if(out.begin(), out.end(), []( ActionPtr const& item ){
-//        return !item->canTryAction();
-//    }), out.end() );
-//
-//    return out;
-//}
-//
-//std::vector<ActionPtr> Level::actionsForPosition(EntityRef actor, Vector2i position)
-//{
-//    std::vector<ActionPtr> out;
-//
-//    auto entsAtTile = grid().entitiesAtTile(position);
-//    auto tiles = actionsForTile(actor ,position);
-//    out.insert( out.begin(), tiles.begin(), tiles.end() );
-//
-//    for ( auto ent : entsAtTile )
-//    {
-//        auto ents = actionsForEntity(actor, ent);
-//        out.insert( out.end(), ents.begin(), ents.end() );
-//    }
-//
-//    out.erase( std::remove_if(out.begin(), out.end(), []( ActionPtr const& item ){
-//        return !item->canTryAction();
-//    }), out.end() );
-//
-//    return out;
-//}
-
-
 bool Level::isComplete() const
 {
     return m_isComplete;
@@ -391,8 +303,12 @@ std::vector<std::shared_ptr<Action>> Level::actionsForActor(EntityRef actor)
     Assert( cActor->actorType == ActorType::PC );
 
 
-
     std::vector<std::shared_ptr<Action>> out;
+
+    out.push_back( std::make_shared<MoveAction>( this, "short-step", 1 ));
+    out.push_back( std::make_shared<MoveAction>( this, "move", 5 ));
+    out.push_back( std::make_shared<AttackAction>( this, "strike" ));
+
     return out;
 }
 

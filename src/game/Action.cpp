@@ -1,28 +1,43 @@
 #include <game/Action.h>
+#include <game/ResourceDatabase.h>
 
-//Action::Action(Level* level)
-//: m_level(level)
-//{ }
-//
-//EntityAction::EntityAction(Level* level, EntityRef actor, EntityRef subject)
-//: Action(level), m_actor(actor), m_subject(subject)
-//{ }
-//
-//void EntityAction::setActor(EntityRef actor)
-//{
-//    m_actor = actor;
-//}
-//
-//void EntityAction::setSubject(EntityRef subject)
-//{
-//    m_subject = subject;
-//}
-//
-//EntityAction::EntityAction(Level *level)
-//: Action(level), m_actor(EntityNull), m_subject(EntityNull)
-//{
-//}
-//
-//TileAction::TileAction(Level* level, EntityRef actor, Vector2i tile)
-//: Action(level), m_actor(actor), m_tile(tile)
-//{ }
+Action::Action(Level* level, std::string const& id)
+        : m_data( ResourceDatabase::instance().actionFromId(id) ),
+          m_level(level) {}
+
+
+std::string const &Action::getName() const
+{
+    return m_data.name;
+}
+
+std::string const &Action::getDescription() const
+{
+    return m_data.description;
+}
+
+SpritesheetKey const &Action::getSprite() const
+{
+    return m_data.sprite;
+}
+
+bool Action::getProvokes() const
+{
+    return m_data.provokes;
+}
+
+void Action::setEnabled(bool val)
+{
+    m_enabled = val;
+}
+
+bool Action::isEnabled() const
+{
+    return m_enabled;
+}
+
+MoveAction::MoveAction(Level* level, const std::string &id, int range)
+        : Action(level, id), m_range(range) { }
+
+AttackAction::AttackAction(Level *level, const std::string &id)
+        : Action(level, id) { }

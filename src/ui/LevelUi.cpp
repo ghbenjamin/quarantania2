@@ -118,22 +118,27 @@ UI::ActionMenuContainer::ActionMenuContainer(UI::Manager *manager, UI::Element *
     setLayout<HorizontalLayout>( 8, VAlignment::Top );
 
     manager->createElement<UI::ActionMenuSpawnItem>(this, "Combat",
-            SpritesheetKey{"game_icons", "axe-sword"}, ActionMenuCategory::Combat);
+            SpritesheetKey{"game_icons", "axe-sword"}, RawActionDataType::Attack);
     manager->createElement<UI::ActionMenuSpawnItem>(this, "Movement",
-            SpritesheetKey{"game_icons", "move"}, ActionMenuCategory::Movement);
+            SpritesheetKey{"game_icons", "move"}, RawActionDataType::Move);
     manager->createElement<UI::ActionMenuSpawnItem>(this, "Inventory",
-            SpritesheetKey{"game_icons", "light-backpack"}, ActionMenuCategory::Inventory);
+            SpritesheetKey{"game_icons", "light-backpack"}, RawActionDataType::Item);
+}
+
+void UI::ActionMenuContainer::onSpawnItemHover(RawActionDataType category)
+{
+    Logging::log( (int) category );
 }
 
 UI::ActionMenuSpawnItem::ActionMenuSpawnItem(UI::Manager *manager, UI::Element *parent,
-     std::string const& name, SpritesheetKey icon, ActionMenuCategory category)
+     std::string const& name, SpritesheetKey icon, RawActionDataType category)
     : Element(manager, parent), m_name(name), m_category(category)
 {
     manager->createElement<UI::Icon>(this, icon);
     setBackgroundColour(Colour::Grey);
     setBorder(1, Colour::White);
 
-//    addEventCallback( UEventType::MouseIn, [this](UEvent& evt) {
-//
-//    });
+    addEventCallback( UEventType::MouseIn, [this](UEvent& evt) {
+        this->parent()->asType<UI::ActionMenuContainer>()->onSpawnItemHover(m_category);
+    });
 }

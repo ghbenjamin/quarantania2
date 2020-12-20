@@ -2,11 +2,13 @@
 
 #include <ui/Element.h>
 #include <engine/Entity.h>
+#include <game/RawData.h>
 
 namespace UI
 {
 
 class Label;
+class Action;
 
 class TurnOrderWidget : public Element
 {
@@ -48,12 +50,6 @@ struct ActionMenuItem
     bool enabled;
 };
 
-enum class ActionMenuCategory
-{
-    Combat,
-    Movement,
-    Inventory
-};
 
 class ActionMenuPopupMenu : public Element
 {
@@ -66,12 +62,13 @@ public:
 class ActionMenuSpawnItem : public Element
 {
 public:
-    ActionMenuSpawnItem(Manager* manager, Element* parent, std::string const& name,  SpritesheetKey icon, ActionMenuCategory category);
+    ActionMenuSpawnItem(Manager* manager, Element* parent, std::string const& name,
+            SpritesheetKey icon, RawActionDataType category);
     ~ActionMenuSpawnItem() override = default;
 
 private:
     std::string m_name;
-    ActionMenuCategory m_category;
+    RawActionDataType m_category;
 };
 
 
@@ -80,6 +77,8 @@ class ActionMenuContainer : public Element
 public:
     ActionMenuContainer(Manager* manager, Element* parent);
     ~ActionMenuContainer() override = default;
+
+    void onSpawnItemHover( RawActionDataType category );
 };
 
 

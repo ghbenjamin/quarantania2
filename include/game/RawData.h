@@ -118,6 +118,7 @@ enum class RawActionDataType
 {
     Move,
     Attack,
+    Item
 };
 
 struct RawActionData
