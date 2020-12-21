@@ -54,8 +54,13 @@ struct ActionMenuItem
 class ActionMenuPopupMenu : public Element
 {
 public:
-    ActionMenuPopupMenu(Manager* manager, Element* parent, std::vector<ActionMenuItem> const& item);
+    ActionMenuPopupMenu(Manager* manager, Element* parent, std::vector<ActionMenuItem> const& item, RawActionDataType category);
     ~ActionMenuPopupMenu() override = default;
+
+    RawActionDataType getCategory() const;
+
+private:
+    RawActionDataType m_category;
 };
 
 
@@ -63,8 +68,10 @@ class ActionMenuSpawnItem : public Element
 {
 public:
     ActionMenuSpawnItem(Manager* manager, Element* parent, std::string const& name,
-            SpritesheetKey icon, RawActionDataType category);
+            SpritesheetKey const& icon, RawActionDataType category);
     ~ActionMenuSpawnItem() override = default;
+
+    RawActionDataType getCategory() const;
 
 private:
     std::string m_name;
@@ -79,6 +86,10 @@ public:
     ~ActionMenuContainer() override = default;
 
     void onSpawnItemHover( RawActionDataType category );
+    void onSpawnItemClick( RawActionDataType category );
+
+private:
+    std::weak_ptr<ActionMenuPopupMenu> m_menu;
 };
 
 

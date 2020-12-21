@@ -14,7 +14,8 @@ class Label : public Element
 {
 public:
     Label(Manager* manager, Element* parent);
-    explicit Label(Manager* manager, Element* parent, TextStyle const& style);
+    Label(Manager* manager, Element* parent, TextStyle const& style);
+    Label(Manager* manager, Element* parent, std::string const& label );
     ~Label() override = default;
 
     void setText( std::string const& text );

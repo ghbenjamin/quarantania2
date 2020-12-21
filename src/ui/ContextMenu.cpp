@@ -7,7 +7,6 @@
 UI::ContextMenu::ContextMenu(Manager* manager, Element* parent, const UI::ContextMenuList &items, ContextMenuCallback callback)
 : Element(manager, parent), m_callback(std::move(callback))
 {
-    holdLayout();
     setLayout<UI::VerticalLayout>(0, UI::HAlignment::Fill);
 
     for ( std::size_t i = 0; i < items.size(); i++ )
@@ -30,7 +29,6 @@ UI::ContextMenu::ContextMenu(Manager* manager, Element* parent, const UI::Contex
     setBorder( 2, Colour::Black );
     setPadding(6);
     setId("context-menu");
-    releaseLayout();
 }
 
 UI::ContextMenuItem::ContextMenuItem(Manager* manager, Element* parent, std::string const &label, std::size_t idx)

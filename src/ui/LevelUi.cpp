@@ -104,11 +104,40 @@ void UI::TurnOrderContainer::reloadEntities()
     refresh();
 }
 
-UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *parent,
-     const std::vector<ActionMenuItem> &item)
-    : Element(manager, parent)
-{
 
+
+
+
+UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *parent,
+     const std::vector<ActionMenuItem> &item,  RawActionDataType category)
+    : Element(manager, parent), m_category(category)
+{
+    setId("action-menu-popup-menu");
+    setLayout<VerticalLayout>( 4, HAlignment::Left );
+
+    for ( auto const& ami : item )
+    {
+        auto elem = manager->createElement<UI::Element>(this);
+        elem->setPadding(4);
+        elem->setBackgroundColour(Colour::Beige);
+        elem->setLayout<HorizontalLayout>(8, VAlignment::Centre);
+
+        manager->createElement<UI::Icon>(elem.get(), ami.icon);
+        manager->createElement<UI::Label>(elem.get(), ami.name);
+
+        elem->addEventCallback(UEventType::Click, [manager, this](UEvent const& evt) {
+            // Do something here!
+
+            manager->deleteElement( shared_from_this() );
+        });
+    }
+
+    doLayout();
+}
+
+RawActionDataType UI::ActionMenuPopupMenu::getCategory() const
+{
+    return m_category;
 }
 
 UI::ActionMenuContainer::ActionMenuContainer(UI::Manager *manager, UI::Element *parent)
@@ -127,18 +156,86 @@ UI::ActionMenuContainer::ActionMenuContainer(UI::Manager *manager, UI::Element *
 
 void UI::ActionMenuContainer::onSpawnItemHover(RawActionDataType category)
 {
-    Logging::log( (int) category );
+}
+
+void UI::ActionMenuContainer::onSpawnItemClick(RawActionDataType category)
+{
+    auto menu = m_menu.lock();
+
+    if ( menu )
+    {
+        auto existing = menu->getCategory();
+
+        manager()->deleteElement( menu );
+        m_menu.reset();
+
+        if (existing == category)
+        {
+            return;
+        }
+    }
+
+    std::vector<ActionMenuItem> menuItems;
+    auto actions = manager()->level()->actionsForCurrentActor();
+
+    for ( auto const& action : actions )
+    {
+        if ( action->getType() == category )
+        {
+            ActionMenuItem ami;
+            ami.description = action->getDescription();
+            ami.enabled = action->isEnabled();
+            ami.icon = action->getSprite();
+            ami.name = action->getName();
+
+            menuItems.push_back(std::move(ami));
+        }
+    }
+
+    if ( menuItems.empty() )
+    {
+        return;
+    }
+
+    auto newMenu = manager()->createElement<UI::ActionMenuPopupMenu>(nullptr, std::move(menuItems), category );
+
+    // Find the position of the button we clicked so that we can align new menu to it
+    auto spawn = firstMatchingCondition( [category](ElementPtr const& elem) {
+        return ( elem->hasTag("action-popup-spawn") &&
+            elem->asType<UI::ActionMenuSpawnItem>()->getCategory() == category );
+    });
+
+    Assert(!!spawn);
+
+    Vector2i origin = globalPosition();
+
+    origin.x( spawn->outerBounds().x() );
+    origin.y( origin.y() - newMenu->outerBounds().h() );
+
+    newMenu->setLocalPosition(origin);
+
+    m_menu = newMenu;
 }
 
 UI::ActionMenuSpawnItem::ActionMenuSpawnItem(UI::Manager *manager, UI::Element *parent,
-     std::string const& name, SpritesheetKey icon, RawActionDataType category)
+     std::string const& name, SpritesheetKey const& icon, RawActionDataType category)
     : Element(manager, parent), m_name(name), m_category(category)
 {
     manager->createElement<UI::Icon>(this, icon);
     setBackgroundColour(Colour::Grey);
     setBorder(1, Colour::White);
+    addTag("action-popup-spawn");
 
     addEventCallback( UEventType::MouseIn, [this](UEvent& evt) {
         this->parent()->asType<UI::ActionMenuContainer>()->onSpawnItemHover(m_category);
     });
+
+    addEventCallback( UEventType::Click, [this](UEvent& evt) {
+        this->parent()->asType<UI::ActionMenuContainer>()->onSpawnItemClick(m_category);
+    });
+}
+
+RawActionDataType UI::ActionMenuSpawnItem::getCategory() const
+{
+    return m_category;
 }

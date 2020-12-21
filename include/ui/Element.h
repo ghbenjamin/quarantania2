@@ -11,6 +11,7 @@
 #include <resource/Sprite.h>
 #include <utils/Logging.h>
 #include <resource/Spritesheet.h>
+#include <unordered_set>
 
 class RenderInterface;
 class InputInterface;
@@ -22,7 +23,6 @@ class Manager;
 class Element;
 
 using ElementPtr = std::shared_ptr<Element>;
-using ElementWPtr = std::weak_ptr<Element>;
 using ElementList = std::vector<ElementPtr>;
 
 class Element : public std::enable_shared_from_this<Element>
@@ -66,6 +66,9 @@ public:
     // Ids
     void setId( std::string const& id );
     std::string const& id() const;
+    void addTag( std::string const& tag );
+    bool hasTag( std::string const& tag ) const;
+    void removeTag( std::string const& tag );
 
     // DOM
     void setParent( Element* elem );
@@ -118,16 +121,12 @@ public:
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
     void doLayout();
-    void holdLayout();
-    void releaseLayout();
 
 protected:
 
     Manager* manager();
     void onMove();
     void onSize();
-
-private:
 
     template <typename Callable>
     void elementsMatchingCondition( Callable&& callable, ElementList* out )
@@ -170,6 +169,7 @@ private:
         return out;
     }
 
+
     virtual void updateSelf(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
     virtual void onSizeSelf();
@@ -178,10 +178,15 @@ private:
     void recachePosition();
     void generateBackground();
 
-    std::string m_id;
+private:
 
+    // Core
     Element* m_parent;
     Manager* m_manager;
+
+    // Tagging
+    std::string m_id;
+    std::unordered_set<std::string> m_tags;
 
     // Locations
     Vector2i m_localPosition;
@@ -200,7 +205,6 @@ private:
 
     // Layout
     std::unique_ptr<UI::ElementLayout> m_layout;
-    bool m_layoutHeld;
 
     // Styles
     bool m_hasBgColour;

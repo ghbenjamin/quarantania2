@@ -19,6 +19,7 @@ public:
     SpritesheetKey const& getSprite() const;
     bool getProvokes() const;
     bool isEnabled() const;
+    RawActionDataType getType() const;
 
     void setEnabled(bool val);
 

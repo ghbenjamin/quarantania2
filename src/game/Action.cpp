@@ -36,6 +36,11 @@ bool Action::isEnabled() const
     return m_enabled;
 }
 
+RawActionDataType Action::getType() const
+{
+    return m_data.type;
+}
+
 MoveAction::MoveAction(Level* level, const std::string &id, int range)
         : Action(level, id), m_range(range) { }
 

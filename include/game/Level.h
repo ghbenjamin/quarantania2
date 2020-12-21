@@ -69,6 +69,7 @@ public:
 
     // Actions
     std::vector<std::shared_ptr<Action>> actionsForActor(EntityRef actor);
+    std::vector<std::shared_ptr<Action>> actionsForCurrentActor();
 
     // Communication
     bool isComplete() const;

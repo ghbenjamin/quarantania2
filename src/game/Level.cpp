@@ -312,3 +312,8 @@ std::vector<std::shared_ptr<Action>> Level::actionsForActor(EntityRef actor)
     return out;
 }
 
+std::vector<std::shared_ptr<Action>> Level::actionsForCurrentActor()
+{
+    return actionsForActor( getActiveEntity() );
+}
+

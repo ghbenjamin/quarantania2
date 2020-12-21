@@ -16,7 +16,6 @@ Element::Element(Manager* manager, Element* parent)
     m_hasBorder(false),
     m_borderWidth(0),
     m_isHidden(false),
-    m_layoutHeld(false),
     m_maxOuterSize({0, 0}),
     m_isDecorative(false)
 {
@@ -353,17 +352,6 @@ Vector2i Element::preferredContentSize() const
     return m_preferredContentSize;
 }
 
-void Element::holdLayout()
-{
-    m_layoutHeld = true;
-}
-
-void Element::releaseLayout()
-{
-    m_layoutHeld = false;
-    doLayout();
-}
-
 RectI const &Element::outerBounds() const
 {
     return m_outerBounds;
@@ -439,6 +427,21 @@ void Element::setDecorative(bool val)
 bool Element::isDecorative() const
 {
     return m_isDecorative;
+}
+
+void Element::addTag(const std::string &tag)
+{
+    m_tags.insert(tag);
+}
+
+bool Element::hasTag(const std::string &tag) const
+{
+    return m_tags.find(tag) != m_tags.end();
+}
+
+void Element::removeTag(const std::string &tag)
+{
+    m_tags.erase(tag);
 }
 
 

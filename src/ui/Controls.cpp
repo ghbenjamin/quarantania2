@@ -20,6 +20,12 @@ Label::Label(Manager* manager, Element* parent)
 {
 }
 
+Label::Label(Manager *manager, Element *parent, const std::string &label)
+        : Label(manager, parent)
+{
+    setText(label);
+}
+
 
 void Label::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
@@ -91,6 +97,7 @@ void Label::setColour(Colour colour)
         renderText();
     }
 }
+
 
 
 
