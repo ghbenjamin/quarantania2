@@ -4,11 +4,12 @@
 #include <engine/Entity.h>
 #include <game/RawData.h>
 
+class Action;
+
 namespace UI
 {
 
 class Label;
-class Action;
 
 class TurnOrderWidget : public Element
 {
@@ -40,21 +41,10 @@ public:
     void refresh();
 };
 
-
-
-struct ActionMenuItem
-{
-    SpritesheetKey icon;
-    std::string name;
-    std::string description;
-    bool enabled;
-};
-
-
 class ActionMenuPopupMenu : public Element
 {
 public:
-    ActionMenuPopupMenu(Manager* manager, Element* parent, std::vector<ActionMenuItem> const& item, RawActionDataType category);
+    ActionMenuPopupMenu(Manager* manager, Element* parent, std::vector<std::shared_ptr<Action>> const& item, RawActionDataType category);
     ~ActionMenuPopupMenu() override = default;
 
     RawActionDataType getCategory() const;

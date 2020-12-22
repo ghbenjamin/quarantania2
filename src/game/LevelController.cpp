@@ -183,6 +183,11 @@ bool LevelController::onKeyDown(IEventKeyPress evt)
     return false;
 }
 
+void LevelController::pushActionController(EntityRef ref, std::shared_ptr<Action> const& action)
+{
+    setNextController<ActionController>( m_level, ref, action );
+}
+
 
 
 // Default Level Controller
@@ -215,7 +220,7 @@ bool DefaultLController::onMouseDown(IEventMouseDown evt)
                 if ( actorComp->actorType == ActorType::PC )
                 {
                     // TODO only if its the right turn
-                    setNextController( std::make_shared<PlayerSelectedController>(m_level, actorEnt) );
+                    setNextController<PlayerSelectedController>( m_level, actorEnt );
                     return true;
                 }
             }
@@ -350,4 +355,15 @@ void PlayerSelectedController::onExitImpl()
 {
     m_level->ui().deleteElement(m_tileHighlight);
     m_level->ui().deleteElement(m_pathHighlight);
+}
+
+
+// Action Controller
+// --------------------------------------
+
+
+
+ActionController::ActionController(Level *level, EntityRef ref, std::shared_ptr<Action> const& action)
+: LevelController(level), m_entity(ref), m_action(action)
+{
 }

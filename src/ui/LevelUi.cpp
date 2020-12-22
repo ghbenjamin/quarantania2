@@ -6,6 +6,7 @@
 #include <components/PositionComponent.h>
 #include <resource/ResourceManager.h>
 #include <game/LevelController.h>
+#include <game/Action.h>
 
 UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, EntityRef ref)
 : Element(manager, parent), m_entity(ref)
@@ -110,24 +111,26 @@ void UI::TurnOrderContainer::reloadEntities()
 
 
 UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *parent,
-     const std::vector<ActionMenuItem> &item,  RawActionDataType category)
+     const std::vector<std::shared_ptr<Action>> &item,  RawActionDataType category)
     : Element(manager, parent), m_category(category)
 {
     setId("action-menu-popup-menu");
     setLayout<VerticalLayout>( 4, HAlignment::Left );
 
-    for ( auto const& ami : item )
+    for ( auto const& act : item )
     {
         auto elem = manager->createElement<UI::Element>(this);
         elem->setPadding(4);
         elem->setBackgroundColour(Colour::Beige);
         elem->setLayout<HorizontalLayout>(8, VAlignment::Centre);
 
-        manager->createElement<UI::Icon>(elem.get(), ami.icon);
-        manager->createElement<UI::Label>(elem.get(), ami.name);
+        manager->createElement<UI::Icon>(elem.get(), act->getSprite() );
+        manager->createElement<UI::Label>(elem.get(), act->getName() );
 
-        elem->addEventCallback(UEventType::Click, [manager, this](UEvent const& evt) {
+        elem->addEventCallback(UEventType::Click, [manager, act, this](UEvent const& evt) {
             // Do something here!
+
+            manager->level()->controller()->pushActionController( manager->level()->getActiveEntity(), act );
 
             manager->deleteElement( shared_from_this() );
         });
@@ -176,20 +179,14 @@ void UI::ActionMenuContainer::onSpawnItemClick(RawActionDataType category)
         }
     }
 
-    std::vector<ActionMenuItem> menuItems;
+    std::vector<std::shared_ptr<Action>> menuItems;
     auto actions = manager()->level()->actionsForCurrentActor();
 
-    for ( auto const& action : actions )
+    for ( auto& action : actions )
     {
         if ( action->getType() == category )
         {
-            ActionMenuItem ami;
-            ami.description = action->getDescription();
-            ami.enabled = action->isEnabled();
-            ami.icon = action->getSprite();
-            ami.name = action->getName();
-
-            menuItems.push_back(std::move(ami));
+            menuItems.push_back( action );
         }
     }
 

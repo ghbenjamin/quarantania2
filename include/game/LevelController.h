@@ -13,6 +13,7 @@
 class Level;
 class RenderInterface;
 namespace UI { class Element; }
+class Action;
 
 // Forward definitions
 class RenderInterface;
@@ -35,13 +36,18 @@ public:
     bool shouldPopController() const;
     void popController();
 
+    void pushActionController( EntityRef ref, std::shared_ptr<Action> const& action );
+
+
 protected:
 
-    template <typename T>
-    void setNextController(std::shared_ptr<T> const& next)
+    template <typename T, typename... Args>
+    void setNextController(Args... args)
     {
         static_assert( std::is_base_of_v<LevelController, T> );
-        m_nextController = std::static_pointer_cast<LevelController>(next);
+
+        auto ptr = std::make_shared<T>( std::forward<Args>(args)... );
+        m_nextController = std::static_pointer_cast<LevelController>(ptr);
     }
 
     void addKeybinding( SDL_Keycode key, std::function<void()> const& callback );
@@ -99,6 +105,7 @@ class PlayerSelectedController : public LevelController
 public:
 
     PlayerSelectedController(Level*, EntityRef entity);
+    ~PlayerSelectedController() override = default;
 
 protected:
     void onExitImpl() override;
@@ -122,4 +129,15 @@ private:
 
     // Cached pathfinding data
     PathMap m_pathMap;
+};
+
+class ActionController: public LevelController
+{
+public:
+    ActionController(Level* level, EntityRef ref, std::shared_ptr<Action> const& action);
+    ~ActionController() override = default;
+
+private:
+    EntityRef m_entity;
+    std::shared_ptr<Action> m_action;
 };
