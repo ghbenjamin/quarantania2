@@ -1,35 +1,71 @@
 #pragma once
 
 #include <cstdint>
-#include <functional>
 #include <memory>
+#include <functional>
 
 #include <engine/InputInterface.h>
-#include <controllers/Controller.h>
 #include <engine/Entity.h>
 #include <game/Grid.h>
+
 
 // Forward definitions
 class Level;
 class RenderInterface;
 namespace UI { class Element; }
 
-class LevelController : public Controller
+// Forward definitions
+class RenderInterface;
+
+class LevelController
 {
 public:
-    explicit LevelController( Level* level );
-    ~LevelController() override = default;
 
-    bool input(IEvent &evt) override;
+    LevelController(Level* level);
+    virtual ~LevelController() = default;
+
+    bool input(IEvent &evt);
+    void update(std::uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
+
+    void onEnter();
+    void onExit();
+
+    bool hasNextController() const;
+    std::shared_ptr<LevelController> getNextController();
+    bool shouldPopController() const;
+    void popController();
 
 protected:
-    virtual void onHoveredTileChange(Vector2i prev, Vector2i curr);
-    bool scrollLevel(std::uint32_t ticks, InputInterface &iinter);
+
+    template <typename T>
+    void setNextController(std::shared_ptr<T> const& next)
+    {
+        static_assert( std::is_base_of_v<LevelController, T> );
+        m_nextController = std::static_pointer_cast<LevelController>(next);
+    }
 
     void addKeybinding( SDL_Keycode key, std::function<void()> const& callback );
 
+    virtual void onEnterImpl();
+    virtual void onExitImpl();
+    virtual bool inputImpl(IEvent &evt);
+    virtual void updateImpl(std::uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
+
+    virtual bool onMouseMove(IEventMouseMove evt);
+    virtual bool onMouseDown(IEventMouseDown evt);
+    virtual bool onMouseUp(IEventMouseUp evt);
+    virtual bool onKeyDown(IEventKeyPress evt);
+
+    virtual void onHoveredTileChange(Vector2i prev, Vector2i curr);
+    bool scrollLevel(std::uint32_t ticks, InputInterface &iinter);
+
+
     Level* m_level;
     Vector2i m_lastHoveredTile;
+
+private:
+    std::shared_ptr<LevelController> m_nextController;
+    bool m_shouldPopController;
     std::unordered_map<SDL_Keycode, std::function<void()>> m_keybinds;
 };
 
@@ -37,15 +73,15 @@ protected:
 // The default state the level controller is in - nothing selected, nothing highlighted, nothing happening.
 class DefaultLController : public LevelController
 {
-
 public:
+
     explicit DefaultLController(Level *level);
     ~DefaultLController() override = default;
 
-    void update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 
 protected:
-    void onExitSelf() override;
+    void onExitImpl() override;
+    void updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 
 private:
     bool onMouseMove(IEventMouseMove evt) override;
@@ -61,11 +97,12 @@ private:
 class PlayerSelectedController : public LevelController
 {
 public:
+
     PlayerSelectedController(Level*, EntityRef entity);
-    void update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 
 protected:
-    void onExitSelf() override;
+    void onExitImpl() override;
+    void updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 
 private:
     bool onMouseDown(IEventMouseDown evt) override;

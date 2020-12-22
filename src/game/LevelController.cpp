@@ -1,4 +1,4 @@
-#include <controllers/LevelController.h>
+#include <game/LevelController.h>
 #include <game/Level.h>
 #include <game/ActionDefs.h>
 #include <game/GameEventDefs.h>
@@ -7,22 +7,24 @@
 #include <components/PositionComponent.h>
 
 LevelController::LevelController(Level *level)
-: m_level(level) { }
+: m_level(level), m_shouldPopController(false)
+{ }
 
-bool LevelController::input(IEvent &evt)
+bool LevelController::inputImpl(IEvent &evt)
 {
     switch ( evt.type )
     {
         case IEventType::KeyPress:
         {
             auto it = m_keybinds.find(evt.keyPress.keyCode);
-            if (it == m_keybinds.end())
+            if (it != m_keybinds.end())
             {
-                onKeyDown(evt.keyPress);
+                it->second();
+                return true;
             }
             else
             {
-                it->second();
+                onKeyDown(evt.keyPress);
             }
         }
 
@@ -91,9 +93,94 @@ bool LevelController::scrollLevel(std::uint32_t ticks, InputInterface &iinter)
     return false;
 }
 
+bool LevelController::input(IEvent &evt)
+{
+    switch ( evt.type )
+    {
+        case IEventType::KeyPress:
+        {
+            auto it = m_keybinds.find(evt.keyPress.keyCode);
+            if (it != m_keybinds.end())
+            {
+                it->second();
+                return false;
+            }
+        }
+        default:
+            break;
+    }
+
+    return inputImpl(evt);
+}
+
+void LevelController::update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
+{
+    return updateImpl(ticks, iinter, rInter);
+}
+
+bool LevelController::hasNextController() const
+{
+    return m_nextController != std::shared_ptr<LevelController>();
+}
+
+std::shared_ptr<LevelController> LevelController::getNextController()
+{
+    return m_nextController;
+}
+
+bool LevelController::shouldPopController() const
+{
+    return m_shouldPopController;
+}
+
+void LevelController::popController()
+{
+    m_shouldPopController = true;
+}
+
+void LevelController::onExit()
+{
+    m_shouldPopController = false;
+    m_nextController = std::shared_ptr<LevelController>();
+    onExitImpl();
+}
+
+void LevelController::onEnter()
+{
+    m_shouldPopController = false;
+    m_nextController = std::shared_ptr<LevelController>();
+    onEnterImpl();
+}
+
+
 void LevelController::addKeybinding(SDL_Keycode key, std::function<void()> const& callback)
 {
     m_keybinds.emplace(key, callback);
+}
+
+
+void LevelController::onEnterImpl() { }
+void LevelController::onExitImpl() { }
+void LevelController::updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) {}
+
+bool LevelController::onMouseMove(IEventMouseMove evt)
+{
+    return false;
+}
+
+bool LevelController::onMouseDown(IEventMouseDown evt)
+{
+    return false;
+}
+
+bool LevelController::onMouseUp(IEventMouseUp evt)
+{
+    return false;
+}
+
+bool LevelController::onKeyDown(IEventKeyPress evt)
+{
+    return false;
 }
 
 
@@ -167,12 +254,12 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     }
 }
 
-void DefaultLController::update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
+void DefaultLController::updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
     scrollLevel(ticks, iinter);
 }
 
-void DefaultLController::onExitSelf()
+void DefaultLController::onExitImpl()
 {
     m_level->ui().removeSingleTileHighlight();
     m_lastHoveredTile = {-1, -1};
@@ -206,14 +293,9 @@ PlayerSelectedController::PlayerSelectedController(Level* level, EntityRef entit
 
     // Highlight the tiles that can be moved to
     m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, gr, Colour::Lime);
-
-
-    // Debug for now
-    auto actions = m_level->actionsForActor(m_entity);
-    Logging::log( "Action count: {}\n", actions.size() );
 }
 
-void PlayerSelectedController::update(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
+void PlayerSelectedController::updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
     scrollLevel(ticks, iinter);
 }
@@ -264,10 +346,8 @@ void PlayerSelectedController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     }
 }
 
-void PlayerSelectedController::onExitSelf()
+void PlayerSelectedController::onExitImpl()
 {
     m_level->ui().deleteElement(m_tileHighlight);
     m_level->ui().deleteElement(m_pathHighlight);
 }
-
-

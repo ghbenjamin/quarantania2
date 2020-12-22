@@ -14,28 +14,24 @@
 #include <game/ECS.h>
 #include <game/Defines.h>
 #include <game/Grid.h>
-#include <controllers/LevelController.h>
 #include <ui/Manager.h>
+#include <game/LevelController.h>
 
 
 // Forward definitions
 class RenderInterface;
 class InputInterface;
+class Action;
 struct IEvent;
 struct IEventKeyPress;
 struct IEventMouseMove;
 struct IEventMouseDown;
 struct IEventWindowResize;
-class Action;
-class Action;
 
 namespace UI
 {
     class TextLog;
 }
-
-// Typedefs 
-using ActionPtr = std::shared_ptr<Action>;
 
 class Level
 {
@@ -57,6 +53,7 @@ public:
     UI::Manager& ui();
     Camera& camera();
     ECS& ecs();
+    LevelController* controller();
 
     // Coordinates
     Vector2i worldCoordsToScreen( Vector2i const& world );
@@ -108,7 +105,7 @@ private:
     // Misc
     RandomInterface m_random;
     LevelContextPtr m_ctx;
-    std::vector<std::shared_ptr<Controller>> m_controllers;
+    std::vector<std::shared_ptr<LevelController>> m_controllers;
     bool m_isComplete;
 
     // Map

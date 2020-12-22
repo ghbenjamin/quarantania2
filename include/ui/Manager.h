@@ -37,6 +37,7 @@ public:
     ~Manager() = default;
 
     Level* level();
+
     bool input(IEvent &evt);
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 

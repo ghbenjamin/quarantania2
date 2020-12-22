@@ -13,16 +13,17 @@
 #include <utils/GlobalConfig.h>
 
 
+
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 :   m_ctx(std::move(ctx)),
     m_grid(size),
     m_random(rg),
     m_isComplete(false),
     m_camera( size * GlobalConfig::TileSizePx ),
-    m_uiManager(this),
     m_currentTurnEntity(EntityNull),
     m_ecs(this),
-    m_controllers{ std::make_shared<DefaultLController>(this) }
+    m_controllers{ std::make_shared<DefaultLController>(this) },
+    m_uiManager(this)
 {
     setupUI();
     layoutWindows();
@@ -315,5 +316,10 @@ std::vector<std::shared_ptr<Action>> Level::actionsForActor(EntityRef actor)
 std::vector<std::shared_ptr<Action>> Level::actionsForCurrentActor()
 {
     return actionsForActor( getActiveEntity() );
+}
+
+LevelController* Level::controller()
+{
+    return m_controllers.back().get();
 }
 

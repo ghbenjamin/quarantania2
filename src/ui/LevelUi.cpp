@@ -5,6 +5,7 @@
 #include <components/ActorComponent.h>
 #include <components/PositionComponent.h>
 #include <resource/ResourceManager.h>
+#include <game/LevelController.h>
 
 UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, EntityRef ref)
 : Element(manager, parent), m_entity(ref)
@@ -146,11 +147,11 @@ UI::ActionMenuContainer::ActionMenuContainer(UI::Manager *manager, UI::Element *
     setId("action-menu-container");
     setLayout<HorizontalLayout>( 8, VAlignment::Top );
 
-    manager->createElement<UI::ActionMenuSpawnItem>(this, "Combat",
+    manager->createElement<UI::ActionMenuSpawnItem>(this, "Attack",
             SpritesheetKey{"game_icons", "axe-sword"}, RawActionDataType::Attack);
-    manager->createElement<UI::ActionMenuSpawnItem>(this, "Movement",
+    manager->createElement<UI::ActionMenuSpawnItem>(this, "Move",
             SpritesheetKey{"game_icons", "move"}, RawActionDataType::Move);
-    manager->createElement<UI::ActionMenuSpawnItem>(this, "Inventory",
+    manager->createElement<UI::ActionMenuSpawnItem>(this, "Items",
             SpritesheetKey{"game_icons", "light-backpack"}, RawActionDataType::Item);
 }
 
@@ -201,8 +202,8 @@ void UI::ActionMenuContainer::onSpawnItemClick(RawActionDataType category)
 
     // Find the position of the button we clicked so that we can align new menu to it
     auto spawn = firstMatchingCondition( [category](ElementPtr const& elem) {
-        return ( elem->hasTag("action-popup-spawn") &&
-            elem->asType<UI::ActionMenuSpawnItem>()->getCategory() == category );
+        return ( elem->hasTag("action-popup-spawn-icon") &&
+            elem->parent()->asType<UI::ActionMenuSpawnItem>()->getCategory() == category );
     });
 
     Assert(!!spawn);
@@ -221,10 +222,18 @@ UI::ActionMenuSpawnItem::ActionMenuSpawnItem(UI::Manager *manager, UI::Element *
      std::string const& name, SpritesheetKey const& icon, RawActionDataType category)
     : Element(manager, parent), m_name(name), m_category(category)
 {
-    manager->createElement<UI::Icon>(this, icon);
-    setBackgroundColour(Colour::Grey);
-    setBorder(1, Colour::White);
-    addTag("action-popup-spawn");
+
+    setLayout<VerticalLayout>( 4, HAlignment::Centre );
+
+
+    auto iconElem = manager->createElement<UI::Icon>(this, icon);
+    iconElem->setBackgroundColour(Colour::Grey);
+    iconElem->setBorder(1, Colour::White);
+    iconElem->addTag("action-popup-spawn-icon");
+
+    auto textElem = manager->createElement<UI::Label>(this,
+        TextStyle { Colour::White, ResourceManager::get().getDefaultFont(10) });
+    textElem->setText(name);
 
     addEventCallback( UEventType::MouseIn, [this](UEvent& evt) {
         this->parent()->asType<UI::ActionMenuContainer>()->onSpawnItemHover(m_category);

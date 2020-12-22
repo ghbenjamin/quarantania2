@@ -10,6 +10,9 @@
 
 using namespace UI;
 
+Manager::Manager(Level *level)
+        : m_level(level) { }
+
 bool Manager::input(IEvent &evt)
 {
     switch ( evt.type )
@@ -299,11 +302,6 @@ void Manager::openContextMenu(ContextMenuList const &items, Vector2i pos, Contex
 void Manager::cancelContextMenu()
 {
     deleteElement( withId( "context-menu" ) );
-}
-
-Manager::Manager(Level *level)
-: m_level(level)
-{
 }
 
 Level *Manager::level()
