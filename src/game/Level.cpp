@@ -79,6 +79,7 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
         auto next = m_controllers.back()->getNextController();
         m_controllers.back()->onExit();
         m_controllers.push_back( next );
+        m_controllers.back()->onEnter();
     }
 
     m_controllers.back()->update(ticks, iinter, rInter);
@@ -157,7 +158,7 @@ void Level::setupUI()
     m_uiManager.alignElementToWindow( turnOrderContainer, UI::Alignment::TopLeft, {20, 20} );
 
     // Widget containing icons representing actions which can be taken
-    auto actionMenu = m_uiManager.createElement<UI::ActionMenuContainer>(nullptr);
+    auto actionMenu = m_uiManager.createElement<UI::ActionMenu>(nullptr);
     m_uiManager.alignElementToWindow( actionMenu, UI::Alignment::BottomLeft, {20, -20} );
 }
 

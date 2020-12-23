@@ -87,12 +87,6 @@ void Manager::unalignElementToWindow(ElementPtr element)
     );
 }
 
-ElementPtr Manager::withId(std::string const &id)
-{
-    return firstElementMatching([&](auto const& e){
-        return e->id() == id;
-    });
-}
 
 UI::ElementList Manager::windowsAtPoint(Vector2i pos) const
 {

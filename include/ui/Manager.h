@@ -64,7 +64,15 @@ public:
     void alignElementToWindow( const ElementPtr& element, UI::Alignment alignment, Vector2i offset);
     void unalignElementToWindow( ElementPtr element );
 
-    ElementPtr withId( std::string const& id );
+    template <typename T = Element>
+    std::shared_ptr<T> withId( std::string const& id )
+    {
+        auto ptr = firstElementMatching([&](auto const& e){
+            return e->id() == id;
+        });
+
+        return ptr->asType<T>();
+    }
 
     template <typename Callable>
     ElementPtr firstElementMatching( Callable&& callable ) const

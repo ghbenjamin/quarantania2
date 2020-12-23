@@ -131,4 +131,17 @@ struct EntityDamage : public GameEvent<EntityDamage>
     Damage const* damage;
 };
 
+
+// Controller Events
+// ------------------------------
+
+struct ControllerEntitySelected : public GameEvent<ControllerEntitySelected>
+{
+    ControllerEntitySelected(EntityRef entity);
+    ~ControllerEntitySelected() override = default;
+
+    EntityRef entity;
+};
+
+
 }

@@ -111,6 +111,8 @@ public:
     ~PlayerSelectedController() override = default;
 
 protected:
+    void onEnterImpl() override;
+
     void onExitImpl() override;
     void updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 
@@ -119,19 +121,8 @@ private:
     bool onKeyDown(IEventKeyPress evt) override;
     void onHoveredTileChange(Vector2i prev, Vector2i curr) override;
 
-    // All the tiles we could move to
-    std::shared_ptr<UI::Element> m_tileHighlight;
 
-    // The path that would be taken to get to the highlighted tile
-    std::shared_ptr<UI::Element> m_pathHighlight;
-    std::vector<Vector2i> m_tilePath;
-
-    // Our entity and the location of that entity
     EntityRef m_entity;
-    Vector2i m_origin;
-
-    // Cached pathfinding data
-    PathMap m_pathMap;
 };
 
 

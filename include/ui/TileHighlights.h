@@ -9,7 +9,8 @@ namespace UI
 enum class SingleTileHighlightType
 {
     Green,
-    Red
+    Red,
+    Yellow
 };
 
 class SingleTileHighlight : public Element

@@ -4,6 +4,8 @@
 #include <components/ItemComponent.h>
 #include <components/ActorComponent.h>
 #include <utils/Assert.h>
+#include <components/PositionComponent.h>
+#include <ui/LevelUi.h>
 
 LevelController::LevelController(Level *level)
 : m_level(level), m_shouldPopController(false)
@@ -275,7 +277,7 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     if ( !ents.empty() )
     {
         // Highlight hovered entities
-        m_level->ui().showSingleTileHighlight(curr, UI::SingleTileHighlightType::Green);
+        m_level->ui().showSingleTileHighlight(curr, UI::SingleTileHighlightType::Yellow);
     }
 }
 
@@ -301,19 +303,10 @@ void DefaultLController::onExitImpl()
 PlayerSelectedController::PlayerSelectedController(Level* level, EntityRef entity)
         : LevelController(level), m_entity(entity)
 {
-//    // Get & cache the tile that the selected entity could move to
-//    auto position = m_level->ecs().getComponents<PositionComponent>(entity);
-//    m_origin = position->tilePosition;
-//    m_pathMap = m_level->grid().allPathsFromTile(m_origin, 8);
-//
-//    GridRegion gr;
-//    for (auto const&[k, v] : m_pathMap )
-//    {
-//        gr.push_back(k);
-//    }
-//
-//    // Highlight the tiles that can be moved to
-//    m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, gr, Colour::Lime);
+    // Hotkeys for the action menus
+    addKeybinding( SDLK_m, [this](){
+        m_level->ui().withId<UI::ActionMenu>("action-menu")->toggleMenu(RawActionDataType::Move);
+    });
 }
 
 void PlayerSelectedController::updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
@@ -328,41 +321,26 @@ bool PlayerSelectedController::onKeyDown(IEventKeyPress evt)
 
 bool PlayerSelectedController::onMouseDown(IEventMouseDown evt)
 {
-//    if ( evt.button == SDL_BUTTON_LEFT )
-//    {
-//
-//    }
-//    else if ( evt.button == SDL_BUTTON_RIGHT )
-//    {
-//        auto tile = m_level->screenCoordsToTile(evt.screenPos);
-//
-//        if ( m_pathMap.find(tile) != m_pathMap.end() )
-//        {
-//            m_level->events().broadcast<GameEvents::EntityMove>(m_entity, m_origin, tile, m_tilePath);
-//            m_level->events().broadcast<GameEvents::EntityAction>(m_entity, 5 /* TODO Actual*/);
-//
-//            popController();
-//            return true;
-//        }
-//    }
-
     return false;
 }
 
 void PlayerSelectedController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 {
-//    if ( m_pathMap.find(curr) != m_pathMap.end() )
-//    {
-//        m_tilePath = m_level->grid().pathFromPathMap(m_pathMap, curr);
-//        m_level->ui().deleteElement(m_pathHighlight);
-//        m_pathHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, m_tilePath, Colour::Red);
-//    }
+
 }
 
 void PlayerSelectedController::onExitImpl()
 {
-//    m_level->ui().deleteElement(m_tileHighlight);
-//    m_level->ui().deleteElement(m_pathHighlight);
+    m_level->ui().removeSingleTileHighlight();
+    m_level->events().broadcast<GameEvents::ControllerEntitySelected>(EntityNull);
+}
+
+void PlayerSelectedController::onEnterImpl()
+{
+    auto position = m_level->ecs().getComponents<PositionComponent>(m_entity)->tilePosition;
+    m_level->ui().showSingleTileHighlight(position, UI::SingleTileHighlightType::Green);
+
+    m_level->events().broadcast<GameEvents::ControllerEntitySelected>(m_entity);
 }
 
 
@@ -392,9 +370,8 @@ bool ActionControllerSingleTile::onMouseDown(IEventMouseDown evt)
     else if ( evt.button == SDL_BUTTON_RIGHT )
     {
         auto tile = m_level->screenCoordsToTile(evt.screenPos);
-        auto gr = m_targeting->getValidTiles();
 
-        if ( std::find(gr.begin(), gr.end(), tile) != gr.end() )
+        if ( m_targeting->tileIsValid(tile) )
         {
             m_targeting->perform(tile);
 

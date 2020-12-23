@@ -39,3 +39,6 @@ GameEvents::TurnChange::TurnChange(EntityRef prev, EntityRef curr)
 
 GameEvents::EntityAction::EntityAction(EntityRef entity, int actionPoints)
     : entity(entity), actionPoints(actionPoints) {}
+
+GameEvents::ControllerEntitySelected::ControllerEntitySelected(EntityRef entity)
+    : entity(entity) {}

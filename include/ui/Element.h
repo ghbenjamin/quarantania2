@@ -169,6 +169,24 @@ protected:
         return out;
     }
 
+    template <typename T, typename Callable>
+    std::shared_ptr<T> closestAncestor( Callable&& callable )
+    {
+        auto* current = parent();
+        while ( current != nullptr )
+        {
+            if ( callable(current) )
+            {
+                return current->template asType<T>();
+            }
+            else
+            {
+                current = current->parent();
+            }
+        }
+
+        return current;
+    }
 
     virtual void updateSelf(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 

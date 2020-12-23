@@ -19,14 +19,14 @@ UI::SingleTileHighlight::SingleTileHighlight(Manager* manager, Element* parent, 
         case SingleTileHighlightType::Red:
             setBackgroundSprite({"tile-ui", "red-brackets"});
             break;
+        case SingleTileHighlightType::Yellow:
+            setBackgroundSprite({"tile-ui", "yellow-brackets"});
+            break;
     }
 
     setLocalPosition( manager->level()->tileCoordsToScreen(tile) );
     setDecorative();
 }
-
-
-
 
 
 UI::TileRegionHighlight::TileRegionHighlight(UI::Manager *manager, UI::Element *parent, GridRegion region, Colour colour)
