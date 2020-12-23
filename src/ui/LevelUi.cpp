@@ -111,21 +111,21 @@ void UI::TurnOrderContainer::reloadEntities()
 
 
 UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *parent,
-     const std::vector<std::shared_ptr<Action>> &item,  RawActionDataType category)
+     std::vector<std::shared_ptr<GameAction>>& items,  RawActionDataType category)
     : Element(manager, parent), m_category(category)
 {
     setId("action-menu-popup-menu");
     setLayout<VerticalLayout>( 4, HAlignment::Left );
 
-    for ( auto const& act : item )
+    for ( std::shared_ptr <GameAction> const& act : items )
     {
         auto elem = manager->createElement<UI::Element>(this);
         elem->setPadding(4);
         elem->setBackgroundColour(Colour::Beige);
         elem->setLayout<HorizontalLayout>(8, VAlignment::Centre);
 
-        manager->createElement<UI::Icon>(elem.get(), act->getSprite() );
-        manager->createElement<UI::Label>(elem.get(), act->getName() );
+        manager->createElement<UI::Icon>(elem.get(), act->data.getSprite() );
+        manager->createElement<UI::Label>(elem.get(), act->data.getName() );
 
         elem->addEventCallback(UEventType::Click, [manager, act, this](UEvent const& evt) {
             // Do something here!
@@ -179,14 +179,14 @@ void UI::ActionMenuContainer::onSpawnItemClick(RawActionDataType category)
         }
     }
 
-    std::vector<std::shared_ptr<Action>> menuItems;
+    std::vector<std::shared_ptr<GameAction>> menuItems;
     auto actions = manager()->level()->actionsForCurrentActor();
 
     for ( auto& action : actions )
     {
-        if ( action->getType() == category )
+        if ( action->data.getType() == category )
         {
-            menuItems.push_back( action );
+            menuItems.push_back( std::move(action) );
         }
     }
 

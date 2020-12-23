@@ -13,7 +13,9 @@
 class Level;
 class RenderInterface;
 namespace UI { class Element; }
+struct GameAction;
 class Action;
+class SingleTileTargeting;
 
 // Forward definitions
 class RenderInterface;
@@ -36,7 +38,7 @@ public:
     bool shouldPopController() const;
     void popController();
 
-    void pushActionController( EntityRef ref, std::shared_ptr<Action> const& action );
+    void pushActionController( EntityRef ref, std::shared_ptr<GameAction> const& action );
 
 
 protected:
@@ -51,6 +53,7 @@ protected:
     }
 
     void addKeybinding( SDL_Keycode key, std::function<void()> const& callback );
+    void removeKeybinding( SDL_Keycode key );
 
     virtual void onEnterImpl();
     virtual void onExitImpl();
@@ -81,7 +84,7 @@ class DefaultLController : public LevelController
 {
 public:
 
-    explicit DefaultLController(Level *level);
+    explicit DefaultLController(Level* level);
     ~DefaultLController() override = default;
 
 
@@ -131,13 +134,32 @@ private:
     PathMap m_pathMap;
 };
 
-class ActionController: public LevelController
+
+class ActionControllerSingleTile : public LevelController
 {
 public:
-    ActionController(Level* level, EntityRef ref, std::shared_ptr<Action> const& action);
-    ~ActionController() override = default;
+    ActionControllerSingleTile(Level* level, EntityRef ref, std::shared_ptr<GameAction> const& action);
+    ~ActionControllerSingleTile() override = default;
+
+protected:
+    bool onMouseDown(IEventMouseDown evt) override;
+    void onExitImpl() override;
+    void updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
+
+    void onHoveredTileChange(Vector2i prev, Vector2i curr) override;
 
 private:
+    std::shared_ptr<GameAction> m_action;
+    std::shared_ptr<SingleTileTargeting> m_targeting;
+
+    // All the tiles we could move to
+    std::shared_ptr<UI::Element> m_tileHighlight;
+
+    // The path that would be taken to get to the highlighted tile
+    std::shared_ptr<UI::Element> m_pathHighlight;
+    std::vector<Vector2i> m_tilePath;
+
+    // Our entity and the location of that entity
     EntityRef m_entity;
-    std::shared_ptr<Action> m_action;
+    Vector2i m_origin;
 };

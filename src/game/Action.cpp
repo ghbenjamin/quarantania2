@@ -1,5 +1,8 @@
 #include <game/Action.h>
 #include <game/ResourceDatabase.h>
+#include <game/Level.h>
+#include <components/PositionComponent.h>
+#include <game/GameEventDefs.h>
 
 Action::Action(Level* level, std::string const& id)
         : m_data( ResourceDatabase::instance().actionFromId(id) ),
@@ -41,8 +44,85 @@ RawActionDataType Action::getType() const
     return m_data.type;
 }
 
-MoveAction::MoveAction(Level* level, const std::string &id, int range)
-        : Action(level, id), m_range(range) { }
 
-AttackAction::AttackAction(Level *level, const std::string &id)
-        : Action(level, id) { }
+ActionMoveStride::ActionMoveStride(Level * level, EntityRef actor, int range)
+    : ActionMoveParent(level, actor, range)
+{
+
+}
+
+void ActionMoveStride::perform(Vector2i tile)
+{
+    auto origin = m_level->ecs().getComponents<PositionComponent>(m_actor)->tilePosition;
+    auto pathMap = m_level->grid().pathFromPathMap(m_pathMap, tile);
+
+    m_level->events().broadcast<GameEvents::EntityMove>(m_actor, origin, tile, pathMap);
+    m_level->events().broadcast<GameEvents::EntityAction>(m_actor, m_range);
+}
+
+ActionMoveStep::ActionMoveStep(Level* level, EntityRef actor)
+    : ActionMoveParent(level, actor, 1)
+{
+}
+
+
+void ActionMoveStep::perform(Vector2i tile)
+{
+    auto origin = m_level->ecs().getComponents<PositionComponent>(m_actor)->tilePosition;
+    auto pathMap = m_level->grid().pathFromPathMap(m_pathMap, tile);
+
+    m_level->events().broadcast<GameEvents::EntityMove>(m_actor, origin, tile, pathMap);
+    m_level->events().broadcast<GameEvents::EntityAction>(m_actor, m_range);
+}
+
+IActionTargeting::IActionTargeting(Level *level, EntityRef actor)
+    : m_level(level), m_actor(actor) { }
+
+SingleTileTargeting::SingleTileTargeting(Level* level, EntityRef actor)
+        : IActionTargeting(level, actor) { }
+
+std::vector<Vector2i> SingleTileTargeting::pathToTile(Vector2i tile)
+{
+    return std::vector<Vector2i>();
+}
+
+SingleEntityTargeting::SingleEntityTargeting(Level* level, EntityRef actor)
+        : IActionTargeting(level, actor) { }
+
+GameAction::GameAction(const Action &data, const std::shared_ptr<IActionTargeting> &impl, TargetingType ttype)
+        : data(data), impl(impl), ttype(ttype)
+{}
+
+ActionMoveParent::ActionMoveParent(Level* level, EntityRef actor, int range)
+: SingleTileTargeting(level, actor), m_range(range)
+{
+    // Get & cache the tile that the selected entity could move to
+    auto position = m_level->ecs().getComponents<PositionComponent>(m_actor);
+    m_pathMap = m_level->grid().allPathsFromTile(position->tilePosition, m_range);
+}
+
+bool ActionMoveParent::isMovement() const
+{
+    return true;
+}
+
+GridRegion ActionMoveParent::getValidTiles()
+{
+    GridRegion gr;
+    for (auto const&[k, v] : m_pathMap )
+    {
+        gr.push_back(k);
+    }
+
+    return std::move(gr);
+}
+
+bool ActionMoveParent::tileIsValid(Vector2i tile)
+{
+    return m_pathMap.find(tile) != m_pathMap.end();
+}
+
+std::vector<Vector2i> ActionMoveParent::pathToTile(Vector2i tile)
+{
+    return m_level->grid().pathFromPathMap(m_pathMap, tile);
+}

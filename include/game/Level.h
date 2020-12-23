@@ -65,8 +65,8 @@ public:
     int squaredEntityDistance(EntityRef a, EntityRef b);
 
     // Actions
-    std::vector<std::shared_ptr<Action>> actionsForActor(EntityRef actor);
-    std::vector<std::shared_ptr<Action>> actionsForCurrentActor();
+    std::vector<std::shared_ptr<GameAction>> actionsForActor(EntityRef actor);
+    std::vector<std::shared_ptr<GameAction>> actionsForCurrentActor();
 
     // Communication
     bool isComplete() const;

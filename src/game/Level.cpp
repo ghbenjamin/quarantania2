@@ -298,22 +298,29 @@ EntityRef Level::getActiveEntity() const
     return m_currentTurnEntity;
 }
 
-std::vector<std::shared_ptr<Action>> Level::actionsForActor(EntityRef actor)
+std::vector<std::shared_ptr<GameAction>> Level::actionsForActor(EntityRef actor)
 {
     auto cActor = m_ecs.getComponents<ActorComponent>(actor);
     Assert( cActor->actorType == ActorType::PC );
 
+    std::vector<std::shared_ptr<GameAction>> out;
 
-    std::vector<std::shared_ptr<Action>> out;
+    out.push_back( GameAction::construct(
+        Action(this, "move"),
+        std::make_shared<ActionMoveStride>( this, actor, 5 ),
+        TargetingType::SingleTile
+    ));
 
-    out.push_back( std::make_shared<MoveAction>( this, "short-step", 1 ));
-    out.push_back( std::make_shared<MoveAction>( this, "move", 5 ));
-    out.push_back( std::make_shared<AttackAction>( this, "strike" ));
+    out.push_back( GameAction::construct(
+            Action(this, "short-step"),
+            std::make_shared<ActionMoveStep>( this, actor ),
+            TargetingType::SingleTile
+    ));
 
     return out;
 }
 
-std::vector<std::shared_ptr<Action>> Level::actionsForCurrentActor()
+std::vector<std::shared_ptr<GameAction>> Level::actionsForCurrentActor()
 {
     return actionsForActor( getActiveEntity() );
 }

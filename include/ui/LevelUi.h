@@ -5,6 +5,7 @@
 #include <game/RawData.h>
 
 class Action;
+struct GameAction;
 
 namespace UI
 {
@@ -44,7 +45,7 @@ public:
 class ActionMenuPopupMenu : public Element
 {
 public:
-    ActionMenuPopupMenu(Manager* manager, Element* parent, std::vector<std::shared_ptr<Action>> const& item, RawActionDataType category);
+    ActionMenuPopupMenu(Manager* manager, Element* parent, std::vector<std::shared_ptr<GameAction>>& item, RawActionDataType category);
     ~ActionMenuPopupMenu() override = default;
 
     RawActionDataType getCategory() const;

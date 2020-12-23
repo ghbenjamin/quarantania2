@@ -1,14 +1,17 @@
 #include <game/LevelController.h>
 #include <game/Level.h>
-#include <game/ActionDefs.h>
 #include <game/GameEventDefs.h>
 #include <components/ItemComponent.h>
 #include <components/ActorComponent.h>
-#include <components/PositionComponent.h>
+#include <utils/Assert.h>
 
 LevelController::LevelController(Level *level)
 : m_level(level), m_shouldPopController(false)
-{ }
+{
+    addKeybinding( SDLK_ESCAPE, [this]() {
+        this->popController();
+    });
+}
 
 bool LevelController::inputImpl(IEvent &evt)
 {
@@ -159,6 +162,11 @@ void LevelController::addKeybinding(SDL_Keycode key, std::function<void()> const
 }
 
 
+void LevelController::removeKeybinding(SDL_Keycode key)
+{
+    m_keybinds.erase(key);
+}
+
 void LevelController::onEnterImpl() { }
 void LevelController::onExitImpl() { }
 void LevelController::updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) {}
@@ -183,10 +191,18 @@ bool LevelController::onKeyDown(IEventKeyPress evt)
     return false;
 }
 
-void LevelController::pushActionController(EntityRef ref, std::shared_ptr<Action> const& action)
+void LevelController::pushActionController(EntityRef ref, std::shared_ptr<GameAction> const& action)
 {
-    setNextController<ActionController>( m_level, ref, action );
+    switch (action->ttype)
+    {
+        case TargetingType::SingleTile:
+            setNextController<ActionControllerSingleTile>( m_level, ref, action );
+            break;
+        default:
+            AssertNotImplemented();
+    }
 }
+
 
 
 
@@ -195,7 +211,11 @@ void LevelController::pushActionController(EntityRef ref, std::shared_ptr<Action
 
 
 DefaultLController::DefaultLController(Level *level)
-        : LevelController(level) { }
+    : LevelController(level)
+{
+    // Don't let us pop the top level controller
+    removeKeybinding(SDLK_ESCAPE);
+}
 
 bool DefaultLController::onMouseMove(IEventMouseMove evt)
 {
@@ -281,23 +301,19 @@ void DefaultLController::onExitImpl()
 PlayerSelectedController::PlayerSelectedController(Level* level, EntityRef entity)
         : LevelController(level), m_entity(entity)
 {
-    addKeybinding( SDLK_ESCAPE, [this]() {
-        this->popController();
-    });
-
-    // Get & cache the tile that the selected entity could move to
-    auto position = m_level->ecs().getComponents<PositionComponent>(entity);
-    m_origin = position->tilePosition;
-    m_pathMap = m_level->grid().allPathsFromTile(m_origin, 8);
-
-    GridRegion gr;
-    for (auto const&[k, v] : m_pathMap )
-    {
-        gr.push_back(k);
-    }
-
-    // Highlight the tiles that can be moved to
-    m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, gr, Colour::Lime);
+//    // Get & cache the tile that the selected entity could move to
+//    auto position = m_level->ecs().getComponents<PositionComponent>(entity);
+//    m_origin = position->tilePosition;
+//    m_pathMap = m_level->grid().allPathsFromTile(m_origin, 8);
+//
+//    GridRegion gr;
+//    for (auto const&[k, v] : m_pathMap )
+//    {
+//        gr.push_back(k);
+//    }
+//
+//    // Highlight the tiles that can be moved to
+//    m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, gr, Colour::Lime);
 }
 
 void PlayerSelectedController::updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
@@ -312,6 +328,63 @@ bool PlayerSelectedController::onKeyDown(IEventKeyPress evt)
 
 bool PlayerSelectedController::onMouseDown(IEventMouseDown evt)
 {
+//    if ( evt.button == SDL_BUTTON_LEFT )
+//    {
+//
+//    }
+//    else if ( evt.button == SDL_BUTTON_RIGHT )
+//    {
+//        auto tile = m_level->screenCoordsToTile(evt.screenPos);
+//
+//        if ( m_pathMap.find(tile) != m_pathMap.end() )
+//        {
+//            m_level->events().broadcast<GameEvents::EntityMove>(m_entity, m_origin, tile, m_tilePath);
+//            m_level->events().broadcast<GameEvents::EntityAction>(m_entity, 5 /* TODO Actual*/);
+//
+//            popController();
+//            return true;
+//        }
+//    }
+
+    return false;
+}
+
+void PlayerSelectedController::onHoveredTileChange(Vector2i prev, Vector2i curr)
+{
+//    if ( m_pathMap.find(curr) != m_pathMap.end() )
+//    {
+//        m_tilePath = m_level->grid().pathFromPathMap(m_pathMap, curr);
+//        m_level->ui().deleteElement(m_pathHighlight);
+//        m_pathHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, m_tilePath, Colour::Red);
+//    }
+}
+
+void PlayerSelectedController::onExitImpl()
+{
+//    m_level->ui().deleteElement(m_tileHighlight);
+//    m_level->ui().deleteElement(m_pathHighlight);
+}
+
+
+// Action Controllers
+// --------------------------------------
+
+
+ActionControllerSingleTile::ActionControllerSingleTile(Level *level, EntityRef ref, std::shared_ptr<GameAction> const& action)
+    : LevelController(level),
+      m_targeting{ std::static_pointer_cast<SingleTileTargeting>(m_action->impl) },
+      m_action(action),
+      m_entity(ref)
+{
+
+    auto gr = m_targeting->getValidTiles();
+
+    // Highlight the tiles that can be moved to
+    m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, gr, Colour::Lime);
+}
+
+bool ActionControllerSingleTile::onMouseDown(IEventMouseDown evt)
+{
     if ( evt.button == SDL_BUTTON_LEFT )
     {
 
@@ -319,19 +392,11 @@ bool PlayerSelectedController::onMouseDown(IEventMouseDown evt)
     else if ( evt.button == SDL_BUTTON_RIGHT )
     {
         auto tile = m_level->screenCoordsToTile(evt.screenPos);
+        auto gr = m_targeting->getValidTiles();
 
-        // TODO Do something if you right-click something other an empty tile
-//        auto ents = m_level->grid().entitiesAtTile(tile);
-//        auto actorEnt = m_level->ecs().firstEntityWith<ActorComponent>( ents );
-//        if ( actorEnt != EntityNull )
-//        {
-//
-//        }
-
-        if ( m_pathMap.find(tile) != m_pathMap.end() )
+        if ( std::find(gr.begin(), gr.end(), tile) != gr.end() )
         {
-            m_level->events().broadcast<GameEvents::EntityMove>(m_entity, m_origin, tile, m_tilePath);
-            m_level->events().broadcast<GameEvents::EntityAction>(m_entity, 5 /* TODO Actual*/);
+            m_targeting->perform(tile);
 
             popController();
             return true;
@@ -341,29 +406,26 @@ bool PlayerSelectedController::onMouseDown(IEventMouseDown evt)
     return false;
 }
 
-void PlayerSelectedController::onHoveredTileChange(Vector2i prev, Vector2i curr)
-{
-    if ( m_pathMap.find(curr) != m_pathMap.end() )
-    {
-        m_tilePath = m_level->grid().pathFromPathMap(m_pathMap, curr);
-        m_level->ui().deleteElement(m_pathHighlight);
-        m_pathHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, m_tilePath, Colour::Red);
-    }
-}
-
-void PlayerSelectedController::onExitImpl()
+void ActionControllerSingleTile::onExitImpl()
 {
     m_level->ui().deleteElement(m_tileHighlight);
     m_level->ui().deleteElement(m_pathHighlight);
 }
 
-
-// Action Controller
-// --------------------------------------
-
-
-
-ActionController::ActionController(Level *level, EntityRef ref, std::shared_ptr<Action> const& action)
-: LevelController(level), m_entity(ref), m_action(action)
+void ActionControllerSingleTile::updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
+    scrollLevel(ticks, iinter);
+}
+
+void ActionControllerSingleTile::onHoveredTileChange(Vector2i prev, Vector2i curr)
+{
+    if ( m_targeting->isMovement() )
+    {
+        if ( m_targeting->tileIsValid(curr) )
+        {
+            m_tilePath = m_targeting->pathToTile(curr);
+            m_level->ui().deleteElement(m_pathHighlight);
+            m_pathHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, m_tilePath, Colour::Red);
+        }
+    }
 }
