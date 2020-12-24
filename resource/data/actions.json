@@ -22,5 +22,13 @@
     "provokes": false,
     "description": "",
     "icon": "game_icons/sword-brandish"
+  },
+  {
+    "name": "Power Attack",
+    "id": "power-attack",
+    "type": "attack",
+    "provokes": false,
+    "description": "",
+    "icon": "game_icons/sword-array"
   }
 ]

@@ -200,11 +200,13 @@ void LevelController::pushActionController(EntityRef ref, std::shared_ptr<GameAc
         case TargetingType::SingleTile:
             setNextController<ActionControllerSingleTile>( m_level, ref, action );
             break;
+        case TargetingType::SingleEntity:
+            setNextController<ActionControllerSingleEntity>( m_level, ref, action );
+            break;
         default:
             AssertNotImplemented();
     }
 }
-
 
 
 
@@ -348,6 +350,11 @@ void PlayerSelectedController::onEnterImpl()
 // --------------------------------------
 
 
+
+// Single tile
+// --------------------------------------
+
+
 ActionControllerSingleTile::ActionControllerSingleTile(Level *level, EntityRef ref, std::shared_ptr<GameAction> const& action)
     : LevelController(level),
       m_targeting{ std::static_pointer_cast<SingleTileTargeting>(m_action->impl) },
@@ -406,3 +413,71 @@ void ActionControllerSingleTile::onHoveredTileChange(Vector2i prev, Vector2i cur
         }
     }
 }
+
+
+// Single Entity
+// --------------------------------------
+
+
+ActionControllerSingleEntity::ActionControllerSingleEntity(Level *level, EntityRef ref, const std::shared_ptr<GameAction> &action)
+:   LevelController(level),
+    m_targeting{ std::static_pointer_cast<SingleEntityTargeting>(m_action->impl) },
+    m_action(action),
+    m_entity(ref)
+{
+
+}
+
+bool ActionControllerSingleEntity::onMouseDown(IEventMouseDown evt)
+{
+    if ( evt.button == SDL_BUTTON_LEFT )
+    {
+
+    }
+    else if ( evt.button == SDL_BUTTON_RIGHT )
+    {
+        auto tile = m_level->screenCoordsToTile(evt.screenPos);
+        auto ents = m_level->grid().entitiesAtTile(tile);
+
+        // TODO Disambiguate multiple ents per tile
+
+        if ( ents.empty() )
+        {
+            return false;
+        }
+
+        EntityRef target = ents.front();
+
+        if ( m_targeting->entityIsValid(target) )
+        {
+            m_targeting->perform(target);
+
+            popController();
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+void ActionControllerSingleEntity::onEnterImpl()
+{
+
+}
+
+void ActionControllerSingleEntity::onExitImpl()
+{
+
+}
+
+void ActionControllerSingleEntity::updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
+{
+    scrollLevel(ticks, iinter);
+}
+
+void ActionControllerSingleEntity::onHoveredTileChange(Vector2i prev, Vector2i curr)
+{
+
+}
+

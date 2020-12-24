@@ -126,3 +126,23 @@ std::vector<Vector2i> ActionMoveParent::pathToTile(Vector2i tile)
 {
     return m_level->grid().pathFromPathMap(m_pathMap, tile);
 }
+
+void ActionMeleeAttack::perform(EntityRef target)
+{
+    // Do the thing!
+}
+
+bool ActionMeleeAttack::entityIsValid(EntityRef ref)
+{
+    return false;
+}
+
+void ActionPowerAttack::perform(EntityRef target)
+{
+    // Do the thing!
+}
+
+bool ActionPowerAttack::entityIsValid(EntityRef ref)
+{
+    return false;
+}

@@ -96,6 +96,8 @@ public:
     ~SingleEntityTargeting() override = default;
 
     virtual void perform( EntityRef target ) = 0;
+    virtual bool entityIsValid(EntityRef ref) = 0;
+
 };
 
 
@@ -140,3 +142,21 @@ public:
 };
 
 
+
+class ActionMeleeAttack : public SingleEntityTargeting
+{
+public:
+    using SingleEntityTargeting::SingleEntityTargeting;
+
+    void perform(EntityRef target) override;
+    bool entityIsValid(EntityRef ref) override;
+};
+
+class ActionPowerAttack : public SingleEntityTargeting
+{
+public:
+    using SingleEntityTargeting::SingleEntityTargeting;
+
+    void perform(EntityRef target) override;
+    bool entityIsValid(EntityRef ref) override;
+};

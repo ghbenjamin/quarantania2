@@ -16,6 +16,7 @@ namespace UI { class Element; }
 struct GameAction;
 class Action;
 class SingleTileTargeting;
+class SingleEntityTargeting;
 
 // Forward definitions
 class RenderInterface;
@@ -153,4 +154,31 @@ private:
     // Our entity and the location of that entity
     EntityRef m_entity;
     Vector2i m_origin;
+};
+
+class ActionControllerSingleEntity : public LevelController
+{
+public:
+    ActionControllerSingleEntity(Level* level, EntityRef ref, std::shared_ptr<GameAction> const& action);
+    ~ActionControllerSingleEntity() override = default;
+
+protected:
+    bool onMouseDown(IEventMouseDown evt) override;
+
+    void onEnterImpl() override;
+
+    void onExitImpl() override;
+    void updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
+
+    void onHoveredTileChange(Vector2i prev, Vector2i curr) override;
+
+private:
+    std::shared_ptr<GameAction> m_action;
+    std::shared_ptr<SingleEntityTargeting> m_targeting;
+
+    // The possible targets
+    std::shared_ptr<UI::Element> m_tileHighlight;
+
+    // Our entity and the location of that entity
+    EntityRef m_entity;
 };

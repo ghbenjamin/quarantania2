@@ -313,9 +313,21 @@ std::vector<std::shared_ptr<GameAction>> Level::actionsForActor(EntityRef actor)
     ));
 
     out.push_back( GameAction::construct(
-            Action(this, "short-step"),
-            std::make_shared<ActionMoveStep>( this, actor ),
-            TargetingType::SingleTile
+        Action(this, "short-step"),
+        std::make_shared<ActionMoveStep>( this, actor ),
+        TargetingType::SingleTile
+    ));
+
+    out.push_back( GameAction::construct(
+        Action(this, "strike"),
+        std::make_shared<ActionMeleeAttack>( this, actor ),
+        TargetingType::SingleEntity
+    ));
+
+    out.push_back( GameAction::construct(
+        Action(this, "power-attack"),
+        std::make_shared<ActionPowerAttack>( this, actor ),
+        TargetingType::SingleEntity
     ));
 
     return out;
