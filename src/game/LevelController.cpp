@@ -306,8 +306,16 @@ PlayerSelectedController::PlayerSelectedController(Level* level, EntityRef entit
         : LevelController(level), m_entity(entity)
 {
     // Hotkeys for the action menus
-    addKeybinding( SDLK_m, [this](){
+    addKeybinding( SDLK_q, [this](){
+        m_level->ui().withId<UI::ActionMenu>("action-menu")->toggleMenu(RawActionDataType::Attack);
+    });
+
+    addKeybinding( SDLK_w, [this](){
         m_level->ui().withId<UI::ActionMenu>("action-menu")->toggleMenu(RawActionDataType::Move);
+    });
+
+    addKeybinding( SDLK_e, [this](){
+        m_level->ui().withId<UI::ActionMenu>("action-menu")->toggleMenu(RawActionDataType::Item);
     });
 }
 

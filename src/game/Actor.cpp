@@ -63,14 +63,14 @@ AbilityScore &AbilityScoreBlock::getScore(AbilityScoreType type)
 
 
 Actor::Actor(RawCreatureData const& rcd)
-    :   m_name(rcd.name),
-        m_abilityScores(rcd.attrStr, rcd.attrDex, rcd.attrCon, rcd.attrInt, rcd.attrWis, rcd.attrCha)
+    : m_name(rcd.name),
+      m_abilityScores(rcd.attrStr, rcd.attrDex, rcd.attrCon, rcd.attrInt, rcd.attrWis, rcd.attrCha)
 {
 }
 
 Actor::Actor(PlayerData const &pdata)
-    :   m_name(pdata.name),
-        m_abilityScores(pdata.attrStr, pdata.attrDex, pdata.attrCon, pdata.attrInt, pdata.attrWis, pdata.attrCha)
+    : m_name(pdata.name),
+      m_abilityScores(pdata.attrStr, pdata.attrDex, pdata.attrCon, pdata.attrInt, pdata.attrWis, pdata.attrCha)
 {
 }
 
@@ -122,7 +122,7 @@ ItemPtr Actor::equipItem(EquipSlot slot, ItemPtr item)
 
 WeaponPtr Actor::getActiveWeapon() const
 {
-    auto it = m_equippedItems.find(EquipSlot::Weapon );
+    auto it = m_equippedItems.find(EquipSlot::Weapon);
     if (it != m_equippedItems.end() )
     {
         return it->second->getWeapon();
@@ -150,3 +150,22 @@ AbilityScoreBlock &Actor::abilityScores()
     return m_abilityScores;
 }
 
+bool Actor::hasWeapon() const
+{
+    return !!getActiveWeapon();
+}
+
+int Actor::getCurrentHp() const
+{
+    return m_HpCurrent;
+}
+
+int Actor::getMaxHp() const
+{
+    return m_HpMax;
+}
+
+void Actor::setCurrentHp(int value)
+{
+    m_HpCurrent = value;
+}

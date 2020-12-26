@@ -4,7 +4,6 @@
 #include <components/All.h>
 #include <components/ContainerComponent.h>
 #include <game/ResourceDatabase.h>
-#include <game/ActionDefs.h>
 
 EntityFactory::EntityFactory(Level* parent)
 : m_parent(parent) {}

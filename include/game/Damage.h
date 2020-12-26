@@ -4,7 +4,7 @@
 
 enum class DamageType
 {
-    Physical,
+    Untyped,
     Elemental,
     Force,
     Energy,
@@ -15,19 +15,28 @@ enum class DamageType
     Precision
 };
 
-enum class DamageSubType
+enum class ElementalDamageType
 {
-    Untyped
-    // Magical
-    // Physical
+    Fire,
+    Cold,
+    Electricity,
+    Acid
+};
+
+enum class DamageSuperType
+{
+     Magical,
+     Physical
+};
+
+struct DamageInstance
+{
+    DamageType type;
+    DamageSuperType superType;
+    int total;
 };
 
 struct Damage
 {
-    int total;
-
-    DamageType type;
-    DamageSubType subType;
-
-    EntityRef source;
+    std::vector<DamageInstance> instances;
 };

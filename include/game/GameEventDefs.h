@@ -1,6 +1,8 @@
 #pragma once
 
 #include <optional>
+#include <variant>
+
 #include <game/GameEvent.h>
 #include <engine/Entity.h>
 #include <game/Items.h>
@@ -9,6 +11,11 @@ struct Damage;
 
 namespace GameEvents
 {
+
+
+// Movement Events
+// ------------------------------
+
 
 struct EntityMove : public GameEvent<EntityMove>
 {
@@ -67,15 +74,15 @@ struct EntityAction : public GameEvent<EntityAction>
     int actionPoints;
 };
 
-struct MeleeAttack : public GameEvent<MeleeAttack>
-{
-    MeleeAttack(EntityRef attacker, EntityRef defender, WeaponPtr const& weapon);
-    ~MeleeAttack() override = default;
-
-    EntityRef attacker;
-    EntityRef defender;
-    WeaponPtr weapon;
-};
+//struct MeleeAttack : public GameEvent<MeleeAttack>
+//{
+//    MeleeAttack(EntityRef attacker, EntityRef defender, WeaponPtr const& weapon);
+//    ~MeleeAttack() override = default;
+//
+//    EntityRef attacker;
+//    EntityRef defender;
+//    WeaponPtr weapon;
+//};
 
 struct ItemPickup : public GameEvent<ItemPickup>
 {
@@ -131,6 +138,18 @@ struct EntityDamage : public GameEvent<EntityDamage>
     Damage const* damage;
 };
 
+// Combat events
+// ------------------------------
+
+
+struct CombatMeleeAttack : public GameEvent<CombatMeleeAttack>
+{
+    EntityRef attacker;
+    EntityRef defender;
+
+    std::shared_ptr<Weapon> weapon;
+};
+
 
 // Controller Events
 // ------------------------------
@@ -143,5 +162,23 @@ struct ControllerEntitySelected : public GameEvent<ControllerEntitySelected>
     EntityRef entity;
 };
 
-
 }
+
+using GameEventVariant = std::variant<
+    GameEvents::EntityMove,
+    GameEvents::EntityReady,
+    GameEvents::EntityOpenClose,
+    GameEvents::LevelReady,
+    GameEvents::TurnChange,
+    GameEvents::RoundChange,
+    GameEvents::EntityAction,
+//    GameEvents::MeleeAttack,
+    GameEvents::ItemPickup,
+    GameEvents::ItemDrop,
+    GameEvents::ItemEquip,
+    GameEvents::ItemUnequip,
+    GameEvents::EntityDeath,
+    GameEvents::EntityDamage,
+    GameEvents::CombatMeleeAttack,
+    GameEvents::ControllerEntitySelected
+        >;

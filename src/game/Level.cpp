@@ -2,7 +2,6 @@
 
 #include <components/All.h>
 #include <engine/InputInterface.h>
-#include <game/ActionDefs.h>
 #include <game/Action.h>
 #include <game/GameEventDefs.h>
 #include <game/Level.h>
@@ -65,9 +64,7 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
     // Specify which camera we are using
     rInter.setCamera(&m_camera);
 
-
     // Handle controller changes if necessary
-
     if ( m_controllers.back()->shouldPopController() )
     {
         m_controllers.back()->onExit();
@@ -121,7 +118,7 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
     }
 }
 
-GEventHub &Level::events()
+GameEventHub &Level::events()
 {
     return m_gevents;
 }

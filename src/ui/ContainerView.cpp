@@ -5,7 +5,6 @@
 #include <components/ContainerComponent.h>
 #include <resource/ResourceManager.h>
 #include <game/Level.h>
-#include <game/ActionDefs.h>
 #include <utils/GlobalConfig.h>
 
 UI::ContainerView::ContainerView(Manager* manager, Element* parent)

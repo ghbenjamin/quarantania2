@@ -16,6 +16,7 @@
 #include <game/Grid.h>
 #include <ui/Manager.h>
 #include <game/LevelController.h>
+#include <game/GameEventHub.h>
 
 
 // Forward definitions
@@ -49,7 +50,7 @@ public:
 
     RandomInterface& random();
     Grid& grid();
-    GEventHub& events();
+    GameEventHub& events();
     UI::Manager& ui();
     Camera& camera();
     ECS& ecs();
@@ -120,7 +121,7 @@ private:
 
     // Core
     UI::Manager m_uiManager;
-    GEventHub m_gevents;
+    GameEventHub m_gevents;
     ECS m_ecs;
 
 

@@ -64,6 +64,12 @@ public:
     // Weapons
     WeaponPtr getActiveWeapon() const;
     WeaponPtr getNaturalWeapon() const;
+    bool hasWeapon() const;
+
+    // Health
+    int getCurrentHp() const;
+    int getMaxHp() const;
+    void setCurrentHp( int value );
 
 private:
 
@@ -72,6 +78,10 @@ private:
 
     // Stats
     AbilityScoreBlock m_abilityScores;
+
+    // Health
+    int m_HpCurrent;
+    int m_HpMax;
 
     // Items
     std::unordered_map<EquipSlot, ItemPtr> m_equippedItems;
