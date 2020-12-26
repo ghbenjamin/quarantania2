@@ -13,9 +13,6 @@ GameEvents::EntityReady::EntityReady(EntityRef ent)
 GameEvents::EntityOpenClose::EntityOpenClose(EntityRef ent, bool isOpen)
     : ent(ent), isOpen(isOpen) {}
 
-GameEvents::MeleeAttack::MeleeAttack(EntityRef attacker, EntityRef defender, WeaponPtr const& weapon)
-    : attacker(attacker), defender(defender), weapon(weapon) {}
-
 GameEvents::ItemPickup::ItemPickup(EntityRef actor, EntityRef item)
     : actor(actor), item(item) {}
 

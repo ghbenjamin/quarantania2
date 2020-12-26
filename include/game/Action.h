@@ -114,8 +114,6 @@ public:
 
 protected:
     int m_range;
-
-    // Cached pathfinding data
     PathMap m_pathMap;
 };
 
