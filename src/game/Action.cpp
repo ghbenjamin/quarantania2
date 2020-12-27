@@ -3,6 +3,7 @@
 #include <game/Level.h>
 #include <components/PositionComponent.h>
 #include <game/GameEventDefs.h>
+#include <components/ActorComponent.h>
 
 Action::Action(Level* level, std::string const& id)
         : m_data( ResourceDatabase::instance().actionFromId(id) ),
@@ -129,13 +130,28 @@ std::vector<Vector2i> ActionMoveParent::pathToTile(Vector2i tile)
 
 void ActionMeleeAttack::perform(EntityRef target)
 {
-    // Do the thing!
+    m_level->events().broadcast<GameEvents::CombatMeleeAttack>(m_actor, target);
 }
 
 bool ActionMeleeAttack::entityIsValid(EntityRef ref)
 {
+    auto actorC = m_level->ecs().tryGetComponent<ActorComponent>(ref);
+    if ( actorC && (actorC->actorType == ActorType::NPC) )
+    {
+        auto posDef = m_level->ecs().tryGetComponent<PositionComponent>(ref);
+        auto posAtk = m_level->ecs().tryGetComponent<PositionComponent>(m_actor);
+
+        if ( m_level->entityDistance( m_actor, ref ) <= m_reach )
+        {
+            return true;
+        }
+    }
+
     return false;
 }
+
+ActionMeleeAttack::ActionMeleeAttack(Level *level, EntityRef actor, float reach)
+    : SingleEntityTargeting(level, actor), m_reach(reach)  {}
 
 void ActionPowerAttack::perform(EntityRef target)
 {
@@ -144,5 +160,9 @@ void ActionPowerAttack::perform(EntityRef target)
 
 bool ActionPowerAttack::entityIsValid(EntityRef ref)
 {
-    return false;
+    auto actorC = m_level->ecs().tryGetComponent<ActorComponent>(ref);
+    return ( actorC && (actorC->actorType == ActorType::NPC) );
 }
+
+ActionPowerAttack::ActionPowerAttack(Level *level, EntityRef actor, float reach)
+    : SingleEntityTargeting(level, actor), m_reach(reach)  {}

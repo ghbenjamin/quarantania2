@@ -471,12 +471,23 @@ bool ActionControllerSingleEntity::onMouseDown(IEventMouseDown evt)
 
 void ActionControllerSingleEntity::onEnterImpl()
 {
+    std::vector<Vector2i> validTiles;
 
+    for ( auto ref : m_level->ecs().allEntities() )
+    {
+        if ( m_targeting->entityIsValid(ref) )
+        {
+            auto pos = m_level->ecs().getComponents<PositionComponent>(ref);
+            validTiles.push_back( pos->tilePosition );
+        }
+    }
+
+    m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, validTiles, Colour::Lime);
 }
 
 void ActionControllerSingleEntity::onExitImpl()
 {
-
+    m_level->ui().deleteElement(m_tileHighlight);
 }
 
 void ActionControllerSingleEntity::updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)

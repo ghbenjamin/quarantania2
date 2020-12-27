@@ -37,7 +37,10 @@ EntityRef ECS::createEntity()
 {
     // Requisition a new ID from the pool, but don't construct any new
     // component objects
-    return m_entityPool.next();
+
+    auto id = m_entityPool.next();
+    m_allEnts.push_back(id);
+    return id;
 }
 
 void ECS::deleteEntity(EntityRef ent)
@@ -54,6 +57,7 @@ void ECS::deleteEntity(EntityRef ent)
 
     // Put the ID back into the pool
     m_entityPool.release(ent);
+    m_allEnts.erase( std::remove(m_allEnts.begin(), m_allEnts.end(), ent), m_allEnts.end() );
 }
 
 
@@ -65,6 +69,11 @@ void ECS::deleteEntityDelayed(EntityRef ent)
 EntityFactory &ECS::entityFactory()
 {
     return m_entFactory;
+}
+
+std::vector<EntityRef> const &ECS::allEntities() const
+{
+    return m_allEnts;
 }
 
 

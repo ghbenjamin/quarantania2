@@ -21,9 +21,9 @@ public:
 
     ~ResourceDatabase() = default;
 
-    RawItemData itemFromName( std::string_view name );
-    RawWeaponData weaponFromName( std::string_view name );
-    RawArmourData armourFromName( std::string_view name );
+    ItemData itemFromName(std::string_view name );
+    WeaponData weaponFromName(std::string_view name );
+    ArmourData armourFromName(std::string_view name );
     RawCreatureData creatureFromName( std::string_view name );
     RawPlayerRaceData playerRaceFromName( std::string_view name );
     RawPlayerClassData playerClassFromName( std::string_view name );
@@ -45,9 +45,9 @@ private:
 
 
     std::vector<RawCreatureData> m_creatureData;
-    std::vector<RawItemData> m_itemData;
-    std::vector<RawWeaponData> m_weaponData;
-    std::vector<RawArmourData> m_armourData;
+    std::vector<ItemData> m_itemData;
+    std::vector<WeaponData> m_weaponData;
+    std::vector<ArmourData> m_armourData;
     std::vector<RawPlayerClassData> m_playerClassData;
     std::vector<RawPlayerRaceData> m_playerRaceData;
     std::vector<RawObjectData> m_objectData;

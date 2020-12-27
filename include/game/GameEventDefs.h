@@ -144,10 +144,11 @@ struct EntityDamage : public GameEvent<EntityDamage>
 
 struct CombatMeleeAttack : public GameEvent<CombatMeleeAttack>
 {
+    CombatMeleeAttack(EntityRef attacker, EntityRef defender);
+    ~CombatMeleeAttack() override = default;
+
     EntityRef attacker;
     EntityRef defender;
-
-    std::shared_ptr<Weapon> weapon;
 };
 
 
@@ -172,7 +173,6 @@ using GameEventVariant = std::variant<
     GameEvents::TurnChange,
     GameEvents::RoundChange,
     GameEvents::EntityAction,
-//    GameEvents::MeleeAttack,
     GameEvents::ItemPickup,
     GameEvents::ItemDrop,
     GameEvents::ItemEquip,

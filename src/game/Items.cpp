@@ -5,28 +5,25 @@
 #include <game/ResourceDatabase.h>
 
 
-Weapon::Weapon(RawWeaponData const& rawData)
+// Weapons
+// --------------------------------------
+
+Weapon::Weapon(WeaponData const& rawData)
 {
     initFromData( rawData );
 }
 
-void Weapon::initFromData(RawWeaponData const &rawData)
+void Weapon::initFromData(WeaponData const &rawData)
 {
-    m_name = rawData.itemName;
     m_critData = {rawData.critLower, rawData.critMult };
     m_baseDamage = rawData.damage;
     m_proficiency = rawData.proficiency;
 }
 
-std::shared_ptr<Weapon> Weapon::fromName(std::string_view name)
+Weapon Weapon::fromName(std::string_view name)
 {
-    RawWeaponData rawData = ResourceDatabase::instance().weaponFromName( name );
-    return std::make_shared<Weapon>( rawData );
-}
-
-std::string const &Weapon::name() const
-{
-    return m_name;
+    WeaponData rawData = ResourceDatabase::instance().weaponFromName(name );
+    return Weapon( rawData );
 }
 
 WeaponHandedness Weapon::handedness() const
@@ -54,6 +51,27 @@ DiceRoll const &Weapon::damage() const
     return m_baseDamage;
 }
 
+float Weapon::getReach() const
+{
+    return 1.5f;
+}
+
+
+const Weapon WeaponUnarmedAttack = { WeaponData {
+    "Unarmed",
+    "One-Handed Melee",
+    DiceRoll{1, 3},
+    WeaponProficiency::Simple,
+    20,
+    2,
+    "",
+    ""
+}};
+
+
+// Items
+// --------------------------------------
+
 const std::string &Item::getName() const
 {
     return m_name;
@@ -79,18 +97,18 @@ const SpritesheetKey &Item::getSprite() const
     return m_sprite;
 }
 
-Item::Item(RawItemData const &rawData)
+Item::Item(ItemData const &rawData)
 {
     initFromData( rawData );
 }
 
 std::shared_ptr<Item> Item::fromName(std::string_view name)
 {
-    RawItemData rawData = ResourceDatabase::instance().itemFromName( name );
+    ItemData rawData = ResourceDatabase::instance().itemFromName(name );
     return std::make_shared<Item>( rawData );
 }
 
-void Item::initFromData(RawItemData const &rawData)
+void Item::initFromData(ItemData const &rawData)
 {
     m_name = rawData.name;
     m_value = rawData.value;
@@ -145,9 +163,10 @@ bool Item::isWeapon() const
     return !!m_weapon;
 }
 
-WeaponPtr const &Item::getWeapon() const
+Weapon const &Item::getWeapon() const
 {
-    return m_weapon;
+    Assert( m_weapon.has_value() );
+    return m_weapon.value();
 }
 
 bool Item::isArmour() const
@@ -155,9 +174,10 @@ bool Item::isArmour() const
     return !!m_armour;
 }
 
-ArmourPtr const &Item::getArmour() const
+Armour const &Item::getArmour() const
 {
-    return m_armour;
+    Assert( m_weapon.has_value() );
+    return m_armour.value();
 }
 
 std::string const& Item::getDescription() const
@@ -176,25 +196,22 @@ UI::TooltipData Item::tooltipData() const
     return td;
 }
 
-Armour::Armour(RawArmourData const &rawData)
+
+// Armour
+// --------------------------------------
+
+Armour::Armour(ArmourData const &rawData)
 {
     initFromData( rawData );
 }
 
-Armour::Armour(std::string_view name)
+Armour Armour::fromName(std::string_view name)
 {
-    RawArmourData rawData = ResourceDatabase::instance().armourFromName( name );
-    initFromData( rawData );
+    ArmourData rawData = ResourceDatabase::instance().armourFromName(name );
+    return Armour( rawData );
 }
 
-
-std::shared_ptr<Armour> Armour::fromName(std::string_view name)
-{
-    RawArmourData rawData = ResourceDatabase::instance().armourFromName( name );
-    return std::make_shared<Armour>( rawData );
-}
-
-void Armour::initFromData(RawArmourData const &rawData)
+void Armour::initFromData(ArmourData const &rawData)
 {
     m_arcaneFailureChance = rawData.arcaneFailureChance;
     m_shieldBonus = rawData.shieldBonus;
@@ -245,4 +262,3 @@ int Armour::speed30() const
 {
     return m_speed30 ;
 }
-

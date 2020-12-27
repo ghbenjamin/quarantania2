@@ -3,6 +3,8 @@
 #include <random>
 #include <algorithm>
 
+#include <game/Defines.h>
+
 using RandomGenerator = std::mt19937;
 
 class RandomInterface
@@ -11,9 +13,7 @@ public:
     RandomInterface(RandomGenerator rg);
     ~RandomInterface() = default;
 
-    /**
-     * Return a random iterator between the given ranges (inclusive)
-     */
+    // Return a random iterator between the given ranges (inclusive)
     template <typename It>
     It randomElement(It begin, It end)
     {
@@ -22,42 +22,34 @@ public:
         return begin;
     }
 
-    /**
-     * Return a random iterator within the supplied container.
-     */
+    // Return a random iterator within the supplied container.
     template <typename T>
     auto randomElement( T const& t )
     {
         return randomElement( t.begin(), t.end() );
     }
 
-
+    // Shuffle the given STL container
     template <typename T>
     void shuffle( T& t )
     {
         std::shuffle( t.begin(), t.end(), m_mt );
     }
 
-
-    /**
-     * Flip a weighted coin which returns true 1 in [odds] times.
-     */
+    // Flip a weighted coin which returns true 1 in [odds] times.
     bool weightedFlip(int odds);
 
-    /**
-     * Return true 50% of the time.
-     */
+    // Return true 50% of the time.
     bool coinflip();
 
-    /**
-     * Return the value of rolling [dcount] 1d[dsize] dice.
-     */
-    int diceroll(int dcount, int dsize);
+    // Return the value of rolling [dcount] 1d[dsize] dice.
+    int diceRoll(int dcount, int dsize);
+    int diceRoll(int size);
+    int diceRoll(DiceRoll const& roll);
 
-    /**
-     * Return a random int between the given ranges (inclusive).
-     */
+    // Return a random int between the given ranges (inclusive).
     int randomInt( int lower, int upper );
+
 
 private:
 

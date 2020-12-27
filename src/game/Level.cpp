@@ -205,19 +205,14 @@ int Level::squaredEntityDistance(EntityRef a, EntityRef b)
     return distance.x() * distance.x() + distance.y() * distance.y();
 }
 
+float Level::entityDistance(EntityRef a, EntityRef b)
+{
+    return (float) std::sqrt( squaredEntityDistance(a, b) );
+}
+
 void Level::setComplete()
 {
     m_isComplete = true;
-}
-
-void Level::addTextLogMessage(std::string_view sv, Colour const& colour)
-{
-    m_textLog->addLine(sv, colour);
-}
-
-void Level::addTextLogMessage(std::string_view sv)
-{
-    m_textLog->addLine(sv);
 }
 
 std::string_view Level::getDescriptionForEnt(EntityRef ent)
@@ -301,6 +296,9 @@ std::vector<std::shared_ptr<GameAction>> Level::actionsForActor(EntityRef actor)
     auto cActor = m_ecs.getComponents<ActorComponent>(actor);
     Assert( cActor->actorType == ActorType::PC );
 
+    auto weapon = cActor->actor.getActiveWeapon();
+
+
     std::vector<std::shared_ptr<GameAction>> out;
 
     out.push_back( GameAction::construct(
@@ -315,17 +313,19 @@ std::vector<std::shared_ptr<GameAction>> Level::actionsForActor(EntityRef actor)
         TargetingType::SingleTile
     ));
 
+
     out.push_back( GameAction::construct(
-        Action(this, "strike"),
-        std::make_shared<ActionMeleeAttack>( this, actor ),
-        TargetingType::SingleEntity
+            Action(this, "strike"),
+            std::make_shared<ActionMeleeAttack>( this, actor, weapon.getReach() ),
+            TargetingType::SingleEntity
     ));
 
     out.push_back( GameAction::construct(
-        Action(this, "power-attack"),
-        std::make_shared<ActionPowerAttack>( this, actor ),
-        TargetingType::SingleEntity
+            Action(this, "power-attack"),
+            std::make_shared<ActionPowerAttack>( this, actor, weapon.getReach() ),
+            TargetingType::SingleEntity
     ));
+
 
     return out;
 }
@@ -339,4 +339,5 @@ LevelController* Level::controller()
 {
     return m_controllers.back().get();
 }
+
 

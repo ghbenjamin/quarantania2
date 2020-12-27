@@ -16,6 +16,7 @@ public:
     void accept(GameEvents::CombatMeleeAttack *evt) override;
 
 private:
+
     void acceptDamage( Damage const& dmg, EntityRef ref );
 
 };

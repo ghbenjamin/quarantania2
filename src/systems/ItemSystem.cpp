@@ -20,11 +20,6 @@ void ItemSystem::accept(GameEvents::ItemPickup *evt)
     auto cont = m_level->ecs().getComponents<ContainerComponent>(evt->actor);
     auto item = m_level->ecs().getComponents<ItemComponent>(evt->item);
 
-    m_level->addTextLogMessage( fmt::format("{} picks up the {}",
-            m_level->getDescriptionForEnt( evt->actor ),
-            m_level->getDescriptionForEnt( evt->item  )
-    ));
-
     cont->items.push_back( item->item );
     m_level->ecs().deleteEntity( evt->item );
 }
@@ -38,11 +33,6 @@ void ItemSystem::accept(GameEvents::ItemDrop *evt)
 
     auto itemEnt = m_level->ecs().entityFactory()
                           .createItem(position->tilePosition, evt->item);
-
-    m_level->addTextLogMessage( fmt::format("{} drops the {}",
-            m_level->getDescriptionForEnt( evt->actor ),
-            m_level->getDescriptionForEnt( itemEnt )
-    ));
 }
 
 void ItemSystem::accept(GameEvents::ItemEquip *evt)

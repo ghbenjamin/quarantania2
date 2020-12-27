@@ -39,3 +39,6 @@ GameEvents::EntityAction::EntityAction(EntityRef entity, int actionPoints)
 
 GameEvents::ControllerEntitySelected::ControllerEntitySelected(EntityRef entity)
     : entity(entity) {}
+
+GameEvents::CombatMeleeAttack::CombatMeleeAttack(EntityRef attacker, EntityRef defender)
+    : attacker(attacker), defender(defender) {}

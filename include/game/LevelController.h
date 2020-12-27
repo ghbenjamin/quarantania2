@@ -166,7 +166,6 @@ protected:
     bool onMouseDown(IEventMouseDown evt) override;
 
     void onEnterImpl() override;
-
     void onExitImpl() override;
     void updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 

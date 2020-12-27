@@ -185,6 +185,10 @@ public:
         return EntityNull;
     }
 
+    // Return a const-reference
+    std::vector<EntityRef> const& allEntities() const;
+
+
 private:
 
     // ECS Methods
@@ -239,9 +243,13 @@ private:
 
 
     Level* m_parent;
+
     IdPool<EntityRef> m_entityPool;
     std::vector<EntityRef> m_delayedDeleteEnts;
-    EntityFactory m_entFactory;
+    std::vector<EntityRef> m_allEnts;
+
     std::vector<SystemPtr> m_systems;
     std::unordered_map<ComponentId, EntityCompMap> m_components;
+
+    EntityFactory m_entFactory;
 };

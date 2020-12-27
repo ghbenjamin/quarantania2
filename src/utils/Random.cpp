@@ -14,7 +14,7 @@ bool RandomInterface::coinflip()
     return std::uniform_int_distribution<>(1, 2)(m_mt) == 1;
 }
 
-int RandomInterface::diceroll(int dcount, int dsize)
+int RandomInterface::diceRoll(int dcount, int dsize)
 {
     std::uniform_int_distribution dist(1, dsize);
     int out = 0;
@@ -25,6 +25,16 @@ int RandomInterface::diceroll(int dcount, int dsize)
     }
 
     return out;
+}
+
+int RandomInterface::diceRoll(const DiceRoll &roll)
+{
+    return diceRoll(roll.diceCount, roll.diceSize);
+}
+
+int RandomInterface::diceRoll(int size)
+{
+    return diceRoll(1, size);
 }
 
 int RandomInterface::randomInt(int lower, int upper)

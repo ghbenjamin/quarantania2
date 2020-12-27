@@ -32,6 +32,7 @@ public:
     AbilityScoreBlock(int STR, int DEX, int CON, int INT, int WIS, int CHA);
     ~AbilityScoreBlock() = default;
 
+    AbilityScore const& getScore(AbilityScoreType type) const;
     AbilityScore& getScore(AbilityScoreType type);
 
 private:
@@ -62,14 +63,16 @@ public:
     ItemPtr equipItem( EquipSlot slot, ItemPtr item );
 
     // Weapons
-    WeaponPtr getActiveWeapon() const;
-    WeaponPtr getNaturalWeapon() const;
-    bool hasWeapon() const;
+    Weapon const& getActiveWeapon() const;
+    Weapon const& getNaturalWeapon() const;
 
     // Health
     int getCurrentHp() const;
     int getMaxHp() const;
     void setCurrentHp( int value );
+
+    // Armour
+    int getAC() const;
 
 private:
 
@@ -85,5 +88,5 @@ private:
 
     // Items
     std::unordered_map<EquipSlot, ItemPtr> m_equippedItems;
-    std::vector<WeaponPtr> m_naturalWeapons;
+    std::vector<Weapon> m_naturalWeapons;
 };

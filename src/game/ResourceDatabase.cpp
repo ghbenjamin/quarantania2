@@ -15,7 +15,7 @@ ResourceDatabase::ResourceDatabase()
     loadAllActionData();
 }
 
-RawItemData ResourceDatabase::itemFromName(std::string_view name)
+ItemData ResourceDatabase::itemFromName(std::string_view name)
 {
     auto it = std::find_if( m_itemData.begin(), m_itemData.end(),
             [name](auto const& item){
@@ -23,10 +23,10 @@ RawItemData ResourceDatabase::itemFromName(std::string_view name)
     });
 
     AssertMsg( it != m_itemData.end(), fmt::format( "Unexpected item: {}", name ) );
-    return RawItemData( *it );
+    return ItemData( *it );
 }
 
-RawWeaponData ResourceDatabase::weaponFromName(std::string_view name)
+WeaponData ResourceDatabase::weaponFromName(std::string_view name)
 {
     auto it = std::find_if( m_weaponData.begin(), m_weaponData.end(),
             [name](auto const& item){
@@ -34,7 +34,7 @@ RawWeaponData ResourceDatabase::weaponFromName(std::string_view name)
             });
 
     Assert( it != m_weaponData.end() );
-    return RawWeaponData( *it );
+    return WeaponData( *it );
 }
 
 RawCreatureData ResourceDatabase::creatureFromName(std::string_view name)
@@ -70,7 +70,7 @@ RawPlayerClassData ResourceDatabase::playerClassFromName(std::string_view name)
     return RawPlayerClassData( *it );
 }
 
-RawArmourData ResourceDatabase::armourFromName(std::string_view name)
+ArmourData ResourceDatabase::armourFromName(std::string_view name)
 {
     auto it = std::find_if( m_armourData.begin(), m_armourData.end(),
             [name](auto const& item){
@@ -78,7 +78,7 @@ RawArmourData ResourceDatabase::armourFromName(std::string_view name)
             });
 
     Assert( it != m_armourData.end() );
-    return RawArmourData( *it );
+    return ArmourData( *it );
 }
 
 RawObjectData ResourceDatabase::objectFromName(std::string_view name)
@@ -91,7 +91,6 @@ RawObjectData ResourceDatabase::objectFromName(std::string_view name)
     Assert( it != m_objectData.end() );
     return RawObjectData( *it );
 }
-
 
 RawActionData ResourceDatabase::actionFromId(std::string_view id)
 {
@@ -184,7 +183,7 @@ void ResourceDatabase::loadAllItemData()
     rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/items.json" );
     for ( auto const& it_raw : doc.GetArray() )
     {
-        RawItemData rit;
+        ItemData rit;
         auto it = it_raw.GetObject();
 
         rit.name = it.FindMember( "name" )->value.GetString();
@@ -212,7 +211,7 @@ void ResourceDatabase::loadAllItemData()
 
         if ( it.HasMember( "weapon" ) )
         {
-            RawWeaponData rwd;
+            WeaponData rwd;
             auto wObj = it.FindMember( "weapon" )->value.GetObject();
 
             rwd.itemName = rit.name;
@@ -250,7 +249,7 @@ void ResourceDatabase::loadAllItemData()
 
         if ( it.HasMember( "armour" ) )
         {
-            RawArmourData rad;
+            ArmourData rad;
             auto aObj = it.FindMember("armour")->value.GetObject();
 
             rad.itemName = rit.name;
@@ -278,6 +277,10 @@ void ResourceDatabase::loadAllItemData()
             if ( aObj.HasMember("Maximum Dex Bonus") )
             {
                 rad.maxDex = aObj.FindMember( "Maximum Dex Bonus" )->value.GetInt();
+            }
+            else
+            {
+                rad.maxDex = std::numeric_limits<int>::max();
             }
 
             if ( aObj.HasMember("Speed 20") )

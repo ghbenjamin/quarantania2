@@ -51,12 +51,16 @@ AbilityScoreBlock::AbilityScoreBlock(int STR, int DEX, int CON, int INT, int WIS
     m_scores.emplace( AbilityScoreType::CHA, CHA );
 }
 
-AbilityScore &AbilityScoreBlock::getScore(AbilityScoreType type)
+AbilityScore const& AbilityScoreBlock::getScore(AbilityScoreType type) const
 {
     return m_scores.at(type);
 }
 
 
+AbilityScore& AbilityScoreBlock::getScore(AbilityScoreType type)
+{
+    return m_scores.at(type);
+}
 
 // Actor
 // ---------------------------------------------
@@ -120,7 +124,7 @@ ItemPtr Actor::equipItem(EquipSlot slot, ItemPtr item)
     return lastEquipped;
 }
 
-WeaponPtr Actor::getActiveWeapon() const
+Weapon const& Actor::getActiveWeapon() const
 {
     auto it = m_equippedItems.find(EquipSlot::Weapon);
     if (it != m_equippedItems.end() )
@@ -134,11 +138,11 @@ WeaponPtr Actor::getActiveWeapon() const
     }
 }
 
-WeaponPtr Actor::getNaturalWeapon() const
+Weapon const& Actor::getNaturalWeapon() const
 {
     if ( m_naturalWeapons.empty() )
     {
-        return WeaponPtr();
+        return WeaponUnarmedAttack;
     }
 
     // TODO Don't just return the front weapon
@@ -148,11 +152,6 @@ WeaponPtr Actor::getNaturalWeapon() const
 AbilityScoreBlock &Actor::abilityScores()
 {
     return m_abilityScores;
-}
-
-bool Actor::hasWeapon() const
-{
-    return !!getActiveWeapon();
 }
 
 int Actor::getCurrentHp() const
@@ -168,4 +167,29 @@ int Actor::getMaxHp() const
 void Actor::setCurrentHp(int value)
 {
     m_HpCurrent = value;
+}
+
+int Actor::getAC() const
+{
+    int dexToAc = m_abilityScores.getScore( AbilityScoreType::DEX ).getMod();
+    int armourAC = 0;
+    int shieldAC = 0;
+
+    if ( hasEquipped(EquipSlot::Armor) )
+    {
+        auto const& armour = getEquipped( EquipSlot::Armor )->getArmour();
+
+        dexToAc = std::min( dexToAc, armour.maxDex() );
+        armourAC = armour.armourBonus();
+    }
+
+    if ( hasEquipped(EquipSlot::Shield) )
+    {
+        auto const& shield = getEquipped( EquipSlot::Armor )->getArmour();
+
+        dexToAc = std::min( dexToAc, shield.maxDex() );
+        shieldAC = shield.armourBonus();
+    }
+
+    return dexToAc + armourAC + shieldAC + 10;
 }

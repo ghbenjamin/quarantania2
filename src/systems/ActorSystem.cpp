@@ -11,11 +11,8 @@ ActorSystem::ActorSystem(Level *parent) : System(parent)
 
 void ActorSystem::accept(GameEvents::EntityDeath *evt)
 {
-    m_level->addTextLogMessage( fmt::format( "{} was struck down",
-            m_level->getDescriptionForEnt(evt->actor)
-    ));
-
     m_level->ecs().deleteEntityDelayed( evt->actor );
+    Logging::log( "ACTOR WAS KILLED" );
 }
 
 void ActorSystem::accept(GameEvents::EntityDamage *evt)

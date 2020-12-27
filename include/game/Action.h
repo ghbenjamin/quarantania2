@@ -144,17 +144,25 @@ public:
 class ActionMeleeAttack : public SingleEntityTargeting
 {
 public:
-    using SingleEntityTargeting::SingleEntityTargeting;
+    ActionMeleeAttack(Level* level, EntityRef actor, float reach);
+    ~ActionMeleeAttack() override = default;
 
     void perform(EntityRef target) override;
     bool entityIsValid(EntityRef ref) override;
+
+private:
+    float m_reach;
 };
 
 class ActionPowerAttack : public SingleEntityTargeting
 {
 public:
-    using SingleEntityTargeting::SingleEntityTargeting;
+    ActionPowerAttack(Level* level, EntityRef actor, float reach);
+    ~ActionPowerAttack() override = default;
 
     void perform(EntityRef target) override;
     bool entityIsValid(EntityRef ref) override;
+
+private:
+    float m_reach;
 };

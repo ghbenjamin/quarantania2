@@ -1,28 +1,27 @@
 #pragma once
 
 #include <memory>
+#include <optional>
 #include <unordered_map>
 
 #include <resource/Spritesheet.h>
 #include <ui/Defines.h>
 #include <game/Defines.h>
+#include <game/Damage.h>
 
-struct RawItemData;
-struct RawWeaponData;
-struct RawArmourData;
-struct RawCreatureData;
+struct ItemData;
+struct WeaponData;
+struct ArmourData;
 
 class Armour
 {
 public:
-    Armour( RawArmourData const& rawData );
-    Armour( std::string_view name );
+    Armour( ArmourData const& rawData );
     ~Armour() = default;
 
-    static std::shared_ptr<Armour> fromName( std::string_view name );
+    static Armour fromName( std::string_view name );
 
     ArmourType armourType( ) const;
-
     int arcaneFailureChance( ) const;
     int armourBonus( ) const;
     int shieldBonus( ) const;
@@ -32,7 +31,7 @@ public:
     int speed30( ) const;
 
 private:
-    void initFromData( RawArmourData const& rawData );
+    void initFromData(ArmourData const& rawData );
 
 private:
     int m_arcaneFailureChance;
@@ -45,29 +44,26 @@ private:
     ArmourType m_armourType;
 };
 
-using ArmourPtr = std::shared_ptr<Armour>;
-
 
 class Weapon
 {
 public:
-    Weapon( RawWeaponData const& rawData );
+    Weapon( WeaponData const& rawData );
     ~Weapon() = default;
 
-    static std::shared_ptr<Weapon> fromName( std::string_view name );
+    static Weapon fromName( std::string_view name );
 
-    std::string const& name( ) const;
     WeaponHandedness handedness() const;
     WeaponType type() const;
     WeaponProficiency proficiency() const;
     CritData const& critData() const;
     DiceRoll const& damage() const;
+    float getReach() const;
 
 private:
-    void initFromData( RawWeaponData const& rawData );
+    void initFromData( WeaponData const& rawData );
 
 private:
-    std::string m_name;
     WeaponHandedness m_handedness;
     WeaponType m_weaponType;
     WeaponProficiency m_proficiency;
@@ -77,16 +73,18 @@ private:
     WeaponSpecialMask m_specials;
 };
 
-using WeaponPtr = std::shared_ptr<Weapon>;
+
+const extern Weapon WeaponUnarmedAttack;
+
+
 
 class Item
 {
 public:
-    Item( RawItemData const& rawData );
+    Item( ItemData const& rawData );
     virtual ~Item() = default;
 
     static std::shared_ptr<Item> fromName( std::string_view name );
-
 
     const std::string &getName() const;
     ItemType getType() const;
@@ -97,16 +95,16 @@ public:
     std::string const& getDescription() const;
 
     bool isWeapon() const;
-    WeaponPtr const& getWeapon() const;
+    Weapon const& getWeapon() const;
 
     bool isArmour() const;
-    ArmourPtr const& getArmour() const;
+    Armour const& getArmour() const;
 
     UI::TooltipData tooltipData() const;
 
 
 private:
-    void initFromData( RawItemData const& rawData );
+    void initFromData(ItemData const& rawData );
 
 private:
     std::string m_name;
@@ -117,8 +115,8 @@ private:
     std::string m_description;
     EquipSlot m_equipSlot;
 
-    WeaponPtr m_weapon;
-    ArmourPtr m_armour;
+    std::optional<Weapon> m_weapon;
+    std::optional<Armour> m_armour;
 };
 
 using ItemPtr = std::shared_ptr<Item>;

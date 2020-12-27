@@ -64,6 +64,7 @@ public:
     Vector2i tileCoordsToScreen( Vector2i const& tile );
 
     int squaredEntityDistance(EntityRef a, EntityRef b);
+    float entityDistance(EntityRef a, EntityRef b);
 
     // Actions
     std::vector<std::shared_ptr<GameAction>> actionsForActor(EntityRef actor);
@@ -72,9 +73,6 @@ public:
     // Communication
     bool isComplete() const;
     void setComplete();
-
-    void addTextLogMessage( std::string_view sv, Colour const& colour );
-    void addTextLogMessage( std::string_view sv );
 
     std::string_view getDescriptionForEnt( EntityRef ent );
     std::string_view getDescriptionForItem( ItemPtr item );
@@ -123,9 +121,6 @@ private:
     UI::Manager m_uiManager;
     GameEventHub m_gevents;
     ECS m_ecs;
-
-
-    std::shared_ptr<UI::TextLog> m_textLog;
 
     // Tuns
     EntityRef m_currentTurnEntity;

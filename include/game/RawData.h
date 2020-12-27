@@ -6,7 +6,7 @@
 #include <game/Items.h>
 #include <game/Defines.h>
 
-struct RawItemData
+struct ItemData
 {
     std::string name;
     int weight;
@@ -20,7 +20,7 @@ struct RawItemData
     SpritesheetKey sprite;
 };
 
-struct RawWeaponData
+struct WeaponData
 {
     std::string itemName;
     std::string weaponClass;
@@ -32,7 +32,7 @@ struct RawWeaponData
     std::string specials;
 };
 
-struct RawArmourData
+struct ArmourData
 {
     std::string itemName;
     int arcaneFailureChance;
