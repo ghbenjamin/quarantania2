@@ -2,7 +2,8 @@
 #include <exception>
 #include <utils/Logging.h>
 #include <utils/Json.h>
-#include <game/EnumParse.h>
+#include <utils/StringUtils.h>
+#include <game/GameParse.h>
 
 ResourceDatabase::ResourceDatabase()
 {
@@ -196,7 +197,29 @@ void ResourceDatabase::loadAllCreatureData()
             auto weaknessArr = cr.FindMember( "weaknesses" )->value.GetArray();
             for ( auto const& weakness : weaknessArr )
             {
-                rcd.senses.emplace_back( EnumParse::elementalDamageType( weakness.GetString() ) );
+                rcd.weaknesses.emplace_back( EnumParse::elementalDamageType( weakness.GetString() ) );
+            }
+        }
+
+        if ( cr.HasMember("melee") )
+        {
+            auto meleeArr = cr.FindMember( "melee" )->value.GetArray();
+            for ( auto const& melee :meleeArr )
+            {
+                auto meleeObj = melee.GetObject();
+                CreatureAttack creatureAttack;
+
+                creatureAttack.name = meleeObj.FindMember("name")->value.GetString();
+                creatureAttack.count = 1;
+                creatureAttack.toHit =  meleeObj.FindMember("to_hit")->value.GetInt();
+                creatureAttack.stats  = parseDiceRoll( meleeObj.FindMember("damage")->value.GetString() );
+
+                if ( meleeObj.HasMember("count"))
+                {
+                    creatureAttack.count = meleeObj.FindMember("count")->value.GetInt();
+                }
+
+                rcd.attacks.push_back(creatureAttack);
             }
         }
 
@@ -250,7 +273,20 @@ void ResourceDatabase::loadAllItemData()
             };
 
             rwd.damageType = wObj.FindMember("damage_type" )->value.GetString();
-            rwd.weaponClass = wObj.FindMember("weapon_class" )->value.GetString();
+
+            std::string weaponClass = wObj.FindMember("weapon_class" )->value.GetString();
+            if ( stringContains(weaponClass, "Melee") )
+            {
+                rwd.weaponType = WeaponType::Melee;
+            }
+            else if ( stringContains(weaponClass, "Ranged") )
+            {
+                rwd.weaponType = WeaponType::Ranged;
+            }
+            else
+            {
+                AssertAlwaysMsg( fmt::format( "Unknown weapon class", weaponClass ) );
+            }
 
             if ( wObj.HasMember("Special") )
             {

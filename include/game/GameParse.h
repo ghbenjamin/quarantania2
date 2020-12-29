@@ -10,3 +10,6 @@ namespace EnumParse
     CreatureSize creatureType( std::string const& input );
     ElementalDamageType elementalDamageType( std::string const& input );
 }
+
+
+DiceRoll parseDiceRoll( std::string const& input );

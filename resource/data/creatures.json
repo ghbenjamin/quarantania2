@@ -1,6 +1,9 @@
 [
     {
         "alignment": "NG",
+        "armour_class": 15,
+        "armour_class_flat": 15,
+        "armour_class_touch": 10,
         "attr_cha": 14,
         "attr_con": 14,
         "attr_dex": 10,
@@ -50,6 +53,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 20,
+        "armour_class_flat": 19,
+        "armour_class_touch": 9,
         "attr_cha": 17,
         "attr_con": 22,
         "attr_dex": 12,
@@ -96,6 +102,9 @@
     },
     {
         "alignment": "NG",
+        "armour_class": 29,
+        "armour_class_flat": 25,
+        "armour_class_touch": 14,
         "attr_cha": 23,
         "attr_con": 21,
         "attr_dex": 19,
@@ -165,6 +174,9 @@
     },
     {
         "alignment": "NG",
+        "armour_class": 32,
+        "armour_class_flat": 28,
+        "armour_class_touch": 13,
         "attr_cha": 24,
         "attr_con": 24,
         "attr_dex": 19,
@@ -238,6 +250,9 @@
     },
     {
         "alignment": "NG",
+        "armour_class": 44,
+        "armour_class_flat": 42,
+        "armour_class_touch": 11,
         "attr_cha": 25,
         "attr_con": 30,
         "attr_dex": 20,
@@ -315,6 +330,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 16,
+        "armour_class_flat": 16,
+        "armour_class_touch": 9,
         "attr_cha": 6,
         "attr_con": 17,
         "attr_dex": 10,
@@ -357,6 +375,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 15,
+        "armour_class_touch": 10,
         "attr_cha": 11,
         "attr_con": 17,
         "attr_dex": 10,
@@ -403,6 +424,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 13,
+        "armour_class_touch": 11,
         "attr_cha": 7,
         "attr_con": 16,
         "attr_dex": 15,
@@ -450,6 +474,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 12,
+        "armour_class_touch": 11,
         "attr_cha": 7,
         "attr_con": 14,
         "attr_dex": 15,
@@ -491,6 +518,9 @@
     },
     {
         "alignment": "LG",
+        "armour_class": 19,
+        "armour_class_flat": 19,
+        "armour_class_touch": 10,
         "attr_cha": 12,
         "attr_con": 13,
         "attr_dex": 10,
@@ -562,6 +592,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 15,
+        "armour_class_touch": 9,
         "attr_cha": 9,
         "attr_con": 16,
         "attr_dex": 10,
@@ -606,6 +639,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 17,
+        "armour_class_flat": 15,
+        "armour_class_touch": 12,
         "attr_cha": 14,
         "attr_con": 15,
         "attr_dex": 15,
@@ -662,6 +698,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 20,
+        "armour_class_flat": 18,
+        "armour_class_touch": 11,
         "attr_cha": 18,
         "attr_con": 19,
         "attr_dex": 15,
@@ -719,6 +758,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 18,
+        "armour_class_flat": 17,
+        "armour_class_touch": 11,
         "attr_cha": 1,
         "attr_con": 16,
         "attr_dex": 13,
@@ -762,6 +804,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 17,
+        "armour_class_touch": 9,
         "attr_cha": 11,
         "attr_con": 15,
         "attr_dex": 8,
@@ -804,6 +849,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 12,
+        "armour_class_touch": 11,
         "attr_cha": 6,
         "attr_con": 13,
         "attr_dex": 15,
@@ -843,6 +891,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 18,
+        "armour_class_flat": 17,
+        "armour_class_touch": 10,
         "attr_cha": 10,
         "attr_con": 21,
         "attr_dex": 13,
@@ -892,6 +943,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 16,
+        "armour_class_flat": 15,
+        "armour_class_touch": 10,
         "attr_cha": 6,
         "attr_con": 19,
         "attr_dex": 13,
@@ -939,6 +993,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 22,
+        "armour_class_flat": 21,
+        "armour_class_touch": 9,
         "attr_cha": 13,
         "attr_con": 24,
         "attr_dex": 12,
@@ -999,6 +1056,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 12,
+        "armour_class_flat": 12,
+        "armour_class_touch": 11,
         "attr_cha": 7,
         "attr_con": 11,
         "attr_dex": 11,
@@ -1036,6 +1096,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 17,
+        "armour_class_touch": 9,
         "attr_cha": 9,
         "attr_con": 15,
         "attr_dex": 10,
@@ -1075,6 +1138,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 21,
+        "armour_class_flat": 20,
+        "armour_class_touch": 9,
         "attr_cha": 12,
         "attr_con": 21,
         "attr_dex": 12,
@@ -1122,6 +1188,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 3,
+        "armour_class_flat": 3,
+        "armour_class_touch": 3,
         "attr_cha": 1,
         "attr_con": 22,
         "attr_dex": 1,
@@ -1155,6 +1224,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 14,
+        "armour_class_touch": 10,
         "attr_cha": 4,
         "attr_con": 17,
         "attr_dex": 10,
@@ -1193,6 +1265,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 15,
+        "armour_class_touch": 9,
         "attr_cha": 8,
         "attr_con": 17,
         "attr_dex": 10,
@@ -1233,6 +1308,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 14,
+        "armour_class_flat": 14,
+        "armour_class_touch": 9,
         "attr_cha": 10,
         "attr_con": 14,
         "attr_dex": 9,
@@ -1281,6 +1359,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 17,
+        "armour_class_flat": 16,
+        "armour_class_touch": 11,
         "attr_cha": 9,
         "attr_con": 13,
         "attr_dex": 13,
@@ -1324,6 +1405,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 22,
+        "armour_class_flat": 20,
+        "armour_class_touch": 10,
         "attr_cha": 6,
         "attr_con": 20,
         "attr_dex": 15,
@@ -1375,6 +1459,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 11,
+        "armour_class_touch": 14,
         "attr_cha": 6,
         "attr_con": 15,
         "attr_dex": 19,
@@ -1420,6 +1507,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 11,
+        "armour_class_touch": 14,
         "attr_cha": 6,
         "attr_con": 15,
         "attr_dex": 19,
@@ -1466,6 +1556,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 14,
+        "armour_class_touch": 11,
         "attr_cha": 4,
         "attr_con": 17,
         "attr_dex": 12,
@@ -1506,6 +1599,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 20,
+        "armour_class_flat": 18,
+        "armour_class_touch": 11,
         "attr_cha": 12,
         "attr_con": 15,
         "attr_dex": 14,
@@ -1552,6 +1648,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 12,
+        "armour_class_touch": 12,
         "attr_cha": 2,
         "attr_con": 12,
         "attr_dex": 15,
@@ -1593,6 +1692,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 19,
+        "armour_class_flat": 18,
+        "armour_class_touch": 10,
         "attr_cha": 10,
         "attr_con": 17,
         "attr_dex": 12,
@@ -1654,6 +1756,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 17,
+        "armour_class_flat": 15,
+        "armour_class_touch": 13,
         "attr_cha": 7,
         "attr_con": 13,
         "attr_dex": 14,
@@ -1695,6 +1800,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 22,
+        "armour_class_flat": 19,
+        "armour_class_touch": 12,
         "attr_cha": 5,
         "attr_con": 18,
         "attr_dex": 16,
@@ -1745,6 +1853,9 @@
     },
     {
         "alignment": "CN",
+        "armour_class": 19,
+        "armour_class_flat": 16,
+        "armour_class_touch": 12,
         "attr_cha": 14,
         "attr_con": 19,
         "attr_dex": 16,
@@ -1791,6 +1902,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 11,
+        "armour_class_touch": 15,
         "attr_cha": 8,
         "attr_con": 11,
         "attr_dex": 17,
@@ -1831,6 +1945,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 16,
+        "armour_class_flat": 15,
+        "armour_class_touch": 11,
         "attr_cha": 2,
         "attr_con": 14,
         "attr_dex": 13,
@@ -1873,6 +1990,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 13,
+        "armour_class_touch": 10,
         "attr_cha": 2,
         "attr_con": 17,
         "attr_dex": 12,
@@ -1918,6 +2038,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 21,
+        "armour_class_flat": 21,
+        "armour_class_touch": 6,
         "attr_cha": 2,
         "attr_con": 25,
         "attr_dex": 10,
@@ -1967,6 +2090,9 @@
     },
     {
         "alignment": "NE",
+        "armour_class": 19,
+        "armour_class_flat": 19,
+        "armour_class_touch": 8,
         "attr_cha": 8,
         "attr_con": 15,
         "attr_dex": 8,
@@ -2013,6 +2139,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 13,
+        "armour_class_touch": 13,
         "attr_cha": 10,
         "attr_con": 14,
         "attr_dex": 15,
@@ -2053,6 +2182,9 @@
     },
     {
         "alignment": "CN",
+        "armour_class": 16,
+        "armour_class_flat": 13,
+        "armour_class_touch": 14,
         "attr_cha": 8,
         "attr_con": 14,
         "attr_dex": 17,
@@ -2093,6 +2225,9 @@
     },
     {
         "alignment": "CN",
+        "armour_class": 18,
+        "armour_class_flat": 14,
+        "armour_class_touch": 14,
         "attr_cha": 13,
         "attr_con": 14,
         "attr_dex": 18,
@@ -2135,6 +2270,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 19,
+        "armour_class_flat": 18,
+        "armour_class_touch": 11,
         "attr_cha": 16,
         "attr_con": 20,
         "attr_dex": 13,
@@ -2214,6 +2352,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 36,
+        "armour_class_flat": 29,
+        "armour_class_touch": 20,
         "attr_cha": 27,
         "attr_con": 36,
         "attr_dex": 25,
@@ -2294,6 +2435,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 14,
+        "armour_class_flat": 14,
+        "armour_class_touch": 11,
         "attr_cha": 11,
         "attr_con": 14,
         "attr_dex": 10,
@@ -2357,6 +2501,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 28,
+        "armour_class_flat": 28,
+        "armour_class_touch": 8,
         "attr_cha": 20,
         "attr_con": 31,
         "attr_dex": 11,
@@ -2434,6 +2581,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 25,
+        "armour_class_flat": 25,
+        "armour_class_touch": 9,
         "attr_cha": 18,
         "attr_con": 29,
         "attr_dex": 11,
@@ -2504,6 +2654,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 32,
+        "armour_class_flat": 28,
+        "armour_class_touch": 17,
         "attr_cha": 25,
         "attr_con": 32,
         "attr_dex": 19,
@@ -2593,6 +2746,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 22,
+        "armour_class_flat": 18,
+        "armour_class_touch": 14,
         "attr_cha": 19,
         "attr_con": 22,
         "attr_dex": 17,
@@ -2664,6 +2820,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 29,
+        "armour_class_flat": 28,
+        "armour_class_touch": 13,
         "attr_cha": 20,
         "attr_con": 29,
         "attr_dex": 13,
@@ -2736,6 +2895,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 16,
+        "armour_class_flat": 14,
+        "armour_class_touch": 14,
         "attr_cha": 11,
         "attr_con": 11,
         "attr_dex": 14,
@@ -2801,6 +2963,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 26,
+        "armour_class_flat": 20,
+        "armour_class_touch": 16,
         "attr_cha": 18,
         "attr_con": 22,
         "attr_dex": 23,
@@ -2864,6 +3029,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 19,
+        "armour_class_flat": 17,
+        "armour_class_touch": 12,
         "attr_cha": 10,
         "attr_con": 19,
         "attr_dex": 15,
@@ -2931,6 +3099,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 25,
+        "armour_class_flat": 20,
+        "armour_class_touch": 14,
         "attr_cha": 18,
         "attr_con": 20,
         "attr_dex": 21,
@@ -3003,6 +3174,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 23,
+        "armour_class_flat": 16,
+        "armour_class_touch": 17,
         "attr_cha": 21,
         "attr_con": 21,
         "attr_dex": 23,
@@ -3067,6 +3241,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 35,
+        "armour_class_flat": 27,
+        "armour_class_touch": 17,
         "attr_cha": 23,
         "attr_con": 28,
         "attr_dex": 27,
@@ -3158,6 +3335,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 32,
+        "armour_class_flat": 27,
+        "armour_class_touch": 14,
         "attr_cha": 20,
         "attr_con": 22,
         "attr_dex": 21,
@@ -3231,6 +3411,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 17,
+        "armour_class_flat": 13,
+        "armour_class_touch": 16,
         "attr_cha": 14,
         "attr_con": 10,
         "attr_dex": 17,
@@ -3289,6 +3472,9 @@
     },
     {
         "alignment": "NE",
+        "armour_class": 25,
+        "armour_class_flat": 22,
+        "armour_class_touch": 12,
         "attr_cha": 21,
         "attr_con": 10,
         "attr_dex": 16,
@@ -3340,6 +3526,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 13,
+        "armour_class_flat": 12,
+        "armour_class_touch": 12,
         "attr_cha": 6,
         "attr_con": 15,
         "attr_dex": 13,
@@ -3377,6 +3566,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 13,
+        "armour_class_flat": 11,
+        "armour_class_touch": 12,
         "attr_cha": 6,
         "attr_con": 15,
         "attr_dex": 15,
@@ -3415,6 +3607,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 13,
+        "armour_class_flat": 11,
+        "armour_class_touch": 12,
         "attr_cha": 6,
         "attr_con": 13,
         "attr_dex": 15,
@@ -3452,6 +3647,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 16,
+        "armour_class_flat": 14,
+        "armour_class_touch": 10,
         "attr_cha": 6,
         "attr_con": 16,
         "attr_dex": 15,
@@ -3494,6 +3692,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 21,
+        "armour_class_flat": 21,
+        "armour_class_touch": 9,
         "attr_cha": 13,
         "attr_con": 21,
         "attr_dex": 8,
@@ -3547,6 +3748,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 28,
+        "armour_class_flat": 27,
+        "armour_class_touch": 10,
         "attr_cha": 14,
         "attr_con": 21,
         "attr_dex": 12,
@@ -3619,6 +3823,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 38,
+        "armour_class_flat": 38,
+        "armour_class_touch": 8,
         "attr_cha": 18,
         "attr_con": 25,
         "attr_dex": 10,
@@ -3695,6 +3902,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 21,
+        "armour_class_flat": 19,
+        "armour_class_touch": 12,
         "attr_cha": 10,
         "attr_con": 17,
         "attr_dex": 14,
@@ -3752,6 +3962,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 28,
+        "armour_class_flat": 28,
+        "armour_class_touch": 8,
         "attr_cha": 16,
         "attr_con": 21,
         "attr_dex": 10,
@@ -3825,6 +4038,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 37,
+        "armour_class_flat": 37,
+        "armour_class_touch": 5,
         "attr_cha": 20,
         "attr_con": 25,
         "attr_dex": 8,
@@ -3902,6 +4118,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 21,
+        "armour_class_flat": 20,
+        "armour_class_touch": 10,
         "attr_cha": 12,
         "attr_con": 17,
         "attr_dex": 12,
@@ -3967,6 +4186,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 27,
+        "armour_class_flat": 27,
+        "armour_class_touch": 8,
         "attr_cha": 16,
         "attr_con": 21,
         "attr_dex": 10,
@@ -4040,6 +4262,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 36,
+        "armour_class_flat": 36,
+        "armour_class_touch": 5,
         "attr_cha": 20,
         "attr_con": 25,
         "attr_dex": 8,
@@ -4117,6 +4342,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 20,
+        "armour_class_flat": 19,
+        "armour_class_touch": 10,
         "attr_cha": 12,
         "attr_con": 17,
         "attr_dex": 12,
@@ -4182,6 +4410,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 29,
+        "armour_class_flat": 29,
+        "armour_class_touch": 8,
         "attr_cha": 16,
         "attr_con": 23,
         "attr_dex": 10,
@@ -4259,6 +4490,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 38,
+        "armour_class_flat": 38,
+        "armour_class_touch": 5,
         "attr_cha": 20,
         "attr_con": 27,
         "attr_dex": 8,
@@ -4340,6 +4574,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 22,
+        "armour_class_flat": 21,
+        "armour_class_touch": 10,
         "attr_cha": 12,
         "attr_con": 19,
         "attr_dex": 12,
@@ -4410,6 +4647,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 27,
+        "armour_class_flat": 26,
+        "armour_class_touch": 10,
         "attr_cha": 12,
         "attr_con": 21,
         "attr_dex": 12,
@@ -4485,6 +4725,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 37,
+        "armour_class_flat": 37,
+        "armour_class_touch": 8,
         "attr_cha": 16,
         "attr_con": 25,
         "attr_dex": 10,
@@ -4564,6 +4807,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 20,
+        "armour_class_flat": 18,
+        "armour_class_touch": 12,
         "attr_cha": 8,
         "attr_con": 17,
         "attr_dex": 14,
@@ -4625,6 +4871,9 @@
     },
     {
         "alignment": "CG",
+        "armour_class": 28,
+        "armour_class_flat": 27,
+        "armour_class_touch": 10,
         "attr_cha": 16,
         "attr_con": 21,
         "attr_dex": 12,
@@ -4702,6 +4951,9 @@
     },
     {
         "alignment": "CG",
+        "armour_class": 38,
+        "armour_class_flat": 38,
+        "armour_class_touch": 8,
         "attr_cha": 20,
         "attr_con": 25,
         "attr_dex": 10,
@@ -4780,6 +5032,9 @@
     },
     {
         "alignment": "CG",
+        "armour_class": 21,
+        "armour_class_flat": 19,
+        "armour_class_touch": 12,
         "attr_cha": 12,
         "attr_con": 17,
         "attr_dex": 14,
@@ -4846,6 +5101,9 @@
     },
     {
         "alignment": "LG",
+        "armour_class": 28,
+        "armour_class_flat": 28,
+        "armour_class_touch": 8,
         "attr_cha": 20,
         "attr_con": 21,
         "attr_dex": 10,
@@ -4919,6 +5177,9 @@
     },
     {
         "alignment": "LG",
+        "armour_class": 37,
+        "armour_class_flat": 37,
+        "armour_class_touch": 5,
         "attr_cha": 24,
         "attr_con": 25,
         "attr_dex": 8,
@@ -4996,6 +5257,9 @@
     },
     {
         "alignment": "LG",
+        "armour_class": 21,
+        "armour_class_flat": 20,
+        "armour_class_touch": 10,
         "attr_cha": 16,
         "attr_con": 17,
         "attr_dex": 12,
@@ -5061,6 +5325,9 @@
     },
     {
         "alignment": "CG",
+        "armour_class": 29,
+        "armour_class_flat": 28,
+        "armour_class_touch": 10,
         "attr_cha": 18,
         "attr_con": 21,
         "attr_dex": 12,
@@ -5134,6 +5401,9 @@
     },
     {
         "alignment": "CG",
+        "armour_class": 39,
+        "armour_class_flat": 39,
+        "armour_class_touch": 8,
         "attr_cha": 22,
         "attr_con": 25,
         "attr_dex": 10,
@@ -5211,6 +5481,9 @@
     },
     {
         "alignment": "CG",
+        "armour_class": 22,
+        "armour_class_flat": 20,
+        "armour_class_touch": 12,
         "attr_cha": 14,
         "attr_con": 17,
         "attr_dex": 14,
@@ -5272,6 +5545,9 @@
     },
     {
         "alignment": "LG",
+        "armour_class": 30,
+        "armour_class_flat": 30,
+        "armour_class_touch": 8,
         "attr_cha": 20,
         "attr_con": 23,
         "attr_dex": 10,
@@ -5349,6 +5625,9 @@
     },
     {
         "alignment": "LG",
+        "armour_class": 39,
+        "armour_class_flat": 39,
+        "armour_class_touch": 5,
         "attr_cha": 24,
         "attr_con": 27,
         "attr_dex": 8,
@@ -5430,6 +5709,9 @@
     },
     {
         "alignment": "LG",
+        "armour_class": 23,
+        "armour_class_flat": 22,
+        "armour_class_touch": 10,
         "attr_cha": 16,
         "attr_con": 19,
         "attr_dex": 12,
@@ -5500,6 +5782,9 @@
     },
     {
         "alignment": "LG",
+        "armour_class": 29,
+        "armour_class_flat": 29,
+        "armour_class_touch": 8,
         "attr_cha": 20,
         "attr_con": 21,
         "attr_dex": 10,
@@ -5578,6 +5863,9 @@
     },
     {
         "alignment": "LG",
+        "armour_class": 38,
+        "armour_class_flat": 38,
+        "armour_class_touch": 5,
         "attr_cha": 24,
         "attr_con": 25,
         "attr_dex": 8,
@@ -5660,6 +5948,9 @@
     },
     {
         "alignment": "LG",
+        "armour_class": 22,
+        "armour_class_flat": 21,
+        "armour_class_touch": 10,
         "attr_cha": 16,
         "attr_con": 17,
         "attr_dex": 12,
@@ -5731,6 +6022,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 23,
+        "armour_class_flat": 23,
+        "armour_class_touch": 8,
         "attr_cha": 12,
         "attr_con": 19,
         "attr_dex": 10,
@@ -5791,6 +6085,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 20,
+        "armour_class_flat": 17,
+        "armour_class_touch": 12,
         "attr_cha": 16,
         "attr_con": 18,
         "attr_dex": 15,
@@ -5846,6 +6143,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 15,
+        "armour_class_flat": 13,
+        "armour_class_touch": 12,
         "attr_cha": 10,
         "attr_con": 10,
         "attr_dex": 15,
@@ -5892,6 +6192,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 21,
+        "armour_class_flat": 18,
+        "armour_class_touch": 13,
         "attr_cha": 12,
         "attr_con": 12,
         "attr_dex": 17,
@@ -5940,6 +6243,9 @@
     },
     {
         "alignment": "CG",
+        "armour_class": 17,
+        "armour_class_flat": 13,
+        "armour_class_touch": 14,
         "attr_cha": 18,
         "attr_con": 13,
         "attr_dex": 19,
@@ -5984,6 +6290,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 17,
+        "armour_class_flat": 17,
+        "armour_class_touch": 9,
         "attr_cha": 4,
         "attr_con": 15,
         "attr_dex": 9,
@@ -6031,6 +6340,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 12,
+        "armour_class_touch": 13,
         "attr_cha": 7,
         "attr_con": 12,
         "attr_dex": 15,
@@ -6074,6 +6386,9 @@
     },
     {
         "alignment": "NG",
+        "armour_class": 15,
+        "armour_class_flat": 12,
+        "armour_class_touch": 12,
         "attr_cha": 11,
         "attr_con": 12,
         "attr_dex": 17,
@@ -6119,6 +6434,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 13,
+        "armour_class_touch": 13,
         "attr_cha": 6,
         "attr_con": 19,
         "attr_dex": 14,
@@ -6164,6 +6482,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 19,
+        "armour_class_flat": 17,
+        "armour_class_touch": 11,
         "attr_cha": 8,
         "attr_con": 16,
         "attr_dex": 14,
@@ -6210,6 +6531,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 28,
+        "armour_class_flat": 16,
+        "armour_class_touch": 20,
         "attr_cha": 11,
         "attr_con": 18,
         "attr_dex": 33,
@@ -6269,6 +6593,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 25,
+        "armour_class_flat": 14,
+        "armour_class_touch": 19,
         "attr_cha": 11,
         "attr_con": 18,
         "attr_dex": 31,
@@ -6327,6 +6654,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 22,
+        "armour_class_flat": 12,
+        "armour_class_touch": 18,
         "attr_cha": 11,
         "attr_con": 18,
         "attr_dex": 29,
@@ -6383,6 +6713,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 21,
+        "armour_class_flat": 13,
+        "armour_class_touch": 17,
         "attr_cha": 11,
         "attr_con": 16,
         "attr_dex": 25,
@@ -6438,6 +6771,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 19,
+        "armour_class_flat": 13,
+        "armour_class_touch": 16,
         "attr_cha": 11,
         "attr_con": 14,
         "attr_dex": 21,
@@ -6486,6 +6822,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 14,
+        "armour_class_touch": 14,
         "attr_cha": 11,
         "attr_con": 12,
         "attr_dex": 17,
@@ -6533,6 +6872,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 23,
+        "armour_class_flat": 23,
+        "armour_class_touch": 7,
         "attr_cha": 11,
         "attr_con": 21,
         "attr_dex": 8,
@@ -6592,6 +6934,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 21,
+        "armour_class_flat": 21,
+        "armour_class_touch": 7,
         "attr_cha": 11,
         "attr_con": 21,
         "attr_dex": 8,
@@ -6650,6 +6995,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 19,
+        "armour_class_flat": 19,
+        "armour_class_touch": 7,
         "attr_cha": 11,
         "attr_con": 19,
         "attr_dex": 8,
@@ -6706,6 +7054,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 18,
+        "armour_class_flat": 18,
+        "armour_class_touch": 8,
         "attr_cha": 11,
         "attr_con": 17,
         "attr_dex": 8,
@@ -6761,6 +7112,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 18,
+        "armour_class_flat": 18,
+        "armour_class_touch": 9,
         "attr_cha": 11,
         "attr_con": 17,
         "attr_dex": 8,
@@ -6809,6 +7163,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 17,
+        "armour_class_touch": 10,
         "attr_cha": 11,
         "attr_con": 13,
         "attr_dex": 8,
@@ -6856,6 +7213,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 26,
+        "armour_class_flat": 16,
+        "armour_class_touch": 18,
         "attr_cha": 11,
         "attr_con": 18,
         "attr_dex": 29,
@@ -6919,6 +7279,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 23,
+        "armour_class_flat": 14,
+        "armour_class_touch": 17,
         "attr_cha": 11,
         "attr_con": 18,
         "attr_dex": 27,
@@ -6981,6 +7344,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 21,
+        "armour_class_flat": 13,
+        "armour_class_touch": 16,
         "attr_cha": 11,
         "attr_con": 16,
         "attr_dex": 25,
@@ -7041,6 +7407,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 19,
+        "armour_class_flat": 13,
+        "armour_class_touch": 15,
         "attr_cha": 11,
         "attr_con": 14,
         "attr_dex": 21,
@@ -7100,6 +7469,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 13,
+        "armour_class_touch": 14,
         "attr_cha": 11,
         "attr_con": 14,
         "attr_dex": 17,
@@ -7152,6 +7524,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 16,
+        "armour_class_flat": 14,
+        "armour_class_touch": 13,
         "attr_cha": 11,
         "attr_con": 10,
         "attr_dex": 13,
@@ -7203,6 +7578,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 24,
+        "armour_class_flat": 17,
+        "armour_class_touch": 15,
         "attr_cha": 11,
         "attr_con": 19,
         "attr_dex": 22,
@@ -7260,6 +7638,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 23,
+        "armour_class_flat": 17,
+        "armour_class_touch": 14,
         "attr_cha": 11,
         "attr_con": 19,
         "attr_dex": 20,
@@ -7316,6 +7697,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 21,
+        "armour_class_flat": 16,
+        "armour_class_touch": 13,
         "attr_cha": 11,
         "attr_con": 19,
         "attr_dex": 18,
@@ -7370,6 +7754,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 18,
+        "armour_class_flat": 15,
+        "armour_class_touch": 12,
         "attr_cha": 11,
         "attr_con": 17,
         "attr_dex": 14,
@@ -7423,6 +7810,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 16,
+        "armour_class_touch": 11,
         "attr_cha": 11,
         "attr_con": 15,
         "attr_dex": 12,
@@ -7469,6 +7859,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 17,
+        "armour_class_touch": 11,
         "attr_cha": 11,
         "attr_con": 13,
         "attr_dex": 10,
@@ -7514,6 +7907,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 17,
+        "armour_class_touch": 8,
         "attr_cha": 7,
         "attr_con": 19,
         "attr_dex": 10,
@@ -7564,6 +7960,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 21,
+        "armour_class_flat": 20,
+        "armour_class_touch": 9,
         "attr_cha": 7,
         "attr_con": 21,
         "attr_dex": 12,
@@ -7615,6 +8014,9 @@
     },
     {
         "alignment": "NE",
+        "armour_class": 15,
+        "armour_class_flat": 12,
+        "armour_class_touch": 13,
         "attr_cha": 8,
         "attr_con": 17,
         "attr_dex": 17,
@@ -7661,6 +8063,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 18,
+        "armour_class_flat": 18,
+        "armour_class_touch": 8,
         "attr_cha": 11,
         "attr_con": 15,
         "attr_dex": 8,
@@ -7709,6 +8114,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 22,
+        "armour_class_flat": 18,
+        "armour_class_touch": 12,
         "attr_cha": 6,
         "attr_con": 25,
         "attr_dex": 18,
@@ -7762,6 +8170,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 28,
+        "armour_class_flat": 27,
+        "armour_class_touch": 9,
         "attr_cha": 11,
         "attr_con": 24,
         "attr_dex": 13,
@@ -7828,6 +8239,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 12,
+        "armour_class_flat": 11,
+        "armour_class_touch": 11,
         "attr_cha": 6,
         "attr_con": 16,
         "attr_dex": 13,
@@ -7873,6 +8287,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 13,
+        "armour_class_flat": 12,
+        "armour_class_touch": 13,
         "attr_cha": 10,
         "attr_con": 11,
         "attr_dex": 12,
@@ -7911,6 +8328,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 4,
+        "armour_class_flat": 4,
+        "armour_class_touch": 4,
         "attr_cha": 1,
         "attr_con": 26,
         "attr_dex": 1,
@@ -7948,6 +8368,9 @@
     },
     {
         "alignment": "CG",
+        "armour_class": 19,
+        "armour_class_flat": 14,
+        "armour_class_touch": 14,
         "attr_cha": 15,
         "attr_con": 14,
         "attr_dex": 19,
@@ -8005,6 +8428,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 21,
+        "armour_class_flat": 17,
+        "armour_class_touch": 13,
         "attr_cha": 15,
         "attr_con": 18,
         "attr_dex": 17,
@@ -8066,6 +8492,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 20,
+        "armour_class_flat": 17,
+        "armour_class_touch": 13,
         "attr_cha": 13,
         "attr_con": 12,
         "attr_dex": 15,
@@ -8113,6 +8542,9 @@
     },
     {
         "alignment": "CN",
+        "armour_class": 23,
+        "armour_class_flat": 18,
+        "armour_class_touch": 14,
         "attr_cha": 16,
         "attr_con": 18,
         "attr_dex": 19,
@@ -8169,6 +8601,9 @@
     },
     {
         "alignment": "LN",
+        "armour_class": 20,
+        "armour_class_flat": 19,
+        "armour_class_touch": 10,
         "attr_cha": 15,
         "attr_con": 19,
         "attr_dex": 13,
@@ -8228,6 +8663,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 17,
+        "armour_class_flat": 15,
+        "armour_class_touch": 17,
         "attr_cha": 20,
         "attr_con": 10,
         "attr_dex": 12,
@@ -8277,6 +8715,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 14,
+        "armour_class_flat": 12,
+        "armour_class_touch": 12,
         "attr_cha": 14,
         "attr_con": 10,
         "attr_dex": 15,
@@ -8321,6 +8762,9 @@
     },
     {
         "alignment": "NG",
+        "armour_class": 25,
+        "armour_class_flat": 24,
+        "armour_class_touch": 9,
         "attr_cha": 12,
         "attr_con": 23,
         "attr_dex": 13,
@@ -8379,6 +8823,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 24,
+        "armour_class_flat": 24,
+        "armour_class_touch": 8,
         "attr_cha": 10,
         "attr_con": 21,
         "attr_dex": 9,
@@ -8442,6 +8889,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 21,
+        "armour_class_flat": 21,
+        "armour_class_touch": 8,
         "attr_cha": 11,
         "attr_con": 20,
         "attr_dex": 9,
@@ -8504,6 +8954,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 21,
+        "armour_class_flat": 21,
+        "armour_class_touch": 8,
         "attr_cha": 7,
         "attr_con": 19,
         "attr_dex": 8,
@@ -8557,6 +9010,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 22,
+        "armour_class_flat": 20,
+        "armour_class_touch": 11,
         "attr_cha": 10,
         "attr_con": 19,
         "attr_dex": 15,
@@ -8612,6 +9068,9 @@
     },
     {
         "alignment": "CG",
+        "armour_class": 28,
+        "armour_class_flat": 26,
+        "armour_class_touch": 10,
         "attr_cha": 15,
         "attr_con": 23,
         "attr_dex": 14,
@@ -8673,6 +9132,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 19,
+        "armour_class_flat": 16,
+        "armour_class_touch": 13,
         "attr_cha": 12,
         "attr_con": 24,
         "attr_dex": 17,
@@ -8720,6 +9182,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 18,
+        "armour_class_flat": 15,
+        "armour_class_touch": 12,
         "attr_cha": 7,
         "attr_con": 18,
         "attr_dex": 17,
@@ -8770,6 +9235,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 15,
+        "armour_class_flat": 15,
+        "armour_class_touch": 10,
         "attr_cha": 8,
         "attr_con": 13,
         "attr_dex": 10,
@@ -8811,6 +9279,9 @@
     },
     {
         "alignment": "NE",
+        "armour_class": 16,
+        "armour_class_flat": 14,
+        "armour_class_touch": 13,
         "attr_cha": 6,
         "attr_con": 12,
         "attr_dex": 15,
@@ -8852,6 +9323,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 13,
+        "armour_class_flat": 11,
+        "armour_class_touch": 12,
         "attr_cha": 8,
         "attr_con": 15,
         "attr_dex": 14,
@@ -8893,6 +9367,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 24,
+        "armour_class_flat": 24,
+        "armour_class_touch": 8,
         "attr_cha": 1,
         "attr_con": 10,
         "attr_dex": 9,
@@ -8938,6 +9415,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 20,
+        "armour_class_flat": 20,
+        "armour_class_touch": 8,
         "attr_cha": 1,
         "attr_con": 10,
         "attr_dex": 9,
@@ -8982,6 +9462,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 17,
+        "armour_class_touch": 9,
         "attr_cha": 1,
         "attr_con": 10,
         "attr_dex": 9,
@@ -9032,6 +9515,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 28,
+        "armour_class_flat": 28,
+        "armour_class_touch": 8,
         "attr_cha": 1,
         "attr_con": 10,
         "attr_dex": 9,
@@ -9076,6 +9562,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 26,
+        "armour_class_flat": 26,
+        "armour_class_touch": 8,
         "attr_cha": 1,
         "attr_con": 10,
         "attr_dex": 9,
@@ -9120,6 +9609,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 19,
+        "armour_class_flat": 16,
+        "armour_class_touch": 13,
         "attr_cha": 1,
         "attr_con": 10,
         "attr_dex": 17,
@@ -9166,6 +9658,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 20,
+        "armour_class_flat": 20,
+        "armour_class_touch": 9,
         "attr_cha": 9,
         "attr_con": 24,
         "attr_dex": 10,
@@ -9216,6 +9711,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 5,
+        "armour_class_flat": 5,
+        "armour_class_touch": 5,
         "attr_cha": 1,
         "attr_con": 26,
         "attr_dex": 1,
@@ -9252,6 +9750,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 19,
+        "armour_class_flat": 18,
+        "armour_class_touch": 11,
         "attr_cha": 14,
         "attr_con": 12,
         "attr_dex": 12,
@@ -9296,6 +9797,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 15,
+        "armour_class_touch": 11,
         "attr_cha": 8,
         "attr_con": 16,
         "attr_dex": 15,
@@ -9345,6 +9849,9 @@
     },
     {
         "alignment": "CG",
+        "armour_class": 17,
+        "armour_class_flat": 13,
+        "armour_class_touch": 13,
         "attr_cha": 26,
         "attr_con": 20,
         "attr_dex": 19,
@@ -9411,6 +9918,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 17,
+        "armour_class_flat": 15,
+        "armour_class_touch": 11,
         "attr_cha": 10,
         "attr_con": 19,
         "attr_dex": 14,
@@ -9479,6 +9989,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 16,
+        "armour_class_flat": 13,
+        "armour_class_touch": 13,
         "attr_cha": 17,
         "attr_con": 10,
         "attr_dex": 15,
@@ -9526,6 +10039,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 16,
+        "armour_class_flat": 15,
+        "armour_class_touch": 11,
         "attr_cha": 6,
         "attr_con": 15,
         "attr_dex": 13,
@@ -9578,6 +10094,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 24,
+        "armour_class_flat": 22,
+        "armour_class_touch": 11,
         "attr_cha": 6,
         "attr_con": 21,
         "attr_dex": 15,
@@ -9635,6 +10154,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 16,
+        "armour_class_flat": 14,
+        "armour_class_touch": 12,
         "attr_cha": 8,
         "attr_con": 16,
         "attr_dex": 15,
@@ -9677,6 +10199,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 11,
+        "armour_class_flat": 9,
+        "armour_class_touch": 11,
         "attr_cha": 7,
         "attr_con": 17,
         "attr_dex": 14,
@@ -9718,6 +10243,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 11,
+        "armour_class_flat": 10,
+        "armour_class_touch": 11,
         "attr_cha": 4,
         "attr_con": 14,
         "attr_dex": 13,
@@ -9758,6 +10286,9 @@
     },
     {
         "alignment": "NE",
+        "armour_class": 16,
+        "armour_class_flat": 14,
+        "armour_class_touch": 12,
         "attr_cha": 10,
         "attr_con": 10,
         "attr_dex": 14,
@@ -9812,6 +10343,9 @@
     },
     {
         "alignment": "NE",
+        "armour_class": 12,
+        "armour_class_flat": 12,
+        "armour_class_touch": 10,
         "attr_cha": 10,
         "attr_con": 10,
         "attr_dex": 10,
@@ -9854,6 +10388,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 14,
+        "armour_class_touch": 9,
         "attr_cha": 9,
         "attr_con": 18,
         "attr_dex": 12,
@@ -9898,6 +10435,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 12,
+        "armour_class_touch": 12,
         "attr_cha": 6,
         "attr_con": 15,
         "attr_dex": 15,
@@ -9936,6 +10476,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 13,
+        "armour_class_touch": 11,
         "attr_cha": 6,
         "attr_con": 15,
         "attr_dex": 15,
@@ -9976,6 +10519,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 22,
+        "armour_class_flat": 16,
+        "armour_class_touch": 17,
         "attr_cha": 17,
         "attr_con": 21,
         "attr_dex": 23,
@@ -10029,6 +10575,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 20,
+        "armour_class_flat": 16,
+        "armour_class_touch": 14,
         "attr_cha": 11,
         "attr_con": 22,
         "attr_dex": 19,
@@ -10078,6 +10627,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 15,
+        "armour_class_flat": 14,
+        "armour_class_touch": 12,
         "attr_cha": 8,
         "attr_con": 10,
         "attr_dex": 13,
@@ -10119,6 +10671,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 20,
+        "armour_class_flat": 16,
+        "armour_class_touch": 13,
         "attr_cha": 13,
         "attr_con": 14,
         "attr_dex": 16,
@@ -10175,6 +10730,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 11,
+        "armour_class_flat": 10,
+        "armour_class_touch": 11,
         "attr_cha": 1,
         "attr_con": 14,
         "attr_dex": 12,
@@ -10216,6 +10774,9 @@
     },
     {
         "alignment": "NE",
+        "armour_class": 23,
+        "armour_class_flat": 21,
+        "armour_class_touch": 14,
         "attr_cha": 16,
         "attr_con": 10,
         "attr_dex": 14,
@@ -10276,6 +10837,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 29,
+        "armour_class_flat": 25,
+        "armour_class_touch": 10,
         "attr_cha": 21,
         "attr_con": 25,
         "attr_dex": 18,
@@ -10348,6 +10912,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 32,
+        "armour_class_flat": 26,
+        "armour_class_touch": 8,
         "attr_cha": 23,
         "attr_con": 29,
         "attr_dex": 22,
@@ -10421,6 +10988,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 36,
+        "armour_class_flat": 28,
+        "armour_class_touch": 10,
         "attr_cha": 27,
         "attr_con": 32,
         "attr_dex": 26,
@@ -10500,6 +11070,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 12,
+        "armour_class_touch": 12,
         "attr_cha": 6,
         "attr_con": 15,
         "attr_dex": 17,
@@ -10548,6 +11121,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 13,
+        "armour_class_touch": 11,
         "attr_cha": 10,
         "attr_con": 17,
         "attr_dex": 15,
@@ -10597,6 +11173,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 17,
+        "armour_class_touch": 10,
         "attr_cha": 10,
         "attr_con": 13,
         "attr_dex": 10,
@@ -10650,6 +11229,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 18,
+        "armour_class_flat": 17,
+        "armour_class_touch": 10,
         "attr_cha": 10,
         "attr_con": 19,
         "attr_dex": 13,
@@ -10698,6 +11280,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 13,
+        "armour_class_touch": 12,
         "attr_cha": 6,
         "attr_con": 17,
         "attr_dex": 15,
@@ -10737,6 +11322,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 17,
+        "armour_class_flat": 15,
+        "armour_class_touch": 11,
         "attr_cha": 9,
         "attr_con": 18,
         "attr_dex": 15,
@@ -10786,6 +11374,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 14,
+        "armour_class_touch": 10,
         "attr_cha": 11,
         "attr_con": 16,
         "attr_dex": 13,
@@ -10826,6 +11417,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 15,
+        "armour_class_flat": 13,
+        "armour_class_touch": 12,
         "attr_cha": 15,
         "attr_con": 18,
         "attr_dex": 15,
@@ -10873,6 +11467,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 14,
+        "armour_class_touch": 14,
         "attr_cha": 14,
         "attr_con": 12,
         "attr_dex": 15,
@@ -10920,6 +11517,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 13,
+        "armour_class_flat": 12,
+        "armour_class_touch": 11,
         "attr_cha": 10,
         "attr_con": 14,
         "attr_dex": 13,
@@ -10961,6 +11561,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 16,
+        "armour_class_flat": 15,
+        "armour_class_touch": 11,
         "attr_cha": 10,
         "attr_con": 17,
         "attr_dex": 12,
@@ -11008,6 +11611,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 12,
+        "armour_class_flat": 11,
+        "armour_class_touch": 12,
         "attr_cha": 8,
         "attr_con": 11,
         "attr_dex": 13,
@@ -11053,6 +11659,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 23,
+        "armour_class_flat": 18,
+        "armour_class_touch": 15,
         "attr_cha": 14,
         "attr_con": 10,
         "attr_dex": 19,
@@ -11106,6 +11715,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 20,
+        "armour_class_flat": 20,
+        "armour_class_touch": 10,
         "attr_cha": 15,
         "attr_con": 10,
         "attr_dex": 10,
@@ -11155,6 +11767,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 22,
+        "armour_class_flat": 16,
+        "armour_class_touch": 15,
         "attr_cha": 17,
         "attr_con": 18,
         "attr_dex": 21,
@@ -11207,6 +11822,9 @@
     },
     {
         "alignment": "LG",
+        "armour_class": 24,
+        "armour_class_flat": 18,
+        "armour_class_touch": 15,
         "attr_cha": 18,
         "attr_con": 20,
         "attr_dex": 23,
@@ -11253,6 +11871,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 23,
+        "armour_class_flat": 18,
+        "armour_class_touch": 14,
         "attr_cha": 17,
         "attr_con": 21,
         "attr_dex": 20,
@@ -11298,6 +11919,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 30,
+        "armour_class_flat": 30,
+        "armour_class_touch": 4,
         "attr_cha": 21,
         "attr_con": 24,
         "attr_dex": 7,
@@ -11349,6 +11973,9 @@
     },
     {
         "alignment": "NE",
+        "armour_class": 19,
+        "armour_class_flat": 17,
+        "armour_class_touch": 11,
         "attr_cha": 12,
         "attr_con": 16,
         "attr_dex": 15,
@@ -11401,6 +12028,9 @@
     },
     {
         "alignment": "CG",
+        "armour_class": 23,
+        "armour_class_flat": 17,
+        "armour_class_touch": 23,
         "attr_cha": 25,
         "attr_con": 18,
         "attr_dex": 21,
@@ -11447,6 +12077,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 4,
+        "armour_class_flat": 4,
+        "armour_class_touch": 4,
         "attr_cha": 1,
         "attr_con": 22,
         "attr_dex": 1,
@@ -11486,6 +12119,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 12,
+        "armour_class_touch": 14,
         "attr_cha": 3,
         "attr_con": 14,
         "attr_dex": 17,
@@ -11532,6 +12168,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 18,
+        "armour_class_flat": 16,
+        "armour_class_touch": 11,
         "attr_cha": 3,
         "attr_con": 17,
         "attr_dex": 15,
@@ -11586,6 +12225,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 17,
+        "armour_class_flat": 17,
+        "armour_class_touch": 8,
         "attr_cha": 7,
         "attr_con": 15,
         "attr_dex": 8,
@@ -11630,6 +12272,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 21,
+        "armour_class_flat": 18,
+        "armour_class_touch": 12,
         "attr_cha": 17,
         "attr_con": 23,
         "attr_dex": 17,
@@ -11681,6 +12326,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 13,
+        "armour_class_flat": 13,
+        "armour_class_touch": 10,
         "attr_cha": 6,
         "attr_con": 12,
         "attr_dex": 11,
@@ -11719,6 +12367,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 17,
+        "armour_class_touch": 9,
         "attr_cha": 6,
         "attr_con": 13,
         "attr_dex": 10,
@@ -11770,6 +12421,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 14,
+        "armour_class_touch": 10,
         "attr_cha": 10,
         "attr_con": 18,
         "attr_dex": 12,
@@ -11818,6 +12472,9 @@
     },
     {
         "alignment": "CG",
+        "armour_class": 14,
+        "armour_class_flat": 12,
+        "armour_class_touch": 11,
         "attr_cha": 13,
         "attr_con": 16,
         "attr_dex": 15,
@@ -11866,6 +12523,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 14,
+        "armour_class_touch": 12,
         "attr_cha": 10,
         "attr_con": 16,
         "attr_dex": 17,
@@ -11908,6 +12568,9 @@
     },
     {
         "alignment": "NG",
+        "armour_class": 28,
+        "armour_class_flat": 20,
+        "armour_class_touch": 14,
         "attr_cha": 22,
         "attr_con": 20,
         "attr_dex": 25,
@@ -11976,6 +12639,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 38,
+        "armour_class_flat": 29,
+        "armour_class_touch": 18,
         "attr_cha": 26,
         "attr_con": 35,
         "attr_dex": 29,
@@ -12060,6 +12726,9 @@
     },
     {
         "alignment": "NG",
+        "armour_class": 18,
+        "armour_class_flat": 12,
+        "armour_class_touch": 17,
         "attr_cha": 16,
         "attr_con": 12,
         "attr_dex": 21,
@@ -12105,6 +12774,9 @@
     },
     {
         "alignment": "NG",
+        "armour_class": 16,
+        "armour_class_flat": 14,
+        "armour_class_touch": 14,
         "attr_cha": 10,
         "attr_con": 13,
         "attr_dex": 15,
@@ -12155,6 +12827,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 26,
+        "armour_class_flat": 26,
+        "armour_class_touch": 4,
         "attr_cha": 8,
         "attr_con": 25,
         "attr_dex": 6,
@@ -12207,6 +12882,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 11,
+        "armour_class_touch": 14,
         "attr_cha": 4,
         "attr_con": 13,
         "attr_dex": 17,
@@ -12246,6 +12924,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 20,
+        "armour_class_flat": 19,
+        "armour_class_touch": 9,
         "attr_cha": 10,
         "attr_con": 21,
         "attr_dex": 13,
@@ -12295,6 +12976,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 16,
+        "armour_class_flat": 16,
+        "armour_class_touch": 9,
         "attr_cha": 5,
         "attr_con": 19,
         "attr_dex": 10,
@@ -12336,6 +13020,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 19,
+        "armour_class_flat": 19,
+        "armour_class_touch": 9,
         "attr_cha": 3,
         "attr_con": 21,
         "attr_dex": 10,
@@ -12378,6 +13065,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 27,
+        "armour_class_flat": 26,
+        "armour_class_touch": 10,
         "attr_cha": 12,
         "attr_con": 29,
         "attr_dex": 13,
@@ -12434,6 +13124,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 18,
+        "armour_class_flat": 15,
+        "armour_class_touch": 13,
         "attr_cha": 8,
         "attr_con": 13,
         "attr_dex": 17,
@@ -12479,6 +13172,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 16,
+        "armour_class_flat": 15,
+        "armour_class_touch": 11,
         "attr_cha": 9,
         "attr_con": 14,
         "attr_dex": 13,
@@ -12538,6 +13234,9 @@
     },
     {
         "alignment": "CN",
+        "armour_class": 18,
+        "armour_class_flat": 15,
+        "armour_class_touch": 13,
         "attr_cha": 19,
         "attr_con": 15,
         "attr_dex": 15,
@@ -12589,6 +13288,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 16,
+        "armour_class_flat": 16,
+        "armour_class_touch": 9,
         "attr_cha": 2,
         "attr_con": 16,
         "attr_dex": 10,
@@ -12635,6 +13337,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 16,
+        "armour_class_flat": 13,
+        "armour_class_touch": 13,
         "attr_cha": 15,
         "attr_con": 18,
         "attr_dex": 16,
@@ -12679,6 +13384,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 25,
+        "armour_class_flat": 23,
+        "armour_class_touch": 8,
         "attr_cha": 11,
         "attr_con": 25,
         "attr_dex": 14,
@@ -12740,6 +13448,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 15,
+        "armour_class_flat": 12,
+        "armour_class_touch": 15,
         "attr_cha": 15,
         "attr_con": 10,
         "attr_dex": 14,
@@ -12785,6 +13496,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 18,
+        "armour_class_flat": 12,
+        "armour_class_touch": 18,
         "attr_cha": 15,
         "attr_con": 10,
         "attr_dex": 20,
@@ -12833,6 +13547,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 19,
+        "armour_class_flat": 19,
+        "armour_class_touch": 9,
         "attr_cha": 9,
         "attr_con": 17,
         "attr_dex": 10,
@@ -12884,6 +13601,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 13,
+        "armour_class_touch": 10,
         "attr_cha": 2,
         "attr_con": 13,
         "attr_dex": 12,
@@ -12927,6 +13647,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 23,
+        "armour_class_flat": 21,
+        "armour_class_touch": 8,
         "attr_cha": 10,
         "attr_con": 17,
         "attr_dex": 15,
@@ -12977,6 +13700,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 16,
+        "armour_class_flat": 14,
+        "armour_class_touch": 13,
         "attr_cha": 6,
         "attr_con": 13,
         "attr_dex": 15,
@@ -13020,6 +13746,9 @@
     },
     {
         "alignment": "CN",
+        "armour_class": 33,
+        "armour_class_flat": 26,
+        "armour_class_touch": 15,
         "attr_cha": 13,
         "attr_con": 31,
         "attr_dex": 24,
@@ -13094,6 +13823,9 @@
     },
     {
         "alignment": "NE",
+        "armour_class": 21,
+        "armour_class_flat": 20,
+        "armour_class_touch": 11,
         "attr_cha": 12,
         "attr_con": 10,
         "attr_dex": 13,
@@ -13141,6 +13873,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 20,
+        "armour_class_flat": 20,
+        "armour_class_touch": 4,
         "attr_cha": 1,
         "attr_con": 18,
         "attr_dex": 2,
@@ -13182,6 +13917,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 12,
+        "armour_class_touch": 13,
         "attr_cha": 2,
         "attr_con": 12,
         "attr_dex": 17,
@@ -13221,6 +13959,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 13,
+        "armour_class_touch": 11,
         "attr_cha": 2,
         "attr_con": 14,
         "attr_dex": 13,
@@ -13260,6 +14001,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 15,
+        "armour_class_flat": 12,
+        "armour_class_touch": 15,
         "attr_cha": 15,
         "attr_con": 10,
         "attr_dex": 16,
@@ -13304,6 +14048,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 21,
+        "armour_class_flat": 20,
+        "armour_class_touch": 10,
         "attr_cha": 19,
         "attr_con": 16,
         "attr_dex": 13,
@@ -13351,6 +14098,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 11,
+        "armour_class_touch": 13,
         "attr_cha": 2,
         "attr_con": 12,
         "attr_dex": 17,
@@ -13390,6 +14140,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 16,
+        "armour_class_flat": 12,
+        "armour_class_touch": 16,
         "attr_cha": 6,
         "attr_con": 10,
         "attr_dex": 19,
@@ -13431,6 +14184,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 11,
+        "armour_class_touch": 15,
         "attr_cha": 8,
         "attr_con": 14,
         "attr_dex": 15,
@@ -13476,6 +14232,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 20,
+        "armour_class_flat": 18,
+        "armour_class_touch": 20,
         "attr_cha": 2,
         "attr_con": 10,
         "attr_dex": 15,
@@ -13519,6 +14278,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 16,
+        "armour_class_flat": 14,
+        "armour_class_touch": 16,
         "attr_cha": 4,
         "attr_con": 11,
         "attr_dex": 15,
@@ -13566,6 +14328,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 18,
+        "armour_class_flat": 14,
+        "armour_class_touch": 18,
         "attr_cha": 2,
         "attr_con": 8,
         "attr_dex": 19,
@@ -13612,6 +14377,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 18,
+        "armour_class_flat": 16,
+        "armour_class_touch": 16,
         "attr_cha": 2,
         "attr_con": 13,
         "attr_dex": 14,
@@ -13657,6 +14425,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 18,
+        "armour_class_flat": 14,
+        "armour_class_touch": 18,
         "attr_cha": 2,
         "attr_con": 15,
         "attr_dex": 18,
@@ -13699,6 +14470,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 12,
+        "armour_class_touch": 14,
         "attr_cha": 2,
         "attr_con": 13,
         "attr_dex": 15,
@@ -13743,6 +14517,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 14,
+        "armour_class_touch": 17,
         "attr_cha": 2,
         "attr_con": 10,
         "attr_dex": 17,
@@ -13787,6 +14564,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 14,
+        "armour_class_touch": 15,
         "attr_cha": 9,
         "attr_con": 10,
         "attr_dex": 13,
@@ -13829,6 +14609,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 40,
+        "armour_class_flat": 37,
+        "armour_class_touch": 5,
         "attr_cha": 14,
         "attr_con": 34,
         "attr_dex": 16,
@@ -13919,6 +14702,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 12,
+        "armour_class_touch": 13,
         "attr_cha": 8,
         "attr_con": 12,
         "attr_dex": 17,
@@ -13966,6 +14752,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 12,
+        "armour_class_touch": 11,
         "attr_cha": 6,
         "attr_con": 17,
         "attr_dex": 15,
@@ -14014,6 +14803,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 15,
+        "armour_class_touch": 11,
         "attr_cha": 10,
         "attr_con": 17,
         "attr_dex": 15,
@@ -14066,6 +14858,9 @@
     },
     {
         "alignment": "NG",
+        "armour_class": 21,
+        "armour_class_flat": 21,
+        "armour_class_touch": 7,
         "attr_cha": 13,
         "attr_con": 21,
         "attr_dex": 8,
@@ -14121,6 +14916,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 15,
+        "armour_class_flat": 15,
+        "armour_class_touch": 9,
         "attr_cha": 11,
         "attr_con": 14,
         "attr_dex": 9,
@@ -14183,6 +14981,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 16,
+        "armour_class_flat": 14,
+        "armour_class_touch": 11,
         "attr_cha": 6,
         "attr_con": 23,
         "attr_dex": 14,
@@ -14235,6 +15036,9 @@
     },
     {
         "alignment": "CG",
+        "armour_class": 15,
+        "armour_class_flat": 12,
+        "armour_class_touch": 12,
         "attr_cha": 24,
         "attr_con": 16,
         "attr_dex": 17,
@@ -14289,6 +15093,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 23,
+        "armour_class_flat": 18,
+        "armour_class_touch": 17,
         "attr_cha": 26,
         "attr_con": 10,
         "attr_dex": 18,
@@ -14353,6 +15160,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 16,
+        "armour_class_flat": 14,
+        "armour_class_touch": 13,
         "attr_cha": 11,
         "attr_con": 12,
         "attr_dex": 14,
@@ -14405,6 +15215,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 15,
+        "armour_class_flat": 15,
+        "armour_class_touch": 9,
         "attr_cha": 9,
         "attr_con": 16,
         "attr_dex": 8,
@@ -14444,6 +15257,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 13,
+        "armour_class_touch": 10,
         "attr_cha": 11,
         "attr_con": 18,
         "attr_dex": 12,
@@ -14482,6 +15298,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 17,
+        "armour_class_flat": 16,
+        "armour_class_touch": 11,
         "attr_cha": 8,
         "attr_con": 14,
         "attr_dex": 13,
@@ -14527,6 +15346,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 15,
+        "armour_class_flat": 14,
+        "armour_class_touch": 11,
         "attr_cha": 15,
         "attr_con": 10,
         "attr_dex": 12,
@@ -14566,6 +15388,9 @@
     },
     {
         "alignment": "CE",
+        "armour_class": 26,
+        "armour_class_flat": 16,
+        "armour_class_touch": 26,
         "attr_cha": 14,
         "attr_con": 10,
         "attr_dex": 29,
@@ -14613,6 +15438,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 12,
+        "armour_class_touch": 12,
         "attr_cha": 6,
         "attr_con": 15,
         "attr_dex": 15,
@@ -14651,6 +15479,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 12,
+        "armour_class_touch": 11,
         "attr_cha": 10,
         "attr_con": 17,
         "attr_dex": 15,
@@ -14692,6 +15523,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 12,
+        "armour_class_touch": 12,
         "attr_cha": 10,
         "attr_con": 15,
         "attr_dex": 15,
@@ -14738,6 +15572,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 16,
+        "armour_class_flat": 13,
+        "armour_class_touch": 12,
         "attr_cha": 10,
         "attr_con": 17,
         "attr_dex": 17,
@@ -14786,6 +15623,9 @@
     },
     {
         "alignment": "NE",
+        "armour_class": 14,
+        "armour_class_flat": 12,
+        "armour_class_touch": 12,
         "attr_cha": 10,
         "attr_con": 13,
         "attr_dex": 15,
@@ -14826,6 +15666,9 @@
     },
     {
         "alignment": "NE",
+        "armour_class": 17,
+        "armour_class_flat": 16,
+        "armour_class_touch": 10,
         "attr_cha": 10,
         "attr_con": 18,
         "attr_dex": 13,
@@ -14878,6 +15721,9 @@
     },
     {
         "alignment": "LE",
+        "armour_class": 18,
+        "armour_class_flat": 15,
+        "armour_class_touch": 18,
         "attr_cha": 21,
         "attr_con": 10,
         "attr_dex": 16,
@@ -14924,6 +15770,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 19,
+        "armour_class_flat": 18,
+        "armour_class_touch": 10,
         "attr_cha": 9,
         "attr_con": 18,
         "attr_dex": 12,
@@ -14983,6 +15832,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 14,
+        "armour_class_flat": 12,
+        "armour_class_touch": 12,
         "attr_cha": 8,
         "attr_con": 16,
         "attr_dex": 15,
@@ -15022,6 +15874,9 @@
     },
     {
         "alignment": "N",
+        "armour_class": 17,
+        "armour_class_flat": 16,
+        "armour_class_touch": 10,
         "attr_cha": 10,
         "attr_con": 15,
         "attr_dex": 12,

@@ -23,13 +23,13 @@ struct ItemData
 struct WeaponData
 {
     std::string itemName;
-    std::string weaponClass;
     DiceRoll damage;
     WeaponProficiency proficiency;
     int critLower;
     int critMult;
     std::string damageType;
     std::string specials;
+    WeaponType weaponType;  // Ranged or Melee
 };
 
 struct ArmourData
@@ -43,6 +43,14 @@ struct ArmourData
     int speed20;
     int speed30;
     std::string armourType;
+};
+
+struct CreatureAttack
+{
+    std::string name;
+    DiceRoll stats;
+    int toHit;
+    int count;
 };
 
 struct CreatureData
@@ -77,6 +85,8 @@ struct CreatureData
     std::vector<std::string> feats;
     std::vector<std::string> senses;
     std::vector<std::string> immune;
+
+    std::vector<CreatureAttack> attacks;
 
     int speed;
 

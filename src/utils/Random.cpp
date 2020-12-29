@@ -29,7 +29,7 @@ int RandomInterface::diceRoll(int dcount, int dsize)
 
 int RandomInterface::diceRoll(const DiceRoll &roll)
 {
-    return diceRoll(roll.diceCount, roll.diceSize);
+    return diceRoll(roll.diceCount, roll.diceSize) + roll.modifier;
 }
 
 int RandomInterface::diceRoll(int size)

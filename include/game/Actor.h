@@ -52,6 +52,7 @@ public:
 
     // Meta
     std::string const& getName() const;
+    CreatureSize getSize();
 
     // Stats
     AbilityScoreBlock& abilityScores();
@@ -65,6 +66,7 @@ public:
     // Weapons
     Weapon const& getActiveWeapon() const;
     Weapon const& getNaturalWeapon() const;
+    float getReach() const;
 
     // Movement
     int getSpeed() const;
@@ -81,6 +83,7 @@ private:
 
     // Info
     const std::string m_name;
+    CreatureSize m_size;
 
     // Stats
     AbilityScoreBlock m_abilityScores;

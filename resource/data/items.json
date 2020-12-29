@@ -140,15 +140,6 @@
     "weight": 50
   },
   {
-    "description": "An arrow used as a melee weapon is treated as a light improvised weapon (-4 penalty on attack rolls) and deals damage as a dagger of its size (critical multiplier x2). Arrows come in a leather quiver that holds 20 arrows.",
-    "item_type": "ammo",
-    "name": "Arrows",
-    "price": 100,
-    "sprite_name": "Ammo_015",
-    "sprite_sheet": "dawnlike_items",
-    "weight": 3
-  },
-  {
     "description": "These special tools include the items needed to pursue any craft. Without them, you have to use improvised tools (-2 penalty on Craft checks), if you can do the job at all.",
     "item_type": "gear",
     "name": "Artisan's Tools",
@@ -465,15 +456,6 @@
     "weight": 2
   },
   {
-    "description": "A crossbow bolt used as a melee weapon is treated as a light improvised weapon (-4 penalty on attack rolls) and deals damage as a dagger of its size (crit x2). Bolts come in a case or quiver that holds 10 bolts (or 5, for a repeating crossbow). ",
-    "item_type": "ammo",
-    "name": "Bolts",
-    "price": 100,
-    "sprite_name": "Ammo_019",
-    "sprite_sheet": "dawnlike_items",
-    "weight": 1
-  },
-  {
     "aura_strength": "strong",
     "aura_value": "unknown",
     "cl": "18th",
@@ -728,15 +710,6 @@
     "name": "Buckler",
     "price": 500,
     "sprite_name": "Shield_001",
-    "sprite_sheet": "dawnlike_items",
-    "weight": 5
-  },
-  {
-    "description": "Bullets are shaped metal balls, designed to be used by a sling or halfling sling staff. Bullets come in a leather pouch that holds 10 bullets.",
-    "item_type": "ammo",
-    "name": "Sling Bullets",
-    "price": 10,
-    "sprite_name": "Ammo_006",
     "sprite_sheet": "dawnlike_items",
     "weight": 5
   },

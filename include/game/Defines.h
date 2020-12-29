@@ -108,8 +108,7 @@ enum class WeaponHandedness
 enum class WeaponType
 {
     Melee,
-    Ranged,
-    Ammo
+    Ranged
 };
 
 enum class WeaponProficiency
@@ -186,12 +185,11 @@ enum class DamageSuperType
 
 struct DiceRoll
 {
+    DiceRoll() : diceCount(0), diceSize(0), modifier(0) {}
+    DiceRoll(int dcount, int dsize) : diceCount(dcount), diceSize(dsize), modifier(0) {}
+    DiceRoll(int dcount, int dsize, int mod) : diceCount(dcount), diceSize(dsize), modifier(mod) {}
+
     int diceCount;
     int diceSize;
-};
-
-struct CritData
-{
-    int lowerRange;
-    int multiplier;
+    int modifier;
 };

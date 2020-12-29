@@ -1,4 +1,7 @@
-#include <game/EnumParse.h>
+#include <game/GameParse.h>
+
+#include <regex>
+
 #include <utils/Assert.h>
 #include <fmt/format.h>
 
@@ -199,4 +202,39 @@ ElementalDamageType EnumParse::elementalDamageType( std::string const& input )
 
     AssertAlwaysMsg( fmt::format( "Unexpected inpit: '{}'", input ) );
     return ElementalDamageType::Fire;
+}
+
+
+
+DiceRoll parseDiceRoll(const std::string &input)
+{
+    std::regex r( R"(^(\d+)d(\d+)(?:([+-])(\d+))?$)" );
+    std::smatch m;
+
+    std::regex_match(input, m, r);
+
+    if ( m[4].matched )
+    {
+        int dcount = std::stoi( m[1] );
+        int dsize = std::stoi( m[2] );
+        int dmod = std::stoi( m[4] );
+
+        if ( m[3] == "-" )
+        {
+            dmod *= -1;
+        }
+
+        return DiceRoll{ dcount, dsize, dmod };
+    }
+    else if ( m[1].matched )
+    {
+        int dcount = std::stoi( m[1] );
+        int dsize = std::stoi( m[2] );
+        return DiceRoll{ dcount, dsize };
+    }
+    else
+    {
+        AssertAlwaysMsg( fmt::format("Unexpected dice roll: '{}'", input ) );
+        return DiceRoll{0, 0};
+    }
 }

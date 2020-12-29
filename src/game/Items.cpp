@@ -3,22 +3,19 @@
 #include <utils/Logging.h>
 #include <game/RawData.h>
 #include <game/ResourceDatabase.h>
-#include <game/EnumParse.h>
+#include <game/GameParse.h>
 
 
 // Weapons
 // --------------------------------------
 
 Weapon::Weapon(WeaponData const& rawData)
+    :   m_critRange(rawData.critLower),
+        m_critMultiplier(rawData.critMult),
+        m_baseDamage(rawData.damage),
+        m_proficiency(rawData.proficiency),
+        m_weaponType(rawData.weaponType)
 {
-    initFromData( rawData );
-}
-
-void Weapon::initFromData(WeaponData const &rawData)
-{
-    m_critData = {rawData.critLower, rawData.critMult };
-    m_baseDamage = rawData.damage;
-    m_proficiency = rawData.proficiency;
 }
 
 Weapon Weapon::fromName(std::string_view name)
@@ -42,31 +39,31 @@ WeaponProficiency Weapon::proficiency() const
     return m_proficiency;
 }
 
-CritData const &Weapon::critData() const
-{
-    return m_critData;
-}
-
 DiceRoll const &Weapon::damage() const
 {
     return m_baseDamage;
 }
 
-float Weapon::getReach() const
+int Weapon::critMultiplier() const
 {
-    return 1.5f;
+    return m_critMultiplier;
+}
+
+int Weapon::critRange() const
+{
+    return m_critRange;
 }
 
 
 const Weapon WeaponUnarmedAttack = { WeaponData {
     "Unarmed",
-    "One-Handed Melee",
     DiceRoll{1, 3},
     WeaponProficiency::Simple,
     20,
     2,
     "",
-    ""
+    "",
+    WeaponType::Melee
 }};
 
 

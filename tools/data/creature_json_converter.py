@@ -19,6 +19,25 @@ def main():
             new_item = {}
 
             if "ac" in item:
+                ac_str = item["ac"]
+                ac_m = re.search(r"^(\d+)", ac_str)
+                if ac_m:
+                    new_item["armour_class"] = int(ac_m.group(1))
+                else:
+                    raise
+
+                touch_ac_m = re.search( r"touch (\d+)", ac_str )
+                if touch_ac_m:
+                    new_item["armour_class_touch"] = int(touch_ac_m.group(1))
+                else:
+                    raise
+
+                flat_ac_m = re.search( r"flat-footed (\d+)", ac_str )
+                if flat_ac_m:
+                    new_item["armour_class_flat"] = int(flat_ac_m.group(1))
+                else:
+                    raise
+
                 del(item["ac"])
 
             new_item["attr_str"] = item["strength"]
@@ -168,6 +187,8 @@ def main():
 
 
     NEW_JSON_PATH.write_text( json.dumps(new_json, indent=4, sort_keys=True) )
+
+    pprint.pprint(debug_set)
 
 
 if __name__ == "__main__":

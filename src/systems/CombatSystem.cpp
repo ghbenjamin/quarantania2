@@ -21,7 +21,7 @@ void CombatSystem::accept(GameEvents::CombatMeleeAttack *evt)
 
     // Did we hit?
 
-    if (attackRoll >= weapon.critData().lowerRange)
+    if ( attackRoll >= weapon.critRange() )
     {
         isHit = true;
         isCrit = true;
@@ -45,7 +45,7 @@ void CombatSystem::accept(GameEvents::CombatMeleeAttack *evt)
 
     if (isCrit)
     {
-        damageRoll *= weapon.critData().multiplier;
+        damageRoll *= weapon.critMultiplier();
     }
 
     Damage dmg;

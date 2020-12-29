@@ -72,7 +72,8 @@ Actor::Actor(CreatureData const& rcd)
       rcd.attrInt, rcd.attrWis, rcd.attrCha),
       m_HpMax(rcd.maxHP),
       m_HpCurrent(rcd.maxHP),
-      m_baseSpeed(rcd.speed)
+      m_baseSpeed(rcd.speed),
+      m_size(rcd.size)
 {
 }
 
@@ -82,7 +83,8 @@ Actor::Actor(PlayerData const &pdata)
         pdata.attrInt, pdata.attrWis, pdata.attrCha),
       m_HpMax(pdata.maxHP),
       m_HpCurrent(pdata.maxHP),
-      m_baseSpeed(pdata.baseSpeed)
+      m_baseSpeed(pdata.baseSpeed),
+      m_size(CreatureSize::Medium)
 {
 }
 
@@ -205,4 +207,14 @@ int Actor::getAC() const
 int Actor::getSpeed() const
 {
     return m_baseSpeed;
+}
+
+CreatureSize Actor::getSize()
+{
+    return m_size;
+}
+
+float Actor::getReach() const
+{
+    return 1.5f;
 }
