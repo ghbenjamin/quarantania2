@@ -17,7 +17,7 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
 
     PCData p1;
     p1.name = "Angus MacKenzie";
-    p1.alignment = Alignment::TN;
+    p1.alignment = DnDAlignment::TN;
     p1.race = "Human";
     p1.clazz = "Fighter";
     p1.sprite = { "dawnlike_chars", "Player_001" };
@@ -31,7 +31,7 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
 
     PCData p2;
     p2.name = "Gwendlyn Di Corci";
-    p2.alignment = Alignment::TN;
+    p2.alignment = DnDAlignment::TN;
     p2.race = "Human";
     p2.clazz = "Fighter";
     p2.sprite = { "dawnlike_chars", "Player_003" };

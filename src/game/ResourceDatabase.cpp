@@ -1,10 +1,8 @@
 #include <game/ResourceDatabase.h>
 #include <exception>
 #include <utils/Logging.h>
-#include <utils/Assert.h>
 #include <utils/Json.h>
-#include <utils/Random.h>
-#include <game/Items.h>
+#include <game/EnumParse.h>
 
 ResourceDatabase::ResourceDatabase()
 {
@@ -37,7 +35,7 @@ WeaponData ResourceDatabase::weaponFromName(std::string_view name)
     return WeaponData( *it );
 }
 
-RawCreatureData ResourceDatabase::creatureFromName(std::string_view name)
+CreatureData ResourceDatabase::creatureFromName(std::string_view name)
 {
     auto it = std::find_if( m_creatureData.begin(), m_creatureData.end(),
             [name](auto const& item){
@@ -45,7 +43,7 @@ RawCreatureData ResourceDatabase::creatureFromName(std::string_view name)
             });
 
     AssertMsg( it != m_creatureData.end(), fmt::format("Unknown creature '{}'", name)  );
-    return RawCreatureData( *it );
+    return CreatureData( *it );
 }
 
 RawPlayerRaceData ResourceDatabase::playerRaceFromName(std::string_view name)
@@ -108,17 +106,29 @@ void ResourceDatabase::loadAllCreatureData()
     rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/creatures.json" );
     for ( auto const& cr_raw : doc.GetArray() )
     {
-        RawCreatureData rcd;
+        CreatureData rcd;
         auto cr = cr_raw.GetObject();
 
         rcd.name = cr.FindMember( "name" )->value.GetString();
-        rcd.xp = cr.FindMember( "xp" )->value.GetInt();
-        rcd.hp = cr.FindMember( "hp" )->value.GetInt();
-        rcd.alignment = cr.FindMember( "alignment" )->value.GetString();
+        rcd.alignment = EnumParse::alignment(cr.FindMember("alignment")->value.GetString());
         rcd.creatureType = cr.FindMember("creature_type" )->value.GetString();
+        rcd.sprite = { cr.FindMember( "sprite" )->value.GetString() };
 
-        rcd.sprite = { cr.FindMember( "sprite_sheet" )->value.GetString(),
-                       cr.FindMember( "sprite_name" )->value.GetString()};
+        rcd.experience = cr.FindMember( "xp" )->value.GetInt();
+        rcd.maxHP = cr.FindMember( "hp" )->value.GetInt();
+        rcd.attrStr = cr.FindMember("attr_str")->value.GetInt();
+        rcd.attrDex = cr.FindMember("attr_dex")->value.GetInt();
+        rcd.attrCon = cr.FindMember("attr_con")->value.GetInt();
+        rcd.attrInt = cr.FindMember("attr_int")->value.GetInt();
+        rcd.attrWis = cr.FindMember("attr_wis")->value.GetInt();
+        rcd.attrCha = cr.FindMember("attr_cha")->value.GetInt();
+        rcd.saveFort = cr.FindMember("save_fort")->value.GetInt();
+        rcd.saveRef = cr.FindMember("save_ref")->value.GetInt();
+        rcd.saveWill = cr.FindMember("save_will")->value.GetInt();
+        rcd.baseAttackBonus = cr.FindMember("base_attack")->value.GetInt();
+        rcd.combatManeuverBonus = cr.FindMember("cmb")->value.GetInt();
+        rcd.combatManeuverDefence = cr.FindMember("cmd")->value.GetInt();
+        rcd.initiative = cr.FindMember("initative")->value.GetInt();
 
         if ( cr.HasMember("description") )
         {
@@ -127,52 +137,69 @@ void ResourceDatabase::loadAllCreatureData()
 
         if ( cr.HasMember("creature_subtype") )
         {
-            rcd.creatureSubtype = cr.FindMember("creature_subtype" )->value.GetString();
+            auto subtypeArr = cr.FindMember("creature_subtype" )->value.GetArray();
+            for ( auto const& stype : subtypeArr )
+            {
+                rcd.creatureSubtypes.emplace_back( stype.GetString() );
+            }
         }
 
-        if ( cr.HasMember("dr") )
+        if ( cr.HasMember("damage_resistance") )
         {
-            rcd.damageResist = cr.FindMember( "dr" )->value.GetString();
+            for (auto const& dr : cr.FindMember("damage_resistance")->value.GetObject() )
+            {
+                std::string k = dr.name.GetString();
+                int v = dr.value.GetInt();
+                rcd.damageResistance[k] = v;
+            }
+        }
+
+        if ( cr.HasMember("elemental_resistance") )
+        {
+            for (auto const& dr : cr.FindMember("elemental_resistance")->value.GetObject() )
+            {
+                ElementalDamageType k = EnumParse::elementalDamageType( dr.name.GetString() );
+                int v = dr.value.GetInt();
+                rcd.elementalResistance[k] = v;
+            }
         }
 
         if ( cr.HasMember("feats") )
         {
-            rcd.feats = cr.FindMember( "feats" )->value.GetString();
+            auto featsArr = cr.FindMember("feats" )->value.GetArray();
+            for ( auto const& feat : featsArr )
+            {
+                rcd.feats.emplace_back( feat.GetString() );
+            }
         }
 
         if ( cr.HasMember("immune") )
         {
-            rcd.immune = cr.FindMember( "immune" )->value.GetString();
+            auto immuneArr = cr.FindMember( "immune" )->value.GetArray();
+            for ( auto const& immune : immuneArr )
+            {
+                rcd.immune.emplace_back( immune.GetString() );
+            }
         }
 
-        if ( cr.HasMember("languages") )
-        {
-            rcd.languages = cr.FindMember( "languages" )->value.GetString();
-        }
-
-        if ( cr.HasMember("resist") )
-        {
-            rcd.resist = cr.FindMember( "resist" )->value.GetString();
-        }
         if ( cr.HasMember("senses") )
         {
-            rcd.senses = cr.FindMember( "senses" )->value.GetString();
+            auto sensesArr = cr.FindMember( "senses" )->value.GetArray();
+            for ( auto const& senses : sensesArr )
+            {
+                rcd.senses.emplace_back( senses.GetString() );
+            }
         }
 
-        rcd.attrStr = cr.FindMember("strength")->value.GetInt();
-        rcd.attrDex = cr.FindMember("dexterity")->value.GetInt();
-        rcd.attrCon = cr.FindMember("constitution")->value.GetInt();
-        rcd.attrInt = cr.FindMember("intelligence")->value.GetInt();
-        rcd.attrWis = cr.FindMember("wisdom")->value.GetInt();
-        rcd.attrCha = cr.FindMember("charisma")->value.GetInt();
+        if ( cr.HasMember("weaknesses") )
+        {
+            auto weaknessArr = cr.FindMember( "weaknesses" )->value.GetArray();
+            for ( auto const& weakness : weaknessArr )
+            {
+                rcd.senses.emplace_back( EnumParse::elementalDamageType( weakness.GetString() ) );
+            }
+        }
 
-        rcd.saveFort = cr.FindMember("fortitude")->value.GetInt();
-        rcd.saveRef = cr.FindMember("reflex")->value.GetInt();
-        rcd.saveWill = cr.FindMember("will")->value.GetInt();
-
-        rcd.bab = cr.FindMember("base_attack")->value.GetInt();
-        rcd.cmb = cr.FindMember("cmb")->value.GetInt();
-        rcd.cmd = cr.FindMember("cmd")->value.GetInt();
 
         m_creatureData.push_back( std::move(rcd) );
     }
@@ -350,147 +377,7 @@ void ResourceDatabase::loadAllPlayerData()
     }
 }
 
-Alignment ResourceDatabase::parseAlignmentFromStr(std::string_view sv)
-{
-    if ( sv == "LG" )
-    {
-        return Alignment::LG;
-    }
-    else if ( sv == "NG" )
-    {
-        return Alignment::NG;
-    }
-    else if ( sv == "CG" )
-    {
-        return Alignment::CG;
-    }
-    else if ( sv == "LN" )
-    {
-        return Alignment::LN;
-    }
-    else if ( sv == "N" )
-    {
-        return Alignment::TN;
-    }
-    else if ( sv == "CN" )
-    {
-        return Alignment::CN;
-    }
-    else if ( sv == "LE" )
-    {
-        return Alignment::LE;
-    }
-    else if ( sv == "NE" )
-    {
-        return Alignment::NE;
-    }
-    else if ( sv == "CE" )
-    {
-        return Alignment::CE;
-    }
-    else
-    {
-        AssertAlwaysMsg( fmt::format( "Unexpected alignment: '{}'", sv ) );
-        return Alignment::TN;
-    }
-}
 
-EquipSlot ResourceDatabase::parseEquipSlotFromStr(std::string_view sv)
-{
-    if ( sv == "armor" )
-    {
-        return EquipSlot::Armor;
-    }
-    else if ( sv == "arms" )
-    {
-        return EquipSlot::Arms;
-    }
-    else if ( sv == "belt" )
-    {
-        return EquipSlot::Belt;
-    }
-    else if ( sv == "body" )
-    {
-        return EquipSlot::Body;
-    }
-    else if ( sv == "chest" )
-    {
-        return EquipSlot::Chest;
-    }
-    else if ( sv == "eyes" )
-    {
-        return EquipSlot::Eyes;
-    }
-    else if ( sv == "feet" )
-    {
-        return EquipSlot::Feet;
-    }
-    else if ( sv == "hands" )
-    {
-        return EquipSlot::Hands;
-    }
-    else if ( sv == "head" )
-    {
-        return EquipSlot::Head;
-    }
-    else if ( sv == "headband" )
-    {
-        return EquipSlot::Headband;
-    }
-    else if ( sv == "neck" )
-    {
-        return EquipSlot::Neck;
-    }
-    else if ( sv == "ring" )
-    {
-        return EquipSlot::Ring;
-    }
-    else if ( sv == "shield" )
-    {
-        return EquipSlot::Shield;
-    }
-    else if ( sv == "shoulders" )
-    {
-        return EquipSlot::Shoulders;
-    }
-    else if ( sv == "wrists" )
-    {
-        return EquipSlot::Wrists;
-    }
-    else if ( sv == "weapon" )
-    {
-        return EquipSlot::Weapon;
-    }
-    else
-    {
-        return EquipSlot::None;
-    }
-}
-
-ArmourType ResourceDatabase::parseArmourTypeFromStr(std::string_view sv)
-{
-    if ( sv == "Light armor" )
-    {
-        return ArmourType::Light;
-    }
-    else if ( sv == "Medium armor" )
-    {
-        return ArmourType::Medium;
-    }
-    else if ( sv == "Heavy armor" )
-    {
-        return ArmourType::Heavy;
-    }
-    if ( sv == "Shields" )
-    {
-        return ArmourType::Shield;
-    }
-    else
-    {
-        AssertAlwaysMsg( "Unknown armour type" );
-        return ArmourType::Light;
-    }
-}
 
 void ResourceDatabase::loadAllObjectData()
 {

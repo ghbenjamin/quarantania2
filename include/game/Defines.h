@@ -2,6 +2,10 @@
 
 #include <iostream>
 
+// Level Properties
+// --------------------------------------
+
+
 enum class Passibility
 {
     Passable,
@@ -19,17 +23,9 @@ enum class Visibility
 using LightLevel = std::uint8_t;
 
 
-struct DiceRoll
-{
-    int diceCount;
-    int diceSize;
-};
 
-struct CritData
-{
-    int lowerRange;
-    int multiplier;
-};
+// Creature Properties
+// --------------------------------------
 
 enum class AbilityScoreType
 {
@@ -41,7 +37,7 @@ enum class AbilityScoreType
     CHA
 };
 
-enum class Alignment
+enum class DnDAlignment
 {
     LG,
     NG,
@@ -53,6 +49,22 @@ enum class Alignment
     NE,
     CE
 };
+
+enum class CreatureSize
+{
+    Tiny,
+    Small,
+    Medium,
+    Large,
+    Huge,
+    Gargantuan,
+    Colossal
+};
+
+
+// Item Properties
+// --------------------------------------
+
 
 enum class ItemType
 {
@@ -133,4 +145,53 @@ enum class ArmourType
     Medium,
     Light,
     Shield
+};
+
+
+
+// Damage Properties
+// --------------------------------------
+
+enum class DamageType
+{
+    Untyped,
+    Elemental,
+    Force,
+    Energy,
+    Alignment,
+    Poison,
+    Mental,
+    Nonlethal,
+    Precision
+};
+
+enum class ElementalDamageType
+{
+    Fire,
+    Cold,
+    Electricity,
+    Acid
+};
+
+enum class DamageSuperType
+{
+    Magical,
+    Physical
+};
+
+
+
+// Misc Properties
+// --------------------------------------
+
+struct DiceRoll
+{
+    int diceCount;
+    int diceSize;
+};
+
+struct CritData
+{
+    int lowerRange;
+    int multiplier;
 };

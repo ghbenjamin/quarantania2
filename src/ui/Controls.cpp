@@ -118,9 +118,10 @@ UI::Button::Button(Manager *manager, Element *parent, const std::string &text, s
     });
 }
 
-// Button
-// ---------------------------------------
 
+
+// Icon
+// ---------------------------------------
 
 Icon::Icon(Manager *manager, Element *parent, const Sprite &img)
         : Element(manager, parent), m_sprite(img)

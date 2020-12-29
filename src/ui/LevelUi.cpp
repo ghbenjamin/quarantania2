@@ -17,18 +17,7 @@ UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, 
 
     // Colour the widget based on the type of actor
     auto actorC = manager->level()->ecs().getComponents<ActorComponent>(ref);
-    if ( actorC->actorType == ActorType::PC )
-    {
-        setBackgroundColour( Colour(0, 153, 255, 220) );
-    }
-    else if (actorC->actorType == ActorType::NPC)
-    {
-        setBackgroundColour( Colour(255, 102, 102, 220) );
-    }
-    else
-    {
-        setBackgroundColour( Colour::Grey );
-    }
+    setBackgroundColour( Colour::Grey );
     
     // Add the icon of the entity
     auto iconSprite = manager->level()->ecs().getComponents<RenderComponent>(ref)->sprites[0];

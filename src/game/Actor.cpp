@@ -66,15 +66,23 @@ AbilityScore& AbilityScoreBlock::getScore(AbilityScoreType type)
 // ---------------------------------------------
 
 
-Actor::Actor(RawCreatureData const& rcd)
+Actor::Actor(CreatureData const& rcd)
     : m_name(rcd.name),
-      m_abilityScores(rcd.attrStr, rcd.attrDex, rcd.attrCon, rcd.attrInt, rcd.attrWis, rcd.attrCha)
+      m_abilityScores(rcd.attrStr, rcd.attrDex, rcd.attrCon,
+      rcd.attrInt, rcd.attrWis, rcd.attrCha),
+      m_HpMax(rcd.maxHP),
+      m_HpCurrent(rcd.maxHP),
+      m_baseSpeed(rcd.speed)
 {
 }
 
 Actor::Actor(PlayerData const &pdata)
     : m_name(pdata.name),
-      m_abilityScores(pdata.attrStr, pdata.attrDex, pdata.attrCon, pdata.attrInt, pdata.attrWis, pdata.attrCha)
+      m_abilityScores(pdata.attrStr, pdata.attrDex, pdata.attrCon,
+        pdata.attrInt, pdata.attrWis, pdata.attrCha),
+      m_HpMax(pdata.maxHP),
+      m_HpCurrent(pdata.maxHP),
+      m_baseSpeed(pdata.baseSpeed)
 {
 }
 
@@ -192,4 +200,9 @@ int Actor::getAC() const
     }
 
     return dexToAc + armourAC + shieldAC + 10;
+}
+
+int Actor::getSpeed() const
+{
+    return m_baseSpeed;
 }

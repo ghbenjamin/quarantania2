@@ -166,8 +166,11 @@ Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
             case VAlignment::Centre:
                 c->setLocalPosition({ pos.x(), pos.y() + (h / 2) - (size.y() / 2) });
                 break;
+
+            // For fill we change the (vertical) size of the child based on the current size of the parent
+
             case VAlignment::Fill:
-                AssertNotImplemented();
+                c->setPreferredOuterSize({size.x(), h});
                 break;
         }
     }

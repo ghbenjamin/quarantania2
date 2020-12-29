@@ -74,6 +74,8 @@ public:
     bool isComplete() const;
     void setComplete();
 
+    void pushLogLine( std::string const& text, Colour const& colour = Colour::Black );
+
     std::string_view getDescriptionForEnt( EntityRef ent );
     std::string_view getDescriptionForItem( ItemPtr item );
 
@@ -99,6 +101,11 @@ private:
 
     // Game logic methods
     void generateTurnOrder();
+
+    // Misc methods
+
+    // Centre the camera on the centroid of the positions of all party members
+    void centerCameraOnParty();
 
 
     // Misc

@@ -16,7 +16,7 @@ struct PlayerData
     std::string name;
     std::string race;
     std::string clazz;
-    Alignment alignment;
+    DnDAlignment alignment;
     SpritesheetKey sprite;
 
     int level;
@@ -51,7 +51,7 @@ struct PCData
     std::string name;
     std::string race;
     std::string clazz;
-    Alignment alignment;
+    DnDAlignment alignment;
     SpritesheetKey sprite;
 
     int attrStr;

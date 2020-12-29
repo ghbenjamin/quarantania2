@@ -21,18 +21,14 @@ public:
 
     ~ResourceDatabase() = default;
 
-    ItemData itemFromName(std::string_view name );
-    WeaponData weaponFromName(std::string_view name );
-    ArmourData armourFromName(std::string_view name );
-    RawCreatureData creatureFromName( std::string_view name );
+    ItemData itemFromName( std::string_view name );
+    WeaponData weaponFromName (std::string_view name );
+    ArmourData armourFromName( std::string_view name );
+    CreatureData creatureFromName( std::string_view name );
     RawPlayerRaceData playerRaceFromName( std::string_view name );
     RawPlayerClassData playerClassFromName( std::string_view name );
     RawObjectData objectFromName( std::string_view name );
-    RawActionData actionFromId(std::string_view id );
-
-    static Alignment parseAlignmentFromStr( std::string_view sv );
-    static EquipSlot parseEquipSlotFromStr( std::string_view sv );
-    static ArmourType parseArmourTypeFromStr( std::string_view sv );
+    RawActionData actionFromId( std::string_view id );
 
 private:
     ResourceDatabase();
@@ -44,7 +40,7 @@ private:
     void loadAllActionData( );
 
 
-    std::vector<RawCreatureData> m_creatureData;
+    std::vector<CreatureData> m_creatureData;
     std::vector<ItemData> m_itemData;
     std::vector<WeaponData> m_weaponData;
     std::vector<ArmourData> m_armourData;

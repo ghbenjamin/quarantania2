@@ -45,18 +45,18 @@ struct ArmourData
     std::string armourType;
 };
 
-struct RawCreatureData
+struct CreatureData
 {
     std::string name;
     std::string description;
 
-    int xp;
-    int hp;
-    std::string alignment;
-    std::string size;
+    int experience;
+    int maxHP;
+    DnDAlignment alignment;
+    CreatureSize size;
 
     std::string creatureType;
-    std::string creatureSubtype;
+    std::vector<std::string> creatureSubtypes;
 
     int saveFort;
     int saveRef;
@@ -69,20 +69,20 @@ struct RawCreatureData
     int attrCha;
 
     int reach;
-    std::string damageResist;
-    std::string feats;
-    std::string immune;
-    std::string languages;
-    std::string resist;
-    std::string senses;
+    int initiative;
 
-    int speedLand;
-    int speedFly;
-    int speedSwim;
+    std::unordered_map<std::string, int> damageResistance;
+    std::unordered_map<ElementalDamageType, int> elementalResistance;
+    std::vector<ElementalDamageType> weaknesses;
+    std::vector<std::string> feats;
+    std::vector<std::string> senses;
+    std::vector<std::string> immune;
 
-    int cmd;
-    int cmb;
-    int bab;
+    int speed;
+
+    int combatManeuverDefence;
+    int combatManeuverBonus;
+    int baseAttackBonus;
 
     SpritesheetKey sprite;
 };

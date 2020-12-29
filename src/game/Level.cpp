@@ -10,6 +10,7 @@
 #include <ui/TextLog.h>
 #include <ui/LevelUi.h>
 #include <utils/GlobalConfig.h>
+#include <utils/Math.h>
 
 
 
@@ -33,6 +34,8 @@ void Level::setReady()
     generateTurnOrder();
     m_gevents.broadcast<GameEvents::TurnChange>(EntityNull, m_currentTurnEntity);
     m_gevents.broadcast<GameEvents::LevelReady>();
+
+    centerCameraOnParty();
 }
 
 bool Level::input(IEvent &evt)
@@ -157,6 +160,9 @@ void Level::setupUI()
     // Widget containing icons representing actions which can be taken
     auto actionMenu = m_uiManager.createElement<UI::ActionMenu>(nullptr);
     m_uiManager.alignElementToWindow( actionMenu, UI::Alignment::BottomLeft, {20, -20} );
+
+    auto textLog = m_uiManager.createElement<UI::MainTextLog>(nullptr);
+    m_uiManager.alignElementToWindow( textLog, UI::Alignment::BottomRight, {-20, -20} );
 }
 
 void Level::layoutWindows()
@@ -303,7 +309,7 @@ std::vector<std::shared_ptr<GameAction>> Level::actionsForActor(EntityRef actor)
 
     out.push_back( GameAction::construct(
         Action(this, "move"),
-        std::make_shared<ActionMoveStride>( this, actor, 5 ),
+        std::make_shared<ActionMoveStride>( this, actor, cActor->actor.getSpeed() ),
         TargetingType::SingleTile
     ));
 
@@ -326,7 +332,6 @@ std::vector<std::shared_ptr<GameAction>> Level::actionsForActor(EntityRef actor)
             TargetingType::SingleEntity
     ));
 
-
     return out;
 }
 
@@ -338,6 +343,29 @@ std::vector<std::shared_ptr<GameAction>> Level::actionsForCurrentActor()
 LevelController* Level::controller()
 {
     return m_controllers.back().get();
+}
+
+void Level::pushLogLine(const std::string &text, const Colour &colour)
+{
+    auto textLog = m_uiManager.withId<UI::MainTextLog>("main-text-log");
+    textLog->addLine(text, colour);
+}
+
+void Level::centerCameraOnParty()
+{
+    std::vector<Vector2i> points;
+    auto const& positions = ecs().entitiesWith<PositionComponent, ActorComponent>();
+
+    for (auto const& [pos, actor] : positions )
+    {
+        if (actor->actorType == ActorType::PC)
+        {
+            points.push_back( pos->tilePosition );
+        }
+    }
+
+    Vector2f centre = findCentroid( points );
+    m_camera.centreOnTile( centre.convert<int>() );
 }
 
 

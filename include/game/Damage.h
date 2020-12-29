@@ -1,32 +1,6 @@
 #pragma once
 
-
-enum class DamageType
-{
-    Untyped,
-    Elemental,
-    Force,
-    Energy,
-    Alignment,
-    Poison,
-    Mental,
-    Nonlethal,
-    Precision
-};
-
-enum class ElementalDamageType
-{
-    Fire,
-    Cold,
-    Electricity,
-    Acid
-};
-
-enum class DamageSuperType
-{
-     Magical,
-     Physical
-};
+#include <game/Defines.h>
 
 struct DamageInstance
 {

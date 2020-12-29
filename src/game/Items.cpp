@@ -3,6 +3,7 @@
 #include <utils/Logging.h>
 #include <game/RawData.h>
 #include <game/ResourceDatabase.h>
+#include <game/EnumParse.h>
 
 
 // Weapons
@@ -115,7 +116,7 @@ void Item::initFromData(ItemData const &rawData)
     m_weight = rawData.weight;
     m_sprite = rawData.sprite;
     m_description = rawData.description;
-    m_equipSlot = ResourceDatabase::parseEquipSlotFromStr( rawData.slot );
+    m_equipSlot = EnumParse::equipSlot(rawData.slot);
 
     if (rawData.itemType == "armour" )
     {
@@ -220,7 +221,7 @@ void Armour::initFromData(ArmourData const &rawData)
     m_speed20 = rawData.speed20;
     m_speed30 = rawData.speed30;
     m_armourCheck = rawData.armourCheck;
-    m_armourType = ResourceDatabase::parseArmourTypeFromStr(rawData.armourType);
+    m_armourType = EnumParse::armourType(rawData.armourType);
 }
 
 ArmourType Armour::armourType() const
@@ -260,5 +261,5 @@ int Armour::speed20() const
 
 int Armour::speed30() const
 {
-    return m_speed30 ;
+    return m_speed30;
 }

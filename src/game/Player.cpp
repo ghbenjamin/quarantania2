@@ -36,5 +36,7 @@ PlayerData PCData::generateNewPlayer() const
     pd.maxHP = classData.hitDie;
     pd.currHP = pd.maxHP;
 
+    pd.baseSpeed = 6;
+
     return pd;
 }

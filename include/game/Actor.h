@@ -5,7 +5,7 @@
 #include <game/Items.h>
 #include <game/Action.h>
 
-struct RawCreatureData;
+struct CreatureData;
 struct PlayerData;
 struct Damage;
 
@@ -47,7 +47,7 @@ class Actor
 public:
 
     Actor( PlayerData const& pdata );
-    Actor( RawCreatureData const& data );
+    Actor( CreatureData const& data );
     ~Actor() = default;
 
     // Meta
@@ -66,6 +66,9 @@ public:
     Weapon const& getActiveWeapon() const;
     Weapon const& getNaturalWeapon() const;
 
+    // Movement
+    int getSpeed() const;
+
     // Health
     int getCurrentHp() const;
     int getMaxHp() const;
@@ -81,6 +84,7 @@ private:
 
     // Stats
     AbilityScoreBlock m_abilityScores;
+    int m_baseSpeed;
 
     // Health
     int m_HpCurrent;
