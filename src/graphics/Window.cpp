@@ -57,3 +57,8 @@ const Vector2i Window::getSize() const
 
     return Vector2i{w, h};
 }
+
+Cursor &Window::cursor()
+{
+    return m_cursor;
+}

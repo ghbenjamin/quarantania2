@@ -149,8 +149,14 @@ UI::ActionMenu::ActionMenu(UI::Manager *manager, UI::Element *parent)
             SpritesheetKey{"game_icons", "light-backpack"}, RawActionDataType::Item);
 }
 
-void UI::ActionMenu::onSpawnItemHover(RawActionDataType category)
+void UI::ActionMenu::onSpawnItemMouseIn(RawActionDataType category)
 {
+    ResourceManager::get().getWindow()->cursor().setCursorType( CursorType::Interact );
+}
+
+void UI::ActionMenu::onSpawnItemMouseOut(RawActionDataType category)
+{
+    ResourceManager::get().getWindow()->cursor().resetCursor();
 }
 
 void UI::ActionMenu::onSpawnItemClick(RawActionDataType category)
@@ -265,6 +271,8 @@ void UI::ActionMenu::closeMenu()
     }
 }
 
+
+
 UI::ActionMenuSpawnItem::ActionMenuSpawnItem(UI::Manager *manager, UI::Element *parent,
      std::string const& name, SpritesheetKey const& icon, RawActionDataType category)
     : Element(manager, parent), m_name(name), m_category(category), m_isDisabled(true)
@@ -283,7 +291,14 @@ UI::ActionMenuSpawnItem::ActionMenuSpawnItem(UI::Manager *manager, UI::Element *
     addEventCallback( UEventType::MouseIn, [this](UEvent& evt) {
         if (!m_isDisabled)
         {
-            this->parent()->asType<UI::ActionMenu>()->onSpawnItemHover(m_category);
+            this->parent()->asType<UI::ActionMenu>()->onSpawnItemMouseIn(m_category);
+        }
+    });
+
+    addEventCallback( UEventType::MouseOut, [this](UEvent& evt) {
+        if (!m_isDisabled)
+        {
+            this->parent()->asType<UI::ActionMenu>()->onSpawnItemMouseOut(m_category);
         }
     });
 

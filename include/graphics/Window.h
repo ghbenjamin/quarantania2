@@ -1,8 +1,10 @@
 #pragma once
 
 #include <string>
+
 #include <utils/Containers.h>
 #include <graphics/Renderer.h>
+#include <graphics/Cursor.h>
 
 class Window
 {
@@ -16,8 +18,9 @@ public:
 
     SDL_Window* raw();
     RendererPtr const& renderer();
+    Cursor& cursor();
 
-     const Vector2i getSize() const;
+    const Vector2i getSize() const;
 
 private:
 
@@ -25,6 +28,7 @@ private:
     Vector2i m_size;
 
     RendererPtr m_renderer;
+    Cursor m_cursor;
 };
 
 

@@ -86,7 +86,8 @@ public:
     ActionMenu(Manager* manager, Element* parent);
     ~ActionMenu() override = default;
 
-    void onSpawnItemHover( RawActionDataType category );
+    void onSpawnItemMouseIn( RawActionDataType category );
+    void onSpawnItemMouseOut( RawActionDataType category );
     void onSpawnItemClick( RawActionDataType category );
 
     void refresh(EntityRef entity);
