@@ -4,18 +4,18 @@
 #include <game/GameEvent.h>
 #include <game/GameEventDefs.h>
 
-class CollisionSystem : public System,
-                        public GEventSub<GameEvents::EntityMove>,
-                        public GEventSub<GameEvents::EntityReady>,
-                        public GEventSub<GameEvents::EntityOpenClose>,
-                        public GEventSub<GameEvents::EntityDeath>
+class CollisionSystem : public System, public GameEventSub<CollisionSystem>
 {
 public:
     explicit CollisionSystem(Level *parent);
     ~CollisionSystem() override = default;
 
-    void accept(GameEvents::EntityMove *evt) override;
-    void accept(GameEvents::EntityReady *evt) override;
-    void accept(GameEvents::EntityOpenClose *evt) override;
-    void accept(GameEvents::EntityDeath *evt) override;
+    void operator()(GameEvents::EntityMove& evt);
+    void operator()(GameEvents::EntityReady& evt);
+    void operator()(GameEvents::EntityOpenClose& evt);
+    void operator()(GameEvents::EntityDeath& evt);
+
+    template <typename T>
+    void operator()(T&& t)
+    {}
 };

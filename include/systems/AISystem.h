@@ -4,12 +4,15 @@
 #include <game/GameEvent.h>
 #include <game/GameEventDefs.h>
 
-class AISystem : public System,
-                 public GEventSub<GameEvents::TurnChange>
+class AISystem : public System, public GameEventSub<AISystem>
 {
 public:
     explicit AISystem(Level *parent);
     ~AISystem() override = default;
 
-    void accept(GameEvents::TurnChange *evt) override;
+    void operator()(GameEvents::TurnChange& evt);
+
+    template <typename T>
+    void operator()(T&& t)
+    {}
 };

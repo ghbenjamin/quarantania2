@@ -16,47 +16,47 @@ UISystem::UISystem(Level *parent)
     m_level->events().subscribe<GameEvents::ControllerEntitySelected>(this, GEventTiming::After );
 }
 
-void UISystem::accept(GameEvents::LevelReady *evt)
+void UISystem::operator()(GameEvents::LevelReady& evt)
 {
     auto turnOrder = m_level->ui().withId<UI::TurnOrderContainer>( "turn-order-container" );
     turnOrder->reloadEntities();
 }
 
-void UISystem::accept(GameEvents::EntityMove *evt)
+void UISystem::operator()(GameEvents::EntityMove& evt)
 {
 
 }
 
-void UISystem::accept(GameEvents::ItemPickup *evt)
-{
-    
-}
-
-void UISystem::accept(GameEvents::ItemDrop *evt)
+void UISystem::operator()(GameEvents::ItemPickup& evt)
 {
     
 }
 
-void UISystem::accept(GameEvents::ItemEquip *evt)
+void UISystem::operator()(GameEvents::ItemDrop& evt)
 {
     
 }
 
-void UISystem::accept(GameEvents::ItemUnequip *evt)
+void UISystem::operator()(GameEvents::ItemEquip& evt)
 {
     
 }
 
-void UISystem::accept(GameEvents::TurnChange *evt)
+void UISystem::operator()(GameEvents::ItemUnequip& evt)
+{
+    
+}
+
+void UISystem::operator()(GameEvents::TurnChange& evt)
 {
     auto turnOrder = m_level->ui().withId<UI::TurnOrderContainer>( "turn-order-container" );
     turnOrder->refresh();
 }
 
-void UISystem::accept(GameEvents::ControllerEntitySelected *evt)
+void UISystem::operator()(GameEvents::ControllerEntitySelected& evt)
 {
     // We've selected an entity - update our UI to match
     auto actionMenu = m_level->ui().withId<UI::ActionMenu>( "action-menu" );
     actionMenu->closeMenu();
-    actionMenu->refresh(evt->entity);
+    actionMenu->refresh(evt.entity);
 }

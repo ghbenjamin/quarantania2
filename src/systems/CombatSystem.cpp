@@ -9,10 +9,10 @@ CombatSystem::CombatSystem(Level *parent)
     m_level->events().subscribe<GameEvents::CombatMeleeAttack>(this, GEventTiming::Before);
 }
 
-void CombatSystem::accept(GameEvents::CombatMeleeAttack *evt)
+void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
 {
-    auto aAttacker = m_level->ecs().getComponents<ActorComponent>(evt->attacker)->actor;
-    auto aDefender = m_level->ecs().getComponents<ActorComponent>(evt->defender)->actor;
+    auto aAttacker = m_level->ecs().getComponents<ActorComponent>(evt.attacker)->actor;
+    auto aDefender = m_level->ecs().getComponents<ActorComponent>(evt.defender)->actor;
     auto const& weapon = aAttacker.getActiveWeapon();
 
     int attackRoll = m_level->random().diceRoll(20);
@@ -53,7 +53,7 @@ void CombatSystem::accept(GameEvents::CombatMeleeAttack *evt)
     dmg.instances.push_back( dmgInstance );
 
     // Actually deal the damage
-    acceptDamage( dmg, evt->defender );
+    acceptDamage( dmg, evt.defender );
 }
 
 void CombatSystem::acceptDamage(const Damage& dmg, EntityRef ref)

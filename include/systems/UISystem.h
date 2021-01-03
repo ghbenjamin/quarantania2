@@ -5,27 +5,23 @@
 #include <game/GameEventDefs.h>
 #include <resource/Sprite.h>
 
-class UISystem : public System,
-                 public GEventSub<GameEvents::LevelReady>,
-                 public GEventSub<GameEvents::EntityMove>,
-                 public GEventSub<GameEvents::ItemEquip>,
-                 public GEventSub<GameEvents::ItemUnequip>,
-                 public GEventSub<GameEvents::ItemPickup>,
-                 public GEventSub<GameEvents::ItemDrop>,
-                 public GEventSub<GameEvents::TurnChange>,
-                 public GEventSub<GameEvents::ControllerEntitySelected>
+class UISystem : public System, public GameEventSub<UISystem>
 {
 public:
     explicit UISystem(Level *parent);
     ~UISystem() override = default;
 
-    void accept(GameEvents::LevelReady  *evt) override;
-    void accept(GameEvents::EntityMove  *evt) override;
-    void accept(GameEvents::ItemPickup  *evt) override;
-    void accept(GameEvents::ItemDrop    *evt) override;
-    void accept(GameEvents::ItemEquip   *evt) override;
-    void accept(GameEvents::ItemUnequip *evt) override;
-    void accept(GameEvents::TurnChange *evt) override;
+    void operator()(GameEvents::LevelReady& evt);
+    void operator()(GameEvents::EntityMove& evt);
+    void operator()(GameEvents::ItemPickup& evt);
+    void operator()(GameEvents::ItemDrop& evt);
+    void operator()(GameEvents::ItemEquip& evt);
+    void operator()(GameEvents::ItemUnequip& evt);
+    void operator()(GameEvents::TurnChange& evt);
 
-    void accept(GameEvents::ControllerEntitySelected *evt) override;
+    void operator()(GameEvents::ControllerEntitySelected& evt);
+
+    template <typename T>
+    void operator()(T&& t)
+    {}
 };

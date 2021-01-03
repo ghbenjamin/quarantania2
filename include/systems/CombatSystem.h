@@ -6,14 +6,17 @@
 
 class Actor;
 
-class CombatSystem : public System,
-                     public GEventSub<GameEvents::CombatMeleeAttack>
+class CombatSystem : public System, public GameEventSub<CombatSystem>
 {
 public:
     explicit CombatSystem(Level* parent);
     ~CombatSystem() override = default;
 
-    void accept(GameEvents::CombatMeleeAttack *evt) override;
+    void operator()(GameEvents::CombatMeleeAttack& evt);
+
+    template <typename T>
+    void operator()(T&& t)
+    {}
 
 private:
 

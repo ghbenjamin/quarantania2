@@ -7,7 +7,6 @@
 #include <systems/CombatSystem.h>
 #include <systems/FOVSystem.h>
 #include <systems/ItemSystem.h>
-#include <systems/MessageSystem.h>
 #include <systems/UISystem.h>
 #include <systems/PositionSystem.h>
 #include <systems/RenderSystem.h>
@@ -24,7 +23,6 @@ using AllSystems = SystemTypes<
     CombatSystem,
     FOVSystem,
     ItemSystem,
-    MessageSystem,
     UISystem,
     PositionSystem,
     RenderSystem,

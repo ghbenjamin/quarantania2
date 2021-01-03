@@ -18,35 +18,35 @@ FOVSystem::FOVSystem(Level *parent) : System(parent),
     m_level->events().subscribe<GameEvents::EntityOpenClose>(this );
 }
 
-void FOVSystem::accept(GameEvents::EntityMove *evt)
+void FOVSystem::operator()(GameEvents::EntityMove& evt)
 {
     recalculateFOV();
 }
 
 void FOVSystem::update(uint32_t ticks, RenderInterface &rInter)
 {
-    Vector2i currPos;
-
-    int tcount =  m_level->grid().bounds().area();
-    for ( int i = 0; i < tcount; i++ )
-    {
-        currPos = m_level->grid().idxToPos(i) * GlobalConfig::TileSizePx;
-        auto visibility = m_level->grid().fov().valueAt(i);
-
-        // If the current tile is hidden, block it out entirely with a black square. If the tile is explored
-        // but not visible, overlay it with a partially transparent black square (fog of war)
-        if ( visibility == Visibility::Hidden )
-        {
-            rInter.addWorldItem( m_fovHidden.renderObject(currPos) );
-        }
-        else if ( visibility == Visibility::Explored )
-        {
-            rInter.addWorldItem( m_fovFog.renderObject(currPos) );
-        }
-    }
+//    Vector2i currPos;
+//
+//    int tcount =  m_level->grid().bounds().area();
+//    for ( int i = 0; i < tcount; i++ )
+//    {
+//        currPos = m_level->grid().idxToPos(i) * GlobalConfig::TileSizePx;
+//        auto visibility = m_level->grid().fov().valueAt(i);
+//
+//        // If the current tile is hidden, block it out entirely with a black square. If the tile is explored
+//        // but not visible, overlay it with a partially transparent black square (fog of war)
+//        if ( visibility == Visibility::Hidden )
+//        {
+//            rInter.addWorldItem( m_fovHidden.renderObject(currPos) );
+//        }
+//        else if ( visibility == Visibility::Explored )
+//        {
+//            rInter.addWorldItem( m_fovFog.renderObject(currPos) );
+//        }
+//    }
 }
 
-void FOVSystem::accept(GameEvents::LevelReady *evt)
+void FOVSystem::operator()(GameEvents::LevelReady& evt)
 {
     // Remove this to turn off 'explored' mode
     m_level->grid().exploreAllTiles();
@@ -69,7 +69,7 @@ void FOVSystem::recalculateFOV()
     m_level->grid().calculateFOV(sources);
 }
 
-void FOVSystem::accept(GameEvents::EntityOpenClose *evt)
+void FOVSystem::operator()(GameEvents::EntityOpenClose& evt)
 {
     recalculateFOV();
 }

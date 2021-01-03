@@ -5,10 +5,7 @@
 #include <game/GameEventDefs.h>
 #include <resource/Sprite.h>
 
-class FOVSystem : public System,
-                  public GEventSub<GameEvents::EntityMove>,
-                  public GEventSub<GameEvents::LevelReady>,
-                  public GEventSub<GameEvents::EntityOpenClose>
+class FOVSystem : public System, public GameEventSub<FOVSystem>
 {
 public:
     explicit FOVSystem(Level *parent);
@@ -16,9 +13,13 @@ public:
 
     void update(uint32_t ticks, RenderInterface &rInter) override;
 
-    void accept(GameEvents::EntityMove *evt) override;
-    void accept(GameEvents::LevelReady *evt) override;
-    void accept(GameEvents::EntityOpenClose *evt) override;
+    void operator()(GameEvents::EntityMove& evt);
+    void operator()(GameEvents::LevelReady& evt);
+    void operator()(GameEvents::EntityOpenClose& evt);
+
+    template <typename T>
+    void operator()(T&& t)
+    {}
 
 private:
 

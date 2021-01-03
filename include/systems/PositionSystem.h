@@ -4,14 +4,19 @@
 #include <game/GameEvent.h>
 #include <game/GameEventDefs.h>
 
-class PositionSystem : public System,
-                       public GEventSub<GameEvents::EntityMove>,
-                       public GEventSub<GameEvents::EntityReady>
+
+class PositionSystem : public System, public GameEventSub<PositionSystem>
 {
 public:
     explicit PositionSystem(Level *parent);
     ~PositionSystem() override = default;
 
-    void accept(GameEvents::EntityMove *evt) override;
-    void accept(GameEvents::EntityReady *evt) override;
+    void operator()(GameEvents::EntityMove& evt);
+    void operator()(GameEvents::EntityReady& evt);
+
+    template <typename T>
+    void operator()(T&& t)
+    {
+        Logging::log( "F" );
+    }
 };

@@ -4,6 +4,8 @@
 #include <queue>
 
 #include <utils/Logging.h>
+#include <game/GameEventVariant.h>
+
 
 using GEventId = std::size_t;
 
@@ -27,6 +29,7 @@ protected:
     static GEventId m_globalId;
 };
 
+
 template <typename ET>
 class GameEvent : public GEventBase
 {
@@ -42,22 +45,30 @@ public:
     }
 };
 
+
+
 class GEventSubBase
 {
 public:
     GEventSubBase() = default;
     virtual ~GEventSubBase() = default;
+
+    virtual void accept( GameEventVariant& evt ) = 0;
+
 };
 
-template <typename ET>
-class GEventSub : virtual public GEventSubBase
+
+template <typename T>
+class GameEventSub : public GEventSubBase
 {
 public:
-    GEventSub() = default;
-    ~GEventSub() override = default;
-
-    virtual void accept( ET* evt ) = 0;
+    void accept( GameEventVariant& evt ) override
+    {
+        auto* ptr = static_cast<T*>(this);
+        std::visit(*ptr, evt);
+    }
 };
+
 
 struct GEventCallback
 {

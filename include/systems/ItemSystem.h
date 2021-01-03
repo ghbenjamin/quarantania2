@@ -6,20 +6,20 @@
 struct ContainerComponent;
 class Item;
 
-class ItemSystem : public System,
-                   public GEventSub<GameEvents::ItemPickup>,
-                   public GEventSub<GameEvents::ItemDrop>,
-                   public GEventSub<GameEvents::ItemUnequip>,
-                   public GEventSub<GameEvents::ItemEquip>
+class ItemSystem : public System, public GameEventSub<ItemSystem>
 {
 public:
     explicit ItemSystem(Level *parent);
     ~ItemSystem() override = default;
 
-    void accept(GameEvents::ItemPickup *evt) override;
-    void accept(GameEvents::ItemDrop *evt) override;
-    void accept(GameEvents::ItemEquip *evt) override;
-    void accept(GameEvents::ItemUnequip *evt) override;
+    void operator()(GameEvents::ItemPickup& evt);
+    void operator()(GameEvents::ItemDrop& evt);
+    void operator()(GameEvents::ItemEquip& evt);
+    void operator()(GameEvents::ItemUnequip& evt);
+
+    template <typename T>
+    void operator()(T&& t)
+    {}
 
 private:
 

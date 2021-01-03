@@ -8,9 +8,9 @@ AISystem::AISystem(Level *parent)
     m_level->events().subscribe<GameEvents::TurnChange>(this);
 }
 
-void AISystem::accept(GameEvents::TurnChange *evt)
+void AISystem::operator()(GameEvents::TurnChange& evt)
 {
-    if ( m_level->ecs().entityHas<AIComponent>(evt->current) )
+    if ( m_level->ecs().entityHas<AIComponent>(evt.current) )
     {
         // This is the turn of an AI - for now just skip it
         m_level->nextTurn();

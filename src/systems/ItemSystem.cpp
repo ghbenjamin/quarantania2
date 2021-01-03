@@ -15,46 +15,46 @@ ItemSystem::ItemSystem(Level *parent)
     m_level->events().subscribe<GameEvents::ItemUnequip>(this);
 }
 
-void ItemSystem::accept(GameEvents::ItemPickup *evt)
+void ItemSystem::operator()(GameEvents::ItemPickup& evt)
 {
-    auto cont = m_level->ecs().getComponents<ContainerComponent>(evt->actor);
-    auto item = m_level->ecs().getComponents<ItemComponent>(evt->item);
+    auto cont = m_level->ecs().getComponents<ContainerComponent>(evt.actor);
+    auto item = m_level->ecs().getComponents<ItemComponent>(evt.item);
 
     cont->items.push_back( item->item );
-    m_level->ecs().deleteEntity( evt->item );
+    m_level->ecs().deleteEntity( evt.item );
 }
 
-void ItemSystem::accept(GameEvents::ItemDrop *evt)
+void ItemSystem::operator()(GameEvents::ItemDrop& evt)
 {
-    auto container = m_level->ecs().getComponents<ContainerComponent>( evt->actor );
-    auto position = m_level->ecs().getComponents<PositionComponent>( evt->actor );
+    auto container = m_level->ecs().getComponents<ContainerComponent>( evt.actor );
+    auto position = m_level->ecs().getComponents<PositionComponent>( evt.actor );
 
-    eraseItemFromContainer(container, evt->item);
+    eraseItemFromContainer(container, evt.item);
 
     auto itemEnt = m_level->ecs().entityFactory()
-                          .createItem(position->tilePosition, evt->item);
+                          .createItem(position->tilePosition, evt.item);
 }
 
-void ItemSystem::accept(GameEvents::ItemEquip *evt)
+void ItemSystem::operator()(GameEvents::ItemEquip& evt)
 {
-    auto containerC = m_level->ecs().getComponents<ContainerComponent>( evt->actor );
-    auto actorC = m_level->ecs().getComponents<ActorComponent>( evt->actor );
+    auto containerC = m_level->ecs().getComponents<ContainerComponent>( evt.actor );
+    auto actorC = m_level->ecs().getComponents<ActorComponent>( evt.actor );
 
-    eraseItemFromContainer(containerC, evt->item);
+    eraseItemFromContainer(containerC, evt.item);
 
-    auto oldItem = actorC->actor.equipItem( evt->slot, evt->item );
+    auto oldItem = actorC->actor.equipItem( evt.slot, evt.item );
     if ( oldItem )
     {
         containerC->items.push_back( oldItem );
     }
 }
 
-void ItemSystem::accept(GameEvents::ItemUnequip *evt)
+void ItemSystem::operator()(GameEvents::ItemUnequip& evt)
 {
-    auto containerC = m_level->ecs().getComponents<ContainerComponent>( evt->actor );
-    auto actorC = m_level->ecs().getComponents<ActorComponent>( evt->actor );
+    auto containerC = m_level->ecs().getComponents<ContainerComponent>( evt.actor );
+    auto actorC = m_level->ecs().getComponents<ActorComponent>( evt.actor );
 
-    auto item = actorC->actor.unequipItem( evt->slot );
+    auto item = actorC->actor.unequipItem( evt.slot );
     AssertMsg(!!item, "Unequipping empty item slot");
 
     containerC->items.push_back( item );

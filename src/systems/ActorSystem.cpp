@@ -5,17 +5,17 @@
 
 ActorSystem::ActorSystem(Level *parent) : System(parent)
 {
-    m_level->events().subscribe<GameEvents::EntityDeath>(this );
-    m_level->events().subscribe<GameEvents::EntityDamage>(this );
+    m_level->events().subscribe<GameEvents::EntityDeath>(this);
+    m_level->events().subscribe<GameEvents::EntityDamage>(this);
 }
 
-void ActorSystem::accept(GameEvents::EntityDeath *evt)
+void ActorSystem::operator()(GameEvents::EntityDeath& evt)
 {
-    m_level->ecs().deleteEntityDelayed( evt->actor );
+    m_level->ecs().deleteEntityDelayed( evt.actor );
     Logging::log( "ACTOR WAS KILLED" );
 }
 
-void ActorSystem::accept(GameEvents::EntityDamage *evt)
+void ActorSystem::operator()(GameEvents::EntityDamage& evt)
 {
 
 }

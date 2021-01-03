@@ -3,69 +3,37 @@
 #include <queue>
 #include <game/GameEvent.h>
 #include <game/GameEventDefs.h>
-
-class GameEventHub;
-
-
-class GameEventVariantVisitor
-{
-public:
-    GameEventVariantVisitor(GameEventHub* hub)
-    {
-        m_hub = hub;
-    }
-
-    template <typename T>
-    void operator()(T& evt)
-    {
-        m_hub->broadcastImpl<T>(evt);
-    }
-
-private:
-    GameEventHub* m_hub;
-};
+#include <game/GameEventVariant.h>
 
 
 class GameEventHub
 {
 public:
-    friend class GameEventVariantVisitor;
-
     GameEventHub() = default;
     ~GameEventHub() = default;
 
     GameEventHub( const GameEventHub& ) = delete;
     GameEventHub& operator=( const GameEventHub& ) = delete;
 
-    template <typename EvtType, typename SubType>
-    void subscribe( SubType* receiver, GEventTiming timing )
+
+    template <typename EvtType>
+    void subscribe( GEventSubBase* receiver, GEventTiming timing = GEventTiming::On )
     {
-        static_assert( std::is_base_of_v<GEventSubBase, SubType> );
         static_assert( std::is_base_of_v<GEventBase, EvtType> );
 
-        GEventSubBase* base = static_cast<SubType*>(receiver);
-
-        m_subs.emplace(GameEvent<EvtType>::id(), GEventCallback{base, timing} );
+        m_subs.emplace(GameEvent<EvtType>::id(), GEventCallback{receiver, timing} );
     };
 
-    template <typename EvtType, typename SubType>
-    void subscribe( SubType* receiver )
+    template <typename EvtType>
+    void unsubscribe( GEventSubBase* receiver )
     {
-        subscribe<EvtType, SubType>( receiver, GEventTiming::On );
-    };
-
-    template <typename EvtType, typename SubType>
-    void unsubscribe( SubType* receiver )
-    {
-        static_assert( std::is_base_of_v<GEventSubBase, SubType> );
         static_assert( std::is_base_of_v<GEventBase, EvtType> );
 
-        GEventSubBase* base = receiver;
         auto it_range = m_subs.equal_range(GameEvent<EvtType>::id() );
 
         for (auto it = it_range.first; it != it_range.second; it++)
         {
-            if ( it->second == base )
+            if ( it->second == receiver )
             {
                 m_subs.erase(it);
                 break;
@@ -73,7 +41,8 @@ public:
         }
     };
 
-
+    // Broadcast a game event to everyone who is subscribed to it. If more events are fired as a result of
+    // this event, those events are queued and resolved in the order they were raised.
     template <typename EvtType, typename... Args>
     void broadcast( Args... args )
     {
@@ -93,7 +62,7 @@ public:
             m_evtInProgress = true;
             while ( !m_evtQueue.empty() )
             {
-                popQueue();
+                popQueue<EvtType>();
             }
             m_evtInProgress = false;
         }
@@ -101,21 +70,15 @@ public:
 
 private:
 
+    template <typename EvtType>
     void popQueue()
     {
         auto evt = m_evtQueue.back();
         m_evtQueue.pop();
 
-        std::visit(GameEventVariantVisitor{this}, evt);
-    }
-
-
-    template <typename EvtType>
-    void broadcastImpl( EvtType* evt )
-    {
         static_assert( std::is_base_of_v<GEventBase, EvtType> );
 
-        auto it_range = m_subs.equal_range(GameEvent<EvtType>::id() );
+        auto it_range = m_subs.equal_range( GameEvent<EvtType>::id() );
 
         for ( int i = 0; i < GEventTimingCount; i++ )
         {
@@ -124,20 +87,10 @@ private:
                 if ( (int)(it->second.timing) == i )
                 {
                     GEventSubBase* base = it->second.target;
-                    dynamic_cast<GEventSub<EvtType>*>(base)->accept( evt );
+                    base->accept( evt );
                 }
             }
         }
-    }
-
-    template <typename EvtType, typename... Args>
-    void broadcastImpl( Args... args )
-    {
-        static_assert( std::is_base_of_v<GEventBase, EvtType> );
-
-        EvtType evt { std::forward<Args>(args)... };
-
-        broadcastImpl( &evt );
     }
 
 
