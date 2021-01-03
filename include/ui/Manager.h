@@ -28,6 +28,17 @@ struct WindowAlignment
     Vector2i offset;
 };
 
+struct ElementAlignment
+{
+    ElementAlignment(ElementPtr dependent, ElementPtr target, Alignment alignment, Vector2i offset);
+    ~ElementAlignment() = default;
+
+    ElementPtr dependent;
+    ElementPtr target;
+    UI::Alignment alignment;
+    Vector2i offset;
+};
+
 
 class Manager
 {
@@ -59,10 +70,19 @@ public:
         return ptr;
     }
 
+    template <typename ...Args>
+    std::shared_ptr<Element> createElement( Element* parent, Args...args )
+    {
+        return createElement<Element>( parent, std::forward<Args>(args)... );
+    }
+
     void deleteElement( const ElementPtr& element );
 
     void alignElementToWindow( const ElementPtr& element, UI::Alignment alignment, Vector2i offset);
-    void unalignElementToWindow( ElementPtr element );
+    void alignElementToElement( ElementPtr const& desc, ElementPtr const& target, UI::Alignment alignment, Vector2i offset);
+
+    void unalignElementFromWindow(ElementPtr element );
+    void unalignElements( ElementPtr const& desc, ElementPtr const& target );
 
     template <typename T = Element>
     std::shared_ptr<T> withId( std::string const& id )
@@ -117,7 +137,9 @@ private:
 
 
     std::vector<ElementPtr> m_roots;
+
     std::vector<WindowAlignment> m_windowAlignments;
+    std::vector<ElementAlignment> m_elementAlignments;
 
     std::shared_ptr<SingleTileHighlight> m_tileHighlight;
 

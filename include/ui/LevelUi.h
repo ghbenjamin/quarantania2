@@ -99,11 +99,26 @@ public:
     void openMenu( RawActionDataType category );
 
 private:
-
-
     EntityRef m_currEntity;
     std::weak_ptr<ActionMenuPopupMenu> m_menu;
     std::unordered_map<RawActionDataType, std::shared_ptr<ActionMenuSpawnItem>> m_spawns;
+};
+
+
+
+class HoverDescriptionContainer : public Element
+{
+public:
+    HoverDescriptionContainer(Manager* manager, Element* parent);
+    ~HoverDescriptionContainer() override = default;
+
+    void setData( std::string const& data, std::string const& desc );
+    void clearData();
+
+private:
+
+    std::shared_ptr<Label> m_titleElem;
+    std::shared_ptr<Label> m_descElem;
 };
 
 

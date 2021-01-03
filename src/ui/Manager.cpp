@@ -53,6 +53,17 @@ void Manager::doLayout()
         pos += wa.offset;
         wa.element->setLocalPosition(pos);
     }
+
+    for ( auto const& ea : m_elementAlignments )
+    {
+        auto depBounds = ea.dependent->outerBounds();
+        auto fixedBounds = ea.target->outerBounds();
+
+        auto pos = alignRectToRect( depBounds.right(), fixedBounds.right(), ea.alignment );
+        pos += ea.offset;
+
+        ea.dependent->setLocalPosition( ea.target->globalPosition() + pos );
+    }
 }
 
 void Manager::deleteElement(const ElementPtr& element)
@@ -72,13 +83,21 @@ void Manager::deleteElement(const ElementPtr& element)
 
 void Manager::alignElementToWindow(const ElementPtr& element, UI::Alignment alignment, Vector2i offset)
 {
-    unalignElementToWindow( element );
+    unalignElementFromWindow(element);
     m_windowAlignments.emplace_back( element, alignment, offset );
 
     doLayout();
 }
 
-void Manager::unalignElementToWindow(ElementPtr element)
+void Manager::alignElementToElement(const ElementPtr &desc, ElementPtr const& target, UI::Alignment alignment, Vector2i offset)
+{
+    unalignElements(desc, target);
+    m_elementAlignments.emplace_back( desc, target, alignment, offset );
+
+    doLayout();
+}
+
+void Manager::unalignElementFromWindow(ElementPtr element)
 {
     m_windowAlignments.erase( std::remove_if( m_windowAlignments.begin(), m_windowAlignments.end(),
           [&](auto const& item) {
@@ -87,6 +106,14 @@ void Manager::unalignElementToWindow(ElementPtr element)
     );
 }
 
+void Manager::unalignElements(const ElementPtr &desc, const ElementPtr &target)
+{
+    m_elementAlignments.erase( std::remove_if( m_elementAlignments.begin(), m_elementAlignments.end(),
+          [&](ElementAlignment const& item) {
+              return item.target == target && item.dependent == desc;
+          }), m_elementAlignments.end()
+    );
+}
 
 UI::ElementList Manager::windowsAtPoint(Vector2i pos) const
 {
@@ -336,7 +363,8 @@ void Manager::removeSingleTileHighlight()
     m_tileHighlight.reset();
 }
 
-
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, Vector2i offset)
-: element(std::move(element)), alignment(alignment), offset(offset)
-{}
+: element(std::move(element)), alignment(alignment), offset(offset) {}
+
+ElementAlignment::ElementAlignment(ElementPtr dependent, ElementPtr target, Alignment alignment, Vector2i offset)
+    : dependent(dependent), target(target), alignment(alignment), offset(offset) {}

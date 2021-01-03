@@ -153,6 +153,8 @@ Vector2i Level::worldCoordsToScreen(Vector2i const &world)
 
 void Level::setupUI()
 {
+    // Fixed UI Elements
+
     // Widget containing the current party and information
     auto turnOrderContainer = m_uiManager.createElement<UI::TurnOrderContainer>(nullptr);
     m_uiManager.alignElementToWindow( turnOrderContainer, UI::Alignment::TopLeft, {20, 20} );
@@ -161,8 +163,23 @@ void Level::setupUI()
     auto actionMenu = m_uiManager.createElement<UI::ActionMenu>(nullptr);
     m_uiManager.alignElementToWindow( actionMenu, UI::Alignment::BottomLeft, {20, -20} );
 
+    // Widget containing the global text log
     auto textLog = m_uiManager.createElement<UI::MainTextLog>(nullptr);
     m_uiManager.alignElementToWindow( textLog, UI::Alignment::BottomRight, {-20, -20} );
+
+
+
+    // Dependent UI Elements
+
+    // Widget containing a description of whatever we're hovering, if anything
+    auto descriptionHover = m_uiManager.createElement<UI::HoverDescriptionContainer>(nullptr);
+    m_uiManager.alignElementToElement( descriptionHover, textLog, UI::Alignment::TopCentre, {0, -20} );
+
+
+    descriptionHover->setData( "Hello world!", "It was the best of times, it was the worst of times, it was the age"
+                                               " of wisdom, it was the age of foolishness, it was the epoch of belief, "
+                                               "it was the epoch of incredulity, it was the season of Light, it was the"
+                                               " season of Darkness, it was the spring of hope" );
 }
 
 void Level::layoutWindows()
@@ -349,6 +366,18 @@ void Level::pushLogLine(const std::string &text, const Colour &colour)
 {
     auto textLog = m_uiManager.withId<UI::MainTextLog>("main-text-log");
     textLog->addLine(text, colour);
+}
+
+void Level::setDescriptionView(const std::string &title, const std::string &desc)
+{
+    auto descContainer = m_uiManager.withId<UI::HoverDescriptionContainer>("hover-desc-container");
+    descContainer->setData(title, desc);
+}
+
+void Level::clearDescriptionView()
+{
+    auto descContainer = m_uiManager.withId<UI::HoverDescriptionContainer>("hover-desc-container");
+    descContainer->clearData();
 }
 
 void Level::centerCameraOnParty()

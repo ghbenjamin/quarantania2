@@ -169,7 +169,7 @@ void UI::MainTextLog::addLine(std::string const& line, const Colour &colour)
 
     m_lines.push(item);
 
-    if (m_lines.size() >= m_maxLines)
+    if ( (int) m_lines.size() >= m_maxLines)
     {
         m_lines.pop();
     }

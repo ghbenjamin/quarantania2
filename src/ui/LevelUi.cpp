@@ -8,6 +8,11 @@
 #include <game/LevelController.h>
 #include <game/Action.h>
 
+
+
+// Turn order Widget
+// --------------------------------------
+
 UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, EntityRef ref)
 : Element(manager, parent), m_entity(ref)
 {
@@ -97,7 +102,8 @@ void UI::TurnOrderContainer::reloadEntities()
 
 
 
-
+// Action menu
+// --------------------------------------
 
 UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *parent,
      std::vector<std::shared_ptr<GameAction>> const& items,  RawActionDataType category)
@@ -337,3 +343,60 @@ bool UI::ActionMenuSpawnItem::isDisabled() const
 {
     return m_isDisabled;
 }
+
+
+
+// Description container
+// --------------------------------------
+
+
+UI::HoverDescriptionContainer::HoverDescriptionContainer(UI::Manager *manager, UI::Element *parent)
+    : Element(manager, parent)
+{
+    setId("hover-desc-container");
+    setLayout<VerticalLayout>( 0, HAlignment::Left );
+
+    const int TotalWidth = 300;
+    const int TotalHeight = 120;
+    const int TitleHeight = 20;
+
+    setPreferredContentSize({TotalWidth, TotalHeight});
+    setBackgroundColour( Colour::Grey.withAlpha(200) );
+
+    auto titleContainer = manager->createElement(this);
+    titleContainer->setPreferredContentSize({TotalWidth, TitleHeight});
+    titleContainer->setLayout<VerticalLayout>( 0, HAlignment::Left );
+
+    m_titleElem = manager->createElement<Label>(
+        titleContainer.get(),
+        TextStyle{Colour::Black, ResourceManager::get().getDefaultFont(16)}
+    );
+
+    auto descContainer = manager->createElement(this);
+    descContainer->setPreferredContentSize({TotalWidth, TotalHeight - TitleHeight});
+    descContainer->setLayout<VerticalLayout>( 0, HAlignment::Left );
+
+    m_descElem = manager->createElement<Label>(
+        descContainer.get(),
+        TextStyle{Colour::Black, ResourceManager::get().getDefaultFont(12)}
+    );
+
+    int paddingW = 4;
+    m_descElem->setPadding(paddingW);
+    m_descElem->setMaximumOuterSize( {TotalWidth - (2 * paddingW), TotalHeight - TitleHeight - (2 * paddingW)} );
+
+}
+
+void UI::HoverDescriptionContainer::setData( std::string const& data, std::string const& desc )
+{
+    m_titleElem->setText( data );
+    m_descElem->setText( desc );
+}
+
+void UI::HoverDescriptionContainer::clearData()
+{
+    m_titleElem->clearText();
+    m_descElem->clearText();
+}
+
+

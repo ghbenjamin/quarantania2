@@ -52,6 +52,52 @@ Vector2i UI::alignRectWithinRect(Vector2i const &outer, Vector2i const &inner, U
     return out;
 }
 
+
+Vector2i UI::alignRectToRect( Vector2i const& dep, Vector2i const& fixed, Alignment alignment )
+{
+    Vector2i out = {0, 0};
+
+    switch ( alignment )
+    {
+
+        case Alignment::TopCentre:
+
+            out = { (fixed.x() - dep.x()) / 2, -dep.y() };
+            break;
+
+        case Alignment::TopLeft:
+            break;
+
+        case Alignment::TopRight:
+            break;
+
+
+        case Alignment::BottomRight:
+            break;
+        case Alignment::BottomCentre:
+            break;
+        case Alignment::BottomLeft:
+            break;
+
+        case Alignment::CentreRight:
+            break;
+        case Alignment::CentreLeft:
+            break;
+
+        case Alignment::Centre:
+            break;
+    }
+
+    if ( out == Vector2i{0, 0} )
+    {
+        AssertNotImplemented();
+    }
+
+    return out;
+}
+
+
+
 Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
 {
     int w = 0;

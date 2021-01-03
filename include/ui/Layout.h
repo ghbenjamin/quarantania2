@@ -34,7 +34,13 @@ enum class HAlignment
     Fill
 };
 
+// Accept a pair of rectangle sizes. Return the coordinates of the inner rectangle relative to the outer rectangle
+// if the inner rectangle is placed within the outer rectangle at the given alignment.
 Vector2i alignRectWithinRect( Vector2i const& outer, Vector2i const& inner, Alignment alignment );
+
+// Accept a pair of rectangles. Return the coordinates of the dependant rectangle relative to the fixed rectangle
+// if the dependent rectangle is placed alongside the fixed rectangle at the given alignment.
+Vector2i alignRectToRect( Vector2i const& dep, Vector2i const& fixed, Alignment alignment );
 
 class Element;
 

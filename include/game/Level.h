@@ -74,7 +74,10 @@ public:
     bool isComplete() const;
     void setComplete();
 
+    // UI
     void pushLogLine( std::string const& text, Colour const& colour = Colour::Black );
+    void setDescriptionView(std::string const& title, std::string const& desc );
+    void clearDescriptionView();
 
     std::string_view getDescriptionForEnt( EntityRef ent );
     std::string_view getDescriptionForItem( ItemPtr item );
