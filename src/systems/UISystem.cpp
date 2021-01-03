@@ -18,7 +18,6 @@ UISystem::UISystem(Level *parent)
 
 void UISystem::accept(GameEvents::LevelReady *evt)
 {
-//    auto turnOrder = m_level->ui().withId( "turn-order-container" )->asType<UI::TurnOrderContainer>();
     auto turnOrder = m_level->ui().withId<UI::TurnOrderContainer>( "turn-order-container" );
     turnOrder->reloadEntities();
 }

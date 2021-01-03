@@ -168,18 +168,12 @@ void Level::setupUI()
     m_uiManager.alignElementToWindow( textLog, UI::Alignment::BottomRight, {-20, -20} );
 
 
-
     // Dependent UI Elements
+
 
     // Widget containing a description of whatever we're hovering, if anything
     auto descriptionHover = m_uiManager.createElement<UI::HoverDescriptionContainer>(nullptr);
-    m_uiManager.alignElementToElement( descriptionHover, textLog, UI::Alignment::TopCentre, {0, -20} );
-
-
-    descriptionHover->setData( "Hello world!", "It was the best of times, it was the worst of times, it was the age"
-                                               " of wisdom, it was the age of foolishness, it was the epoch of belief, "
-                                               "it was the epoch of incredulity, it was the season of Light, it was the"
-                                               " season of Darkness, it was the spring of hope" );
+    m_uiManager.alignElementToElement( descriptionHover, textLog, UI::Alignment::TopCentre, {0, -10} );
 }
 
 void Level::layoutWindows()

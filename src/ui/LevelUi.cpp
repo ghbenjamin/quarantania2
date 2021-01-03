@@ -358,13 +358,16 @@ UI::HoverDescriptionContainer::HoverDescriptionContainer(UI::Manager *manager, U
 
     const int TotalWidth = 300;
     const int TotalHeight = 120;
-    const int TitleHeight = 20;
+    const int TitleHeight = 30;
+    const int PaddingW = 4;
+    const int PaddingWx2 = 2 * PaddingW;
 
-    setPreferredContentSize({TotalWidth, TotalHeight});
+    setPreferredContentSize({TotalWidth - PaddingWx2, TotalHeight - PaddingWx2});
     setBackgroundColour( Colour::Grey.withAlpha(200) );
+    setPadding(PaddingW);
 
     auto titleContainer = manager->createElement(this);
-    titleContainer->setPreferredContentSize({TotalWidth, TitleHeight});
+    titleContainer->setPreferredContentSize({TotalWidth - PaddingWx2, TitleHeight});
     titleContainer->setLayout<VerticalLayout>( 0, HAlignment::Left );
 
     m_titleElem = manager->createElement<Label>(
@@ -373,7 +376,7 @@ UI::HoverDescriptionContainer::HoverDescriptionContainer(UI::Manager *manager, U
     );
 
     auto descContainer = manager->createElement(this);
-    descContainer->setPreferredContentSize({TotalWidth, TotalHeight - TitleHeight});
+    descContainer->setPreferredContentSize({TotalWidth - PaddingWx2, TotalHeight - TitleHeight - PaddingWx2});
     descContainer->setLayout<VerticalLayout>( 0, HAlignment::Left );
 
     m_descElem = manager->createElement<Label>(
@@ -381,10 +384,7 @@ UI::HoverDescriptionContainer::HoverDescriptionContainer(UI::Manager *manager, U
         TextStyle{Colour::Black, ResourceManager::get().getDefaultFont(12)}
     );
 
-    int paddingW = 4;
-    m_descElem->setPadding(paddingW);
-    m_descElem->setMaximumOuterSize( {TotalWidth - (2 * paddingW), TotalHeight - TitleHeight - (2 * paddingW)} );
-
+    m_descElem->setMaximumOuterSize( {TotalWidth - PaddingWx2, TotalHeight - TitleHeight - PaddingWx2});
 }
 
 void UI::HoverDescriptionContainer::setData( std::string const& data, std::string const& desc )
