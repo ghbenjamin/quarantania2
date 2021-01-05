@@ -65,7 +65,7 @@ std::shared_ptr<Surface> Font::renderGlyph(uint16_t glyph, Colour colour) const
     return std::make_shared<Surface>(surface);
 }
 
-GlyphMetric Font::glyphMetric(uint16_t glyph) const
+GlyphMetric Font::glyphMetric( std::uint16_t glyph) const
 {
     GlyphMetric metric;
     TTF_GlyphMetrics( m_font, glyph, &metric.minX, &metric.maxX, &metric.minY, &metric.maxY, &metric.advance );
@@ -75,4 +75,9 @@ GlyphMetric Font::glyphMetric(uint16_t glyph) const
 int Font::getLineSkip() const
 {
     return TTF_FontLineSkip( m_font );
+}
+
+int Font::getKerning(std::uint16_t previous, std::uint16_t next)
+{
+    return TTF_GetFontKerningSizeGlyphs( m_font, previous, next );
 }

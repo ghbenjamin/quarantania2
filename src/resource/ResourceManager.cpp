@@ -75,10 +75,11 @@ void ResourceManager::loadAll()
     {
         v->load();
     }
-
-
-    // DEBUG
-    FontCache foo { *getDefaultFont(12), Colour::Black };
+    
+//    // DEBUG
+//    FontCache foo { getDefaultFont(12), Colour::Black };
+//    auto txt = foo.renderText( "The quick brown fox jumps over the lazy dog" );
+//    SDL_SaveBMP( txt->raw(), "C:/Users/brh/quick_kerned.bmp" );
 }
 
 void ResourceManager::unloadAll()
