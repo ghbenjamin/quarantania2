@@ -176,7 +176,7 @@ TiledIdPair TiledMapLoader::resolveGid(TiledGid gid) const
     {
         for (int j = (int)m_map.tilesets.size() - 1; j >= 0; j--)
         {
-            if ( m_map.tilesets[j].firstGid <= gid )
+            if ( m_map.tilesets[j].firstGid <= (int) gid )
             {
                 return { gid -  m_map.tilesets[j].firstGid, j };
             }

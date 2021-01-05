@@ -3,7 +3,7 @@
 #include <string>
 #include <unordered_map>
 
-#include <resource/Texture.h>
+#include <graphics/Texture.h>
 #include <resource/Sprite.h>
 
 using SpritesheetGidMap = std::unordered_map<std::string, int>;

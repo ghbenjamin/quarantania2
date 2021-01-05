@@ -8,18 +8,21 @@
 
 // Forward definitions
 struct SDL_Texture;
+struct SDL_Surface;
 class Texture;
+class Surface;
 
 // Typedefs
 using TexturePtr = std::shared_ptr<Texture>;
+using SurfacePtr = std::shared_ptr<Surface>;
 
 class Texture
 {
 public:
 
-    explicit Texture( SDL_Texture* t );
-    Texture( Vector2i size );
-    virtual ~Texture();
+    explicit Texture( SDL_Texture* texture );
+    explicit Texture( std::shared_ptr<Surface> const& surface );
+    ~Texture();
 
     Texture( const Texture& ) = delete;
     Texture& operator=( const Texture& ) = delete;
@@ -27,11 +30,10 @@ public:
     const Vector2i& size() const&;
     const SDL_Texture* raw() const;
     SDL_Texture* raw();
-
     SDL_Rect& sourceRect();
 
     static TexturePtr loadTexture( std::string const& path );
-
+    static TexturePtr createNewTexture( Vector2i size );
 
 private:
 
@@ -40,4 +42,22 @@ private:
     SDL_Rect m_sourceRect;
 };
 
-using TexturePtr = std::shared_ptr<Texture>;
+
+
+class Surface
+{
+public:
+    explicit Surface( SDL_Surface* surface );
+    ~Surface();
+
+    Surface( const Surface& ) = delete;
+    Surface& operator=( const Surface& ) = delete;
+
+    SDL_Surface* raw();
+
+    [[nodiscard]] static SurfacePtr createSurface( Vector2i size );
+
+private:
+    SDL_Surface* m_raw;
+    Vector2i m_size;
+};

@@ -3,7 +3,7 @@
 #include <ui/Element.h>
 #include <ui/Defines.h>
 #include <resource/Font.h>
-#include <resource/Texture.h>
+#include <graphics/Texture.h>
 #include <graphics/RenderObject.h>
 
 namespace UI

@@ -1,21 +1,17 @@
 #include <resource/Font.h>
 
-#include <string>
-
 #include <SDL2/SDL_ttf.h>
 
 #include <utils/Assert.h>
-#include <resource/Texture.h>
+#include <graphics/Texture.h>
 #include <resource/ResourceManager.h>
 
-Font::Font( TTF_Font* ptr )
-: m_font(ptr)
-{
-}
+Font::Font( TTF_Font* ptr, int size )
+: m_font(ptr), m_size(size) {}
 
 Font::~Font()
 {
-    if (m_font)
+    if (m_font != nullptr)
     {
         TTF_CloseFont(m_font);
     }
@@ -23,9 +19,9 @@ Font::~Font()
 
 FontPtr Font::loadFont(std::string const& path, int size)
 {
-    auto font = TTF_OpenFont( path.c_str(), size );
+    TTF_Font* font = TTF_OpenFont( path.c_str(), size );
     AssertMsg( font, TTF_GetError() );
-    return std::make_shared<Font>(font);
+    return std::make_shared<Font>(font, size);
 }
 
 std::shared_ptr<Texture> Font::renderText(std::string const &text, Colour colour, int wrapWidth)
@@ -51,4 +47,32 @@ std::shared_ptr<Texture> Font::renderText(std::string const &text, Colour colour
     SDL_FreeSurface(surface);
 
     return std::make_shared<Texture>(texture);
+}
+
+int Font::size() const
+{
+    return m_size;
+}
+
+TTF_Font *Font::raw() const
+{
+    return m_font;
+}
+
+std::shared_ptr<Surface> Font::renderGlyph(uint16_t glyph, Colour colour) const
+{
+    SDL_Surface* surface = TTF_RenderGlyph_Blended( m_font, glyph, colour.raw() );
+    return std::make_shared<Surface>(surface);
+}
+
+GlyphMetric Font::glyphMetric(uint16_t glyph) const
+{
+    GlyphMetric metric;
+    TTF_GlyphMetrics( m_font, glyph, &metric.minX, &metric.maxX, &metric.minY, &metric.maxY, &metric.advance );
+    return metric;
+}
+
+int Font::getLineSkip() const
+{
+    return TTF_FontLineSkip( m_font );
 }

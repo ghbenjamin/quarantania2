@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <unordered_map>
-#include <resource/Texture.h>
+#include <graphics/Texture.h>
 #include <resource/Spritesheet.h>
 #include <resource/Resource.h>
 #include <resource/Font.h>

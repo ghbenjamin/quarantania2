@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <string>
-#include <resource/Texture.h>
+#include <graphics/Texture.h>
 #include <resource/Font.h>
 #include <resource/Spritesheet.h>
 

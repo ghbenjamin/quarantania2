@@ -4,6 +4,7 @@
 
 #include <resource/ResourceManager.h>
 #include <utils/Logging.h>
+#include <graphics/Text.h>
 
 
 void ResourceManager::setWindow(WindowPtr const &wnd)
@@ -74,6 +75,10 @@ void ResourceManager::loadAll()
     {
         v->load();
     }
+
+
+    // DEBUG
+    FontCache foo { *getDefaultFont(12), Colour::Black };
 }
 
 void ResourceManager::unloadAll()
