@@ -59,6 +59,7 @@ std::shared_ptr<Surface> FontCache::renderText(const std::string &text, int maxW
     std::vector<GlyphPosition> glyphs;
     glyphs.reserve( text.size() );
 
+    // If w < 0, assume width is unbounded
     if (maxWidth <= 0)
     {
         maxWidth = std::numeric_limits<int>::max();
@@ -70,12 +71,14 @@ std::shared_ptr<Surface> FontCache::renderText(const std::string &text, int maxW
 
     for (int i = 0; i < text.size(); i++)
     {
+        // Convert from char to unicode codepoint, offset to start at the alphanumeric characters
         std::uint16_t idx = static_cast<std::uint16_t>( text.at(i) ) - AsciiStartIdx;
-        int advance = m_metrics[idx].advance;
+
 
         glyphs.push_back( GlyphPosition{idx, currX, currY} );
 
-
+        // Move the caret forward the width of the current glyph
+        int advance = m_metrics[idx].advance;
         currX += advance;
 
         if (previous)
@@ -133,8 +136,9 @@ void FontCache::renderText(RenderInterface &ri, const std::string &text, int max
 
 void LiteMarkdownParser::parseMarkdown( std::string const& text )
 {
-    static const std::regex colourOpenRegex { R"(<colour:(\S+)>)" };
-    static const std::regex colourCloseRegex { R"(</colour>)" };
+
+    // Example markdown:
+    // The <c:red>quick <c:green>brown</c> fox <i>jumped over</c> the</i> lazy dog.
 
     AssertNotImplemented();
 }
