@@ -45,7 +45,8 @@ public:
     std::shared_ptr<Texture> renderText( std::string const& text, Colour colour=Colour::Black, int wrapWidth=-1 );
     std::shared_ptr<Surface> renderGlyph( uint16_t glyph, Colour colour ) const;
 
-    GlyphMetric glyphMetric( uint16_t glyph ) const;
+    GlyphMetric glyphMetric( std::uint16_t glyph ) const;
+    int getKerning( std::uint16_t previous, std::uint16_t next );
 
 private:
     int m_size;
