@@ -61,6 +61,28 @@ enum class CreatureSize
     Colossal
 };
 
+enum class PlayerRace
+{
+    Human,
+    Elf,
+    Dwarf,
+    HalfElf,
+    Halfling,
+    HalfOrc,
+    Gnome
+};
+
+enum class PlayerClass
+{
+    Fighter,
+    Rogue,
+    Wizard,
+    Cleric,
+    Ranger,
+    Barbarian,
+    Sorcerer,
+    Bard
+};
 
 // Item Properties
 // --------------------------------------

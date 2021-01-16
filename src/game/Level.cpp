@@ -171,9 +171,9 @@ void Level::setupUI()
     // Dependent UI Elements
 
 
-    // Widget containing a description of whatever we're hovering, if anything
-    auto descriptionHover = m_uiManager.createElement<UI::HoverDescriptionContainer>(nullptr);
-    m_uiManager.alignElementToElement( descriptionHover, textLog, UI::Alignment::TopCentre, {0, -10} );
+//    // Widget containing a description of whatever we're hovering, if anything
+//    auto descriptionHover = m_uiManager.createElement<UI::HoverDescriptionContainer>(nullptr);
+//    m_uiManager.alignElementToElement( descriptionHover, textLog, UI::Alignment::TopCentre, {0, -10} );
 }
 
 void Level::layoutWindows()
@@ -364,14 +364,14 @@ void Level::pushLogLine(const std::string &text, const Colour &colour)
 
 void Level::setDescriptionView(const std::string &title, const std::string &desc)
 {
-    auto descContainer = m_uiManager.withId<UI::HoverDescriptionContainer>("hover-desc-container");
-    descContainer->setData(title, desc);
+//    auto descContainer = m_uiManager.withId<UI::HoverDescriptionContainer>("hover-desc-container");
+//    descContainer->setData(title, desc);
 }
 
 void Level::clearDescriptionView()
 {
-    auto descContainer = m_uiManager.withId<UI::HoverDescriptionContainer>("hover-desc-container");
-    descContainer->clearData();
+//    auto descContainer = m_uiManager.withId<UI::HoverDescriptionContainer>("hover-desc-container");
+//    descContainer->clearData();
 }
 
 void Level::centerCameraOnParty()

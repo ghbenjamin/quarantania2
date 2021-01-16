@@ -188,7 +188,7 @@ void FixedLevelFactory::constructParty(const PartyData &pdata)
 
     for ( ; playerIt != pdata.playerChars.end(); playerIt++,spawnIt++ )
     {
-        m_level->ecs().entityFactory().createPlayer( spawnIt->pos, playerIt->generateNewPlayer() );
+        m_level->ecs().entityFactory().createPlayer( spawnIt->pos, *playerIt );
     }
 }
 

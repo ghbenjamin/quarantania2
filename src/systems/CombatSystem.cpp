@@ -15,9 +15,16 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
     auto aDefender = m_level->ecs().getComponents<ActorComponent>(evt.defender)->actor;
     auto const& weapon = aAttacker.getActiveWeapon();
 
+    auto attackerDesc = m_level->getDescriptionForEnt( evt.attacker );
+    auto defenderDesc = m_level->getDescriptionForEnt( evt.defender );
+
     int attackRoll = m_level->random().diceRoll(20);
     bool isHit = false;
     bool isCrit = false;
+
+
+    m_level->pushLogLine( fmt::format( "{} attacks {} (roll = {})", attackerDesc, defenderDesc, attackRoll ));
+
 
     // Did we hit?
 
@@ -37,6 +44,7 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
 
     if (!isHit)
     {
+        m_level->pushLogLine( fmt::format( "{} misses", attackerDesc ));
         return;
     }
 
@@ -51,6 +59,8 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
     Damage dmg;
     DamageInstance dmgInstance{ DamageType::Untyped, DamageSuperType::Physical, damageRoll };
     dmg.instances.push_back( dmgInstance );
+
+    m_level->pushLogLine( fmt::format( "{} hits {} for {} damage", attackerDesc, defenderDesc, attackRoll ));
 
     // Actually deal the damage
     acceptDamage( dmg, evt.defender );

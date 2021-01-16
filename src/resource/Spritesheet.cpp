@@ -42,6 +42,10 @@ SpritesheetKey::SpritesheetKey(const std::string &key)
     }
 }
 
+SpritesheetKey::SpritesheetKey(const char *key)
+ : SpritesheetKey( std::string(key) )
+ {}
+
 
 Spritesheet::Spritesheet(TexturePtr texture)
 : m_texture(texture)

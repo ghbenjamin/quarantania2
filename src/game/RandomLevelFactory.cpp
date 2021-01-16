@@ -680,8 +680,7 @@ void RandomLevelFactory::constructParty(PartyData const& pdata)
     for ( auto const& pc : pdata.playerChars )
     {
         auto pos = startPos + (it++)->second;
-        m_level->ecs().entityFactory()
-               .createPlayer(pos, pc.generateNewPlayer());
+        m_level->ecs().entityFactory().createPlayer(pos, pc);
     }
 }
 

@@ -21,6 +21,7 @@ struct SpritesheetKey
 
     // Sheet name and sprite name as a single string, separated by a '/'
     SpritesheetKey(std::string const& key);
+    SpritesheetKey(const char* key);
 
     ~SpritesheetKey() = default;
 

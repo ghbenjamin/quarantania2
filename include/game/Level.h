@@ -31,7 +31,7 @@ struct IEventWindowResize;
 
 namespace UI
 {
-    class TextLog;
+    class MainTextLog;
 }
 
 class Level
