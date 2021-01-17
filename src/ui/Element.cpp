@@ -12,8 +12,6 @@ using namespace UI;
 Element::Element(Manager* manager, Element* parent)
   : m_parent(parent),
     m_manager(manager),
-    m_hasBgColour(false),
-    m_hasBorder(false),
     m_borderWidth(0),
     m_isHidden(false),
     m_maxOuterSize({0, 0}),
@@ -62,9 +60,9 @@ void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rI
     }
 
     // Render our background, if any
-    if ( m_backgroundSprite )
+    if ( m_background.has_value() )
     {
-        rInter.addScreenItem( m_backgroundSprite.renderObject( globalPosition() ) );
+        m_background->render( globalPosition(), rInter );
     }
 
     // Update and render ourself
@@ -248,90 +246,39 @@ Manager *Element::manager()
     return m_manager;
 }
 
-void Element::setBorder(int width, Colour colour)
+void Element::setBorder(Colour background, int width, Colour colour)
 {
-    m_hasBorder = true;
+    setBackground( background, colour, width );
+
     m_borderWidth = width;
-    m_borderColour = colour;
-
     doLayout();
-}
-
-void Element::removeBorder()
-{
-    m_hasBorder = false;
-    m_borderWidth = 0;
-
-    generateBackground();
-}
-
-void Element::setBackgroundColour(Colour colour)
-{
-    m_hasBgColour = true;
-    m_bgColour = colour;
-
-    generateBackground();
-}
-
-void Element::removeBackgroundColour()
-{
-    m_hasBgColour = false;
-
-    generateBackground();
 }
 
 void Element::setPadding( RectI const& rect )
 {
     m_padding = rect;
-
     doLayout();
 }
 
 void Element::setPadding(int w)
 {
-    m_padding = { w, w, w, w };
-
-    doLayout();
+    setPadding(w, w, w, w);
 }
 
 void Element::setPadding(int top, int right, int bottom, int left)
 {
     m_padding = { top, right, bottom, left };
-
     doLayout();
 }
 
 
 void Element::generateBackground()
 {
-    if ( m_outerBounds.w() == 0 || m_outerBounds.h() == 0 )
-    {
-        return;
-    }
 
-    if ( m_backgroundTexture )
+    if ( m_background.has_value() )
     {
-        m_backgroundSprite = m_backgroundTexture;
+        m_background->regenerateBackground( m_outerBounds.right() );
     }
-
-    else if ( m_hasBgColour )
-    {
-        if ( m_hasBorder )
-        {
-            m_backgroundSprite = createBorderedRectangle( m_outerBounds.right(), m_borderColour, m_bgColour, m_borderWidth );
-        }
-        else
-        {
-            m_backgroundSprite = createRectangle( m_outerBounds.right(), m_bgColour );
-        }
-    }
-
-    else
-    {
-        m_backgroundSprite = Sprite();
-    }
-
-    m_backgroundSprite.setRenderLayer(RenderLayer::UI);
 }
 
 void Element::setHidden( bool val )
@@ -375,27 +322,6 @@ void Element::acceptEvent(UEvent &evt)
 void Element::addEventCallback(UEventType type, UEventCallback const &callback)
 {
     m_callbacks.emplace( type, callback );
-}
-
-void Element::setBackgroundSprite(SpritesheetKey const &sp)
-{
-    m_backgroundTexture = ResourceManager::get().getSprite( sp );
-    m_backgroundTexture.setRenderLayer(RenderLayer::UI);
-    generateBackground();
-}
-
-void Element::setBackgroundSprite(Sprite const& s)
-{
-    m_backgroundTexture = s;
-    m_backgroundTexture.setRenderLayer( RenderLayer::UI );
-    generateBackground();
-}
-
-
-void Element::removeBackgroundSprite()
-{
-    m_backgroundTexture = Sprite();
-    generateBackground();
 }
 
 bool Element::hasMaximumOuterSize() const
@@ -442,6 +368,11 @@ bool Element::hasTag(const std::string &tag) const
 void Element::removeTag(const std::string &tag)
 {
     m_tags.erase(tag);
+}
+
+void Element::removeBackround()
+{
+    m_background.reset();
 }
 
 

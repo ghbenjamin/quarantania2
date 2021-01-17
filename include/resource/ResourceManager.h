@@ -29,16 +29,14 @@ public:
     void loadAll();
     void unloadAll();
 
-
-
     [[nodiscard]] Sprite getSprite( std::string const& sheet, std::string const& name );
-
     [[nodiscard]] Sprite getSprite( SpritesheetKey const& key );
-
     [[nodiscard]] Sprite getSprite( std::string const& imgName );
-
     [[nodiscard]] FontPtr getFont( std::string const& fname, int fontSize );
     [[nodiscard]] FontPtr getDefaultFont( int fontSize );
+
+    [[nodiscard]] TexturePtr getTexture( std::string const& imgName );
+
 
 private:
 

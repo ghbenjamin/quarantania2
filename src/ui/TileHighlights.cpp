@@ -14,13 +14,13 @@ UI::SingleTileHighlight::SingleTileHighlight(Manager* manager, Element* parent, 
     switch (type)
     {
         case SingleTileHighlightType::Green:
-            setBackgroundSprite({"tile-ui", "green-brackets"});
+            setBackground( SpritesheetKey{"tile-ui", "green-brackets"});
             break;
         case SingleTileHighlightType::Red:
-            setBackgroundSprite({"tile-ui", "red-brackets"});
+            setBackground( SpritesheetKey{"tile-ui", "red-brackets"});
             break;
         case SingleTileHighlightType::Yellow:
-            setBackgroundSprite({"tile-ui", "yellow-brackets"});
+            setBackground( SpritesheetKey{"tile-ui", "yellow-brackets"});
             break;
     }
 

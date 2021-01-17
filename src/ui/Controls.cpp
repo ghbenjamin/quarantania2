@@ -110,7 +110,7 @@ UI::Button::Button(Manager *manager, Element *parent, const std::string &text, s
         : Element(manager, parent), m_callback(callback)
 {
     setPadding( 4 );
-    setBackgroundColour({200, 200, 200, 255});
+    setBackground( Colour{200, 200, 200, 255} );
 
     auto textNode = manager->createElement<UI::Label>(this );
     textNode->setText( text );

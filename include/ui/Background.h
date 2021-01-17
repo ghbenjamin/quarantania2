@@ -8,6 +8,7 @@
 
 class RenderInterface;
 class InputInterface;
+struct SpritesheetKey;
 
 namespace UI
 {
@@ -38,12 +39,16 @@ class NinePatch
 {
 public:
 
+    NinePatch( TexturePtr texture, std::array<RectI, 9> const& offsets );
+    ~NinePatch() = default;
+
     void setSize( Vector2i size );
     void render( Vector2i position, RenderInterface &rInter );
 
 private:
-    std::array<Sprite, 9> m_textures;
-    std::array<Vector2i, 9> m_offsets;
+
+    std::array<Sprite, 9> m_sprites;
+    std::array<RectI, 9> m_offsets;
 };
 
 
@@ -51,19 +56,19 @@ class ElementBackground
 {
 public:
     ElementBackground( Sprite const& sprite );
+    ElementBackground( SpritesheetKey const& key );
     ElementBackground( NinePatch const& );
     ElementBackground( Colour const& colour );
     ElementBackground( Colour const& backColour, Colour const& borderColour, int borderWidth );
 
     ~ElementBackground() = default;
 
-
     void render(Vector2i position, RenderInterface &rInter);
     void regenerateBackground( Vector2i size );
 
 private:
 
-    const BackgroundType m_type;
+    BackgroundType m_type;
 
     std::optional<Sprite> m_singleSprite;
     std::optional<NinePatch> m_ninePatch;

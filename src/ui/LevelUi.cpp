@@ -17,13 +17,9 @@ UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, 
 : Element(manager, parent), m_entity(ref)
 {
     // Layout
-    setBorder( 2, Colour::White );
+    setBorder( Colour::Grey, 2, Colour::White );
     setLayout<HorizontalLayout>( 1, VAlignment::Centre );
 
-    // Colour the widget based on the type of actor
-    auto actorC = manager->level()->ecs().getComponents<ActorComponent>(ref);
-    setBackgroundColour( Colour::Grey );
-    
     // Add the icon of the entity
     auto iconSprite = manager->level()->ecs().getComponents<RenderComponent>(ref)->sprites[0];
     auto icon = manager->createElement<Icon>(this, iconSprite);
@@ -116,7 +112,7 @@ UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *
     {
         auto elem = manager->createElement<UI::Element>(this);
         elem->setPadding(4);
-        elem->setBackgroundColour(Colour::Beige);
+        elem->setBackground(Colour::Beige);
         elem->setLayout<HorizontalLayout>(8, VAlignment::Centre);
 
         manager->createElement<UI::Icon>(elem.get(), act->data.getSprite() );
@@ -286,8 +282,7 @@ UI::ActionMenuSpawnItem::ActionMenuSpawnItem(UI::Manager *manager, UI::Element *
     setLayout<VerticalLayout>( 4, HAlignment::Centre );
 
     m_icon = manager->createElement<UI::Icon>(this, icon);
-    m_icon->setBackgroundColour(Colour::Grey.withAlpha(150));
-    m_icon->setBorder(1, Colour::White.withAlpha(150));
+    m_icon->setBorder( Colour::Grey.withAlpha(150), 1, Colour::White.withAlpha(150) );
     m_icon->addTag("action-popup-spawn-icon");
 
     m_label = manager->createElement<UI::Label>(this,
@@ -327,14 +322,12 @@ void UI::ActionMenuSpawnItem::setDisabled(bool value)
 
     if (m_isDisabled)
     {
-        m_icon->setBackgroundColour( Colour::Grey.withAlpha(150) );
-        m_icon->setBorder(1, Colour::White.withAlpha(150));
+        m_icon->setBorder( Colour::Grey.withAlpha(150), 1, Colour::White.withAlpha(150) );
         m_label->setColour( Colour::White.withAlpha(150) );
     }
     else
     {
-        m_icon->setBackgroundColour( Colour::Grey );
-        m_icon->setBorder(1, Colour::White);
+        m_icon->setBorder( Colour::Grey, 1, Colour::White );
         m_label->setColour( Colour::White );
     }
 }
@@ -363,7 +356,7 @@ UI::HoverDescriptionContainer::HoverDescriptionContainer(UI::Manager *manager, U
     const int PaddingWx2 = 2 * PaddingW;
 
     setPreferredContentSize({TotalWidth - PaddingWx2, TotalHeight - PaddingWx2});
-    setBackgroundColour( Colour::Grey.withAlpha(200) );
+    setBackground( Colour::Grey.withAlpha(200) );
     setPadding(PaddingW);
 
     auto titleContainer = manager->createElement(this);

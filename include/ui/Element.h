@@ -11,6 +11,7 @@
 #include <resource/Sprite.h>
 #include <utils/Logging.h>
 #include <resource/Spritesheet.h>
+#include <ui/Background.h>
 #include <unordered_set>
 
 class RenderInterface;
@@ -100,14 +101,15 @@ public:
     }
 
     // Styling
-    void setBorder( int width, Colour colour );
-    void removeBorder();
+    void setBorder( Colour background, int width, Colour colour );
 
-    void setBackgroundColour( Colour colour );
-    void removeBackgroundColour();
-    void setBackgroundSprite( SpritesheetKey const& sp );
-    void setBackgroundSprite( Sprite const& s );
-    void removeBackgroundSprite();
+    template <typename ... Args>
+    void setBackground( Args ... args )
+    {
+        m_background = { std::forward<Args>(args)... };
+    }
+
+    void removeBackround();
 
     void setPadding( RectI const& rect );
     void setPadding( int w );
@@ -225,22 +227,15 @@ private:
     std::unique_ptr<UI::ElementLayout> m_layout;
 
     // Styles
-    bool m_hasBgColour;
-    Colour m_bgColour;
 
-    bool m_hasBorder;
-    Colour m_borderColour;
+    std::optional<ElementBackground> m_background;
     int m_borderWidth;
-
     RectI m_padding;
 
     // Events
     std::unordered_multimap<UEventType, UEventCallback> m_callbacks;
 
-    // Rendering
-    Sprite m_backgroundSprite;
-    Sprite m_backgroundTexture;
-
+    // DOM
     std::list<ElementPtr> m_children;
 };
 

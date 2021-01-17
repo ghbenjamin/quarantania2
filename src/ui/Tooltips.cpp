@@ -26,7 +26,7 @@ UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipD
         contentNode->setText( data.content );
     }
 
-    setBackgroundColour( Colour::Grey.withAlpha(210) );
+    setBackground( Colour::Grey.withAlpha(210) );
 }
 
 UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, const std::vector<TooltipData> &data, bool longContent)

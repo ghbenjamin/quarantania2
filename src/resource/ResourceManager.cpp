@@ -120,6 +120,20 @@ Sprite ResourceManager::getSprite(std::string const& imgName)
     }
 }
 
+TexturePtr ResourceManager::getTexture(const std::string &imgName)
+{
+    try
+    {
+        return m_images.at(imgName)->get();
+    }
+    catch ( [[maybe_unused]] std::exception const& ex )
+    {
+        Logging::log( "ERROR: Unknown image [{}]\n", imgName );
+        std::terminate();
+    }
+}
+
+
 FontPtr ResourceManager::getFont(std::string const &fname, int fontSize)
 {
     try

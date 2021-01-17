@@ -6,8 +6,7 @@
 UI::Dialog::Dialog(Manager* manager, Element* parent, std::string const &title, int maxWidth )
 : Element(manager, parent), m_maxWidth(maxWidth)
 {
-    setBorder( 2, Colour::Grey );
-    setBackgroundColour( Colour::White );
+    setBorder( Colour::White, 2, Colour::Grey );
     setMaximumOuterSize({maxWidth, 1000});
     setLayout<VerticalLayout>( 1, HAlignment::Left );
 

@@ -25,10 +25,9 @@ UI::ContextMenu::ContextMenu(Manager* manager, Element* parent, const UI::Contex
         }
     }
 
-    setBackgroundColour( Colour::Beige );
-    setBorder( 2, Colour::Black );
-    setPadding(6);
-    setId("context-menu");
+    setBorder( Colour::Beige, 2, Colour::Black );
+    setPadding( 6 );
+    setId( "context-menu" );
 }
 
 UI::ContextMenuItem::ContextMenuItem(Manager* manager, Element* parent, std::string const &label, std::size_t idx)
@@ -39,11 +38,11 @@ UI::ContextMenuItem::ContextMenuItem(Manager* manager, Element* parent, std::str
     setPadding(0);
 
     addEventCallback( UEventType::MouseIn, [this](UEvent& evt) {
-        setBackgroundColour( Colour::Green );
+        setBackground( Colour::Green );
     });
 
     addEventCallback( UEventType::MouseOut, [this](UEvent& evt) {
-        removeBackgroundColour();
+        removeBackround();
     });
 }
 

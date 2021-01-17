@@ -48,9 +48,32 @@ UI::MainTextLog::MainTextLog(Manager* manager, Element* parent)
 {
     setLayout<VerticalLayout>( 2, HAlignment::Left );
     setPadding(2);
-    setBackgroundColour( Colour::Grey.withAlpha(230) );
+
+
+    auto bgTex = ResourceManager::get().getTexture( "gradient-background" );
+
+    std::array<RectI, 9> offsets = {
+            RectI{ 0, 0, 40, 40 },
+            RectI{ 40, 0, 40, 40 },
+            RectI{ 80, 0, 40, 40 },
+            RectI{ 0, 40, 40, 40 },
+            RectI{ 40, 40, 40, 40 },
+            RectI{ 80, 40, 40, 40 },
+            RectI{ 0, 80, 40, 40 },
+            RectI{ 40, 80, 40, 40 },
+            RectI{ 80, 80, 40, 40 },
+    };
+
+    NinePatch np { bgTex, offsets };
+
+
+//    setBackground( np );
+    setBackground( Colour::Grey.withAlpha(230) );
+
     setId("main-text-log");
     setPreferredContentSize({300, 200});
+
+
 
     m_font = ResourceManager::get().getDefaultFont(14);
 }
@@ -152,7 +175,7 @@ void UI::MainTextLog::updateSelf(uint32_t ticks, InputInterface &iinter, RenderI
 //
 //    setLayout<HorizontalLayout>( 0, VAlignment::Fill );
 //    setPreferredContentSize({TotalWidth, TotalHeight});
-//    setBackgroundColour( Colour::Grey.withAlpha(200) );
+//    setBackground( Colour::Grey.withAlpha(200) );
 //    setId("main-text-log");
 //
 //    m_textarea = manager->createElement<UI::TextLogTextArea>(this);
@@ -183,12 +206,12 @@ void UI::MainTextLog::updateSelf(uint32_t ticks, InputInterface &iinter, RenderI
 //UI::Scrollbar::Scrollbar(UI::Manager *manager, UI::Element *parent)
 //    : Element(manager, parent)
 //{
-//    setBackgroundColour( Colour::Grey.withAlpha(240) );
+//    setBackground( Colour::Grey.withAlpha(240) );
 //    setLayout<VerticalLayout>(0, HAlignment::Left );
 //
 //    m_scrollThumb = manager->createElement<UI::Element>( this );
 //    m_scrollThumb->setPreferredContentSize({10, 20});
-//    m_scrollThumb->setBackgroundColour(Colour::White);
+//    m_scrollThumb->setBackground(Colour::White);
 //}
 //
 //void UI::Scrollbar::onSizeSelf()
