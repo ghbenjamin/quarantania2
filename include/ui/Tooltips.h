@@ -21,6 +21,7 @@ public:
 class Tooltip : public Element
 {
 public:
+
     Tooltip(Manager* manager, Element* parent, TooltipData const& data, bool longContent=false );
     Tooltip(Manager* manager, Element* parent, std::vector<TooltipData> const& data, bool longContent=false );
     ~Tooltip() override = default;

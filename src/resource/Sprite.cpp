@@ -7,8 +7,7 @@
 
 Sprite::Sprite()
     : m_renderObj{ nullptr, {0, 0, 0, 0}, {0, 0, 0, 0}}
-{
-}
+{}
 
 Sprite::Sprite(std::shared_ptr<Texture> texture, RectI const &region)
     : m_texture(std::move(texture)), m_renderObj{
@@ -16,12 +15,10 @@ Sprite::Sprite(std::shared_ptr<Texture> texture, RectI const &region)
         region.toSDL(),
         {0, 0, region.w(), region.h()}
     }
-
-{
-}
+{}
 
 Sprite::Sprite(std::shared_ptr<Texture> texture)
-    : m_texture(std::move(texture)), m_renderObj{ m_texture->raw(),{0, 0, 0, 0},{0, 0, 0, 0} }
+    : m_texture(std::move(texture)), m_renderObj{ m_texture->raw(), {0, 0, 0, 0}, {0, 0, 0, 0} }
 {
     auto [w, h] = m_texture->size();
 

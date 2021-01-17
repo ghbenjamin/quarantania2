@@ -16,6 +16,7 @@ class Surface;
 using TexturePtr = std::shared_ptr<Texture>;
 using SurfacePtr = std::shared_ptr<Surface>;
 
+
 class Texture
 {
 public:

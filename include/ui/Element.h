@@ -227,9 +227,11 @@ private:
     // Styles
     bool m_hasBgColour;
     Colour m_bgColour;
+
     bool m_hasBorder;
     Colour m_borderColour;
     int m_borderWidth;
+
     RectI m_padding;
 
     // Events

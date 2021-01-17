@@ -331,7 +331,7 @@ void Element::generateBackground()
         m_backgroundSprite = Sprite();
     }
 
-    m_backgroundSprite.setRenderLayer(RenderLayer::UI );
+    m_backgroundSprite.setRenderLayer(RenderLayer::UI);
 }
 
 void Element::setHidden( bool val )

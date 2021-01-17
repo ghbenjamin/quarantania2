@@ -22,8 +22,7 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
     bool isHit = false;
     bool isCrit = false;
 
-
-    m_level->pushLogLine( fmt::format( "{} attacks {} (roll = {})", attackerDesc, defenderDesc, attackRoll ));
+    m_level->pushLogLine( fmt::format( "{} attacks {} (roll={})", attackerDesc, defenderDesc, attackRoll ));
 
 
     // Did we hit?

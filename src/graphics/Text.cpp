@@ -69,7 +69,7 @@ std::shared_ptr<Surface> FontCache::renderText(const std::string &text, int maxW
     int currY = 0;
     std::uint16_t previous = 0;
 
-    for (int i = 0; i < text.size(); i++)
+    for (int i = 0; i < (int) text.size(); i++)
     {
         // Convert from char to unicode codepoint, offset to start at the alphanumeric characters
         std::uint16_t idx = static_cast<std::uint16_t>( text.at(i) ) - AsciiStartIdx;
@@ -91,7 +91,7 @@ std::shared_ptr<Surface> FontCache::renderText(const std::string &text, int maxW
 
     auto outSurface = Surface::createSurface({currX, m_font->getLineSkip()});
 
-    for ( int i = 0; i < glyphs.size(); i++)
+    for ( int i = 0; i < (int) glyphs.size(); i++)
     {
         GlyphPosition glpos = glyphs[i];
         SDL_Rect* glsize = &m_locs[glpos.idx];

@@ -17,7 +17,7 @@ void UI::TextLogLineData::renderText(FontPtr& font, RectI bounds)
 {
     m_sprite = Sprite{ font->renderText( displayText(), m_colour, bounds.w() ) };
     m_sprite.setRenderLayer( RenderLayer::UI );
-    m_sprite.setClipRect( bounds );
+//    m_sprite.setClipRect( bounds );
 }
 
 std::string UI::TextLogLineData::displayText() const
@@ -69,7 +69,7 @@ void UI::MainTextLog::addLine(std::string_view line, Colour const& colour)
         m_lines.push_back({ std::string{line}, 1, colour });
 
         // We only keep so many lines - delete from the front as we add to the back
-        if ( m_lines.size() > m_maxLines )
+        if ( (int) m_lines.size() > m_maxLines )
         {
             m_lines.pop_front();
         }
