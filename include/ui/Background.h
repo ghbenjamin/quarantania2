@@ -13,6 +13,8 @@ struct SpritesheetKey;
 namespace UI
 {
 
+
+// The portions of a rectangle cut into thirds vertically and horizontally
 enum class Nontants
 {
     TopLeft,
@@ -26,13 +28,6 @@ enum class Nontants
     BottomRight
 };
 
-enum class BackgroundType
-{
-    SingleSprite,
-    NinePatch,
-    SingleColour,
-    ColourWithBorder,
-};
 
 
 class NinePatch
@@ -57,7 +52,9 @@ class ElementBackground
 public:
     ElementBackground( Sprite const& sprite );
     ElementBackground( SpritesheetKey const& key );
-    ElementBackground( NinePatch const& );
+
+    ElementBackground( NinePatch const& patch );
+
     ElementBackground( Colour const& colour );
     ElementBackground( Colour const& backColour, Colour const& borderColour, int borderWidth );
 
@@ -67,6 +64,14 @@ public:
     void regenerateBackground( Vector2i size );
 
 private:
+
+    enum class BackgroundType
+    {
+        SingleSprite,
+        NinePatch,
+        SingleColour,
+        ColourWithBorder,
+    };
 
     BackgroundType m_type;
 

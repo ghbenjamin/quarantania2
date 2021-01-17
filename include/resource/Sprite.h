@@ -13,6 +13,8 @@ public:
     explicit Sprite(TexturePtr texture);
     virtual ~Sprite() = default;
 
+    void setTargetSize( Vector2i size );
+
     // Which layer of render objects should this item be grouped with?
     void setRenderLayer(RenderLayer layer);
 

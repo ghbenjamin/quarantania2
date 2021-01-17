@@ -1,7 +1,6 @@
 #include <ui/TextLog.h>
-#include <ui/Manager.h>
 
-#include <ui/Controls.h>
+#include <ui/Manager.h>
 #include <resource/ResourceManager.h>
 #include <graphics/RenderInterface.h>
 
@@ -49,31 +48,27 @@ UI::MainTextLog::MainTextLog(Manager* manager, Element* parent)
     setLayout<VerticalLayout>( 2, HAlignment::Left );
     setPadding(2);
 
-
     auto bgTex = ResourceManager::get().getTexture( "gradient-background" );
 
     std::array<RectI, 9> offsets = {
-            RectI{ 0, 0, 40, 40 },
-            RectI{ 40, 0, 40, 40 },
-            RectI{ 80, 0, 40, 40 },
-            RectI{ 0, 40, 40, 40 },
-            RectI{ 40, 40, 40, 40 },
-            RectI{ 80, 40, 40, 40 },
-            RectI{ 0, 80, 40, 40 },
-            RectI{ 40, 80, 40, 40 },
-            RectI{ 80, 80, 40, 40 },
+        RectI{ 0, 0, 40, 40 },
+        RectI{ 40, 0, 40, 40 },
+        RectI{ 80, 0, 40, 40 },
+        RectI{ 0, 40, 40, 40 },
+        RectI{ 40, 40, 40, 40 },
+        RectI{ 80, 40, 40, 40 },
+        RectI{ 0, 80, 40, 40 },
+        RectI{ 40, 80, 40, 40 },
+        RectI{ 80, 80, 40, 40 },
     };
 
     NinePatch np { bgTex, offsets };
-
 
 //    setBackground( np );
     setBackground( Colour::Grey.withAlpha(230) );
 
     setId("main-text-log");
     setPreferredContentSize({300, 200});
-
-
 
     m_font = ResourceManager::get().getDefaultFont(14);
 }

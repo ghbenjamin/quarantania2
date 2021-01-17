@@ -69,3 +69,9 @@ Vector2i Sprite::textureSize() const
 {
     return m_texture->size();
 }
+
+void Sprite::setTargetSize(Vector2i size)
+{
+    m_renderObj.targetRect.w = size.x();
+    m_renderObj.targetRect.h = size.y();
+}

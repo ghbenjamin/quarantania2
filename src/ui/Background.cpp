@@ -45,10 +45,11 @@ void ElementBackground::render(Vector2i position, RenderInterface &rInter)
     switch (m_type)
     {
         case BackgroundType::SingleSprite:
-            m_singleSprite->renderObject( position );
+            rInter.addScreenItem( m_singleSprite->renderObject( position ) );
             break;
 
         case BackgroundType::NinePatch:
+            m_ninePatch->render( position, rInter );
             break;
 
         case BackgroundType::SingleColour:
@@ -122,6 +123,12 @@ void NinePatch::setSize(Vector2i size)
     m_offsets[(int)Nontants::BottomLeft] =   { x0, y2, leftColW, bottomRowH };
     m_offsets[(int)Nontants::BottomCentre] = { x1, y2, midColW, bottomRowH };
     m_offsets[(int)Nontants::BottomRight] =  { x2, y2, rightColW, bottomRowH };
+
+    m_sprites[(int)Nontants::TopCentre].setTargetSize({ midColW, topRowH });
+    m_sprites[(int)Nontants::CentreLeft].setTargetSize({ leftColW, midRowH });
+    m_sprites[(int)Nontants::CentreRight].setTargetSize({ rightColW, midRowH });
+    m_sprites[(int)Nontants::BottomCentre].setTargetSize({ midColW, bottomRowH });
+    m_sprites[(int)Nontants::Centre].setTargetSize({ midColW, midRowH });
 }
 
 void NinePatch::render(Vector2i position, RenderInterface &rInter)
