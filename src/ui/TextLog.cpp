@@ -48,24 +48,24 @@ UI::MainTextLog::MainTextLog(Manager* manager, Element* parent)
     setLayout<VerticalLayout>( 2, HAlignment::Left );
     setPadding(2);
 
-    auto bgTex = ResourceManager::get().getTexture( "gradient-background" );
+    auto bgTex = ResourceManager::get().getTexture( "simple-border" );
 
     std::array<RectI, 9> offsets = {
-        RectI{ 0, 0, 40, 40 },
-        RectI{ 40, 0, 40, 40 },
-        RectI{ 80, 0, 40, 40 },
-        RectI{ 0, 40, 40, 40 },
-        RectI{ 40, 40, 40, 40 },
-        RectI{ 80, 40, 40, 40 },
-        RectI{ 0, 80, 40, 40 },
-        RectI{ 40, 80, 40, 40 },
-        RectI{ 80, 80, 40, 40 },
+        RectI{ 0, 0, 25, 25 },
+        RectI{ 25, 0, 25, 25 },
+        RectI{ 75, 0, 25, 25 },
+        RectI{ 0, 25, 25, 25 },
+        RectI{ 25, 25, 25, 25 },
+        RectI{ 75, 25, 25, 25 },
+        RectI{ 0, 75, 25, 25 },
+        RectI{ 25, 75, 25, 25 },
+        RectI{ 75, 75, 25, 25 },
     };
 
     NinePatch np { bgTex, offsets };
 
-//    setBackground( np );
-    setBackground( Colour::Grey.withAlpha(230) );
+    setBackground( np );
+//    setBackground( Colour::Grey.withAlpha(230) );
 
     setId("main-text-log");
     setPreferredContentSize({300, 200});

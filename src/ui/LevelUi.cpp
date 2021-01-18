@@ -393,3 +393,24 @@ void UI::HoverDescriptionContainer::clearData()
 }
 
 
+UI::EquipUi::EquipUi(UI::Manager *manager, UI::Element *parent) : Element(manager, parent)
+{
+    std::vector<Vector2i> locs = {
+        { 24,3 },
+        { 66,3 },
+        { 108,3 },
+        { 24,45 },
+        { 66,45 },
+        { 108,45 },
+        { 24,87 },
+        { 66,87 },
+        { 108,87 },
+        { 3,129 },
+        { 45,129 },
+        { 87,129 },
+        { 129,129 },
+        { 24,170 },
+        { 66,170 },
+        { 108,170 },
+    };
+}
