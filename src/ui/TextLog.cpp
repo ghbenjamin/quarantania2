@@ -68,6 +68,7 @@ UI::MainTextLog::MainTextLog(Manager* manager, Element* parent)
 //    setBackground( Colour::Grey.withAlpha(230) );
 
     setId("main-text-log");
+    setBorderWidth(4);
     setPreferredContentSize({300, 200});
 
     m_font = ResourceManager::get().getDefaultFont(14);

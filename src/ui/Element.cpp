@@ -254,6 +254,14 @@ void Element::setBorder(Colour background, int width, Colour colour)
     doLayout();
 }
 
+
+void Element::setBorderWidth(int width)
+{
+    m_borderWidth = width;
+    doLayout();
+}
+
+
 void Element::setPadding( RectI const& rect )
 {
     m_padding = rect;

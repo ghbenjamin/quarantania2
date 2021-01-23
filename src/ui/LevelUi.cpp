@@ -395,22 +395,37 @@ void UI::HoverDescriptionContainer::clearData()
 
 UI::EquipUi::EquipUi(UI::Manager *manager, UI::Element *parent) : Element(manager, parent)
 {
+
+
+    setBackground( Colour::Grey );
+    setPreferredContentSize({200, 300});
+
+    setLayout<VerticalLayout>( 2, HAlignment::Left );
+    manager->createElement<UI::EquipUiInner>(this);
+}
+
+UI::EquipUiInner::EquipUiInner(UI::Manager *manager, UI::Element *parent) : Element(manager, parent)
+{
     std::vector<Vector2i> locs = {
-        { 24,3 },
-        { 66,3 },
-        { 108,3 },
-        { 24,45 },
-        { 66,45 },
-        { 108,45 },
-        { 24,87 },
-        { 66,87 },
-        { 108,87 },
-        { 3,129 },
-        { 45,129 },
-        { 87,129 },
-        { 129,129 },
-        { 24,170 },
-        { 66,170 },
-        { 108,170 },
+            { 24,3 },
+            { 66,3 },
+            { 108,3 },
+            { 24,45 },
+            { 66,45 },
+            { 108,45 },
+            { 24,87 },
+            { 66,87 },
+            { 108,87 },
+            { 3,129 },
+            { 45,129 },
+            { 87,129 },
+            { 129,129 },
+            { 24,170 },
+            { 66,170 },
+            { 108,170 },
     };
+
+    setPreferredContentSize({164, 205});
+    auto sprite = ResourceManager::get().getImageAsSprite( "equip-only" );
+    setBackground( sprite );
 }

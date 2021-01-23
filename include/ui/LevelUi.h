@@ -123,6 +123,17 @@ private:
 
 
 
+class EquipUiInner : public Element
+{
+public:
+
+    EquipUiInner(Manager* manager, Element* parent);
+    ~EquipUiInner() override = default;
+
+private:
+};
+
+
 class EquipUi : public Element
 {
 public:

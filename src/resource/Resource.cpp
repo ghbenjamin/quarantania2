@@ -125,5 +125,40 @@ void SpritesheetResource::load()
 
 void SpritesheetResource::unload()
 {
-    m_spritesheet = SpritesheetPtr();
+    m_spritesheet.reset()
+}
+
+NinePatchResource::NinePatchResource(const std::string &name)
+: Resource(name)
+{
+}
+
+void NinePatchResource::load()
+{
+    m_texture = Texture::loadTexture( "../resource/ninepatch/" + m_name + ".png" );
+
+    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/ninepatch/" + m_name + ".json" );
+
+    m_borderWidth = doc.FindMember( "border_width" )->value.GetInt();
+    auto offsetArr = doc.FindMember("offsets")->value.GetArray();
+
+
+    for ( int i = 0; i < 9; i++ )
+    {
+        auto offArr = offsetArr[i].GetArray();
+        RectI offsetRect = {
+            offArr[0].GetInt(),
+            offArr[1].GetInt(),
+            offArr[2].GetInt(),
+            offArr[3].GetInt(),
+        };
+
+        m_offsets[i] = offsetRect;
+    }
+}
+
+void NinePatchResource::unload()
+{
+    m_texture.reset();
+    m_borderWidth = -1;
 }

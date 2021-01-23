@@ -103,6 +103,8 @@ public:
     // Styling
     void setBorder( Colour background, int width, Colour colour );
 
+    void setBorderWidth( int width );
+
     template <typename ... Args>
     void setBackground( Args ... args )
     {

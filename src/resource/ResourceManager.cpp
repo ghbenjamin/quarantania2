@@ -23,9 +23,26 @@ void ResourceManager::loadAll()
     auto spritesheetPath = resourceRoot / "spritesheet";
     auto fontPath = resourceRoot / "font";
     auto imgPath = resourceRoot / "img";
+    auto ninepatchPath = resourceRoot / "ninepatch";
 
     // Load all spritesheets
     for ( auto const& file : std::filesystem::directory_iterator(spritesheetPath) )
+    {
+        auto const& fpath = file.path();
+        if ( fpath.has_extension() && fpath.extension().string() == ".png" )
+        {
+            auto jsonPath = fpath;
+            jsonPath.replace_extension(".json");
+
+            if ( std::filesystem::exists(jsonPath) )
+            {
+                addSpritesheetResource( fpath.stem().string() );
+            }
+        }
+    }
+
+    // Load all patches
+    for ( auto const& file : std::filesystem::directory_iterator(ninepatchPath) )
     {
         auto const& fpath = file.path();
         if ( fpath.has_extension() && fpath.extension().string() == ".png" )
@@ -107,7 +124,7 @@ Sprite ResourceManager::getSprite(SpritesheetKey const& key)
     }
 }
 
-Sprite ResourceManager::getSprite(std::string const& imgName)
+Sprite ResourceManager::getImageAsSprite(std::string const& imgName)
 {
     try
     {
@@ -166,6 +183,11 @@ void ResourceManager::addSpritesheetResource(const std::string &name)
 void ResourceManager::addFontResource(const std::string &name)
 {
     m_fonts.emplace(name, std::make_shared<FontResource>( name ));
+}
+
+void ResourceManager::addNinepatchResource(const std::string &name)
+{
+    m_ninepatches.emplace(name, std::make_shared<FontResource>( name ));
 }
 
 

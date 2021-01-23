@@ -2,6 +2,8 @@
 
 #include <memory>
 #include <string>
+#include <array>
+
 #include <graphics/Texture.h>
 #include <resource/Font.h>
 #include <resource/Spritesheet.h>
@@ -75,4 +77,20 @@ public:
 
 private:
     SpritesheetPtr m_spritesheet;
+};
+
+
+class NinePatchResource : public Resource
+{
+public:
+    NinePatchResource(std::string const &name);
+    ~NinePatchResource() override = default;
+
+    void load() override;
+    void unload() override;
+
+private:
+    int m_borderWidth;
+    TexturePtr m_texture;
+    std::array<RectI, 9> m_offsets;
 };

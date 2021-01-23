@@ -31,7 +31,7 @@ public:
 
     [[nodiscard]] Sprite getSprite( std::string const& sheet, std::string const& name );
     [[nodiscard]] Sprite getSprite( SpritesheetKey const& key );
-    [[nodiscard]] Sprite getSprite( std::string const& imgName );
+    [[nodiscard]] Sprite getImageAsSprite( std::string const& imgName );
     [[nodiscard]] FontPtr getFont( std::string const& fname, int fontSize );
     [[nodiscard]] FontPtr getDefaultFont( int fontSize );
 
@@ -45,10 +45,13 @@ private:
     void addImageResource( std::string const& name );
     void addFontResource( std::string const& name );
     void addSpritesheetResource( std::string const& name );
+    void addNinepatchResource( std::string const& name );
+
 
     std::unordered_map<std::string, std::shared_ptr<FontResource>> m_fonts;
     std::unordered_map<std::string, std::shared_ptr<SpritesheetResource>> m_spritesheets;
     std::unordered_map<std::string, std::shared_ptr<ImageResource>> m_images;
+    std::unordered_map<std::string, std::shared_ptr<NinePatchResource>> m_patches;
 
     WindowPtr m_context;
 
