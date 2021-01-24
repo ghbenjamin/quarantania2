@@ -41,34 +41,17 @@ RenderObject UI::TextLogLineData::getRenderObj() const
     return m_sprite.renderObject( m_pos );
 }
 
-
 UI::MainTextLog::MainTextLog(Manager* manager, Element* parent)
 : Element(manager, parent), m_maxLines(10), m_scrollPos(0)
 {
+    auto const& patch = ResourceManager::get().getNinePatch( "simple-border" );
+    NinePatch np = { patch.texture(), patch.offsets() };
+
     setLayout<VerticalLayout>( 2, HAlignment::Left );
     setPadding(2);
-
-    auto bgTex = ResourceManager::get().getTexture( "simple-border" );
-
-    std::array<RectI, 9> offsets = {
-        RectI{ 0, 0, 25, 25 },
-        RectI{ 25, 0, 25, 25 },
-        RectI{ 75, 0, 25, 25 },
-        RectI{ 0, 25, 25, 25 },
-        RectI{ 25, 25, 25, 25 },
-        RectI{ 75, 25, 25, 25 },
-        RectI{ 0, 75, 25, 25 },
-        RectI{ 25, 75, 25, 25 },
-        RectI{ 75, 75, 25, 25 },
-    };
-
-    NinePatch np { bgTex, offsets };
-
     setBackground( np );
-//    setBackground( Colour::Grey.withAlpha(230) );
-
+    setBorderWidth( patch.borderWidth() );
     setId("main-text-log");
-    setBorderWidth(4);
     setPreferredContentSize({300, 200});
 
     m_font = ResourceManager::get().getDefaultFont(14);

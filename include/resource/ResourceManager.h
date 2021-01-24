@@ -34,9 +34,8 @@ public:
     [[nodiscard]] Sprite getImageAsSprite( std::string const& imgName );
     [[nodiscard]] FontPtr getFont( std::string const& fname, int fontSize );
     [[nodiscard]] FontPtr getDefaultFont( int fontSize );
-
     [[nodiscard]] TexturePtr getTexture( std::string const& imgName );
-
+    [[nodiscard]] NinePatchResource const& getNinePatch( std::string const& name );
 
 private:
 

@@ -125,7 +125,7 @@ void SpritesheetResource::load()
 
 void SpritesheetResource::unload()
 {
-    m_spritesheet.reset()
+    m_spritesheet.reset();
 }
 
 NinePatchResource::NinePatchResource(const std::string &name)
@@ -161,4 +161,19 @@ void NinePatchResource::unload()
 {
     m_texture.reset();
     m_borderWidth = -1;
+}
+
+int NinePatchResource::borderWidth() const
+{
+    return m_borderWidth;
+}
+
+std::array<RectI, 9> NinePatchResource::offsets() const
+{
+    return m_offsets;
+}
+
+TexturePtr const &NinePatchResource::texture() const
+{
+    return m_texture;
 }

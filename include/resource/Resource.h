@@ -89,6 +89,10 @@ public:
     void load() override;
     void unload() override;
 
+    int borderWidth() const;
+    TexturePtr const& texture() const;
+    std::array<RectI, 9> offsets() const;
+
 private:
     int m_borderWidth;
     TexturePtr m_texture;

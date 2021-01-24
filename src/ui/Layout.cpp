@@ -231,3 +231,20 @@ Vector2i UI::FreeLayout::doLayout(UI::Element *ptr)
 {
     return ptr->preferredContentSize();
 }
+
+Vector2i UI::CenterLayout::doLayout(UI::Element *ptr)
+{
+    Assert( ptr->children().size() == 1 );
+
+    auto contentSize = ptr->preferredContentSize();
+    auto& child = ptr->children().front();
+
+    auto childBounds = child->outerBounds();
+
+    child->setLocalPosition({
+        contentSize.x() / 2 - childBounds.w() / 2,
+        contentSize.y() / 2 - childBounds.h() / 2,
+    });
+
+    return contentSize;
+}

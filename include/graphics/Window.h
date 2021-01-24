@@ -24,6 +24,9 @@ public:
 
 private:
 
+    void maximizeWindow();
+
+
     SDL_Window* m_window;
     Vector2i m_size;
 

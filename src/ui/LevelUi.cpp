@@ -395,12 +395,16 @@ void UI::HoverDescriptionContainer::clearData()
 
 UI::EquipUi::EquipUi(UI::Manager *manager, UI::Element *parent) : Element(manager, parent)
 {
+    auto const& patch = ResourceManager::get().getNinePatch( "simple-border" );
+    NinePatch np = { patch.texture(), patch.offsets() };
 
+    setBackground( np );
+    setBorderWidth( patch.borderWidth() );
 
-    setBackground( Colour::Grey );
+//    setBackground( Colour::Grey );
     setPreferredContentSize({200, 300});
 
-    setLayout<VerticalLayout>( 2, HAlignment::Left );
+    setLayout<FreeLayout>();
     manager->createElement<UI::EquipUiInner>(this);
 }
 
@@ -428,4 +432,5 @@ UI::EquipUiInner::EquipUiInner(UI::Manager *manager, UI::Element *parent) : Elem
     setPreferredContentSize({164, 205});
     auto sprite = ResourceManager::get().getImageAsSprite( "equip-only" );
     setBackground( sprite );
+
 }

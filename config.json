@@ -1,8 +1,8 @@
 {
   "windowTitle": "Quarantaina 2!",
   "screenSize": {
-    "w": 1100,
-    "h": 700
+    "w": 1300,
+    "h": 750
   },
   "maxFPS": 60
 }

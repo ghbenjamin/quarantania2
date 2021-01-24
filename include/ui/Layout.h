@@ -82,6 +82,12 @@ private:
     VAlignment m_valign;
 };
 
+class CenterLayout : public ElementLayout
+{
+public:
+    Vector2i doLayout(Element *ptr) override;
+};
+
 
 class FreeLayout : public ElementLayout
 {

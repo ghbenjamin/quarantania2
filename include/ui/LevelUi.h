@@ -129,8 +129,10 @@ public:
 
     EquipUiInner(Manager* manager, Element* parent);
     ~EquipUiInner() override = default;
-
 private:
+
+    std::unordered_map<EquipSlot, RectI> m_regions;
+
 };
 
 

@@ -20,6 +20,7 @@ Window::Window(std::string const &title, Vector2i bounds)
     );
 
     SDL_SetWindowMinimumSize( m_window, 800, 600 );
+//    maximizeWindow();
 
     Assert( m_window != nullptr);
 
@@ -61,4 +62,9 @@ const Vector2i Window::getSize() const
 Cursor &Window::cursor()
 {
     return m_cursor;
+}
+
+void Window::maximizeWindow()
+{
+    SDL_MaximizeWindow( m_window );
 }

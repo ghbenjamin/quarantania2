@@ -52,7 +52,7 @@ void ResourceManager::loadAll()
 
             if ( std::filesystem::exists(jsonPath) )
             {
-                addSpritesheetResource( fpath.stem().string() );
+                addNinepatchResource( fpath.stem().string() );
             }
         }
     }
@@ -93,6 +93,12 @@ void ResourceManager::loadAll()
         v->load();
     }
 
+    for ( auto const &[k, v] : m_patches )
+    {
+        v->load();
+    }
+
+
 //    // DEBUG
 //    FontCache foo { getDefaultFont(12), Colour::Black };
 //    auto txt = foo.renderText( "The quick brown fox jumps over the lazy dog" );
@@ -104,6 +110,7 @@ void ResourceManager::unloadAll()
     m_spritesheets.clear();
     m_fonts.clear();
     m_images.clear();
+    m_patches.clear();
 }
 
 Sprite ResourceManager::getSprite(std::string const &sheet, std::string const &name)
@@ -164,6 +171,22 @@ FontPtr ResourceManager::getFont(std::string const &fname, int fontSize)
     }
 }
 
+
+NinePatchResource const& ResourceManager::getNinePatch(const std::string &name)
+{
+    try
+    {
+        return *m_patches.at(name);
+    }
+    catch ( [[maybe_unused]] std::exception const& ex )
+    {
+        Logging::log( "ERROR: Unknown ninepatch [{}]\n", name );
+        std::terminate();
+    }
+}
+
+
+
 FontPtr ResourceManager::getDefaultFont(int fontSize)
 {
     return getFont( "inconsolata-regular", fontSize );
@@ -187,7 +210,5 @@ void ResourceManager::addFontResource(const std::string &name)
 
 void ResourceManager::addNinepatchResource(const std::string &name)
 {
-    m_ninepatches.emplace(name, std::make_shared<FontResource>( name ));
+    m_patches.emplace(name, std::make_shared<NinePatchResource>( name ));
 }
-
-
