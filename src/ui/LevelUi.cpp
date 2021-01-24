@@ -433,4 +433,15 @@ UI::EquipUiInner::EquipUiInner(UI::Manager *manager, UI::Element *parent) : Elem
     auto sprite = ResourceManager::get().getImageAsSprite( "equip-only" );
     setBackground( sprite );
 
+
+
+}
+
+void UI::EquipUiInner::addRegion(CreatureEquipSlot slot, const SpritesheetKey &key, const Vector2i &offset)
+{
+    EquipSlotView view;
+    view.sprite = ResourceManager::get().getSprite( key );
+    view.offset = { offset, Vector2i{32, 32} };
+
+    m_regions.emplace( slot, view );
 }

@@ -137,7 +137,7 @@ public:
     EquipUiInner(Manager* manager, Element* parent);
     ~EquipUiInner() override = default;
 private:
-
+    void addRegion( CreatureEquipSlot slot, SpritesheetKey const& key, Vector2i const& offset );
     std::unordered_map<CreatureEquipSlot, EquipSlotView> m_regions;
 
 };
