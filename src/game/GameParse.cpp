@@ -50,75 +50,75 @@ DnDAlignment EnumParse::alignment(std::string const& input)
     }
 }
 
-EquipSlot EnumParse::equipSlot(std::string const& input)
+ItemEquipSlot EnumParse::equipSlot(std::string const& input)
 {
     if ( input == "armor" )
     {
-        return EquipSlot::Armor;
+        return ItemEquipSlot::Armor;
     }
     else if ( input == "arms" )
     {
-        return EquipSlot::Arms;
+        return ItemEquipSlot::Arms;
     }
     else if ( input == "belt" )
     {
-        return EquipSlot::Belt;
+        return ItemEquipSlot::Belt;
     }
     else if ( input == "body" )
     {
-        return EquipSlot::Body;
+        return ItemEquipSlot::Body;
     }
     else if ( input == "chest" )
     {
-        return EquipSlot::Chest;
+        return ItemEquipSlot::Chest;
     }
     else if ( input == "eyes" )
     {
-        return EquipSlot::Eyes;
+        return ItemEquipSlot::Eyes;
     }
     else if ( input == "feet" )
     {
-        return EquipSlot::Feet;
+        return ItemEquipSlot::Feet;
     }
     else if ( input == "hands" )
     {
-        return EquipSlot::Hands;
+        return ItemEquipSlot::Hands;
     }
     else if ( input == "head" )
     {
-        return EquipSlot::Head;
+        return ItemEquipSlot::Head;
     }
     else if ( input == "headband" )
     {
-        return EquipSlot::Headband;
+        return ItemEquipSlot::Headband;
     }
     else if ( input == "neck" )
     {
-        return EquipSlot::Neck;
+        return ItemEquipSlot::Neck;
     }
     else if ( input == "ring" )
     {
-        return EquipSlot::Ring;
+        return ItemEquipSlot::Ring;
     }
     else if ( input == "shield" )
     {
-        return EquipSlot::Shield;
+        return ItemEquipSlot::Shield;
     }
     else if ( input == "shoulders" )
     {
-        return EquipSlot::Shoulders;
+        return ItemEquipSlot::Shoulders;
     }
     else if ( input == "wrists" )
     {
-        return EquipSlot::Wrists;
+        return ItemEquipSlot::Wrists;
     }
     else if ( input == "weapon" )
     {
-        return EquipSlot::Weapon;
+        return ItemEquipSlot::Weapon;
     }
     else
     {
-        return EquipSlot::None;
+        return ItemEquipSlot::None;
     }
 }
 

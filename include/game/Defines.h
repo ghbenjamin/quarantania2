@@ -99,7 +99,7 @@ enum class ItemType
     Ammo,
 };
 
-enum class EquipSlot
+enum class ItemEquipSlot
 {
     None,
     Armor,
@@ -119,6 +119,31 @@ enum class EquipSlot
     Weapon,
     Wrists,
 };
+
+enum class CreatureEquipSlot
+{
+    Head,
+    Headband,
+    Eyes,
+
+    Shoulders,
+    Neck,
+    Chest,
+
+    Belt,
+    Wrists,
+    Arms,
+
+    LeftHand,
+    Body,
+    Armour,
+    RightHand,
+
+    Ring1,
+    Ring2,
+    Feet
+};
+
 
 
 enum class WeaponHandedness

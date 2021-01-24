@@ -90,7 +90,7 @@ public:
     ItemType getType() const;
     int getValue() const;
     int getWeight() const;
-    EquipSlot getEquipSlot() const;
+    ItemEquipSlot getEquipSlot() const;
     const SpritesheetKey &getSprite() const;
     std::string const& getDescription() const;
 
@@ -113,7 +113,7 @@ private:
     int m_weight;
     SpritesheetKey m_sprite;
     std::string m_description;
-    EquipSlot m_equipSlot;
+    ItemEquipSlot m_equipSlot;
 
     std::optional<Weapon> m_weapon;
     std::optional<Armour> m_armour;

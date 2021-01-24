@@ -19,10 +19,10 @@ GameEvents::ItemPickup::ItemPickup(EntityRef actor, EntityRef item)
 GameEvents::ItemDrop::ItemDrop(EntityRef actor, std::shared_ptr<Item> item)
     : actor(actor), item(item) {}
 
-GameEvents::ItemEquip::ItemEquip(EntityRef actor, std::shared_ptr<Item> item, EquipSlot slot)
+GameEvents::ItemEquip::ItemEquip(EntityRef actor, std::shared_ptr<Item> item, ItemEquipSlot slot)
     : actor(actor), item(item), slot(slot) {}
 
-GameEvents::ItemUnequip::ItemUnequip(EntityRef actor, EquipSlot slot)
+GameEvents::ItemUnequip::ItemUnequip(EntityRef actor, ItemEquipSlot slot)
     : actor(actor), slot(slot) {}
 
 GameEvents::EntityDeath::EntityDeath(EntityRef actor)

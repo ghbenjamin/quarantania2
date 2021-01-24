@@ -93,12 +93,12 @@ std::string const& Actor::getName() const
     return m_name;
 }
 
-bool Actor::hasEquipped(EquipSlot slot) const
+bool Actor::hasEquipped(ItemEquipSlot slot) const
 {
     return m_equippedItems.find(slot) != m_equippedItems.end();
 }
 
-const ItemPtr Actor::getEquipped(EquipSlot slot) const
+const ItemPtr Actor::getEquipped(ItemEquipSlot slot) const
 {
     auto it = m_equippedItems.find(slot);
     if (it != m_equippedItems.end() )
@@ -111,7 +111,7 @@ const ItemPtr Actor::getEquipped(EquipSlot slot) const
     }
 }
 
-ItemPtr Actor::unequipItem(EquipSlot slot)
+ItemPtr Actor::unequipItem(ItemEquipSlot slot)
 {
     auto it = m_equippedItems.find(slot);
     auto ptr = it->second;
@@ -120,7 +120,7 @@ ItemPtr Actor::unequipItem(EquipSlot slot)
     return ptr;
 }
 
-ItemPtr Actor::equipItem(EquipSlot slot, ItemPtr item)
+ItemPtr Actor::equipItem(ItemEquipSlot slot, ItemPtr item)
 {
     auto lastEquipped = std::shared_ptr<Item>();
 
@@ -136,7 +136,7 @@ ItemPtr Actor::equipItem(EquipSlot slot, ItemPtr item)
 
 Weapon const& Actor::getActiveWeapon() const
 {
-    auto it = m_equippedItems.find(EquipSlot::Weapon);
+    auto it = m_equippedItems.find(ItemEquipSlot::Weapon);
     if (it != m_equippedItems.end() )
     {
         return it->second->getWeapon();
@@ -185,17 +185,17 @@ int Actor::getAC() const
     int armourAC = 0;
     int shieldAC = 0;
 
-    if ( hasEquipped(EquipSlot::Armor) )
+    if ( hasEquipped(ItemEquipSlot::Armor) )
     {
-        auto const& armour = getEquipped( EquipSlot::Armor )->getArmour();
+        auto const& armour = getEquipped( ItemEquipSlot::Armor )->getArmour();
 
         dexToAc = std::min( dexToAc, armour.maxDex() );
         armourAC = armour.armourBonus();
     }
 
-    if ( hasEquipped(EquipSlot::Shield) )
+    if ( hasEquipped(ItemEquipSlot::Shield) )
     {
-        auto const& shield = getEquipped( EquipSlot::Armor )->getArmour();
+        auto const& shield = getEquipped( ItemEquipSlot::Armor )->getArmour();
 
         dexToAc = std::min( dexToAc, shield.maxDex() );
         shieldAC = shield.armourBonus();

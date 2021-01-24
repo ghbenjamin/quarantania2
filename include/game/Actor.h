@@ -58,10 +58,10 @@ public:
     AbilityScoreBlock& abilityScores();
 
     // Items
-    bool hasEquipped( EquipSlot slot ) const;
-    const ItemPtr getEquipped( EquipSlot slot ) const;
-    ItemPtr unequipItem( EquipSlot slot );
-    ItemPtr equipItem( EquipSlot slot, ItemPtr item );
+    bool hasEquipped(ItemEquipSlot slot ) const;
+    const ItemPtr getEquipped(ItemEquipSlot slot ) const;
+    ItemPtr unequipItem(ItemEquipSlot slot );
+    ItemPtr equipItem(ItemEquipSlot slot, ItemPtr item );
 
     // Weapons
     Weapon const& getActiveWeapon() const;
@@ -94,6 +94,6 @@ private:
     int m_HpMax;
 
     // Items
-    std::unordered_map<EquipSlot, ItemPtr> m_equippedItems;
+    std::unordered_map<ItemEquipSlot, ItemPtr> m_equippedItems;
     std::vector<Weapon> m_naturalWeapons;
 };

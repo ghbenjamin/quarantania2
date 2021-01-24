@@ -104,21 +104,21 @@ struct ItemDrop : public GameEvent<ItemDrop>
 
 struct ItemEquip : public GameEvent<ItemEquip>
 {
-    ItemEquip(EntityRef actor, std::shared_ptr<Item> item, EquipSlot slot);
+    ItemEquip(EntityRef actor, std::shared_ptr<Item> item, ItemEquipSlot slot);
     ~ItemEquip() override = default;
 
     EntityRef actor;
     std::shared_ptr<Item> item;
-    EquipSlot slot;
+    ItemEquipSlot slot;
 };
 
 struct ItemUnequip : public GameEvent<ItemUnequip>
 {
-    ItemUnequip(EntityRef actor, EquipSlot slot);
+    ItemUnequip(EntityRef actor, ItemEquipSlot slot);
     ~ItemUnequip() override = default;
 
     EntityRef actor;
-    EquipSlot slot;
+    ItemEquipSlot slot;
 };
 
 struct EntityDeath : public GameEvent<EntityDeath>

@@ -151,7 +151,7 @@ void Item::initFromData(ItemData const &rawData)
     }
 }
 
-EquipSlot Item::getEquipSlot() const
+ItemEquipSlot Item::getEquipSlot() const
 {
     return m_equipSlot;
 }

@@ -123,6 +123,13 @@ private:
 
 
 
+struct EquipSlotView
+{
+    Sprite sprite;
+    RectI offset;
+};
+
+
 class EquipUiInner : public Element
 {
 public:
@@ -131,7 +138,7 @@ public:
     ~EquipUiInner() override = default;
 private:
 
-    std::unordered_map<EquipSlot, RectI> m_regions;
+    std::unordered_map<CreatureEquipSlot, EquipSlotView> m_regions;
 
 };
 
