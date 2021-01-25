@@ -136,10 +136,15 @@ public:
 
     EquipUiInner(Manager* manager, Element* parent);
     ~EquipUiInner() override = default;
+
+protected:
+    void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
+
 private:
     void addRegion( CreatureEquipSlot slot, SpritesheetKey const& key, Vector2i const& offset );
-    std::unordered_map<CreatureEquipSlot, EquipSlotView> m_regions;
 
+    void onMouseMove(UMouseMoveEvent const& evt);
+    std::unordered_map<CreatureEquipSlot, EquipSlotView> m_regions;
 };
 
 

@@ -279,6 +279,11 @@ bool Manager::handleMouseMove(IEventMouseMove evt)
     moveEvent.type = UEventType::MouseMove;
     moveEvent.mouseMoveEvent.pos = evt.screenPos;
 
+    if (!elems.empty())
+    {
+        int r = 4;
+    }
+
     for ( auto const& w: elems )
     {
         moveEvent.targetElement = w;

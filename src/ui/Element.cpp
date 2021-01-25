@@ -148,6 +148,11 @@ void Element::doLayout()
         actualContentSize = m_preferredContentSize;
     }
 
+    if ( m_id == "ui-equip-inner")
+    {
+        int t = 4;
+    }
+
     m_outerBounds = RectI{
         m_globalPosition.x(),
         m_globalPosition.y(),

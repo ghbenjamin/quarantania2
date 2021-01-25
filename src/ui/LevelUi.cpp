@@ -7,6 +7,7 @@
 #include <resource/ResourceManager.h>
 #include <game/LevelController.h>
 #include <game/Action.h>
+#include <graphics/RenderInterface.h>
 
 
 
@@ -400,40 +401,78 @@ UI::EquipUi::EquipUi(UI::Manager *manager, UI::Element *parent) : Element(manage
 
     setBackground( np );
     setBorderWidth( patch.borderWidth() );
+    setId("ui-equip-container");
 
-//    setBackground( Colour::Grey );
-    setPreferredContentSize({200, 300});
+    const Vector2i ChildSize = {164, 205};
+    const Vector2i ParentSize = ChildSize + Vector2i {10, 10};
+
+    setPreferredContentSize(ParentSize);
 
     setLayout<FreeLayout>();
-    manager->createElement<UI::EquipUiInner>(this);
+    auto child = manager->createElement<UI::EquipUiInner>(this);
+
+    child->setPreferredContentSize(ChildSize);
+    child->setLocalPosition({
+        ParentSize.x() / 2 - ChildSize.x() / 2,
+        ParentSize.y() / 2 - ChildSize.y() / 2,
+    });
+
+    addEventCallback(UEventType::Click, [this] (UEvent& evt) {
+        Logging::log( this->children().front()->outerBounds().toString() );
+    });
 }
 
 UI::EquipUiInner::EquipUiInner(UI::Manager *manager, UI::Element *parent) : Element(manager, parent)
 {
-    std::vector<Vector2i> locs = {
-            { 24,3 },
-            { 66,3 },
-            { 108,3 },
-            { 24,45 },
-            { 66,45 },
-            { 108,45 },
-            { 24,87 },
-            { 66,87 },
-            { 108,87 },
-            { 3,129 },
-            { 45,129 },
-            { 87,129 },
-            { 129,129 },
-            { 24,170 },
-            { 66,170 },
-            { 108,170 },
-    };
+//    std::vector<Vector2i> locs = {
+//            { 24,3 },
+//            { 66,3 },
+//            { 108,3 },
+//            { 24,45 },
+//            { 66,45 },
+//            { 108,45 },
+//            { 24,87 },
+//            { 66,87 },
+//            { 108,87 },
+//            { 3,129 },
+//            { 45,129 },
+//            { 87,129 },
+//            { 129,129 },
+//            { 24,170 },
+//            { 66,170 },
+//            { 108,170 },
+//    };
 
-    setPreferredContentSize({164, 205});
+    setId("ui-equip-inner");
+
     auto sprite = ResourceManager::get().getImageAsSprite( "equip-only" );
     setBackground( sprite );
 
+    addRegion( CreatureEquipSlot::Head, "game_icons/pointy-hat", {24, 3} );
+    addRegion( CreatureEquipSlot::Headband, "game_icons/headband-knot", { 66,3 } );
+    addRegion( CreatureEquipSlot::Eyes, "game_icons/steampunk-goggles", { 108,3 } );
 
+    addRegion( CreatureEquipSlot::Shoulders, "game_icons/pauldrons", { 24,45 });
+    addRegion( CreatureEquipSlot::Neck, "game_icons/pearl-necklace", { 66,45 } );
+    addRegion( CreatureEquipSlot::Chest, "game_icons/chest-armor", { 108,45 } );
+
+    addRegion( CreatureEquipSlot::Belt, "game_icons/belt", { 24,87 } );
+    addRegion( CreatureEquipSlot::Wrists, "game_icons/walking-boot", { 66,87 } );
+    addRegion( CreatureEquipSlot::Arms, "game_icons/walking-boot", { 108,87 } );
+
+    addRegion( CreatureEquipSlot::LeftHand, "game_icons/pointy-sword", { 3,129 } );
+    addRegion( CreatureEquipSlot::Body, "game_icons/walking-boot", { 45,129 } );
+    addRegion( CreatureEquipSlot::Armour, "game_icons/abdominal-armor", { 87,129 } );
+    addRegion( CreatureEquipSlot::RightHand, "game_icons/pointy-sword", { 129,129 } );
+
+    addRegion( CreatureEquipSlot::Ring1, "game_icons/ring",  { 24,170 } );
+    addRegion( CreatureEquipSlot::Feet, "game_icons/leg-armor", { 66,170 } );
+    addRegion( CreatureEquipSlot::Ring2, "game_icons/ring", { 108,170 } );
+
+
+    addEventCallback(UEventType::MouseMove, [this] (UEvent& evt) {
+        this->onMouseMove(evt.mouseMoveEvent);
+    });
 
 }
 
@@ -443,5 +482,21 @@ void UI::EquipUiInner::addRegion(CreatureEquipSlot slot, const SpritesheetKey &k
     view.sprite = ResourceManager::get().getSprite( key );
     view.offset = { offset, Vector2i{32, 32} };
 
+    view.sprite.setRenderLayer( RenderLayer::UI );
     m_regions.emplace( slot, view );
+}
+
+void UI::EquipUiInner::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
+{
+    auto offset = globalPosition();
+
+    for (auto const& [k, v] : m_regions )
+    {
+        rInter.addScreenItem( v.sprite.renderObject( offset + v.offset.left() ) );
+    }
+}
+
+void UI::EquipUiInner::onMouseMove(UMouseMoveEvent const& evt)
+{
+    Logging::log( evt.pos.to_string() );
 }
