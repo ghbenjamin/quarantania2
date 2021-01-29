@@ -142,8 +142,11 @@ protected:
 
 private:
     void addRegion( CreatureEquipSlot slot, SpritesheetKey const& key, Vector2i const& offset );
-
     void onMouseMove(UMouseMoveEvent const& evt);
+    void onClick(UMouseButtonEvent const& evt);
+
+    std::optional<CreatureEquipSlot> slotFromScreenPos(Vector2i pos) const;
+
     std::unordered_map<CreatureEquipSlot, EquipSlotView> m_regions;
 };
 

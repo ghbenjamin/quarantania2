@@ -2,10 +2,12 @@
 
 #include <vector>
 #include <unordered_map>
+
 #include <graphics/Texture.h>
 #include <resource/Spritesheet.h>
 #include <resource/Resource.h>
 #include <resource/Font.h>
+#include <graphics/Text.h>
 #include <graphics/Window.h>
 #include <utils/Assert.h>
 
@@ -46,6 +48,7 @@ private:
     void addSpritesheetResource( std::string const& name );
     void addNinepatchResource( std::string const& name );
 
+    static const std::string getDefaultFontName();
 
     std::unordered_map<std::string, std::shared_ptr<FontResource>> m_fonts;
     std::unordered_map<std::string, std::shared_ptr<SpritesheetResource>> m_spritesheets;
@@ -53,5 +56,6 @@ private:
     std::unordered_map<std::string, std::shared_ptr<NinePatchResource>> m_patches;
 
     WindowPtr m_context;
+    FontManager m_fontManager;
 
 };

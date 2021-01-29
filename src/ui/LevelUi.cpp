@@ -408,41 +408,14 @@ UI::EquipUi::EquipUi(UI::Manager *manager, UI::Element *parent) : Element(manage
 
     setPreferredContentSize(ParentSize);
 
-    setLayout<FreeLayout>();
+    setLayout<CenterLayout>();
     auto child = manager->createElement<UI::EquipUiInner>(this);
 
     child->setPreferredContentSize(ChildSize);
-    child->setLocalPosition({
-        ParentSize.x() / 2 - ChildSize.x() / 2,
-        ParentSize.y() / 2 - ChildSize.y() / 2,
-    });
-
-    addEventCallback(UEventType::Click, [this] (UEvent& evt) {
-        Logging::log( this->children().front()->outerBounds().toString() );
-    });
 }
 
 UI::EquipUiInner::EquipUiInner(UI::Manager *manager, UI::Element *parent) : Element(manager, parent)
 {
-//    std::vector<Vector2i> locs = {
-//            { 24,3 },
-//            { 66,3 },
-//            { 108,3 },
-//            { 24,45 },
-//            { 66,45 },
-//            { 108,45 },
-//            { 24,87 },
-//            { 66,87 },
-//            { 108,87 },
-//            { 3,129 },
-//            { 45,129 },
-//            { 87,129 },
-//            { 129,129 },
-//            { 24,170 },
-//            { 66,170 },
-//            { 108,170 },
-//    };
-
     setId("ui-equip-inner");
 
     auto sprite = ResourceManager::get().getImageAsSprite( "equip-only" );
@@ -474,6 +447,10 @@ UI::EquipUiInner::EquipUiInner(UI::Manager *manager, UI::Element *parent) : Elem
         this->onMouseMove(evt.mouseMoveEvent);
     });
 
+    addEventCallback(UEventType::Click, [this] (UEvent& evt) {
+        this->onClick(evt.mouseButtonEvent);
+    });
+
 }
 
 void UI::EquipUiInner::addRegion(CreatureEquipSlot slot, const SpritesheetKey &key, const Vector2i &offset)
@@ -498,5 +475,37 @@ void UI::EquipUiInner::updateSelf(uint32_t ticks, InputInterface &iinter, Render
 
 void UI::EquipUiInner::onMouseMove(UMouseMoveEvent const& evt)
 {
-    Logging::log( evt.pos.to_string() );
+
+}
+
+void UI::EquipUiInner::onClick(const UI::UMouseButtonEvent &evt)
+{
+    auto clicked = slotFromScreenPos( evt.pos );
+
+    if (clicked)
+    {
+        if ( evt.button == UMouseButtonEvent::LeftMouseButton )
+        {
+
+        }
+        else if ( evt.button == UMouseButtonEvent::RightMouseButton )
+        {
+
+        }
+    }
+}
+
+std::optional<CreatureEquipSlot> UI::EquipUiInner::slotFromScreenPos(Vector2i pos) const
+{
+    auto localPos = pos - globalPosition() - contentOffset();
+
+    for (auto const& [k, v] : m_regions )
+    {
+        if ( v.offset.contains(localPos) )
+        {
+            return k;
+        }
+    }
+
+    return {};
 }

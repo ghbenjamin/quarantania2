@@ -58,15 +58,17 @@ public:
     AbilityScoreBlock& abilityScores();
 
     // Items
-    bool hasEquipped(ItemEquipSlot slot ) const;
-    const ItemPtr getEquipped(ItemEquipSlot slot ) const;
-    ItemPtr unequipItem(ItemEquipSlot slot );
-    ItemPtr equipItem(ItemEquipSlot slot, ItemPtr item );
+    bool hasEquipped( CreatureEquipSlot slot ) const;
+    const ItemPtr getEquipped( CreatureEquipSlot slot ) const;
+    ItemPtr unequipItem( CreatureEquipSlot slot );
+    ItemPtr equipItem( CreatureEquipSlot slot, ItemPtr item );
+    std::optional<CreatureEquipSlot> defaultSlotForItemSlot( ItemEquipSlot slot ) const;
 
     // Weapons
     Weapon const& getActiveWeapon() const;
     Weapon const& getNaturalWeapon() const;
     float getReach() const;
+    Armour const* tryGetActiveShield() const;
 
     // Movement
     int getSpeed() const;
@@ -94,6 +96,6 @@ private:
     int m_HpMax;
 
     // Items
-    std::unordered_map<ItemEquipSlot, ItemPtr> m_equippedItems;
+    std::unordered_map<CreatureEquipSlot, ItemPtr> m_equippedItems;
     std::vector<Weapon> m_naturalWeapons;
 };

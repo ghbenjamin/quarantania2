@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include <string>
 
 class Colour
 {
@@ -10,6 +11,7 @@ public:
     explicit Colour( SDL_Color const& colour );
     Colour( uint8_t r, uint8_t g, uint8_t b, uint8_t a );
     Colour( uint8_t r, uint8_t g, uint8_t b );
+    Colour( std::string const& str );
 
     ~Colour() = default;
 
@@ -23,6 +25,9 @@ public:
 
     bool operator==(const Colour &rhs) const;
     bool operator!=(const Colour &rhs) const;
+
+    bool operator<(const Colour &rhs) const;
+
 
     static const Colour Red;
     static const Colour Green;
@@ -49,5 +54,4 @@ public:
 
 private:
     SDL_Color m_colour;
-
 };

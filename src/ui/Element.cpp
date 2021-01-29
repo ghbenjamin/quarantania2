@@ -75,7 +75,7 @@ void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rI
     }
 }
 
-Vector2i Element::globalPosition()
+Vector2i Element::globalPosition() const
 {
     return m_globalPosition;
 }

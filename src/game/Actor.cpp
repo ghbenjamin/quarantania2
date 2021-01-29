@@ -93,12 +93,12 @@ std::string const& Actor::getName() const
     return m_name;
 }
 
-bool Actor::hasEquipped(ItemEquipSlot slot) const
+bool Actor::hasEquipped(CreatureEquipSlot slot) const
 {
     return m_equippedItems.find(slot) != m_equippedItems.end();
 }
 
-const ItemPtr Actor::getEquipped(ItemEquipSlot slot) const
+const ItemPtr Actor::getEquipped(CreatureEquipSlot slot) const
 {
     auto it = m_equippedItems.find(slot);
     if (it != m_equippedItems.end() )
@@ -111,7 +111,7 @@ const ItemPtr Actor::getEquipped(ItemEquipSlot slot) const
     }
 }
 
-ItemPtr Actor::unequipItem(ItemEquipSlot slot)
+ItemPtr Actor::unequipItem(CreatureEquipSlot slot)
 {
     auto it = m_equippedItems.find(slot);
     auto ptr = it->second;
@@ -120,7 +120,7 @@ ItemPtr Actor::unequipItem(ItemEquipSlot slot)
     return ptr;
 }
 
-ItemPtr Actor::equipItem(ItemEquipSlot slot, ItemPtr item)
+ItemPtr Actor::equipItem(CreatureEquipSlot slot, ItemPtr item)
 {
     auto lastEquipped = std::shared_ptr<Item>();
 
@@ -129,24 +129,57 @@ ItemPtr Actor::equipItem(ItemEquipSlot slot, ItemPtr item)
         lastEquipped = unequipItem(slot);
     }
 
-    m_equippedItems.emplace(slot, item );
+    m_equippedItems.emplace(slot, item);
 
     return lastEquipped;
 }
 
 Weapon const& Actor::getActiveWeapon() const
 {
-    auto it = m_equippedItems.find(ItemEquipSlot::Weapon);
-    if (it != m_equippedItems.end() )
+    if ( hasEquipped( CreatureEquipSlot::RightHand ) )
     {
-        return it->second->getWeapon();
+        auto right = getEquipped( CreatureEquipSlot::RightHand );
+        if ( right->getEquipSlot() == ItemEquipSlot::Weapon )
+        {
+            return right->getWeapon();
+        }
     }
-    else
+
+    else if ( hasEquipped( CreatureEquipSlot::LeftHand ) )
     {
-        // Might return a null ptr
-        return getNaturalWeapon();
+        auto left = getEquipped( CreatureEquipSlot::LeftHand );
+        if ( left->getEquipSlot() == ItemEquipSlot::Weapon )
+        {
+            return left->getWeapon();
+        }
     }
+
+    return getNaturalWeapon();
 }
+
+Armour const* Actor::tryGetActiveShield() const
+{
+    if ( hasEquipped( CreatureEquipSlot::RightHand ) )
+    {
+        auto right = getEquipped( CreatureEquipSlot::RightHand );
+        if ( right->getEquipSlot() == ItemEquipSlot::Shield )
+        {
+            return &right->getArmour();
+        }
+    }
+
+    else if ( hasEquipped( CreatureEquipSlot::LeftHand ) )
+    {
+        auto left = getEquipped( CreatureEquipSlot::LeftHand );
+        if ( left->getEquipSlot() == ItemEquipSlot::Shield )
+        {
+            return &left->getArmour();
+        }
+    }
+
+    return nullptr;
+}
+
 
 Weapon const& Actor::getNaturalWeapon() const
 {
@@ -185,20 +218,20 @@ int Actor::getAC() const
     int armourAC = 0;
     int shieldAC = 0;
 
-    if ( hasEquipped(ItemEquipSlot::Armor) )
+    if ( hasEquipped(CreatureEquipSlot::Armour) )
     {
-        auto const& armour = getEquipped( ItemEquipSlot::Armor )->getArmour();
+        auto const& armour = getEquipped( CreatureEquipSlot::Armour )->getArmour();
 
         dexToAc = std::min( dexToAc, armour.maxDex() );
         armourAC = armour.armourBonus();
     }
 
-    if ( hasEquipped(ItemEquipSlot::Shield) )
-    {
-        auto const& shield = getEquipped( ItemEquipSlot::Armor )->getArmour();
+    auto* shield = tryGetActiveShield();
 
-        dexToAc = std::min( dexToAc, shield.maxDex() );
-        shieldAC = shield.armourBonus();
+    if ( shield != nullptr )
+    {
+        dexToAc = std::min( dexToAc, shield->maxDex() );
+        shieldAC = shield->armourBonus();
     }
 
     return dexToAc + armourAC + shieldAC + 10;
@@ -218,3 +251,62 @@ float Actor::getReach() const
 {
     return 1.5f;
 }
+
+std::optional<CreatureEquipSlot> Actor::defaultSlotForItemSlot(ItemEquipSlot slot) const
+{
+    switch( slot )
+    {
+        case ItemEquipSlot::Armor:
+            return CreatureEquipSlot::Armour;
+            break;
+        case ItemEquipSlot::Arms:
+            return CreatureEquipSlot::Arms;
+            break;
+        case ItemEquipSlot::Belt:
+            return CreatureEquipSlot::Belt;
+            break;
+        case ItemEquipSlot::Body:
+            return CreatureEquipSlot::Body;
+            break;
+        case ItemEquipSlot::Chest:
+            return CreatureEquipSlot::Chest;
+            break;
+        case ItemEquipSlot::Eyes:
+            return CreatureEquipSlot::Eyes;
+            break;
+        case ItemEquipSlot::Feet:
+            return CreatureEquipSlot::Feet;
+            break;
+        case ItemEquipSlot::Hands:
+            return CreatureEquipSlot::RightHand;
+            break;
+        case ItemEquipSlot::Head:
+            return CreatureEquipSlot::Head;
+            break;
+        case ItemEquipSlot::Headband:
+            return CreatureEquipSlot::Headband;
+            break;
+        case ItemEquipSlot::Neck:
+            return CreatureEquipSlot::Neck;
+            break;
+        case ItemEquipSlot::Ring:
+            return CreatureEquipSlot::Ring1;
+            break;
+        case ItemEquipSlot::Shield:
+            return CreatureEquipSlot::LeftHand;
+            break;
+        case ItemEquipSlot::Shoulders:
+            return CreatureEquipSlot::Shoulders;
+            break;
+        case ItemEquipSlot::Weapon:
+            return CreatureEquipSlot::RightHand;
+            break;
+        case ItemEquipSlot::Wrists:
+            return CreatureEquipSlot::Wrists;
+            break;
+        default:
+            return {};
+            break;
+    }
+}
+

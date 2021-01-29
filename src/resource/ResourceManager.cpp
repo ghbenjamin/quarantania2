@@ -99,10 +99,30 @@ void ResourceManager::loadAll()
     }
 
 
-//    // DEBUG
+    // Generate the default font caches
+    auto const& defaultF = getDefaultFontName();
+    m_fontManager.generateFontAtlas( defaultF, 16, Colour::Black );
+    m_fontManager.generateFontAtlas( defaultF, 14, Colour::Black );
+    m_fontManager.generateFontAtlas( defaultF, 12, Colour::Black );
+    m_fontManager.generateFontAtlas( defaultF, 10, Colour::Black );
+    m_fontManager.generateFontAtlas( defaultF, 12, Colour::Red );
+    m_fontManager.generateFontAtlas( defaultF, 12, Colour::Green );
+
+
+    // DEBUG
+
+//    std::string sample_text = "It was the best of times, it was the worst of times, it was the age of wisdom, it was "
+//                              "the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it "
+//                              "was the season of light, it was the season of darkness, it was the spring of hope, it was "
+//                              "the winter of despair.";
+//
 //    FontCache foo { getDefaultFont(12), Colour::Black };
-//    auto txt = foo.renderText( "The quick brown fox jumps over the lazy dog" );
+//    auto txt = foo.renderText( sample_text, 200 );
 //    SDL_SaveBMP( txt->raw(), "C:/Users/brh/quick_kerned.bmp" );
+
+//    LiteMarkdownParser lmp;
+//    auto parsed = lmp.parseMarkdown( "The <c:#ff0000>quick brown</c> fox jumped <c:#00ff00>over the lazy</c> dog." );
+//    int t  = 6;
 }
 
 void ResourceManager::unloadAll()
@@ -189,7 +209,7 @@ NinePatchResource const& ResourceManager::getNinePatch(const std::string &name)
 
 FontPtr ResourceManager::getDefaultFont(int fontSize)
 {
-    return getFont( "inconsolata-regular", fontSize );
+    return getFont( getDefaultFontName(), fontSize );
 }
 
 
@@ -211,4 +231,9 @@ void ResourceManager::addFontResource(const std::string &name)
 void ResourceManager::addNinepatchResource(const std::string &name)
 {
     m_patches.emplace(name, std::make_shared<NinePatchResource>( name ));
+}
+
+const std::string ResourceManager::getDefaultFontName()
+{
+    return "inconsolata-regular";
 }

@@ -229,6 +229,11 @@ UI::HorizontalLayout::HorizontalLayout(int spacing, UI::VAlignment valign)
 
 Vector2i UI::FreeLayout::doLayout(UI::Element *ptr)
 {
+    for (auto const& c : ptr->children() )
+    {
+        c->doLayout();
+    }
+
     return ptr->preferredContentSize();
 }
 
@@ -238,6 +243,8 @@ Vector2i UI::CenterLayout::doLayout(UI::Element *ptr)
 
     auto contentSize = ptr->preferredContentSize();
     auto& child = ptr->children().front();
+
+    child->doLayout();
 
     auto childBounds = child->outerBounds();
 

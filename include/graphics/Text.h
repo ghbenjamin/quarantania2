@@ -1,6 +1,8 @@
 #pragma once
 
 #include <unordered_map>
+#include <map>
+#include <optional>
 
 #include <utils/Colour.h>
 #include <utils/Containers.h>
@@ -14,12 +16,6 @@ class Font;
 class RenderInterface;
 
 
-struct GlyphPosition
-{
-    int idx;
-    int x;
-    int y;
-};
 
 
 
@@ -27,7 +23,15 @@ class FontCache
 {
 public:
 
-    FontCache( std::shared_ptr<Font>& font, Colour colour );
+    struct GlyphPosition
+    {
+        int idx;
+        int x;
+        int y;
+    };
+
+
+    FontCache( std::shared_ptr<Font> const& font, Colour colour );
     ~FontCache() = default;
 
     std::shared_ptr<Surface> renderText( std::string const& text, int maxWidth = -1 );
@@ -35,7 +39,8 @@ public:
     void renderText( RenderInterface& oi, std::string const& text, int maxWidth );
 
 private:
-    void generateAsciiCache( std::shared_ptr<Font>& font, Colour colour );
+    void generateAsciiCache( std::shared_ptr<Font> const& font, Colour colour );
+    static constexpr bool idxIsAlphanum( int idx );
 
     static constexpr int AsciiStartIdx = 32;
     static constexpr int AsciiEndIdx = 128;
@@ -46,8 +51,6 @@ private:
     std::shared_ptr<Surface> m_cache;
 };
 
-using FontKey = std::pair<std::string, int>;
-
 
 class FontManager
 {
@@ -57,29 +60,43 @@ public:
     ~FontManager() = default;
 
     // Return a reference to the specified font atlas, or create it if it does not exist.
-//    FontCache& getFont( std::string fontName, int size, Colour colour = Colour::Black );
+    FontCache& getFont( std::string fontName, int size, Colour colour = Colour::Black );
 
     // Generate an atlas for the specified font, size, and colour
-//    FontCache& generateFontAtlas( std::string const& fontName, int size, Colour colour = Colour::Black );
+    FontCache& generateFontAtlas( std::string const& fontName, int size, Colour colour = Colour::Black );
 
 private:
-    std::unordered_map<FontKey, FontCache> m_caches;
-
+    std::map<std::string, std::map<std::pair<int, Colour>, FontCache>> m_fontCaches;
 };
 
 
 
-struct MarkdownToken
+
+struct MarkdownTokenSegment
 {
-    std::string text;
-    bool isBold;
-    bool isItalic;
     Colour colour;
+    std::string text;
 };
+
+using MarkdownTokenStream = std::vector<MarkdownTokenSegment>;
 
 
 class LiteMarkdownParser
 {
+
+    struct OpenTagPosition
+    {
+        std::size_t start;
+        std::size_t end;
+        std::string value;
+    };
+
+    struct EndTagPosition
+    {
+        std::size_t start;
+        std::size_t end;
+    };
+
 public:
-    void parseMarkdown( std::string const& text );
+    MarkdownTokenStream parseMarkdown( std::string const& text );
 };

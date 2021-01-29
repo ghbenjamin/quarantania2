@@ -35,7 +35,7 @@ public:
     virtual ~Element() = default;
 
     // Positioning
-    Vector2i globalPosition();
+    Vector2i globalPosition() const;
     Vector2i localPosition();
     void setLocalPosition(Vector2i position);
     Vector2i contentOffset() const;

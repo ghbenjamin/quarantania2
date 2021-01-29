@@ -36,7 +36,11 @@ EntityRef EntityFactory::createPlayer(Vector2i pos, PlayerData const &data) cons
     for ( auto const& iname : data.startingEquippedItems )
     {
         auto ptr = Item::fromName( iname );
-        cActor->actor.equipItem( ptr->getEquipSlot(), ptr );
+        auto slot = cActor->actor.defaultSlotForItemSlot( ptr->getEquipSlot() );
+        if (slot)
+        {
+            cActor->actor.equipItem( *slot, ptr );
+        }
     }
 
     return eref;
