@@ -388,5 +388,15 @@ void Element::removeBackround()
     m_background.reset();
 }
 
+void Element::hide()
+{
+    setHidden(true);
+}
+
+void Element::show()
+{
+    setHidden(false);
+}
+
 
 

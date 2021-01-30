@@ -61,6 +61,8 @@ public:
     // State
     void setHidden( bool val );
     bool isHidden() const;
+    void hide();
+    void show();
     void setDecorative( bool val = true );
     bool isDecorative() const;
 

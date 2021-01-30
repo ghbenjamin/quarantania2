@@ -170,7 +170,7 @@ void Level::setupUI()
 
     auto equipUi = m_uiManager.createElement<UI::EquipUi>(nullptr);
     m_uiManager.alignElementToWindow( equipUi, UI::Alignment::TopRight, {-20, 20} );
-
+    equipUi->hide();
 
     // Dependent UI Elements
 

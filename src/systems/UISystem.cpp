@@ -62,4 +62,13 @@ void UISystem::operator()(GameEvents::ControllerEntitySelected& evt)
     auto actionMenu = m_level->ui().withId<UI::ActionMenu>( "action-menu" );
     actionMenu->closeMenu();
     actionMenu->refresh(evt.entity);
+    
+    auto actorC = m_level->ecs().getComponents<ActorComponent>( evt.entity );
+    if ( actorC->actorType == ActorType::PC )
+    {
+        // The entity is a player
+        
+        // Show the equip menu
+        m_level->ui().withId( "" )
+    }
 }

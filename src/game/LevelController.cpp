@@ -356,6 +356,7 @@ void PlayerSelectedController::onExitImpl()
 
 void PlayerSelectedController::onEnterImpl()
 {
+    // Highlight the selected player
     auto position = m_level->ecs().getComponents<PositionComponent>(m_entity)->tilePosition;
     m_level->ui().showSingleTileHighlight(position, UI::SingleTileHighlightType::Green);
 
