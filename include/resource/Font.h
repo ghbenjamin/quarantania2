@@ -7,12 +7,12 @@
 
 
 // Forward Definitions
-class Font;
+class FontData;
 class Texture;
 class Surface;
 
 // Typedefs
-using FontPtr = std::shared_ptr<Font>;
+using FontDataPtr = std::shared_ptr<FontData>;
 
 
 struct GlyphMetric
@@ -25,17 +25,50 @@ struct GlyphMetric
 };
 
 
-class Font
+
+class AbstractFont
 {
 public:
 
-    static FontPtr loadFont( std::string const& path, int size );
+    AbstractFont(FontDataPtr const& fontData);
+    virtual ~AbstractFont() = default;
 
-    Font( TTF_Font* ptr, int size );
-    ~Font();
 
-    Font( const Font& ) = delete;
-    Font& operator=( const Font& ) = delete;
+    virtual std::shared_ptr<Texture>
+        renderText( std::string const& text, Colour colour=Colour::Black, int wrapWidth=-1 ) const = 0;
+    virtual std::shared_ptr<Surface>
+        renderGlyph( uint16_t glyph, Colour colour ) const = 0;
+
+protected:
+    FontDataPtr m_fontData;
+};
+
+
+class DirectRenderFont : public AbstractFont
+{
+public:
+
+    using AbstractFont::AbstractFont;
+
+//    DirectRenderFont(FontPtr const& fontData);
+//    ~DirectRenderFont() override = default;
+
+    std::shared_ptr<Texture> renderText( std::string const& text, Colour colour=Colour::Black, int wrapWidth=-1 ) const override;
+    std::shared_ptr<Surface> renderGlyph( uint16_t glyph, Colour colour ) const override;
+};
+
+
+class FontData
+{
+public:
+
+    static FontDataPtr loadFont(std::string const& path, int size );
+
+    FontData(TTF_Font* ptr, int size );
+    ~FontData();
+
+    FontData(const FontData& ) = delete;
+    FontData& operator=(const FontData& ) = delete;
 
     int size() const;
     TTF_Font* raw() const;

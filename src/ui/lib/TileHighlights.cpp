@@ -1,5 +1,5 @@
-#include <ui/TileHighlights.h>
-#include <ui/Manager.h>
+#include <ui/lib/TileHighlights.h>
+#include <ui/lib/Manager.h>
 #include <utils/GlobalConfig.h>
 #include <graphics/RenderInterface.h>
 #include <graphics/Primatives.h>

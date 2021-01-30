@@ -178,7 +178,7 @@ TexturePtr ResourceManager::getTexture(const std::string &imgName)
 }
 
 
-FontPtr ResourceManager::getFont(std::string const &fname, int fontSize)
+FontDataPtr ResourceManager::getFont(std::string const &fname, int fontSize)
 {
     try
     {
@@ -207,7 +207,7 @@ NinePatchResource const& ResourceManager::getNinePatch(const std::string &name)
 
 
 
-FontPtr ResourceManager::getDefaultFont(int fontSize)
+FontDataPtr ResourceManager::getDefaultFont(int fontSize)
 {
     return getFont( getDefaultFontName(), fontSize );
 }

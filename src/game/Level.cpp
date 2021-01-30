@@ -2,16 +2,17 @@
 
 #include <components/All.h>
 #include <engine/InputInterface.h>
-#include <game/Action.h>
 #include <game/GameEventDefs.h>
 #include <game/Level.h>
 #include <graphics/RenderInterface.h>
 #include <resource/ResourceManager.h>
-#include <ui/TextLog.h>
-#include <ui/LevelUi.h>
 #include <utils/GlobalConfig.h>
 #include <utils/Math.h>
+#include <ui/level/TextLog.h>
 
+#include <ui/level/TurnOrderView.h>
+#include <ui/level/CreatureEquipView.h>
+#include <ui/level/ActionPopupMenu.h>
 
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)

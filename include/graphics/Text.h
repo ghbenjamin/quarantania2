@@ -12,11 +12,8 @@ struct SDL_Texture;
 struct SDL_Surface;
 struct SDL_Rect;
 class Texture;
-class Font;
+class FontData;
 class RenderInterface;
-
-
-
 
 
 class FontCache
@@ -31,21 +28,19 @@ public:
     };
 
 
-    FontCache( std::shared_ptr<Font> const& font, Colour colour );
+    FontCache(std::shared_ptr<FontData> const& font, Colour colour );
     ~FontCache() = default;
 
     std::shared_ptr<Surface> renderText( std::string const& text, int maxWidth = -1 );
 
-    void renderText( RenderInterface& oi, std::string const& text, int maxWidth );
-
 private:
-    void generateAsciiCache( std::shared_ptr<Font> const& font, Colour colour );
+    void generateAsciiCache(std::shared_ptr<FontData> const& font, Colour colour );
     static constexpr bool idxIsAlphanum( int idx );
 
     static constexpr int AsciiStartIdx = 32;
     static constexpr int AsciiEndIdx = 128;
 
-    std::shared_ptr<Font> m_font;
+    std::shared_ptr<FontData> m_font;
     std::vector<SDL_Rect> m_locs;
     std::vector<GlyphMetric> m_metrics;
     std::shared_ptr<Surface> m_cache;

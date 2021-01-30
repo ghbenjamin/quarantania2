@@ -1,7 +1,7 @@
 #pragma once
 
-#include <ui/Element.h>
-#include <ui/Defines.h>
+#include <ui/lib/Element.h>
+#include <ui/lib/Defines.h>
 #include <resource/Font.h>
 #include <graphics/Texture.h>
 #include <graphics/RenderObject.h>

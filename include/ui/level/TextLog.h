@@ -1,7 +1,7 @@
 #pragma once
 
 #include <queue>
-#include <ui/Element.h>
+#include <ui/lib/Element.h>
 #include <resource/Font.h>
 
 namespace UI
@@ -91,7 +91,7 @@ public:
 
     Sprite const& sprite() const;
     void setPos( Vector2i pos );
-    void renderText(FontPtr& font, RectI bounds);
+    void renderText(FontDataPtr& font, RectI bounds);
 
     [[nodiscard]] RenderObject getRenderObj() const;
 
@@ -125,7 +125,7 @@ private:
     void layoutLines();
 
     static constexpr int LineSpacing = 2;
-    FontPtr m_font;
+    FontDataPtr m_font;
     int m_maxLines;
     std::list<TextLogLineData> m_lines;
     int m_scrollPos;

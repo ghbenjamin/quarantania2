@@ -1,11 +1,10 @@
 #include <game/LevelController.h>
 #include <game/Level.h>
-#include <game/GameEventDefs.h>
 #include <components/ItemComponent.h>
 #include <components/ActorComponent.h>
 #include <utils/Assert.h>
 #include <components/PositionComponent.h>
-#include <ui/LevelUi.h>
+#include <ui/level/ActionPopupMenu.h>
 
 LevelController::LevelController(Level *level)
 : m_level(level), m_shouldPopController(false)

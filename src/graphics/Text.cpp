@@ -7,13 +7,13 @@
 #include <resource/ResourceManager.h>
 #include <graphics/RenderInterface.h>
 
-FontCache::FontCache(std::shared_ptr<Font> const& font, Colour colour)
+FontCache::FontCache(std::shared_ptr<FontData> const& font, Colour colour)
     : m_font(font)
 {
     generateAsciiCache(font, colour);
 }
 
-void FontCache::generateAsciiCache(std::shared_ptr<Font> const& font, Colour colour)
+void FontCache::generateAsciiCache(std::shared_ptr<FontData> const& font, Colour colour)
 {
     const int maxW = 256;
 
@@ -146,11 +146,6 @@ std::shared_ptr<Surface> FontCache::renderText(const std::string &text, int maxW
     }
 
     return outSurface;
-}
-
-void FontCache::renderText(RenderInterface &ri, const std::string &text, int maxWidth)
-{
-    AssertNotImplemented();
 }
 
 constexpr bool FontCache::idxIsAlphanum(int idx)

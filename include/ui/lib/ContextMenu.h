@@ -1,8 +1,8 @@
 #pragma once
 
 #include <functional>
-#include <ui/Element.h>
-#include <ui/Controls.h>
+#include <ui/lib/Element.h>
+#include <ui/lib/Controls.h>
 
 namespace UI
 {

@@ -1,7 +1,10 @@
 #include <systems/UISystem.h>
 #include <game/Level.h>
-#include <ui/LevelUi.h>
 #include <components/ActorComponent.h>
+
+#include <ui/level/TurnOrderView.h>
+#include <ui/level/ActionPopupMenu.h>
+
 
 UISystem::UISystem(Level *parent)
         : System(parent)

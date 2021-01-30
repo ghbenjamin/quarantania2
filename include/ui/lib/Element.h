@@ -5,13 +5,13 @@
 #include <set>
 #include <list>
 #include <utils/Containers.h>
-#include <ui/Defines.h>
-#include <ui/Layout.h>
-#include <ui/UEvent.h>
+#include <ui/lib/Defines.h>
+#include <ui/lib/Layout.h>
+#include <ui/lib/UEvent.h>
 #include <resource/Sprite.h>
 #include <utils/Logging.h>
 #include <resource/Spritesheet.h>
-#include <ui/Background.h>
+#include <ui/lib/Background.h>
 #include <unordered_set>
 
 class RenderInterface;

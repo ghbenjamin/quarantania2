@@ -5,7 +5,7 @@
 #include <unordered_map>
 
 #include <resource/Spritesheet.h>
-#include <ui/Defines.h>
+#include <ui/lib/Defines.h>
 #include <game/Defines.h>
 #include <game/Damage.h>
 

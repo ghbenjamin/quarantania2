@@ -2,12 +2,12 @@
 
 #include <vector>
 
-#include <ui/Element.h>
-#include <ui/Layout.h>
-#include <ui/UEvent.h>
-#include <ui/ContextMenu.h>
+#include <ui/lib/Element.h>
+#include <ui/lib/Layout.h>
+#include <ui/lib/UEvent.h>
+#include <ui/lib/ContextMenu.h>
 #include <engine/InputInterface.h>
-#include <ui/Tooltips.h>
+#include <ui/lib/Tooltips.h>
 #include "TileHighlights.h"
 
 struct IEvent;

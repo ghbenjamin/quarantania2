@@ -53,14 +53,14 @@ public:
     FontResource(std::string const &name);
     ~FontResource() override = default;
 
-    const FontPtr &get(int fontSize);
+    const FontDataPtr &get(int fontSize);
     void load() override;
     void unload() override;
 
 private:
     void loadForSize(int fontSize);
 
-    std::unordered_map<int, FontPtr> m_fonts;
+    std::unordered_map<int, FontDataPtr> m_fonts;
 };
 
 

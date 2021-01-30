@@ -10,7 +10,7 @@ namespace UI
 struct TextStyle
 {
     Colour textColour;
-    FontPtr font;
+    FontDataPtr font;
 };
 
 struct TooltipData

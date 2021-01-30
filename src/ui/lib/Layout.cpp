@@ -1,8 +1,8 @@
-#include <ui/Layout.h>
+#include <ui/lib/Layout.h>
 
 #include <algorithm>
 
-#include <ui/Element.h>
+#include <ui/lib/Element.h>
 #include <utils/Assert.h>
 
 Vector2i UI::alignRectWithinRect(Vector2i const &outer, Vector2i const &inner, UI::Alignment alignment)

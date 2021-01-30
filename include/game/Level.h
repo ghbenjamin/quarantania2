@@ -14,7 +14,7 @@
 #include <game/ECS.h>
 #include <game/Defines.h>
 #include <game/Grid.h>
-#include <ui/Manager.h>
+#include <ui/lib/Manager.h>
 #include <game/LevelController.h>
 #include <game/GameEventHub.h>
 

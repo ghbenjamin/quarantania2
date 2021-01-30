@@ -1,8 +1,8 @@
-#include <ui/Controls.h>
+#include <ui/lib/Controls.h>
 #include <resource/ResourceManager.h>
 #include <graphics/RenderInterface.h>
 #include <utils/Logging.h>
-#include <ui/Manager.h>
+#include <ui/lib/Manager.h>
 
 using namespace UI;
 

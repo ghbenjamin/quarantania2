@@ -1,6 +1,6 @@
-#include <ui/TextLog.h>
+#include <ui/level/TextLog.h>
 
-#include <ui/Manager.h>
+#include <ui/lib/Manager.h>
 #include <resource/ResourceManager.h>
 #include <graphics/RenderInterface.h>
 
@@ -12,7 +12,7 @@ void UI::TextLogLineData::setPos(Vector2i pos)
     m_pos = pos;
 }
 
-void UI::TextLogLineData::renderText(FontPtr& font, RectI bounds)
+void UI::TextLogLineData::renderText(FontDataPtr& font, RectI bounds)
 {
     m_sprite = Sprite{ font->renderText( displayText(), m_colour, bounds.w() ) };
     m_sprite.setRenderLayer( RenderLayer::UI );

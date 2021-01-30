@@ -1,6 +1,6 @@
-#include <ui/Tooltips.h>
+#include <ui/lib/Tooltips.h>
 #include <resource/ResourceManager.h>
-#include <ui/Manager.h>
+#include <ui/lib/Manager.h>
 
 UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipData const& data, bool longContent)
         : Element(manager, parent)
