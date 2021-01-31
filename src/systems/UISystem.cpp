@@ -4,6 +4,7 @@
 
 #include <ui/level/TurnOrderView.h>
 #include <ui/level/ActionPopupMenu.h>
+#include <ui/level/CreatureEquipView.h>
 
 
 UISystem::UISystem(Level *parent)
@@ -62,13 +63,7 @@ void UISystem::operator()(GameEvents::ControllerEntitySelected& evt)
     auto actionMenu = m_level->ui().withId<UI::ActionMenu>( "action-menu" );
     actionMenu->closeMenu();
     actionMenu->refresh(evt.entity);
-    
-    auto actorC = m_level->ecs().getComponents<ActorComponent>( evt.entity );
-    if ( actorC->actorType == ActorType::PC )
-    {
-        // The entity is a player
-        
-        // Show the equip menu
-        m_level->ui().withId( "" )
-    }
+
+    auto creatureEquip = m_level->ui().withId<UI::EquipView>( "ui-equip-inner" );
+    creatureEquip->refresh(evt.entity);
 }

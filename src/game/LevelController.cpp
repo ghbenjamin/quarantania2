@@ -352,6 +352,13 @@ void PlayerSelectedController::onExitImpl()
 {
     m_level->ui().removeSingleTileHighlight();
     m_level->events().broadcast<GameEvents::ControllerEntitySelected>(EntityNull);
+
+    auto actorC = m_level->ecs().getComponents<ActorComponent>( m_entity );
+    if ( actorC->actorType == ActorType::PC )
+    {
+        // Show the equip menu
+        m_level->ui().withId( "ui-equip-container" )->hide();
+    }
 }
 
 void PlayerSelectedController::onEnterImpl()
@@ -359,6 +366,13 @@ void PlayerSelectedController::onEnterImpl()
     // Highlight the selected player
     auto position = m_level->ecs().getComponents<PositionComponent>(m_entity)->tilePosition;
     m_level->ui().showSingleTileHighlight(position, UI::SingleTileHighlightType::Green);
+
+    auto actorC = m_level->ecs().getComponents<ActorComponent>( m_entity );
+    if ( actorC->actorType == ActorType::PC )
+    {
+        // Show the equip menu
+        m_level->ui().withId( "ui-equip-container" )->show();
+    }
 
     m_level->events().broadcast<GameEvents::ControllerEntitySelected>(m_entity);
 }

@@ -168,7 +168,7 @@ void Level::setupUI()
     auto textLog = m_uiManager.createElement<UI::MainTextLog>(nullptr);
     m_uiManager.alignElementToWindow( textLog, UI::Alignment::BottomRight, {-20, -20} );
 
-    auto equipUi = m_uiManager.createElement<UI::EquipUi>(nullptr);
+    auto equipUi = m_uiManager.createElement<UI::EquipViewContainer>(nullptr);
     m_uiManager.alignElementToWindow( equipUi, UI::Alignment::TopRight, {-20, 20} );
     equipUi->hide();
 

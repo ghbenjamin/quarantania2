@@ -310,3 +310,8 @@ std::optional<CreatureEquipSlot> Actor::defaultSlotForItemSlot(ItemEquipSlot slo
     }
 }
 
+std::unordered_map<CreatureEquipSlot, ItemPtr> const &Actor::getAllEquippedItems() const
+{
+    return m_equippedItems;
+}
+

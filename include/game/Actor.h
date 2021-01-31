@@ -63,6 +63,7 @@ public:
     ItemPtr unequipItem( CreatureEquipSlot slot );
     ItemPtr equipItem( CreatureEquipSlot slot, ItemPtr item );
     std::optional<CreatureEquipSlot> defaultSlotForItemSlot( ItemEquipSlot slot ) const;
+    std::unordered_map<CreatureEquipSlot, ItemPtr> const& getAllEquippedItems() const;
 
     // Weapons
     Weapon const& getActiveWeapon() const;

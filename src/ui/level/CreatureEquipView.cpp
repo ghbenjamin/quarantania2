@@ -5,9 +5,10 @@
 #include <game/Action.h>
 #include <resource/ResourceManager.h>
 #include <graphics/RenderInterface.h>
+#include <components/ActorComponent.h>
 
 
-UI::EquipUi::EquipUi(UI::Manager *manager, UI::Element *parent) : Element(manager, parent)
+UI::EquipViewContainer::EquipViewContainer(UI::Manager *manager, UI::Element *parent) : Element(manager, parent)
 {
     auto const& patch = ResourceManager::get().getNinePatch( "simple-border" );
     NinePatch np = { patch.texture(), patch.offsets() };
@@ -22,12 +23,12 @@ UI::EquipUi::EquipUi(UI::Manager *manager, UI::Element *parent) : Element(manage
     setPreferredContentSize(ParentSize);
     
     setLayout<CenterLayout>();
-    auto child = manager->createElement<UI::EquipUiInner>(this);
+    auto child = manager->createElement<UI::EquipView>(this);
     
     child->setPreferredContentSize(ChildSize);
 }
 
-UI::EquipUiInner::EquipUiInner(UI::Manager *manager, UI::Element *parent) : Element(manager, parent)
+UI::EquipView::EquipView(UI::Manager *manager, UI::Element *parent) : Element(manager, parent)
 {
     setId("ui-equip-inner");
     
@@ -66,32 +67,40 @@ UI::EquipUiInner::EquipUiInner(UI::Manager *manager, UI::Element *parent) : Elem
     
 }
 
-void UI::EquipUiInner::addRegion(CreatureEquipSlot slot, const SpritesheetKey &key, const Vector2i &offset)
+void UI::EquipView::addRegion(CreatureEquipSlot slot, const SpritesheetKey &key, const Vector2i &offset)
 {
     EquipSlotView view;
-    view.sprite = ResourceManager::get().getSprite( key );
+    view.defaultSprite = ResourceManager::get().getSprite( key );
     view.offset = { offset, Vector2i{32, 32} };
+    view.itemSprite = {};
     
-    view.sprite.setRenderLayer( RenderLayer::UI );
+    view.defaultSprite.setRenderLayer( RenderLayer::UI );
     m_regions.emplace( slot, view );
 }
 
-void UI::EquipUiInner::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
+void UI::EquipView::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
     auto offset = globalPosition();
     
     for (auto const& [k, v] : m_regions )
     {
-        rInter.addScreenItem( v.sprite.renderObject( offset + v.offset.left() ) );
+        if ( v.itemSprite )
+        {
+            rInter.addScreenItem( v.itemSprite->renderObject(  offset + v.offset.left() ) );
+        }
+        else
+        {
+            rInter.addScreenItem( v.defaultSprite.renderObject( offset + v.offset.left() ) );
+        }
     }
 }
 
-void UI::EquipUiInner::onMouseMove(UMouseMoveEvent const& evt)
+void UI::EquipView::onMouseMove(UMouseMoveEvent const& evt)
 {
 
 }
 
-void UI::EquipUiInner::onClick(const UI::UMouseButtonEvent &evt)
+void UI::EquipView::onClick(const UI::UMouseButtonEvent &evt)
 {
     auto clicked = slotFromScreenPos( evt.pos );
     
@@ -108,7 +117,7 @@ void UI::EquipUiInner::onClick(const UI::UMouseButtonEvent &evt)
     }
 }
 
-std::optional<CreatureEquipSlot> UI::EquipUiInner::slotFromScreenPos(Vector2i pos) const
+std::optional<CreatureEquipSlot> UI::EquipView::slotFromScreenPos(Vector2i pos) const
 {
     auto localPos = pos - globalPosition() - contentOffset();
     
@@ -121,4 +130,31 @@ std::optional<CreatureEquipSlot> UI::EquipUiInner::slotFromScreenPos(Vector2i po
     }
     
     return {};
+}
+
+
+void UI::EquipView::refresh(EntityRef entity)
+{
+    // Clear our existing item data
+    for ( auto &[k, v] : m_regions )
+    {
+        v.itemSprite.reset();
+        v.item.reset();
+    }
+
+    if (entity == EntityNull)
+    {
+        return;
+    }
+
+    auto actorC = manager()->level()->ecs().getComponents<ActorComponent>( entity );
+
+    // Load the equipped items for the current entity
+    for ( auto const& [k, v] : actorC->actor.getAllEquippedItems() )
+    {
+        auto sprite = ResourceManager::get().getSprite( v->getSprite() );
+        sprite.setRenderLayer( RenderLayer::UI );
+        m_regions.at(k).itemSprite = sprite;
+        m_regions.at(k).item = v;
+    }
 }

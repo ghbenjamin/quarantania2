@@ -1,5 +1,5 @@
 #include <ui/lib/Element.h>
-
+#include <ui/lib/Manager.h>
 #include <algorithm>
 #include <utils/Logging.h>
 #include <graphics/Primatives.h>
@@ -163,6 +163,12 @@ void Element::doLayout()
     m_innerBounds = RectI{ m_globalPosition + m_contentOffset, actualContentSize };
 
     generateBackground();
+
+    // If we're a root level node, we might need to be moved by the manager relative to the window
+    if (m_parent == nullptr)
+    {
+        manager()->doLayout();
+    }
 }
 
 void Element::recachePosition()
