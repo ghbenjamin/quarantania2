@@ -55,32 +55,35 @@ Vector2i UI::alignRectWithinRect(Vector2i const &outer, Vector2i const &inner, U
 
 Vector2i UI::alignRectToRect( Vector2i const& dep, Vector2i const& fixed, Alignment alignment )
 {
-    Vector2i out = {0, 0};
+    std::optional<Vector2i> out;
 
     switch ( alignment )
     {
-
         case Alignment::TopCentre:
-
             out = { (fixed.x() - dep.x()) / 2, -dep.y() };
             break;
 
         case Alignment::TopLeft:
+            out = { 0, -dep.y() };
             break;
 
         case Alignment::TopRight:
+            out = { fixed.x() - dep.x(), -dep.y() };
             break;
-
 
         case Alignment::BottomRight:
+            out = { fixed.x() - dep.x(), fixed.y() };
             break;
+
         case Alignment::BottomCentre:
             break;
+
         case Alignment::BottomLeft:
             break;
 
         case Alignment::CentreRight:
             break;
+
         case Alignment::CentreLeft:
             break;
 
@@ -88,12 +91,12 @@ Vector2i UI::alignRectToRect( Vector2i const& dep, Vector2i const& fixed, Alignm
             break;
     }
 
-    if ( out == Vector2i{0, 0} )
+    if ( !out.has_value() )
     {
         AssertNotImplemented();
     }
 
-    return out;
+    return *out;
 }
 
 

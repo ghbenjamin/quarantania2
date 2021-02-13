@@ -358,6 +358,7 @@ void PlayerSelectedController::onExitImpl()
     {
         // Show the equip menu
         m_level->ui().withId( "ui-equip-container" )->hide();
+        m_level->ui().withId( "player-inventory" )->hide();
     }
 }
 
@@ -372,6 +373,7 @@ void PlayerSelectedController::onEnterImpl()
     {
         // Show the equip menu
         m_level->ui().withId( "ui-equip-container" )->show();
+        m_level->ui().withId( "player-inventory" )->show();
     }
 
     m_level->events().broadcast<GameEvents::ControllerEntitySelected>(m_entity);

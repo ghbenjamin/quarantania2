@@ -20,35 +20,26 @@ class ContainerView : public Element
 {
 
 public:
-    ContainerView(Manager* manager, Element* parent);
+    ContainerView(Manager* manager, Element* parent, Vector2i iconDims);
     ~ContainerView() override = default;
 
-    void attachEntity(EntityRef entity);
-    void reimportItems();
+    void refresh(EntityRef entity);
 
 private:
 
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
-    void onSizeSelf() override;
-    void onMoveSelf() override;
-
     void onClick( UMouseButtonEvent& evt );
-    void onMouseMove( UMouseMoveEvent& evt );
 
-    ContainerViewItem const* itemFromPosition( Vector2i position ) const;
 
 private:
 
     EntityRef m_entity;
     std::vector<ContainerViewItem> m_items;
-    Vector2i m_tileBounds;
-    Vector2i m_tileOffset;
-
-    static const int IconSize = 38;
-    static const int PaddingThick = 4;
-
+    Vector2i m_iconDims;
     Sprite m_emptySlot;
-    ContainerViewItem const* m_hoveredItem;
+    int m_iconSpacing;
 };
+
+
 
 }

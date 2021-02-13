@@ -13,6 +13,7 @@
 #include <ui/level/TurnOrderView.h>
 #include <ui/level/CreatureEquipView.h>
 #include <ui/level/ActionPopupMenu.h>
+#include <ui/level/ContainerView.h>
 
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
@@ -168,16 +169,17 @@ void Level::setupUI()
     auto textLog = m_uiManager.createElement<UI::MainTextLog>(nullptr);
     m_uiManager.alignElementToWindow( textLog, UI::Alignment::BottomRight, {-20, -20} );
 
+
+    // Default hidden elements
+
     auto equipUi = m_uiManager.createElement<UI::EquipViewContainer>(nullptr);
     m_uiManager.alignElementToWindow( equipUi, UI::Alignment::TopRight, {-20, 20} );
     equipUi->hide();
 
-    // Dependent UI Elements
-
-
-//    // Widget containing a description of whatever we're hovering, if anything
-//    auto descriptionHover = m_uiManager.createElement<UI::HoverDescriptionContainer>(nullptr);
-//    m_uiManager.alignElementToElement( descriptionHover, textLog, UI::Alignment::TopCentre, {0, -10} );
+    auto playerInventory = m_uiManager.createElement<UI::ContainerView>(nullptr, Vector2i{6, 4});
+    m_uiManager.alignElementToElement( playerInventory, equipUi, UI::Alignment::BottomRight, {0, 10} );
+    playerInventory->setId("player-inventory");
+    playerInventory->hide();
 }
 
 void Level::layoutWindows()

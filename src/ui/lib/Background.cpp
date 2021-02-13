@@ -55,7 +55,10 @@ void ElementBackground::render(Vector2i position, RenderInterface &rInter)
 
         case BackgroundType::SingleColour:
         case BackgroundType::ColourWithBorder:
-            rInter.addScreenItem( m_colourSprite->renderObject( position ) );
+            if (m_colourSprite.has_value())
+            {
+                rInter.addScreenItem( m_colourSprite->renderObject( position ) );
+            }
             break;
     }
 }

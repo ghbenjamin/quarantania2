@@ -5,6 +5,7 @@
 #include <ui/level/TurnOrderView.h>
 #include <ui/level/ActionPopupMenu.h>
 #include <ui/level/CreatureEquipView.h>
+#include <ui/level/ContainerView.h>
 
 
 UISystem::UISystem(Level *parent)
@@ -66,4 +67,7 @@ void UISystem::operator()(GameEvents::ControllerEntitySelected& evt)
 
     auto creatureEquip = m_level->ui().withId<UI::EquipView>( "ui-equip-inner" );
     creatureEquip->refresh(evt.entity);
+
+    auto creatureInventory = m_level->ui().withId<UI::ContainerView>( "player-inventory" );
+    creatureInventory->refresh(evt.entity);
 }
