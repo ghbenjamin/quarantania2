@@ -9,6 +9,7 @@ namespace EnumParse
     ArmourType armourType( std::string const& input );
     CreatureSize creatureType( std::string const& input );
     ElementalDamageType elementalDamageType( std::string const& input );
+    Skill skill( std::string const& input );
 }
 
 

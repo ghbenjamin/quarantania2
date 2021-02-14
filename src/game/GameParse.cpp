@@ -141,7 +141,7 @@ ArmourType EnumParse::armourType(std::string const& input)
         return ArmourType::Shield;
     }
 
-    AssertAlwaysMsg( fmt::format( "Unexpected inpit: '{}'", input ) );
+    AssertAlwaysMsg( fmt::format( "Unexpected input: '{}'", input ) );
     return ArmourType::Light;
 }
 
@@ -176,7 +176,7 @@ CreatureSize EnumParse::creatureType(std::string const& input)
         return CreatureSize::Colossal;
     }
 
-    AssertAlwaysMsg( fmt::format( "Unexpected inpit: '{}'", input ) );
+    AssertAlwaysMsg( fmt::format( "Unexpected input: '{}'", input ) );
     return CreatureSize::Tiny;
 }
 
@@ -200,10 +200,116 @@ ElementalDamageType EnumParse::elementalDamageType( std::string const& input )
         return ElementalDamageType::Electricity;
     }
 
-    AssertAlwaysMsg( fmt::format( "Unexpected inpit: '{}'", input ) );
+    AssertAlwaysMsg( fmt::format( "Unexpected input: '{}'", input ) );
     return ElementalDamageType::Fire;
 }
 
+Skill EnumParse::skill( std::string const &input )
+{
+    if ( input == "Acrobatics" )
+    {
+        return Skill::Acrobatics;
+    }
+    else if ( input == "Appraise" )
+    {
+        return Skill::Appraise;
+    }
+    else if ( input == "Bluff" )
+    {
+        return Skill::Bluff;
+    }
+    else if ( input == "Climb" )
+    {
+        return Skill::Climb;
+    }
+    else if ( input == "Craft" )
+    {
+        return Skill::Craft;
+    }
+    else if ( input == "Diplomacy" )
+    {
+        return Skill::Diplomacy;
+    }
+    else if ( input == "DisableDevice" )
+    {
+        return Skill::DisableDevice;
+    }
+    else if ( input == "Disguise" )
+    {
+        return Skill::Disguise;
+    }
+    else if ( input == "EscapeArtist" )
+    {
+        return Skill::EscapeArtist;
+    }
+    else if ( input == "Fly" )
+    {
+        return Skill::Fly;
+    }
+    else if ( input == "HandleAnimal" )
+    {
+        return Skill::HandleAnimal;
+    }
+    else if ( input == "Heal" )
+    {
+        return Skill::Heal;
+    }
+    else if ( input == "Intimidate" )
+    {
+        return Skill::Intimidate;
+    }
+    else if ( input == "Linguistics" )
+    {
+        return Skill::Linguistics;
+    }
+    else if ( input == "Perception" )
+    {
+        return Skill::Perception;
+    }
+    else if ( input == "Perform" )
+    {
+        return Skill::Perform;
+    }
+    else if ( input == "Profession" )
+    {
+        return Skill::Profession;
+    }
+    else if ( input == "Ride" )
+    {
+        return Skill::Ride;
+    }
+    else if ( input == "SenseMotive" )
+    {
+        return Skill::SenseMotive;
+    }
+    else if ( input == "SleightofHand" )
+    {
+        return Skill::SleightofHand;
+    }
+    else if ( input == "Spellcraft" )
+    {
+        return Skill::Spellcraft;
+    }
+    else if ( input == "Stealth" )
+    {
+        return Skill::Stealth;
+    }
+    else if ( input == "Survival" )
+    {
+        return Skill::Survival;
+    }
+    else if ( input == "Swim" )
+    {
+        return Skill::Swim;
+    }
+    else if ( input == "UseMagicDevice" )
+    {
+        return Skill::UseMagicDevice;
+    }
+    
+    AssertAlwaysMsg( fmt::format( "Unexpected input: '{}'", input ) );
+    return Skill::UseMagicDevice;
+}
 
 
 DiceRoll parseDiceRoll(const std::string &input)

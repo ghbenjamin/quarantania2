@@ -226,6 +226,38 @@ enum class DamageSuperType
 };
 
 
+// Skills
+// --------------------------------------
+
+enum class Skill
+{
+    Acrobatics,
+    Appraise,
+    Bluff,
+    Climb,
+    Craft,
+    Diplomacy,
+    DisableDevice,
+    Disguise,
+    EscapeArtist,
+    Fly,
+    HandleAnimal,
+    Heal,
+    Intimidate,
+    Linguistics,
+    Perception,
+    Perform,
+    Profession,
+    Ride,
+    SenseMotive,
+    SleightofHand,
+    Spellcraft,
+    Stealth,
+    Survival,
+    Swim,
+    UseMagicDevice
+};
+
 
 // Misc Properties
 // --------------------------------------
