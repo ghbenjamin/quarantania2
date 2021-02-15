@@ -141,3 +141,11 @@ struct RawActionData
     std::string description;
     SpritesheetKey sprite;
 };
+
+struct FeatData
+{
+    std::string id;
+    std::string name;
+    std::string benefit;
+    std::string description;
+};

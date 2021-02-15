@@ -12,6 +12,7 @@ ResourceDatabase::ResourceDatabase()
     loadAllPlayerData();
     loadAllObjectData();
     loadAllActionData();
+    loadAllFeatData();
 }
 
 ItemData ResourceDatabase::itemFromName(std::string_view name)
@@ -101,6 +102,18 @@ RawActionData ResourceDatabase::actionFromId(std::string_view id)
     Assert( it != m_actionData.end() );
     return RawActionData( *it );
 }
+
+FeatData ResourceDatabase::featFromId( std::string_view id )
+{
+    auto it = std::find_if( m_featData.begin(), m_featData.end(),
+                            [id](auto const& item){
+                                return item.id == id;
+                            });
+    
+    Assert( it != m_featData.end() );
+    return FeatData( *it );
+}
+
 
 void ResourceDatabase::loadAllCreatureData()
 {
@@ -468,6 +481,23 @@ void ResourceDatabase::loadAllActionData()
         robj.sprite = SpritesheetKey{ it.FindMember("icon")->value.GetString() };
 
         m_actionData.push_back(robj);
+    }
+}
+
+void ResourceDatabase::loadAllFeatData()
+{
+    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/feats.json" );
+    for ( auto const& it_raw : doc.GetArray() )
+    {
+        FeatData robj;
+        auto it = it_raw.GetObject();
+    
+        robj.id = it.FindMember("id")->value.GetString();
+        robj.name = it.FindMember("name")->value.GetString();
+        robj.benefit = it.FindMember("benefit")->value.GetString();
+        robj.description = it.FindMember("desc")->value.GetString();
+        
+        m_featData.push_back(robj);
     }
 }
 

@@ -29,16 +29,17 @@ public:
     RawPlayerClassData playerClassFromName( std::string_view name );
     RawObjectData objectFromName( std::string_view name );
     RawActionData actionFromId( std::string_view id );
+    FeatData featFromId( std::string_view id );
 
 private:
     ResourceDatabase();
 
-    void loadAllCreatureData( );
-    void loadAllItemData( );
-    void loadAllPlayerData( );
-    void loadAllObjectData( );
-    void loadAllActionData( );
-
+    void loadAllCreatureData();
+    void loadAllItemData();
+    void loadAllPlayerData();
+    void loadAllObjectData();
+    void loadAllActionData();
+    void loadAllFeatData();
 
     std::vector<CreatureData> m_creatureData;
     std::vector<ItemData> m_itemData;
@@ -48,4 +49,5 @@ private:
     std::vector<RawPlayerRaceData> m_playerRaceData;
     std::vector<RawObjectData> m_objectData;
     std::vector<RawActionData> m_actionData;
+    std::vector<FeatData> m_featData;
 };
