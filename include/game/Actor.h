@@ -4,11 +4,13 @@
 #include <game/Defines.h>
 #include <game/Items.h>
 #include <game/Action.h>
+#include <game/Combat.h>
 
 struct CreatureData;
 struct PlayerData;
 struct Damage;
-
+class Level;
+class RandomInterface;
 
 class AbilityScore
 {
@@ -81,6 +83,7 @@ public:
 
     // Armour
     int getAC() const;
+    
 
 private:
 
