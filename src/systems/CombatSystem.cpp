@@ -12,60 +12,6 @@ CombatSystem::CombatSystem(Level *parent)
 void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
 {
     doMeleeAttack( evt.attacker, evt.defender );
-
-
-//    auto aAttacker = m_level->ecs().getComponents<ActorComponent>(evt.attacker)->actor;
-//    auto aDefender = m_level->ecs().getComponents<ActorComponent>(evt.defender)->actor;
-//    auto const& weapon = aAttacker.getActiveWeapon();
-//
-//    auto attackerDesc = m_level->getDescriptionForEnt( evt.attacker );
-//    auto defenderDesc = m_level->getDescriptionForEnt( evt.defender );
-//
-//    int attackRoll = m_level->random().diceRoll(20);
-//    bool isHit = false;
-//    bool isCrit = false;
-//
-//    m_level->pushLogLine( fmt::format( "{} attacks {} (roll={})", attackerDesc, defenderDesc, attackRoll ));
-//
-//
-//    // Did we hit?
-//
-//    if ( attackRoll >= weapon.critRange() )
-//    {
-//        isHit = true;
-//        isCrit = true;
-//    }
-//    else
-//    {
-//        auto defAC = aDefender.getAC();
-//        if (attackRoll >= defAC)
-//        {
-//            isHit = true;
-//        }
-//    }
-//
-//    if (!isHit)
-//    {
-//        m_level->pushLogLine( fmt::format( "{} misses", attackerDesc ));
-//        return;
-//    }
-//
-//    // How much damage?
-//    int damageRoll = m_level->random().diceRoll( weapon.damage() );
-//
-//    if (isCrit)
-//    {
-//        damageRoll *= weapon.critMultiplier();
-//    }
-//
-//    Damage dmg;
-//    DamageInstance dmgInstance{ DamageType::Untyped, DamageSuperType::Physical, damageRoll };
-//    dmg.instances.push_back( dmgInstance );
-//
-//    m_level->pushLogLine( fmt::format( "{} hits {} for {} damage", attackerDesc, defenderDesc, attackRoll ));
-//
-//    // Actually deal the damage
-//    acceptDamage( dmg, evt.defender );
 }
 
 void CombatSystem::acceptDamage(const Damage& dmg, EntityRef ref)
@@ -117,41 +63,19 @@ void CombatSystem::doMeleeAttack( EntityRef attackerRef, EntityRef defenderRef )
     
     auto attackRoll = makeAttackRoll( singleAttack, false );
     
-    
-//    if ( attackRoll >= weapon.critRange() )
-//    {
-//        isHit = true;
-//        isCrit = true;
-//    }
-//    else
-//    {
-//        auto defAC = aDefender.getAC();
-//        if (attackRoll >= defAC)
-//        {
-//            isHit = true;
-//        }
-//    }
-//
-//    if (!isHit)
-//    {
-//        return;
-//    }
-//
-//    // How much damage?
-//    int damageRoll = m_level->random().diceRoll( weapon.damage() );
-//
-//    if (isCrit)
-//    {
-//        damageRoll *= weapon.critMultiplier();
-//    }
-//
-//    Damage dmg;
-//    DamageInstance dmgInstance{ DamageType::Untyped, DamageSuperType::Physical, damageRoll };
-//    dmg.instances.push_back( dmgInstance );
-//
-//
-//    // Actually deal the damage
-//    acceptDamage( dmg, defender );
+
+    if ( attackRoll.isHit )
+    {
+        // Trigger: damage dealt
+        auto damage = getDamageForAttack( singleAttack, attackRoll );
+
+        // Actually deal the damage
+        acceptDamage( damage, defenderRef );
+    }
+    else
+    {
+        // Trigger: missed attack
+    }
 }
 
 AttackRollResult CombatSystem::makeAttackRoll( SingleAttackInstance& attack, bool isCritConfirm )
@@ -215,4 +139,22 @@ int CombatSystem::getAcForDefender( SingleAttackInstance& attack )
 int CombatSystem::getCritRangeForAttack( SingleAttackInstance &attack )
 {
     return attack.weapon->critRange();
+}
+
+Damage CombatSystem::getDamageForAttack( SingleAttackInstance& attack, AttackRollResult const& roll )
+{
+    // How much damage?
+    int damageRoll = m_level->random().diceRoll( attack.weapon->damage() );
+
+    // If this is a critical hit, modify the damage
+    if ( roll.isCrit )
+    {
+        damageRoll *= attack.weapon->critMultiplier();
+    }
+
+    Damage damage;
+    DamageInstance dmgInstance{ DamageType::Untyped, DamageSuperType::Physical, damageRoll };
+    damage.instances.push_back( dmgInstance );
+
+    return damage;
 }

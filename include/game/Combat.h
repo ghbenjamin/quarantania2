@@ -1,9 +1,24 @@
 #pragma once
 
 #include <engine/Entity.h>
+#include <game/Defines.h>
+
 
 class Actor;
 class Weapon;
+
+
+struct DamageInstance
+{
+    DamageType type;
+    DamageSuperType superType;
+    int total;
+};
+
+struct Damage
+{
+    std::vector<DamageInstance> instances;
+};
 
 struct SingleAttackInstance
 {
