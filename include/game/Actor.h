@@ -11,6 +11,7 @@ struct PlayerData;
 struct Damage;
 class Level;
 class RandomInterface;
+class ActorModifier;
 
 class AbilityScore
 {
@@ -62,10 +63,11 @@ public:
     // Items
     bool hasEquipped( CreatureEquipSlot slot ) const;
     const ItemPtr getEquipped( CreatureEquipSlot slot ) const;
-    ItemPtr unequipItem( CreatureEquipSlot slot );
-    ItemPtr equipItem( CreatureEquipSlot slot, ItemPtr item );
     std::optional<CreatureEquipSlot> defaultSlotForItemSlot( ItemEquipSlot slot ) const;
     std::unordered_map<CreatureEquipSlot, ItemPtr> const& getAllEquippedItems() const;
+    
+    ItemPtr unequipItem( CreatureEquipSlot slot );
+    ItemPtr equipItem( CreatureEquipSlot slot, ItemPtr item );
 
     // Weapons
     Weapon const& getActiveWeapon() const;
@@ -102,4 +104,7 @@ private:
     // Items
     std::unordered_map<CreatureEquipSlot, ItemPtr> m_equippedItems;
     std::vector<Weapon> m_naturalWeapons;
+    
+    // Modifiers
+    std::vector<std::unique_ptr<ActorModifier>> m_modifiers;
 };

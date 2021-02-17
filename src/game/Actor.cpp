@@ -4,7 +4,6 @@
 #include <fmt/format.h>
 #include <utils/Assert.h>
 #include <game/ResourceDatabase.h>
-#include <game/Damage.h>
 #include <game/Level.h>
 #include <utils/Logging.h>
 #include <components/ActorComponent.h>

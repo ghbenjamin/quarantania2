@@ -11,7 +11,6 @@ public:
     std::string const& getName() const;
     bool hasTimeout() const;
     int getRoundsRemaining() const;
-
     
 
 private:

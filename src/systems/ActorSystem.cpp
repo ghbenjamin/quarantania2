@@ -1,6 +1,5 @@
 #include <systems/ActorSystem.h>
 #include <game/Level.h>
-#include <game/Damage.h>
 #include <components/ActorComponent.h>
 
 ActorSystem::ActorSystem(Level *parent) : System(parent)

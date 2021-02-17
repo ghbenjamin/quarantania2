@@ -22,11 +22,13 @@ public:
     {}
 
 private:
-
+    
+    
     // Perform a single melee attack by one entity against another entity
     void doMeleeAttack( EntityRef attacker, EntityRef defender );
-
-
+    
+    
+    
     void acceptDamage( Damage const& dmg, EntityRef ref );
 
     // Roll a single attack roll. Calculate whether or not it hits, and whether or not it is a crit.
