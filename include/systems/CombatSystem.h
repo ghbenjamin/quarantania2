@@ -22,12 +22,11 @@ public:
     {}
 
 private:
-    
-    
+
     // Perform a single melee attack by one entity against another entity
     void doMeleeAttack( EntityRef attacker, EntityRef defender );
-    
-    
+
+
     
     void acceptDamage( Damage const& dmg, EntityRef ref );
 

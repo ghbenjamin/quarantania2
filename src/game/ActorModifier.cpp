@@ -1,25 +1,21 @@
 #include <game/ActorModifier.h>
 
-ActorModifer::ActorModifer( std::string const &name )
-    : m_name(name), m_roundsRemaining(-1), m_hasTimeout(false) {}
+ActorMod::ActorMod(const std::string &name, int expiryRound, std::unique_ptr<ActorModImpl> impl)
+    : m_name(name), m_expiryRound(expiryRound)//, m_impl( std::move(impl) )
+{
+}
 
-ActorModifer::ActorModifer( std::string const &name, int roundsRemaining )
-    : m_name(name), m_roundsRemaining(roundsRemaining), m_hasTimeout(true) {}
-
-
-
-std::string const &ActorModifer::getName() const
+std::string const &ActorMod::getName() const
 {
     return m_name;
 }
 
-bool ActorModifer::hasTimeout() const
+const int ActorMod::getExpiryRound() const
 {
-    return m_hasTimeout;
+    return m_expiryRound;
 }
 
-int ActorModifer::getRoundsRemaining() const
+bool ActorModCompare::operator()(const ActorMod &lhs, const ActorMod &rhs) const
 {
-    return m_roundsRemaining;
+    return lhs.getExpiryRound() > rhs.getExpiryRound();
 }
-

@@ -49,6 +49,7 @@ void CombatSystem::doMeleeAttack( EntityRef attackerRef, EntityRef defenderRef )
 {
     auto attacker = m_level->ecs().getComponents<ActorComponent>(attackerRef)->actor;
     auto defender = m_level->ecs().getComponents<ActorComponent>(defenderRef)->actor;
+
     auto const& weapon = attacker.getActiveWeapon();
     
     SingleAttackInstance singleAttack;
@@ -57,8 +58,7 @@ void CombatSystem::doMeleeAttack( EntityRef attackerRef, EntityRef defenderRef )
     singleAttack.attacker = &attacker;
     singleAttack.defender = &defender;
     singleAttack.weapon = &weapon;
-    
-    
+
     auto attackRoll = makeAttackRoll( singleAttack, false );
 
     if ( attackRoll.isHit )

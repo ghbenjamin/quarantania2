@@ -1,17 +1,18 @@
 #pragma once
 
+#include <queue>
 
 #include <game/Defines.h>
 #include <game/Items.h>
 #include <game/Action.h>
 #include <game/Combat.h>
+#include <game/ActorModifier.h>
 
 struct CreatureData;
 struct PlayerData;
 struct Damage;
 class Level;
 class RandomInterface;
-class ActorModifier;
 
 class AbilityScore
 {
@@ -104,7 +105,7 @@ private:
     // Items
     std::unordered_map<CreatureEquipSlot, ItemPtr> m_equippedItems;
     std::vector<Weapon> m_naturalWeapons;
-    
+
     // Modifiers
-    std::vector<std::unique_ptr<ActorModifier>> m_modifiers;
+    std::priority_queue<ActorMod, std::queue<ActorMod>, ActorModCompare> m_modifiers;
 };

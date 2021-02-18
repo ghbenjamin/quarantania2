@@ -74,15 +74,6 @@ struct EntityAction : public GameEvent<EntityAction>
     int actionPoints;
 };
 
-//struct MeleeAttack : public GameEvent<MeleeAttack>
-//{
-//    MeleeAttack(EntityRef attacker, EntityRef defender, WeaponPtr const& weapon);
-//    ~MeleeAttack() override = default;
-//
-//    EntityRef attacker;
-//    EntityRef defender;
-//    WeaponPtr weapon;
-//};
 
 struct ItemPickup : public GameEvent<ItemPickup>
 {
@@ -137,6 +128,11 @@ struct EntityDamage : public GameEvent<EntityDamage>
     EntityRef target;
     Damage const* damage;
 };
+
+
+// Combat events
+// ------------------------------
+
 
 // Combat events
 // ------------------------------

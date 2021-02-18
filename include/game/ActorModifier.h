@@ -1,21 +1,52 @@
 #pragma once
 
-class ActorModifer
-{
-public:
-    
-    ActorModifer( std::string const& name );
-    ActorModifer( std::string const& name, int roundsRemaining );
-    virtual ~ActorModifer() = default;
-    
-    std::string const& getName() const;
-    bool hasTimeout() const;
-    int getRoundsRemaining() const;
-    
+#include <string>
+#include <memory>
+#include <vector>
 
-private:
-    std::string m_name;
-    bool m_hasTimeout;
-    int m_roundsRemaining;
+class Level;
+
+
+
+// A single part of a modifier, for example a conditional buff to a specific attribute.
+class ActorModFacet
+{
 
 };
+
+
+
+
+using ActorModFacetList = std::vector<std::unique_ptr<ActorModFacet>>;
+
+
+struct ActorModImpl
+{
+    virtual ActorModFacetList addFacets() = 0;
+};
+
+
+// An aggregation of mods which represents a single concept, e.g. a feat or a status.
+class ActorMod
+{
+public:
+
+    ActorMod( std::string const& name, int expiryRound, std::unique_ptr<ActorModImpl> impl );
+    ~ActorMod() = default;
+
+    std::string const& getName() const;
+    const int getExpiryRound() const;
+
+private:
+
+    const std::string m_name;     // The name of the feat/spell/whatever that spawned this mod
+    const int m_expiryRound;      // Do I expire? If so, when?
+
+   // std::unique_ptr<ActorModImpl> m_impl;
+};
+
+struct ActorModCompare
+{
+    bool operator()(ActorMod const& lhs, ActorMod const& rhs) const;
+};
+
