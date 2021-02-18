@@ -1,9 +1,7 @@
 #include <game/ActorModifier.h>
 
-ActorMod::ActorMod(const std::string &name, int expiryRound, std::unique_ptr<ActorModImpl> impl)
-    : m_name(name), m_expiryRound(expiryRound)//, m_impl( std::move(impl) )
-{
-}
+ActorMod::ActorMod(const std::string &name, int expiryRound, ActorModFacetList& facets)
+    : m_name(name), m_expiryRound(expiryRound), m_facets(facets) {}
 
 std::string const &ActorMod::getName() const
 {
@@ -14,6 +12,7 @@ const int ActorMod::getExpiryRound() const
 {
     return m_expiryRound;
 }
+
 
 bool ActorModCompare::operator()(const ActorMod &lhs, const ActorMod &rhs) const
 {

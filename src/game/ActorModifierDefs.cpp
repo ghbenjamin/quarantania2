@@ -1,10 +1,13 @@
 #include <game/ActorModifierDefs.h>
 
-ActorModFacetList ActorModStatusSickened::addFacets()
+
+ActorMod ActorModFactory::statusSickened(int roundRemove)
 {
     ActorModFacetList out;
-
-
-
-    return out;
+    
+    // Add -2 to all attack rolls
+    // Add
+    
+    
+    return ActorMod( "Sickened", roundRemove, out );
 }

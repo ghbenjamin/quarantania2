@@ -50,8 +50,8 @@ class Actor
 
 public:
 
-    Actor( PlayerData const& pdata );
-    Actor( CreatureData const& data );
+    Actor( Level* level, EntityRef ref, PlayerData const& pdata );
+    Actor( Level* level, EntityRef ref, CreatureData const& data );
     ~Actor() = default;
 
     // Meta
@@ -83,12 +83,27 @@ public:
     int getCurrentHp() const;
     int getMaxHp() const;
     void setCurrentHp( int value );
-
+    
+    void acceptDamage( Damage const& dmg );
+    
     // Armour
     int getAC() const;
+
+    // Combat
+    int getCritRangeForAttack( SingleAttackInstance& attack ) const;
+    Damage getDamageForAttack( SingleAttackInstance& attack, AttackRollResult const& roll ) const;
+    int getAcForDefender( SingleAttackInstance& attack ) const;
+    AttackRollResult makeAttackRoll( SingleAttackInstance& attack, bool isCritConfirm ) const;
+    
+    // Modifiers
+    void addModifier( ActorMod const& mod );
     
 
 private:
+
+    // Meta
+    EntityRef m_entity;
+    Level* m_level;
 
     // Info
     const std::string m_name;
@@ -108,4 +123,5 @@ private:
 
     // Modifiers
     std::priority_queue<ActorMod, std::queue<ActorMod>, ActorModCompare> m_modifiers;
+    
 };

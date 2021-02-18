@@ -67,8 +67,10 @@ AbilityScore& AbilityScoreBlock::getScore(AbilityScoreType type)
 // ---------------------------------------------
 
 
-Actor::Actor(CreatureData const& rcd)
-    : m_name(rcd.name),
+Actor::Actor(Level* level, EntityRef ref, CreatureData const& rcd)
+    : m_level(level),
+      m_entity(ref),
+      m_name(rcd.name),
       m_abilityScores(rcd.attrStr, rcd.attrDex, rcd.attrCon,
       rcd.attrInt, rcd.attrWis, rcd.attrCha),
       m_HpMax(rcd.maxHP),
@@ -78,8 +80,10 @@ Actor::Actor(CreatureData const& rcd)
 {
 }
 
-Actor::Actor(PlayerData const &pdata)
-    : m_name(pdata.name),
+Actor::Actor(Level* level, EntityRef ref, PlayerData const &pdata)
+    : m_level(level),
+      m_entity(ref),
+      m_name(pdata.name),
       m_abilityScores(pdata.attrStr, pdata.attrDex, pdata.attrCon,
         pdata.attrInt, pdata.attrWis, pdata.attrCha),
       m_HpMax(pdata.maxHP),
@@ -238,18 +242,22 @@ int Actor::getAC() const
     return dexToAc + armourAC + shieldAC + 10;
 }
 
+
 int Actor::getSpeed() const
 {
+    // TODO Modifiers
     return m_baseSpeed;
 }
 
 CreatureSize Actor::getSize()
 {
+    // TODO Modifiers
     return m_size;
 }
 
 float Actor::getReach() const
 {
+    // TODO Modifiers
     return 1.5f;
 }
 
@@ -314,4 +322,122 @@ std::optional<CreatureEquipSlot> Actor::defaultSlotForItemSlot(ItemEquipSlot slo
 std::unordered_map<CreatureEquipSlot, ItemPtr> const &Actor::getAllEquippedItems() const
 {
     return m_equippedItems;
+}
+
+int Actor::getCritRangeForAttack( SingleAttackInstance &attack ) const
+{
+    // TODO: Modifiers.
+    return attack.weapon->critRange();
+}
+
+Damage Actor::getDamageForAttack( SingleAttackInstance &attack, AttackRollResult const &roll ) const
+{
+    // TODO: All the modifiers
+    
+    // How much damage?
+    int damageRoll = m_level->random().diceRoll( attack.weapon->damage() );
+    
+    // If this is a critical hit, modify the damage
+    if ( roll.isCrit )
+    {
+        damageRoll *= attack.weapon->critMultiplier();
+    }
+    
+    Damage damage;
+    DamageInstance dmgInstance{ DamageType::Untyped, DamageSuperType::Physical, damageRoll };
+    damage.instances.push_back( dmgInstance );
+    
+    return damage;
+}
+
+int Actor::getAcForDefender( SingleAttackInstance &attack ) const
+{
+    // TODO: All the modifiers
+    return getAC();
+}
+
+AttackRollResult Actor::makeAttackRoll( SingleAttackInstance &attack, bool isCritConfirm ) const
+{
+    AttackRollResult result;
+    
+    result.naturalRoll = m_level->random().diceRoll(20);
+    result.targetValue = attack.defender->getAcForDefender(attack);
+    int critRange = getCritRangeForAttack( attack );
+    
+    
+    // TODO Modify the roll here
+    result.modifiedRoll = result.naturalRoll;
+    
+    if ( result.naturalRoll >= critRange )
+    {
+        // Potential crit
+        if ( !isCritConfirm )
+        {
+            auto confirmResult = makeAttackRoll( attack, true );
+            if ( confirmResult.isHit )
+            {
+                // Confirmed crit - a hit and crit
+                // Trigger: crit confirmed
+                result.isCrit = true;
+                result.isHit = true;
+            }
+        }
+        else
+        {
+            // Crit confirmation failed, but still a guaranteed hit
+            // Trigger: crit confirmation failed
+            result.isHit = true;
+            result.isCrit = false;
+        }
+    }
+    else
+    {
+        // Not a crit - compare the roll against the target value
+        if ( result.modifiedRoll >= result.targetValue )
+        {
+            // A hit!
+            // Trigger: successful attack roll
+            result.isHit = true;
+        }
+        else
+        {
+            // A miss
+            // Trigger: unsuccessful attack roll
+            result.isHit = false;
+        }
+    }
+    
+    return result;
+}
+
+void Actor::acceptDamage( Damage const &dmg )
+{
+    // Decrease our HP for each instance of damage supplied
+    // TODO: Modifiers
+    
+    for (auto const& instance : dmg.instances )
+    {
+        auto newNp = getCurrentHp() - instance.total;
+        setCurrentHp( newNp );
+    }
+    
+    // Handle falling unconsious and death
+    
+    if ( getCurrentHp() < 0 )
+    {
+        if ( getCurrentHp() > -abilityScores().getScore(AbilityScoreType::CON).getValue() )
+        {
+            // Unconscious! TODO
+        }
+        else
+        {
+            // The entity died
+            m_level->events().broadcast<GameEvents::EntityDeath>( m_entity );
+        }
+    }
+}
+
+void Actor::addModifier( ActorMod const &mod )
+{
+
 }

@@ -134,9 +134,6 @@ struct EntityDamage : public GameEvent<EntityDamage>
 // ------------------------------
 
 
-// Combat events
-// ------------------------------
-
 
 struct CombatMeleeAttack : public GameEvent<CombatMeleeAttack>
 {

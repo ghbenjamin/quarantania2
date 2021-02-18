@@ -17,11 +17,10 @@ namespace ActorModFacets
 }
 
 
-//  Modifier Definitions
-// ------------------------
-
-
-struct ActorModStatusSickened : public ActorModImpl
+class ActorModFactory
 {
-    ActorModFacetList addFacets() override;
+public:
+
+    // Statuses
+    ActorMod statusSickened(int roundRemove);
 };
