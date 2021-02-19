@@ -96,7 +96,7 @@ public:
     AttackRollResult makeAttackRoll( SingleAttackInstance& attack, bool isCritConfirm ) const;
     
     // Modifiers
-    void addModifier( ActorMod const& mod );
+    void addModifier(ActorModGroup const& mod );
     
 
 private:
@@ -122,6 +122,6 @@ private:
     std::vector<Weapon> m_naturalWeapons;
 
     // Modifiers
-    std::priority_queue<ActorMod, std::queue<ActorMod>, ActorModCompare> m_modifiers;
+    std::priority_queue<ActorModGroup, std::queue<ActorModGroup>, ActorModCompare> m_modifiers;
     
 };

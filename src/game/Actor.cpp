@@ -437,7 +437,7 @@ void Actor::acceptDamage( Damage const &dmg )
     }
 }
 
-void Actor::addModifier( ActorMod const &mod )
+void Actor::addModifier(ActorModGroup const &mod )
 {
 
 }

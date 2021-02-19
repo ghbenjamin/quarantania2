@@ -2,19 +2,31 @@
 
 #include <game/ActorModifier.h>
 
-
-//  Facet Definitions
-// ------------------------
+class SingleAttackRoll;
 
 
-namespace ActorModFacets
+enum class ActorModType
 {
+    AttackRolls,
+};
 
 
-
-
-
+namespace ActorMods
+{
+    struct ModAttackRoll
+    {
+        virtual void modify( SingleAttackRoll& roll ) = 0;
+    };
 }
+
+
+struct ActorMod
+{
+    ActorModType type;
+    
+};
+
+
 
 
 class ActorModFactory
@@ -22,5 +34,5 @@ class ActorModFactory
 public:
 
     // Statuses
-    ActorMod statusSickened(int roundRemove);
+    ActorModGroup statusSickened(int roundRemove);
 };

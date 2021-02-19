@@ -1,7 +1,7 @@
 #include <game/ActorModifierDefs.h>
 
 
-ActorMod ActorModFactory::statusSickened(int roundRemove)
+ActorModGroup ActorModFactory::statusSickened(int roundRemove)
 {
     ActorModFacetList out;
     
@@ -9,5 +9,5 @@ ActorMod ActorModFactory::statusSickened(int roundRemove)
     // Add
     
     
-    return ActorMod( "Sickened", roundRemove, out );
+    return ActorModGroup( "Sickened", roundRemove, out );
 }
