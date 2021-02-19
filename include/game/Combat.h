@@ -20,6 +20,18 @@ struct Damage
     std::vector<DamageInstance> instances;
 };
 
+
+struct SavingThrowRoll
+{
+    SavingThrowType type;
+    int natural;
+    int modified;
+    
+    EntityRef source;
+    EntityRef defender;
+};
+
+
 struct SingleAttackInstance
 {
     EntityRef attackerRef;
@@ -32,9 +44,11 @@ struct SingleAttackInstance
 };
 
 
-
-struct AttackRollResult
+struct AttackRoll
 {
+    SingleAttackInstance const* ctx;
+    
+    
     int naturalRoll = -1;
     int targetValue = -1;
     int modifiedRoll = -1;
@@ -42,3 +56,4 @@ struct AttackRollResult
     bool isHit = false;
     bool isCrit = false;
 };
+

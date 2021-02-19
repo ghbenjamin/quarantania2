@@ -37,6 +37,13 @@ enum class AbilityScoreType
     CHA
 };
 
+enum class SavingThrowType
+{
+    Reflex,
+    Fortitude,
+    Will,
+};
+
 enum class DnDAlignment
 {
     LG,

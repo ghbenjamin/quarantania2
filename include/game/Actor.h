@@ -7,6 +7,7 @@
 #include <game/Action.h>
 #include <game/Combat.h>
 #include <game/ActorModifier.h>
+#include <map>
 
 struct CreatureData;
 struct PlayerData;
@@ -43,7 +44,18 @@ private:
     std::unordered_map<AbilityScoreType, AbilityScore> m_scores;
 };
 
+class ModifiableRollVisitor
+{
+public:
+    ModifiableRollVisitor( Actor *actor );
+    ~ModifiableRollVisitor() = default;
+    
+    void operator()( AttackRoll* roll );
+    void operator()( SavingThrowRoll* roll );
 
+private:
+    Actor* m_actor;
+};
 
 class Actor
 {
@@ -91,12 +103,24 @@ public:
 
     // Combat
     int getCritRangeForAttack( SingleAttackInstance& attack ) const;
-    Damage getDamageForAttack( SingleAttackInstance& attack, AttackRollResult const& roll ) const;
+    Damage getDamageForAttack( SingleAttackInstance& attack, AttackRoll const& roll ) const;
     int getAcForDefender( SingleAttackInstance& attack ) const;
-    AttackRollResult makeAttackRoll( SingleAttackInstance& attack, bool isCritConfirm ) const;
+    AttackRoll makeAttackRoll( SingleAttackInstance& attack, bool isCritConfirm ) const;
     
     // Modifiers
-    void addModifier(ActorModGroup const& mod );
+    void addModifierGroup( ActorModGroup const& mod );
+    void modifyRoll( ModifiableObject& roll );
+    
+    template <typename T>
+    void modifyTypedRoll( ActorModType type, T* roll )
+    {
+        auto range = m_modifiers.equal_range(type);
+        for ( auto it = range.first; it != range.second; it++ )
+        {
+            auto ptr = std::static_pointer_cast<ActorModImpl<T>>(it->second.impl);
+            ptr->modify(roll);
+        }
+    }
     
 
 private:
@@ -122,6 +146,7 @@ private:
     std::vector<Weapon> m_naturalWeapons;
 
     // Modifiers
-    std::priority_queue<ActorModGroup, std::queue<ActorModGroup>, ActorModCompare> m_modifiers;
+    std::vector<ActorModGroup> m_modifierGroups;
+    std::multimap<ActorModType, ActorMod> m_modifiers;
     
 };

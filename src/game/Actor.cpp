@@ -330,7 +330,7 @@ int Actor::getCritRangeForAttack( SingleAttackInstance &attack ) const
     return attack.weapon->critRange();
 }
 
-Damage Actor::getDamageForAttack( SingleAttackInstance &attack, AttackRollResult const &roll ) const
+Damage Actor::getDamageForAttack( SingleAttackInstance &attack, AttackRoll const &roll ) const
 {
     // TODO: All the modifiers
     
@@ -356,10 +356,10 @@ int Actor::getAcForDefender( SingleAttackInstance &attack ) const
     return getAC();
 }
 
-AttackRollResult Actor::makeAttackRoll( SingleAttackInstance &attack, bool isCritConfirm ) const
+AttackRoll Actor::makeAttackRoll( SingleAttackInstance &attack, bool isCritConfirm ) const
 {
-    AttackRollResult result;
-    
+    AttackRoll result;
+    result.ctx = &attack;
     result.naturalRoll = m_level->random().diceRoll(20);
     result.targetValue = attack.defender->getAcForDefender(attack);
     int critRange = getCritRangeForAttack( attack );
@@ -437,7 +437,30 @@ void Actor::acceptDamage( Damage const &dmg )
     }
 }
 
-void Actor::addModifier(ActorModGroup const &mod )
+void Actor::addModifierGroup( ActorModGroup const &modGroup )
 {
+    m_modifierGroups.push_back(modGroup);
+    
+    for ( auto const& mod : modGroup.getMods() )
+    {
+        m_modifiers.emplace( mod.type, mod );
+    }
+}
 
+void Actor::modifyRoll( ModifiableObject &roll )
+{
+    std::visit(ModifiableRollVisitor{this}, roll);
+}
+
+ModifiableRollVisitor::ModifiableRollVisitor( Actor *actor )
+ : m_actor(actor) {}
+
+void ModifiableRollVisitor::operator()( AttackRoll *roll )
+{
+    m_actor->modifyTypedRoll( ActorModType::AttackRolls, roll );
+}
+
+void ModifiableRollVisitor::operator()( SavingThrowRoll *roll )
+{
+    m_actor->modifyTypedRoll( ActorModType::SavingThrows, roll );
 }
