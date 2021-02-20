@@ -48,7 +48,6 @@ struct AttackRoll
 {
     SingleAttackInstance const* ctx;
     
-    
     int naturalRoll = -1;
     int targetValue = -1;
     int modifiedRoll = -1;

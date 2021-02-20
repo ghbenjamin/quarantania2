@@ -19,10 +19,5 @@ std::vector<ActorMod> const &ActorModGroup::getMods() const
 }
 
 
-bool ActorModCompare::operator()(const ActorModGroup &lhs, const ActorModGroup &rhs) const
-{
-    return lhs.getExpiryRound() > rhs.getExpiryRound();
-}
-
 ActorMod::ActorMod( ActorModType type, std::shared_ptr<ActorModImplBase> impl )
  : type(type), impl(impl) {}

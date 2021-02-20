@@ -12,7 +12,7 @@ ActorModGroup ActorModFactory::statusSickened(int roundRemove)
 }
 
 ActorMods::ModSavingThrowStatic::ModSavingThrowStatic( SavingThrowType type, int modifier )
-        : type(type), modifier(modifier) {}
+    : type(type), modifier(modifier) {}
         
 void ActorMods::ModSavingThrowStatic::modify( SavingThrowRoll* roll )
 {
@@ -23,7 +23,7 @@ void ActorMods::ModSavingThrowStatic::modify( SavingThrowRoll* roll )
 }
 
 ActorMods::ModAttackRollStatic::ModAttackRollStatic( int modifier )
- : modifier(modifier) {}
+    : modifier(modifier) {}
 
 void ActorMods::ModAttackRollStatic::modify( AttackRoll* roll )
 {

@@ -363,11 +363,10 @@ AttackRoll Actor::makeAttackRoll( SingleAttackInstance &attack, bool isCritConfi
     result.naturalRoll = m_level->random().diceRoll(20);
     result.targetValue = attack.defender->getAcForDefender(attack);
     int critRange = getCritRangeForAttack( attack );
-    
-    
-    // TODO Modify the roll here
+
     result.modifiedRoll = result.naturalRoll;
-    
+    applyAllModifiers( &result );
+
     if ( result.naturalRoll >= critRange )
     {
         // Potential crit
@@ -447,12 +446,71 @@ void Actor::addModifierGroup( ActorModGroup const &modGroup )
     }
 }
 
-void Actor::modifyRoll( ModifiableObject &roll )
+void Actor::applyAllModifiers(ModifiableObject roll ) const
 {
-    std::visit(ModifiableRollVisitor{this}, roll);
+    std::visit( ModifiableRollVisitor{this}, roll );
 }
 
-ModifiableRollVisitor::ModifiableRollVisitor( Actor *actor )
+SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type) const
+{
+    int abilityScoreMod;
+
+    switch (type)
+    {
+        case SavingThrowType::Reflex:
+            abilityScoreMod = getModDex();
+            break;
+        case SavingThrowType::Fortitude:
+            abilityScoreMod = getModCon();
+            break;
+        case SavingThrowType::Will:
+            abilityScoreMod = getModWis();
+            break;
+    }
+
+
+    SavingThrowRoll roll;
+    roll.source = source;
+    roll.defender = m_entity;
+    roll.natural = m_level->random().diceRoll(20);
+    roll.modified = roll.natural + abilityScoreMod;
+
+    applyAllModifiers( &roll );
+
+    return roll;
+}
+
+int Actor::getModStr() const
+{
+    return m_abilityScores.getScore(AbilityScoreType::STR).getMod();
+}
+
+int Actor::getModDex() const
+{
+    return m_abilityScores.getScore(AbilityScoreType::DEX).getMod();
+}
+
+int Actor::getModCon() const
+{
+    return m_abilityScores.getScore(AbilityScoreType::CON).getMod();
+}
+
+int Actor::getModInt() const
+{
+    return m_abilityScores.getScore(AbilityScoreType::INT).getMod();
+}
+
+int Actor::getModWis() const
+{
+    return m_abilityScores.getScore(AbilityScoreType::WIS).getMod();
+}
+
+int Actor::getModCha() const
+{
+    return m_abilityScores.getScore(AbilityScoreType::CHA).getMod();
+}
+
+ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
  : m_actor(actor) {}
 
 void ModifiableRollVisitor::operator()( AttackRoll *roll )

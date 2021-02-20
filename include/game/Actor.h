@@ -47,14 +47,14 @@ private:
 class ModifiableRollVisitor
 {
 public:
-    ModifiableRollVisitor( Actor *actor );
+    ModifiableRollVisitor( Actor const* actor );
     ~ModifiableRollVisitor() = default;
     
     void operator()( AttackRoll* roll );
     void operator()( SavingThrowRoll* roll );
 
 private:
-    Actor* m_actor;
+    Actor const* m_actor;
 };
 
 class Actor
@@ -72,6 +72,12 @@ public:
 
     // Stats
     AbilityScoreBlock& abilityScores();
+    int getModStr() const;
+    int getModDex() const;
+    int getModCon() const;
+    int getModInt() const;
+    int getModWis() const;
+    int getModCha() const;
 
     // Items
     bool hasEquipped( CreatureEquipSlot slot ) const;
@@ -98,8 +104,9 @@ public:
     
     void acceptDamage( Damage const& dmg );
     
-    // Armour
+    // Defense
     int getAC() const;
+    SavingThrowRoll makeSavingThrow( EntityRef source, SavingThrowType type ) const;
 
     // Combat
     int getCritRangeForAttack( SingleAttackInstance& attack ) const;
@@ -109,10 +116,10 @@ public:
     
     // Modifiers
     void addModifierGroup( ActorModGroup const& mod );
-    void modifyRoll( ModifiableObject& roll );
+    void applyAllModifiers(ModifiableObject roll ) const;
     
     template <typename T>
-    void modifyTypedRoll( ActorModType type, T* roll )
+    void modifyTypedRoll( ActorModType type, T* roll ) const
     {
         auto range = m_modifiers.equal_range(type);
         for ( auto it = range.first; it != range.second; it++ )
