@@ -68,7 +68,9 @@ struct AttackRoll
 
 struct MovementSpeedData
 {
-    int naturalMove;
-    int moveSpeedLimit;
-    float multiplier;
+    int natural = -1;
+    int modified = -1;
+    
+    int moveSpeedLimit = -1;
+    float multiplier = 1.0f;
 };

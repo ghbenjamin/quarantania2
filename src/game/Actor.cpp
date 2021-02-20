@@ -190,8 +190,22 @@ int Actor::getAC() const
 
 int Actor::getSpeed() const
 {
-    // TODO Modifiers
-    return m_baseSpeed;
+    MovementSpeedData data;
+    data.natural = m_baseSpeed;
+    data.modified = m_baseSpeed;
+    
+    applyAllModifiers(&data);
+    
+    int speed = data.modified;
+    
+    if ( data.moveSpeedLimit >= 0 )
+    {
+        speed = std::min( speed, data.moveSpeedLimit );
+    }
+    
+    speed = (int)(speed * data.multiplier);
+    
+    return speed;
 }
 
 CreatureSize Actor::getSize()
@@ -510,4 +524,9 @@ void ModifiableRollVisitor::operator()( SavingThrowRoll *roll )
 void ModifiableRollVisitor::operator()(AbilityScoreBonus *roll)
 {
     m_actor->modifyTypedRoll( ActorModType::AbilityScores, roll );
+}
+
+void ModifiableRollVisitor::operator()( MovementSpeedData *roll )
+{
+    m_actor->modifyTypedRoll( ActorModType::MovementSpeed, roll );
 }

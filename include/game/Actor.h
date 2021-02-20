@@ -26,6 +26,7 @@ public:
     void operator()( AttackRoll* roll );
     void operator()( SavingThrowRoll* roll );
     void operator()( AbilityScoreBonus* roll );
+    void operator()( MovementSpeedData* data );
 
 private:
     Actor const* m_actor;

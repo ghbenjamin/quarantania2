@@ -15,13 +15,15 @@ enum class ActorModType
     AttackRolls,
     SavingThrows,
     AbilityScores,
+    MovementSpeed,
 };
 
 // Union type of the kinds of game object that can be modified
 using ModifiableObject = std::variant<
     SavingThrowRoll*,
     AttackRoll*,
-    AbilityScoreBonus*
+    AbilityScoreBonus*,
+    MovementSpeedData*
         >;
 
 

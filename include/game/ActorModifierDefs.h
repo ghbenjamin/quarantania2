@@ -57,4 +57,14 @@ struct ModAbilityScoreStaticAll : public ActorModImpl<AbilityScoreBonus>
     int modifier;
 };
 
+struct ModMovementSpeedMultiplier : public ActorModImpl<MovementSpeedData>
+{
+    ModMovementSpeedMultiplier( float multiplier );
+    ~ModMovementSpeedMultiplier() = default;
+    void modify( MovementSpeedData* data ) override;
+    
+    float multiplier;
+};
+
+
 }

@@ -52,3 +52,10 @@ void ActorMods::ModAbilityScoreStaticAll::modify(AbilityScoreBonus *roll)
 }
 
 
+ActorMods::ModMovementSpeedMultiplier::ModMovementSpeedMultiplier( float multiplier )
+ : multiplier(multiplier) {}
+
+void ActorMods::ModMovementSpeedMultiplier::modify( MovementSpeedData *data )
+{
+    data->multiplier = multiplier;
+}

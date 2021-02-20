@@ -29,9 +29,8 @@ ActorModGroup ActorModFactory::statusFatigued(int roundRemove)
 ActorModGroup ActorModFactory::statusExhausted(int roundRemove)
 {
     ActorModGroup group { "Exhausted", roundRemove };
-
-
-
+    
+    group.addMod<ActorMods::ModMovementSpeedMultiplier>( ActorModType::MovementSpeed, 0.5f );
     group.addMod<ActorMods::ModAbilityScoreStatic>( ActorModType::AbilityScores, AbilityScoreType::STR, -6 );
     group.addMod<ActorMods::ModAbilityScoreStatic>( ActorModType::AbilityScores, AbilityScoreType::DEX, -6 );
 
