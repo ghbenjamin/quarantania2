@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <engine/Entity.h>
 #include <game/Defines.h>
 
@@ -18,6 +20,14 @@ struct DamageInstance
 struct Damage
 {
     std::vector<DamageInstance> instances;
+};
+
+
+struct AbilityScoreBonus
+{
+    AbilityScoreType type;
+    int natural;
+    int modified;
 };
 
 
@@ -56,3 +66,9 @@ struct AttackRoll
     bool isCrit = false;
 };
 
+struct MovementSpeedData
+{
+    int naturalMove;
+    int moveSpeedLimit;
+    float multiplier;
+};

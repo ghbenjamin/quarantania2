@@ -15,34 +15,7 @@ struct Damage;
 class Level;
 class RandomInterface;
 
-class AbilityScore
-{
-public:
-    AbilityScore(int value = 0);
-    ~AbilityScore() = default;
 
-    void setValue(int val);
-    int getValue() const;
-    int getMod() const;
-
-private:
-    int m_base;
-    int m_mod;
-};
-
-class AbilityScoreBlock
-{
-public:
-    AbilityScoreBlock();
-    AbilityScoreBlock(int STR, int DEX, int CON, int INT, int WIS, int CHA);
-    ~AbilityScoreBlock() = default;
-
-    AbilityScore const& getScore(AbilityScoreType type) const;
-    AbilityScore& getScore(AbilityScoreType type);
-
-private:
-    std::unordered_map<AbilityScoreType, AbilityScore> m_scores;
-};
 
 class ModifiableRollVisitor
 {
@@ -52,6 +25,7 @@ public:
     
     void operator()( AttackRoll* roll );
     void operator()( SavingThrowRoll* roll );
+    void operator()( AbilityScoreBonus* roll );
 
 private:
     Actor const* m_actor;
@@ -71,7 +45,8 @@ public:
     CreatureSize getSize();
 
     // Stats
-    AbilityScoreBlock& abilityScores();
+    int getAbilityScoreValue( AbilityScoreType type ) const;
+    int getAbilityScoreMod( AbilityScoreType type ) const;
     int getModStr() const;
     int getModDex() const;
     int getModCon() const;
@@ -111,7 +86,7 @@ public:
     // Combat
     int getCritRangeForAttack( SingleAttackInstance& attack ) const;
     Damage getDamageForAttack( SingleAttackInstance& attack, AttackRoll const& roll ) const;
-    int getAcForDefender( SingleAttackInstance& attack ) const;
+    int getAcForAttack( SingleAttackInstance& attack ) const;
     AttackRoll makeAttackRoll( SingleAttackInstance& attack, bool isCritConfirm ) const;
     
     // Modifiers
@@ -141,7 +116,12 @@ private:
     CreatureSize m_size;
 
     // Stats
-    AbilityScoreBlock m_abilityScores;
+    int m_baseAbilityScoreStr;
+    int m_baseAbilityScoreDex;
+    int m_baseAbilityScoreCon;
+    int m_baseAbilityScoreInt;
+    int m_baseAbilityScoreWis;
+    int m_baseAbilityScoreCha;
     int m_baseSpeed;
 
     // Health

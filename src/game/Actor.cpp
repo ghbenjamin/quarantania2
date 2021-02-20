@@ -9,70 +9,16 @@
 #include <components/ActorComponent.h>
 
 
-
-// Ability Score
-// -------------------------------------------
-
-AbilityScore::AbilityScore(int value)
-{
-    setValue(value);
-}
-
-void AbilityScore::setValue(int val)
-{
-    m_base = val;
-    m_mod = val / 2;
-}
-
-int AbilityScore::getValue() const
-{
-    return m_base;
-}
-
-int AbilityScore::getMod() const
-{
-    return m_mod;
-}
-
-
-// Ability Score Block
-// -------------------------------------------
-
-
-AbilityScoreBlock::AbilityScoreBlock()
-        : AbilityScoreBlock(0, 0, 0, 0, 0, 0) { }
-
-AbilityScoreBlock::AbilityScoreBlock(int STR, int DEX, int CON, int INT, int WIS, int CHA)
-{
-    m_scores.emplace( AbilityScoreType::STR, STR );
-    m_scores.emplace( AbilityScoreType::DEX, DEX );
-    m_scores.emplace( AbilityScoreType::CON, CON );
-    m_scores.emplace( AbilityScoreType::INT, INT );
-    m_scores.emplace( AbilityScoreType::WIS, WIS );
-    m_scores.emplace( AbilityScoreType::CHA, CHA );
-}
-
-AbilityScore const& AbilityScoreBlock::getScore(AbilityScoreType type) const
-{
-    return m_scores.at(type);
-}
-
-
-AbilityScore& AbilityScoreBlock::getScore(AbilityScoreType type)
-{
-    return m_scores.at(type);
-}
-
-// Actor
-// ---------------------------------------------
-
-
 Actor::Actor(Level* level, EntityRef ref, CreatureData const& rcd)
     : m_level(level),
       m_entity(ref),
       m_name(rcd.name),
-      m_abilityScores(rcd.attrStr, rcd.attrDex, rcd.attrCon,
-      rcd.attrInt, rcd.attrWis, rcd.attrCha),
+      m_baseAbilityScoreStr(rcd.attrStr),
+      m_baseAbilityScoreDex(rcd.attrDex),
+      m_baseAbilityScoreCon(rcd.attrCon),
+      m_baseAbilityScoreInt(rcd.attrInt),
+      m_baseAbilityScoreWis(rcd.attrWis),
+      m_baseAbilityScoreCha(rcd.attrCha),
       m_HpMax(rcd.maxHP),
       m_HpCurrent(rcd.maxHP),
       m_baseSpeed(rcd.speed),
@@ -84,8 +30,12 @@ Actor::Actor(Level* level, EntityRef ref, PlayerData const &pdata)
     : m_level(level),
       m_entity(ref),
       m_name(pdata.name),
-      m_abilityScores(pdata.attrStr, pdata.attrDex, pdata.attrCon,
-        pdata.attrInt, pdata.attrWis, pdata.attrCha),
+      m_baseAbilityScoreStr(pdata.attrStr),
+      m_baseAbilityScoreDex(pdata.attrDex),
+      m_baseAbilityScoreCon(pdata.attrCon),
+      m_baseAbilityScoreInt(pdata.attrInt),
+      m_baseAbilityScoreWis(pdata.attrWis),
+      m_baseAbilityScoreCha(pdata.attrCha),
       m_HpMax(pdata.maxHP),
       m_HpCurrent(pdata.maxHP),
       m_baseSpeed(pdata.baseSpeed),
@@ -197,11 +147,6 @@ Weapon const& Actor::getNaturalWeapon() const
     return m_naturalWeapons.front();
 }
 
-AbilityScoreBlock &Actor::abilityScores()
-{
-    return m_abilityScores;
-}
-
 int Actor::getCurrentHp() const
 {
     return m_HpCurrent;
@@ -219,7 +164,7 @@ void Actor::setCurrentHp(int value)
 
 int Actor::getAC() const
 {
-    int dexToAc = m_abilityScores.getScore( AbilityScoreType::DEX ).getMod();
+    int dexToAc = getModDex();
     int armourAC = 0;
     int shieldAC = 0;
 
@@ -350,7 +295,7 @@ Damage Actor::getDamageForAttack( SingleAttackInstance &attack, AttackRoll const
     return damage;
 }
 
-int Actor::getAcForDefender( SingleAttackInstance &attack ) const
+int Actor::getAcForAttack(SingleAttackInstance &attack ) const
 {
     // TODO: All the modifiers
     return getAC();
@@ -361,7 +306,8 @@ AttackRoll Actor::makeAttackRoll( SingleAttackInstance &attack, bool isCritConfi
     AttackRoll result;
     result.ctx = &attack;
     result.naturalRoll = m_level->random().diceRoll(20);
-    result.targetValue = attack.defender->getAcForDefender(attack);
+    result.targetValue = attack.defender
+                               ->getAcForAttack(attack);
     int critRange = getCritRangeForAttack( attack );
 
     result.modifiedRoll = result.naturalRoll;
@@ -424,7 +370,7 @@ void Actor::acceptDamage( Damage const &dmg )
     
     if ( getCurrentHp() < 0 )
     {
-        if ( getCurrentHp() > -abilityScores().getScore(AbilityScoreType::CON).getValue() )
+        if ( getCurrentHp() > -getAbilityScoreValue(AbilityScoreType::CON) )
         {
             // Unconscious! TODO
         }
@@ -482,32 +428,70 @@ SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type) c
 
 int Actor::getModStr() const
 {
-    return m_abilityScores.getScore(AbilityScoreType::STR).getMod();
+    return getAbilityScoreMod( AbilityScoreType::STR );
 }
 
 int Actor::getModDex() const
 {
-    return m_abilityScores.getScore(AbilityScoreType::DEX).getMod();
+    return getAbilityScoreMod( AbilityScoreType::DEX );
 }
 
 int Actor::getModCon() const
 {
-    return m_abilityScores.getScore(AbilityScoreType::CON).getMod();
+    return getAbilityScoreMod( AbilityScoreType::CON );
 }
 
 int Actor::getModInt() const
 {
-    return m_abilityScores.getScore(AbilityScoreType::INT).getMod();
+    return getAbilityScoreMod( AbilityScoreType::INT );
 }
 
 int Actor::getModWis() const
 {
-    return m_abilityScores.getScore(AbilityScoreType::WIS).getMod();
+    return getAbilityScoreMod( AbilityScoreType::WIS );
 }
 
 int Actor::getModCha() const
 {
-    return m_abilityScores.getScore(AbilityScoreType::CHA).getMod();
+    return getAbilityScoreMod( AbilityScoreType::CHA );
+}
+
+int Actor::getAbilityScoreValue(AbilityScoreType type) const
+{
+    AbilityScoreBonus score;
+    score.type = type;
+
+    switch(type)
+    {
+        case AbilityScoreType::STR:
+            score.natural = m_baseAbilityScoreStr;
+            break;
+        case AbilityScoreType::DEX:
+            score.natural = m_baseAbilityScoreDex;
+            break;
+        case AbilityScoreType::CON:
+            score.natural = m_baseAbilityScoreCon;
+            break;
+        case AbilityScoreType::INT:
+            score.natural = m_baseAbilityScoreInt;
+            break;
+        case AbilityScoreType::WIS:
+            score.natural = m_baseAbilityScoreWis;
+            break;
+        case AbilityScoreType::CHA:
+            score.natural = m_baseAbilityScoreCha;
+            break;
+    }
+
+    score.modified = score.natural;
+    applyAllModifiers( &score );
+
+    return score.modified;
+}
+
+int Actor::getAbilityScoreMod( AbilityScoreType type ) const
+{
+    return (getAbilityScoreValue( type ) - 10) / 2;
 }
 
 ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
@@ -521,4 +505,9 @@ void ModifiableRollVisitor::operator()( AttackRoll *roll )
 void ModifiableRollVisitor::operator()( SavingThrowRoll *roll )
 {
     m_actor->modifyTypedRoll( ActorModType::SavingThrows, roll );
+}
+
+void ModifiableRollVisitor::operator()(AbilityScoreBonus *roll)
+{
+    m_actor->modifyTypedRoll( ActorModType::AbilityScores, roll );
 }
