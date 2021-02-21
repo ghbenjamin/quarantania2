@@ -1,7 +1,7 @@
 #include <game/ActorModifier.h>
 
-ActorModGroup::ActorModGroup(const std::string &name, int expiryRound)
-    : m_name(name), m_expiryRound(expiryRound) {}
+ActorModGroup::ActorModGroup( std::string const& id, const std::string &name, int expiryRound)
+    : m_id(id), m_name(name), m_expiryRound(expiryRound) {}
 
 std::string const &ActorModGroup::getName() const
 {
@@ -13,11 +13,16 @@ const int ActorModGroup::getExpiryRound() const
     return m_expiryRound;
 }
 
-std::vector<ActorMod> const &ActorModGroup::getMods() const
+std::vector<ActorMod> const &ActorModGroup::getStatMods() const
 {
-    return m_mods;
+    return m_statMods;
+}
+
+std::string const &ActorModGroup::getId() const
+{
+    return m_id;
 }
 
 
-ActorMod::ActorMod( ActorModType type, std::shared_ptr<ActorModImplBase> impl )
- : type(type), impl(impl) {}
+ActorMod::ActorMod( ActorModType type, std::string const& id, std::shared_ptr<ActorModImplBase> impl )
+ : type(type), id(id), impl(impl) {}

@@ -400,7 +400,7 @@ void Actor::addModifierGroup( ActorModGroup const &modGroup )
 {
     m_modifierGroups.push_back(modGroup);
     
-    for ( auto const& mod : modGroup.getMods() )
+    for ( auto const& mod : modGroup.getStatMods() )
     {
         m_modifiers.emplace( mod.type, mod );
     }
@@ -506,6 +506,27 @@ int Actor::getAbilityScoreValue(AbilityScoreType type) const
 int Actor::getAbilityScoreMod( AbilityScoreType type ) const
 {
     return (getAbilityScoreValue( type ) - 10) / 2;
+}
+
+void Actor::removeActorModGroup( std::string const& id )
+{
+    // Remove stat modifiers
+    for ( auto it = m_modifiers.begin(); it != m_modifiers.end(); )
+    {
+        if ( it->second.id == id )
+        {
+            it = m_modifiers.erase(it);
+        }
+        else
+        {
+            it++;
+        }
+    }
+    
+    // Remove the modifier group
+    m_modifierGroups.erase( std::remove_if( m_modifierGroups.begin(), m_modifierGroups.end(), [&id](auto&& item) {
+        return item.getId() == id;
+    }), m_modifierGroups.end() );
 }
 
 ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )

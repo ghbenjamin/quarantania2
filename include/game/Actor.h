@@ -92,6 +92,8 @@ public:
     
     // Modifiers
     void addModifierGroup( ActorModGroup const& mod );
+    void removeActorModGroup( std::string const& id );
+    
     void applyAllModifiers(ModifiableObject roll ) const;
     
     template <typename T>

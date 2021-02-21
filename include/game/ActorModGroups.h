@@ -6,6 +6,9 @@ class ActorModFactory
 {
 public:
 
+    // Feats
+    ActorModGroup featPowerAttack();
+
     // Statuses
     ActorModGroup statusExhausted(int roundRemove);
     ActorModGroup statusFatigued(int roundRemove);
