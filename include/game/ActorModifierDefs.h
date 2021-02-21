@@ -8,7 +8,7 @@ namespace ActorMods
 {
 
 
-struct ModAttackRollStatic : public ActorModImpl<AttackRoll>
+struct ModAttackRollStatic : public ActorStatModImpl<AttackRoll>
 {
     ModAttackRollStatic( int modifier );
     ~ModAttackRollStatic() = default;
@@ -18,7 +18,7 @@ struct ModAttackRollStatic : public ActorModImpl<AttackRoll>
     int modifier;
 };
 
-struct ModSavingThrowStatic : public ActorModImpl<SavingThrowRoll>
+struct ModSavingThrowStatic : public ActorStatModImpl<SavingThrowRoll>
 {
     ModSavingThrowStatic( SavingThrowType type, int modifier );
     ~ModSavingThrowStatic() = default;
@@ -28,7 +28,7 @@ struct ModSavingThrowStatic : public ActorModImpl<SavingThrowRoll>
     int modifier;
 };
 
-struct ModSavingThrowStaticAll : public ActorModImpl<SavingThrowRoll>
+struct ModSavingThrowStaticAll : public ActorStatModImpl<SavingThrowRoll>
 {
     ModSavingThrowStaticAll( int modifier );
     ~ModSavingThrowStaticAll() = default;
@@ -38,7 +38,7 @@ struct ModSavingThrowStaticAll : public ActorModImpl<SavingThrowRoll>
 };
 
 
-struct ModAbilityScoreStatic : public ActorModImpl<AbilityScoreBonus>
+struct ModAbilityScoreStatic : public ActorStatModImpl<AbilityScoreBonus>
 {
     ModAbilityScoreStatic( AbilityScoreType type, int modifier );
     ~ModAbilityScoreStatic() = default;
@@ -48,7 +48,7 @@ struct ModAbilityScoreStatic : public ActorModImpl<AbilityScoreBonus>
     int modifier;
 };
 
-struct ModAbilityScoreStaticAll : public ActorModImpl<AbilityScoreBonus>
+struct ModAbilityScoreStaticAll : public ActorStatModImpl<AbilityScoreBonus>
 {
     ModAbilityScoreStaticAll( int modifier );
     ~ModAbilityScoreStaticAll() = default;
@@ -57,7 +57,7 @@ struct ModAbilityScoreStaticAll : public ActorModImpl<AbilityScoreBonus>
     int modifier;
 };
 
-struct ModMovementSpeedMultiplier : public ActorModImpl<MovementSpeedData>
+struct ModMovementSpeedMultiplier : public ActorStatModImpl<MovementSpeedData>
 {
     ModMovementSpeedMultiplier( float multiplier );
     ~ModMovementSpeedMultiplier() = default;

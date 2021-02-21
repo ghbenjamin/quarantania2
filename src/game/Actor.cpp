@@ -406,7 +406,7 @@ void Actor::addModifierGroup( ActorModGroup const &modGroup )
     }
 }
 
-void Actor::applyAllModifiers(ModifiableObject roll ) const
+void Actor::applyAllModifiers(ModifiableStatObject roll ) const
 {
     std::visit( ModifiableRollVisitor{this}, roll );
 }
@@ -510,23 +510,23 @@ int Actor::getAbilityScoreMod( AbilityScoreType type ) const
 
 void Actor::removeActorModGroup( std::string const& id )
 {
-    // Remove stat modifiers
-    for ( auto it = m_modifiers.begin(); it != m_modifiers.end(); )
-    {
-        if ( it->second.id == id )
-        {
-            it = m_modifiers.erase(it);
-        }
-        else
-        {
-            it++;
-        }
-    }
-    
-    // Remove the modifier group
-    m_modifierGroups.erase( std::remove_if( m_modifierGroups.begin(), m_modifierGroups.end(), [&id](auto&& item) {
-        return item.getId() == id;
-    }), m_modifierGroups.end() );
+//    // Remove stat modifiers
+//    for ( auto it = m_modifiers.begin(); it != m_modifiers.end(); )
+//    {
+//        if ( it->second.id == id )
+//        {
+//            it = m_modifiers.erase(it);
+//        }
+//        else
+//        {
+//            it++;
+//        }
+//    }
+//
+//    // Remove the modifier group
+//    m_modifierGroups.erase( std::remove_if( m_modifierGroups.begin(), m_modifierGroups.end(), [&id](auto&& item) {
+//        return item.getId() == id;
+//    }), m_modifierGroups.end() );
 }
 
 ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
@@ -534,20 +534,20 @@ ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
 
 void ModifiableRollVisitor::operator()( AttackRoll *roll )
 {
-    m_actor->modifyTypedRoll( ActorModType::AttackRolls, roll );
+    m_actor->modifyTypedRoll( ActorStatModType::AttackRolls, roll );
 }
 
 void ModifiableRollVisitor::operator()( SavingThrowRoll *roll )
 {
-    m_actor->modifyTypedRoll( ActorModType::SavingThrows, roll );
+    m_actor->modifyTypedRoll( ActorStatModType::SavingThrows, roll );
 }
 
 void ModifiableRollVisitor::operator()(AbilityScoreBonus *roll)
 {
-    m_actor->modifyTypedRoll( ActorModType::AbilityScores, roll );
+    m_actor->modifyTypedRoll( ActorStatModType::AbilityScores, roll );
 }
 
 void ModifiableRollVisitor::operator()( MovementSpeedData *roll )
 {
-    m_actor->modifyTypedRoll( ActorModType::MovementSpeed, roll );
+    m_actor->modifyTypedRoll( ActorStatModType::MovementSpeed, roll );
 }

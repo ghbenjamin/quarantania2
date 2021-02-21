@@ -13,7 +13,7 @@ const int ActorModGroup::getExpiryRound() const
     return m_expiryRound;
 }
 
-std::vector<ActorMod> const &ActorModGroup::getStatMods() const
+std::vector<ActorStatMod> const &ActorModGroup::getStatMods() const
 {
     return m_statMods;
 }
@@ -24,5 +24,5 @@ std::string const &ActorModGroup::getId() const
 }
 
 
-ActorMod::ActorMod( ActorModType type, std::string const& id, std::shared_ptr<ActorModImplBase> impl )
+ActorStatMod::ActorStatMod(ActorStatModType type, std::string const& id, std::shared_ptr<ActorStatModImplBase> impl )
  : type(type), id(id), impl(impl) {}

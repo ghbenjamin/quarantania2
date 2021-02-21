@@ -94,15 +94,15 @@ public:
     void addModifierGroup( ActorModGroup const& mod );
     void removeActorModGroup( std::string const& id );
     
-    void applyAllModifiers(ModifiableObject roll ) const;
+    void applyAllModifiers(ModifiableStatObject roll ) const;
     
     template <typename T>
-    void modifyTypedRoll( ActorModType type, T* roll ) const
+    void modifyTypedRoll(ActorStatModType type, T* roll ) const
     {
         auto range = m_modifiers.equal_range(type);
         for ( auto it = range.first; it != range.second; it++ )
         {
-            auto ptr = std::static_pointer_cast<ActorModImpl<T>>(it->second.impl);
+            auto ptr = std::static_pointer_cast<ActorStatModImpl<T>>(it->second.impl);
             ptr->modify(roll);
         }
     }
@@ -137,6 +137,6 @@ private:
 
     // Modifiers
     std::vector<ActorModGroup> m_modifierGroups;
-    std::multimap<ActorModType, ActorMod> m_modifiers;
+    std::multimap<ActorStatModType, ActorStatMod> m_modifiers;
     
 };
