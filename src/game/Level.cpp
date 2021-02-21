@@ -4,12 +4,12 @@
 #include <engine/InputInterface.h>
 #include <game/GameEventDefs.h>
 #include <game/Level.h>
+#include <game/ActionDefs.h>
 #include <graphics/RenderInterface.h>
 #include <resource/ResourceManager.h>
 #include <utils/GlobalConfig.h>
 #include <utils/Math.h>
 #include <ui/level/TextLog.h>
-
 #include <ui/level/TurnOrderView.h>
 #include <ui/level/CreatureEquipView.h>
 #include <ui/level/ActionPopupMenu.h>

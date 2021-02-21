@@ -18,3 +18,11 @@ void ActorSystem::operator()(GameEvents::EntityDamage& evt)
 {
 
 }
+
+void ActorSystem::operator()(GameEvents::RoundChange &evt)
+{
+    for (auto const& [actor] : m_level->ecs().entitiesWith<ActorComponent>() )
+    {
+        // Do something with expired modifiers here
+    }
+}
