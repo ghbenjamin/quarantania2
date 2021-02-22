@@ -92,7 +92,7 @@ RawObjectData ResourceDatabase::objectFromName(std::string_view name)
     return RawObjectData( *it );
 }
 
-RawActionData ResourceDatabase::actionFromId(std::string_view id)
+ActionData ResourceDatabase::actionFromId(std::string_view id)
 {
     auto it = std::find_if( m_actionData.begin(), m_actionData.end(),
             [id](auto const& item){
@@ -100,7 +100,7 @@ RawActionData ResourceDatabase::actionFromId(std::string_view id)
             });
 
     Assert( it != m_actionData.end() );
-    return RawActionData( *it );
+    return ActionData( *it );
 }
 
 FeatData ResourceDatabase::featFromId( std::string_view id )
@@ -456,7 +456,7 @@ void ResourceDatabase::loadAllActionData()
     rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/actions.json" );
     for ( auto const& it_raw : doc.GetArray() )
     {
-        RawActionData robj;
+        ActionData robj;
         auto it = it_raw.GetObject();
 
         robj.name = it.FindMember("name")->value.GetString();

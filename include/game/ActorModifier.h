@@ -28,9 +28,7 @@ using ModifiableStatObject = std::variant<
 
 
 // A function which can modify exactly one of the calculation types enumerated above
-
-struct ActorStatModImplBase
-{};
+struct ActorStatModImplBase {};
 
 template <typename T>
 struct ActorStatModImpl : ActorStatModImplBase

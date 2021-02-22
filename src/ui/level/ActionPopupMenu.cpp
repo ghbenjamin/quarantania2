@@ -24,8 +24,8 @@ UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *
         elem->setBackground(Colour::Beige);
         elem->setLayout<HorizontalLayout>(8, VAlignment::Centre);
         
-        manager->createElement<UI::Icon>(elem.get(), act->data.getSprite() );
-        manager->createElement<UI::Label>(elem.get(), act->data.getName() );
+        manager->createElement<UI::Icon>(elem.get(), act->data.sprite );
+        manager->createElement<UI::Label>(elem.get(), act->data.name );
         
         elem->addEventCallback(UEventType::Click, [manager, act, this](UEvent const& evt) {
             
@@ -115,7 +115,7 @@ void UI::ActionMenu::openMenu(RawActionDataType category)
     
     for ( auto& action : actions )
     {
-        if ( action->data.getType() == category )
+        if ( action->data.type == category )
         {
             menuItems.push_back( std::move(action) );
         }

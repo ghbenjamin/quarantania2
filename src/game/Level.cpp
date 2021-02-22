@@ -324,29 +324,28 @@ std::vector<std::shared_ptr<GameAction>> Level::actionsForActor(EntityRef actor)
 
     std::vector<std::shared_ptr<GameAction>> out;
 
-    out.push_back( GameAction::construct(
-        Action(this, "move"),
-        std::make_shared<ActionMoveStride>( this, actor, cActor->actor.getSpeed() ),
-        TargetingType::SingleTile
+    out.push_back( std::make_shared<GameAction>(
+        "move",
+        TargetingType::SingleTile,
+        std::make_shared<ActionMoveStride>( this, actor, cActor->actor.getSpeed() )
     ));
 
-    out.push_back( GameAction::construct(
-        Action(this, "short-step"),
-        std::make_shared<ActionMoveStep>( this, actor ),
-        TargetingType::SingleTile
+    out.push_back( std::make_shared<GameAction>(
+        "short-step",
+        TargetingType::SingleTile,
+        std::make_shared<ActionMoveStep>( this, actor )
     ));
 
-
-    out.push_back( GameAction::construct(
-            Action(this, "strike"),
-            std::make_shared<ActionMeleeAttack>( this, actor, cActor->actor.getReach() ),
-            TargetingType::SingleEntity
+    out.push_back( std::make_shared<GameAction>(
+        "strike",
+        TargetingType::SingleEntity,
+        std::make_shared<ActionMeleeAttack>( this, actor, cActor->actor.getReach() )
     ));
 
-    out.push_back( GameAction::construct(
-            Action(this, "power-attack"),
-            std::make_shared<ActionPowerAttack>( this, actor, cActor->actor.getReach() ),
-            TargetingType::SingleEntity
+    out.push_back( std::make_shared<GameAction>(
+        "power-attack",
+        TargetingType::SingleEntity,
+        std::make_shared<ActionPowerAttack>( this, actor, cActor->actor.getReach() )
     ));
 
     return out;

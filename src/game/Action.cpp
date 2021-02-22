@@ -2,49 +2,7 @@
 #include <game/ResourceDatabase.h>
 #include <game/Level.h>
 #include <components/PositionComponent.h>
-#include <game/GameEventDefs.h>
 #include <components/ActorComponent.h>
-
-Action::Action(Level* level, std::string const& id)
-        : m_data( ResourceDatabase::instance().actionFromId(id) ),
-          m_level(level) {}
-
-
-std::string const &Action::getName() const
-{
-    return m_data.name;
-}
-
-std::string const &Action::getDescription() const
-{
-    return m_data.description;
-}
-
-SpritesheetKey const &Action::getSprite() const
-{
-    return m_data.sprite;
-}
-
-bool Action::getProvokes() const
-{
-    return m_data.provokes;
-}
-
-void Action::setEnabled(bool val)
-{
-    m_enabled = val;
-}
-
-bool Action::isEnabled() const
-{
-    return m_enabled;
-}
-
-RawActionDataType Action::getType() const
-{
-    return m_data.type;
-}
-
 
 
 IActionTargeting::IActionTargeting(Level *level, EntityRef actor)
@@ -61,9 +19,6 @@ std::vector<Vector2i> SingleTileTargeting::pathToTile(Vector2i tile)
 SingleEntityTargeting::SingleEntityTargeting(Level* level, EntityRef actor)
         : IActionTargeting(level, actor) { }
 
-GameAction::GameAction(const Action &data, const std::shared_ptr<IActionTargeting> &impl, TargetingType ttype)
-        : data(data), impl(impl), ttype(ttype)
-{}
 
 ActionMoveParent::ActionMoveParent(Level* level, EntityRef actor, int range)
 : SingleTileTargeting(level, actor), m_range(range)

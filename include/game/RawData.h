@@ -131,7 +131,7 @@ enum class RawActionDataType
     Item
 };
 
-struct RawActionData
+struct ActionData
 {
     std::string id;
 

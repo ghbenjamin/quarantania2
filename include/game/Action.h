@@ -6,32 +6,9 @@
 #include <game/Grid.h>
 #include <engine/Entity.h>
 #include <utils/GridUtils.h>
+#include <game/ResourceDatabase.h>
 
 class Level;
-
-class Action
-{
-public:
-    Action(Level* level, std::string const& id);
-    virtual ~Action() = default;
-
-    std::string const& getName() const;
-    std::string const& getDescription() const;
-    SpritesheetKey const& getSprite() const;
-    bool getProvokes() const;
-    bool isEnabled() const;
-    RawActionDataType getType() const;
-
-    void setEnabled(bool val);
-
-protected:
-    Level* m_level;
-
-private:
-    const RawActionData m_data;
-    bool m_enabled;
-};
-
 
 enum class TargetingType
 {
@@ -53,24 +30,20 @@ protected:
 
 struct GameAction
 {
-    GameAction(const Action &data, const std::shared_ptr<IActionTargeting> &impl, TargetingType ttype);
-
-    Action data;
-    std::shared_ptr<IActionTargeting> impl;
-    TargetingType ttype;
-
     template <typename T>
-    static std::shared_ptr<GameAction> construct( Action const& data, std::shared_ptr<T> impl, TargetingType ttype )
-    {
-        static_assert( std::is_base_of_v<IActionTargeting, T> );
+    GameAction(std::string const& id, TargetingType ttype, const std::shared_ptr<T> &impl)
+    : data(ResourceDatabase::instance().actionFromId(id)),
+      ttype(ttype),
+      impl(std::static_pointer_cast<IActionTargeting>(impl))
+      {}
 
-        return std::make_shared<GameAction>(
-                data,
-                std::static_pointer_cast<IActionTargeting>(impl),
-                ttype
-        );
-    }
+    ActionData data;
+    TargetingType ttype;
+    std::shared_ptr<IActionTargeting> impl;
 };
+
+
+
 
 
 class SingleTileTargeting : public IActionTargeting

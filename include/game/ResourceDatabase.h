@@ -28,7 +28,7 @@ public:
     RawPlayerRaceData playerRaceFromName( std::string_view name );
     RawPlayerClassData playerClassFromName( std::string_view name );
     RawObjectData objectFromName( std::string_view name );
-    RawActionData actionFromId( std::string_view id );
+    ActionData actionFromId(std::string_view id );
     FeatData featFromId( std::string_view id );
 
 private:
@@ -48,6 +48,6 @@ private:
     std::vector<RawPlayerClassData> m_playerClassData;
     std::vector<RawPlayerRaceData> m_playerRaceData;
     std::vector<RawObjectData> m_objectData;
-    std::vector<RawActionData> m_actionData;
+    std::vector<ActionData> m_actionData;
     std::vector<FeatData> m_featData;
 };

@@ -14,7 +14,6 @@ class Level;
 class RenderInterface;
 namespace UI { class Element; }
 struct GameAction;
-class Action;
 class SingleTileTargeting;
 class SingleEntityTargeting;
 

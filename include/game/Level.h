@@ -22,7 +22,6 @@
 // Forward definitions
 class RenderInterface;
 class InputInterface;
-class Action;
 struct IEvent;
 struct IEventKeyPress;
 struct IEventMouseMove;
