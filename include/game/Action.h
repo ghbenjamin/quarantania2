@@ -20,8 +20,11 @@ enum class TargetingType
 class IActionTargeting
 {
 public:
-    IActionTargeting(Level* level, EntityRef actor);
+    IActionTargeting();
     virtual ~IActionTargeting() = default;
+
+    void attach( Level* level, EntityRef actor );
+    virtual void attachImpl();
 
 protected:
     Level* m_level;
@@ -44,20 +47,15 @@ struct GameAction
 
 
 
-
-
 class SingleTileTargeting : public IActionTargeting
 {
 public:
-    SingleTileTargeting(Level* level, EntityRef actor);
-    ~SingleTileTargeting() override = default;
+    using IActionTargeting::IActionTargeting;
 
     virtual void perform( Vector2i tile ) = 0;
-
     virtual bool isMovement() const = 0;
     virtual GridRegion getValidTiles() = 0;
     virtual bool tileIsValid(Vector2i tile) = 0;
-
     virtual std::vector<Vector2i> pathToTile(Vector2i tile);
 };
 
@@ -65,30 +63,9 @@ public:
 class SingleEntityTargeting : public IActionTargeting
 {
 public:
-    SingleEntityTargeting(Level* level, EntityRef actor);
-    ~SingleEntityTargeting() override = default;
+    using IActionTargeting::IActionTargeting;
 
     virtual void perform( EntityRef target ) = 0;
     virtual bool entityIsValid(EntityRef ref) = 0;
-
 };
-
-
-class ActionMoveParent : public SingleTileTargeting
-{
-public:
-    ActionMoveParent(Level* level, EntityRef actor, int range);
-    ~ActionMoveParent() override = default;
-
-    bool isMovement() const override;
-    GridRegion getValidTiles() override;
-    bool tileIsValid(Vector2i tile) override;
-    std::vector<Vector2i> pathToTile(Vector2i tile) override;
-
-protected:
-    int m_range;
-    PathMap m_pathMap;
-};
-
-
 

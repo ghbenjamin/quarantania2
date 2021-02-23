@@ -67,7 +67,6 @@ public:
 
     // Actions
     std::vector<std::shared_ptr<GameAction>> actionsForActor(EntityRef actor);
-    std::vector<std::shared_ptr<GameAction>> actionsForCurrentActor();
 
     // Communication
     bool isComplete() const;
@@ -86,9 +85,6 @@ public:
     // The list of entities in the level, in turn order
     std::vector<EntityRef> const& turnOrder() const;
 
-    // The entity whose turn it is
-    EntityRef getActiveEntity() const;
-
     // Mark that the current entity has finished its turn, and that the turn should be passed to the next
     // entity in the queue.
     void nextTurn();
@@ -103,8 +99,6 @@ private:
 
     // Game logic methods
     void generateTurnOrder();
-
-    // Misc methods
 
     // Centre the camera on the centroid of the positions of all party members
     void centerCameraOnParty();

@@ -2,11 +2,50 @@
 
 #include <game/Action.h>
 
+// Abstract types
+// ---------------------------
+
+
+class ActionMoveParent : public SingleTileTargeting
+{
+public:
+    ActionMoveParent();
+    ActionMoveParent(int maxRange);
+    ~ActionMoveParent() override = default;
+
+    void attachImpl() override;
+
+    bool isMovement() const override;
+    GridRegion getValidTiles() override;
+    bool tileIsValid(Vector2i tile) override;
+    std::vector<Vector2i> pathToTile(Vector2i tile) override;
+
+protected:
+    int m_range;
+    int m_maxRange;
+
+    PathMap m_pathMap;
+};
+
+
+class ActionAttackParent : public SingleEntityTargeting
+{
+public:
+    bool entityIsValid(EntityRef ref) override;
+    void attachImpl() override;
+
+protected:
+    float m_reach = -1;
+};
+
+
+// Concrete types
+// ------------------------
 
 class ActionMoveStride : public ActionMoveParent
 {
 public:
-    ActionMoveStride(Level* level, EntityRef actor, int range);
+    using ActionMoveParent::ActionMoveParent;
     void perform(Vector2i tile) override;
 };
 
@@ -14,32 +53,24 @@ public:
 class ActionMoveStep : public ActionMoveParent
 {
 public:
-    ActionMoveStep(Level* level, EntityRef actor);
+    ActionMoveStep();
     void perform(Vector2i tile) override;
 };
 
 
-class ActionMeleeAttack : public SingleEntityTargeting
+class ActionMeleeAttack : public ActionAttackParent
 {
 public:
-    ActionMeleeAttack(Level* level, EntityRef actor, float reach);
+    using ActionAttackParent::ActionAttackParent;
     void perform(EntityRef target) override;
-    bool entityIsValid(EntityRef ref) override;
-
-private:
-    float m_reach;
 };
 
 
-class ActionPowerAttack : public SingleEntityTargeting
+class ActionPowerAttack : public ActionAttackParent
 {
 public:
-    ActionPowerAttack(Level* level, EntityRef actor, float reach);
+    using ActionAttackParent::ActionAttackParent;
     void perform(EntityRef target) override;
-    bool entityIsValid(EntityRef ref) override;
-
-private:
-    float m_reach;
 };
 
 

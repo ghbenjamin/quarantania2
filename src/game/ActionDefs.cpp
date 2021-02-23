@@ -4,41 +4,56 @@
 #include <components/PositionComponent.h>
 #include <components/ActorComponent.h>
 
-ActionMoveStride::ActionMoveStride(Level * level, EntityRef actor, int range)
-        : ActionMoveParent(level, actor, range) {}
 
-void ActionMoveStride::perform(Vector2i tile)
+ActionMoveParent::ActionMoveParent(int maxRange)
+        : m_maxRange(maxRange), m_range(-1) {}
+
+ActionMoveParent::ActionMoveParent()
+        : m_range(-1), m_maxRange(-1) {}
+
+bool ActionMoveParent::isMovement() const
 {
-    auto origin = m_level->ecs().getComponents<PositionComponent>(m_actor)->tilePosition;
-    auto pathMap = m_level->grid().pathFromPathMap(m_pathMap, tile);
-
-    m_level->events().broadcast<GameEvents::EntityMove>(m_actor, origin, tile, pathMap);
-    m_level->events().broadcast<GameEvents::EntityAction>(m_actor, m_range);
+    return true;
 }
 
-ActionMoveStep::ActionMoveStep(Level* level, EntityRef actor)
-        : ActionMoveParent(level, actor, 1) {}
-
-
-void ActionMoveStep::perform(Vector2i tile)
+GridRegion ActionMoveParent::getValidTiles()
 {
-    auto origin = m_level->ecs().getComponents<PositionComponent>(m_actor)->tilePosition;
-    auto pathMap = m_level->grid().pathFromPathMap(m_pathMap, tile);
+    GridRegion gr;
+    for (auto const&[k, v] : m_pathMap )
+    {
+        gr.push_back(k);
+    }
 
-    m_level->events().broadcast<GameEvents::EntityMove>(m_actor, origin, tile, pathMap);
-    m_level->events().broadcast<GameEvents::EntityAction>(m_actor, m_range);
+    return std::move(gr);
+}
+
+bool ActionMoveParent::tileIsValid(Vector2i tile)
+{
+    return m_pathMap.find(tile) != m_pathMap.end();
+}
+
+std::vector<Vector2i> ActionMoveParent::pathToTile(Vector2i tile)
+{
+    return m_level->grid().pathFromPathMap(m_pathMap, tile);
+}
+
+void ActionMoveParent::attachImpl()
+{
+    auto posC = m_level->ecs().getComponents<PositionComponent>(m_actor);
+    auto actorC = m_level->ecs().getComponents<ActorComponent>(m_actor);
+
+    m_range = actorC->actor.getSpeed();
+
+    if (m_maxRange >= 0)
+    {
+        m_range = std::min(m_range, m_maxRange);
+    }
+
+    m_pathMap = m_level->grid().allPathsFromTile(posC->tilePosition, m_range);
 }
 
 
-ActionMeleeAttack::ActionMeleeAttack(Level *level, EntityRef actor, float reach)
-        : SingleEntityTargeting(level, actor), m_reach(reach)  {}
-
-void ActionMeleeAttack::perform(EntityRef target)
-{
-    m_level->events().broadcast<GameEvents::CombatMeleeAttack>(m_actor, target);
-}
-
-bool ActionMeleeAttack::entityIsValid(EntityRef ref)
+bool ActionAttackParent::entityIsValid(EntityRef ref)
 {
     auto actorC = m_level->ecs().tryGetComponent<ActorComponent>(ref);
     if ( actorC && (actorC->actorType == ActorType::NPC) )
@@ -55,19 +70,44 @@ bool ActionMeleeAttack::entityIsValid(EntityRef ref)
     return false;
 }
 
+void ActionAttackParent::attachImpl()
+{
+    auto actorC = m_level->ecs().tryGetComponent<ActorComponent>(m_actor);
+    m_reach = actorC->actor.getReach();
+}
 
 
-ActionPowerAttack::ActionPowerAttack(Level *level, EntityRef actor, float reach)
-        : SingleEntityTargeting(level, actor), m_reach(reach)  {}
+
+void ActionMoveStride::perform(Vector2i tile)
+{
+    auto origin = m_level->ecs().getComponents<PositionComponent>(m_actor)->tilePosition;
+    auto pathMap = m_level->grid().pathFromPathMap(m_pathMap, tile);
+
+    m_level->events().broadcast<GameEvents::EntityMove>(m_actor, origin, tile, pathMap);
+    m_level->events().broadcast<GameEvents::EntityAction>(m_actor, m_range);
+}
+
+ActionMoveStep::ActionMoveStep()
+        : ActionMoveParent(1) {}
+
+
+void ActionMoveStep::perform(Vector2i tile)
+{
+    auto origin = m_level->ecs().getComponents<PositionComponent>(m_actor)->tilePosition;
+    auto pathMap = m_level->grid().pathFromPathMap(m_pathMap, tile);
+
+    m_level->events().broadcast<GameEvents::EntityMove>(m_actor, origin, tile, pathMap);
+    m_level->events().broadcast<GameEvents::EntityAction>(m_actor, m_range);
+}
+
+
+void ActionMeleeAttack::perform(EntityRef target)
+{
+    m_level->events().broadcast<GameEvents::CombatMeleeAttack>(m_actor, target);
+}
 
 void ActionPowerAttack::perform(EntityRef target)
 {
     // Do the thing!
-}
-
-bool ActionPowerAttack::entityIsValid(EntityRef ref)
-{
-    auto actorC = m_level->ecs().tryGetComponent<ActorComponent>(ref);
-    return ( actorC && (actorC->actorType == ActorType::NPC ) );
 }
 

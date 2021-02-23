@@ -309,51 +309,38 @@ void Level::nextTurn()
     }
 }
 
-EntityRef Level::getActiveEntity() const
-{
-    return m_currentTurnEntity;
-}
-
 std::vector<std::shared_ptr<GameAction>> Level::actionsForActor(EntityRef actor)
 {
     auto cActor = m_ecs.getComponents<ActorComponent>(actor);
     Assert( cActor->actorType == ActorType::PC );
-
-    auto weapon = cActor->actor.getActiveWeapon();
-
 
     std::vector<std::shared_ptr<GameAction>> out;
 
     out.push_back( std::make_shared<GameAction>(
         "move",
         TargetingType::SingleTile,
-        std::make_shared<ActionMoveStride>( this, actor, cActor->actor.getSpeed() )
+        std::make_shared<ActionMoveStride>()
     ));
 
     out.push_back( std::make_shared<GameAction>(
         "short-step",
         TargetingType::SingleTile,
-        std::make_shared<ActionMoveStep>( this, actor )
+        std::make_shared<ActionMoveStep>()
     ));
 
     out.push_back( std::make_shared<GameAction>(
         "strike",
         TargetingType::SingleEntity,
-        std::make_shared<ActionMeleeAttack>( this, actor, cActor->actor.getReach() )
+        std::make_shared<ActionMeleeAttack>( )
     ));
 
     out.push_back( std::make_shared<GameAction>(
         "power-attack",
         TargetingType::SingleEntity,
-        std::make_shared<ActionPowerAttack>( this, actor, cActor->actor.getReach() )
+        std::make_shared<ActionPowerAttack>(  )
     ));
 
     return out;
-}
-
-std::vector<std::shared_ptr<GameAction>> Level::actionsForCurrentActor()
-{
-    return actionsForActor( getActiveEntity() );
 }
 
 LevelController* Level::controller()

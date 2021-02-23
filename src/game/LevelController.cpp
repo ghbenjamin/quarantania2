@@ -395,7 +395,7 @@ ActionControllerSingleTile::ActionControllerSingleTile(Level *level, EntityRef r
       m_action(action),
       m_entity(ref)
 {
-
+    m_targeting->attach(m_level, ref);
     auto gr = m_targeting->getValidTiles();
 
     // Highlight the tiles that can be moved to
@@ -459,7 +459,7 @@ ActionControllerSingleEntity::ActionControllerSingleEntity(Level *level, EntityR
     m_action(action),
     m_entity(ref)
 {
-
+    m_targeting->attach(m_level, ref);
 }
 
 bool ActionControllerSingleEntity::onMouseDown(IEventMouseDown evt)

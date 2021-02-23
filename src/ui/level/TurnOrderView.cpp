@@ -37,14 +37,7 @@ UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, 
 
 void UI::TurnOrderWidget::refresh()
 {
-    if (manager()->level()->getActiveEntity() == m_entity)
-    {
-        m_nameLabel->setColour(Colour::White);
-    }
-    else
-    {
-        m_nameLabel->setColour(Colour::Black);
-    }
+    m_nameLabel->setColour(Colour::Black);
 }
 
 void UI::TurnOrderWidget::highlightEntity()
