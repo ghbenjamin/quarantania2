@@ -192,9 +192,9 @@ bool LevelController::onKeyDown(IEventKeyPress evt)
     return false;
 }
 
-void LevelController::pushActionController(EntityRef ref, std::shared_ptr<GameAction> const& action)
+void LevelController::pushActionController(EntityRef ref, GameAction const& action)
 {
-    switch (action->ttype)
+    switch (action.ttype)
     {
         case TargetingType::SingleTile:
             setNextController<ActionControllerSingleTile>( m_level, ref, action );
@@ -389,9 +389,9 @@ void PlayerSelectedController::onEnterImpl()
 // --------------------------------------
 
 
-ActionControllerSingleTile::ActionControllerSingleTile(Level *level, EntityRef ref, std::shared_ptr<GameAction> const& action)
+ActionControllerSingleTile::ActionControllerSingleTile(Level *level, EntityRef ref, GameAction const& action)
     : LevelController(level),
-      m_targeting{ std::static_pointer_cast<SingleTileTargeting>(m_action->impl) },
+      m_targeting{ std::static_pointer_cast<SingleTileTargeting>(m_action.impl) },
       m_action(action),
       m_entity(ref)
 {
@@ -453,9 +453,9 @@ void ActionControllerSingleTile::onHoveredTileChange(Vector2i prev, Vector2i cur
 // --------------------------------------
 
 
-ActionControllerSingleEntity::ActionControllerSingleEntity(Level *level, EntityRef ref, const std::shared_ptr<GameAction> &action)
+ActionControllerSingleEntity::ActionControllerSingleEntity(Level *level, EntityRef ref, const GameAction &action)
 :   LevelController(level),
-    m_targeting{ std::static_pointer_cast<SingleEntityTargeting>(m_action->impl) },
+    m_targeting{ std::static_pointer_cast<SingleEntityTargeting>(m_action.impl) },
     m_action(action),
     m_entity(ref)
 {

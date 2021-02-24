@@ -30,8 +30,7 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
     p1.attrCha = 12;
 
     p1.startingEquippedItems.emplace_back( "Longsword" );
-
-
+    p1.featIds.push_back( "feat.power_attack" );
 
 
     PlayerData p2;

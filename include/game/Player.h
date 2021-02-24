@@ -42,6 +42,8 @@ struct PlayerData
 
     std::vector<std::string> startingHeldItems;
     std::vector<std::string> startingEquippedItems;
+    
+    std::vector<std::string> featIds;
 };
 
 

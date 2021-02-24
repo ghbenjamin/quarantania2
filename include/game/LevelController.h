@@ -7,13 +7,13 @@
 #include <engine/InputInterface.h>
 #include <engine/Entity.h>
 #include <game/Grid.h>
+#include <game/Action.h>
 
 
 // Forward definitions
 class Level;
 class RenderInterface;
 namespace UI { class Element; }
-struct GameAction;
 class SingleTileTargeting;
 class SingleEntityTargeting;
 
@@ -38,7 +38,7 @@ public:
     bool shouldPopController() const;
     void popController();
 
-    void pushActionController( EntityRef ref, std::shared_ptr<GameAction> const& action );
+    void pushActionController( EntityRef ref, GameAction const& action );
 
 
 protected:
@@ -128,7 +128,7 @@ private:
 class ActionControllerSingleTile : public LevelController
 {
 public:
-    ActionControllerSingleTile(Level* level, EntityRef ref, std::shared_ptr<GameAction> const& action);
+    ActionControllerSingleTile(Level* level, EntityRef ref, GameAction const& action);
     ~ActionControllerSingleTile() override = default;
 
 protected:
@@ -139,7 +139,7 @@ protected:
     void onHoveredTileChange(Vector2i prev, Vector2i curr) override;
 
 private:
-    std::shared_ptr<GameAction> m_action;
+    GameAction m_action;
     std::shared_ptr<SingleTileTargeting> m_targeting;
 
     // All the tiles we could move to
@@ -157,7 +157,7 @@ private:
 class ActionControllerSingleEntity : public LevelController
 {
 public:
-    ActionControllerSingleEntity(Level* level, EntityRef ref, std::shared_ptr<GameAction> const& action);
+    ActionControllerSingleEntity(Level* level, EntityRef ref, GameAction const& action);
     ~ActionControllerSingleEntity() override = default;
 
 protected:
@@ -170,7 +170,7 @@ protected:
     void onHoveredTileChange(Vector2i prev, Vector2i curr) override;
 
 private:
-    std::shared_ptr<GameAction> m_action;
+    GameAction m_action;
     std::shared_ptr<SingleEntityTargeting> m_targeting;
 
     // The possible targets

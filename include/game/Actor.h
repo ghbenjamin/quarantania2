@@ -93,13 +93,12 @@ public:
     // Modifiers
     void addModifierGroup( ActorModGroup const& mod );
     void removeActorModGroup( std::string const& id );
-    
     void applyAllModifiers(ModifiableStatObject roll ) const;
     
     template <typename T>
     void modifyTypedRoll(ActorStatModType type, T* roll ) const
     {
-        auto range = m_modifiers.equal_range(type);
+        auto range = m_statModifiers.equal_range(type);
         for ( auto it = range.first; it != range.second; it++ )
         {
             auto ptr = std::static_pointer_cast<ActorStatModImpl<T>>(it->second.impl);
@@ -107,6 +106,8 @@ public:
         }
     }
     
+    // Actions
+    std::vector<GameAction> getAllGameActions() const;
 
 private:
 
@@ -137,6 +138,7 @@ private:
 
     // Modifiers
     std::vector<ActorModGroup> m_modifierGroups;
-    std::multimap<ActorStatModType, ActorStatMod> m_modifiers;
+    std::multimap<ActorStatModType, ActorStatMod> m_statModifiers;
+    std::vector<ActorActionMod> m_actionMods;
     
 };

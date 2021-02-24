@@ -66,7 +66,7 @@ public:
     float entityDistance(EntityRef a, EntityRef b);
 
     // Actions
-    std::vector<std::shared_ptr<GameAction>> actionsForActor(EntityRef actor);
+    std::vector<GameAction> actionsForActor(EntityRef actor);
 
     // Communication
     bool isComplete() const;

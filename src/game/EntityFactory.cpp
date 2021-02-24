@@ -4,6 +4,7 @@
 #include <components/All.h>
 #include <components/ContainerComponent.h>
 #include <game/ResourceDatabase.h>
+#include <game/ActorModFactory.h>
 
 EntityFactory::EntityFactory(Level* parent)
 : m_parent(parent) {}
@@ -41,6 +42,11 @@ EntityRef EntityFactory::createPlayer(Vector2i pos, PlayerData const &data) cons
         {
             cActor->actor.equipItem( *slot, ptr );
         }
+    }
+    
+    for ( auto const& featId : data.featIds )
+    {
+        cActor->actor.addModifierGroup( ActorModFactory::fromId(featId) );
     }
 
     return eref;

@@ -6,6 +6,7 @@
 #include <variant>
 
 #include <game/Combat.h>
+#include <game/Action.h>
 
 class Level;
 
@@ -48,6 +49,15 @@ struct ActorStatMod
     std::shared_ptr<ActorStatModImplBase> impl;
 };
 
+// A new action granted by a modifier
+struct ActorActionMod
+{
+    ActorActionMod( std::string const &id, GameAction const &action );
+    
+    std::string id;
+    GameAction action;
+};
+
 
 // An aggregation of mods which represents a single concept, e.g. a feat or a status, as well as descriptive
 // metadata.
@@ -63,13 +73,19 @@ public:
     const int getExpiryRound() const;
     
     std::vector<ActorStatMod> const& getStatMods() const;
+    std::vector<ActorActionMod> const& getActionMods() const;
     
     template <typename T, typename... Args>
-    void addStatMod(ActorStatModType type, Args... args )
+    void addStatMod( ActorStatModType type, Args... args )
     {
         static_assert( std::is_base_of_v<ActorStatModImplBase, T> );
         auto mod = std::make_shared<T>( std::forward<Args>(args)... );
         m_statMods.emplace_back( type, m_id, std::static_pointer_cast<ActorStatModImplBase>(mod) );
+    }
+    
+    void addActionMod( GameAction const& action )
+    {
+        m_actionMods.emplace_back( m_id, action );
     }
 
 private:
@@ -79,4 +95,5 @@ private:
     const int m_expiryRound;      // Do I expire? If so, when?
     
     std::vector<ActorStatMod> m_statMods;
+    std::vector<ActorActionMod> m_actionMods;
 };

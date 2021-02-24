@@ -309,37 +309,37 @@ void Level::nextTurn()
     }
 }
 
-std::vector<std::shared_ptr<GameAction>> Level::actionsForActor(EntityRef actor)
+std::vector<GameAction> Level::actionsForActor(EntityRef actor)
 {
-    auto cActor = m_ecs.getComponents<ActorComponent>(actor);
-    Assert( cActor->actorType == ActorType::PC );
+    auto actorC = ecs().getComponents<ActorComponent>(actor);
+    
+    std::vector<GameAction> out;
 
-    std::vector<std::shared_ptr<GameAction>> out;
-
-    out.push_back( std::make_shared<GameAction>(
-        "move",
-        TargetingType::SingleTile,
+    out.emplace_back(
+        "move", TargetingType::SingleTile,
         std::make_shared<ActionMoveStride>()
-    ));
+    );
 
-    out.push_back( std::make_shared<GameAction>(
-        "short-step",
-        TargetingType::SingleTile,
+    out.emplace_back(
+        "short-step", TargetingType::SingleTile,
         std::make_shared<ActionMoveStep>()
-    ));
+    );
 
-    out.push_back( std::make_shared<GameAction>(
-        "strike",
-        TargetingType::SingleEntity,
-        std::make_shared<ActionMeleeAttack>( )
-    ));
+    out.emplace_back(
+        "strike", TargetingType::SingleEntity,
+        std::make_shared<ActionMeleeAttack>()
+    );
 
-    out.push_back( std::make_shared<GameAction>(
-        "power-attack",
-        TargetingType::SingleEntity,
-        std::make_shared<ActionPowerAttack>(  )
-    ));
-
+//    out.emplace_back(
+//        "power-attack", TargetingType::SingleEntity,
+//        std::make_shared<ActionPowerAttack>()
+//    );
+    
+    for ( auto const& action : actorC->actor.getAllGameActions() )
+    {
+        out.push_back(action);
+    }
+    
     return out;
 }
 

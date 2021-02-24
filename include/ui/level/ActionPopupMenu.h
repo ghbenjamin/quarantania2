@@ -16,7 +16,7 @@ class Icon;
 class ActionMenuPopupMenu : public Element
 {
 public:
-    ActionMenuPopupMenu(Manager* manager, Element* parent, std::vector<std::shared_ptr<GameAction>> const& item, RawActionDataType category);
+    ActionMenuPopupMenu(Manager* manager, Element* parent, std::vector<GameAction> const& item, RawActionDataType category);
     ~ActionMenuPopupMenu() override = default;
     
     RawActionDataType getCategory() const;

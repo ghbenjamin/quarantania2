@@ -11,21 +11,21 @@
 // --------------------------------------
 
 UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *parent,
-                                             std::vector<std::shared_ptr<GameAction>> const& items,  RawActionDataType category)
+                                             std::vector<GameAction> const& items,  RawActionDataType category)
         : Element(manager, parent), m_category(category)
 {
     setId("action-menu-popup-menu");
     setLayout<VerticalLayout>( 4, HAlignment::Left );
     
-    for ( std::shared_ptr <GameAction> const& act : items )
+    for ( GameAction const& act : items )
     {
         auto elem = manager->createElement<UI::Element>(this);
         elem->setPadding(4);
         elem->setBackground(Colour::Beige);
         elem->setLayout<HorizontalLayout>(8, VAlignment::Centre);
         
-        manager->createElement<UI::Icon>(elem.get(), act->data.sprite );
-        manager->createElement<UI::Label>(elem.get(), act->data.name );
+        manager->createElement<UI::Icon>(elem.get(), act.data.sprite );
+        manager->createElement<UI::Label>(elem.get(), act.data.name );
         
         elem->addEventCallback(UEventType::Click, [manager, act, this](UEvent const& evt) {
             
@@ -110,12 +110,12 @@ EntityRef UI::ActionMenu::currentEntity() const
 
 void UI::ActionMenu::openMenu(RawActionDataType category)
 {
-    std::vector<std::shared_ptr<GameAction>> menuItems;
+    std::vector<GameAction> menuItems;
     auto actions = manager()->level()->actionsForActor(m_currEntity);
     
     for ( auto& action : actions )
     {
-        if ( action->data.type == category )
+        if ( action.data.type == category )
         {
             menuItems.push_back( std::move(action) );
         }

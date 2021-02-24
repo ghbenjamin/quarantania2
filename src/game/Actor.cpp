@@ -402,7 +402,12 @@ void Actor::addModifierGroup( ActorModGroup const &modGroup )
     
     for ( auto const& mod : modGroup.getStatMods() )
     {
-        m_modifiers.emplace( mod.type, mod );
+        m_statModifiers.emplace( mod.type, mod );
+    }
+    
+    for (auto const& mod : modGroup.getActionMods())
+    {
+        m_actionMods.push_back( mod );
     }
 }
 
@@ -527,6 +532,19 @@ void Actor::removeActorModGroup( std::string const& id )
 //    m_modifierGroups.erase( std::remove_if( m_modifierGroups.begin(), m_modifierGroups.end(), [&id](auto&& item) {
 //        return item.getId() == id;
 //    }), m_modifierGroups.end() );
+}
+
+std::vector<GameAction> Actor::getAllGameActions() const
+{
+    std::vector<GameAction> out;
+    out.reserve( m_actionMods.size() );
+    
+    for (auto const& mod : m_actionMods)
+    {
+        out.push_back( mod.action );
+    }
+    
+    return out;
 }
 
 ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
