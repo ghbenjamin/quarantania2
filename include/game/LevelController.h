@@ -39,18 +39,24 @@ public:
     void popController();
 
     void pushActionController( EntityRef ref, GameAction const& action );
-
-
-protected:
-
+    
     template <typename T, typename... Args>
-    void setNextController(Args... args)
+    void pushController( Args... args)
     {
         static_assert( std::is_base_of_v<LevelController, T> );
 
         auto ptr = std::make_shared<T>( std::forward<Args>(args)... );
         m_nextController = std::static_pointer_cast<LevelController>(ptr);
     }
+    
+    template <typename T, typename... Args>
+    void replaceController( Args... args)
+    {
+        pushController<T>( std::forward<Args>(args)... );
+        m_shouldPopController = true;
+    }
+
+protected:
 
     void addKeybinding( SDL_Keycode key, std::function<void()> const& callback );
     void removeKeybinding( SDL_Keycode key );

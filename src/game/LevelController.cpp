@@ -1,8 +1,8 @@
 #include <game/LevelController.h>
+
 #include <game/Level.h>
 #include <components/ItemComponent.h>
 #include <components/ActorComponent.h>
-#include <utils/Assert.h>
 #include <components/PositionComponent.h>
 #include <ui/level/ActionPopupMenu.h>
 
@@ -197,10 +197,10 @@ void LevelController::pushActionController(EntityRef ref, GameAction const& acti
     switch (action.ttype)
     {
         case TargetingType::SingleTile:
-            setNextController<ActionControllerSingleTile>( m_level, ref, action );
+            pushController<ActionControllerSingleTile>(m_level, ref, action);
             break;
         case TargetingType::SingleEntity:
-            setNextController<ActionControllerSingleEntity>( m_level, ref, action );
+            pushController<ActionControllerSingleEntity>(m_level, ref, action);
             break;
         default:
             AssertNotImplemented();
@@ -242,8 +242,7 @@ bool DefaultLController::onMouseDown(IEventMouseDown evt)
                 auto actorComp = m_level->ecs().getComponents<ActorComponent>( actorEnt );
                 if ( actorComp->actorType == ActorType::PC )
                 {
-                    // TODO only if its the right turn
-                    setNextController<PlayerSelectedController>( m_level, actorEnt );
+                    pushController<PlayerSelectedController>(m_level, actorEnt);
                     return true;
                 }
             }
@@ -330,6 +329,28 @@ bool PlayerSelectedController::onKeyDown(IEventKeyPress evt)
 
 bool PlayerSelectedController::onMouseDown(IEventMouseDown evt)
 {
+    auto tile = m_level->screenCoordsToTile(evt.screenPos);
+    auto ents = m_level->grid().entitiesAtTile(tile);
+    
+    if ( ents.empty() )
+    {
+        popController();
+    }
+    else
+    {
+        auto actorEnt = m_level->ecs().firstEntityWith<ActorComponent>( ents );
+        if ( actorEnt != EntityNull )
+        {
+            // Is the thing we clicked a player character?
+            auto actorComp = m_level->ecs().getComponents<ActorComponent>( actorEnt );
+            if ( actorComp->actorType == ActorType::PC )
+            {
+                replaceController<PlayerSelectedController>(m_level, actorEnt);
+                return true;
+            }
+        }
+    }
+
     return false;
 }
 

@@ -6,6 +6,7 @@
 #include <game/GameEvent.h>
 #include <engine/Entity.h>
 #include <game/Items.h>
+#include <game/Combat.h>
 
 struct Damage;
 
@@ -122,11 +123,12 @@ struct EntityDeath : public GameEvent<EntityDeath>
 
 struct EntityDamage : public GameEvent<EntityDamage>
 {
-    EntityDamage(EntityRef target, Damage const* dmg );
+    EntityDamage(EntityRef target, EntityRef source, Damage const& dmg );
     ~EntityDamage() override = default;
 
     EntityRef target;
-    Damage const* damage;
+    EntityRef source;
+    Damage damage;
 };
 
 

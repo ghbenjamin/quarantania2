@@ -88,3 +88,20 @@ void UISystem::pushLogLine(const std::string &line, const Colour &colour)
     auto textLog = m_level->ui().withId<UI::MainTextLog>("main-text-log");
     textLog->addLine(line, colour);
 }
+
+void UISystem::operator()( GameEvents::EntityDamage &evt )
+{
+    // TODO: Use real value not unmodified value
+    int total = 0;
+    for (auto const& d : evt.damage.instances )
+    {
+        total += d.total;
+    }
+
+    pushLogLine( fmt::format(
+            "{} deals {} damage to {}",
+            m_level->getDescriptionForEnt( evt.source ),
+            total,
+            m_level->getDescriptionForEnt( evt.target )
+    ));
+}

@@ -36,7 +36,7 @@ void CombatSystem::doMeleeAttack( EntityRef attackerRef, EntityRef defenderRef )
         auto damage = attacker.getDamageForAttack( singleAttack, attackRoll );
 
         // Actually deal the damage
-        defender.acceptDamage( damage );
+        m_level->events().broadcast<GameEvents::EntityDamage>( defenderRef, attackerRef, damage );
     }
     else
     {

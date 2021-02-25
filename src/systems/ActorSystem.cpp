@@ -16,7 +16,8 @@ void ActorSystem::operator()(GameEvents::EntityDeath& evt)
 
 void ActorSystem::operator()(GameEvents::EntityDamage& evt)
 {
-
+    auto actorC = m_level->ecs().getComponents<ActorComponent>( evt.target );
+    actorC->actor.acceptDamage( evt.damage );
 }
 
 void ActorSystem::operator()(GameEvents::RoundChange &evt)

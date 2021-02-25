@@ -66,19 +66,30 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
     rInter.setCamera(&m_camera);
 
     // Handle controller changes if necessary
-    if ( m_controllers.back()->shouldPopController() )
+    
+    if ( m_controllers.back()->hasNextController() )
+    {
+        auto next = m_controllers.back()->getNextController();
+        bool shouldPop = m_controllers.back()->shouldPopController();
+        
+        m_controllers.back()->onExit();
+        
+        if (shouldPop)
+        {
+            m_controllers.pop_back();
+        }
+        
+        m_controllers.push_back( next );
+        m_controllers.back()->onEnter();
+    }
+    
+    else if ( m_controllers.back()->shouldPopController() )
     {
         m_controllers.back()->onExit();
         m_controllers.pop_back();
         m_controllers.back()->onEnter();
     }
-    else if ( m_controllers.back()->hasNextController() )
-    {
-        auto next = m_controllers.back()->getNextController();
-        m_controllers.back()->onExit();
-        m_controllers.push_back( next );
-        m_controllers.back()->onEnter();
-    }
+    
 
     m_controllers.back()->update(ticks, iinter, rInter);
 

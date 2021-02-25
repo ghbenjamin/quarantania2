@@ -28,8 +28,8 @@ GameEvents::ItemUnequip::ItemUnequip(EntityRef actor, CreatureEquipSlot slot)
 GameEvents::EntityDeath::EntityDeath(EntityRef actor)
     : actor(actor) {}
 
-GameEvents::EntityDamage::EntityDamage(EntityRef target, Damage const *dmg)
-    : target(target), damage(dmg) {}
+GameEvents::EntityDamage::EntityDamage(EntityRef target, EntityRef source, Damage const& dmg)
+    : target(target), source(source), damage(dmg) {}
 
 GameEvents::TurnChange::TurnChange(EntityRef prev, EntityRef curr)
     : previous(prev), current(curr) {}

@@ -19,7 +19,7 @@ public:
     void operator()(GameEvents::ItemUnequip& evt);
     void operator()(GameEvents::TurnChange& evt);
     void operator()(GameEvents::CombatMeleeAttack& evt);
-
+    void operator()(GameEvents::EntityDamage& evt);
     void operator()(GameEvents::ControllerEntitySelected& evt);
 
     template <typename T>
