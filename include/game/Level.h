@@ -18,20 +18,11 @@
 #include <game/LevelController.h>
 #include <game/GameEventHub.h>
 
-
 // Forward definitions
 class RenderInterface;
 class InputInterface;
 struct IEvent;
-struct IEventKeyPress;
-struct IEventMouseMove;
-struct IEventMouseDown;
-struct IEventWindowResize;
 
-namespace UI
-{
-    class MainTextLog;
-}
 
 class Level
 {
@@ -72,22 +63,9 @@ public:
     bool isComplete() const;
     void setComplete();
 
-    // UI
-    void pushLogLine( std::string const& text, Colour const& colour = Colour::Black );
-    void setDescriptionView(std::string const& title, std::string const& desc );
-    void clearDescriptionView();
-
     std::string_view getDescriptionForEnt( EntityRef ent );
     std::string_view getDescriptionForItem( ItemPtr item );
 
-    // Game Logic
-
-    // The list of entities in the level, in turn order
-    std::vector<EntityRef> const& turnOrder() const;
-
-    // Mark that the current entity has finished its turn, and that the turn should be passed to the next
-    // entity in the queue.
-    void nextTurn();
 
 private:
 
@@ -97,12 +75,9 @@ private:
     void renderTiles(uint32_t ticks, RenderInterface &rInter);
     void layoutWindows();
 
-    // Game logic methods
-    void generateTurnOrder();
-
     // Centre the camera on the centroid of the positions of all party members
     void centerCameraOnParty();
-
+    
 
     // Misc
     RandomInterface m_random;
@@ -117,16 +92,11 @@ private:
     Grid m_grid;
     Camera m_camera;
 
-    // Game logic
-    std::vector<EntityRef> m_turnOrder;
-
     // Core
     UI::Manager m_uiManager;
     GameEventHub m_gevents;
     ECS m_ecs;
 
-    // Tuns
-    EntityRef m_currentTurnEntity;
 };
 
 using LevelPtr = std::unique_ptr<Level>;

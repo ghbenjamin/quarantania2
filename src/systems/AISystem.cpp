@@ -13,6 +13,5 @@ void AISystem::operator()(GameEvents::TurnChange& evt)
     if ( m_level->ecs().entityHas<AIComponent>(evt.current) )
     {
         // This is the turn of an AI - for now just skip it
-        m_level->nextTurn();
     }
 }

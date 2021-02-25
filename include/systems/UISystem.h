@@ -18,10 +18,16 @@ public:
     void operator()(GameEvents::ItemEquip& evt);
     void operator()(GameEvents::ItemUnequip& evt);
     void operator()(GameEvents::TurnChange& evt);
+    void operator()(GameEvents::CombatMeleeAttack& evt);
 
     void operator()(GameEvents::ControllerEntitySelected& evt);
 
     template <typename T>
     void operator()(T&& t)
     {}
+
+
+private:
+
+    void pushLogLine( std::string const& line, Colour const& colour = Colour::Black );
 };

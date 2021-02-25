@@ -279,16 +279,6 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     {
         // Highlight hovered entities
         m_level->ui().showSingleTileHighlight(curr, UI::SingleTileHighlightType::Yellow);
-
-        // TODO More than one entity per tile? eek
-        auto ent = ents.front();
-
-        std::string desc = std::string( m_level->getDescriptionForEnt( ent ) );
-        m_level->setDescriptionView( desc, "?" );
-    }
-    else
-    {
-        m_level->clearDescriptionView();
     }
 }
 

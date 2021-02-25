@@ -22,7 +22,6 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
     m_random(rg),
     m_isComplete(false),
     m_camera( size * GlobalConfig::TileSizePx ),
-    m_currentTurnEntity(EntityNull),
     m_ecs(this),
     m_controllers{ std::make_shared<DefaultLController>(this) },
     m_uiManager(this)
@@ -33,10 +32,7 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 
 void Level::setReady()
 {
-    generateTurnOrder();
-    m_gevents.broadcast<GameEvents::TurnChange>(EntityNull, m_currentTurnEntity);
     m_gevents.broadcast<GameEvents::LevelReady>();
-
     centerCameraOnParty();
 }
 
@@ -271,49 +267,14 @@ void Level::setLayout(const LD::LevelLayout &llayout)
     m_mapRendering = llayout.mapData;
 }
 
-void Level::generateTurnOrder()
-{
-    // TODO: Include the attributes of the entities in this calculation
-    auto actors = m_ecs.entitiesHaving<ActorComponent>();
-    random().shuffle( actors );
-
-    m_turnOrder = std::move(actors);
-    m_currentTurnEntity = m_turnOrder.front();
-}
-
-std::vector<EntityRef> const &Level::turnOrder() const
-{
-    return m_turnOrder;
-}
-
-void Level::nextTurn()
-{
-    bool newRound = false;
-    auto it = std::find(m_turnOrder.begin(), m_turnOrder.end(), m_currentTurnEntity);
-    it++;
-
-    if (it == m_turnOrder.end())
-    {
-        it = m_turnOrder.begin();
-        newRound = true;
-    }
-
-    auto oldEnt = m_currentTurnEntity;
-    m_currentTurnEntity = *it;
-
-    events().broadcast<GameEvents::TurnChange>(oldEnt, m_currentTurnEntity);
-
-    if (newRound)
-    {
-        events().broadcast<GameEvents::RoundChange>();
-    }
-}
 
 std::vector<GameAction> Level::actionsForActor(EntityRef actor)
 {
     auto actorC = ecs().getComponents<ActorComponent>(actor);
-    
     std::vector<GameAction> out;
+
+    // Add the actions which all actors have access to by default
+    // TODO: Action costs. Action limits per turn. Enable/disable actions which cannot be performed.
 
     out.emplace_back(
         "move", TargetingType::SingleTile,
@@ -330,11 +291,7 @@ std::vector<GameAction> Level::actionsForActor(EntityRef actor)
         std::make_shared<ActionMeleeAttack>()
     );
 
-//    out.emplace_back(
-//        "power-attack", TargetingType::SingleEntity,
-//        std::make_shared<ActionPowerAttack>()
-//    );
-    
+    // Grab our custom actions, e.g. actions which have been added by feats, items, etc.
     for ( auto const& action : actorC->actor.getAllGameActions() )
     {
         out.push_back(action);
@@ -346,24 +303,6 @@ std::vector<GameAction> Level::actionsForActor(EntityRef actor)
 LevelController* Level::controller()
 {
     return m_controllers.back().get();
-}
-
-void Level::pushLogLine(const std::string &text, const Colour &colour)
-{
-    auto textLog = m_uiManager.withId<UI::MainTextLog>("main-text-log");
-    textLog->addLine(text, colour);
-}
-
-void Level::setDescriptionView(const std::string &title, const std::string &desc)
-{
-//    auto descContainer = m_uiManager.withId<UI::HoverDescriptionContainer>("hover-desc-container");
-//    descContainer->setData(title, desc);
-}
-
-void Level::clearDescriptionView()
-{
-//    auto descContainer = m_uiManager.withId<UI::HoverDescriptionContainer>("hover-desc-container");
-//    descContainer->clearData();
 }
 
 void Level::centerCameraOnParty()

@@ -74,13 +74,17 @@ void UI::TurnOrderContainer::refresh()
 void UI::TurnOrderContainer::reloadEntities()
 {
     removeAllChildren();
-    
-    for ( auto const& entity : manager()->level()->turnOrder() )
+
+    auto ents = manager()->level()->ecs().entitiesHaving<ActorComponent>();
+    std::sort( ents.begin(), ents.end() );
+
+    for (auto const& ref : ents )
     {
-        auto actorComp = manager()->level()->ecs().getComponents<ActorComponent>(entity);
-        if (actorComp->actorType == ActorType::PC)
+        auto actorC = manager()->level()->ecs().getComponents<ActorComponent>(ref);
+
+        if (actorC->actorType == ActorType::PC)
         {
-            manager()->createElement<TurnOrderWidget>(this, entity);
+            manager()->createElement<TurnOrderWidget>(this, ref);
         }
     }
     

@@ -5,6 +5,7 @@
 #include <ui/level/TurnOrderView.h>
 #include <ui/level/ActionPopupMenu.h>
 #include <ui/level/CreatureEquipView.h>
+#include <ui/level/TextLog.h>
 #include <ui/level/ContainerView.h>
 
 
@@ -19,6 +20,7 @@ UISystem::UISystem(Level *parent)
     m_level->events().subscribe<GameEvents::ItemUnequip>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::TurnChange>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::ControllerEntitySelected>(this, GEventTiming::After );
+    m_level->events().subscribe<GameEvents::CombatMeleeAttack>(this, GEventTiming::After );
 }
 
 void UISystem::operator()(GameEvents::LevelReady& evt)
@@ -70,4 +72,19 @@ void UISystem::operator()(GameEvents::ControllerEntitySelected& evt)
 
     auto creatureInventory = m_level->ui().withId<UI::ContainerView>( "player-inventory" );
     creatureInventory->refresh(evt.entity);
+}
+
+void UISystem::operator()(GameEvents::CombatMeleeAttack &evt)
+{
+    pushLogLine( fmt::format(
+        "{} attacks {}",
+        m_level->getDescriptionForEnt( evt.attacker ),
+        m_level->getDescriptionForEnt( evt.defender )
+    ));
+}
+
+void UISystem::pushLogLine(const std::string &line, const Colour &colour)
+{
+    auto textLog = m_level->ui().withId<UI::MainTextLog>("main-text-log");
+    textLog->addLine(line, colour);
 }

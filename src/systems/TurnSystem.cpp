@@ -18,6 +18,4 @@ void TurnSystem::operator()(GameEvents::RoundChange& evt)
 
 void TurnSystem::operator()(GameEvents::EntityAction& evt)
 {
-    // TODO Don't advance the turn for every action
-    m_level->nextTurn();
 }
