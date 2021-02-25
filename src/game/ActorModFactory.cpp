@@ -3,6 +3,39 @@
 #include <game/ActionDefs.h>
 #include <fmt/format.h>
 
+ActorModGroup ActorModFactory::fromId( std::string const &id )
+{
+    return fromId( id, -1 );
+}
+
+ActorModGroup ActorModFactory::fromId( std::string const &id, int duration )
+{
+    if (id == "status.sickened")
+    {
+        return statusSickened( duration );
+    }
+    else if ( id == "status.fatigued" )
+    {
+        return statusFatigued( duration );
+    }
+    else if ( id == "status.exhausted" )
+    {
+        return statusExhausted( duration );
+    }
+    else if ( id == "feat.power_attack" )
+    {
+        return featPowerAttack();
+    }
+    else if ( id == "feat.dodge" )
+    {
+        return featDodge();
+    }
+
+    AssertAlwaysMsg( fmt::format( "Unknown mod id: '{}'", id ) );
+    return statusExhausted(-1);
+}
+
+
 
 ActorModGroup ActorModFactory::statusSickened(int roundRemove)
 {
@@ -51,34 +84,10 @@ ActorModGroup ActorModFactory::featPowerAttack()
     return group;
 }
 
-
-
-
-
-ActorModGroup ActorModFactory::fromId( std::string const &id )
+ActorModGroup ActorModFactory::featDodge()
 {
-    return fromId( id, -1 );
-}
+    ActorModGroup group { "feat.dodge", "Dodge", -1 };
+    group.addStatMod<ActorMods::ModACDodgeBonus>(ActorStatModType::ArmourClassData, 1);
 
-ActorModGroup ActorModFactory::fromId( std::string const &id, int duration )
-{
-    if (id == "status.sickened")
-    {
-        return statusSickened( duration );
-    }
-    else if ( id == "status.fatigued" )
-    {
-        return statusFatigued( duration );
-    }
-    else if ( id == "status.exhausted" )
-    {
-        return statusExhausted( duration );
-    }
-    else if ( id == "feat.power_attack" )
-    {
-        return featPowerAttack();
-    }
-    
-    AssertAlwaysMsg( fmt::format( "Unknown mod id: '{}'", id ) );
-    return statusExhausted(-1);
+    return group;
 }

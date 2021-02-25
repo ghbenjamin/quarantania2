@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <optional>
 
 #include <engine/Entity.h>
 #include <game/Defines.h>
@@ -73,4 +74,18 @@ struct MovementSpeedData
     
     int moveSpeedLimit = -1;
     float multiplier = 1.0f;
+};
+
+struct ArmourClassData
+{
+    int shieldBonus = 0;
+    int armourBonus = 0;
+
+    int dexBonus = 0;
+    std::optional<int> maxDexToAc = {};
+
+    int dodgeBonus = 0;
+    int staticBonus = 10;
+
+    int modifiedAC = 0;
 };

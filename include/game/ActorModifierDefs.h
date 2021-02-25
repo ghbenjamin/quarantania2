@@ -66,5 +66,14 @@ struct ModMovementSpeedMultiplier : public ActorStatModImpl<MovementSpeedData>
     float multiplier;
 };
 
+struct ModACDodgeBonus : public ActorStatModImpl<ArmourClassData>
+{
+    ModACDodgeBonus( int bonus );
+    ~ModACDodgeBonus() = default;
+    void modify( ArmourClassData* data ) override;
+
+    int bonus;
+};
+
 
 }

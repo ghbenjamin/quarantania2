@@ -59,3 +59,13 @@ void ActorMods::ModMovementSpeedMultiplier::modify( MovementSpeedData *data )
 {
     data->multiplier = multiplier;
 }
+
+ActorMods::ModACDodgeBonus::ModACDodgeBonus(int bonus)
+ : bonus(bonus) {}
+
+void ActorMods::ModACDodgeBonus::modify(ArmourClassData *data)
+{
+    data->dodgeBonus += bonus;
+}
+
+

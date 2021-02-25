@@ -1,13 +1,6 @@
 #include <game/Actor.h>
 #include <game/Player.h>
-#include <game/RawData.h>
-#include <fmt/format.h>
-#include <utils/Assert.h>
-#include <game/ResourceDatabase.h>
 #include <game/Level.h>
-#include <utils/Logging.h>
-#include <components/ActorComponent.h>
-
 
 Actor::Actor(Level* level, EntityRef ref, CreatureData const& rcd)
     : m_level(level),
@@ -164,27 +157,36 @@ void Actor::setCurrentHp(int value)
 
 int Actor::getAC() const
 {
-    int dexToAc = getModDex();
-    int armourAC = 0;
-    int shieldAC = 0;
+    ArmourClassData data;
+    data.dexBonus = getModDex();
 
     if ( hasEquipped(CreatureEquipSlot::Armour) )
     {
         auto const& armour = getEquipped( CreatureEquipSlot::Armour )->getArmour();
 
-        dexToAc = std::min( dexToAc, armour.maxDex() );
-        armourAC = armour.armourBonus();
+        data.maxDexToAc = armour.maxDex();
+        data.armourBonus = armour.armourBonus();
     }
 
-    auto* shield = tryGetActiveShield();
+    auto shield = tryGetActiveShield();
 
     if ( shield != nullptr )
     {
-        dexToAc = std::min( dexToAc, shield->maxDex() );
-        shieldAC = shield->armourBonus();
+        if (data.maxDexToAc.has_value())
+        {
+            data.maxDexToAc = std::min( *data.maxDexToAc, shield->maxDex() );
+        }
+        else
+        {
+            data.maxDexToAc = shield->maxDex();
+        }
+
+        data.shieldBonus = shield->armourBonus();
     }
 
-    return dexToAc + armourAC + shieldAC + 10;
+    applyAllModifiers( &data );
+
+    return data.armourBonus + data.shieldBonus + data.staticBonus + data.dexBonus + data.dodgeBonus;
 }
 
 
@@ -568,4 +570,9 @@ void ModifiableRollVisitor::operator()(AbilityScoreBonus *roll)
 void ModifiableRollVisitor::operator()( MovementSpeedData *roll )
 {
     m_actor->modifyTypedRoll( ActorStatModType::MovementSpeed, roll );
+}
+
+void ModifiableRollVisitor::operator()(ArmourClassData *data)
+{
+    m_actor->modifyTypedRoll( ActorStatModType::ArmourClassData, data );
 }

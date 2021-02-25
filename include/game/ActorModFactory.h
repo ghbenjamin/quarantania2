@@ -13,6 +13,7 @@ public:
 
     // Feats
     static ActorModGroup featPowerAttack();
+    static ActorModGroup featDodge();
 
     // Statuses
     static ActorModGroup statusExhausted(int roundRemove);
