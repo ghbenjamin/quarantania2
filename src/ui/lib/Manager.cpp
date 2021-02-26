@@ -279,11 +279,6 @@ bool Manager::handleMouseMove(IEventMouseMove evt)
     moveEvent.type = UEventType::MouseMove;
     moveEvent.mouseMoveEvent.pos = evt.screenPos;
 
-    if (!elems.empty())
-    {
-        int r = 4;
-    }
-
     for ( auto const& w: elems )
     {
         moveEvent.targetElement = w;
@@ -300,6 +295,11 @@ bool Manager::handleMouseMove(IEventMouseMove evt)
         {
             exitEvent.targetElement = w;
             w->acceptEvent(exitEvent);
+            
+            if ( w->hasTooltipSpawner() )
+            {
+                closeTooltip();
+            }
         }
     }
 
@@ -309,10 +309,22 @@ bool Manager::handleMouseMove(IEventMouseMove evt)
         enterEvent.type = UEventType::MouseIn;
         enterEvent.mouseMoveEvent.pos = evt.screenPos;
 
+        ElementPtr tooltipSpawn;
+
         for ( auto const& w: enters )
         {
             enterEvent.targetElement = w;
             w->acceptEvent(enterEvent);
+            
+            if (w->hasTooltipSpawner())
+            {
+                tooltipSpawn = w;
+            }
+            
+            if (tooltipSpawn)
+            {
+                openTooltip( *(tooltipSpawn->getTooltipData()), tooltipSpawn->globalPosition() );
+            }
         }
     }
 
@@ -335,15 +347,15 @@ Level *Manager::level()
     return m_level;
 }
 
-void Manager::openTooltip( TooltipData const& data, Vector2i pos, bool longContent )
+void Manager::openTooltip( TooltipData const& data, Vector2i pos )
 {
-    auto tooltip = createElement<Tooltip>( nullptr, data, longContent );
+    auto tooltip = createElement<Tooltip>( nullptr, data );
     tooltip->setLocalPosition( pos );
 }
 
-void Manager::openTooltip(std::vector<TooltipData> const &data, Vector2i pos, bool longContent )
+void Manager::openTooltip( std::vector<TooltipData> const &data, Vector2i pos )
 {
-    auto tooltip = createElement<Tooltip>( nullptr, data, longContent );
+    auto tooltip = createElement<Tooltip>( nullptr, data );
     tooltip->setLocalPosition( pos );
 }
 

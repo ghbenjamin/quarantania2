@@ -4,6 +4,8 @@
 #include <string>
 #include <set>
 #include <list>
+#include <unordered_set>
+
 #include <utils/Containers.h>
 #include <ui/lib/Defines.h>
 #include <ui/lib/Layout.h>
@@ -12,7 +14,7 @@
 #include <utils/Logging.h>
 #include <resource/Spritesheet.h>
 #include <ui/lib/Background.h>
-#include <unordered_set>
+
 
 class RenderInterface;
 class InputInterface;
@@ -73,6 +75,11 @@ public:
     bool hasTag( std::string const& tag ) const;
     void removeTag( std::string const& tag );
 
+    // Tooltips
+    bool hasTooltipSpawner() const;
+    void setTooltipSpawner( std::function<TooltipData()> spawner );
+    std::optional<TooltipData> getTooltipData();
+
     // DOM
     void setParent( Element* elem );
     bool hasParent();
@@ -125,7 +132,6 @@ public:
     void acceptEvent(UEvent& evt);
 
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
-
     void doLayout();
 
 protected:
@@ -231,7 +237,6 @@ private:
     std::unique_ptr<UI::ElementLayout> m_layout;
 
     // Styles
-
     std::optional<ElementBackground> m_background;
     int m_borderWidth;
     RectI m_padding;
@@ -241,6 +246,9 @@ private:
 
     // DOM
     std::list<ElementPtr> m_children;
+    
+    // Tooltips
+    std::optional<std::function<TooltipData()>> m_tooltipSpawner;
 };
 
 

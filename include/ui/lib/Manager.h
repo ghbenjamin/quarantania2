@@ -122,8 +122,8 @@ public:
     void openContextMenu( ContextMenuList const& items, Vector2i pos, ContextMenuCallback callback);
     void cancelContextMenu();
 
-    void openTooltip( TooltipData const& data, Vector2i pos, bool longContent = false );
-    void openTooltip( std::vector<TooltipData> const& data, Vector2i pos, bool longContent = false );
+    void openTooltip( TooltipData const& data, Vector2i pos );
+    void openTooltip( std::vector<TooltipData> const& data, Vector2i pos );
     void closeTooltip();
 
     void showSingleTileHighlight(Vector2i tile, SingleTileHighlightType type);

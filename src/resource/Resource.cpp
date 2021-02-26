@@ -177,3 +177,8 @@ TexturePtr const &NinePatchResource::texture() const
 {
     return m_texture;
 }
+
+UI::NinePatch NinePatchResource::getPatch() const
+{
+    return UI::NinePatch { m_texture, m_offsets };
+}

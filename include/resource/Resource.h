@@ -7,8 +7,10 @@
 #include <graphics/Texture.h>
 #include <resource/Font.h>
 #include <resource/Spritesheet.h>
+#include <ui/lib/Background.h>
 
 class ResourceManager;
+namespace UI { class NinePatch; }
 
 class Resource
 {
@@ -92,6 +94,8 @@ public:
     int borderWidth() const;
     TexturePtr const& texture() const;
     std::array<RectI, 9> offsets() const;
+
+    UI::NinePatch getPatch() const;
 
 private:
     int m_borderWidth;

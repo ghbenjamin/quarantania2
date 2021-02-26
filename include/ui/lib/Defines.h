@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <utils/Colour.h>
 #include <utils/Containers.h>
 #include <resource/Font.h>
@@ -15,11 +16,12 @@ struct TextStyle
 
 struct TooltipData
 {
-    TooltipData(const std::string &title, const std::string &subtitle, const std::string &content);
+    TooltipData( std::string const& title );
+    TooltipData( std::string const& title, std::string const& subtitle, std::string const& content );
 
     std::string title;
-    std::string subtitle;
-    std::string content;
+    std::optional<std::string> subtitle;
+    std::optional<std::string> content;
 };
 
 }

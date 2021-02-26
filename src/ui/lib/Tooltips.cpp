@@ -2,7 +2,7 @@
 #include <resource/ResourceManager.h>
 #include <ui/lib/Manager.h>
 
-UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipData const& data, bool longContent)
+UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipData const& data)
         : Element(manager, parent)
 {
     auto titleFont = ResourceManager::get().getDefaultFont(16);
@@ -10,42 +10,48 @@ UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipD
 
     setLayout<VerticalLayout>( 4, HAlignment::Fill );
     setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000});
+    setPadding(6);
 
     auto titleNode = manager->createElement<Label>(this, TextStyle{Colour::Black, titleFont });
     titleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
     titleNode->setText( data.title );
 
-    auto subtitleNode = manager->createElement<Label>(this, TextStyle{Colour::Black, contentFont });
-    subtitleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
-    subtitleNode->setText( data.subtitle );
+    if ( data.subtitle.has_value() )
+    {
+        auto subtitleNode = manager->createElement<Label>(this, TextStyle{Colour::Black, contentFont });
+        subtitleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
+        subtitleNode->setText( *data.subtitle );
+    }
 
-    if ( longContent )
+    if ( data.content.has_value() )
     {
         auto contentNode = manager->createElement<Label>(this, TextStyle{Colour::Black, contentFont });
         contentNode->setMaximumOuterSize({ TOOLTIP_MAX_WIDTH, 1000 });
-        contentNode->setText( data.content );
+        contentNode->setText( *data.content );
     }
-
-    setBackground( Colour::Grey.withAlpha(210) );
+    
+    auto const& patch = ResourceManager::get().getNinePatch( "simple-border" ).getPatch();
+    setBackground( patch );
+//    setBackground( Colour::Grey.withAlpha(210) );
 }
 
-UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, const std::vector<TooltipData> &data, bool longContent)
+UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, const std::vector<TooltipData> &data )
         : Element(manager, parent)
 {
     sharedInit();
 
     for ( auto const& td : data )
     {
-        manager->createElement<TooltipItem>( this, td, longContent );
+        manager->createElement<TooltipItem>( this, td );
     }
 }
 
-UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, const UI::TooltipData &data, bool longContent)
+UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, const UI::TooltipData &data )
         : Element(manager, parent)
 {
     sharedInit();
 
-    manager->createElement<TooltipItem>( this, data, longContent );
+    manager->createElement<TooltipItem>( this, data );
 }
 
 void UI::Tooltip::sharedInit()

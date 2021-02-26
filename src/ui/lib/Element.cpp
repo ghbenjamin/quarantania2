@@ -1,8 +1,8 @@
 #include <ui/lib/Element.h>
-#include <ui/lib/Manager.h>
+
 #include <algorithm>
-#include <utils/Logging.h>
-#include <graphics/Primatives.h>
+
+#include <ui/lib/Manager.h>
 #include <graphics/RenderInterface.h>
 #include <utils/Assert.h>
 #include <resource/ResourceManager.h>
@@ -146,11 +146,6 @@ void Element::doLayout()
     else
     {
         actualContentSize = m_preferredContentSize;
-    }
-
-    if ( m_id == "ui-equip-inner")
-    {
-        int t = 4;
     }
 
     m_outerBounds = RectI{
@@ -402,6 +397,28 @@ void Element::hide()
 void Element::show()
 {
     setHidden(false);
+}
+
+bool Element::hasTooltipSpawner() const
+{
+    return m_tooltipSpawner.has_value();
+}
+
+void Element::setTooltipSpawner( std::function<TooltipData()> spawner )
+{
+    m_tooltipSpawner = spawner;
+}
+
+std::optional<TooltipData> Element::getTooltipData()
+{
+    if ( m_tooltipSpawner.has_value() )
+    {
+        return (*m_tooltipSpawner).operator()();
+    }
+    else
+    {
+        return {};
+    }
 }
 
 
