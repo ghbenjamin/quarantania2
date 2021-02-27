@@ -8,11 +8,11 @@ namespace UI
 
 class Label;
 
-class TurnOrderWidget : public Element
+class PlayerStatusWidget : public Element
 {
 public:
-    TurnOrderWidget( Manager* manager, Element* parent, EntityRef entity );
-    ~TurnOrderWidget() override = default;
+    PlayerStatusWidget(Manager* manager, Element* parent, EntityRef entity );
+    ~PlayerStatusWidget() override = default;
     
     void refresh();
 
@@ -28,11 +28,11 @@ private:
 };
 
 
-class TurnOrderContainer : public Element
+class PlayerStatusContainer : public Element
 {
 public:
-    TurnOrderContainer( Manager* manager, Element* parent );
-    ~TurnOrderContainer() override = default;
+    PlayerStatusContainer(Manager* manager, Element* parent );
+    ~PlayerStatusContainer() override = default;
     
     void reloadEntities();
     void refresh();

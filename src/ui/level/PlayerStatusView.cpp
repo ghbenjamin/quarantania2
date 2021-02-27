@@ -1,4 +1,4 @@
-#include <ui/level/TurnOrderView.h>
+#include <ui/level/PlayerStatusView.h>
 
 #include <ui/lib/Manager.h>
 #include <game/Level.h>
@@ -11,7 +11,7 @@
 // Turn order Widget
 // --------------------------------------
 
-UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, EntityRef ref)
+UI::PlayerStatusWidget::PlayerStatusWidget(UI::Manager *manager, UI::Element *parent, EntityRef ref)
         : Element(manager, parent), m_entity(ref)
 {
     // Layout
@@ -35,43 +35,43 @@ UI::TurnOrderWidget::TurnOrderWidget(UI::Manager *manager, UI::Element *parent, 
     addEventCallback(UEventType::Click, [this] (UEvent& evt) { this->selectEntity(); });
 }
 
-void UI::TurnOrderWidget::refresh()
+void UI::PlayerStatusWidget::refresh()
 {
     m_nameLabel->setColour(Colour::Black);
 }
 
-void UI::TurnOrderWidget::highlightEntity()
+void UI::PlayerStatusWidget::highlightEntity()
 {
     auto pos = manager()->level()->ecs().getComponents<PositionComponent>(m_entity)->tilePosition;
     manager()->level()->ui().showSingleTileHighlight(pos, UI::SingleTileHighlightType::Green);
 }
 
-void UI::TurnOrderWidget::unhighlightEntity()
+void UI::PlayerStatusWidget::unhighlightEntity()
 {
     manager()->level()->ui().removeSingleTileHighlight();
 }
 
-void UI::TurnOrderWidget::selectEntity()
+void UI::PlayerStatusWidget::selectEntity()
 {
 
 }
 
-UI::TurnOrderContainer::TurnOrderContainer(UI::Manager *manager, UI::Element *parent)
+UI::PlayerStatusContainer::PlayerStatusContainer(UI::Manager *manager, UI::Element *parent)
         : Element(manager, parent)
 {
     setId("turn-order-container");
     setLayout<VerticalLayout>( 4, HAlignment::Fill );
 }
 
-void UI::TurnOrderContainer::refresh()
+void UI::PlayerStatusContainer::refresh()
 {
     for ( auto const& c : children() )
     {
-        c->asType<TurnOrderWidget>()->refresh();
+        c->asType<PlayerStatusWidget>()->refresh();
     }
 }
 
-void UI::TurnOrderContainer::reloadEntities()
+void UI::PlayerStatusContainer::reloadEntities()
 {
     removeAllChildren();
 
@@ -84,7 +84,7 @@ void UI::TurnOrderContainer::reloadEntities()
 
         if (actorC->actorType == ActorType::PC)
         {
-            manager()->createElement<TurnOrderWidget>(this, ref);
+            manager()->createElement<PlayerStatusWidget>(this, ref);
         }
     }
     

@@ -2,7 +2,7 @@
 #include <game/Level.h>
 #include <components/ActorComponent.h>
 
-#include <ui/level/TurnOrderView.h>
+#include <ui/level/PlayerStatusView.h>
 #include <ui/level/ActionPopupMenu.h>
 #include <ui/level/CreatureEquipView.h>
 #include <ui/level/TextLog.h>
@@ -25,7 +25,7 @@ UISystem::UISystem(Level *parent)
 
 void UISystem::operator()(GameEvents::LevelReady& evt)
 {
-    auto turnOrder = m_level->ui().withId<UI::TurnOrderContainer>( "turn-order-container" );
+    auto turnOrder = m_level->ui().withId<UI::PlayerStatusContainer>( "turn-order-container" );
     turnOrder->reloadEntities();
 }
 
@@ -56,7 +56,7 @@ void UISystem::operator()(GameEvents::ItemUnequip& evt)
 
 void UISystem::operator()(GameEvents::TurnChange& evt)
 {
-    auto turnOrder = m_level->ui().withId<UI::TurnOrderContainer>( "turn-order-container" );
+    auto turnOrder = m_level->ui().withId<UI::PlayerStatusContainer>( "turn-order-container" );
     turnOrder->refresh();
 }
 

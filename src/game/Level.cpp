@@ -10,7 +10,7 @@
 #include <utils/GlobalConfig.h>
 #include <utils/Math.h>
 #include <ui/level/TextLog.h>
-#include <ui/level/TurnOrderView.h>
+#include <ui/level/PlayerStatusView.h>
 #include <ui/level/CreatureEquipView.h>
 #include <ui/level/ActionPopupMenu.h>
 #include <ui/level/ContainerView.h>
@@ -165,7 +165,7 @@ void Level::setupUI()
     // Fixed UI Elements
 
     // Widget containing the current party and information
-    auto turnOrderContainer = m_uiManager.createElement<UI::TurnOrderContainer>(nullptr);
+    auto turnOrderContainer = m_uiManager.createElement<UI::PlayerStatusContainer>(nullptr);
     m_uiManager.alignElementToWindow( turnOrderContainer, UI::Alignment::TopLeft, {20, 20} );
 
     // Widget containing icons representing actions which can be taken
