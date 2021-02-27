@@ -36,6 +36,12 @@ UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *
             manager->level()->controller()->pushActionController( actionMenu->currentEntity(), act );
             manager->deleteElement( shared_from_this() );
         });
+    
+        elem->setTooltipSpawner( [=](){
+            TooltipData data { act.data.name };
+            data.content = act.data.description;
+            return data;
+        });
     }
     
     doLayout();
@@ -195,7 +201,7 @@ UI::ActionMenuSpawnItem::ActionMenuSpawnItem(UI::Manager *manager, UI::Element *
     m_icon->addTag("action-popup-spawn-icon");
     
     m_label = manager->createElement<UI::Label>(this,
-                                                TextStyle { Colour::White.withAlpha(150), ResourceManager::get().getDefaultFont(10) });
+        TextStyle { Colour::White.withAlpha(150), ResourceManager::get().getDefaultFont(10) });
     m_label->setText(name);
     
     addEventCallback( UEventType::MouseIn, [this](UEvent& evt) {

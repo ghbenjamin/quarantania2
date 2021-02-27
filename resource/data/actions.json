@@ -4,7 +4,7 @@
     "id": "short-step",
     "type": "move",
     "provokes": false,
-    "description": "",
+    "description": "Take a single step in any direction. Does not provoke attacks of opportunity.",
     "icon": "game_icons/walking-boot"
   },
   {
@@ -12,7 +12,7 @@
     "id": "move",
     "type": "move",
     "provokes": true,
-    "description": "",
+    "description": "Walk to a new position.",
     "icon": "game_icons/walk"
   },
   {
@@ -20,7 +20,7 @@
     "id": "strike",
     "type": "attack",
     "provokes": false,
-    "description": "",
+    "description": "Strike a single enemy with your primary melee weapon.",
     "icon": "game_icons/sword-brandish"
   },
   {
@@ -28,7 +28,7 @@
     "id": "power-attack",
     "type": "attack",
     "provokes": false,
-    "description": "",
+    "description": "A melee strike which sacrifices accuracy for damage.",
     "icon": "game_icons/sword-array"
   }
 ]

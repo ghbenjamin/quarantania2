@@ -122,8 +122,7 @@ public:
     void openContextMenu( ContextMenuList const& items, Vector2i pos, ContextMenuCallback callback);
     void cancelContextMenu();
 
-    void openTooltip( TooltipData const& data, Vector2i pos );
-    void openTooltip( std::vector<TooltipData> const& data, Vector2i pos );
+    void openTooltip( TooltipData const& data, RectI const& spawner );
     void closeTooltip();
 
     void showSingleTileHighlight(Vector2i tile, SingleTileHighlightType type);
@@ -142,7 +141,8 @@ private:
     std::vector<ElementAlignment> m_elementAlignments;
 
     std::shared_ptr<SingleTileHighlight> m_tileHighlight;
-
+    std::shared_ptr<Tooltip> m_tooltip;
+    
     ElementList m_hoveredElems;
     ElementPtr m_mouseDownElem;
 

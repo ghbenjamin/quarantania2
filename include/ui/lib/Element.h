@@ -47,6 +47,7 @@ public:
     Vector2i maxOuterSize() const;
 
     void setPreferredContentSize( Vector2i size );
+    void setPreferredContentWidth( int width );
     void setPreferredOuterSize( Vector2i size );
     void setMaximumOuterSize( Vector2i size );
     bool hasMaximumOuterSize() const;

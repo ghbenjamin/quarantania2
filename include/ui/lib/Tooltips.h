@@ -6,7 +6,8 @@
 namespace UI
 {
 
-static inline const int TOOLTIP_MAX_WIDTH = 250;
+static inline const int TOOLTIP_MAX_WIDTH = 300;
+static inline const int TOOLTIP_MIN_WIDTH = 150;
 
 
 class TooltipItem : public Element

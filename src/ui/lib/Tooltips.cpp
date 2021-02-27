@@ -16,23 +16,27 @@ UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipD
     titleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
     titleNode->setText( data.title );
 
-    if ( data.subtitle.has_value() )
+    if ( data.subtitle.has_value() && !(*(data.subtitle)).empty() )
     {
         auto subtitleNode = manager->createElement<Label>(this, TextStyle{Colour::Black, contentFont });
         subtitleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
-        subtitleNode->setText( *data.subtitle );
+        subtitleNode->setText( *(data.subtitle) );
     }
 
-    if ( data.content.has_value() )
+    if ( data.content.has_value() && !(*(data.content)).empty() )
     {
         auto contentNode = manager->createElement<Label>(this, TextStyle{Colour::Black, contentFont });
         contentNode->setMaximumOuterSize({ TOOLTIP_MAX_WIDTH, 1000 });
-        contentNode->setText( *data.content );
+        contentNode->setText( *(data.content) );
+    }
+    
+    if ( outerBounds().w() < TOOLTIP_MIN_WIDTH )
+    {
+        setPreferredContentWidth( TOOLTIP_MIN_WIDTH );
     }
     
     auto const& patch = ResourceManager::get().getNinePatch( "simple-border" ).getPatch();
     setBackground( patch );
-//    setBackground( Colour::Grey.withAlpha(210) );
 }
 
 UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, const std::vector<TooltipData> &data )
@@ -44,6 +48,11 @@ UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, const std::vecto
     {
         manager->createElement<TooltipItem>( this, td );
     }
+    
+    // Delete tooltips if someone manages to hover one
+    addEventCallback( UEventType::MouseIn, [this](UEvent& evt) {
+        this->manager()->deleteElement( this->shared_from_this() );
+    });
 }
 
 UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, const UI::TooltipData &data )

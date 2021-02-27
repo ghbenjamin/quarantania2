@@ -1,8 +1,6 @@
 #include <ui/lib/Manager.h>
 
 #include <graphics/RenderInterface.h>
-#include <engine/InputInterface.h>
-#include <utils/Logging.h>
 #include <resource/ResourceManager.h>
 
 #include <utility>
@@ -272,7 +270,7 @@ bool Manager::handleMouseMove(IEventMouseMove evt)
 {
     auto elems = windowsAtPoint(evt.screenPos);
     auto [exits, enters] = partitionWindowLists(m_hoveredElems, elems);
-
+    
     m_hoveredElems = elems;
 
     UEvent moveEvent;
@@ -295,12 +293,10 @@ bool Manager::handleMouseMove(IEventMouseMove evt)
         {
             exitEvent.targetElement = w;
             w->acceptEvent(exitEvent);
-            
-            if ( w->hasTooltipSpawner() )
-            {
-                closeTooltip();
-            }
         }
+        
+        // Close any tooltips that are open
+        closeTooltip();
     }
 
     if ( !enters.empty() )
@@ -323,7 +319,7 @@ bool Manager::handleMouseMove(IEventMouseMove evt)
             
             if (tooltipSpawn)
             {
-                openTooltip( *(tooltipSpawn->getTooltipData()), tooltipSpawn->globalPosition() );
+                openTooltip(*(tooltipSpawn->getTooltipData()), tooltipSpawn->outerBounds());
             }
         }
     }
@@ -347,21 +343,26 @@ Level *Manager::level()
     return m_level;
 }
 
-void Manager::openTooltip( TooltipData const& data, Vector2i pos )
+void Manager::openTooltip( TooltipData const &data, RectI const &spawner )
 {
-    auto tooltip = createElement<Tooltip>( nullptr, data );
-    tooltip->setLocalPosition( pos );
-}
+    // Never want more than one tooltip
+    closeTooltip();
 
-void Manager::openTooltip( std::vector<TooltipData> const &data, Vector2i pos )
-{
-    auto tooltip = createElement<Tooltip>( nullptr, data );
-    tooltip->setLocalPosition( pos );
+    int offset = 6;
+    m_tooltip = createElement<Tooltip>( nullptr, data );
+    Vector2i tooltipSize = m_tooltip->outerBounds().right();
+    
+    Vector2i defaultPos = spawner.left() + Vector2i{ spawner.w(), -tooltipSize.y() } + Vector2i{ offset, -offset };
+    
+    m_tooltip->setLocalPosition( defaultPos );
 }
 
 void Manager::closeTooltip()
 {
-    deleteElement( withId( "tooltip" ) );
+    if (m_tooltip)
+    {
+        deleteElement( m_tooltip );
+    }
 }
 
 void Manager::showSingleTileHighlight(Vector2i tile, SingleTileHighlightType type)
@@ -379,6 +380,7 @@ void Manager::removeSingleTileHighlight()
     deleteElement(m_tileHighlight);
     m_tileHighlight.reset();
 }
+
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, Vector2i offset)
 : element(std::move(element)), alignment(alignment), offset(offset) {}

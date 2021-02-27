@@ -234,6 +234,15 @@ void Element::setPreferredContentSize(Vector2i size)
     onSizeSelf();
 }
 
+void Element::setPreferredContentWidth( int width )
+{
+    Vector2i size = m_preferredContentSize;
+    size.x( width );
+    
+    setPreferredContentSize( size );
+}
+
+
 void Element::setPreferredOuterSize(Vector2i size)
 {
     Vector2i preferred {
@@ -420,6 +429,7 @@ std::optional<TooltipData> Element::getTooltipData()
         return {};
     }
 }
+
 
 
 
