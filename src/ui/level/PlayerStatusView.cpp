@@ -6,6 +6,7 @@
 #include <components/RenderComponent.h>
 #include <components/PositionComponent.h>
 #include <components/ActorComponent.h>
+#include <resource/ResourceManager.h>
 
 
 // Turn order Widget
@@ -23,11 +24,24 @@ UI::PlayerStatusWidget::PlayerStatusWidget(UI::Manager *manager, UI::Element *pa
     auto icon = manager->createElement<Icon>(this, iconSprite);
     icon->setPadding(2);
     
+    auto rightCont = manager->createElement(this);
+    rightCont->setLayout<VerticalLayout>(2, HAlignment::Left );
+    
+    
+    
     // Add the name of the entity
     auto labelText = manager->level()->getDescriptionForEnt(ref);
-    m_nameLabel = manager->createElement<Label>(this);
+    m_nameLabel = manager->createElement<Label>( rightCont.get() );
     m_nameLabel->setText( std::string(labelText) );
     m_nameLabel->setPadding(4);
+    
+   /* auto speedBar = manager->createElement( rightCont.get() );
+    speedBar->setPreferredContentSize({ 146, 26 });
+    auto speedBarSprite = ResourceManager::get().getSprite("game_ui/action-speed-bar");
+    speedBarSprite.setRenderLayer( RenderLayer::UI );
+    
+    speedBar->setBackground( speedBarSprite );*/
+    
     
     // Let us select/hover the entity by selecting interacting with the widgets
     addEventCallback(UEventType::MouseIn, [this] (UEvent& evt) { this->highlightEntity(); });

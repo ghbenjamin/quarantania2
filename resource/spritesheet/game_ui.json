@@ -3,8 +3,9 @@
     "type": "free"
   },
   "data": { 
-      "tile-corners-green": [1,1,32,32],
-      "tile-corners-red": [35,1,32,32],
-      "tile-corners-yellow": [69,1,32,32]
+      "empty-item-slot": [1,1,38,38],
+      "tile-corners-green": [1,41,32,32],
+      "tile-corners-red": [35,41,32,32],
+      "tile-corners-yellow": [41,1,32,32]
   }
 }

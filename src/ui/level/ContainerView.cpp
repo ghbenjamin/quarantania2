@@ -12,7 +12,7 @@ UI::ContainerView::ContainerView(Manager* manager, Element* parent, Vector2i ico
 {
     setLayout<FreeLayout>();
 
-    m_emptySlot = ResourceManager::get().getSprite("ui-frames", "inventory-slot");
+    m_emptySlot = ResourceManager::get().getSprite("game_ui/empty-item-slot");
     m_emptySlot.setRenderLayer(RenderLayer::UI);
 
     auto [slotW, slotH] = m_emptySlot.size();
