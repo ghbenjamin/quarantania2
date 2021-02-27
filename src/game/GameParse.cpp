@@ -312,6 +312,34 @@ Skill EnumParse::skill( std::string const &input )
 }
 
 
+ActionSpeed EnumParse::actionSpeed( const std::string &input )
+{
+    if ( input == "Standard" )
+    {
+        return ActionSpeed::Standard;
+    }
+    else if ( input == "Move" )
+    {
+        return ActionSpeed::Move;
+    }
+    else if ( input == "Free" )
+    {
+        return ActionSpeed::Free;
+    }
+    else if ( input == "FullRound" )
+    {
+        return ActionSpeed::FullRound;
+    }
+    else if ( input == "Swift" )
+    {
+        return ActionSpeed::Swift;
+    }
+    
+    AssertAlwaysMsg( fmt::format( "Unexpected input: '{}'", input ) );
+    return ActionSpeed::Swift;
+}
+
+
 DiceRoll parseDiceRoll(const std::string &input)
 {
     std::regex r( R"(^(\d+)d(\d+)(?:([+-])(\d+))?$)" );

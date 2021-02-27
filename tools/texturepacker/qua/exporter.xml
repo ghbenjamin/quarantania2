@@ -1,0 +1,24 @@
+<exporter version="1.0">
+  <name>qua</name>
+  <nameAlias>quaexporter</nameAlias>
+  <displayName>qua</displayName>
+  <description>Exporter for qua Engine</description>
+  <version>1.0</version>
+  <files>
+    <file>
+      <name>quajson</name>
+      <displayName>qua (json)</displayName>
+      <fileExtension>json</fileExtension>
+      <description>JSON data file for qua Engine</description>
+      <template>qua.json</template>
+    </file>
+  </files>
+  <supportsTrimming>false</supportsTrimming>
+  <supportsRotation>no</supportsRotation>
+  <rotationDirection>cw</rotationDirection>
+  <supportsNPOT>true</supportsNPOT>
+  <supportsTrimSpriteNames>true</supportsTrimSpriteNames>
+  <supportsTextureSubPath>no</supportsTextureSubPath>
+  <supportsPivotPoint>true</supportsPivotPoint>
+  <supportsScale9>true</supportsScale9>
+</exporter>

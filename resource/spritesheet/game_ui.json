@@ -1,0 +1,10 @@
+{
+  "meta": {
+    "type": "free"
+  },
+  "data": { 
+      "tile-corners-green": [1,1,32,32],
+      "tile-corners-red": [35,1,32,32],
+      "tile-corners-yellow": [69,1,32,32]
+  }
+}

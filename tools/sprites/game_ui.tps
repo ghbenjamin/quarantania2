@@ -132,7 +132,7 @@
             <key>quajson</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../resource/spritesheet/game_icons.json</filename>
+                <filename>../../resource/spritesheet/game_ui.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -181,26 +181,9 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">game_icons/abdominal-armor.png</key>
-            <key type="filename">game_icons/axe-sword.png</key>
-            <key type="filename">game_icons/belt.png</key>
-            <key type="filename">game_icons/chest-armor.png</key>
-            <key type="filename">game_icons/frostfire.png</key>
-            <key type="filename">game_icons/headband-knot.png</key>
-            <key type="filename">game_icons/leg-armor.png</key>
-            <key type="filename">game_icons/light-backpack.png</key>
-            <key type="filename">game_icons/move.png</key>
-            <key type="filename">game_icons/pauldrons.png</key>
-            <key type="filename">game_icons/pearl-necklace.png</key>
-            <key type="filename">game_icons/pointy-hat.png</key>
-            <key type="filename">game_icons/pointy-sword.png</key>
-            <key type="filename">game_icons/ring.png</key>
-            <key type="filename">game_icons/steampunk-goggles.png</key>
-            <key type="filename">game_icons/sword-array.png</key>
-            <key type="filename">game_icons/sword-brandish.png</key>
-            <key type="filename">game_icons/sword-hilt.png</key>
-            <key type="filename">game_icons/walk.png</key>
-            <key type="filename">game_icons/walking-boot.png</key>
+            <key type="filename">game_ui/tile-corners-green.png</key>
+            <key type="filename">game_ui/tile-corners-red.png</key>
+            <key type="filename">game_ui/tile-corners-yellow.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -218,7 +201,7 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>game_icons</filename>
+            <filename>game_ui</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

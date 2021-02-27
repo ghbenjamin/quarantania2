@@ -476,6 +476,7 @@ void ResourceDatabase::loadAllActionData()
             AssertAlwaysMsg( fmt::format("Unknown action type: '{}'", typeStr) );
         }
 
+        robj.speed = EnumParse::actionSpeed( it.FindMember("speed")->value.GetString() );
         robj.provokes = it.FindMember("provokes")->value.GetBool();
         robj.description = it.FindMember("description")->value.GetString();
         robj.sprite = SpritesheetKey{ it.FindMember("icon")->value.GetString() };

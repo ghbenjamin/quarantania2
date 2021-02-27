@@ -134,9 +134,9 @@ enum class RawActionDataType
 struct ActionData
 {
     std::string id;
-
     std::string name;
     RawActionDataType type;
+    ActionSpeed speed;
     bool provokes;
     std::string description;
     SpritesheetKey sprite;

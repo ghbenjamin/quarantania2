@@ -91,6 +91,19 @@ enum class PlayerClass
     Bard
 };
 
+// Action Properties
+// --------------------------------------
+
+enum class ActionSpeed
+{
+    Standard,
+    Move,
+    FullRound,
+    Swift,
+    Free
+};
+
+
 // Item Properties
 // --------------------------------------
 

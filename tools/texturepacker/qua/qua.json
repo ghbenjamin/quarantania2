@@ -1,0 +1,8 @@
+{
+  "meta": {
+    "type": "free"
+  },
+  "data": { {% for sprite in allSprites %}
+      "{{sprite.trimmedName}}": [{{sprite.frameRect.x}},{{sprite.frameRect.y}},{{sprite.untrimmedSize.width}},{{sprite.untrimmedSize.height}}]{% if not forloop.last %},{% endif %}{% endfor %}
+  }
+}
