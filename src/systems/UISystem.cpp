@@ -56,8 +56,8 @@ void UISystem::operator()(GameEvents::ItemUnequip& evt)
 
 void UISystem::operator()(GameEvents::TurnChange& evt)
 {
-    auto turnOrder = m_level->ui().withId<UI::PlayerStatusContainer>( "turn-order-container" );
-    turnOrder->refresh();
+    auto playerStatus = m_level->ui().withId<UI::PlayerStatusContainer>( "turn-order-container" );
+    playerStatus->refresh();
 }
 
 void UISystem::operator()(GameEvents::ControllerEntitySelected& evt)

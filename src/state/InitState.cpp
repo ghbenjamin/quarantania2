@@ -21,6 +21,7 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
     p1.playerRace = PlayerRace::Human;
     p1.playerClass = PlayerClass::Fighter;
     p1.sprite = "dawnlike_chars/Player_001";
+    p1.maxHP = 12;
 
     p1.attrStr = 16;
     p1.attrDex = 12;
@@ -39,6 +40,7 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
     p2.playerRace = PlayerRace::Human;
     p2.playerClass = PlayerClass::Fighter;
     p2.sprite = "dawnlike_chars/Player_003";
+    p2.maxHP = 9;
 
     p2.attrStr = 16;
     p2.attrDex = 12;

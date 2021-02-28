@@ -60,6 +60,8 @@ public:
     Icon(Manager* manager, Element* parent, SpritesheetKey const& img);
     ~Icon() override = default;
 
+    void setSprite( Sprite const& sprite );
+
 protected:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 

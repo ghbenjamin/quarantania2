@@ -7,6 +7,39 @@ namespace UI
 {
 
 class Label;
+class Icon;
+
+class PlayerStatusActionSpeedBar : public Element
+{
+public:
+    PlayerStatusActionSpeedBar( Manager* manager, Element* parent, EntityRef entity );
+    ~PlayerStatusActionSpeedBar() override = default;
+
+    void refresh();
+    
+private:
+    
+    EntityRef m_entity;
+    std::array<std::shared_ptr<Icon>, 3> m_icons;
+    std::array<Sprite, 3> m_unusedSprites;
+    std::array<Sprite, 3> m_usedSprites;
+};
+
+
+class PlayerStatusHP : public Element
+{
+public:
+    PlayerStatusHP( Manager* manager, Element* parent, EntityRef entity );
+    ~PlayerStatusHP() override = default;
+    
+    void refresh();
+    
+private:
+    std::shared_ptr<Label> m_text;
+    EntityRef m_entity;
+};
+
+
 
 class PlayerStatusWidget : public Element
 {
@@ -25,6 +58,8 @@ private:
     
     EntityRef m_entity;
     std::shared_ptr<Label> m_nameLabel;
+    std::shared_ptr<PlayerStatusActionSpeedBar> m_actionSpeed;
+    std::shared_ptr<PlayerStatusHP> m_hp;
 };
 
 

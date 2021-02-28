@@ -142,3 +142,10 @@ void Icon::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &r
     rInter.addScreenItem( m_sprite.renderObject(pos) );
 }
 
+void Icon::setSprite( Sprite const& sprite )
+{
+    m_sprite = sprite;
+    m_sprite.setRenderLayer( RenderLayer::UI );
+    setPreferredContentSize( m_sprite.size() );
+}
+

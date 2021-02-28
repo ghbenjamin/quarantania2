@@ -258,3 +258,75 @@ Vector2i UI::CenterLayout::doLayout(UI::Element *ptr)
 
     return contentSize;
 }
+
+UI::HorizontalSpaceBetweenLayout::HorizontalSpaceBetweenLayout( UI::VAlignment valign )
+ : m_valign(valign) {}
+
+Vector2i UI::HorizontalSpaceBetweenLayout::doLayout( UI::Element *ptr )
+{
+    int w = 0;
+    int h = 0;
+    
+    if ( ptr->children().size() <= 1 )
+    {
+        return {w, h};
+    }
+    
+    auto preferred = ptr->preferredContentSize();
+    
+    for ( auto const& c: ptr->children() )
+    {
+        c->setLocalPosition( Vector2i{ 0, 0 } );
+        c->doLayout();
+        
+        auto s = c->outerBounds().right();
+        w += s.x();
+        h = std::max( h, s.y() );
+    }
+    
+    int totalChildW = w;
+    
+    if ( preferred != Vector2i{0, 0} )
+    {
+        if ( w < preferred.x() )
+        {
+            w = preferred.x();
+        }
+        
+        if ( h <  preferred.y() )
+        {
+            h = preferred.y();
+        }
+    }
+    
+    int childSpacing = ( w - totalChildW ) / (ptr->children().size() - 1);
+    
+    int x = 0;
+    
+    for ( auto const& c: ptr->children() )
+    {
+        auto pos = c->localPosition();
+        auto size = c->outerBounds().right();
+        
+        switch (m_valign)
+        {
+            case VAlignment::Top:
+                break;
+            case VAlignment::Bottom:
+                c->setLocalPosition({ x, pos.y() + h - size.y() });
+                break;
+            case VAlignment::Centre:
+                c->setLocalPosition({ x, pos.y() + (h / 2) - (size.y() / 2) });
+                break;
+            case VAlignment::Fill:
+                c->setLocalPosition({ x, 0 });
+                c->setPreferredOuterSize({size.x(), h});
+                break;
+        }
+        
+        x += childSpacing;
+        x += size.x();
+    }
+    
+    return { w, h };
+}

@@ -9,15 +9,18 @@
 #include <resource/ResourceManager.h>
 
 
+using namespace UI; 
+
 // Turn order Widget
 // --------------------------------------
 
-UI::PlayerStatusWidget::PlayerStatusWidget(UI::Manager *manager, UI::Element *parent, EntityRef ref)
+PlayerStatusWidget::PlayerStatusWidget(Manager *manager, Element *parent, EntityRef ref)
         : Element(manager, parent), m_entity(ref)
 {
     // Layout
     setBorder( Colour::Grey, 2, Colour::White );
     setLayout<HorizontalLayout>( 1, VAlignment::Centre );
+    setPreferredContentWidth( 200 );
     
     // Add the icon of the entity
     auto iconSprite = manager->level()->ecs().getComponents<RenderComponent>(ref)->sprites[0];
@@ -25,47 +28,48 @@ UI::PlayerStatusWidget::PlayerStatusWidget(UI::Manager *manager, UI::Element *pa
     icon->setPadding(2);
     
     auto rightCont = manager->createElement(this);
-    rightCont->setLayout<VerticalLayout>(2, HAlignment::Left );
-    
-    
+    rightCont->setLayout<VerticalLayout>(0, HAlignment::Left );
+    rightCont->setPadding(4);
+    rightCont->setPreferredContentWidth(150);
     
     // Add the name of the entity
     auto labelText = manager->level()->getDescriptionForEnt(ref);
     m_nameLabel = manager->createElement<Label>( rightCont.get() );
     m_nameLabel->setText( std::string(labelText) );
-    m_nameLabel->setPadding(4);
+    m_nameLabel->setPadding(2);
     
-   /* auto speedBar = manager->createElement( rightCont.get() );
-    speedBar->setPreferredContentSize({ 146, 26 });
-    auto speedBarSprite = ResourceManager::get().getSprite("game_ui/action-speed-bar");
-    speedBarSprite.setRenderLayer( RenderLayer::UI );
-    
-    speedBar->setBackground( speedBarSprite );*/
-    
-    
+    auto speedHPcont = manager->createElement( rightCont.get() );
+    speedHPcont->setLayout<HorizontalSpaceBetweenLayout>( VAlignment::Centre );
+    speedHPcont->setPreferredContentWidth(150);
+
+    m_actionSpeed = manager->createElement<PlayerStatusActionSpeedBar>( speedHPcont.get(), ref );
+    m_hp = manager->createElement<PlayerStatusHP>( speedHPcont.get(), ref );
+
     // Let us select/hover the entity by selecting interacting with the widgets
     addEventCallback(UEventType::MouseIn, [this] (UEvent& evt) { this->highlightEntity(); });
     addEventCallback(UEventType::MouseOut, [this] (UEvent& evt) { this->unhighlightEntity(); });
     addEventCallback(UEventType::Click, [this] (UEvent& evt) { this->selectEntity(); });
 }
 
-void UI::PlayerStatusWidget::refresh()
+void PlayerStatusWidget::refresh()
 {
     m_nameLabel->setColour(Colour::Black);
+    m_actionSpeed->refresh();
+    m_hp->refresh();
 }
 
-void UI::PlayerStatusWidget::highlightEntity()
+void PlayerStatusWidget::highlightEntity()
 {
     auto pos = manager()->level()->ecs().getComponents<PositionComponent>(m_entity)->tilePosition;
-    manager()->level()->ui().showSingleTileHighlight(pos, UI::SingleTileHighlightType::Green);
+    manager()->level()->ui().showSingleTileHighlight(pos, SingleTileHighlightType::Green);
 }
 
-void UI::PlayerStatusWidget::unhighlightEntity()
+void PlayerStatusWidget::unhighlightEntity()
 {
     manager()->level()->ui().removeSingleTileHighlight();
 }
 
-void UI::PlayerStatusWidget::selectEntity()
+void PlayerStatusWidget::selectEntity()
 {
 
 }
@@ -77,14 +81,14 @@ void UI::PlayerStatusWidget::selectEntity()
 // --------------------------------------
 
 
-UI::PlayerStatusContainer::PlayerStatusContainer(UI::Manager *manager, UI::Element *parent)
+PlayerStatusContainer::PlayerStatusContainer(Manager *manager, Element *parent)
         : Element(manager, parent)
 {
     setId("turn-order-container");
     setLayout<VerticalLayout>( 4, HAlignment::Fill );
 }
 
-void UI::PlayerStatusContainer::refresh()
+void PlayerStatusContainer::refresh()
 {
     for ( auto const& c : children() )
     {
@@ -92,7 +96,7 @@ void UI::PlayerStatusContainer::refresh()
     }
 }
 
-void UI::PlayerStatusContainer::reloadEntities()
+void PlayerStatusContainer::reloadEntities()
 {
     removeAllChildren();
 
@@ -110,4 +114,58 @@ void UI::PlayerStatusContainer::reloadEntities()
     }
     
     refresh();
+}
+
+
+// Action speed bar
+// --------------------------------------
+
+
+PlayerStatusActionSpeedBar::PlayerStatusActionSpeedBar( Manager *manager, Element *parent, EntityRef entity )
+  : Element(manager, parent), m_entity(entity)
+{
+    setLayout<HorizontalLayout>( 2, VAlignment::Centre );
+
+    m_unusedSprites = {
+        ResourceManager::get().getSprite( "game_ui/axe-sword-small-unused" ),
+        ResourceManager::get().getSprite( "game_ui/move-small-unused" ),
+        ResourceManager::get().getSprite( "game_ui/tron-arrow-small-unused" ),
+    };
+    
+    m_usedSprites = {
+        ResourceManager::get().getSprite( "game_ui/axe-sword-small" ),
+        ResourceManager::get().getSprite( "game_ui/move-small" ),
+        ResourceManager::get().getSprite( "game_ui/tron-arrow-small" ),
+    };
+
+
+    m_icons = {
+        manager->createElement<Icon>( this, m_unusedSprites[0] ),
+        manager->createElement<Icon>( this, m_unusedSprites[1]  ),
+        manager->createElement<Icon>( this, m_unusedSprites[2]  ),
+    };
+}
+
+void PlayerStatusActionSpeedBar::refresh()
+{
+    // TODO: Examine state of entity RE actions and update sprites
+}
+
+PlayerStatusHP::PlayerStatusHP( Manager *manager, Element *parent, EntityRef entity )
+    : Element(manager, parent), m_entity(entity)
+{
+    m_text = manager->createElement<Label>( this );
+}
+
+void PlayerStatusHP::refresh()
+{
+    auto& actorC = manager()->level()->ecs().getComponents<ActorComponent>(m_entity)->actor;
+    
+    m_text->setText( fmt::format(
+        "{}/{}",
+        actorC.getCurrentHp(),
+        actorC.getMaxHp()
+    ));
+    
+    setPreferredContentSize( m_text->outerBounds().right() );
 }

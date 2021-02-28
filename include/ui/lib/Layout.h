@@ -82,6 +82,20 @@ private:
     VAlignment m_valign;
 };
 
+
+class HorizontalSpaceBetweenLayout : public ElementLayout
+{
+public:
+    HorizontalSpaceBetweenLayout(VAlignment valign=VAlignment::Centre);
+    ~HorizontalSpaceBetweenLayout() override = default;
+    
+    Vector2i doLayout(Element *ptr) override;
+
+private:
+    VAlignment m_valign;
+};
+
+
 class CenterLayout : public ElementLayout
 {
 public:
