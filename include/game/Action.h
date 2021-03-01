@@ -45,7 +45,28 @@ struct GameAction
     std::shared_ptr<IActionTargeting> impl;
 };
 
+struct ActionSpeedData
+{
+    GameAction* action = nullptr;
+    ActionSpeed modified = ActionSpeed::Free;
+};
 
+
+class ActionsUsedInfo
+{
+public:
+    ActionsUsedInfo() = default;
+    ~ActionsUsedInfo() = default;
+
+    bool canUseAction( ActionSpeed speed ) const;
+    std::array<bool, 3> getUsedActions() const;
+    void useAction( ActionSpeed speed );
+    
+private:
+    bool m_usedStandard = false;
+    bool m_usedMove = false;
+    bool m_usedSwift = false;
+};
 
 class SingleTileTargeting : public IActionTargeting
 {

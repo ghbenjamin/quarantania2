@@ -1,20 +1,20 @@
 #pragma once
 
 #include <queue>
+#include <map>
 
 #include <game/Defines.h>
 #include <game/Items.h>
 #include <game/Action.h>
 #include <game/Combat.h>
 #include <game/ActorModifier.h>
-#include <map>
+
 
 struct CreatureData;
 struct PlayerData;
 struct Damage;
 class Level;
 class RandomInterface;
-
 
 
 class ModifiableRollVisitor
@@ -28,6 +28,7 @@ public:
     void operator()( AbilityScoreBonus* roll );
     void operator()( MovementSpeedData* data );
     void operator()( ArmourClassData* data );
+    void operator()( ActionSpeedData* data );
 
 private:
     Actor const* m_actor;
@@ -78,7 +79,6 @@ public:
     int getCurrentHp() const;
     int getMaxHp() const;
     void setCurrentHp( int value );
-    
     void acceptDamage( Damage const& dmg );
     
     // Defense
@@ -90,6 +90,9 @@ public:
     Damage getDamageForAttack( SingleAttackInstance& attack, AttackRoll const& roll ) const;
     int getAcForAttack( SingleAttackInstance& attack ) const;
     AttackRoll makeAttackRoll( SingleAttackInstance& attack, bool isCritConfirm ) const;
+    
+    // Actions
+    ActionsUsedInfo const& actionInfo() const;
     
     // Modifiers
     void addModifierGroup( ActorModGroup const& mod );
@@ -142,4 +145,6 @@ private:
     std::multimap<ActorStatModType, ActorStatMod> m_statModifiers;
     std::vector<ActorActionMod> m_actionMods;
     
+    // Actions
+    ActionsUsedInfo m_actionInfo;
 };

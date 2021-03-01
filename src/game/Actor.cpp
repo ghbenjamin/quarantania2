@@ -549,6 +549,11 @@ std::vector<GameAction> Actor::getAllGameActions() const
     return out;
 }
 
+ActionsUsedInfo const &Actor::actionInfo() const
+{
+    return m_actionInfo;
+}
+
 ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
  : m_actor(actor) {}
 
@@ -575,4 +580,9 @@ void ModifiableRollVisitor::operator()( MovementSpeedData *roll )
 void ModifiableRollVisitor::operator()(ArmourClassData *data)
 {
     m_actor->modifyTypedRoll( ActorStatModType::ArmourClassData, data );
+}
+
+void ModifiableRollVisitor::operator()( ActionSpeedData *data )
+{
+    m_actor->modifyTypedRoll( ActorStatModType::ActionSpeedData, data );
 }

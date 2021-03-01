@@ -148,7 +148,20 @@ PlayerStatusActionSpeedBar::PlayerStatusActionSpeedBar( Manager *manager, Elemen
 
 void PlayerStatusActionSpeedBar::refresh()
 {
-    // TODO: Examine state of entity RE actions and update sprites
+    auto& actorC = manager()->level()->ecs().getComponents<ActorComponent>(m_entity)->actor;
+    auto used = actorC.actionInfo().getUsedActions();
+    
+    for (int i = 0; i < 3; i++)
+    {
+        if (!used[i])
+        {
+            m_icons[i]->setSprite( m_unusedSprites[i] );
+        }
+        else
+        {
+            m_icons[i]->setSprite( m_usedSprites[i] );
+        }
+    }
 }
 
 PlayerStatusHP::PlayerStatusHP( Manager *manager, Element *parent, EntityRef entity )
