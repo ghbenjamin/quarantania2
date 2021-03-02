@@ -7,6 +7,7 @@
 #include <engine/Entity.h>
 #include <game/Items.h>
 #include <game/Combat.h>
+#include <game/Action.h>
 
 struct Damage;
 
@@ -68,11 +69,11 @@ struct RoundChange : public GameEvent<RoundChange>
 
 struct EntityAction : public GameEvent<EntityAction>
 {
-    EntityAction(EntityRef entity, int actionPoints);
+    EntityAction(EntityRef entity, GameAction speed);
     ~EntityAction() override = default;
 
     EntityRef entity;
-    int actionPoints;
+    GameAction speed;
 };
 
 

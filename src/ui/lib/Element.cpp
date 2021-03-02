@@ -430,6 +430,11 @@ std::optional<TooltipData> Element::getTooltipData()
     }
 }
 
+void Element::removeEventCallbacks( UEventType type )
+{
+    m_callbacks.erase( type );
+}
+
 
 
 

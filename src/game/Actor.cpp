@@ -549,7 +549,7 @@ std::vector<GameAction> Actor::getAllGameActions() const
     return out;
 }
 
-ActionsUsedInfo const &Actor::actionInfo() const
+ActionsUsedInfo& Actor::actionInfo()
 {
     return m_actionInfo;
 }

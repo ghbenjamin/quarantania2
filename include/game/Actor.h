@@ -90,10 +90,7 @@ public:
     Damage getDamageForAttack( SingleAttackInstance& attack, AttackRoll const& roll ) const;
     int getAcForAttack( SingleAttackInstance& attack ) const;
     AttackRoll makeAttackRoll( SingleAttackInstance& attack, bool isCritConfirm ) const;
-    
-    // Actions
-    ActionsUsedInfo const& actionInfo() const;
-    
+
     // Modifiers
     void addModifierGroup( ActorModGroup const& mod );
     void removeActorModGroup( std::string const& id );
@@ -112,6 +109,8 @@ public:
     
     // Actions
     std::vector<GameAction> getAllGameActions() const;
+    ActionsUsedInfo& actionInfo();
+
 
 private:
 

@@ -84,7 +84,6 @@ void ActionMoveStride::perform(Vector2i tile)
     auto pathMap = m_level->grid().pathFromPathMap(m_pathMap, tile);
 
     m_level->events().broadcast<GameEvents::EntityMove>(m_actor, origin, tile, pathMap);
-    m_level->events().broadcast<GameEvents::EntityAction>(m_actor, m_range);
 }
 
 ActionMoveStep::ActionMoveStep()
@@ -97,7 +96,6 @@ void ActionMoveStep::perform(Vector2i tile)
     auto pathMap = m_level->grid().pathFromPathMap(m_pathMap, tile);
 
     m_level->events().broadcast<GameEvents::EntityMove>(m_actor, origin, tile, pathMap);
-    m_level->events().broadcast<GameEvents::EntityAction>(m_actor, m_range);
 }
 
 

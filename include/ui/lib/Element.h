@@ -130,6 +130,7 @@ public:
     // Events
 
     void addEventCallback( UEventType type, UEventCallback const& callback );
+    void removeEventCallbacks( UEventType type );
     void acceptEvent(UEvent& evt);
 
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);

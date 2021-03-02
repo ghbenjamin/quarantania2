@@ -426,6 +426,7 @@ bool ActionControllerSingleTile::onMouseDown(IEventMouseDown evt)
         if ( m_targeting->tileIsValid(tile) )
         {
             m_targeting->perform(tile);
+            m_level->events().broadcast<GameEvents::EntityAction>(m_entity, m_action);
 
             popController();
             return true;
@@ -496,6 +497,7 @@ bool ActionControllerSingleEntity::onMouseDown(IEventMouseDown evt)
         if ( m_targeting->entityIsValid(target) )
         {
             m_targeting->perform(target);
+            m_level->events().broadcast<GameEvents::EntityAction>(m_entity, m_action);
 
             popController();
             return true;

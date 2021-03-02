@@ -84,7 +84,7 @@ void PlayerStatusWidget::selectEntity()
 PlayerStatusContainer::PlayerStatusContainer(Manager *manager, Element *parent)
         : Element(manager, parent)
 {
-    setId("turn-order-container");
+    setId("player-status-container");
     setLayout<VerticalLayout>( 4, HAlignment::Fill );
 }
 

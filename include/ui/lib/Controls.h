@@ -43,10 +43,15 @@ private:
 class Button : public Element
 {
 public:
+    Button( Manager* manager, Element* parent );
     Button( Manager* manager, Element* parent, std::string const& text, std::function<void()> const& callback );
     ~Button() override = default;
 
+    void setLabel( std::string const& label );
+    void setCallback( std::function<void()> const& callback );
+
 private:
+    std::shared_ptr<Label> m_label;
     std::function<void()> m_callback;
 };
 

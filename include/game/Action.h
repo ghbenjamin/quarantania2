@@ -37,12 +37,14 @@ struct GameAction
     GameAction(std::string const& id, TargetingType ttype, const std::shared_ptr<T> &impl)
     : data(ResourceDatabase::instance().actionFromId(id)),
       ttype(ttype),
-      impl(std::static_pointer_cast<IActionTargeting>(impl))
+      impl(std::static_pointer_cast<IActionTargeting>(impl)),
+      enabled(true)
       {}
 
     ActionData data;
     TargetingType ttype;
     std::shared_ptr<IActionTargeting> impl;
+    bool enabled;
 };
 
 struct ActionSpeedData

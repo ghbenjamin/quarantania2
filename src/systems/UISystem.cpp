@@ -21,11 +21,12 @@ UISystem::UISystem(Level *parent)
     m_level->events().subscribe<GameEvents::TurnChange>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::ControllerEntitySelected>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::CombatMeleeAttack>(this, GEventTiming::After );
+    m_level->events().subscribe<GameEvents::EntityAction>(this, GEventTiming::After );
 }
 
 void UISystem::operator()(GameEvents::LevelReady& evt)
 {
-    auto turnOrder = m_level->ui().withId<UI::PlayerStatusContainer>( "turn-order-container" );
+    auto turnOrder = m_level->ui().withId<UI::PlayerStatusContainer>( "player-status-container" );
     turnOrder->reloadEntities();
 }
 
@@ -56,7 +57,7 @@ void UISystem::operator()(GameEvents::ItemUnequip& evt)
 
 void UISystem::operator()(GameEvents::TurnChange& evt)
 {
-    auto playerStatus = m_level->ui().withId<UI::PlayerStatusContainer>( "turn-order-container" );
+    auto playerStatus = m_level->ui().withId<UI::PlayerStatusContainer>( "player-status-container" );
     playerStatus->refresh();
 }
 
@@ -104,4 +105,10 @@ void UISystem::operator()( GameEvents::EntityDamage &evt )
             total,
             m_level->getDescriptionForEnt( evt.target )
     ));
+}
+
+void UISystem::operator()(GameEvents::EntityAction &evt)
+{
+    auto playerStatus = m_level->ui().withId<UI::PlayerStatusContainer>( "player-status-container" );
+    playerStatus->refresh();
 }

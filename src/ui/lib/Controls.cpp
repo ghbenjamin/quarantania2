@@ -107,19 +107,41 @@ void Label::setColour(Colour colour)
 // ---------------------------------------
 
 UI::Button::Button(Manager *manager, Element *parent, const std::string &text, std::function<void()> const& callback)
-        : Element(manager, parent), m_callback(callback)
+        : Element(manager, parent)
 {
     setPadding( 4 );
     setBackground( Colour{200, 200, 200, 255} );
 
-    auto textNode = manager->createElement<UI::Label>(this );
-    textNode->setText( text );
+    m_label = manager->createElement<UI::Label>(this );
+    m_label->setText( text );
 
-    addEventCallback(UEventType::Click, [this] (UEvent& evt) {
-        this->m_callback();
-    });
+    setCallback( callback );
 }
 
+Button::Button(Manager *manager, Element *parent)
+        : Button(manager, parent, "", {} ) {}
+
+void Button::setLabel(const std::string &label)
+{
+    m_label->setText(label);
+}
+
+void Button::setCallback(const std::function<void()> &callback)
+{
+    if (callback)
+    {
+        if (m_callback)
+        {
+            removeEventCallbacks( UEventType::Click );
+        }
+
+        m_callback = callback;
+
+        addEventCallback(UEventType::Click, [this] (UEvent& evt) {
+            this->m_callback();
+        });
+    }
+}
 
 
 // Icon

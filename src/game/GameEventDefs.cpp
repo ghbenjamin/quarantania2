@@ -34,8 +34,8 @@ GameEvents::EntityDamage::EntityDamage(EntityRef target, EntityRef source, Damag
 GameEvents::TurnChange::TurnChange(EntityRef prev, EntityRef curr)
     : previous(prev), current(curr) {}
 
-GameEvents::EntityAction::EntityAction(EntityRef entity, int actionPoints)
-    : entity(entity), actionPoints(actionPoints) {}
+GameEvents::EntityAction::EntityAction(EntityRef entity, GameAction speed)
+    : entity(entity), speed(speed) {}
 
 GameEvents::ControllerEntitySelected::ControllerEntitySelected(EntityRef entity)
     : entity(entity) {}

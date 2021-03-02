@@ -6,6 +6,7 @@ ActorSystem::ActorSystem(Level *parent) : System(parent)
 {
     m_level->events().subscribe<GameEvents::EntityDeath>(this);
     m_level->events().subscribe<GameEvents::EntityDamage>(this);
+    m_level->events().subscribe<GameEvents::EntityAction>(this);
 }
 
 void ActorSystem::operator()(GameEvents::EntityDeath& evt)
@@ -26,4 +27,17 @@ void ActorSystem::operator()(GameEvents::RoundChange &evt)
     {
         // Do something with expired modifiers here
     }
+}
+
+void ActorSystem::operator()(GameEvents::EntityAction &evt)
+{
+    ActionSpeedData speedData;
+    speedData.action = &evt.speed;
+    speedData.modified = evt.speed.data.speed;
+
+    auto& actorC = m_level->ecs().getComponents<ActorComponent>( evt.entity )->actor;
+
+    actorC.applyAllModifiers( &speedData );
+
+    actorC.actionInfo().useAction( speedData.modified );
 }

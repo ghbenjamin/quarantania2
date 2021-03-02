@@ -14,6 +14,7 @@
 #include <ui/level/CreatureEquipView.h>
 #include <ui/level/ActionPopupMenu.h>
 #include <ui/level/ContainerView.h>
+#include <ui/level/Composites.h>
 
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
@@ -169,7 +170,8 @@ void Level::setupUI()
     m_uiManager.alignElementToWindow( turnOrderContainer, UI::Alignment::TopLeft, {20, 20} );
 
     // Widget containing icons representing actions which can be taken
-    auto actionMenu = m_uiManager.createElement<UI::ActionMenu>(nullptr);
+//    auto actionMenu = m_uiManager.createElement<UI::ActionMenu>(nullptr);
+    auto actionMenu = m_uiManager.createElement<UI::BottomLeftBar>(nullptr);
     m_uiManager.alignElementToWindow( actionMenu, UI::Alignment::BottomLeft, {20, -20} );
 
     // Widget containing the global text log
@@ -307,7 +309,25 @@ std::vector<GameAction> Level::actionsForActor(EntityRef actor)
     {
         out.push_back(action);
     }
-    
+
+
+    // For each of our potential actions, work out if our actor can currently perfom them. If not,
+    // mark them as disabled.
+
+    for ( auto& act : out )
+    {
+        ActionSpeedData speedData;
+        speedData.action = &act;
+        speedData.modified = act.data.speed;
+
+        actorC->actor.applyAllModifiers( &speedData );
+
+        if ( !actorC->actor.actionInfo().canUseAction( speedData.modified ))
+        {
+            act.enabled = false;
+        }
+    }
+
     return out;
 }
 

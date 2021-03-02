@@ -21,21 +21,31 @@ UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *
     {
         auto elem = manager->createElement<UI::Element>(this);
         elem->setPadding(4);
-        elem->setBackground(Colour::Beige);
         elem->setLayout<HorizontalLayout>(8, VAlignment::Centre);
-        
+
         manager->createElement<UI::Icon>(elem.get(), act.data.sprite );
         manager->createElement<UI::Label>(elem.get(), act.data.name );
-        
-        elem->addEventCallback(UEventType::Click, [manager, act, this](UEvent const& evt) {
-            
-            auto actionMenu = manager->firstElementMatching(
-                    [](ElementPtr const& elem){ return elem->id() == "action-menu"; }
-            )->asType<ActionMenu>();
-            
-            manager->level()->controller()->pushActionController( actionMenu->currentEntity(), act );
-            manager->deleteElement( shared_from_this() );
-        });
+
+        if (act.enabled)
+        {
+            elem->setBackground(Colour::Beige);
+
+            elem->addEventCallback(UEventType::Click, [manager, act, this](UEvent const& evt) {
+
+                auto actionMenu = manager->firstElementMatching(
+                         [](ElementPtr const& elem){ return elem->id() == "action-menu"; }
+                )->asType<ActionMenu>();
+
+                manager->level()->controller()->pushActionController( actionMenu->currentEntity(), act );
+                manager->deleteElement( shared_from_this() );
+            });
+        }
+        else
+        {
+            elem->setBackground(Colour::Grey);
+        }
+
+
     
         elem->setTooltipSpawner( [=](){
             TooltipData data { act.data.name };
