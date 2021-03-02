@@ -14,7 +14,7 @@ Sprite createRectangle(Vector2i dimensions, Colour const &colour)
     );
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(
-      ResourceManager::get().getWindow()->renderer()->raw(),
+      ResourceManager::get().getWindow()->renderer(),
       surface->raw()
     );
 
@@ -40,7 +40,7 @@ createBorderedRectangle(Vector2i dimensions, Colour const &borderColour, Colour 
         backColour.raw().r, backColour.raw().g, backColour.raw().b ));
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(
-            ResourceManager::get().getWindow()->renderer()->raw(),
+            ResourceManager::get().getWindow()->renderer(),
             surface->raw()
     );
 

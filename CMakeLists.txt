@@ -37,3 +37,6 @@ target_link_libraries(quarantania2 PRIVATE fmt::fmt fmt::fmt-header-only)
 
 find_package(ZLIB REQUIRED)
 target_link_libraries(quarantania2 PRIVATE ZLIB::ZLIB)
+
+find_package(glad CONFIG REQUIRED)
+target_link_libraries(quarantania2 PRIVATE glad::glad)

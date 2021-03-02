@@ -74,7 +74,7 @@ void Engine::run()
 
         // Graphics
 
-        window->renderer()->render(renderInterface);
+        window->render(renderInterface);
 
         // State checking
 

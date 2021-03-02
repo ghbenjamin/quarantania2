@@ -40,7 +40,7 @@ std::shared_ptr<Texture> FontData::renderText(std::string const &text, Colour co
     Assert(surface != nullptr);
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(
-        ResourceManager::get().getWindow()->renderer()->raw(), surface );
+        ResourceManager::get().getWindow()->renderer(), surface );
 
     Assert(texture != nullptr);
 
@@ -104,7 +104,7 @@ std::shared_ptr<Texture> DirectRenderFont::renderText(const std::string &text, C
     Assert(surface != nullptr);
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(
-            ResourceManager::get().getWindow()->renderer()->raw(), surface );
+            ResourceManager::get().getWindow()->renderer(), surface );
 
     Assert(texture != nullptr);
 

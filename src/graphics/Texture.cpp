@@ -21,7 +21,7 @@ Texture::Texture(SDL_Texture* texture)
 
 Texture::Texture( std::shared_ptr<Surface>const& surface)
     : Texture( SDL_CreateTextureFromSurface(
-            ResourceManager::get().getWindow()->renderer()->raw(),
+            ResourceManager::get().getWindow()->renderer(),
             surface->raw()
         )) {}
 
@@ -52,7 +52,7 @@ SDL_Texture *Texture::raw()
 TexturePtr Texture::loadTexture(std::string const &path)
 {
     SDL_Texture* text = IMG_LoadTexture(
-        ResourceManager::get().getWindow()->renderer()->raw(),
+        ResourceManager::get().getWindow()->renderer(),
         path.c_str()
     );
 
@@ -67,7 +67,7 @@ SDL_Rect &Texture::sourceRect()
 TexturePtr Texture::createNewTexture(Vector2i size)
 {
     SDL_Texture* texture = SDL_CreateTexture(
-        ResourceManager::get().getWindow()->renderer()->raw(),
+        ResourceManager::get().getWindow()->renderer(),
         SDL_PIXELFORMAT_ABGR8888,
         SDL_TEXTUREACCESS_STATIC,
         size.x(),
