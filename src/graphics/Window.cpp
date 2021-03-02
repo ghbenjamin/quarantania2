@@ -2,7 +2,7 @@
 
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-//#include <glad/glad.h>
+#include <glad/glad.h>
 
 #include <utils/Assert.h>
 #include <graphics/RenderInterface.h>
@@ -14,6 +14,12 @@ Window::Window(std::string const &title, Vector2i bounds)
     SDL_Init(SDL_INIT_EVERYTHING);
     IMG_Init(IMG_INIT_PNG);
     TTF_Init();
+    
+    SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
     m_window = SDL_CreateWindow(
         title.c_str(),
@@ -23,23 +29,17 @@ Window::Window(std::string const &title, Vector2i bounds)
         m_size.y(),
         SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE
     );
+    Assert( m_window != nullptr);
 
     SDL_SetWindowMinimumSize( m_window, 800, 600 );
-
-    Assert( m_window != nullptr);
     
-    m_renderer = SDL_CreateRenderer(
-            m_window,
-            -1,
-            SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
-    );
-    
+    m_renderer = SDL_CreateRenderer( m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
     Assert( m_renderer != nullptr );
     
     
-//    // DEBUG
-//
-//    SDL_GLContext glContext = SDL_GL_CreateContext(m_window);
+    // DEBUG
+
+//    m_glContext = SDL_GL_CreateContext(m_window);
 //
 //    if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
 //        std::cerr << "Failed to initialize the OpenGL context." << std::endl;
@@ -50,7 +50,15 @@ Window::Window(std::string const &title, Vector2i bounds)
 //    std::cout << "OpenGL version loaded: " << GLVersion.major << "."
 //              << GLVersion.minor << std::endl;
 //
-    
+//    glDisable(GL_DEPTH_TEST);
+//    glDisable(GL_CULL_FACE);
+//    glViewport(0, 0, m_size.x(), m_size.y());
+//    glMatrixMode( GL_PROJECTION );
+//    glLoadIdentity();
+//    glOrtho( 0.0, m_size.x(), m_size.y(), 0.0, 1.0, -1.0 );
+//
+//    SDL_GL_MakeCurrent(m_window, m_glContext);
+//    SDL_GL_SetSwapInterval(1);
 }
 
 Window::~Window()

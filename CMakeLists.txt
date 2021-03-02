@@ -38,5 +38,8 @@ target_link_libraries(quarantania2 PRIVATE fmt::fmt fmt::fmt-header-only)
 find_package(ZLIB REQUIRED)
 target_link_libraries(quarantania2 PRIVATE ZLIB::ZLIB)
 
-find_package(glad CONFIG REQUIRED)
-target_link_libraries(quarantania2 PRIVATE glad::glad)
+#find_package(glad CONFIG REQUIRED)
+#target_link_libraries(quarantania2 PRIVATE glad::glad)
+#
+#find_path(STB_INCLUDE_DIRS "stb.h")
+#target_include_directories(quarantania2 PRIVATE ${STB_INCLUDE_DIRS})
