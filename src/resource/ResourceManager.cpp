@@ -205,6 +205,20 @@ NinePatchResource const& ResourceManager::getNinePatch(const std::string &name)
     }
 }
 
+#ifdef USE_GL
+GLuint ResourceManager::getShader(const std::string &shader)
+{
+    try
+    {
+        return m_shaders.at(shader);
+    }
+    catch ( [[maybe_unused]] std::exception const& ex )
+    {
+        Logging::log( "ERROR: Unknown shader [{}]\n", shader );
+        std::terminate();
+    }
+}
+#endif
 
 
 FontDataPtr ResourceManager::getDefaultFont(int fontSize)
@@ -237,3 +251,23 @@ const std::string ResourceManager::getDefaultFontName()
 {
     return "inconsolata-regular";
 }
+
+#ifdef USE_GL
+void ResourceManager::addShader(const std::string &name, GLuint type, const char *data)
+{
+    GLuint handle = glCreateShader(type);
+    glShaderSource(handle, 1, &data, 0);
+    glCompileShader(handle);
+
+    GLint success;
+    glGetShaderiv(handle, GL_COMPILE_STATUS, &success);
+
+    if (success == GL_FALSE)
+    {
+        AssertAlways();
+    }
+
+    m_shaders[name] = handle;
+}
+#endif
+

@@ -39,6 +39,10 @@ public:
     [[nodiscard]] TexturePtr getTexture( std::string const& imgName );
     [[nodiscard]] NinePatchResource const& getNinePatch( std::string const& name );
 
+#ifdef USE_GL
+    GLuint getShader( std::string const& shader );
+#endif
+
 private:
 
     ResourceManager() = default;
@@ -48,12 +52,20 @@ private:
     void addSpritesheetResource( std::string const& name );
     void addNinepatchResource( std::string const& name );
 
+#ifdef USE_GL
+    void addShader( std::string const& name, GLuint type, const char* data );
+#endif
+
     static const std::string getDefaultFontName();
 
     std::unordered_map<std::string, std::shared_ptr<FontResource>> m_fonts;
     std::unordered_map<std::string, std::shared_ptr<SpritesheetResource>> m_spritesheets;
     std::unordered_map<std::string, std::shared_ptr<ImageResource>> m_images;
     std::unordered_map<std::string, std::shared_ptr<NinePatchResource>> m_patches;
+
+#ifdef USE_GL
+    std::unordered_map<std::string, GLuint> m_shaders;
+#endif
 
     WindowPtr m_context;
     FontManager m_fontManager;

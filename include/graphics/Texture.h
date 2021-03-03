@@ -6,6 +6,8 @@
 
 #include <utils/Containers.h>
 
+#include <glad/glad.h>
+
 // Forward definitions
 struct SDL_Texture;
 struct SDL_Surface;
@@ -63,7 +65,7 @@ private:
     Vector2i m_size;
 };
 
-
+#ifdef USE_GL
 class RawTexture
 {
 public:
@@ -73,7 +75,10 @@ public:
     RawTexture( const RawTexture& ) = delete;
     RawTexture& operator=( const RawTexture& ) = delete;
 
+    GLuint createGLTexture();
+
 private:
     Vector2i m_size;
     unsigned char* m_data;
 };
+#endif

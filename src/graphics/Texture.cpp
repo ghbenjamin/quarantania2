@@ -1,6 +1,10 @@
 
 #include <SDL2/SDL_image.h>
+
+#ifdef USE_GL
+#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+#endif
 
 #include <graphics/Texture.h>
 #include <utils/Assert.h>
@@ -113,6 +117,8 @@ SDL_Surface *Surface::raw()
     return m_raw;
 }
 
+
+#ifdef USE_GL
 RawTexture::RawTexture( std::string const &path )
 {
     int format = STBI_rgb_alpha;
@@ -134,3 +140,21 @@ RawTexture::~RawTexture()
         stbi_image_free(m_data);
     }
 }
+
+GLuint RawTexture::createGLTexture()
+{
+    GLuint tex;
+    glGenTextures( 1, &tex );
+    glBindTexture( GL_TEXTURE_2D, tex );
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_size.x(), m_size.y(), 0, GL_RGB, GL_UNSIGNED_BYTE, m_data);
+
+    return tex;
+}
+
+#endif

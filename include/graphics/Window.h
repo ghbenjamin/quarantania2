@@ -30,7 +30,11 @@ private:
 
     SDL_Window* m_window;
     SDL_Renderer* m_renderer;
-//    SDL_GLContext m_glContext;
+
+#ifdef USE_GL
+    SDL_GLContext m_glContext;
+#endif
+
     Vector2i m_size;
     Cursor m_cursor;
 };

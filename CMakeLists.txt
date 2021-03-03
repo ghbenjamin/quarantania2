@@ -12,6 +12,8 @@ include_directories(include)
 
 add_executable(quarantania2 ${CPP_SOURCE_LIST})
 
+add_compile_definitions(USE_GL)
+
 if(MSVC)
     # Disable spurious warning from old version of RapidJson
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4996")
@@ -38,8 +40,8 @@ target_link_libraries(quarantania2 PRIVATE fmt::fmt fmt::fmt-header-only)
 find_package(ZLIB REQUIRED)
 target_link_libraries(quarantania2 PRIVATE ZLIB::ZLIB)
 
-#find_package(glad CONFIG REQUIRED)
-#target_link_libraries(quarantania2 PRIVATE glad::glad)
+find_package(glad CONFIG REQUIRED)
+target_link_libraries(quarantania2 PRIVATE glad::glad)
 
 find_path(STB_INCLUDE_DIRS "stb.h")
 target_include_directories(quarantania2 PRIVATE ${STB_INCLUDE_DIRS})

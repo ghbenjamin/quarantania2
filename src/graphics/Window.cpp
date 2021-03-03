@@ -2,6 +2,8 @@
 
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+
+#pragma warning (disable : 4005)
 #include <glad/glad.h>
 
 #include <utils/Assert.h>
@@ -39,35 +41,40 @@ Window::Window(std::string const &title, Vector2i bounds)
     
     // DEBUG
 
-//    m_glContext = SDL_GL_CreateContext(m_window);
-//
-//    if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
-//        std::cerr << "Failed to initialize the OpenGL context." << std::endl;
-//        exit(1);
-//    }
-//
-//    // Loaded OpenGL successfully.
-//    std::cout << "OpenGL version loaded: " << GLVersion.major << "."
-//              << GLVersion.minor << std::endl;
-//
-//    glDisable(GL_DEPTH_TEST);
-//    glDisable(GL_CULL_FACE);
-//    glViewport(0, 0, m_size.x(), m_size.y());
-//    glMatrixMode( GL_PROJECTION );
-//    glLoadIdentity();
-//    glOrtho( 0.0, m_size.x(), m_size.y(), 0.0, 1.0, -1.0 );
-//
-//    SDL_GL_MakeCurrent(m_window, m_glContext);
-//    SDL_GL_SetSwapInterval(1);
+#ifdef USE_GL
+    m_glContext = SDL_GL_CreateContext(m_window);
+
+    if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
+        std::cerr << "Failed to initialize the OpenGL context." << std::endl;
+        exit(1);
+    }
+
+    // Loaded OpenGL successfully.
+    std::cout << "OpenGL version loaded: " << GLVersion.major << "."
+              << GLVersion.minor << std::endl;
+
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    glViewport(0, 0, m_size.x(), m_size.y());
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    glOrtho( 0.0, m_size.x(), m_size.y(), 0.0, 1.0, -1.0 );
+
+    SDL_GL_MakeCurrent(m_window, m_glContext);
+    SDL_GL_SetSwapInterval(1);
+#endif
+
 }
 
 Window::~Window()
 {
-//    if (m_glContext)
-//    {
-//        SDL_GL_DeleteContext(m_glContext);
-//    }
-    
+
+#ifdef USE_GL
+    if (m_glContext)
+    {
+        SDL_GL_DeleteContext(m_glContext);
+    }
+#endif
     if ( m_window )
     {
         SDL_DestroyWindow( m_window );

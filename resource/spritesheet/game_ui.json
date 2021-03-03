@@ -3,15 +3,16 @@
     "type": "free"
   },
   "data": { 
-      "axe-sword-small-unused": [1,41,20,20],
-      "axe-sword-small": [23,41,20,20],
-      "empty-item-slot": [1,1,38,38],
-      "move-small-unused": [45,35,20,20],
-      "move-small": [67,35,20,20],
-      "tile-corners-green": [41,1,32,32],
-      "tile-corners-red": [75,1,32,32],
-      "tile-corners-yellow": [109,1,32,32],
-      "tron-arrow-small-unused": [89,35,20,20],
-      "tron-arrow-small": [111,35,20,20]
+      "axe-sword-small-unused": [75,39,20,20],
+      "axe-sword-small": [81,3,20,20],
+      "empty-item-slot": [3,3,38,38],
+      "move-small-unused": [75,63,20,20],
+      "move-small": [3,81,20,20],
+      "tile-corners-green": [3,45,32,32],
+      "tile-corners-red": [39,45,32,32],
+      "tile-corners-yellow": [45,3,32,32],
+      "tron-arrow-small-unused": [27,81,20,20],
+      "tron-arrow-small": [51,81,20,20]
   }
 }
+
