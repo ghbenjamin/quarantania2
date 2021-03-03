@@ -1,11 +1,13 @@
 
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL.h>
+#include <stb_image.h>
 
 #include <graphics/Texture.h>
 #include <utils/Assert.h>
 #include <utils/Logging.h>
 #include <resource/ResourceManager.h>
+
+
 
 Texture::Texture(SDL_Texture* texture)
 : m_raw(texture)
@@ -109,4 +111,26 @@ SurfacePtr Surface::createSurface( Vector2i size )
 SDL_Surface *Surface::raw()
 {
     return m_raw;
+}
+
+RawTexture::RawTexture( std::string const &path )
+{
+    int format = STBI_rgb_alpha;
+    int width, height, origFormat;
+    m_data = stbi_load("./test.png", &width, &height, &origFormat, format);
+    
+    if ( m_data == nullptr )
+    {
+        AssertAlwaysMsg( fmt::format( "Loading image {} failed: {}", path, stbi_failure_reason() ) );
+    }
+    
+    m_size = {width, height};
+}
+
+RawTexture::~RawTexture()
+{
+    if (m_data != nullptr)
+    {
+        stbi_image_free(m_data);
+    }
 }

@@ -62,3 +62,18 @@ private:
     SDL_Surface* m_raw;
     Vector2i m_size;
 };
+
+
+class RawTexture
+{
+public:
+    RawTexture( std::string const& path );
+    ~RawTexture();
+    
+    RawTexture( const RawTexture& ) = delete;
+    RawTexture& operator=( const RawTexture& ) = delete;
+
+private:
+    Vector2i m_size;
+    unsigned char* m_data;
+};

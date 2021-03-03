@@ -63,10 +63,10 @@ Window::Window(std::string const &title, Vector2i bounds)
 
 Window::~Window()
 {
-    if (m_glContext)
-    {
-        SDL_GL_DeleteContext(m_glContext);
-    }
+//    if (m_glContext)
+//    {
+//        SDL_GL_DeleteContext(m_glContext);
+//    }
     
     if ( m_window )
     {
