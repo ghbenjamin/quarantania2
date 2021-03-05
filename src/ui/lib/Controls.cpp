@@ -31,7 +31,8 @@ void Label::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &
 {
     if ( m_text )
     {
-        rInter.addScreenItem(m_text.renderObject( globalPosition() ));
+        auto pos = globalPosition() + contentOffset();
+        rInter.addScreenItem(m_text.renderObject( pos ));
     }
 }
 
@@ -42,15 +43,14 @@ void Label::renderText()
 
     if ( hasMaximumOuterSize() )
     {
-        m_rendered = m_style.font->renderText( m_data, m_style.textColour, maxOuterSize().x() );
+        m_text = { m_style.font->renderText( m_data, m_style.textColour, maxOuterSize().x() ) };
     }
     else
     {
-        m_rendered = m_style.font->renderText( m_data, m_style.textColour );
+        m_text = { m_style.font->renderText( m_data, m_style.textColour ) };
     }
-
-    m_text = Sprite{ m_rendered };
-
+    
+    m_text.setRenderLayer(RenderLayer::UI);
     onMoveSelf();
 }
 
@@ -59,26 +59,7 @@ void Label::setText(std::string const &text)
     m_data = text;
     renderText();
 
-    setPreferredContentSize( m_rendered->size() );
-}
-
-void Label::onSizeSelf()
-{
-
-}
-
-void Label::onMoveSelf()
-{
-    auto pos = globalPosition() + contentOffset();
-//    m_renderObject.targetRect.x = pos.x();
-//    m_renderObject.targetRect.y = pos.y();
-}
-
-void Label::clearText()
-{
-    m_renderObject = RenderObject();
-    m_data = "";
-    setPreferredContentSize({0, 0});
+    setPreferredContentSize( m_text.size() );
 }
 
 void Label::setColour(Colour colour)

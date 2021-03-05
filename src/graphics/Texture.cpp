@@ -36,10 +36,7 @@ Texture::Texture( std::string const &path )
 }
 
 Texture::Texture( GLuint handle, Vector2i size )
-        : m_handle(handle), m_size(size)
-{
-    int foo = 3;
-}
+        : m_handle(handle), m_size(size) {}
 
 
 Texture::~Texture()
@@ -60,13 +57,13 @@ Vector2i Texture::size() const
 
 
 Surface::Surface()
-: m_surface(nullptr), m_size{-1, -1}
+: m_surface(nullptr), m_size{-1, -1}, m_format(PixelFormat::RGBA)
 {
 
 }
 
-Surface::Surface(SDL_Surface *surface)
-    : m_surface(surface)
+Surface::Surface(SDL_Surface *surface, PixelFormat format)
+    : m_surface(surface), m_format(format)
 {
     if (m_surface != nullptr)
     {
@@ -76,6 +73,12 @@ Surface::Surface(SDL_Surface *surface)
     {
         m_size = { -1, -1 };
     }
+}
+
+Surface::Surface( Vector2i size )
+        : m_size(size), m_format(PixelFormat::RGBA)
+{
+    m_surface = SDL_CreateRGBSurfaceWithFormat( 0, size.x(), size.y(), 32, SDL_PIXELFORMAT_RGBA32 );
 }
 
 Surface::~Surface()
@@ -88,23 +91,22 @@ Surface::~Surface()
 
 std::shared_ptr<Texture> Surface::toTexture()
 {
-    Uint8 colours = m_surface->format->BytesPerPixel;
-    GLuint textureFormat;
     
-    if (colours == 4)
+    SDL_Surface* target = m_surface;
+    SDL_Surface* converted = nullptr;
+    
+    // SDL_TTF gives surfaces in ARGB format, so we need to convert to RGBA for OpenGL
+    if (m_format == PixelFormat::ARGB)
     {
-        if (m_surface->format->Rmask == 0x000000ff)
-            textureFormat = GL_RGBA;
-        else
-            textureFormat = GL_BGRA;
+        converted = SDL_ConvertSurfaceFormat(m_surface, SDL_PIXELFORMAT_ABGR8888, 0);
+        if (converted == nullptr)
+        {
+            AssertAlwaysMsg( "Failed to convert SDL_Surface from ARBG to RBGA" );
+        }
+        
+        target = converted;
     }
-    else
-    {
-        if (m_surface->format->Rmask == 0x000000ff)
-            textureFormat = GL_RGB;
-        else
-            textureFormat = GL_BGR;
-    }
+    
     
     GLuint handle;
     glGenTextures(1, &handle);
@@ -115,20 +117,20 @@ std::shared_ptr<Texture> Surface::toTexture()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, colours, m_surface->w, m_surface->h, 0, textureFormat, GL_UNSIGNED_BYTE, m_surface->pixels);
-    glBindTexture( GL_TEXTURE_2D, 0 );
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, target->w, target->h, 0,
+                 GL_RGBA, GL_UNSIGNED_BYTE, target->pixels);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+
+    if (converted != nullptr)
+    {
+        SDL_FreeSurface(converted);
+    }
 
     return std::make_shared<Texture>( handle, m_size );
 }
 
-Surface::Surface( Vector2i size )
-    : m_size(size)
-{
-    m_surface = SDL_CreateRGBSurfaceWithFormat( 0, size.x(), size.y(), 32, SDL_PIXELFORMAT_ABGR32 );
 
-//    SDL_SetSurfaceAlphaMod(m_surface, 0xFF);
-//    SDL_SetSurfaceBlendMode(m_surface, SDL_BLENDMODE_NONE);
-}
 
 SDL_Surface *Surface::raw()
 {

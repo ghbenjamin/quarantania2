@@ -137,7 +137,7 @@ Cursor &Window::cursor()
 
 void Window::render( RenderInterface const &objs )
 {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     GLuint currTex = 0;
     
@@ -159,12 +159,12 @@ void Window::render( RenderInterface const &objs )
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 
-//        if ( currTex != item.handle )
-//        {
-//            currTex = item.handle;
-//            glActiveTexture(GL_TEXTURE0);
-//            glBindTexture(GL_TEXTURE_2D, item.handle);
-//        }
+        if ( currTex != item.handle )
+        {
+            currTex = item.handle;
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, item.handle);
+        }
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, item.handle);

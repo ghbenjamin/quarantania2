@@ -38,7 +38,7 @@ std::shared_ptr<Texture> FontData::renderText(std::string const &text, Colour co
     }
 
     Assert(surface != nullptr);
-    auto managed = std::make_shared<Surface>(surface);
+    auto managed = std::make_shared<Surface>(surface, PixelFormat::ARGB);
     
     return managed->toTexture();
 }
@@ -56,7 +56,7 @@ TTF_Font *FontData::raw() const
 std::shared_ptr<Surface> FontData::renderGlyph(uint16_t glyph, Colour colour) const
 {
     SDL_Surface* surface = TTF_RenderGlyph_Blended( m_font, glyph, colour.raw() );
-    return std::make_shared<Surface>(surface);
+    return std::make_shared<Surface>(surface, PixelFormat::ARGB);
 }
 
 GlyphMetric FontData::glyphMetric(std::uint16_t glyph) const
@@ -96,7 +96,7 @@ std::shared_ptr<Texture> DirectRenderFont::renderText(const std::string &text, C
     }
 
     Assert(surface != nullptr);
-    auto managed = std::make_shared<Surface>(surface);
+    auto managed = std::make_shared<Surface>(surface, PixelFormat::ARGB);
     
     return managed->toTexture();
 }
@@ -104,5 +104,5 @@ std::shared_ptr<Texture> DirectRenderFont::renderText(const std::string &text, C
 std::shared_ptr<Surface> DirectRenderFont::renderGlyph(uint16_t glyph, Colour colour) const
 {
     SDL_Surface* surface = TTF_RenderGlyph_Blended( m_fontData->raw(), glyph, colour.raw() );
-    return std::make_shared<Surface>(surface);
+    return std::make_shared<Surface>(surface, PixelFormat::ARGB);
 }

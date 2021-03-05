@@ -19,21 +19,15 @@ public:
     ~Label() override = default;
 
     void setText( std::string const& text );
-    void clearText();
-
     void setColour(Colour colour);
 
 protected:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 
 private:
-    void onSizeSelf() override;
-    void onMoveSelf() override;
     void renderText();
 
     Sprite m_text;
-    TexturePtr m_rendered;
-    RenderObject m_renderObject;
     std::string m_data;
     TextStyle m_style;
 };

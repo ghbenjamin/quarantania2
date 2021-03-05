@@ -14,10 +14,16 @@
 
 void Engine::run()
 {
+//#define FPS_COUNTER
+#ifdef FPS_COUNTER
+    
+    double fpsTotal = 0;
+    double fpsTicks = 0;
+#endif
+
     GlobalConfig::GlobalConfigInfo globalConfig = GlobalConfig::load( "../config.json" );
     const uint32_t msPerFrame = 1000 / globalConfig.maxFPS;
     
-
     auto window = std::make_shared<Window>(
         globalConfig.windowTitle, globalConfig.screenSize
     );
@@ -90,20 +96,23 @@ void Engine::run()
         // Rely on vsync for now to manage the framerate rather than hacking about with sleeps
         ticks = timer.elapsed();
 
-//        // Hacky framerate measuring
-//        if (measureFPS)
-//        {
-//            fpsTicks++;
-//            if (fpsTicks >= FPS_MEASURE_INTERVAL)
-//            {
-//                fpsTicks = 0;
-//
-//                double avgTicks = (double) std::accumulate(fpsInstances.begin(), fpsInstances.end(), 0) / fpsInstances.size();
-//                double fps = 1000 / avgTicks;
-//                std::cout << fps << "\n";
-//            }
-//            fpsInstances[fpsTicks] = ticks;
-//        }
+#ifdef FPS_COUNTER
+        fpsTicks++;
+        fpsTotal += ticks;
+        
+        
+        if (fpsTotal > 2000)
+        {
+            double ticksPerFrame = fpsTotal / fpsTicks;
+            double framesPerSecond = 1000 / ticksPerFrame;
+            
+            fpsTicks = 0;
+            fpsTotal = 0;
+            
+            Logging::log( fmt::format( "FPS: {}", framesPerSecond) );
+        }
+#endif
+    
 //
 //        // Hacky framerate limiting
 //        if (ticks < msPerFrame)

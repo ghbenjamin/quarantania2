@@ -10,6 +10,12 @@
 #include <utils/Containers.h>
 
 
+enum class PixelFormat
+{
+    RGBA,
+    ARGB
+};
+
 
 class Texture
 {
@@ -34,7 +40,7 @@ class Surface
 {
 public:
     Surface();
-    Surface(SDL_Surface* surface);
+    Surface(SDL_Surface* surface, PixelFormat format);
     Surface(Vector2i size);
     ~Surface();
 
@@ -42,9 +48,9 @@ public:
     SDL_Surface* raw();
 
 private:
-    
     Vector2i m_size;
     SDL_Surface* m_surface;
+    PixelFormat m_format;
 };
 
 
