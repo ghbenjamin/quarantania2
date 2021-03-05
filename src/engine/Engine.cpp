@@ -16,13 +16,16 @@ void Engine::run()
 {
     GlobalConfig::GlobalConfigInfo globalConfig = GlobalConfig::load( "../config.json" );
     const uint32_t msPerFrame = 1000 / globalConfig.maxFPS;
+    
 
     auto window = std::make_shared<Window>(
         globalConfig.windowTitle, globalConfig.screenSize
     );
-
-    ResourceManager::get().setWindow( window );
+    
     ResourceManager::get().loadAll();
+    ResourceManager::get().setWindow( window );
+
+    window->openGLSetup();
 
     RenderInterface renderInterface;
     InputInterface inputInterface;
@@ -33,12 +36,7 @@ void Engine::run()
     auto timer = Timer();
     uint32_t ticks = 0;
     bool runGame = true;
-
-//    bool measureFPS = true;
-//    static constexpr int FPS_MEASURE_INTERVAL = 32;
-//    auto fpsTicks = 0;
-//    std::vector<uint32_t> fpsInstances(FPS_MEASURE_INTERVAL, 0);
-
+    
     while (runGame)
     {
         timer.start();

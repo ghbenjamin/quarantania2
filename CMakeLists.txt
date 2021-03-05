@@ -45,3 +45,6 @@ target_link_libraries(quarantania2 PRIVATE glad::glad)
 
 find_path(STB_INCLUDE_DIRS "stb.h")
 target_include_directories(quarantania2 PRIVATE ${STB_INCLUDE_DIRS})
+
+find_package(glm CONFIG REQUIRED)
+target_link_libraries(quarantania2 PRIVATE glm::glm)

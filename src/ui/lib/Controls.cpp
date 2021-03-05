@@ -29,7 +29,7 @@ Label::Label(Manager *manager, Element *parent, const std::string &label)
 
 void Label::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
-    if ( m_renderObject.texture != nullptr )
+    if ( m_renderObject.handle != 0 )
     {
         rInter.addScreenItem(m_renderObject);
     }
@@ -49,10 +49,10 @@ void Label::renderText()
         m_rendered = m_style.font->renderText( m_data, m_style.textColour );
     }
 
-    m_renderObject.texture = m_rendered->raw();
-    m_renderObject.sourceRect = m_rendered->sourceRect();
-    m_renderObject.renderLayer = RenderLayer::UI;
-    m_renderObject.targetRect = m_rendered->sourceRect();
+//    m_renderObject.handle = m_rendered->handle();
+//    m_renderObject.screenCoords = m_rendered->s();
+//    m_renderObject.renderLayer = RenderLayer::UI;
+//    m_renderObject.targetRect = m_rendered->sourceRect();
 
 //    m_renderObject.targetRect = {
 //            0,
@@ -80,8 +80,8 @@ void Label::onSizeSelf()
 void Label::onMoveSelf()
 {
     auto pos = globalPosition() + contentOffset();
-    m_renderObject.targetRect.x = pos.x();
-    m_renderObject.targetRect.y = pos.y();
+//    m_renderObject.targetRect.x = pos.x();
+//    m_renderObject.targetRect.y = pos.y();
 }
 
 void Label::clearText()

@@ -36,7 +36,7 @@ Sprite const &UI::TextLogLineData::sprite() const
     return m_sprite;
 }
 
-RenderObject UI::TextLogLineData::getRenderObj() const
+RenderObject UI::TextLogLineData::getRenderObj()
 {
     return m_sprite.renderObject( m_pos );
 }
@@ -123,7 +123,7 @@ void UI::MainTextLog::updateSelf(uint32_t ticks, InputInterface &iinter, RenderI
     for ( auto it = m_lines.rbegin(); it != m_lines.rend(); it++ )
     {
         auto rObj = it->getRenderObj();
-        currH += rObj.targetRect.h;
+        currH += rObj.screenBounds.h();
         currH += LineSpacing;
         rInter.addScreenItem( rObj );
 

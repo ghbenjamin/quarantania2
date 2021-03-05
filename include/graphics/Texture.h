@@ -4,81 +4,48 @@
 #include <string_view>
 #include <memory>
 
-#include <utils/Containers.h>
-
 #include <glad/glad.h>
 
-// Forward definitions
-struct SDL_Texture;
-struct SDL_Surface;
-class Texture;
-class Surface;
+#include <utils/Containers.h>
 
-// Typedefs
-using TexturePtr = std::shared_ptr<Texture>;
-using SurfacePtr = std::shared_ptr<Surface>;
 
 
 class Texture
 {
 public:
-
-    explicit Texture( SDL_Texture* texture );
-    explicit Texture( std::shared_ptr<Surface> const& surface );
+    Texture( std::string const& path );
+    Texture( GLuint handle, Vector2i size );
     ~Texture();
-
+    
     Texture( const Texture& ) = delete;
     Texture& operator=( const Texture& ) = delete;
 
-    const Vector2i& size() const&;
-    const SDL_Texture* raw() const;
-    SDL_Texture* raw();
-    SDL_Rect& sourceRect();
-
-    static TexturePtr loadTexture( std::string const& path );
-    static TexturePtr createNewTexture( Vector2i size );
-
+    GLuint handle() const;
+    Vector2i size() const;
+    
 private:
-
-    SDL_Texture* m_raw;
+    GLuint m_handle;
     Vector2i m_size;
-    SDL_Rect m_sourceRect;
 };
-
 
 
 class Surface
 {
 public:
-    explicit Surface( SDL_Surface* surface );
+    Surface();
+    Surface(SDL_Surface* surface);
+    Surface(Vector2i size);
     ~Surface();
 
-    Surface( const Surface& ) = delete;
-    Surface& operator=( const Surface& ) = delete;
-
+    std::shared_ptr<Texture> toTexture();
     SDL_Surface* raw();
 
-    [[nodiscard]] static SurfacePtr createSurface( Vector2i size );
-
 private:
-    SDL_Surface* m_raw;
-    Vector2i m_size;
-};
-
-#ifdef USE_GL
-class RawTexture
-{
-public:
-    RawTexture( std::string const& path );
-    ~RawTexture();
     
-    RawTexture( const RawTexture& ) = delete;
-    RawTexture& operator=( const RawTexture& ) = delete;
-
-    GLuint createGLTexture();
-
-private:
     Vector2i m_size;
-    unsigned char* m_data;
+    SDL_Surface* m_surface;
 };
-#endif
+
+
+using TexturePtr = std::shared_ptr<Texture>;
+using TextureHandle = GLuint;

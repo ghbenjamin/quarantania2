@@ -13,82 +13,174 @@
 
 
 
-Texture::Texture(SDL_Texture* texture)
-: m_raw(texture)
-{
-    if (m_raw)
-    {
-        int w, h;
-        SDL_QueryTexture( m_raw, nullptr, nullptr, &w, &h );
-        m_size = Vector2i{w, h};
-        m_sourceRect = {0, 0, w, h};
-    }
-}
+//Texture::Texture(SDL_Texture* texture)
+//: m_raw(texture)
+//{
+//    if (m_raw)
+//    {
+//        int w, h;
+//        SDL_QueryTexture( m_raw, nullptr, nullptr, &w, &h );
+//        m_size = Vector2i{w, h};
+//        m_sourceRect = {0, 0, w, h};
+//    }
+//}
+//
+//Texture::Texture( std::shared_ptr<Surface>const& surface)
+//    : Texture( SDL_CreateTextureFromSurface(
+//            ResourceManager::get().getWindow()->renderer(),
+//            surface->raw()
+//        )) {}
+//
+//Texture::~Texture()
+//{
+//    if (m_raw != nullptr)
+//    {
+//        SDL_DestroyTexture(m_raw);
+//        m_raw = nullptr;
+//    }
+//}
+//
+//const Vector2i &Texture::size() const &
+//{
+//    return m_size;
+//}
+//
+//const SDL_Texture *Texture::raw() const
+//{
+//    return m_raw;
+//}
+//
+//SDL_Texture *Texture::raw()
+//{
+//    return m_raw;
+//}
+//
+//TexturePtr Texture::loadTexture(std::string const &path)
+//{
+//    SDL_Texture* text = IMG_LoadTexture(
+//        ResourceManager::get().getWindow()->renderer(),
+//        path.c_str()
+//    );
+//
+//    return std::make_shared<Texture>(text);
+//}
+//
+//SDL_Rect &Texture::sourceRect()
+//{
+//    return m_sourceRect;
+//}
+//
+//TexturePtr Texture::createNewTexture(Vector2i size)
+//{
+//    SDL_Texture* texture = SDL_CreateTexture(
+//        ResourceManager::get().getWindow()->renderer(),
+//        SDL_PIXELFORMAT_ABGR8888,
+//        SDL_TEXTUREACCESS_STATIC,
+//        size.x(),
+//        size.y()
+//    );
+//
+//    return std::make_shared<Texture>(texture);
+//}
+//
+//Surface::Surface(SDL_Surface *surface)
+//    : m_raw(surface)
+//{
+//    if (m_raw != nullptr)
+//    {
+//        m_size = Vector2i{ m_raw->w, m_raw->h };
+//    }
+//    else
+//    {
+//        m_size = { -1, -1 };
+//    }
+//}
+//
+//Surface::~Surface()
+//{
+//    if (m_raw != nullptr)
+//    {
+//        SDL_FreeSurface(m_raw);
+//    }
+//}
+//
+//SurfacePtr Surface::createSurface( Vector2i size )
+//{
+//    SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat( 0, size.x(), size.y(), 32, SDL_PIXELFORMAT_RGBA32 );
+//    AssertMsg( surface != nullptr, fmt::format("Failed to create surface: {}", SDL_GetError() ) );
+//
+//    return std::make_shared<Surface>(surface);
+//}
+//
+//SDL_Surface *Surface::raw()
+//{
+//    return m_raw;
+//}
 
-Texture::Texture( std::shared_ptr<Surface>const& surface)
-    : Texture( SDL_CreateTextureFromSurface(
-            ResourceManager::get().getWindow()->renderer(),
-            surface->raw()
-        )) {}
+
+#ifdef USE_GL
+Texture::Texture( std::string const &path )
+{
+    int format = STBI_rgb_alpha;
+    int width, height, origFormat;
+    unsigned char* data = stbi_load(path.c_str(), &width, &height, &origFormat, format);
+    
+    if ( data == nullptr )
+    {
+        AssertAlwaysMsg( fmt::format( "Loading image {} failed: {}", path, stbi_failure_reason() ) );
+    }
+    
+    m_size = {width, height};
+    
+    glGenTextures( 1, &m_handle );
+    glBindTexture( GL_TEXTURE_2D, m_handle );
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_size.x(), m_size.y(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    glBindTexture( GL_TEXTURE_2D, 0 );
+    
+    stbi_image_free(data);
+}
 
 Texture::~Texture()
 {
-    if (m_raw != nullptr)
-    {
-        SDL_DestroyTexture(m_raw);
-        m_raw = nullptr;
-    }
+    glDeleteTextures(1, &m_handle);
 }
 
-const Vector2i &Texture::size() const &
+
+GLuint Texture::handle() const
+{
+    return m_handle;
+}
+
+Vector2i Texture::size() const
 {
     return m_size;
 }
 
-const SDL_Texture *Texture::raw() const
+Texture::Texture( GLuint handle, Vector2i size )
+: m_handle(handle), m_size(size)
 {
-    return m_raw;
 }
 
-SDL_Texture *Texture::raw()
+#endif
+
+Surface::Surface()
+: m_surface(nullptr), m_size{-1, -1}
 {
-    return m_raw;
-}
 
-TexturePtr Texture::loadTexture(std::string const &path)
-{
-    SDL_Texture* text = IMG_LoadTexture(
-        ResourceManager::get().getWindow()->renderer(),
-        path.c_str()
-    );
-
-    return std::make_shared<Texture>(text);
-}
-
-SDL_Rect &Texture::sourceRect()
-{
-    return m_sourceRect;
-}
-
-TexturePtr Texture::createNewTexture(Vector2i size)
-{
-    SDL_Texture* texture = SDL_CreateTexture(
-        ResourceManager::get().getWindow()->renderer(),
-        SDL_PIXELFORMAT_ABGR8888,
-        SDL_TEXTUREACCESS_STATIC,
-        size.x(),
-        size.y()
-    );
-
-    return std::make_shared<Texture>(texture);
 }
 
 Surface::Surface(SDL_Surface *surface)
-    : m_raw(surface)
+    : m_surface(surface)
 {
-    if (m_raw != nullptr)
+    if (m_surface != nullptr)
     {
-        m_size = Vector2i{ m_raw->w, m_raw->h };
+        m_size = Vector2i{ m_surface->w, m_surface->h };
     }
     else
     {
@@ -98,63 +190,48 @@ Surface::Surface(SDL_Surface *surface)
 
 Surface::~Surface()
 {
-    if (m_raw != nullptr)
+    if (m_surface != nullptr)
     {
-        SDL_FreeSurface(m_raw);
+        SDL_FreeSurface(m_surface);
     }
 }
 
-SurfacePtr Surface::createSurface( Vector2i size )
+std::shared_ptr<Texture> Surface::toTexture()
 {
-    SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat( 0, size.x(), size.y(), 32, SDL_PIXELFORMAT_RGBA32 );
-    AssertMsg( surface != nullptr, fmt::format("Failed to create surface: {}", SDL_GetError() ) );
+    Uint8 colours = m_surface->format->BytesPerPixel;
+    GLuint textureFormat;
+    
+    if (colours == 4)
+    {
+        if (m_surface->format->Rmask == 0x000000ff)
+            textureFormat = GL_RGBA;
+        else
+            textureFormat = GL_BGRA;
+    }
+    else
+    {
+        if (m_surface->format->Rmask == 0x000000ff)
+            textureFormat = GL_RGB;
+        else
+            textureFormat = GL_BGR;
+    }
+    
+    GLuint handle;
+    glGenTextures(1, &handle);
+    glBindTexture(GL_TEXTURE_2D, handle);
+    glTexImage2D(GL_TEXTURE_2D, 0, colours, m_surface->w, m_surface->h, 0,
+                 textureFormat, GL_UNSIGNED_BYTE, m_surface->pixels);
 
-    return std::make_shared<Surface>(surface);
+    return std::make_shared<Texture>( handle, m_size );
+}
+
+Surface::Surface( Vector2i size )
+    : m_size(size)
+{
+    m_surface = SDL_CreateRGBSurfaceWithFormat( 0, size.x(), size.y(), 32, SDL_PIXELFORMAT_RGBA32 );
 }
 
 SDL_Surface *Surface::raw()
 {
-    return m_raw;
+    return m_surface;
 }
-
-
-#ifdef USE_GL
-RawTexture::RawTexture( std::string const &path )
-{
-    int format = STBI_rgb_alpha;
-    int width, height, origFormat;
-    m_data = stbi_load("./test.png", &width, &height, &origFormat, format);
-    
-    if ( m_data == nullptr )
-    {
-        AssertAlwaysMsg( fmt::format( "Loading image {} failed: {}", path, stbi_failure_reason() ) );
-    }
-    
-    m_size = {width, height};
-}
-
-RawTexture::~RawTexture()
-{
-    if (m_data != nullptr)
-    {
-        stbi_image_free(m_data);
-    }
-}
-
-GLuint RawTexture::createGLTexture()
-{
-    GLuint tex;
-    glGenTextures( 1, &tex );
-    glBindTexture( GL_TEXTURE_2D, tex );
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_size.x(), m_size.y(), 0, GL_RGB, GL_UNSIGNED_BYTE, m_data);
-
-    return tex;
-}
-
-#endif

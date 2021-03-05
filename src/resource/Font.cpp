@@ -38,15 +38,9 @@ std::shared_ptr<Texture> FontData::renderText(std::string const &text, Colour co
     }
 
     Assert(surface != nullptr);
-
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(
-        ResourceManager::get().getWindow()->renderer(), surface );
-
-    Assert(texture != nullptr);
-
-    SDL_FreeSurface(surface);
-
-    return std::make_shared<Texture>(texture);
+    auto managed = std::make_shared<Surface>(surface);
+    
+    return managed->toTexture();
 }
 
 int FontData::size() const
@@ -102,15 +96,9 @@ std::shared_ptr<Texture> DirectRenderFont::renderText(const std::string &text, C
     }
 
     Assert(surface != nullptr);
-
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(
-            ResourceManager::get().getWindow()->renderer(), surface );
-
-    Assert(texture != nullptr);
-
-    SDL_FreeSurface(surface);
-
-    return std::make_shared<Texture>(texture);
+    auto managed = std::make_shared<Surface>(surface);
+    
+    return managed->toTexture();
 }
 
 std::shared_ptr<Surface> DirectRenderFont::renderGlyph(uint16_t glyph, Colour colour) const

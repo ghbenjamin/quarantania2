@@ -1,25 +1,58 @@
 #include <graphics/Window.h>
 
-#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
 #pragma warning (disable : 4005)
 #include <glad/glad.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <utils/Assert.h>
 #include <graphics/RenderInterface.h>
+
+
+const char* LEARNOPENGL_VERT_SHADER =
+        "#version 330 core\n"
+        "layout (location = 0) in vec4 vertex;\n"
+        "\n"
+        "out vec2 TexCoords;\n"
+        "uniform mat4 projection;"
+        "uniform mat4 model;"
+        "\n"
+        "void main()\n"
+        "{\n"
+        "    gl_Position = projection * model * vec4(vertex.xy, 0.0, 1.0);\n"
+        "    TexCoords = vertex.zw;\n"
+        "}";
+
+const char* LEARNOPENGL_FRAG_SHADER =
+        "#version 330 core\n"
+        "in vec2 TexCoords;\n"
+        "out vec4 color;\n"
+        "\n"
+        "uniform sampler2D image;\n"
+        "\n"
+        "void main()\n"
+        "{    \n"
+        "    color = texture(image, TexCoords);\n"
+        "}";
+
+
+
+
 
 
 Window::Window(std::string const &title, Vector2i bounds)
 : m_size(bounds), m_window(nullptr)
 {
     SDL_Init(SDL_INIT_EVERYTHING);
-    IMG_Init(IMG_INIT_PNG);
     TTF_Init();
     
     SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
@@ -35,13 +68,6 @@ Window::Window(std::string const &title, Vector2i bounds)
 
     SDL_SetWindowMinimumSize( m_window, 800, 600 );
     
-    m_renderer = SDL_CreateRenderer( m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
-    Assert( m_renderer != nullptr );
-    
-    
-    // DEBUG
-
-#ifdef USE_GL
     m_glContext = SDL_GL_CreateContext(m_window);
 
     if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
@@ -53,47 +79,40 @@ Window::Window(std::string const &title, Vector2i bounds)
     std::cout << "OpenGL version loaded: " << GLVersion.major << "."
               << GLVersion.minor << std::endl;
 
+    SDL_GL_MakeCurrent(m_window, m_glContext);
+    SDL_GL_SetSwapInterval(1);
+    
+    // No depth testing or face culling
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
+    
+    // Set the viewport size and projection
     glViewport(0, 0, m_size.x(), m_size.y());
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
     glOrtho( 0.0, m_size.x(), m_size.y(), 0.0, 1.0, -1.0 );
-
-    SDL_GL_MakeCurrent(m_window, m_glContext);
-    SDL_GL_SetSwapInterval(1);
-#endif
-
+    
+    // Enable alpha blending
+    glEnable(GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
 }
 
 Window::~Window()
 {
-
-#ifdef USE_GL
     if (m_glContext)
     {
         SDL_GL_DeleteContext(m_glContext);
     }
-#endif
     if ( m_window )
     {
         SDL_DestroyWindow( m_window );
     }
     
     TTF_Quit();
-    
     SDL_Quit();
-    
-    if ( m_renderer )
-    {
-        SDL_DestroyRenderer(m_renderer);
-    }
 }
 
-SDL_Renderer* Window::renderer()
-{
-    return m_renderer;
-}
 
 SDL_Window *Window::raw()
 {
@@ -118,33 +137,65 @@ Cursor &Window::cursor()
 
 void Window::render( RenderInterface const &objs )
 {
-    SDL_RenderClear( m_renderer );
-    SDL_SetRenderDrawBlendMode( m_renderer, SDL_BLENDMODE_BLEND );
-    SDL_Rect const* clipRect = NULL;
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
     
     for ( auto const& item : objs.renderables() )
     {
-        if ( !SDL_RectEmpty( &item.clipRect ) )
-        {
-            if ( !SDL_RectEquals( clipRect, &item.clipRect ) )
-            {
-                // If this item has a clip rect, and it's different to our current clip rect, set the cliprect
-                SDL_RenderSetClipRect( m_renderer, &item.clipRect );
-                clipRect = &item.clipRect;
-            }
-        }
-        else if ( clipRect != NULL )
-        {
-            // Otherwise, if the requested clip is null, and the current clip is not, remove the clip
-            clipRect = NULL;
-            SDL_RenderSetClipRect( m_renderer, NULL );
-        }
+        glm::vec2 position = {item.screenBounds.x(), item.screenBounds.y()};
+        glm::vec2 size = {item.screenBounds.w(), item.screenBounds.h()};
+    
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(position, 0.0f));
+        model = glm::scale(model, glm::vec3(size, 1.0f));
+    
+        glUniformMatrix4fv( glGetUniformLocation(m_program, "model"), 1, false, glm::value_ptr(model) );
+    
+        glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(item.verts), item.verts, GL_STATIC_DRAW);
         
-        // If the current clip is the same as the requested clip, do nothing
+        glBindVertexArray(m_quadVAO);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
         
-        // Render the item, respecting the above clip
-        SDL_RenderCopy(m_renderer, item.texture, &item.sourceRect, &item.targetRect);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, item.handle);
+        
+        glDrawArrays(GL_TRIANGLES, 0, 6);
     }
     
-    SDL_RenderPresent( m_renderer );
+    SDL_GL_SwapWindow(m_window);
 }
+
+void Window::openGLSetup()
+{
+    GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertShader, 1, &LEARNOPENGL_VERT_SHADER, 0);
+    glCompileShader(vertShader);
+    
+    GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragShader, 1, &LEARNOPENGL_FRAG_SHADER, 0);
+    glCompileShader(fragShader);
+    
+    GLuint shaderProgram = glCreateProgram();
+    glAttachShader(shaderProgram, vertShader);
+    glAttachShader(shaderProgram, fragShader);
+    glLinkProgram(shaderProgram);
+    
+    glUseProgram(shaderProgram);
+    
+    // Supply our orthographic projection matrix uniform to the shader program
+    glm::mat4 projection = glm::ortho(0.0f, (float)m_size.x(), (float)m_size.y(), 0.0f, -1.0f, 1.0f);
+    glUniformMatrix4fv( glGetUniformLocation(shaderProgram, "projection"), 1, false, glm::value_ptr(projection) );
+    
+//    // Specify our VAO
+//    glBindVertexArray(m_quadVAO);
+//    glEnableVertexAttribArray(0);
+//    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+//    glBindVertexArray(0);
+    
+    glGenBuffers(1, &m_VBO);
+    glGenVertexArrays(1, &m_quadVAO);
+    m_program = shaderProgram;
+}
+

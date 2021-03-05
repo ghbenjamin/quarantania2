@@ -47,7 +47,7 @@ void FontCache::generateAsciiCache(std::shared_ptr<FontData> const& font, Colour
     currY += font->getLineSkip();
     Vector2i totalSize = { maxW, currY };
 
-    auto cacheSurface = Surface::createSurface( totalSize );
+    auto cacheSurface = std::make_shared<Surface>( totalSize );
     for (int i = 0; i < TotalCount; i++)
     {
         SDL_BlitSurface( surfaceArr[i]->raw(), nullptr, cacheSurface->raw(), &m_locs[i] );
@@ -133,7 +133,7 @@ std::shared_ptr<Surface> FontCache::renderText(const std::string &text, int maxW
     // In case this was a single line, maxX should be at least the size of currX
     maxX = std::max( maxX, currX );
 
-    auto outSurface = Surface::createSurface({maxX, currY + LineSpacing});
+    auto outSurface = std::make_shared<Surface>( Vector2i{maxX, currY + LineSpacing} );
 
     // For each character, blit the correct glyph onto the target surface
     for ( int i = 0; i < (int) glyphs.size(); i++)

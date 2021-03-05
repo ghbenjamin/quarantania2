@@ -7,7 +7,6 @@
 
 class RenderInterface;
 
-
 class Window
 {
 public:
@@ -19,24 +18,27 @@ public:
     Window& operator=( const Window& ) = delete;
 
     SDL_Window* raw();
-    SDL_Renderer* renderer();
+//    SDL_Renderer* renderer();
     Cursor& cursor();
 
     const Vector2i getSize() const;
     
     void render( RenderInterface const& objs );
 
+    void openGLSetup();
+
 private:
-
+    
     SDL_Window* m_window;
-    SDL_Renderer* m_renderer;
-
-#ifdef USE_GL
+//    SDL_Renderer* m_renderer;
     SDL_GLContext m_glContext;
-#endif
-
     Vector2i m_size;
     Cursor m_cursor;
+    
+    // Temp OpenGL stuff
+    unsigned int m_quadVAO;
+    unsigned int m_VBO;
+    unsigned int m_program;
 };
 
 

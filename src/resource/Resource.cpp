@@ -23,7 +23,7 @@ const TexturePtr &ImageResource::get() const
 
 void ImageResource::load()
 {
-    m_texture = Texture::loadTexture( "../resource/img/" + m_name + ".png" );
+    m_texture = std::make_shared<Texture>( "../resource/img/" + m_name + ".png" );
 }
 
 void ImageResource::unload()
@@ -80,7 +80,7 @@ void SpritesheetResource::load()
 #undef GetObject
 #endif
 
-    auto tex = Texture::loadTexture( "../resource/spritesheet/" + m_name + ".png" );
+    auto tex = std::make_shared<Texture>( "../resource/spritesheet/" + m_name + ".png" );
 
     rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/spritesheet/" + m_name + ".json" );
 
@@ -135,7 +135,7 @@ NinePatchResource::NinePatchResource(const std::string &name)
 
 void NinePatchResource::load()
 {
-    m_texture = Texture::loadTexture( "../resource/ninepatch/" + m_name + ".png" );
+    m_texture = std::make_shared<Texture>( "../resource/ninepatch/" + m_name + ".png" );
 
     rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/ninepatch/" + m_name + ".json" );
 

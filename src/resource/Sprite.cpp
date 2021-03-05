@@ -1,31 +1,49 @@
-#include <utility>
-
-
 #include <resource/Sprite.h>
+
 #include <utils/Assert.h>
-#include <utils/Logging.h>
 
 Sprite::Sprite()
-    : m_renderObj{ nullptr, {0, 0, 0, 0}, {0, 0, 0, 0}}
 {}
 
-Sprite::Sprite(std::shared_ptr<Texture> texture, RectI const &region)
-    : m_texture(std::move(texture)), m_renderObj{
-        m_texture->raw(),
-        region.toSDL(),
-        {0, 0, region.w(), region.h()}
-    }
-{}
+Sprite::Sprite(std::shared_ptr<Texture> const& texture, RectI const &region)
+    : m_texture(texture)
+{
+    m_size = region.right();
+    m_renderObj.handle = m_texture->handle();
+    m_renderObj.screenBounds = {0, 0, region.w(), region.h()};
+    
+    // Convert our absolute texture bounds to fractional texture bounds
+    float texX = (float)region.x() / (float)texture->size().x();
+    float texY = (float)region.y() / (float)texture->size().y();
+    float texW = (float)region.w() / (float)texture->size().x();
+    float texH = (float)region.h() / (float)texture->size().y();
+    
+    // Calculate our fractional texture quad vertices
+    
+    m_renderObj.verts[2] = texX;
+    m_renderObj.verts[3] = texY + texH;
+    
+    m_renderObj.verts[6] = texX + texW;
+    m_renderObj.verts[7] = texY;
+    
+    m_renderObj.verts[10] = texX;
+    m_renderObj.verts[11] = texY;
+    
+    m_renderObj.verts[14] = texX;
+    m_renderObj.verts[15] = texY + texH;
+    
+    m_renderObj.verts[18] = texX + texW;
+    m_renderObj.verts[19] = texY + texH;
+    
+    m_renderObj.verts[22] = texX + texW;
+    m_renderObj.verts[23] = texY;
+}
 
 Sprite::Sprite(std::shared_ptr<Texture> texture)
-    : m_texture(std::move(texture)), m_renderObj{ m_texture->raw(), {0, 0, 0, 0}, {0, 0, 0, 0} }
+    : m_texture(texture)
 {
-    auto [w, h] = m_texture->size();
-
-    m_renderObj.sourceRect.w = w;
-    m_renderObj.sourceRect.h = h;
-    m_renderObj.targetRect.w = w;
-    m_renderObj.targetRect.h = h;
+    m_size = m_texture->size();
+    m_renderObj.handle = m_texture->handle();
 }
 
 Sprite::operator bool() const
@@ -33,13 +51,12 @@ Sprite::operator bool() const
     return !!m_texture;
 }
 
-RenderObject Sprite::renderObject(Vector2i const &pos) const
+RenderObject Sprite::renderObject(Vector2i const &pos)
 {
     Assert( !!m_texture );
-
-    m_renderObj.targetRect.x = pos.x();
-    m_renderObj.targetRect.y = pos.y();
-
+    m_renderObj.screenBounds.x( pos.x() );
+    m_renderObj.screenBounds.y( pos.y() );
+    
     return m_renderObj;
 }
 
@@ -50,28 +67,11 @@ void Sprite::setRenderLayer(RenderLayer layer)
 
 Vector2i Sprite::size() const
 {
-    if (m_renderObj.sourceRect.w != 0 || m_renderObj.sourceRect.h != 0)
-    {
-        return { m_renderObj.sourceRect.w, m_renderObj.sourceRect.h };
-    }
-    else
-    {
-        return textureSize();
-    }
-}
-
-void Sprite::setClipRect(RectI rect)
-{
-    m_renderObj.clipRect = rect.toSDL();
-}
-
-Vector2i Sprite::textureSize() const
-{
-    return m_texture->size();
+    return m_size;
 }
 
 void Sprite::setTargetSize(Vector2i size)
 {
-    m_renderObj.targetRect.w = size.x();
-    m_renderObj.targetRect.h = size.y();
+    m_renderObj.screenBounds.w( size.x() );
+    m_renderObj.screenBounds.h( size.y() );
 }

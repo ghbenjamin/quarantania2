@@ -2,7 +2,7 @@
 #include <utils/Assert.h>
 #include <resource/ResourceManager.h>
 
-Tile const &Tileset::get(TileRef ref) const
+Tile& Tileset::get(TileRef ref)
 {
     return m_tiles.at(ref);
 }

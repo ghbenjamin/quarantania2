@@ -40,7 +40,7 @@ public:
     ~Tileset() = default;
 
     TileRef addTile(SpritesheetKey const& key);
-    Tile const& get( TileRef ref ) const;
+    Tile& get( TileRef ref );
 
 private:
     std::vector<Tile> m_tiles;

@@ -31,17 +31,14 @@ public:
     void loadAll();
     void unloadAll();
 
-    [[nodiscard]] Sprite getSprite( std::string const& sheet, std::string const& name );
-    [[nodiscard]] Sprite getSprite( SpritesheetKey const& key );
-    [[nodiscard]] Sprite getImageAsSprite( std::string const& imgName );
-    [[nodiscard]] FontDataPtr getFont(std::string const& fname, int fontSize );
-    [[nodiscard]] FontDataPtr getDefaultFont(int fontSize );
-    [[nodiscard]] TexturePtr getTexture( std::string const& imgName );
-    [[nodiscard]] NinePatchResource const& getNinePatch( std::string const& name );
-
-#ifdef USE_GL
+    Sprite getSprite( std::string const& sheet, std::string const& name );
+    Sprite getSprite( SpritesheetKey const& key );
+    Sprite getImageAsSprite( std::string const& imgName );
+    FontDataPtr getFont(std::string const& fname, int fontSize );
+    FontDataPtr getDefaultFont(int fontSize );
+    TexturePtr getTexture( std::string const& imgName );
+    NinePatchResource const& getNinePatch( std::string const& name );
     GLuint getShader( std::string const& shader );
-#endif
 
 private:
 
@@ -51,10 +48,7 @@ private:
     void addFontResource( std::string const& name );
     void addSpritesheetResource( std::string const& name );
     void addNinepatchResource( std::string const& name );
-
-#ifdef USE_GL
     void addShader( std::string const& name, GLuint type, const char* data );
-#endif
 
     static const std::string getDefaultFontName();
 
@@ -62,10 +56,7 @@ private:
     std::unordered_map<std::string, std::shared_ptr<SpritesheetResource>> m_spritesheets;
     std::unordered_map<std::string, std::shared_ptr<ImageResource>> m_images;
     std::unordered_map<std::string, std::shared_ptr<NinePatchResource>> m_patches;
-
-#ifdef USE_GL
     std::unordered_map<std::string, GLuint> m_shaders;
-#endif
 
     WindowPtr m_context;
     FontManager m_fontManager;

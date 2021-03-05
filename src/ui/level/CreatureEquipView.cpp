@@ -82,7 +82,7 @@ void UI::EquipView::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInt
 {
     auto offset = globalPosition();
     
-    for (auto const& [k, v] : m_regions )
+    for (auto& [k, v] : m_regions )
     {
         if ( v.itemSprite )
         {

@@ -21,11 +21,8 @@ void RenderInterface::clear()
 
 void RenderInterface::addWorldItem(RenderObject obj)
 {
-    if ( m_camera->intersects(&obj.targetRect) )
-    {
-        m_camera->translate(obj.targetRect);
-        m_renderables.push_back(obj);
-    }
+    m_camera->translate(obj);
+    m_renderables.push_back(obj);
 }
 
 void RenderInterface::addScreenItem(RenderObject obj)

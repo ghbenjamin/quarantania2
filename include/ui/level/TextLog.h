@@ -93,11 +93,11 @@ public:
     void setPos( Vector2i pos );
     void renderText(FontDataPtr& font, RectI bounds);
 
-    [[nodiscard]] RenderObject getRenderObj() const;
+    RenderObject getRenderObj();
 
 private:
     // Generate the text for this line, including the (count x2)
-    [[nodiscard]] std::string displayText() const;
+    std::string displayText() const;
 
     std::string m_text;
     int m_count;

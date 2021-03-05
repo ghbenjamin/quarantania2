@@ -9,25 +9,21 @@ class Sprite
 public:
 
     Sprite();
-    Sprite(TexturePtr texture, RectI const& region);
-    explicit Sprite(TexturePtr texture);
-    virtual ~Sprite() = default;
+    Sprite(TexturePtr const& texture, RectI const& region);
+    Sprite(TexturePtr texture);
+    ~Sprite() = default;
 
+    explicit operator bool() const;
+    Vector2i size() const;
+    RenderObject renderObject(Vector2i const& pos);
+    
     void setTargetSize( Vector2i size );
-
-    // Which layer of render objects should this item be grouped with?
     void setRenderLayer(RenderLayer layer);
-
-    // Should this item be clipped by another rectangle?
-    void setClipRect( RectI rect );
-
-    [[nodiscard]] Vector2i size() const;
-    [[nodiscard]] Vector2i textureSize() const;
-    [[nodiscard]] explicit operator bool() const;
-    [[nodiscard]] RenderObject renderObject(Vector2i const& pos) const;
-
+    
 private:
-
     TexturePtr m_texture;
-    mutable RenderObject m_renderObj;
+    Vector2i m_size;
+    float m_texVerts[8];
+
+    RenderObject m_renderObj;
 };

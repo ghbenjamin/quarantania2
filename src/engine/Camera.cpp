@@ -2,6 +2,7 @@
 #include <utils/Assert.h>
 #include <utils/Logging.h>
 #include <utils/GlobalConfig.h>
+#include <graphics/RenderObject.h>
 
 Camera::Camera( Vector2i bounds )
 : m_bounds(bounds), m_rect{0, 0, 0, 0}, m_scrollSpeed{0.75f}
@@ -69,12 +70,10 @@ Vector2i const &Camera::getViewportScreenOffset() const
     return m_viewportScreenOffset;
 }
 
-void Camera::translate(SDL_Rect &spos) const
+void Camera::translate(RenderObject &spos) const
 {
-    spos.x -= m_roundedPosition.x();
-    spos.y -= m_roundedPosition.y();
-    spos.x += m_internalOffset.x();
-    spos.y += m_internalOffset.y();
+    spos.screenBounds.x(spos.screenBounds.x() + m_internalOffset.x() - m_roundedPosition.x());
+    spos.screenBounds.y(spos.screenBounds.y() + m_internalOffset.y() - m_roundedPosition.y());
 }
 
 void Camera::setScrollSpeed(float scrollSpeed)

@@ -5,6 +5,7 @@
 #include <resource/ResourceManager.h>
 #include <utils/Logging.h>
 #include <graphics/Text.h>
+#include <graphics/Shader.h>
 
 
 void ResourceManager::setWindow(WindowPtr const &wnd)
@@ -98,15 +99,19 @@ void ResourceManager::loadAll()
         v->load();
     }
 
-
-    // Generate the default font caches
-    auto const& defaultF = getDefaultFontName();
-    m_fontManager.generateFontAtlas( defaultF, 16, Colour::Black );
-    m_fontManager.generateFontAtlas( defaultF, 14, Colour::Black );
-    m_fontManager.generateFontAtlas( defaultF, 12, Colour::Black );
-    m_fontManager.generateFontAtlas( defaultF, 10, Colour::Black );
-    m_fontManager.generateFontAtlas( defaultF, 12, Colour::Red );
-    m_fontManager.generateFontAtlas( defaultF, 12, Colour::Green );
+    // TODO
+//    addShader( "learn_vert", GL_VERTEX_SHADER, LEARNOPENGL_VERT_SHADER );
+//    addShader( "learn_frag", GL_FRAGMENT_SHADER, LEARNOPENGL_FRAG_SHADER );
+    
+//
+//    // Generate the default font caches
+//    auto const& defaultF = getDefaultFontName();
+//    m_fontManager.generateFontAtlas( defaultF, 16, Colour::Black );
+//    m_fontManager.generateFontAtlas( defaultF, 14, Colour::Black );
+//    m_fontManager.generateFontAtlas( defaultF, 12, Colour::Black );
+//    m_fontManager.generateFontAtlas( defaultF, 10, Colour::Black );
+//    m_fontManager.generateFontAtlas( defaultF, 12, Colour::Red );
+//    m_fontManager.generateFontAtlas( defaultF, 12, Colour::Green );
 
 
     // DEBUG
