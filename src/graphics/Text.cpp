@@ -248,7 +248,7 @@ MarkdownTokenStream LiteMarkdownParser::parseMarkdown( std::string const& text )
 
     std::size_t lastIdx = 0;
 
-    for ( int i = 0; i < openTags.size(); i++ )
+    for ( int i = 0; i < (int)openTags.size(); i++ )
     {
         out.push_back( MarkdownTokenSegment {
             DefaultColour,

@@ -11,6 +11,7 @@
 
 #include <utils/Assert.h>
 #include <graphics/RenderInterface.h>
+#include <resource/ResourceManager.h>
 
 
 const char* LEARNOPENGL_VERT_SHADER =
@@ -177,17 +178,12 @@ void Window::render( RenderInterface const &objs )
 
 void Window::openGLSetup()
 {
-    GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertShader, 1, &LEARNOPENGL_VERT_SHADER, 0);
-    glCompileShader(vertShader);
-    
-    GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragShader, 1, &LEARNOPENGL_FRAG_SHADER, 0);
-    glCompileShader(fragShader);
+    auto& shVert = ResourceManager::get().getShader( "simple_screenspace" );
+    auto& shFrag = ResourceManager::get().getShader( "simple_sampler" );
     
     GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertShader);
-    glAttachShader(shaderProgram, fragShader);
+    glAttachShader(shaderProgram, shVert.getHandle());
+    glAttachShader(shaderProgram, shFrag.getHandle());
     glLinkProgram(shaderProgram);
     
     glUseProgram(shaderProgram);
@@ -195,12 +191,6 @@ void Window::openGLSetup()
     // Supply our orthographic projection matrix uniform to the shader program
     glm::mat4 projection = glm::ortho(0.0f, (float)m_size.x(), (float)m_size.y(), 0.0f, -1.0f, 1.0f);
     glUniformMatrix4fv( glGetUniformLocation(shaderProgram, "projection"), 1, false, glm::value_ptr(projection) );
-    
-//    // Specify our VAO
-//    glBindVertexArray(m_quadVAO);
-//    glEnableVertexAttribArray(0);
-//    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-//    glBindVertexArray(0);
     
     glGenBuffers(1, &m_VBO);
     glGenVertexArrays(1, &m_quadVAO);

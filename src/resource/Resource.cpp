@@ -1,4 +1,7 @@
 #include <resource/Resource.h>
+
+#include <fstream>
+
 #include <resource/ResourceManager.h>
 #include <utils/Json.h>
 #include <utils/Logging.h>
@@ -181,4 +184,64 @@ TexturePtr const &NinePatchResource::texture() const
 UI::NinePatch NinePatchResource::getPatch() const
 {
     return UI::NinePatch { m_texture, m_offsets };
+}
+
+ShaderResource::ShaderResource( std::string const &name, GLuint type )
+ : Resource(name), m_type(type) {}
+
+void ShaderResource::load()
+{
+    std::string ext;
+    
+    if (m_type == GL_FRAGMENT_SHADER)
+    {
+        ext = ".frag";
+    }
+    else
+    {
+        ext = ".vert";
+    }
+
+    std::ifstream stream( "../resource/shaders/" + m_name + ext );
+    std::stringstream buffer;
+    buffer << stream.rdbuf();
+    
+    std::string shaderSource = buffer.str();
+    const char* shaderSourceChar = shaderSource.c_str();
+    
+    m_handle = glCreateShader(m_type);
+    glShaderSource(m_handle, 1, &shaderSourceChar, 0);
+    glCompileShader(m_handle);
+    
+    GLint success = 0;
+    glGetShaderiv(m_handle, GL_COMPILE_STATUS, &success);
+    
+    if ( success == GL_FALSE )
+    {
+        GLint maxLength = 0;
+        glGetShaderiv(m_handle, GL_INFO_LOG_LENGTH, &maxLength);
+        
+        std::vector<GLchar> errorLog(maxLength);
+        glGetShaderInfoLog(m_handle, maxLength, &maxLength, &errorLog[0]);
+     
+        std::string err( errorLog.begin(), errorLog.end() );
+        glDeleteShader(m_handle);
+        
+        AssertAlwaysMsg( fmt::format( "Error compiling shader {} : {}", m_name, err ) );
+    }
+}
+
+void ShaderResource::unload()
+{
+    glDeleteShader(m_handle);
+}
+
+GLuint ShaderResource::getType() const
+{
+    return m_type;
+}
+
+GLuint ShaderResource::getHandle() const
+{
+    return m_handle;
 }

@@ -102,3 +102,21 @@ private:
     TexturePtr m_texture;
     std::array<RectI, 9> m_offsets;
 };
+
+
+class ShaderResource : public Resource
+{
+public:
+    ShaderResource( std::string const& name, GLuint type);
+    ~ShaderResource() override = default;
+    
+    void load() override;
+    void unload() override;
+    
+    GLuint getType() const;
+    GLuint getHandle() const;
+    
+private:
+    GLuint m_type;
+    GLuint m_handle;
+};

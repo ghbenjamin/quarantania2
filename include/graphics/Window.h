@@ -18,19 +18,15 @@ public:
     Window& operator=( const Window& ) = delete;
 
     SDL_Window* raw();
-//    SDL_Renderer* renderer();
     Cursor& cursor();
-
-    const Vector2i getSize() const;
     
+    const Vector2i getSize() const;
     void render( RenderInterface const& objs );
-
     void openGLSetup();
 
 private:
     
     SDL_Window* m_window;
-//    SDL_Renderer* m_renderer;
     SDL_GLContext m_glContext;
     Vector2i m_size;
     Cursor m_cursor;

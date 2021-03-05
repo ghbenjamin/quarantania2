@@ -25,6 +25,7 @@ void ResourceManager::loadAll()
     auto fontPath = resourceRoot / "font";
     auto imgPath = resourceRoot / "img";
     auto ninepatchPath = resourceRoot / "ninepatch";
+    auto shaderPath = resourceRoot / "shaders";
 
     // Load all spritesheets
     for ( auto const& file : std::filesystem::directory_iterator(spritesheetPath) )
@@ -77,6 +78,23 @@ void ResourceManager::loadAll()
             addImageResource( fpath.stem().string() );
         }
     }
+    
+    // Load all shaders
+    for ( auto const& file : std::filesystem::directory_iterator(shaderPath) )
+    {
+        auto const& fpath = file.path();
+        if ( fpath.has_extension()  )
+        {
+            if ( fpath.extension().string() == ".frag" )
+            {
+                addShaderResource( fpath.stem().string(), GL_FRAGMENT_SHADER );
+            }
+            else if ( fpath.extension().string() == ".vert" )
+            {
+                addShaderResource( fpath.stem().string(), GL_VERTEX_SHADER );
+            }
+        }
+    }
 
 
     for ( auto const &[k, v] : m_spritesheets )
@@ -95,6 +113,11 @@ void ResourceManager::loadAll()
     }
 
     for ( auto const &[k, v] : m_patches )
+    {
+        v->load();
+    }
+    
+    for (auto const &[k, v] : m_shaders )
     {
         v->load();
     }
@@ -210,15 +233,15 @@ NinePatchResource const& ResourceManager::getNinePatch(const std::string &name)
     }
 }
 
-GLuint ResourceManager::getShader(const std::string &shader)
+ShaderResource const& ResourceManager::getShader( const std::string &name)
 {
     try
     {
-        return m_shaders.at(shader);
+        return *m_shaders.at(name);
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
-        Logging::log( "ERROR: Unknown shader [{}]\n", shader );
+        Logging::log( "ERROR: Unknown shader [{}]\n", name );
         std::terminate();
     }
 }
@@ -249,24 +272,12 @@ void ResourceManager::addNinepatchResource(const std::string &name)
     m_patches.emplace(name, std::make_shared<NinePatchResource>( name ));
 }
 
+void ResourceManager::addShaderResource(std::string const& name, GLuint type)
+{
+    m_shaders.emplace(name, std::make_shared<ShaderResource>(name, type) );
+}
+
 const std::string ResourceManager::getDefaultFontName()
 {
     return "inconsolata-regular";
-}
-
-void ResourceManager::addShader(const std::string &name, GLuint type, const char *data)
-{
-    GLuint handle = glCreateShader(type);
-    glShaderSource(handle, 1, &data, 0);
-    glCompileShader(handle);
-
-    GLint success;
-    glGetShaderiv(handle, GL_COMPILE_STATUS, &success);
-
-    if (success == GL_FALSE)
-    {
-        AssertAlways();
-    }
-
-    m_shaders[name] = handle;
 }
