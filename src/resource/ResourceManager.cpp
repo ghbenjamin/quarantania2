@@ -210,7 +210,6 @@ NinePatchResource const& ResourceManager::getNinePatch(const std::string &name)
     }
 }
 
-#ifdef USE_GL
 GLuint ResourceManager::getShader(const std::string &shader)
 {
     try
@@ -223,8 +222,6 @@ GLuint ResourceManager::getShader(const std::string &shader)
         std::terminate();
     }
 }
-#endif
-
 
 FontDataPtr ResourceManager::getDefaultFont(int fontSize)
 {
@@ -257,7 +254,6 @@ const std::string ResourceManager::getDefaultFontName()
     return "inconsolata-regular";
 }
 
-#ifdef USE_GL
 void ResourceManager::addShader(const std::string &name, GLuint type, const char *data)
 {
     GLuint handle = glCreateShader(type);
@@ -274,5 +270,3 @@ void ResourceManager::addShader(const std::string &name, GLuint type, const char
 
     m_shaders[name] = handle;
 }
-#endif
-

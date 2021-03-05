@@ -23,7 +23,5 @@ public:
 private:
     TexturePtr m_texture;
     Vector2i m_size;
-    float m_texVerts[8];
-
     RenderObject m_renderObj;
 };

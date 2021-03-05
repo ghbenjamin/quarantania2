@@ -31,6 +31,7 @@ private:
     void onMoveSelf() override;
     void renderText();
 
+    Sprite m_text;
     TexturePtr m_rendered;
     RenderObject m_renderObject;
     std::string m_data;

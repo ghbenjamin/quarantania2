@@ -13,14 +13,6 @@ Sprite createRectangle(Vector2i dimensions, Colour const &colour)
         SDL_MapRGB( surface->raw()->format, colour.raw().r, colour.raw().g, colour.raw().b )
     );
 
-//    SDL_Texture* texture = SDL_CreateTextureFromSurface(
-//      ResourceManager::get().getWindow()->renderer(),
-//      surface->raw()
-//    );
-//
-//    SDL_SetTextureBlendMode( texture, SDL_BLENDMODE_BLEND );
-//    SDL_SetTextureAlphaMod( texture, colour.raw().a );
-
     return Sprite{ surface->toTexture() };
 }
 
@@ -38,14 +30,6 @@ createBorderedRectangle(Vector2i dimensions, Colour const &borderColour, Colour 
 
     SDL_FillRect( surface->raw(), &innerRect, SDL_MapRGB( surface->raw()->format,
         backColour.raw().r, backColour.raw().g, backColour.raw().b ));
-//
-//    SDL_Texture* texture = SDL_CreateTextureFromSurface(
-//            ResourceManager::get().getWindow()->renderer(),
-//            surface->raw()
-//    );
-//
-//    SDL_SetTextureBlendMode( texture, SDL_BLENDMODE_BLEND );
-//    SDL_SetTextureAlphaMod( texture, backColour.raw().a );
 
     return Sprite{ surface->toTexture() };
 }

@@ -4,6 +4,7 @@
 #include <string_view>
 #include <memory>
 
+#pragma warning (disable : 4005)
 #include <glad/glad.h>
 
 #include <utils/Containers.h>

@@ -12,7 +12,6 @@ include_directories(include)
 
 add_executable(quarantania2 ${CPP_SOURCE_LIST})
 
-add_compile_definitions(USE_GL)
 
 if(MSVC)
     # Disable spurious warning from old version of RapidJson
@@ -24,9 +23,6 @@ endif()
 # VCPKG Dependencies
 find_package(SDL2 CONFIG REQUIRED)
 target_link_libraries(quarantania2 PRIVATE SDL2::SDL2main SDL2::SDL2-static)
-
-find_package(sdl2-image CONFIG REQUIRED)
-target_link_libraries(quarantania2 PRIVATE SDL2::SDL2_image)
 
 find_package(sdl2-ttf CONFIG REQUIRED)
 target_link_libraries(quarantania2 PRIVATE SDL2::SDL2_ttf)
