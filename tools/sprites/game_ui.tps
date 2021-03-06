@@ -84,7 +84,7 @@
         <key>textureFormat</key>
         <enum type="SettingsBase::TextureFormat">png</enum>
         <key>borderPadding</key>
-        <uint>0</uint>
+        <uint>2</uint>
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
@@ -106,7 +106,7 @@
             <key>freeSizeMode</key>
             <enum type="AlgorithmSettings::AlgorithmFreeSizeMode">Best</enum>
             <key>sizeConstraints</key>
-            <enum type="AlgorithmSettings::SizeConstraints">AnySize</enum>
+            <enum type="AlgorithmSettings::SizeConstraints">POT</enum>
             <key>forceSquared</key>
             <false/>
             <key>maxRects</key>
@@ -181,9 +181,30 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">game_ui/abdominal-armor.png</key>
+            <key type="filename">game_ui/axe-sword.png</key>
+            <key type="filename">game_ui/belt.png</key>
+            <key type="filename">game_ui/chest-armor.png</key>
+            <key type="filename">game_ui/frostfire.png</key>
+            <key type="filename">game_ui/headband-knot.png</key>
+            <key type="filename">game_ui/leg-armor.png</key>
+            <key type="filename">game_ui/light-backpack.png</key>
+            <key type="filename">game_ui/move.png</key>
+            <key type="filename">game_ui/pauldrons.png</key>
+            <key type="filename">game_ui/pearl-necklace.png</key>
+            <key type="filename">game_ui/pointy-hat.png</key>
+            <key type="filename">game_ui/pointy-sword.png</key>
+            <key type="filename">game_ui/ring.png</key>
+            <key type="filename">game_ui/steampunk-goggles.png</key>
+            <key type="filename">game_ui/sword-array.png</key>
+            <key type="filename">game_ui/sword-brandish.png</key>
+            <key type="filename">game_ui/sword-hilt.png</key>
             <key type="filename">game_ui/tile-corners-green.png</key>
             <key type="filename">game_ui/tile-corners-red.png</key>
             <key type="filename">game_ui/tile-corners-yellow.png</key>
+            <key type="filename">game_ui/tron-arrow.png</key>
+            <key type="filename">game_ui/walk.png</key>
+            <key type="filename">game_ui/walking-boot.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -195,6 +216,41 @@
                 <rect>8,8,16,16</rect>
                 <key>scale9Paddings</key>
                 <rect>8,8,16,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">game_ui/axe-sword-small-unused.png</key>
+            <key type="filename">game_ui/axe-sword-small.png</key>
+            <key type="filename">game_ui/move-small-unused.png</key>
+            <key type="filename">game_ui/move-small.png</key>
+            <key type="filename">game_ui/tron-arrow-small-unused.png</key>
+            <key type="filename">game_ui/tron-arrow-small.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>5,5,10,10</rect>
+                <key>scale9Paddings</key>
+                <rect>5,5,10,10</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">game_ui/empty-item-slot.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>10,10,19,19</rect>
+                <key>scale9Paddings</key>
+                <rect>10,10,19,19</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

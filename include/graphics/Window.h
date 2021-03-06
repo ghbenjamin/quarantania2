@@ -6,6 +6,7 @@
 #include <graphics/Cursor.h>
 
 class RenderInterface;
+class ShaderProgram;
 
 class Window
 {
@@ -34,7 +35,9 @@ private:
     // Temp OpenGL stuff
     unsigned int m_quadVAO;
     unsigned int m_VBO;
-    unsigned int m_program;
+//    unsigned int m_program;
+
+    std::shared_ptr<ShaderProgram> m_shaderProgram;
 };
 
 

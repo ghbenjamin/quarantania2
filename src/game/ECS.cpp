@@ -4,7 +4,7 @@
 #include <systems/All.h>
 
 ECS::ECS(Level* parent)
-: m_parent(parent), m_entFactory(parent)
+: m_parent(parent), m_entFactory(parent), m_components(16)
 {
     registerComponents<AllComponents>();
     registerSystems<AllSystems>();
@@ -46,12 +46,12 @@ EntityRef ECS::createEntity()
 void ECS::deleteEntity(EntityRef ent)
 {
     // Delete all the components attached to this entity
-    for ( auto &[k, v] : m_components )
+    for ( auto m : m_components )
     {
-        auto it = v.find(ent);
-        if ( it != v.end() )
+        auto it = m.find(ent);
+        if ( it != m.end() )
         {
-            v.erase(it);
+            m.erase(it);
         }
     }
 

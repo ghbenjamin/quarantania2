@@ -11,38 +11,7 @@
 
 #include <utils/Assert.h>
 #include <graphics/RenderInterface.h>
-#include <resource/ResourceManager.h>
-
-
-const char* LEARNOPENGL_VERT_SHADER =
-        "#version 330 core\n"
-        "layout (location = 0) in vec4 vertex;\n"
-        "\n"
-        "out vec2 TexCoords;\n"
-        "uniform mat4 projection;"
-        "uniform mat4 model;"
-        "\n"
-        "void main()\n"
-        "{\n"
-        "    gl_Position = projection * model * vec4(vertex.xy, 0.0, 1.0);\n"
-        "    TexCoords = vertex.zw;\n"
-        "}";
-
-const char* LEARNOPENGL_FRAG_SHADER =
-        "#version 330 core\n"
-        "in vec2 TexCoords;\n"
-        "out vec4 color;\n"
-        "\n"
-        "uniform sampler2D image;\n"
-        "\n"
-        "void main()\n"
-        "{    \n"
-        "    color = texture(image, TexCoords);\n"
-        "}";
-
-
-
-
+#include <graphics/Shader.h>
 
 
 Window::Window(std::string const &title, Vector2i bounds)
@@ -71,32 +40,18 @@ Window::Window(std::string const &title, Vector2i bounds)
     
     m_glContext = SDL_GL_CreateContext(m_window);
 
-    if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
+    if ( !gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress) )
+    {
         std::cerr << "Failed to initialize the OpenGL context." << std::endl;
         exit(1);
     }
 
-    // Loaded OpenGL successfully.
-    std::cout << "OpenGL version loaded: " << GLVersion.major << "."
-              << GLVersion.minor << std::endl;
+//    // Loaded OpenGL successfully.
+//    std::cout << "OpenGL version loaded: " << GLVersion.major << "."
+//              << GLVersion.minor << std::endl;
 
     SDL_GL_MakeCurrent(m_window, m_glContext);
     SDL_GL_SetSwapInterval(1);
-    
-    // No depth testing or face culling
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
-    
-    // Set the viewport size and projection
-    glViewport(0, 0, m_size.x(), m_size.y());
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
-    glOrtho( 0.0, m_size.x(), m_size.y(), 0.0, 1.0, -1.0 );
-    
-    // Enable alpha blending
-    glEnable(GL_BLEND);
-    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
 }
 
 Window::~Window()
@@ -138,10 +93,12 @@ Cursor &Window::cursor()
 
 void Window::render( RenderInterface const &objs )
 {
-    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+    glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     GLuint currTex = 0;
-    
+
+    GLuint modelLoc = m_shaderProgram->getUniformLocation( "model" );
+
     for ( auto const& item : objs.renderables() )
     {
         glm::vec2 position = {item.screenBounds.x(), item.screenBounds.y()};
@@ -150,9 +107,9 @@ void Window::render( RenderInterface const &objs )
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(position, 0.0f));
         model = glm::scale(model, glm::vec3(size, 1.0f));
-    
-        glUniformMatrix4fv( glGetUniformLocation(m_program, "model"), 1, false, glm::value_ptr(model) );
-    
+
+        m_shaderProgram->setUniformMat4v( modelLoc, model );
+
         glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(item.verts), item.verts, GL_STATIC_DRAW);
         
@@ -166,9 +123,6 @@ void Window::render( RenderInterface const &objs )
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, item.handle);
         }
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, item.handle);
         
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }
@@ -178,22 +132,28 @@ void Window::render( RenderInterface const &objs )
 
 void Window::openGLSetup()
 {
-    auto& shVert = ResourceManager::get().getShader( "simple_screenspace" );
-    auto& shFrag = ResourceManager::get().getShader( "simple_sampler" );
+    // No depth testing or face culling
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
     
-    GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, shVert.getHandle());
-    glAttachShader(shaderProgram, shFrag.getHandle());
-    glLinkProgram(shaderProgram);
+    // Set the viewport size and projection
+    glViewport(0, 0, m_size.x(), m_size.y());
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    glOrtho( 0.0, m_size.x(), m_size.y(), 0.0, 1.0, -1.0 );
     
-    glUseProgram(shaderProgram);
+    // Enable alpha blending
+    glEnable(GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
-    // Supply our orthographic projection matrix uniform to the shader program
+    m_shaderProgram = std::make_shared<ShaderProgram>( "simple_screenspace", "simple_sampler" );
+    m_shaderProgram->useProgram();
+    GLuint projectionLoc = m_shaderProgram->getUniformLocation( "projection" );
+
     glm::mat4 projection = glm::ortho(0.0f, (float)m_size.x(), (float)m_size.y(), 0.0f, -1.0f, 1.0f);
-    glUniformMatrix4fv( glGetUniformLocation(shaderProgram, "projection"), 1, false, glm::value_ptr(projection) );
-    
+    m_shaderProgram->setUniformMat4v( projectionLoc, projection );
+
     glGenBuffers(1, &m_VBO);
     glGenVertexArrays(1, &m_quadVAO);
-    m_program = shaderProgram;
 }
 

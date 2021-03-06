@@ -1,4 +1,4 @@
-#include <components/RenderComponent.h>
+#include <components/RenderSystem.h>
 
 RenderComponent::RenderComponent(std::vector<Sprite> const& sprites)
     : sprites(sprites), current(0)

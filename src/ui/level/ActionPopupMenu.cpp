@@ -68,12 +68,12 @@ UI::ActionMenu::ActionMenu(UI::Manager *manager, UI::Element *parent)
     setId("action-menu");
     setLayout<HorizontalLayout>( 8, VAlignment::Top );
     
-    m_spawns[RawActionDataType::Attack] = manager->createElement<UI::ActionMenuSpawnItem>(this, "Attack",
-        SpritesheetKey{"game_icons", "axe-sword"}, RawActionDataType::Attack);
-    m_spawns[RawActionDataType::Move] = manager->createElement<UI::ActionMenuSpawnItem>(this, "Move",
-        SpritesheetKey{"game_icons", "move"}, RawActionDataType::Move);
-    m_spawns[RawActionDataType::Item] = manager->createElement<UI::ActionMenuSpawnItem>(this, "Items",
-        SpritesheetKey{"game_icons", "light-backpack"}, RawActionDataType::Item);
+    m_spawns[RawActionDataType::Attack] = manager->createElement<UI::ActionMenuSpawnItem>(
+        this, "Attack", "game_ui/axe-sword", RawActionDataType::Attack);
+    m_spawns[RawActionDataType::Move] = manager->createElement<UI::ActionMenuSpawnItem>(
+        this, "Move", "game_ui/move", RawActionDataType::Move);
+    m_spawns[RawActionDataType::Item] = manager->createElement<UI::ActionMenuSpawnItem>(
+        this, "Items", "game_ui/light-backpack", RawActionDataType::Item);
 }
 
 void UI::ActionMenu::onSpawnItemMouseIn(RawActionDataType category)

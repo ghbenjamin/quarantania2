@@ -3,6 +3,7 @@
 #include <memory>
 #include <set>
 #include <unordered_map>
+#include <iterator>
 
 #include <engine/Component.h>
 #include <engine/Entity.h>
@@ -99,7 +100,7 @@ public:
 
     // Return all entities which contain (at least) the specified components.
     template<typename... CT>
-    std::vector<EntityRef> entitiesHaving()
+    std::vector<EntityRef> entitiesHaving() const
     {
         std::set<EntityRef> matching;
         std::set<EntityRef> mbuffer;
@@ -110,6 +111,7 @@ public:
 
         for ( auto const& ti : typeids )
         {
+            // For the first component type in the pack, list (and store) all entities which have the specified components
             if (first)
             {
                 first = false;
@@ -120,12 +122,14 @@ public:
             }
             else
             {
+                mbuffer.clear();
+                inter.clear();
+
                 for ( auto const&[ent, comp] : m_components[ti] )
                 {
                     mbuffer.insert( ent );
                 }
 
-                inter.clear();
                 std::set_intersection( matching.begin(), matching.end(),
                                        mbuffer.begin(), mbuffer.end(), std::inserter(inter, inter.begin()) );
 
@@ -154,7 +158,7 @@ public:
 
     // Return whether or not the specified entity has the specified components
     template <typename...CT>
-    bool entityHas( EntityRef ent )
+    bool entityHas( EntityRef ent ) const
     {
         auto typeids = { Component<CT>::id()... };
         for ( auto const ti: typeids)
@@ -203,7 +207,6 @@ private:
     void registerComponent()
     {
         static_assert( std::is_base_of_v<BaseComponent, CT> );
-
         m_components[Component<CT>::id()] = EntityCompMap();
     }
 
@@ -243,13 +246,10 @@ private:
 
 
     Level* m_parent;
-
     IdPool<EntityRef> m_entityPool;
     std::vector<EntityRef> m_delayedDeleteEnts;
     std::vector<EntityRef> m_allEnts;
-
     std::vector<SystemPtr> m_systems;
-    std::unordered_map<ComponentId, EntityCompMap> m_components;
-
+    std::vector<EntityCompMap> m_components;
     EntityFactory m_entFactory;
 };
