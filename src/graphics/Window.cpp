@@ -11,8 +11,7 @@
 
 #include <utils/Assert.h>
 #include <graphics/RenderInterface.h>
-#include <resource/ResourceManager.h>
-
+#include <graphics/Shader.h>
 
 
 Window::Window(std::string const &title, Vector2i bounds)
@@ -66,7 +65,6 @@ Window::Window(std::string const &title, Vector2i bounds)
     // Enable alpha blending
     glEnable(GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
 }
 
 Window::~Window()
@@ -111,7 +109,9 @@ void Window::render( RenderInterface const &objs )
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     GLuint currTex = 0;
-    
+
+    GLuint modelLoc = m_shaderProgram->getUniformLocation( "model" );
+
     for ( auto const& item : objs.renderables() )
     {
         glm::vec2 position = {item.screenBounds.x(), item.screenBounds.y()};
@@ -120,9 +120,9 @@ void Window::render( RenderInterface const &objs )
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(position, 0.0f));
         model = glm::scale(model, glm::vec3(size, 1.0f));
-    
-        glUniformMatrix4fv( glGetUniformLocation(m_program, "model"), 1, false, glm::value_ptr(model) );
-    
+
+        m_shaderProgram->setUniformMat4v( modelLoc, model );
+
         glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(item.verts), item.verts, GL_STATIC_DRAW);
         
@@ -148,22 +148,14 @@ void Window::render( RenderInterface const &objs )
 
 void Window::openGLSetup()
 {
-    auto& shVert = ResourceManager::get().getShader( "simple_screenspace" );
-    auto& shFrag = ResourceManager::get().getShader( "simple_sampler" );
-    
-    GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, shVert.getHandle());
-    glAttachShader(shaderProgram, shFrag.getHandle());
-    glLinkProgram(shaderProgram);
-    
-    glUseProgram(shaderProgram);
-    
-    // Supply our orthographic projection matrix uniform to the shader program
+    m_shaderProgram = std::make_shared<ShaderProgram>( "simple_screenspace", "simple_sampler" );
+    m_shaderProgram->useProgram();
+    GLuint projectionLoc = m_shaderProgram->getUniformLocation( "projection" );
+
     glm::mat4 projection = glm::ortho(0.0f, (float)m_size.x(), (float)m_size.y(), 0.0f, -1.0f, 1.0f);
-    glUniformMatrix4fv( glGetUniformLocation(shaderProgram, "projection"), 1, false, glm::value_ptr(projection) );
-    
+    m_shaderProgram->setUniformMat4v( projectionLoc, projection );
+
     glGenBuffers(1, &m_VBO);
     glGenVertexArrays(1, &m_quadVAO);
-    m_program = shaderProgram;
 }
 
