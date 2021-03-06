@@ -3,7 +3,7 @@
 #include <ui/lib/Manager.h>
 #include <game/Level.h>
 #include <game/Action.h>
-#include <components/RenderComponent.h>
+#include <components/RenderSystem.h>
 #include <components/PositionComponent.h>
 #include <components/ActorComponent.h>
 #include <resource/ResourceManager.h>

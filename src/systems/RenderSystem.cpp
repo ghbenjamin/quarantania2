@@ -3,12 +3,10 @@
 #include <graphics/RenderInterface.h>
 
 #include <components/PositionComponent.h>
-#include <components/RenderComponent.h>
-#include <utils/GlobalConfig.h>
+#include <components/RenderSystem.h>
 
-RenderSystem::RenderSystem(Level *parent) : System(parent)
-{
-}
+RenderSystem::RenderSystem(Level *parent)
+    : System(parent) {}
 
 void RenderSystem::update(uint32_t ticks, RenderInterface &rInter)
 {

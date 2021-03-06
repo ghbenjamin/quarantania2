@@ -99,7 +99,7 @@ public:
 
     // Return all entities which contain (at least) the specified components.
     template<typename... CT>
-    std::vector<EntityRef> entitiesHaving()
+    std::vector<EntityRef> entitiesHaving() const
     {
         std::set<EntityRef> matching;
         std::set<EntityRef> mbuffer;
@@ -142,6 +142,11 @@ public:
     template<typename... CT>
     decltype(auto) entitiesWith()
     {
+        if ( sizeof...(CT) == 3 )
+        {
+            int t = 4;
+        }
+    
         std::vector<std::tuple<std::shared_ptr<CT>...>> out;
 
         for ( auto const ent : entitiesHaving<CT...>() )
@@ -154,7 +159,7 @@ public:
 
     // Return whether or not the specified entity has the specified components
     template <typename...CT>
-    bool entityHas( EntityRef ent )
+    bool entityHas( EntityRef ent ) const
     {
         auto typeids = { Component<CT>::id()... };
         for ( auto const ti: typeids)
@@ -203,7 +208,6 @@ private:
     void registerComponent()
     {
         static_assert( std::is_base_of_v<BaseComponent, CT> );
-
         m_components[Component<CT>::id()] = EntityCompMap();
     }
 
@@ -243,13 +247,10 @@ private:
 
 
     Level* m_parent;
-
     IdPool<EntityRef> m_entityPool;
     std::vector<EntityRef> m_delayedDeleteEnts;
     std::vector<EntityRef> m_allEnts;
-
     std::vector<SystemPtr> m_systems;
-    std::unordered_map<ComponentId, EntityCompMap> m_components;
-
+    std::vector<EntityCompMap> m_components;
     EntityFactory m_entFactory;
 };
