@@ -4,9 +4,6 @@
 
 #include <resource/ResourceManager.h>
 #include <utils/Logging.h>
-#include <graphics/Text.h>
-#include <graphics/Shader.h>
-
 
 void ResourceManager::setWindow(WindowPtr const &wnd)
 {
@@ -121,10 +118,6 @@ void ResourceManager::loadAll()
     {
         v->load();
     }
-
-    // TODO
-//    addShader( "learn_vert", GL_VERTEX_SHADER, LEARNOPENGL_VERT_SHADER );
-//    addShader( "learn_frag", GL_FRAGMENT_SHADER, LEARNOPENGL_FRAG_SHADER );
     
 //
 //    // Generate the default font caches
