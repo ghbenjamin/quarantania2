@@ -109,3 +109,7 @@ void ActionPowerAttack::perform(EntityRef target)
     // Do the thing!
 }
 
+void ActionFullAttack::perform( EntityRef target )
+{
+    // Do the thing
+}

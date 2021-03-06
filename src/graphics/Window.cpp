@@ -40,31 +40,18 @@ Window::Window(std::string const &title, Vector2i bounds)
     
     m_glContext = SDL_GL_CreateContext(m_window);
 
-    if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
+    if ( !gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress) )
+    {
         std::cerr << "Failed to initialize the OpenGL context." << std::endl;
         exit(1);
     }
 
-    // Loaded OpenGL successfully.
-    std::cout << "OpenGL version loaded: " << GLVersion.major << "."
-              << GLVersion.minor << std::endl;
+//    // Loaded OpenGL successfully.
+//    std::cout << "OpenGL version loaded: " << GLVersion.major << "."
+//              << GLVersion.minor << std::endl;
 
     SDL_GL_MakeCurrent(m_window, m_glContext);
     SDL_GL_SetSwapInterval(1);
-    
-    // No depth testing or face culling
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
-    
-    // Set the viewport size and projection
-    glViewport(0, 0, m_size.x(), m_size.y());
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
-    glOrtho( 0.0, m_size.x(), m_size.y(), 0.0, 1.0, -1.0 );
-    
-    // Enable alpha blending
-    glEnable(GL_BLEND);
-    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 Window::~Window()
@@ -106,7 +93,7 @@ Cursor &Window::cursor()
 
 void Window::render( RenderInterface const &objs )
 {
-    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+    glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     GLuint currTex = 0;
 
@@ -136,9 +123,6 @@ void Window::render( RenderInterface const &objs )
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, item.handle);
         }
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, item.handle);
         
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }
@@ -148,6 +132,20 @@ void Window::render( RenderInterface const &objs )
 
 void Window::openGLSetup()
 {
+    // No depth testing or face culling
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    
+    // Set the viewport size and projection
+    glViewport(0, 0, m_size.x(), m_size.y());
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    glOrtho( 0.0, m_size.x(), m_size.y(), 0.0, 1.0, -1.0 );
+    
+    // Enable alpha blending
+    glEnable(GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
     m_shaderProgram = std::make_shared<ShaderProgram>( "simple_screenspace", "simple_sampler" );
     m_shaderProgram->useProgram();
     GLuint projectionLoc = m_shaderProgram->getUniformLocation( "projection" );

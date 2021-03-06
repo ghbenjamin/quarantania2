@@ -35,26 +35,26 @@ UI::EquipView::EquipView(UI::Manager *manager, UI::Element *parent) : Element(ma
     auto sprite = ResourceManager::get().getImageAsSprite( "equip-only" );
     setBackground( sprite );
     
-    addRegion( CreatureEquipSlot::Head, "game_icons/pointy-hat", {24, 3} );
-    addRegion( CreatureEquipSlot::Headband, "game_icons/headband-knot", { 66,3 } );
-    addRegion( CreatureEquipSlot::Eyes, "game_icons/steampunk-goggles", { 108,3 } );
+    addRegion( CreatureEquipSlot::Head, "game_ui/pointy-hat", {24, 3} );
+    addRegion( CreatureEquipSlot::Headband, "game_ui/headband-knot", { 66,3 } );
+    addRegion( CreatureEquipSlot::Eyes, "game_ui/steampunk-goggles", { 108,3 } );
     
-    addRegion( CreatureEquipSlot::Shoulders, "game_icons/pauldrons", { 24,45 });
-    addRegion( CreatureEquipSlot::Neck, "game_icons/pearl-necklace", { 66,45 } );
-    addRegion( CreatureEquipSlot::Chest, "game_icons/chest-armor", { 108,45 } );
+    addRegion( CreatureEquipSlot::Shoulders, "game_ui/pauldrons", { 24,45 });
+    addRegion( CreatureEquipSlot::Neck, "game_ui/pearl-necklace", { 66,45 } );
+    addRegion( CreatureEquipSlot::Chest, "game_ui/chest-armor", { 108,45 } );
     
-    addRegion( CreatureEquipSlot::Belt, "game_icons/belt", { 24,87 } );
-    addRegion( CreatureEquipSlot::Wrists, "game_icons/walking-boot", { 66,87 } );
-    addRegion( CreatureEquipSlot::Arms, "game_icons/walking-boot", { 108,87 } );
+    addRegion( CreatureEquipSlot::Belt, "game_ui/belt", { 24,87 } );
+    addRegion( CreatureEquipSlot::Wrists, "game_ui/walking-boot", { 66,87 } );
+    addRegion( CreatureEquipSlot::Arms, "game_ui/walking-boot", { 108,87 } );
     
-    addRegion( CreatureEquipSlot::LeftHand, "game_icons/pointy-sword", { 3,129 } );
-    addRegion( CreatureEquipSlot::Body, "game_icons/walking-boot", { 45,129 } );
-    addRegion( CreatureEquipSlot::Armour, "game_icons/abdominal-armor", { 87,129 } );
-    addRegion( CreatureEquipSlot::RightHand, "game_icons/pointy-sword", { 129,129 } );
+    addRegion( CreatureEquipSlot::LeftHand, "game_ui/pointy-sword", { 3,129 } );
+    addRegion( CreatureEquipSlot::Body, "game_ui/walking-boot", { 45,129 } );
+    addRegion( CreatureEquipSlot::Armour, "game_ui/abdominal-armor", { 87,129 } );
+    addRegion( CreatureEquipSlot::RightHand, "game_ui/pointy-sword", { 129,129 } );
     
-    addRegion( CreatureEquipSlot::Ring1, "game_icons/ring",  { 24,170 } );
-    addRegion( CreatureEquipSlot::Feet, "game_icons/leg-armor", { 66,170 } );
-    addRegion( CreatureEquipSlot::Ring2, "game_icons/ring", { 108,170 } );
+    addRegion( CreatureEquipSlot::Ring1, "game_ui/ring",  { 24,170 } );
+    addRegion( CreatureEquipSlot::Feet, "game_ui/leg-armor", { 66,170 } );
+    addRegion( CreatureEquipSlot::Ring2, "game_ui/ring", { 108,170 } );
     
     
     addEventCallback(UEventType::MouseMove, [this] (UEvent& evt) {

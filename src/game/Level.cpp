@@ -303,6 +303,11 @@ std::vector<GameAction> Level::actionsForActor(EntityRef actor)
         "strike", TargetingType::SingleEntity,
         std::make_shared<ActionMeleeAttack>()
     );
+    
+    out.emplace_back(
+        "full-attack", TargetingType::SingleEntity,
+        std::make_shared<ActionFullAttack>()
+    );
 
     // Grab our custom actions, e.g. actions which have been added by feats, items, etc.
     for ( auto const& action : actorC->actor.getAllGameActions() )

@@ -65,6 +65,13 @@ public:
     void perform(EntityRef target) override;
 };
 
+class ActionFullAttack : public ActionAttackParent
+{
+public:
+    using ActionAttackParent::ActionAttackParent;
+    void perform(EntityRef target) override;
+};
+
 
 class ActionPowerAttack : public ActionAttackParent
 {
