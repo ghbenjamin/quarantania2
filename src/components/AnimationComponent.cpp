@@ -32,12 +32,17 @@ void TileAnimationPath::advance( std::uint32_t ticks )
     {
         return;
     }
- 
     
     Vector2f delta = m_deltaPerTick * (float) ticks;
     m_currentPxPos += delta;
-    
-    if ( m_currentPxPos.x() > m_nextTile.x() )
+
+    bool shouldAdvance =
+            ( m_deltaPerTick.x() > 0 && m_currentPxPos.x() > m_nextTile.x() ) ||
+            ( m_deltaPerTick.x() < 0 && m_currentPxPos.x() < m_nextTile.x() ) ||
+            ( m_deltaPerTick.y() > 0 && m_currentPxPos.y() > m_nextTile.y() ) ||
+            ( m_deltaPerTick.y() < 0 && m_currentPxPos.y() < m_nextTile.y() );
+
+    if ( shouldAdvance )
     {
         advanceTile();
     }
@@ -63,4 +68,9 @@ void TileAnimationPath::advanceTile()
     
     m_deltaPerTick = tileDelta / ticksPerStep;
     m_currentPxPos = m_prevTile;
+}
+
+Vector2f TileAnimationPath::finalPosition() const
+{
+    return m_path.back();
 }

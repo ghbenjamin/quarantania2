@@ -15,6 +15,7 @@ public:
     
     Vector2f currentPosition() const;
     bool isComplete() const;
+    Vector2f finalPosition() const;
     
 private:
     
