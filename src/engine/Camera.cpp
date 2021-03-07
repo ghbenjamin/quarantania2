@@ -81,7 +81,7 @@ void Camera::setScrollSpeed(float scrollSpeed)
     m_scrollSpeed = scrollSpeed;
 }
 
-Vector2i Camera::worldToScreen(Vector2i const &coords)
+Vector2i Camera::worldToScreen(Vector2i const &coords) const
 {
     return {
         coords.x() - m_roundedPosition.x() + m_internalOffset.x(),
@@ -89,7 +89,7 @@ Vector2i Camera::worldToScreen(Vector2i const &coords)
     };
 }
 
-Vector2i Camera::screenToWorld(Vector2i const &coords)
+Vector2i Camera::screenToWorld(Vector2i const &coords) const
 {
     return {
         coords.x() + m_roundedPosition.x() - m_internalOffset.x(),

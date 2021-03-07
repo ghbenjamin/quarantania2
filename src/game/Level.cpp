@@ -151,15 +151,45 @@ ECS &Level::ecs()
     return m_ecs;
 }
 
-Vector2i Level::screenCoordsToWorld(Vector2i const &screen)
+Vector2i Level::screenCoordsToWorld(Vector2i const &screen) const
 {
     return m_camera.screenToWorld(screen);
 }
 
-Vector2i Level::worldCoordsToScreen(Vector2i const &world)
+Vector2i Level::worldCoordsToScreen(Vector2i const &world) const
 {
     return m_camera.worldToScreen(world);
 }
+
+Vector2i Level::worldCoordsToTile(Vector2i const& world) const
+{
+    return {
+            world.x() / GlobalConfig::TileSizePx,
+            world.y() / GlobalConfig::TileSizePx
+    };
+}
+
+Vector2i Level::screenCoordsToTile(Vector2i const &screen) const
+{
+    auto world = screenCoordsToWorld(screen);
+    return worldCoordsToTile(world);
+}
+
+Vector2i Level::tileCoordsToScreen( Vector2i const& tile ) const
+{
+    auto world = tile * GlobalConfig::TileSizePx;
+    return worldCoordsToScreen(world);
+}
+
+Vector2i Level::tileCoordsToWorld( Vector2i const &tile ) const
+{
+    return {
+            tile.x() * GlobalConfig::TileSizePx,
+            tile.y() * GlobalConfig::TileSizePx
+    };
+}
+
+
 
 void Level::setupUI()
 {
@@ -196,26 +226,6 @@ void Level::layoutWindows()
     auto wndSize = ResourceManager::get().getWindow()->getSize();
     m_camera.setViewportSize(wndSize);
     m_uiManager.doLayout();
-}
-
-Vector2i Level::worldCoordsToTile(Vector2i const& world)
-{
-    return {
-        world.x() / GlobalConfig::TileSizePx,
-        world.y() / GlobalConfig::TileSizePx
-    };
-}
-
-Vector2i Level::screenCoordsToTile(Vector2i const &screen)
-{
-    auto world = screenCoordsToWorld(screen);
-    return worldCoordsToTile(world);
-}
-
-Vector2i Level::tileCoordsToScreen( Vector2i const& tile )
-{
-    auto world = tile * GlobalConfig::TileSizePx;
-    return worldCoordsToScreen(world);
 }
 
 UI::Manager& Level::ui()
@@ -357,5 +367,3 @@ void Level::centerCameraOnParty()
     Vector2f centre = findCentroid( points );
     m_camera.centreOnTile( centre.convert<int>() );
 }
-
-

@@ -3,7 +3,7 @@
 #include <graphics/RenderInterface.h>
 
 #include <components/PositionComponent.h>
-#include <components/RenderSystem.h>
+#include <components/RenderComponent.h>
 
 RenderSystem::RenderSystem(Level *parent)
     : System(parent) {}

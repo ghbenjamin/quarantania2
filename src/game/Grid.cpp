@@ -1,4 +1,7 @@
 #include <game/Grid.h>
+
+#include <algorithm>
+
 #include <utils/Logging.h>
 #include <utils/Assert.h>
 
@@ -280,6 +283,8 @@ std::vector<Vector2i> Grid::pathFromPathMap(const PathMap &map, Vector2i tile)
         path.push_back(curr);
         curr = it->second.first;
     }
+
+    std::reverse( path.begin(), path.end() );
 
     return std::move(path);
 }
