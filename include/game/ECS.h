@@ -3,6 +3,7 @@
 #include <memory>
 #include <set>
 #include <unordered_map>
+#include <iterator>
 
 #include <engine/Component.h>
 #include <engine/Entity.h>
@@ -110,6 +111,7 @@ public:
 
         for ( auto const& ti : typeids )
         {
+            // For the first component type in the pack, list (and store) all entities which have the specified components
             if (first)
             {
                 first = false;
@@ -120,12 +122,14 @@ public:
             }
             else
             {
+                mbuffer.clear();
+                inter.clear();
+
                 for ( auto const&[ent, comp] : m_components[ti] )
                 {
                     mbuffer.insert( ent );
                 }
 
-                inter.clear();
                 std::set_intersection( matching.begin(), matching.end(),
                                        mbuffer.begin(), mbuffer.end(), std::inserter(inter, inter.begin()) );
 
@@ -142,11 +146,6 @@ public:
     template<typename... CT>
     decltype(auto) entitiesWith()
     {
-        if ( sizeof...(CT) == 3 )
-        {
-            int t = 4;
-        }
-    
         std::vector<std::tuple<std::shared_ptr<CT>...>> out;
 
         for ( auto const ent : entitiesHaving<CT...>() )
