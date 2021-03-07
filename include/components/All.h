@@ -9,7 +9,7 @@
 #include <components/DescriptionComponent.h>
 #include <components/ItemComponent.h>
 #include <components/OpenableComponent.h>
-#include <components/RenderSystem.h>
+#include <components/RenderComponent.h>
 #include <components/PositionComponent.h>
 
 template <typename ... Ts >

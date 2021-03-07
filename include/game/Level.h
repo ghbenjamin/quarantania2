@@ -47,11 +47,12 @@ public:
     LevelController* controller();
 
     // Coordinates
-    Vector2i worldCoordsToScreen( Vector2i const& world );
-    Vector2i screenCoordsToWorld( Vector2i const& screen );
-    Vector2i worldCoordsToTile( Vector2i const& world);
-    Vector2i screenCoordsToTile( Vector2i const& screen);
-    Vector2i tileCoordsToScreen( Vector2i const& tile );
+    Vector2i worldCoordsToScreen( Vector2i const& world ) const;
+    Vector2i screenCoordsToWorld( Vector2i const& screen ) const;
+    Vector2i worldCoordsToTile( Vector2i const& world) const;
+    Vector2i screenCoordsToTile( Vector2i const& screen) const;
+    Vector2i tileCoordsToScreen( Vector2i const& tile ) const;
+    Vector2i tileCoordsToWorld( Vector2i const& tile ) const;
 
     int squaredEntityDistance(EntityRef a, EntityRef b);
     float entityDistance(EntityRef a, EntityRef b);

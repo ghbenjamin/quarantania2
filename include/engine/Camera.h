@@ -28,8 +28,8 @@ public:
     bool intersects( SDL_Rect* other ) const;
     void translate( RenderObject &spos ) const;
 
-    Vector2i screenToWorld( Vector2i const& coords );
-    Vector2i worldToScreen( Vector2i const& coords );
+    Vector2i screenToWorld( Vector2i const& coords ) const;
+    Vector2i worldToScreen( Vector2i const& coords ) const;
 
     void setScrollSpeed(float scrollSpeed);
 

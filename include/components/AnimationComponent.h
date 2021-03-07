@@ -6,13 +6,31 @@
 #include <utils/Containers.h>
 #include <engine/Component.h>
 
-struct TileAnimationPath
+class TileAnimationPath
 {
-    std::vector<Vector2i> path;
-    Vector2i nextTile;
-    Vector2f currentPxPos;
-    double totalAnimationTime;
-    double timePerStep;
+public:
+    TileAnimationPath( std::vector<Vector2f> const &path, double totalAnimationTime );
+    
+    void advance( std::uint32_t ticks );
+    
+    Vector2f currentPosition() const;
+    bool isComplete() const;
+    
+private:
+    
+    void advanceTile();
+
+    std::vector<Vector2f> m_path;
+    double m_totalAnimationTime;
+    double m_timePerStep;
+    
+    Vector2f m_nextTile;
+    Vector2f m_prevTile;
+    int m_currIdx;
+    
+    Vector2f m_currentPxPos;
+    Vector2f m_deltaPerTick;
+    bool m_isComplete;
 };
 
 struct AnimationComponent : public Component<AnimationComponent>

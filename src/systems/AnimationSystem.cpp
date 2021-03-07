@@ -3,7 +3,7 @@
 #include <game/Level.h>
 #include <graphics/RenderInterface.h>
 #include <components/PositionComponent.h>
-#include <components/RenderSystem.h>
+#include <components/RenderComponent.h>
 #include <components/AnimationComponent.h>
 
 AnimationSystem::AnimationSystem(Level *parent)
@@ -18,7 +18,13 @@ void AnimationSystem::update(uint32_t ticks, RenderInterface &rInter)
     {
         if ( anim->movementPathAnim.has_value() )
         {
-            anim->movementPathAnim.reset();
+            anim->movementPathAnim->advance( ticks );
+            tile->pixelPosition = anim->movementPathAnim->currentPosition().convert<int>();
+            
+            if (anim->movementPathAnim->isComplete())
+            {
+                anim->movementPathAnim.reset();
+            }
         }
     }
 }
@@ -26,21 +32,27 @@ void AnimationSystem::update(uint32_t ticks, RenderInterface &rInter)
 void AnimationSystem::operator()( GameEvents::EntityMove &evt )
 {
     auto animC = m_level->ecs().getComponents<AnimationComponent>( evt.ent );
-
-    TileAnimationPath pathAnim;
+    
+    std::vector<Vector2i> path;
 
     if ( evt.path.has_value() )
     {
-        pathAnim.path = *evt.path;
+        path = *evt.path;
     }
     else
     {
-        pathAnim.path.push_back( evt.oldPos );
-        pathAnim.path.push_back( evt.newPos );
+        path.push_back( evt.oldPos );
+        path.push_back( evt.newPos );
     }
-
-    pathAnim.currentPxPos = evt.oldPos.convert<float>();
-    pathAnim.nextTile = pathAnim.path[1];
-
+    
+    
+    std::vector<Vector2f> worldPath;
+    worldPath.reserve( path.size() );
+    for ( Vector2i tile : path )
+    {
+        worldPath.push_back( m_level->tileCoordsToWorld( tile ).convert<float>() );
+    }
+    
+    TileAnimationPath pathAnim {worldPath, 2.0};
     animC->movementPathAnim = std::move(pathAnim);
 }
