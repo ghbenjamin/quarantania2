@@ -23,6 +23,7 @@ void AnimationSystem::update(uint32_t ticks, RenderInterface &rInter)
             
             if (anim->movementPathAnim->isComplete())
             {
+                tile->pixelPosition = anim->movementPathAnim->finalPosition().convert<int>();
                 anim->movementPathAnim.reset();
             }
         }
@@ -44,15 +45,16 @@ void AnimationSystem::operator()( GameEvents::EntityMove &evt )
         path.push_back( evt.oldPos );
         path.push_back( evt.newPos );
     }
-    
-    
+
     std::vector<Vector2f> worldPath;
-    worldPath.reserve( path.size() );
+    worldPath.reserve( path.size() + 1 );
+    worldPath.push_back( m_level->tileCoordsToWorld( evt.oldPos ).convert<float>() );
+
     for ( Vector2i tile : path )
     {
         worldPath.push_back( m_level->tileCoordsToWorld( tile ).convert<float>() );
     }
     
-    TileAnimationPath pathAnim {worldPath, 2.0};
+    TileAnimationPath pathAnim {worldPath, 0.6f};
     animC->movementPathAnim = std::move(pathAnim);
 }
