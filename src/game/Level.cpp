@@ -12,20 +12,22 @@
 #include <ui/level/TextLog.h>
 #include <ui/level/PlayerStatusView.h>
 #include <ui/level/CreatureEquipView.h>
-#include <ui/level/ActionPopupMenu.h>
 #include <ui/level/ContainerView.h>
 #include <ui/level/Composites.h>
 
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
-:   m_ctx(std::move(ctx)),
-    m_grid(size),
-    m_random(rg),
-    m_isComplete(false),
-    m_camera( size * GlobalConfig::TileSizePx ),
-    m_ecs(this),
-    m_controllers{ std::make_shared<DefaultLController>(this) },
-    m_uiManager(this)
+: m_ctx(std::move(ctx)),
+  m_grid(size),
+  m_random(rg),
+  m_isComplete(false),
+  m_camera( size * GlobalConfig::TileSizePx ),
+  m_ecs(this),
+  m_controllers{ std::make_shared<DefaultLController>(this) },
+  m_uiManager(this),
+  m_currentRound(0),
+  m_isPlayerTurn(true),
+  m_canInteract(true)
 {
     setupUI();
     layoutWindows();
@@ -366,4 +368,34 @@ void Level::centerCameraOnParty()
 
     Vector2f centre = findCentroid( points );
     m_camera.centreOnTile( centre.convert<int>() );
+}
+
+bool Level::isPlayerTurn() const
+{
+    return m_isPlayerTurn;
+}
+
+int Level::getCurrentRound() const
+{
+    return m_currentRound;
+}
+
+bool Level::isInteractable() const
+{
+    return m_canInteract;
+}
+
+void Level::setInteractible(bool val)
+{
+    m_canInteract = val;
+}
+
+void Level::switchTurn()
+{
+    m_isPlayerTurn = !m_isPlayerTurn;
+}
+
+void Level::advanceRound()
+{
+    m_currentRound++;
 }

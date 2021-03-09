@@ -56,16 +56,14 @@ struct LevelReady : public GameEvent<LevelReady>
 
 struct TurnChange : public GameEvent<TurnChange>
 {
-    TurnChange(EntityRef prev, EntityRef curr);
+    TurnChange(bool isPlayerTurn);
     ~TurnChange() override = default;
 
-    EntityRef previous;
-    EntityRef current;
+    bool isPlayerTurn;
 };
 
-struct RoundChange : public GameEvent<RoundChange>
-{
-};
+
+struct RoundChange : public GameEvent<RoundChange> {};
 
 struct EntityAction : public GameEvent<EntityAction>
 {
