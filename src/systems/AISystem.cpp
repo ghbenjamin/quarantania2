@@ -10,8 +10,11 @@ AISystem::AISystem(Level *parent)
 
 void AISystem::operator()(GameEvents::TurnChange& evt)
 {
-    if ( m_level->ecs().entityHas<AIComponent>(evt.current) )
+    if ( !evt.isPlayerTurn )
     {
-        // This is the turn of an AI - for now just skip it
+        // The turn has been switched to the AI! Somehow work out what we're going to do now.
+
+        // Until we know, send the turn right back.
+        m_level->events().broadcast<GameEvents::TurnChange>(true);
     }
 }

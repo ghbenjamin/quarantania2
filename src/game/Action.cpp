@@ -80,3 +80,10 @@ std::array<bool, 3> ActionsUsedInfo::getUsedActions() const
         m_usedSwift
     };
 }
+
+void ActionsUsedInfo::reset()
+{
+    m_usedStandard = false;
+    m_usedMove= false;
+    m_usedSwift = false;
+}

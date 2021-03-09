@@ -31,9 +31,6 @@ GameEvents::EntityDeath::EntityDeath(EntityRef actor)
 GameEvents::EntityDamage::EntityDamage(EntityRef target, EntityRef source, Damage const& dmg)
     : target(target), source(source), damage(dmg) {}
 
-GameEvents::TurnChange::TurnChange(EntityRef prev, EntityRef curr)
-    : previous(prev), current(curr) {}
-
 GameEvents::EntityAction::EntityAction(EntityRef entity, GameAction speed)
     : entity(entity), speed(speed) {}
 
@@ -42,3 +39,6 @@ GameEvents::ControllerEntitySelected::ControllerEntitySelected(EntityRef entity)
 
 GameEvents::CombatMeleeAttack::CombatMeleeAttack(EntityRef attacker, EntityRef defender)
     : attacker(attacker), defender(defender) {}
+
+GameEvents::TurnChange::TurnChange(bool isPlayerTurn)
+    : isPlayerTurn(isPlayerTurn) {}

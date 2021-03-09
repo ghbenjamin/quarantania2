@@ -23,8 +23,8 @@ using AllSystems = SystemTypes<
     CombatSystem,
     FOVSystem,
     ItemSystem,
-    UISystem,
     PositionSystem,
     RenderSystem,
-    TurnSystem
-        >;
+    TurnSystem,
+    UISystem
+>;

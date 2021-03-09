@@ -60,6 +60,14 @@ public:
     // Actions
     std::vector<GameAction> actionsForActor(EntityRef actor);
 
+    // State
+    bool isPlayerTurn() const;          // Is the player or the computer taking its turn?
+    int getCurrentRound() const;        // The current turn count.
+    void switchTurn();
+    void advanceRound();
+    bool isInteractable() const;        // Can the player currently interact with the level?
+    void setInteractible(bool value);   // Set whether or not the player is allowed to interact with the level
+
     // Communication
     bool isComplete() const;
     void setComplete();
@@ -98,6 +106,10 @@ private:
     GameEventHub m_gevents;
     ECS m_ecs;
 
+    // State
+    int m_currentRound;  // The turn counter, where one turn is
+    bool m_isPlayerTurn; // Is it currently the player's turn?
+    bool m_canInteract; // Can the player currently interact with the level?
 };
 
 using LevelPtr = std::unique_ptr<Level>;

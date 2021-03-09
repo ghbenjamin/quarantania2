@@ -52,7 +52,6 @@ void TileAnimationPath::advanceTile()
 {
     if ( m_currIdx + 1 == m_path.size() )
     {
-        Logging::log ( "Done!\n" );
         m_isComplete = true;
         return;
     }
@@ -60,9 +59,7 @@ void TileAnimationPath::advanceTile()
     m_prevTile = m_path[m_currIdx];
     m_currIdx++;
     m_nextTile = m_path[m_currIdx];
-    
-    Logging::log ( "Advancing from tile {} to {}\n", m_prevTile.to_string(), m_nextTile.to_string() );
-    
+
     Vector2f tileDelta = (m_nextTile - m_prevTile);
     float ticksPerStep = m_timePerStep * 1000;
     
