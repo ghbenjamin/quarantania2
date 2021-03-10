@@ -18,31 +18,7 @@ Sprite::Sprite(std::shared_ptr<Texture> const& texture, RectI const &region)
     float texW = (float)region.w() / (float)texture->size().x();
     float texH = (float)region.h() / (float)texture->size().y();
     
-    // Calculate our fractional texture quad vertices
-
-    // Top Left
-    m_renderObj.verts[2] = texX;
-    m_renderObj.verts[3] = texY + texH;
-
-    // Bottom Right
-    m_renderObj.verts[6] = texX + texW;
-    m_renderObj.verts[7] = texY;
-
-    // Bottom Left
-    m_renderObj.verts[10] = texX;
-    m_renderObj.verts[11] = texY;
-
-    // Top Left
-    m_renderObj.verts[14] = texX;
-    m_renderObj.verts[15] = texY + texH;
-
-    // Top Right
-    m_renderObj.verts[18] = texX + texW;
-    m_renderObj.verts[19] = texY + texH;
-
-    // Bottom Left
-    m_renderObj.verts[22] = texX + texW;
-    m_renderObj.verts[23] = texY;
+    setTextureVerts( texX, texY, texW, texH );
 }
 
 Sprite::Sprite(std::shared_ptr<Texture> texture)
@@ -51,30 +27,9 @@ Sprite::Sprite(std::shared_ptr<Texture> texture)
     m_size = m_texture->size();
     m_renderObj.handle = m_texture->handle();
     m_renderObj.screenBounds = { 0, 0, m_size.x(), m_size.y() };
-
-    // Top Left
-    m_renderObj.verts[2] = 0.0f;
-    m_renderObj.verts[3] = 1.0f;
-
-    // Bottom Right
-    m_renderObj.verts[6] = 1.0f;
-    m_renderObj.verts[7] = 0.0f;
-
-    // Bottom Left
-    m_renderObj.verts[10] = 0.0f;
-    m_renderObj.verts[11] = 0.0f;
-
-    // Top Left
-    m_renderObj.verts[14] = 0.0f;
-    m_renderObj.verts[15] = 1.0f;
-
-    // Top Right
-    m_renderObj.verts[18] = 1.0f;
-    m_renderObj.verts[19] = 1.0f;
-
-    // Bottom Left
-    m_renderObj.verts[22] = 1.0f;
-    m_renderObj.verts[23] = 0.0f;
+    
+    // Use entire texture
+    setTextureVerts( 0.0f, 0.0f, 1.0f, 1.0f );
 }
 
 Sprite::operator bool() const
@@ -105,4 +60,30 @@ void Sprite::setTargetSize(Vector2i size)
 {
     m_renderObj.screenBounds.w( size.x() );
     m_renderObj.screenBounds.h( size.y() );
+}
+
+void Sprite::setTextureVerts( float texX, float texY, float texW, float texH )
+{
+    m_renderObj.verts[2] = texX;
+    m_renderObj.verts[3] = texY + texH;
+    
+    // Bottom Right
+    m_renderObj.verts[6] = texX + texW;
+    m_renderObj.verts[7] = texY;
+    
+    // Bottom Left
+    m_renderObj.verts[10] = texX;
+    m_renderObj.verts[11] = texY;
+    
+    // Top Left
+    m_renderObj.verts[14] = texX;
+    m_renderObj.verts[15] = texY + texH;
+    
+    // Top Right
+    m_renderObj.verts[18] = texX + texW;
+    m_renderObj.verts[19] = texY + texH;
+    
+    // Bottom Left
+    m_renderObj.verts[22] = texX + texW;
+    m_renderObj.verts[23] = texY;
 }

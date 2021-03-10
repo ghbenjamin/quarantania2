@@ -35,7 +35,6 @@ private:
     // Temp OpenGL stuff
     unsigned int m_quadVAO;
     unsigned int m_VBO;
-//    unsigned int m_program;
 
     std::shared_ptr<ShaderProgram> m_shaderProgram;
 };
