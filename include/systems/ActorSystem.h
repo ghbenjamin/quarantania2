@@ -12,8 +12,8 @@ public:
 
     void operator()(GameEvents::EntityDeath& evt);
     void operator()(GameEvents::EntityDamage& evt);
-    void operator()(GameEvents::RoundChange& evt);
     void operator()(GameEvents::EntityAction& evt);
+    void operator()(GameEvents::RoundChange& evt);
 
     template <typename T>
     void operator()(T&& t)

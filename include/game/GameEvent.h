@@ -11,9 +11,9 @@ using GEventId = std::size_t;
 
 enum class GEventTiming
 {
-    Before,
-    On,
-    After
+    Before = 0,
+    On = 1,
+    After = 2
 };
 
 static constexpr int GEventTimingCount = 3;

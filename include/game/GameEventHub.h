@@ -6,10 +6,16 @@
 #include <game/GameEventVariant.h>
 
 
+struct QueuedEvent
+{
+    GEventId id;
+    GameEventVariant evt;
+};
+
 class GameEventHub
 {
 public:
-    GameEventHub() = default;
+    GameEventHub();
     ~GameEventHub() = default;
 
     GameEventHub( const GameEventHub& ) = delete;
@@ -21,7 +27,10 @@ public:
     {
         static_assert( std::is_base_of_v<GEventBase, EvtType> );
 
-        m_subs.emplace(GameEvent<EvtType>::id(), GEventCallback{receiver, timing} );
+        GEventId id = GameEvent<EvtType>::id();
+        GEventCallback callback{receiver, timing};
+
+        m_subs.emplace( id, callback );
     };
 
     template <typename EvtType>
@@ -49,20 +58,20 @@ public:
         static_assert( std::is_base_of_v<GEventBase, EvtType> );
 
         EvtType evt { std::forward<Args>(args)... };
-        GameEventVariant var = evt;
+        QueuedEvent queued = { GameEvent<EvtType>::id(), evt };
 
         // Push the event to the back of the queue
-        m_evtQueue.push(evt);
-
+        m_evtQueue.push(queued);
+        
         // If we're already resolving an event, add it to the queue and do nothing - the original event will handle
         // broadcasting this derived event. If not, then take responsiblity for popping events off of the queue
         // untill the queue is empty.
-        if (!m_evtInProgress)
+        if ( !m_evtInProgress )
         {
             m_evtInProgress = true;
             while ( !m_evtQueue.empty() )
             {
-                popQueue<EvtType>();
+                popQueue();
             }
             m_evtInProgress = false;
         }
@@ -70,31 +79,12 @@ public:
 
 private:
 
-    template <typename EvtType>
-    void popQueue()
-    {
-        auto evt = m_evtQueue.back();
-        m_evtQueue.pop();
-
-        static_assert( std::is_base_of_v<GEventBase, EvtType> );
-
-        auto it_range = m_subs.equal_range( GameEvent<EvtType>::id() );
-
-        for ( int i = 0; i < GEventTimingCount; i++ )
-        {
-            for (auto it = it_range.first; it != it_range.second; it++)
-            {
-                if ( (int)(it->second.timing) == i )
-                {
-                    GEventSubBase* base = it->second.target;
-                    base->accept( evt );
-                }
-            }
-        }
-    }
-
+    void popQueue();
 
     std::unordered_multimap<GEventId, GEventCallback> m_subs;
-    std::queue<GameEventVariant> m_evtQueue;
+    std::queue<QueuedEvent> m_evtQueue;
+    
+    // Set during the resolution of events to ensure that events added to the queue while an event is being
+    // processed are handled in the right order
     bool m_evtInProgress = false;
 };
