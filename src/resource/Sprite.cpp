@@ -3,33 +3,34 @@
 #include <utils/Assert.h>
 
 Sprite::Sprite()
+    : m_renderObj(0)
 {}
 
 Sprite::Sprite(std::shared_ptr<Texture> const& texture, RectI const &region)
-    : m_texture(texture)
+    : m_texture(texture),m_renderObj( m_texture->handle() )
 {
     m_size = region.right();
-    m_renderObj.handle = m_texture->handle();
-    m_renderObj.screenBounds = {0, 0, region.w(), region.h()};
+    auto regionf = region.convert<float>();
+    auto sizef = texture->size().convert<float>();
+    
+    m_renderObj.setScreenVerts( 0, 0, regionf.w(), regionf.h() );
     
     // Convert our absolute texture bounds to fractional texture bounds
-    float texX = (float)region.x() / (float)texture->size().x();
-    float texY = (float)region.y() / (float)texture->size().y();
-    float texW = (float)region.w() / (float)texture->size().x();
-    float texH = (float)region.h() / (float)texture->size().y();
+    float texX = regionf.x() / sizef.x();
+    float texY = regionf.y() / sizef.y();
+    float texW = regionf.w() / sizef.x();
+    float texH = regionf.h() / sizef.y();
     
-    setTextureVerts( texX, texY, texW, texH );
+    m_renderObj.setTextureVerts( texX, texY, texW, texH );
 }
 
 Sprite::Sprite(std::shared_ptr<Texture> texture)
-    : m_texture(texture)
+    : m_texture(texture), m_renderObj( m_texture->handle() )
 {
     m_size = m_texture->size();
-    m_renderObj.handle = m_texture->handle();
-    m_renderObj.screenBounds = { 0, 0, m_size.x(), m_size.y() };
     
-    // Use entire texture
-    setTextureVerts( 0.0f, 0.0f, 1.0f, 1.0f );
+    m_renderObj.setScreenVerts( 0, 0, m_size.x(), m_size.y() );
+    m_renderObj.setTextureVerts( 0.0f, 0.0f, 1.0f, 1.0f );
 }
 
 Sprite::operator bool() const
@@ -40,15 +41,13 @@ Sprite::operator bool() const
 RenderObject Sprite::renderObject(Vector2i const &pos)
 {
     Assert( !!m_texture );
-    m_renderObj.screenBounds.x( pos.x() );
-    m_renderObj.screenBounds.y( pos.y() );
-    
+    m_renderObj.setScreenPosition( pos.convert<float>() );
     return m_renderObj;
 }
 
 void Sprite::setRenderLayer(RenderLayer layer)
 {
-    m_renderObj.renderLayer = layer;
+    m_renderObj.setRenderLayer( layer );
 }
 
 Vector2i Sprite::size() const
@@ -58,32 +57,6 @@ Vector2i Sprite::size() const
 
 void Sprite::setTargetSize(Vector2i size)
 {
-    m_renderObj.screenBounds.w( size.x() );
-    m_renderObj.screenBounds.h( size.y() );
-}
-
-void Sprite::setTextureVerts( float texX, float texY, float texW, float texH )
-{
-    m_renderObj.verts[2] = texX;
-    m_renderObj.verts[3] = texY + texH;
-    
-    // Bottom Right
-    m_renderObj.verts[6] = texX + texW;
-    m_renderObj.verts[7] = texY;
-    
-    // Bottom Left
-    m_renderObj.verts[10] = texX;
-    m_renderObj.verts[11] = texY;
-    
-    // Top Left
-    m_renderObj.verts[14] = texX;
-    m_renderObj.verts[15] = texY + texH;
-    
-    // Top Right
-    m_renderObj.verts[18] = texX + texW;
-    m_renderObj.verts[19] = texY + texH;
-    
-    // Bottom Left
-    m_renderObj.verts[22] = texX + texW;
-    m_renderObj.verts[23] = texY;
+    m_renderObj.setScreenSize( size.convert<float>() );
+    m_size = size;
 }

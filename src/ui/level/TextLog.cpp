@@ -123,7 +123,7 @@ void UI::MainTextLog::updateSelf(uint32_t ticks, InputInterface &iinter, RenderI
     for ( auto it = m_lines.rbegin(); it != m_lines.rend(); it++ )
     {
         auto rObj = it->getRenderObj();
-        currH += rObj.screenBounds.h();
+        currH += (int) rObj.getScreenBounds().h();
         currH += LineSpacing;
         rInter.addScreenItem( rObj );
 

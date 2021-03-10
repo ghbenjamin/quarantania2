@@ -21,7 +21,7 @@ Window::Window(std::string const &title, Vector2i bounds)
     TTF_Init();
     
     SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -70,6 +70,41 @@ Window::~Window()
 }
 
 
+void Window::openGLSetup()
+{
+    // No depth testing or face culling
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    
+    // Set the viewport size and projection
+    glViewport(0, 0, m_size.x(), m_size.y());
+    
+    // Cargo cult
+//    glMatrixMode( GL_PROJECTION );
+//    glLoadIdentity();
+//    glOrtho( 0.0, m_size.x(), m_size.y(), 0.0, 1.0, -1.0 );
+    
+    // Enable alpha blending
+    glEnable(GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
+    m_shaderProgram = std::make_shared<ShaderProgram>( "simple_screenspace", "simple_sampler" );
+    m_shaderProgram->useProgram();
+    
+    GLuint projectionLoc = m_shaderProgram->getUniformLocation( "projection" );
+    glm::mat4 projection = glm::ortho(0.0f, (float)m_size.x(), (float)m_size.y(), 0.0f, -1.0f, 1.0f);
+    m_shaderProgram->setUniformMat4v( projectionLoc, projection );
+    
+    GLuint modelLoc = m_shaderProgram->getUniformLocation( "model" );
+    glm::mat4 identity = glm::mat4(1.0f);
+    m_shaderProgram->setUniformMat4v( modelLoc, identity );
+    
+    glGenBuffers(1, &m_VBO);
+    glGenVertexArrays(1, &m_quadVAO);
+}
+
+
+
 SDL_Window *Window::raw()
 {
     return m_window;
@@ -96,64 +131,26 @@ void Window::render( RenderInterface const &objs )
     glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     GLuint currTex = 0;
-
-    GLuint modelLoc = m_shaderProgram->getUniformLocation( "model" );
-
+    
     for ( auto const& item : objs.renderables() )
     {
-        glm::vec2 position = {item.screenBounds.x(), item.screenBounds.y()};
-        glm::vec2 size = {item.screenBounds.w(), item.screenBounds.h()};
-    
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(position, 0.0f));
-        model = glm::scale(model, glm::vec3(size, 1.0f));
-
-        m_shaderProgram->setUniformMat4v( modelLoc, model );
-
         glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(item.verts), item.verts, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, item.getVerts().size() * sizeof(GLfloat) * 24, item.getVerts().data(), GL_STATIC_DRAW);
         
         glBindVertexArray(m_quadVAO);
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
 
-        if ( currTex != item.handle )
+        if ( currTex != item.getHandle() )
         {
-            currTex = item.handle;
+            currTex = item.getHandle();
             glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, item.handle);
+            glBindTexture(GL_TEXTURE_2D, item.getHandle());
         }
         
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }
     
     SDL_GL_SwapWindow(m_window);
-}
-
-void Window::openGLSetup()
-{
-    // No depth testing or face culling
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
-    
-    // Set the viewport size and projection
-    glViewport(0, 0, m_size.x(), m_size.y());
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
-    glOrtho( 0.0, m_size.x(), m_size.y(), 0.0, 1.0, -1.0 );
-    
-    // Enable alpha blending
-    glEnable(GL_BLEND);
-    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
-    m_shaderProgram = std::make_shared<ShaderProgram>( "simple_screenspace", "simple_sampler" );
-    m_shaderProgram->useProgram();
-    GLuint projectionLoc = m_shaderProgram->getUniformLocation( "projection" );
-
-    glm::mat4 projection = glm::ortho(0.0f, (float)m_size.x(), (float)m_size.y(), 0.0f, -1.0f, 1.0f);
-    m_shaderProgram->setUniformMat4v( projectionLoc, projection );
-
-    glGenBuffers(1, &m_VBO);
-    glGenVertexArrays(1, &m_quadVAO);
 }
 
