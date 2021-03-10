@@ -15,8 +15,5 @@ public:
     void operator()(GameEvents::EntityReady& evt);
 
     template <typename T>
-    void operator()(T&& t)
-    {
-        Logging::log( "F" );
-    }
+    void operator()(T&& t) {}
 };

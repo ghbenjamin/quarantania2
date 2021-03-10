@@ -2,7 +2,6 @@
 
 #include <variant>
 
-
 namespace GameEvents
 {
     struct EntityMove;

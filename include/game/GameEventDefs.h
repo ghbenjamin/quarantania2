@@ -14,6 +14,10 @@ struct Damage;
 namespace GameEvents
 {
 
+/**
+ *  Add any new events to GameEventVariant.
+ */
+
 
 // Movement Events
 // ------------------------------
@@ -61,7 +65,6 @@ struct TurnChange : public GameEvent<TurnChange>
 
     bool isPlayerTurn;
 };
-
 
 struct RoundChange : public GameEvent<RoundChange> {};
 

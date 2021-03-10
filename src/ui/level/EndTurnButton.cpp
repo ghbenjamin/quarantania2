@@ -13,5 +13,6 @@ UI::EndTurnButton::EndTurnButton(UI::Manager *manager, UI::Element *parent)
 
 void UI::EndTurnButton::onClick()
 {
+    // End the player turn on click
     manager()->level()->events().broadcast<GameEvents::TurnChange>(false);
 }
