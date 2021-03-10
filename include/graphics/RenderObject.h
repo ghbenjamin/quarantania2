@@ -17,9 +17,11 @@ enum class RenderLayer
     End
 };
 
+class Sprite;
+
 struct RenderObject
 {
-    RenderObject();
+    friend class Sprite;
     ~RenderObject() = default;
     
     TextureHandle handle;
@@ -27,4 +29,8 @@ struct RenderObject
     
     GLfloat verts[24];
     RectI screenBounds;
+    
+// Don't try and make render objects outside of sprites
+private:
+    RenderObject();
 };

@@ -9,9 +9,6 @@ TurnSystem::TurnSystem(Level *parent) : System(parent)
 
 void TurnSystem::operator()(GameEvents::TurnChange& evt)
 {
-    Logging::log( "Moving to player turn: {}\n", evt.isPlayerTurn ? "yes" : "no" );
-
-
     m_level->switchTurn();
 
     if ( evt.isPlayerTurn )
@@ -23,6 +20,5 @@ void TurnSystem::operator()(GameEvents::TurnChange& evt)
 
 void TurnSystem::operator()(GameEvents::RoundChange& evt)
 {
-    Logging::log( "Advancing round\n" );
     m_level->advanceRound();
 }

@@ -21,6 +21,10 @@ public:
     void setRenderLayer(RenderLayer layer);
     
 private:
+
+    void setTextureVerts( float texX, float texY, float texW, float texH );
+
+
     TexturePtr m_texture;
     Vector2i m_size;
     RenderObject m_renderObj;
