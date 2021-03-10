@@ -2,7 +2,7 @@
 
 #include <utils/Containers.h>
 
-struct RenderObject;
+class RenderObject;
 
 class Camera
 {
@@ -54,7 +54,7 @@ private:
     SDL_Rect m_rect;
 
     Vector2i m_viewportScreenOffset;
-    Vector2i m_internalOffset;
+    Vector2f m_internalOffset;
 
     float m_scrollSpeed;
 };

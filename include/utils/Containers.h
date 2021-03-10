@@ -237,6 +237,12 @@ public:
         m_rect.x = (int) m_x;
         m_rect.y = (int) m_y;
     }
+    
+    template <typename K>
+    Rect<K> convert() const
+    {
+        return { static_cast<K>(m_x), static_cast<K>(m_y), static_cast<K>(m_w), static_cast<K>(m_h) };
+    }
 
     bool intersect( Rect<T>const& other ) const
     {

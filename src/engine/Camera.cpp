@@ -29,7 +29,7 @@ void Camera::setViewportSize(Vector2i size)
 
 void Camera::enforceBounds()
 {
-    m_internalOffset = {0, 0};
+    m_internalOffset = {0.0f, 0.0f};
 
     float overflowX = (float) m_size.x() / 3;
     float overflowY = (float) m_size.y() / 3;
@@ -72,8 +72,8 @@ Vector2i const &Camera::getViewportScreenOffset() const
 
 void Camera::translate(RenderObject &spos) const
 {
-    spos.screenBounds.x(spos.screenBounds.x() + m_internalOffset.x() - m_roundedPosition.x());
-    spos.screenBounds.y(spos.screenBounds.y() + m_internalOffset.y() - m_roundedPosition.y());
+    Vector2f newPos = spos.getScreenBounds().left() + m_internalOffset - m_position;
+    spos.setScreenPosition( newPos );
 }
 
 void Camera::setScrollSpeed(float scrollSpeed)
@@ -84,16 +84,16 @@ void Camera::setScrollSpeed(float scrollSpeed)
 Vector2i Camera::worldToScreen(Vector2i const &coords) const
 {
     return {
-        coords.x() - m_roundedPosition.x() + m_internalOffset.x(),
-        coords.y() - m_roundedPosition.y() + m_internalOffset.y()
+        coords.x() - m_roundedPosition.x() + (int) m_internalOffset.x(),
+        coords.y() - m_roundedPosition.y() + (int) m_internalOffset.y()
     };
 }
 
 Vector2i Camera::screenToWorld(Vector2i const &coords) const
 {
     return {
-        coords.x() + m_roundedPosition.x() - m_internalOffset.x(),
-        coords.y() + m_roundedPosition.y() - m_internalOffset.y()
+        coords.x() + m_roundedPosition.x() - (int) m_internalOffset.x(),
+        coords.y() + m_roundedPosition.y() - (int) m_internalOffset.y()
     };
 }
 
