@@ -355,6 +355,7 @@ void Manager::openTooltip( TooltipData const &data, RectI const &spawner )
     Vector2i defaultPos = spawner.left() + Vector2i{ spawner.w(), -tooltipSize.y() } + Vector2i{ offset, -offset };
     
     m_tooltip->setLocalPosition( defaultPos );
+    m_tooltip->setFadeIn();
 }
 
 void Manager::closeTooltip()

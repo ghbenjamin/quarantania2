@@ -55,6 +55,6 @@ void AnimationSystem::operator()( GameEvents::EntityMove &evt )
         worldPath.push_back( m_level->tileCoordsToWorld( tile ).convert<float>() );
     }
     
-    TileAnimationPath pathAnim {worldPath, 0.6f};
+    TileAnimationPath pathAnim {worldPath, 0.2f};
     animC->movementPathAnim = std::move(pathAnim);
 }

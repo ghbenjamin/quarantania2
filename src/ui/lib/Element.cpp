@@ -60,6 +60,18 @@ void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rI
         return;
     }
 
+    if ( m_alphaTransition.has_value() )
+    {
+        m_alphaTransition->advance(ticks );
+        setAlpha( (std::uint8_t) m_alphaTransition->current() );
+        
+        if (m_alphaTransition->isFinished())
+        {
+            m_alphaTransition.reset();
+        }
+    }
+
+
     // Render our background, if any
     if ( m_background.has_value() )
     {
@@ -463,6 +475,16 @@ void Element::setAlpha( std::uint8_t value )
 
 void Element::onColourModChange()
 {
+}
+
+void Element::setAlphaTransition(std::uint8_t start, std::uint8_t end, float time)
+{
+    m_alphaTransition = { (float) start, (float) end, time };
+}
+
+void Element::setFadeIn()
+{
+    setAlphaTransition( 0, 255, 0.3f );
 }
 
 

@@ -5,32 +5,27 @@
 
 #include <utils/Containers.h>
 #include <engine/Component.h>
+#include <utils/Interpolate.h>
 
 class TileAnimationPath
 {
 public:
-    TileAnimationPath( std::vector<Vector2f> const &path, double totalAnimationTime );
+    TileAnimationPath( std::vector<Vector2f> const &path, float timePerStep );
     
     void advance( std::uint32_t ticks );
     
     Vector2f currentPosition() const;
-    bool isComplete() const;
     Vector2f finalPosition() const;
+    bool isComplete() const;
     
 private:
     
-    void advanceTile();
-
+    TimedLinearInterpolator<Vector2f> m_interpolator;
+    
     std::vector<Vector2f> m_path;
-    double m_totalAnimationTime;
-    double m_timePerStep;
     
-    Vector2f m_nextTile;
-    Vector2f m_prevTile;
+    float m_timePerStep;
     int m_currIdx;
-    
-    Vector2f m_currentPxPos;
-    Vector2f m_deltaPerTick;
     bool m_isComplete;
 };
 
@@ -38,7 +33,6 @@ struct AnimationComponent : public Component<AnimationComponent>
 {
     AnimationComponent() = default;
     ~AnimationComponent() override = default;
-    
     
     std::optional<TileAnimationPath> movementPathAnim;
 };

@@ -2,23 +2,16 @@
 #include <utils/Assert.h>
 #include <utils/Logging.h>
 
-TileAnimationPath::TileAnimationPath( std::vector<Vector2f> const &path, double totalAnimationTime )
-    : m_path(path), m_totalAnimationTime(totalAnimationTime), m_isComplete(false), m_currIdx(0)
+TileAnimationPath::TileAnimationPath( std::vector<Vector2f> const &path, float timePerStep )
+    : m_path(path), m_timePerStep(timePerStep), m_isComplete(false),
+      m_currIdx(1), m_interpolator(path[0], path[1], timePerStep)
 {
     AssertMsg( path.size() >= 2, "Animation path requires at least two points" );
-    
-    m_timePerStep =  totalAnimationTime / (path.size() - 1);
-    m_currentPxPos = path[0];
-    
-    m_prevTile = path[1];
-    m_nextTile = path[1];
-    
-    advanceTile();
 }
 
 Vector2f TileAnimationPath::currentPosition() const
 {
-    return m_currentPxPos;
+    return m_interpolator.current();
 }
 
 bool TileAnimationPath::isComplete() const
@@ -28,43 +21,21 @@ bool TileAnimationPath::isComplete() const
 
 void TileAnimationPath::advance( std::uint32_t ticks )
 {
-    if (m_isComplete)
-    {
-        return;
-    }
+    m_interpolator.advance( ticks );
     
-    Vector2f delta = m_deltaPerTick * (float) ticks;
-    m_currentPxPos += delta;
-
-    bool shouldAdvance =
-            ( m_deltaPerTick.x() > 0 && m_currentPxPos.x() > m_nextTile.x() ) ||
-            ( m_deltaPerTick.x() < 0 && m_currentPxPos.x() < m_nextTile.x() ) ||
-            ( m_deltaPerTick.y() > 0 && m_currentPxPos.y() > m_nextTile.y() ) ||
-            ( m_deltaPerTick.y() < 0 && m_currentPxPos.y() < m_nextTile.y() );
-
-    if ( shouldAdvance )
+    if ( m_interpolator.isFinished() )
     {
-        advanceTile();
+        if ( m_currIdx + 1 == m_path.size() )
+        {
+            m_isComplete = true;
+            return;
+        }
+        else
+        {
+            m_currIdx++;
+            m_interpolator = { m_path[m_currIdx-1], m_path[m_currIdx], m_timePerStep };
+        }
     }
-}
-
-void TileAnimationPath::advanceTile()
-{
-    if ( m_currIdx + 1 == m_path.size() )
-    {
-        m_isComplete = true;
-        return;
-    }
-
-    m_prevTile = m_path[m_currIdx];
-    m_currIdx++;
-    m_nextTile = m_path[m_currIdx];
-
-    Vector2f tileDelta = (m_nextTile - m_prevTile);
-    float ticksPerStep = m_timePerStep * 1000;
-    
-    m_deltaPerTick = tileDelta / ticksPerStep;
-    m_currentPxPos = m_prevTile;
 }
 
 Vector2f TileAnimationPath::finalPosition() const

@@ -12,6 +12,7 @@
 #include <ui/lib/UEvent.h>
 #include <resource/Sprite.h>
 #include <utils/Logging.h>
+#include <utils/Interpolate.h>
 #include <resource/Spritesheet.h>
 #include <ui/lib/Background.h>
 
@@ -128,6 +129,8 @@ public:
     Colour const& getColour();
     void setColour( Colour colour );
     void setAlpha( std::uint8_t value );
+    void setAlphaTransition(std::uint8_t start, std::uint8_t end, float time);
+    void setFadeIn();
 
     void setPadding( RectI const& rect );
     void setPadding( int w );
@@ -250,6 +253,7 @@ private:
     int m_borderWidth;
     RectI m_padding;
     Colour m_colour;
+    std::optional<TimedLinearInterpolator<float>> m_alphaTransition;
 
     // Events
     std::unordered_multimap<UEventType, UEventCallback> m_callbacks;
