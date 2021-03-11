@@ -248,12 +248,12 @@ void UI::ActionMenuSpawnItem::setDisabled(bool value)
     if (m_isDisabled)
     {
         m_icon->setBorder( Colour::Grey.withAlpha(150), 1, Colour::White.withAlpha(150) );
-        m_label->setColour( Colour::White.withAlpha(150) );
+        m_label->setTextColour(Colour::White.withAlpha(150));
     }
     else
     {
         m_icon->setBorder( Colour::Grey, 1, Colour::White );
-        m_label->setColour( Colour::White );
+        m_label->setTextColour(Colour::White);
     }
 }
 

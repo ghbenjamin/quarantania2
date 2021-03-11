@@ -15,7 +15,8 @@ Element::Element(Manager* manager, Element* parent)
     m_borderWidth(0),
     m_isHidden(false),
     m_maxOuterSize({0, 0}),
-    m_isDecorative(false)
+    m_isDecorative(false),
+    m_colour( Colour::White )
 {
     // Sensible default
     setLayout<UI::VerticalLayout>();
@@ -294,10 +295,8 @@ void Element::setPadding(int top, int right, int bottom, int left)
     doLayout();
 }
 
-
 void Element::generateBackground()
 {
-
     if ( m_background.has_value() )
     {
         m_background->regenerateBackground( m_outerBounds.right() );
@@ -435,6 +434,36 @@ void Element::removeEventCallbacks( UEventType type )
     m_callbacks.erase( type );
 }
 
+Colour const &Element::getColour()
+{
+    return m_colour;
+}
+
+void Element::setColour(Colour colour)
+{
+    m_colour = colour;
+    
+    if (m_background.has_value())
+    {
+        m_background->setColourMod( colour );
+    }
+    
+    onColourModChange();
+    
+    for ( auto const& c : m_children )
+    {
+        c->setColour( colour );
+    }
+}
+
+void Element::setAlpha( std::uint8_t value )
+{
+    setColour( m_colour.withAlpha(value) );
+}
+
+void Element::onColourModChange()
+{
+}
 
 
 

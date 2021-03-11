@@ -39,6 +39,7 @@ public:
 
     void setSize( Vector2i size );
     void render( Vector2i position, RenderInterface &rInter );
+    void setColourMod( Colour colour );
 
 private:
 
@@ -52,9 +53,7 @@ class ElementBackground
 public:
     ElementBackground( Sprite const& sprite );
     ElementBackground( SpritesheetKey const& key );
-
     ElementBackground( NinePatch const& patch );
-
     ElementBackground( Colour const& colour );
     ElementBackground( Colour const& backColour, Colour const& borderColour, int borderWidth );
 
@@ -62,6 +61,7 @@ public:
 
     void render(Vector2i position, RenderInterface &rInter);
     void regenerateBackground( Vector2i size );
+    void setColourMod( Colour colour );
 
 private:
 
@@ -82,6 +82,11 @@ private:
     Colour m_bgColour;
     Colour m_borderColour;
     int m_borderWidth = 0;
+    
+    // Our element might have a colour modification applied. We need to apply that colour to our background
+    // sprites as well.
+    bool m_hasColourMod = false;
+    Colour m_elementColourMod;
 };
 
 

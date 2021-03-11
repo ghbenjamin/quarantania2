@@ -104,8 +104,9 @@ public:
     {
         static_assert( std::is_base_of_v<Element, ET> );
         auto ptr = std::static_pointer_cast<Element>( child );
-
+        
         m_children.push_back(child);
+        m_children.back()->setColour( getColour() );
 
         doLayout();
     }
@@ -119,9 +120,14 @@ public:
     void setBackground( Args ... args )
     {
         m_background = { std::forward<Args>(args)... };
+        m_background->setColourMod( m_colour );
     }
 
     void removeBackround();
+    
+    Colour const& getColour();
+    void setColour( Colour colour );
+    void setAlpha( std::uint8_t value );
 
     void setPadding( RectI const& rect );
     void setPadding( int w );
@@ -141,6 +147,7 @@ protected:
     Manager* manager();
     void onMove();
     void onSize();
+    virtual void onColourModChange();
 
     template <typename Callable>
     void elementsMatchingCondition( Callable&& callable, ElementList* out )
@@ -242,6 +249,7 @@ private:
     std::optional<ElementBackground> m_background;
     int m_borderWidth;
     RectI m_padding;
+    Colour m_colour;
 
     // Events
     std::unordered_multimap<UEventType, UEventCallback> m_callbacks;

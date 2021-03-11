@@ -110,3 +110,32 @@ bool Colour::operator<(const Colour &rhs) const
     return m_colour.a < rhs.m_colour.a;
 }
 
+std::array<float, 4> Colour::toOpenGL() const
+{
+    return {
+        m_colour.r / 255.0f,
+        m_colour.g / 255.0f,
+        m_colour.b / 255.0f,
+        m_colour.a / 255.0f,
+    };
+}
+
+void Colour::setR( std::uint8_t val )
+{
+    m_colour.r = val;
+}
+
+void Colour::setG( std::uint8_t val )
+{
+    m_colour.g = val;
+}
+
+void Colour::setB( std::uint8_t val )
+{
+    m_colour.b = val;
+}
+
+void Colour::setA( std::uint8_t val )
+{
+    m_colour.a = val;
+}

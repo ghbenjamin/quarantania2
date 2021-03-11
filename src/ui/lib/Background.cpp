@@ -76,15 +76,40 @@ void ElementBackground::regenerateBackground( Vector2i size )
             break;
         case BackgroundType::NinePatch:
             m_ninePatch->setSize( size );
+            if ( m_hasColourMod )
+                m_ninePatch->setColourMod( m_elementColourMod );
             break;
         case BackgroundType::SingleColour:
             m_colourSprite = createRectangle( size, m_bgColour );
             m_colourSprite->setRenderLayer( RenderLayer::UI );
+            if ( m_hasColourMod )
+                m_colourSprite->setColour( m_elementColourMod );
             break;
         case BackgroundType::ColourWithBorder:
             m_colourSprite = createBorderedRectangle( size, m_borderColour, m_bgColour, m_borderWidth );
             m_colourSprite->setRenderLayer( RenderLayer::UI );
+            if ( m_hasColourMod )
+                m_colourSprite->setColour( m_elementColourMod );
             break;
+    }
+}
+
+void ElementBackground::setColourMod(Colour colour)
+{
+    m_elementColourMod = colour;
+    m_hasColourMod = true;
+    
+    if (m_colourSprite.has_value())
+    {
+        m_colourSprite->setColour( colour );
+    }
+    else if (m_singleSprite.has_value())
+    {
+        m_singleSprite->setColour(colour);
+    }
+    else if (m_ninePatch.has_value())
+    {
+        m_ninePatch->setColourMod(colour);
     }
 }
 
@@ -140,5 +165,13 @@ void NinePatch::render(Vector2i position, RenderInterface &rInter)
     for (int i = 0; i < 9; i++)
     {
         rInter.addScreenItem( m_sprites[i].renderObject( position + m_offsets[i].left() ) );
+    }
+}
+
+void NinePatch::setColourMod( Colour colour )
+{
+    for (int i = 0; i < 9; i++)
+    {
+        m_sprites[i].setColour( colour );
     }
 }

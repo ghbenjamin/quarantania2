@@ -16,7 +16,10 @@ public:
     ~PlayerStatusActionSpeedBar() override = default;
 
     void refresh();
-    
+
+protected:
+    void onColourModChange() override;
+
 private:
     
     EntityRef m_entity;

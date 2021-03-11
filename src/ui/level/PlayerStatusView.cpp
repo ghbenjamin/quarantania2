@@ -53,7 +53,7 @@ PlayerStatusWidget::PlayerStatusWidget(Manager *manager, Element *parent, Entity
 
 void PlayerStatusWidget::refresh()
 {
-    m_nameLabel->setColour(Colour::Black);
+    m_nameLabel->setTextColour(Colour::Black);
     m_actionSpeed->refresh();
     m_hp->refresh();
 }
@@ -124,18 +124,18 @@ void PlayerStatusContainer::reloadEntities()
 PlayerStatusActionSpeedBar::PlayerStatusActionSpeedBar( Manager *manager, Element *parent, EntityRef entity )
   : Element(manager, parent), m_entity(entity)
 {
-    setLayout<HorizontalLayout>( 2, VAlignment::Centre );
+    setLayout<HorizontalLayout>( -1, VAlignment::Centre );
 
-    m_unusedSprites = {
-        ResourceManager::get().getSprite( "game_ui/axe-sword-small-unused" ),
-        ResourceManager::get().getSprite( "game_ui/move-small-unused" ),
-        ResourceManager::get().getSprite( "game_ui/tron-arrow-small-unused" ),
+   m_usedSprites = {
+        ResourceManager::get().getSprite( "game_ui/action-std-disabled" ),
+        ResourceManager::get().getSprite( "game_ui/action-move-disabled" ),
+        ResourceManager::get().getSprite( "game_ui/action-swift-disabled" ),
     };
     
-    m_usedSprites = {
-        ResourceManager::get().getSprite( "game_ui/axe-sword-small" ),
-        ResourceManager::get().getSprite( "game_ui/move-small" ),
-        ResourceManager::get().getSprite( "game_ui/tron-arrow-small" ),
+    m_unusedSprites = {
+        ResourceManager::get().getSprite( "game_ui/action-std-enabled" ),
+        ResourceManager::get().getSprite( "game_ui/action-move-enabled" ),
+        ResourceManager::get().getSprite( "game_ui/action-swift-enabled" ),
     };
 
 
@@ -161,6 +161,19 @@ void PlayerStatusActionSpeedBar::refresh()
         {
             m_icons[i]->setSprite( m_usedSprites[i] );
         }
+    }
+}
+
+void PlayerStatusActionSpeedBar::onColourModChange()
+{
+    for (auto & s: m_usedSprites)
+    {
+        s.setColour( getColour() );
+    }
+    
+    for (auto & s: m_unusedSprites)
+    {
+        s.setColour( getColour() );
     }
 }
 

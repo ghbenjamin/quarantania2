@@ -31,12 +31,13 @@ public:
     
     void setTextureVerts( float texX, float texY, float texW, float texH );
     void setScreenVerts( float scX, float scY, float scW, float scH );
+    void setColourVerts( float r, float g, float b, float a );
     
     void setRenderLayer( RenderLayer layer );
     
     RectF const& getScreenBounds() const;
     TextureHandle getHandle() const;
-    std::array<GLfloat, 24> const& getVerts() const;
+    std::array<GLfloat, 48> const& getVerts() const;
     
     bool operator<( RenderObject const &rhs ) const;
 
@@ -44,6 +45,6 @@ private:
     
     RenderLayer m_renderLayer;
     TextureHandle m_handle;
-    std::array<GLfloat, 24> m_verts;
+    std::array<GLfloat, 48> m_verts;
     RectF m_screenBounds;
 };

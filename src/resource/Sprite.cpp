@@ -60,3 +60,9 @@ void Sprite::setTargetSize(Vector2i size)
     m_renderObj.setScreenSize( size.convert<float>() );
     m_size = size;
 }
+
+void Sprite::setColour( Colour colour )
+{
+    auto colourGl = colour.toOpenGL();
+    m_renderObj.setColourVerts( colourGl[0], colourGl[1], colourGl[2], colourGl[3] );
+}

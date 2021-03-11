@@ -62,13 +62,18 @@ void Label::setText(std::string const &text)
     setPreferredContentSize( m_text.size() );
 }
 
-void Label::setColour(Colour colour)
+void Label::setTextColour( Colour colour)
 {
     if (colour != m_style.textColour)
     {
         m_style.textColour = colour;
         renderText();
     }
+}
+
+void Label::onColourModChange()
+{
+    m_text.setColour( getColour() );
 }
 
 
@@ -140,5 +145,10 @@ void Icon::setSprite( Sprite const& sprite )
     m_sprite = sprite;
     m_sprite.setRenderLayer( RenderLayer::UI );
     setPreferredContentSize( m_sprite.size() );
+}
+
+void Icon::onColourModChange()
+{
+    m_sprite.setColour( getColour() );
 }
 

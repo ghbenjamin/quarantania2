@@ -135,11 +135,14 @@ void Window::render( RenderInterface const &objs )
     for ( auto const& item : objs.renderables() )
     {
         glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-        glBufferData(GL_ARRAY_BUFFER, item.getVerts().size() * sizeof(GLfloat) * 24, item.getVerts().data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, item.getVerts().size() * sizeof(GLfloat) * 48, item.getVerts().data(), GL_STATIC_DRAW);
         
         glBindVertexArray(m_quadVAO);
+        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(4 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+
 
         if ( currTex != item.getHandle() )
         {

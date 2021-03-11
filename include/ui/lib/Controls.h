@@ -19,10 +19,12 @@ public:
     ~Label() override = default;
 
     void setText( std::string const& text );
-    void setColour(Colour colour);
+    void setTextColour( Colour colour);
 
 protected:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
+    
+    void onColourModChange() override;
 
 private:
     void renderText();
@@ -64,6 +66,8 @@ public:
 
 protected:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
+    
+    void onColourModChange() override;
 
 private:
     Sprite m_sprite;
