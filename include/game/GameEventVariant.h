@@ -18,6 +18,7 @@ namespace GameEvents
     struct EntityDeath;
     struct EntityDamage;
     struct CombatMeleeAttack;
+    struct CombatMissedAttack;
     struct ControllerEntitySelected;
 }
 
@@ -36,5 +37,6 @@ using GameEventVariant = std::variant<
         GameEvents::EntityDeath,
         GameEvents::EntityDamage,
         GameEvents::CombatMeleeAttack,
+        GameEvents::CombatMissedAttack,
         GameEvents::ControllerEntitySelected
 >;

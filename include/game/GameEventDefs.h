@@ -148,6 +148,15 @@ struct CombatMeleeAttack : public GameEvent<CombatMeleeAttack>
     EntityRef defender;
 };
 
+struct CombatMissedAttack : public GameEvent<CombatMissedAttack>
+{
+    CombatMissedAttack(EntityRef attacker, EntityRef defender);
+    ~CombatMissedAttack() override = default;
+
+    EntityRef attacker;
+    EntityRef defender;
+};
+
 
 // Controller Events
 // ------------------------------

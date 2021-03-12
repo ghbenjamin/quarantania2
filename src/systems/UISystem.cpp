@@ -23,6 +23,7 @@ UISystem::UISystem(Level *parent)
     m_level->events().subscribe<GameEvents::ControllerEntitySelected>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::CombatMeleeAttack>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::EntityAction>(this, GEventTiming::After );
+    m_level->events().subscribe<GameEvents::CombatMissedAttack>(this, GEventTiming::After );
 }
 
 void UISystem::operator()(GameEvents::LevelReady& evt)
@@ -118,4 +119,13 @@ void UISystem::operator()(GameEvents::RoundChange &evt)
 {
     auto playerStatus = m_level->ui().withId<UI::PlayerStatusContainer>( "player-status-container" );
     playerStatus->reloadEntities();
+}
+
+void UISystem::operator()(GameEvents::CombatMissedAttack &evt)
+{
+    pushLogLine( fmt::format(
+            "{} misses {} ",
+            m_level->getDescriptionForEnt( evt.attacker ),
+            m_level->getDescriptionForEnt( evt.defender )
+    ));
 }

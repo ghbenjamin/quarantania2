@@ -40,6 +40,6 @@ void CombatSystem::doMeleeAttack( EntityRef attackerRef, EntityRef defenderRef )
     }
     else
     {
-        // Trigger: missed attack
+        m_level->events().broadcast<GameEvents::CombatMissedAttack>( attackerRef, defenderRef );
     }
 }

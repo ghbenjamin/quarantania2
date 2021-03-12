@@ -23,6 +23,7 @@ public:
     void operator()(GameEvents::EntityDamage& evt);
     void operator()(GameEvents::ControllerEntitySelected& evt);
     void operator()(GameEvents::EntityAction& evt);
+    void operator()(GameEvents::CombatMissedAttack& evt);
 
     template <typename T>
     void operator()(T&& t)

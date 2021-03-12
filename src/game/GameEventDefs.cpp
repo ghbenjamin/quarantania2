@@ -40,5 +40,8 @@ GameEvents::ControllerEntitySelected::ControllerEntitySelected(EntityRef entity)
 GameEvents::CombatMeleeAttack::CombatMeleeAttack(EntityRef attacker, EntityRef defender)
     : attacker(attacker), defender(defender) {}
 
+GameEvents::CombatMissedAttack::CombatMissedAttack(EntityRef attacker, EntityRef defender)
+    : attacker(attacker), defender(defender) {}
+
 GameEvents::TurnChange::TurnChange(bool isPlayerTurn)
     : isPlayerTurn(isPlayerTurn) {}
