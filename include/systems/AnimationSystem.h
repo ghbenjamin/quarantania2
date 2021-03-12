@@ -16,6 +16,7 @@ public:
     void update(uint32_t ticks, RenderInterface &rInter) override;
 
     void operator()(GameEvents::EntityMove& evt);
+    void operator()(GameEvents::EntityDamage& evt);
 
     template <typename T>
     void operator()(T&& t)

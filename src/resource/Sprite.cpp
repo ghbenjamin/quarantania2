@@ -3,11 +3,11 @@
 #include <utils/Assert.h>
 
 Sprite::Sprite()
-    : m_renderObj(0)
+    : m_renderObj(0), m_colour(Colour::White)
 {}
 
 Sprite::Sprite(std::shared_ptr<Texture> const& texture, RectI const &region)
-    : m_texture(texture),m_renderObj( m_texture->handle() )
+    : m_texture(texture),m_renderObj( m_texture->handle() ), m_colour(Colour::White)
 {
     m_size = region.right();
     auto regionf = region.convert<float>();
@@ -25,7 +25,7 @@ Sprite::Sprite(std::shared_ptr<Texture> const& texture, RectI const &region)
 }
 
 Sprite::Sprite(std::shared_ptr<Texture> texture)
-    : m_texture(texture), m_renderObj( m_texture->handle() )
+    : m_texture(texture), m_renderObj( m_texture->handle() ), m_colour(Colour::White)
 {
     m_size = m_texture->size();
     
@@ -63,6 +63,11 @@ void Sprite::setTargetSize(Vector2i size)
 
 void Sprite::setColour( Colour colour )
 {
-    auto colourGl = colour.toOpenGL();
+    auto colourGl = colour.asOpenGL();
     m_renderObj.setColourVerts( colourGl[0], colourGl[1], colourGl[2], colourGl[3] );
+}
+
+Colour const &Sprite::getColour()
+{
+    return m_colour;
 }

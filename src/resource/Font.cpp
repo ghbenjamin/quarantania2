@@ -30,11 +30,11 @@ std::shared_ptr<Texture> FontData::renderText(std::string const &text, Colour co
 
     if (wrapWidth > 0)
     {
-        surface = TTF_RenderText_Blended_Wrapped( m_font, text.c_str(), colour.raw(), wrapWidth );
+        surface = TTF_RenderText_Blended_Wrapped(m_font, text.c_str(), colour.asSDL(), wrapWidth );
     }
     else
     {
-        surface = TTF_RenderText_Blended( m_font, text.c_str(), colour.raw() );
+        surface = TTF_RenderText_Blended( m_font, text.c_str(), colour.asSDL() );
     }
 
     Assert(surface != nullptr);
@@ -55,7 +55,7 @@ TTF_Font *FontData::raw() const
 
 std::shared_ptr<Surface> FontData::renderGlyph(uint16_t glyph, Colour colour) const
 {
-    SDL_Surface* surface = TTF_RenderGlyph_Blended( m_font, glyph, colour.raw() );
+    SDL_Surface* surface = TTF_RenderGlyph_Blended( m_font, glyph, colour.asSDL() );
     return std::make_shared<Surface>(surface, PixelFormat::ARGB);
 }
 
@@ -88,11 +88,11 @@ std::shared_ptr<Texture> DirectRenderFont::renderText(const std::string &text, C
 
     if (wrapWidth > 0)
     {
-        surface = TTF_RenderText_Blended_Wrapped( m_fontData->raw(), text.c_str(), colour.raw(), wrapWidth );
+        surface = TTF_RenderText_Blended_Wrapped(m_fontData->raw(), text.c_str(), colour.asSDL(), wrapWidth );
     }
     else
     {
-        surface = TTF_RenderText_Blended( m_fontData->raw(), text.c_str(), colour.raw() );
+        surface = TTF_RenderText_Blended( m_fontData->raw(), text.c_str(), colour.asSDL() );
     }
 
     Assert(surface != nullptr);
@@ -103,6 +103,6 @@ std::shared_ptr<Texture> DirectRenderFont::renderText(const std::string &text, C
 
 std::shared_ptr<Surface> DirectRenderFont::renderGlyph(uint16_t glyph, Colour colour) const
 {
-    SDL_Surface* surface = TTF_RenderGlyph_Blended( m_fontData->raw(), glyph, colour.raw() );
+    SDL_Surface* surface = TTF_RenderGlyph_Blended( m_fontData->raw(), glyph, colour.asSDL() );
     return std::make_shared<Surface>(surface, PixelFormat::ARGB);
 }

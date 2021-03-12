@@ -16,6 +16,8 @@ public:
 
     explicit operator bool() const;
     Vector2i size() const;
+    Colour const& getColour();
+    
     RenderObject renderObject(Vector2i const& pos);
     
     void setColour( Colour colour );

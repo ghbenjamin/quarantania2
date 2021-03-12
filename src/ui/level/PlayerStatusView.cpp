@@ -23,7 +23,7 @@ PlayerStatusWidget::PlayerStatusWidget(Manager *manager, Element *parent, Entity
     setPreferredContentWidth( 200 );
     
     // Add the icon of the entity
-    auto iconSprite = manager->level()->ecs().getComponents<RenderComponent>(ref)->sprites[0];
+    auto& iconSprite = manager->level()->ecs().getComponents<RenderComponent>(ref)->sprite;
     auto icon = manager->createElement<Icon>(this, iconSprite);
     icon->setPadding(2);
     

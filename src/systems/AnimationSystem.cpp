@@ -10,6 +10,7 @@ AnimationSystem::AnimationSystem(Level *parent)
         : System(parent)
 {
     m_level->events().subscribe<GameEvents::EntityMove>(this);
+    m_level->events().subscribe<GameEvents::EntityDamage>(this);
 }
 
 void AnimationSystem::update(uint32_t ticks, RenderInterface &rInter)
@@ -25,6 +26,16 @@ void AnimationSystem::update(uint32_t ticks, RenderInterface &rInter)
             {
                 tile->pixelPosition = anim->movementPathAnim->finalPosition().convert<int>();
                 anim->movementPathAnim.reset();
+            }
+        }
+        if ( anim->colourModAnim.has_value() )
+        {
+            anim->colourModAnim->advance( ticks );
+            
+            if ( anim->colourModAnim->isComplete() )
+            {
+                render->sprite.setColour( anim->colourModAnim->colour() );
+                anim->colourModAnim.reset();
             }
         }
     }
@@ -57,4 +68,15 @@ void AnimationSystem::operator()( GameEvents::EntityMove &evt )
     
     TileAnimationPath pathAnim {worldPath, 0.2f};
     animC->movementPathAnim = std::move(pathAnim);
+}
+
+void AnimationSystem::operator()( GameEvents::EntityDamage &evt )
+{
+    if ( m_level->ecs().entityHas<AnimationComponent>( evt.target ) )
+    {
+        auto [renderC, animC] = m_level->ecs().getComponents<RenderComponent, AnimationComponent>(evt.target);
+        
+        animC->colourModAnim = { renderC->sprite.getColour(), 0.5f };
+        renderC->sprite.setColour( Colour::Red );
+    }
 }

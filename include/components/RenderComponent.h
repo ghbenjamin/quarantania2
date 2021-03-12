@@ -6,9 +6,7 @@
 struct RenderComponent : public Component<RenderComponent>
 {
     explicit RenderComponent(Sprite const& s);
-    explicit RenderComponent(std::vector<Sprite> const& sprites);
     ~RenderComponent() override = default;
-
-    std::vector<Sprite> sprites;
-    int current;
+    
+    Sprite sprite;
 };

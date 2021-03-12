@@ -50,7 +50,7 @@ void FontCache::generateAsciiCache(std::shared_ptr<FontData> const& font, Colour
     auto cacheSurface = std::make_shared<Surface>( totalSize );
     for (int i = 0; i < TotalCount; i++)
     {
-        SDL_BlitSurface( surfaceArr[i]->raw(), nullptr, cacheSurface->raw(), &m_locs[i] );
+        SDL_BlitSurface(surfaceArr[i]->raw(), nullptr, cacheSurface->raw(), &m_locs[i] );
     }
 
     m_cache = cacheSurface;

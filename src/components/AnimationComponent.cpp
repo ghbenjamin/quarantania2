@@ -42,3 +42,26 @@ Vector2f TileAnimationPath::finalPosition() const
 {
     return m_path.back();
 }
+
+ColourModification::ColourModification( Colour colour, float seconds )
+ : m_maxSeconds(seconds), m_colour(colour), m_currSeconds(0.0f), m_isComplete(false) {}
+
+void ColourModification::advance( std::uint32_t ticks )
+{
+    m_currSeconds += ((float)ticks / 1000.0f);
+    
+    if (m_currSeconds > m_maxSeconds)
+    {
+        m_isComplete = true;
+    }
+}
+
+Colour const &ColourModification::colour()
+{
+    return m_colour;
+}
+
+bool ColourModification::isComplete() const
+{
+    return m_isComplete;
+}

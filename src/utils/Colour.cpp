@@ -1,34 +1,35 @@
 #include <utils/Colour.h>
 #include <utils/Assert.h>
+#include <fmt/format.h>
 
-const Colour Colour::Red = { 230, 25, 75, 255 };
-const Colour Colour::Green = { 60, 180, 75, 255 };
-const Colour Colour::Yellow = { 255, 225, 25, 255 };
-const Colour Colour::Blue = { 0, 130, 200, 255 };
-const Colour Colour::Orange = { 245, 130, 48, 255 };
-const Colour Colour::Purple = { 145, 30, 180, 255 };
-const Colour Colour::Cyan = { 70, 240, 240, 255 };
-const Colour Colour::Magenta = { 240, 50, 230, 255 };
-const Colour Colour::Lime = { 210, 245, 60, 255 };
-const Colour Colour::Pink = { 250, 190, 190, 255 };
-const Colour Colour::Teal = { 0, 128, 128, 255 };
-const Colour Colour::Lavender = { 230, 190, 255, 255 };
-const Colour Colour::Brown = { 170, 110, 40, 255 };
-const Colour Colour::Beige = { 255, 250, 200, 255 };
-const Colour Colour::Maroon = { 128, 0, 0, 255 };
-const Colour Colour::Mint = { 170, 255, 195, 255 };
-const Colour Colour::Olive = { 128, 128, 0, 255 };
-const Colour Colour::Apricot = { 255, 215, 180, 255 };
-const Colour Colour::Navy = { 0, 0, 128, 255 };
-const Colour Colour::Grey = { 128, 128, 128, 255 };
-const Colour Colour::White = { 255, 255, 255, 255 };
-const Colour Colour::Black = { 0, 0, 0, 255 };
+const Colour Colour::Red = SDL_Colour{ 230, 25, 75, 255 };
+const Colour Colour::Green = SDL_Colour{ 60, 180, 75, 255 };
+const Colour Colour::Yellow = SDL_Colour{ 255, 225, 25, 255 };
+const Colour Colour::Blue = SDL_Colour{ 0, 130, 200, 255 };
+const Colour Colour::Orange = SDL_Colour{ 245, 130, 48, 255 };
+const Colour Colour::Purple = SDL_Colour{ 145, 30, 180, 255 };
+const Colour Colour::Cyan = SDL_Colour{ 70, 240, 240, 255 };
+const Colour Colour::Magenta = SDL_Colour{ 240, 50, 230, 255 };
+const Colour Colour::Lime = SDL_Colour{ 210, 245, 60, 255 };
+const Colour Colour::Pink = SDL_Colour{ 250, 190, 190, 255 };
+const Colour Colour::Teal = SDL_Colour{ 0, 128, 128, 255 };
+const Colour Colour::Lavender = SDL_Colour{ 230, 190, 255, 255 };
+const Colour Colour::Brown = SDL_Colour{ 170, 110, 40, 255 };
+const Colour Colour::Beige = SDL_Colour{ 255, 250, 200, 255 };
+const Colour Colour::Maroon = SDL_Colour{ 128, 0, 0, 255 };
+const Colour Colour::Mint = SDL_Colour{ 170, 255, 195, 255 };
+const Colour Colour::Olive = SDL_Colour{ 128, 128, 0, 255 };
+const Colour Colour::Apricot = SDL_Colour{ 255, 215, 180, 255 };
+const Colour Colour::Navy = SDL_Colour{ 0, 0, 128, 255 };
+const Colour Colour::Grey = SDL_Colour{ 128, 128, 128, 255 };
+const Colour Colour::White = SDL_Colour{ 255, 255, 255, 255 };
+const Colour Colour::Black = SDL_Colour{ 0, 0, 0, 255 };
 
 Colour::Colour(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
-        : m_colour{r, g, b, a} {}
+        : m_colour{r, g, b, a}, m_r(intToFloat(r)), m_g(intToFloat(g)), m_b(intToFloat(b)), m_a(intToFloat(a)) {}
 
-Colour::Colour(uint8_t r, uint8_t g, uint8_t b)
-    : m_colour{r, g, b, 255} {}
+//Colour::Colour(uint8_t r, uint8_t g, uint8_t b)
+//    : m_colour{r, g, b, 255}, m_r(intToFloat(r)), m_g(intToFloat(g)), m_b(intToFloat(b)), m_a(1.0f) {}
 
 Colour::Colour(const std::string& str)
 {
@@ -38,20 +39,26 @@ Colour::Colour(const std::string& str)
         sscanf_s( str.substr(1, 6).c_str(), "%2hx%2hx%2hx", &r, &g, &b );
 
         m_colour = { (std::uint8_t)r, (std::uint8_t)g, (std::uint8_t)b, 255 };
+        m_r = intToFloat(r);
+        m_g = intToFloat(g);
+        m_b = intToFloat(b);
+        m_a = 1.0f;
     }
     else
     {
-        AssertAlways();
+        AssertAlwaysMsg( fmt::format( "Unknown colour string: {}", str ) );
     }
 }
 
 
-SDL_Color const &Colour::raw() const
+SDL_Color const &Colour::asSDL() const
 { return m_colour; }
 
-Colour::Colour() : m_colour{0, 0, 0, 0} {}
+Colour::Colour() : m_colour{0, 0, 0, 0}, m_r(0), m_g(0), m_b(0), m_a(0) {}
 
-Colour::Colour(SDL_Color const &colour) : m_colour(colour) {}
+Colour::Colour(SDL_Color const &colour) : m_colour(colour),
+    m_r(intToFloat(colour.r)), m_g(intToFloat(colour.g)),
+    m_b(intToFloat(colour.b)), m_a(intToFloat(colour.a))  {}
 
 bool Colour::operator==(const Colour &rhs) const
 {
@@ -70,28 +77,10 @@ Colour Colour::withAlpha(uint8_t val) const
 {
     Colour c = *this;
     c.m_colour.a = val;
+    c.m_a = intToFloat(val);
     return c;
 }
 
-uint8_t Colour::getR() const
-{
-    return m_colour.r;
-}
-
-uint8_t Colour::getG() const
-{
-    return m_colour.g;
-}
-
-uint8_t Colour::getB() const
-{
-    return m_colour.b;
-}
-
-uint8_t Colour::getA() const
-{
-    return m_colour.a;
-}
 
 bool Colour::operator<(const Colour &rhs) const
 {
@@ -110,32 +99,28 @@ bool Colour::operator<(const Colour &rhs) const
     return m_colour.a < rhs.m_colour.a;
 }
 
-std::array<float, 4> Colour::toOpenGL() const
+std::array<float, 4> Colour::asOpenGL() const
 {
-    return {
-        m_colour.r / 255.0f,
-        m_colour.g / 255.0f,
-        m_colour.b / 255.0f,
-        m_colour.a / 255.0f,
-    };
+   return { m_r, m_g, m_b, m_a };
 }
 
-void Colour::setR( std::uint8_t val )
+
+Colour Colour::operator-( Colour const &other ) const
 {
-    m_colour.r = val;
+    return Colour(
+        m_colour.r - other.m_colour.r,
+        m_colour.g - other.m_colour.g,
+        m_colour.b - other.m_colour.b,
+        m_colour.a - other.m_colour.a
+    );
 }
 
-void Colour::setG( std::uint8_t val )
+float Colour::intToFloat( std::uint8_t val )
 {
-    m_colour.g = val;
+    return (float) val / 255.0f;
 }
 
-void Colour::setB( std::uint8_t val )
+std::uint8_t Colour::floatToInt( float val )
 {
-    m_colour.b = val;
-}
-
-void Colour::setA( std::uint8_t val )
-{
-    m_colour.a = val;
+    return (std::uint8_t)(val * 255.0f);
 }
