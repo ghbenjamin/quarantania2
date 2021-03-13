@@ -58,11 +58,14 @@ private:
 class Icon : public Element
 {
 public:
+    Icon(Manager* manager, Element* parent);
     Icon(Manager* manager, Element* parent, Sprite const& img);
     Icon(Manager* manager, Element* parent, SpritesheetKey const& img);
     ~Icon() override = default;
 
     void setSprite( Sprite const& sprite );
+    void setSprite( SpritesheetKey const& sprite );
+    void clearSprite();
 
 protected:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
@@ -70,7 +73,8 @@ protected:
     void onColourModChange() override;
 
 private:
-    Sprite m_sprite;
+    
+    std::optional<Sprite> m_sprite;
 };
 
 }

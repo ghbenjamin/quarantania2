@@ -50,12 +50,20 @@ void UISystem::operator()(GameEvents::ItemDrop& evt)
 
 void UISystem::operator()(GameEvents::ItemEquip& evt)
 {
-    
+    auto creatureEquip = m_level->ui().withId<UI::EquipView>( "ui-equip-inner" );
+    creatureEquip->refresh(evt.actor);
+
+    auto creatureInventory = m_level->ui().withId<UI::ContainerView>( "player-inventory" );
+    creatureInventory->refresh(evt.actor);
 }
 
 void UISystem::operator()(GameEvents::ItemUnequip& evt)
 {
-    
+    auto creatureEquip = m_level->ui().withId<UI::EquipView>( "ui-equip-inner" );
+    creatureEquip->refresh(evt.actor);
+
+    auto creatureInventory = m_level->ui().withId<UI::ContainerView>( "player-inventory" );
+    creatureInventory->refresh(evt.actor);
 }
 
 void UISystem::operator()(GameEvents::TurnChange& evt)

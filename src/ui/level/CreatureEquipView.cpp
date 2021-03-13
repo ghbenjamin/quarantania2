@@ -9,7 +9,8 @@
 #include <game/GameParse.h>
 
 
-UI::EquipViewContainer::EquipViewContainer(UI::Manager *manager, UI::Element *parent) : Element(manager, parent)
+UI::EquipViewContainer::EquipViewContainer(UI::Manager *manager, UI::Element *parent)
+    : Element(manager, parent)
 {
     auto const& patch = ResourceManager::get().getNinePatch( "simple-border" );
     NinePatch np = { patch.texture(), patch.offsets() };
@@ -29,7 +30,8 @@ UI::EquipViewContainer::EquipViewContainer(UI::Manager *manager, UI::Element *pa
     child->setPreferredContentSize(ChildSize);
 }
 
-UI::EquipView::EquipView(UI::Manager *manager, UI::Element *parent) : Element(manager, parent)
+UI::EquipView::EquipView(UI::Manager *manager, UI::Element *parent)
+    : Element(manager, parent), m_currEntity(EntityNull)
 {
     setId("ui-equip-inner");
     setLayout<FreeLayout>();
@@ -61,7 +63,7 @@ UI::EquipView::EquipView(UI::Manager *manager, UI::Element *parent) : Element(ma
 
 void UI::EquipView::addRegion(CreatureEquipSlot slot, const SpritesheetKey &key, const Vector2i &offset)
 {
-    auto item = manager()->createElement<EquipViewItem>( this, slot, key );
+    auto item = manager()->createElement<EquipViewItem>( this, m_currEntity, slot, key );
     item->setLocalPosition(offset);
     
     m_regions.emplace( slot, item );
@@ -73,7 +75,10 @@ void UI::EquipView::refresh(EntityRef entity)
     for ( auto &[k, v] : m_regions )
     {
         v->resetItem();
+        v->setEntity(entity);
     }
+    
+    m_currEntity = entity;
 
     if (entity == EntityNull)
     {
@@ -92,9 +97,10 @@ void UI::EquipView::refresh(EntityRef entity)
     }
 }
 
-UI::EquipViewItem::EquipViewItem( UI::Manager *manager, UI::Element *parent, CreatureEquipSlot slot,
+UI::EquipViewItem::EquipViewItem( UI::Manager *manager, UI::Element *parent, EntityRef entity, CreatureEquipSlot slot,
                                   SpritesheetKey defaultSprite )
-      : Element(manager, parent), m_slot(slot), m_defaultSprite( ResourceManager::get().getSprite( defaultSprite ))
+      : Element(manager, parent), m_slot(slot), m_defaultSprite( ResourceManager::get().getSprite( defaultSprite )),
+        m_entity(entity)
 {
     setLayout<CenterLayout>();
     setPreferredContentSize({32, 32});
@@ -105,6 +111,7 @@ UI::EquipViewItem::EquipViewItem( UI::Manager *manager, UI::Element *parent, Cre
     m_icon = manager->createElement<Icon>( this, m_defaultSprite );
     
     setTooltipSpawner( [this](){ return this->tooltipSpawner(); } );
+    addEventCallback(UEventType::Click, [this](UEvent& evt){ this->onClick(); });
 }
 
 void UI::EquipViewItem::setItem( std::shared_ptr<Item> item, Sprite const &itemSprite )
@@ -135,4 +142,19 @@ UI::TooltipData UI::EquipViewItem::tooltipSpawner()
             EnumToString::creatureEquipSlot( m_slot ),
         };
     }
+}
+
+void UI::EquipViewItem::onClick()
+{
+    if (m_item)
+    {
+//        auto actorC = manager()->level()->ecs().getComponents<ActorComponent>(m_entity);
+        
+        manager()->level()->events().broadcast<GameEvents::ItemUnequip>( m_entity, m_slot );
+    }
+}
+
+void UI::EquipViewItem::setEntity(EntityRef entity)
+{
+    m_entity = entity;
 }

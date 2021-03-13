@@ -53,7 +53,8 @@ void ItemSystem::operator()(GameEvents::ItemUnequip& evt)
 {
     auto containerC = m_level->ecs().getComponents<ContainerComponent>( evt.actor );
     auto actorC = m_level->ecs().getComponents<ActorComponent>( evt.actor );
-
+    
+    Logging::log("I AM UNEQUIP");
 
     auto item = actorC->actor.unequipItem( evt.slot );
     AssertMsg(!!item, "Unequipping empty item slot");

@@ -126,29 +126,46 @@ void Button::setCallback(const std::function<void()> &callback)
 Icon::Icon(Manager *manager, Element *parent, const Sprite &img)
         : Element(manager, parent), m_sprite(img)
 {
-    m_sprite.setRenderLayer(RenderLayer::UI);
-    setPreferredContentSize(m_sprite.size());
+    m_sprite->setRenderLayer(RenderLayer::UI);
+    setPreferredContentSize(m_sprite->size());
 }
 
+Icon::Icon( Manager *manager, Element *parent )
+    : Element(manager, parent), m_sprite {} {}
+    
 Icon::Icon(Manager *manager, Element *parent, SpritesheetKey const& img)
     : Icon(manager, parent, ResourceManager::get().getSprite(img)) {}
-
-
+    
 void Icon::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
-    auto pos = globalPosition() + contentOffset();
-    rInter.addScreenItem( m_sprite.renderObject(pos) );
+    if ( m_sprite.has_value() )
+    {
+        auto pos = globalPosition() + contentOffset();
+        rInter.addScreenItem( m_sprite->renderObject(pos) );
+    }
 }
 
 void Icon::setSprite( Sprite const& sprite )
 {
     m_sprite = sprite;
-    m_sprite.setRenderLayer( RenderLayer::UI );
-    setPreferredContentSize( m_sprite.size() );
+    m_sprite->setRenderLayer( RenderLayer::UI );
+    setPreferredContentSize( m_sprite->size() );
+}
+
+void Icon::setSprite( SpritesheetKey const &sprite )
+{
+    setSprite( ResourceManager::get().getSprite(sprite) );
 }
 
 void Icon::onColourModChange()
 {
-    m_sprite.setColour( getColour() );
+    m_sprite->setColour( getColour() );
 }
+
+void Icon::clearSprite()
+{
+    m_sprite.reset();
+}
+
+
 

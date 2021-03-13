@@ -9,11 +9,23 @@ class Item;
 namespace UI
 {
 
-struct ContainerViewItem
+class Icon;
+
+class ContainerViewItem : public Element
 {
-    Sprite sprite;
-    std::shared_ptr<Item> item;
+public:
+    ContainerViewItem(Manager* manager, Element* parent, EntityRef entity, Sprite const& backgroundSprite);
+
+    void setItem( std::shared_ptr<Item> item );
+    void setEntity( EntityRef entity );
+    void reset();
+
+private:
+    std::shared_ptr<Icon> m_icon;
+    std::shared_ptr<Item> m_item;
+    EntityRef m_entity;
 };
+
 
 // A view into a container of items, e.g. a chest or the inventory of an actor
 class ContainerView : public Element
@@ -26,15 +38,8 @@ public:
     void refresh(EntityRef entity);
 
 private:
-
-    void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
-    void onClick( UMouseButtonEvent& evt );
-
-
-private:
-
     EntityRef m_entity;
-    std::vector<ContainerViewItem> m_items;
+    std::vector<std::shared_ptr<ContainerViewItem>> m_items;
     Vector2i m_iconDims;
     Sprite m_emptySlot;
     int m_iconSpacing;
