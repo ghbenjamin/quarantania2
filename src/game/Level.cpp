@@ -259,7 +259,7 @@ void Level::setComplete()
     m_isComplete = true;
 }
 
-std::string_view Level::getDescriptionForEnt(EntityRef ent)
+std::string Level::getDescriptionForEnt(EntityRef ent)
 {
     if ( m_ecs.entityHas<ActorComponent>(ent) )
     {
@@ -275,7 +275,7 @@ std::string_view Level::getDescriptionForEnt(EntityRef ent)
     return "<unknown>";
 }
 
-std::string_view Level::getDescriptionForItem(ItemPtr item)
+std::string Level::getDescriptionForItem(ItemPtr item)
 {
     return item->getName();
 }

@@ -10,13 +10,28 @@ class Item;
 namespace UI
 {
 
-struct EquipSlotView
+class Icon;
+
+
+class EquipViewItem : public Element
 {
-    RectI offset;
-    std::shared_ptr<Item> item;
-    Sprite defaultSprite;
-    std::optional<Sprite> itemSprite;
+public:
+    EquipViewItem(Manager* manager, Element* parent, CreatureEquipSlot slot, SpritesheetKey defaultSprite );
+    ~EquipViewItem() override = default;
+    
+    void setItem( std::shared_ptr<Item> item, Sprite const& itemSprite );
+    void resetItem();
+
+private:
+
+    TooltipData tooltipSpawner();
+    
+    std::shared_ptr<Icon> m_icon;
+    CreatureEquipSlot m_slot;
+    Sprite m_defaultSprite;
+    std::shared_ptr<Item> m_item;
 };
+
 
 
 class EquipView : public Element
@@ -28,18 +43,10 @@ public:
 
     void refresh( EntityRef entity );
 
-protected:
-    void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
-
 private:
     void addRegion( CreatureEquipSlot slot, SpritesheetKey const& key, Vector2i const& offset );
-    void onMouseMove(UMouseMoveEvent const& evt);
-    void onClick(UMouseButtonEvent const& evt);
-
-    std::optional<CreatureEquipSlot> slotFromScreenPos(Vector2i pos) const;
     
-private:
-    std::unordered_map<CreatureEquipSlot, EquipSlotView> m_regions;
+    std::unordered_map<CreatureEquipSlot, std::shared_ptr<EquipViewItem>> m_regions;
 };
 
 
@@ -47,12 +54,8 @@ private:
 class EquipViewContainer : public Element
 {
 public:
-    
     EquipViewContainer(Manager* manager, Element* parent);
     ~EquipViewContainer() override = default;
-
-private:
-
 };
 
 }

@@ -13,5 +13,10 @@ namespace EnumParse
     ActionSpeed actionSpeed( std::string const& input );
 }
 
+namespace EnumToString
+{
+    std::string creatureEquipSlot( CreatureEquipSlot input );
+}
+
 
 DiceRoll parseDiceRoll( std::string const& input );

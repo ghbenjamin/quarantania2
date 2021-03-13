@@ -72,8 +72,8 @@ public:
     bool isComplete() const;
     void setComplete();
 
-    std::string_view getDescriptionForEnt( EntityRef ent );
-    std::string_view getDescriptionForItem( ItemPtr item );
+    std::string getDescriptionForEnt( EntityRef ent );
+    std::string getDescriptionForItem( ItemPtr item );
 
 
 private:

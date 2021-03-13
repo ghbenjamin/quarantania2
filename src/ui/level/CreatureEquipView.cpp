@@ -6,6 +6,7 @@
 #include <resource/ResourceManager.h>
 #include <graphics/RenderInterface.h>
 #include <components/ActorComponent.h>
+#include <game/GameParse.h>
 
 
 UI::EquipViewContainer::EquipViewContainer(UI::Manager *manager, UI::Element *parent) : Element(manager, parent)
@@ -31,6 +32,7 @@ UI::EquipViewContainer::EquipViewContainer(UI::Manager *manager, UI::Element *pa
 UI::EquipView::EquipView(UI::Manager *manager, UI::Element *parent) : Element(manager, parent)
 {
     setId("ui-equip-inner");
+    setLayout<FreeLayout>();
     
     auto sprite = ResourceManager::get().getImageAsSprite( "equip-only" );
     setBackground( sprite );
@@ -55,91 +57,22 @@ UI::EquipView::EquipView(UI::Manager *manager, UI::Element *parent) : Element(ma
     addRegion( CreatureEquipSlot::Ring1, "game_ui/ring",  { 24,170 } );
     addRegion( CreatureEquipSlot::Feet, "game_ui/leg-armor", { 66,170 } );
     addRegion( CreatureEquipSlot::Ring2, "game_ui/ring", { 108,170 } );
-    
-    
-    addEventCallback(UEventType::MouseMove, [this] (UEvent& evt) {
-        this->onMouseMove(evt.mouseMoveEvent);
-    });
-    
-    addEventCallback(UEventType::Click, [this] (UEvent& evt) {
-        this->onClick(evt.mouseButtonEvent);
-    });
-    
 }
 
 void UI::EquipView::addRegion(CreatureEquipSlot slot, const SpritesheetKey &key, const Vector2i &offset)
 {
-    EquipSlotView view;
-    view.defaultSprite = ResourceManager::get().getSprite( key );
-    view.offset = { offset, Vector2i{32, 32} };
-    view.itemSprite = {};
+    auto item = manager()->createElement<EquipViewItem>( this, slot, key );
+    item->setLocalPosition(offset);
     
-    view.defaultSprite.setRenderLayer( RenderLayer::UI );
-    m_regions.emplace( slot, view );
+    m_regions.emplace( slot, item );
 }
-
-void UI::EquipView::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
-{
-    auto offset = globalPosition();
-    
-    for (auto& [k, v] : m_regions )
-    {
-        if ( v.itemSprite )
-        {
-            rInter.addScreenItem( v.itemSprite->renderObject(  offset + v.offset.left() ) );
-        }
-        else
-        {
-            rInter.addScreenItem( v.defaultSprite.renderObject( offset + v.offset.left() ) );
-        }
-    }
-}
-
-void UI::EquipView::onMouseMove(UMouseMoveEvent const& evt)
-{
-
-}
-
-void UI::EquipView::onClick(const UI::UMouseButtonEvent &evt)
-{
-    auto clicked = slotFromScreenPos( evt.pos );
-    
-    if (clicked)
-    {
-        if ( evt.button == UMouseButtonEvent::LeftMouseButton )
-        {
-        
-        }
-        else if ( evt.button == UMouseButtonEvent::RightMouseButton )
-        {
-        
-        }
-    }
-}
-
-std::optional<CreatureEquipSlot> UI::EquipView::slotFromScreenPos(Vector2i pos) const
-{
-    auto localPos = pos - globalPosition() - contentOffset();
-    
-    for (auto const& [k, v] : m_regions )
-    {
-        if ( v.offset.contains(localPos) )
-        {
-            return k;
-        }
-    }
-    
-    return {};
-}
-
 
 void UI::EquipView::refresh(EntityRef entity)
 {
     // Clear our existing item data
     for ( auto &[k, v] : m_regions )
     {
-        v.itemSprite.reset();
-        v.item.reset();
+        v->resetItem();
     }
 
     if (entity == EntityNull)
@@ -154,7 +87,52 @@ void UI::EquipView::refresh(EntityRef entity)
     {
         auto sprite = ResourceManager::get().getSprite( v->getSprite() );
         sprite.setRenderLayer( RenderLayer::UI );
-        m_regions.at(k).itemSprite = sprite;
-        m_regions.at(k).item = v;
+        
+        m_regions.at(k)->setItem( v, sprite );
+    }
+}
+
+UI::EquipViewItem::EquipViewItem( UI::Manager *manager, UI::Element *parent, CreatureEquipSlot slot,
+                                  SpritesheetKey defaultSprite )
+      : Element(manager, parent), m_slot(slot), m_defaultSprite( ResourceManager::get().getSprite( defaultSprite ))
+{
+    setLayout<CenterLayout>();
+    setPreferredContentSize({32, 32});
+    
+    m_defaultSprite.setRenderLayer( RenderLayer::UI );
+    m_defaultSprite.setColour( Colour::White.withAlpha(170) );
+    
+    m_icon = manager->createElement<Icon>( this, m_defaultSprite );
+    
+    setTooltipSpawner( [this](){ return this->tooltipSpawner(); } );
+}
+
+void UI::EquipViewItem::setItem( std::shared_ptr<Item> item, Sprite const &itemSprite )
+{
+    m_item = item;
+    m_icon->setSprite( itemSprite );
+}
+
+void UI::EquipViewItem::resetItem()
+{
+    m_item.reset();
+    m_icon->setSprite( m_defaultSprite );
+}
+
+UI::TooltipData UI::EquipViewItem::tooltipSpawner()
+{
+    if ( m_item )
+    {
+        return TooltipData {
+            m_item->getName(),
+            EnumToString::creatureEquipSlot( m_slot ),
+            m_item->getDescription()
+        };
+    }
+    else
+    {
+        return TooltipData {
+            EnumToString::creatureEquipSlot( m_slot ),
+        };
     }
 }

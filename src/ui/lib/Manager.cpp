@@ -1,6 +1,7 @@
 #include <ui/lib/Manager.h>
 
 #include <graphics/RenderInterface.h>
+#include <graphics/Window.h>
 #include <resource/ResourceManager.h>
 
 #include <utility>
@@ -348,13 +349,27 @@ void Manager::openTooltip( TooltipData const &data, RectI const &spawner )
     // Never want more than one tooltip
     closeTooltip();
 
-    int offset = 6;
+    int offset = 4;
     m_tooltip = createElement<Tooltip>( nullptr, data );
     Vector2i tooltipSize = m_tooltip->outerBounds().right();
     
-    Vector2i defaultPos = spawner.left() + Vector2i{ spawner.w(), -tooltipSize.y() } + Vector2i{ offset, -offset };
+    // Default to the top right of the spawning rectangle
+    Vector2i tooltipPos = spawner.left() + Vector2i{ spawner.w(), -tooltipSize.y() } + Vector2i{ offset, -offset };
     
-    m_tooltip->setLocalPosition( defaultPos );
+    auto windowSize = ResourceManager::get().getWindow()->getSize();
+    
+    if ( tooltipPos.x() + tooltipSize.x() > windowSize.x() )
+    {
+        // Tooltip falls off the end of the screen - move it to the left of the spawner
+        tooltipPos = { spawner.x() - tooltipSize.x() - offset, tooltipPos.y() };
+    }
+    if ( tooltipPos.y() - tooltipSize.y() < 0 )
+    {
+        // Tooltip falls off of the top of the screen - move it to underneath the spawner
+        tooltipPos = { tooltipPos.x(), spawner.y() + spawner.h() + offset };
+    }
+    
+    m_tooltip->setLocalPosition( tooltipPos );
     m_tooltip->setFadeIn();
 }
 

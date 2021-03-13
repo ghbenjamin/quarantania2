@@ -372,3 +372,42 @@ DiceRoll parseDiceRoll(const std::string &input)
         return DiceRoll{0, 0};
     }
 }
+
+std::string EnumToString::creatureEquipSlot( CreatureEquipSlot input )
+{
+    switch (input)
+    {
+        case CreatureEquipSlot::Head:
+            return "Head";
+        case CreatureEquipSlot::Headband:
+            return "Headband";
+        case CreatureEquipSlot::Eyes:
+            return "Eyes";
+        case CreatureEquipSlot::Shoulders:
+            return "Shoulders";
+        case CreatureEquipSlot::Neck:
+            return "Neck";
+        case CreatureEquipSlot::Chest:
+            return "Chest";
+        case CreatureEquipSlot::Belt:
+            return "Belt";
+        case CreatureEquipSlot::Wrists:
+            return "Wrists";
+        case CreatureEquipSlot::Arms:
+            return "Arms";
+        case CreatureEquipSlot::LeftHand:
+            return "Main Hand";
+        case CreatureEquipSlot::Body:
+            return "Body";
+        case CreatureEquipSlot::Armour:
+            return "Armour";
+        case CreatureEquipSlot::RightHand:
+            return "Off Hand";
+        case CreatureEquipSlot::Ring1:
+            return "Ring";
+        case CreatureEquipSlot::Ring2:
+            return "Ring";
+        case CreatureEquipSlot::Feet:
+            return "Feet";
+    }
+}
