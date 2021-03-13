@@ -45,3 +45,6 @@ GameEvents::CombatMissedAttack::CombatMissedAttack(EntityRef attacker, EntityRef
 
 GameEvents::TurnChange::TurnChange(bool isPlayerTurn)
     : isPlayerTurn(isPlayerTurn) {}
+
+GameEvents::CombatAttackSucceeded::CombatAttackSucceeded( EntityRef attacker, EntityRef defender )
+    : attacker(attacker), defender(defender) {}

@@ -32,6 +32,8 @@ void CombatSystem::doMeleeAttack( EntityRef attackerRef, EntityRef defenderRef )
 
     if ( attackRoll.isHit )
     {
+        m_level->events().broadcast<GameEvents::CombatAttackSucceeded>( attackerRef, defenderRef );
+    
         // Trigger: damage dealt
         auto damage = attacker.getDamageForAttack( singleAttack, attackRoll );
 

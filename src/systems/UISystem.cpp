@@ -23,6 +23,7 @@ UISystem::UISystem(Level *parent)
     m_level->events().subscribe<GameEvents::ControllerEntitySelected>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::CombatMeleeAttack>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::EntityAction>(this, GEventTiming::After );
+    m_level->events().subscribe<GameEvents::CombatAttackSucceeded>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::CombatMissedAttack>(this, GEventTiming::After );
 }
 
@@ -125,6 +126,15 @@ void UISystem::operator()(GameEvents::CombatMissedAttack &evt)
 {
     pushLogLine( fmt::format(
             "{} misses {} ",
+            m_level->getDescriptionForEnt( evt.attacker ),
+            m_level->getDescriptionForEnt( evt.defender )
+    ));
+}
+
+void UISystem::operator()( GameEvents::CombatAttackSucceeded &evt )
+{
+    pushLogLine( fmt::format(
+            "{} hits {} ",
             m_level->getDescriptionForEnt( evt.attacker ),
             m_level->getDescriptionForEnt( evt.defender )
     ));

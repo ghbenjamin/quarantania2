@@ -24,7 +24,7 @@ GameEventHub::GameEventHub()
 
 void GameEventHub::popQueue()
 {
-    auto evt = m_evtQueue.back();
+    auto evt = m_evtQueue.front();
     m_evtQueue.pop();
     
     // All the subscribers for this event type, regardless of subscription timing
