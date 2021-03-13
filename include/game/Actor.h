@@ -15,6 +15,7 @@ struct PlayerData;
 struct Damage;
 class Level;
 class RandomInterface;
+class MeleeAttack;
 
 
 class ModifiableRollVisitor
@@ -29,6 +30,7 @@ public:
     void operator()( MovementSpeedData* data );
     void operator()( ArmourClassData* data );
     void operator()( ActionSpeedData* data );
+    void operator()( MeleeAttackCountData* data );
 
 private:
     Actor const* m_actor;
@@ -67,7 +69,8 @@ public:
     ItemPtr equipItem( CreatureEquipSlot slot, ItemPtr item );
 
     // Weapons
-    Weapon const& getActiveWeapon() const;
+    
+    std::pair<Weapon const*, Weapon const*> getEquippedWeapons() const;
     Weapon const& getNaturalWeapon() const;
     float getReach() const;
     Armour const* tryGetActiveShield() const;
@@ -86,10 +89,11 @@ public:
     SavingThrowRoll makeSavingThrow( EntityRef source, SavingThrowType type ) const;
 
     // Combat
-    int getCritRangeForAttack( SingleAttackInstance& attack ) const;
-    Damage getDamageForAttack( SingleAttackInstance& attack, AttackRoll const& roll ) const;
-    int getAcForAttack( SingleAttackInstance& attack ) const;
-    AttackRoll makeAttackRoll( SingleAttackInstance& attack, bool isCritConfirm ) const;
+    int getCritRangeForAttack( SingleMeleeAttackInstance& attack ) const;
+    MeleeAttackCountData getAttackCountForMeleeAttack( std::shared_ptr<MeleeAttack> attackImpl ) const;
+    Damage getDamageForMeleeAttack( SingleMeleeAttackInstance& attack, AttackRoll const& roll ) const;
+    int getAcForMeleeAttack( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl ) const;
+    AttackRoll makeMeleeAttackRoll( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl, bool isCritConfirm ) const;
 
     // Modifiers
     void addModifierGroup( ActorModGroup const& mod );

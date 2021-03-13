@@ -19,6 +19,7 @@ enum class ActorStatModType
     MovementSpeed,
     ArmourClassData,
     ActionSpeedData,
+    MeleeAttackCountData,
 };
 
 // Union type of the kinds of game stat that can be modified by effects and abilities
@@ -28,7 +29,8 @@ using ModifiableStatObject = std::variant<
     AbilityScoreBonus*,
     MovementSpeedData*,
     ArmourClassData*,
-    ActionSpeedData*
+    ActionSpeedData*,
+    MeleeAttackCountData*
         >;
 
 

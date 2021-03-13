@@ -20,10 +20,4 @@ public:
     template <typename T>
     void operator()(T&& t)
     {}
-
-private:
-
-    // Perform a single melee attack by one entity against another entity
-    void doMeleeAttack( EntityRef attacker, EntityRef defender );
-    
 };

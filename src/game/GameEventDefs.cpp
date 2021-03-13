@@ -37,8 +37,8 @@ GameEvents::EntityAction::EntityAction(EntityRef entity, GameAction speed)
 GameEvents::ControllerEntitySelected::ControllerEntitySelected(EntityRef entity)
     : entity(entity) {}
 
-GameEvents::CombatMeleeAttack::CombatMeleeAttack(EntityRef attacker, EntityRef defender)
-    : attacker(attacker), defender(defender) {}
+GameEvents::CombatMeleeAttack::CombatMeleeAttack(EntityRef attacker, EntityRef defender, std::shared_ptr<MeleeAttack> attack)
+    : attacker(attacker), defender(defender), attack(attack) {}
 
 GameEvents::CombatMissedAttack::CombatMissedAttack(EntityRef attacker, EntityRef defender)
     : attacker(attacker), defender(defender) {}

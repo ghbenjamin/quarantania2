@@ -23,7 +23,7 @@ struct Damage
     std::vector<DamageInstance> instances;
 };
 
-
+// A bonus to an Ability Score, e.g. STR or DEX. Always given as a raw number, not as a +- modifier
 struct AbilityScoreBonus
 {
     AbilityScoreType type;
@@ -31,7 +31,7 @@ struct AbilityScoreBonus
     int modified;
 };
 
-
+// A bonus to a saving throw, e.g. REF or WILL.
 struct SavingThrowRoll
 {
     SavingThrowType type;
@@ -42,8 +42,8 @@ struct SavingThrowRoll
     EntityRef defender;
 };
 
-
-struct SingleAttackInstance
+// A single instance of a melee attack, e.g. one half of a double attack.
+struct SingleMeleeAttackInstance
 {
     EntityRef attackerRef;
     EntityRef defenderRef;
@@ -54,10 +54,24 @@ struct SingleAttackInstance
     Weapon const* weapon;
 };
 
+// A single weapon - attack mod pair to help describe how many attacks an attacker gets for a given attack type
+struct MeleeAttackCountItem
+{
+    MeleeAttackCountItem(Weapon const* weapon, int naturalAttackMod);
+    
+    Weapon const* weapon;
+    int naturalAttackMod;
+};
 
+struct MeleeAttackCountData
+{
+    std::vector<MeleeAttackCountItem> attacks;
+};
+
+// A single attack roll to hit, made vs a single attacker.
 struct AttackRoll
 {
-    SingleAttackInstance const* ctx;
+    SingleMeleeAttackInstance const* ctx;
     
     int naturalRoll = -1;
     int targetValue = -1;
@@ -65,6 +79,11 @@ struct AttackRoll
     
     bool isHit = false;
     bool isCrit = false;
+};
+
+struct DamageRoll
+{
+
 };
 
 struct MovementSpeedData

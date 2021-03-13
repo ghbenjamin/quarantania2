@@ -3,6 +3,7 @@
 #include <game/Level.h>
 #include <components/PositionComponent.h>
 #include <components/ActorComponent.h>
+#include <game/AttackDefs.h>
 
 
 ActionMoveParent::ActionMoveParent(int maxRange)
@@ -101,15 +102,21 @@ void ActionMoveStep::perform(Vector2i tile)
 
 void ActionMeleeAttack::perform(EntityRef target)
 {
-    m_level->events().broadcast<GameEvents::CombatMeleeAttack>(m_actor, target);
+    m_level->events().broadcast<GameEvents::CombatMeleeAttack>(
+        m_actor, target, std::make_shared<MeleeAttackStandard>()
+    );
 }
 
 void ActionPowerAttack::perform(EntityRef target)
 {
-    // Do the thing!
+    m_level->events().broadcast<GameEvents::CombatMeleeAttack>(
+        m_actor, target, std::make_shared<MeleeAttackPowerAttack>()
+    );
 }
 
 void ActionFullAttack::perform( EntityRef target )
 {
-    // Do the thing
+    m_level->events().broadcast<GameEvents::CombatMeleeAttack>(
+        m_actor, target, std::make_shared<MeleeAttackFullAttack>()
+    );
 }

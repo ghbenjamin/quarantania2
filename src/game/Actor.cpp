@@ -1,6 +1,7 @@
 #include <game/Actor.h>
 #include <game/Player.h>
 #include <game/Level.h>
+#include <game/Attack.h>
 
 Actor::Actor(Level* level, EntityRef ref, CreatureData const& rcd)
     : m_level(level),
@@ -82,28 +83,48 @@ ItemPtr Actor::equipItem(CreatureEquipSlot slot, ItemPtr item)
     return lastEquipped;
 }
 
-Weapon const& Actor::getActiveWeapon() const
+
+std::pair<Weapon const*, Weapon const*> Actor::getEquippedWeapons() const
 {
+    Weapon const* mainHand = nullptr;
+    Weapon const* offHand = nullptr;
+    
+    // If we have a weapon in the right hand, assume it's the main weapon
     if ( hasEquipped( CreatureEquipSlot::RightHand ) )
     {
         auto right = getEquipped( CreatureEquipSlot::RightHand );
         if ( right->getEquipSlot() == ItemEquipSlot::Weapon )
         {
-            return right->getWeapon();
+            mainHand =  &right->getWeapon();
         }
     }
-
-    else if ( hasEquipped( CreatureEquipSlot::LeftHand ) )
+    
+    // If there's a weapon in the left hand, assume it's the off weapon if there's a right hand weapon
+    // Otherwise, assume it's the main weapon
+    if ( hasEquipped( CreatureEquipSlot::LeftHand ) )
     {
         auto left = getEquipped( CreatureEquipSlot::LeftHand );
         if ( left->getEquipSlot() == ItemEquipSlot::Weapon )
         {
-            return left->getWeapon();
+            if (mainHand != nullptr)
+            {
+                offHand = &left->getWeapon();
+            }
+            else
+            {
+                mainHand = &left->getWeapon();
+            }
         }
     }
-
-    return getNaturalWeapon();
+    
+    if (mainHand == nullptr)
+    {
+        mainHand = &getNaturalWeapon();
+    }
+    
+    return std::make_pair( mainHand, offHand );
 }
+
 
 Armour const* Actor::tryGetActiveShield() const
 {
@@ -228,55 +249,38 @@ std::optional<CreatureEquipSlot> Actor::defaultSlotForItemSlot(ItemEquipSlot slo
     {
         case ItemEquipSlot::Armor:
             return CreatureEquipSlot::Armour;
-            break;
         case ItemEquipSlot::Arms:
             return CreatureEquipSlot::Arms;
-            break;
         case ItemEquipSlot::Belt:
             return CreatureEquipSlot::Belt;
-            break;
         case ItemEquipSlot::Body:
             return CreatureEquipSlot::Body;
-            break;
         case ItemEquipSlot::Chest:
             return CreatureEquipSlot::Chest;
-            break;
         case ItemEquipSlot::Eyes:
             return CreatureEquipSlot::Eyes;
-            break;
         case ItemEquipSlot::Feet:
             return CreatureEquipSlot::Feet;
-            break;
         case ItemEquipSlot::Hands:
             return CreatureEquipSlot::RightHand;
-            break;
         case ItemEquipSlot::Head:
             return CreatureEquipSlot::Head;
-            break;
         case ItemEquipSlot::Headband:
             return CreatureEquipSlot::Headband;
-            break;
         case ItemEquipSlot::Neck:
             return CreatureEquipSlot::Neck;
-            break;
         case ItemEquipSlot::Ring:
             return CreatureEquipSlot::Ring1;
-            break;
         case ItemEquipSlot::Shield:
             return CreatureEquipSlot::LeftHand;
-            break;
         case ItemEquipSlot::Shoulders:
             return CreatureEquipSlot::Shoulders;
-            break;
         case ItemEquipSlot::Weapon:
             return CreatureEquipSlot::RightHand;
-            break;
         case ItemEquipSlot::Wrists:
             return CreatureEquipSlot::Wrists;
-            break;
         default:
             return {};
-            break;
     }
 }
 
@@ -285,13 +289,13 @@ std::unordered_map<CreatureEquipSlot, ItemPtr> const &Actor::getAllEquippedItems
     return m_equippedItems;
 }
 
-int Actor::getCritRangeForAttack( SingleAttackInstance &attack ) const
+int Actor::getCritRangeForAttack( SingleMeleeAttackInstance &attack ) const
 {
     // TODO: Modifiers.
     return attack.weapon->critRange();
 }
 
-Damage Actor::getDamageForAttack( SingleAttackInstance &attack, AttackRoll const &roll ) const
+Damage Actor::getDamageForMeleeAttack( SingleMeleeAttackInstance &attack, AttackRoll const &roll ) const
 {
     // TODO: All the modifiers
     
@@ -311,30 +315,38 @@ Damage Actor::getDamageForAttack( SingleAttackInstance &attack, AttackRoll const
     return damage;
 }
 
-int Actor::getAcForAttack(SingleAttackInstance &attack ) const
+int Actor::getAcForMeleeAttack( SingleMeleeAttackInstance &attack, std::shared_ptr<MeleeAttack> attackImpl) const
 {
     // TODO: All the modifiers
     return getAC();
 }
 
-AttackRoll Actor::makeAttackRoll( SingleAttackInstance &attack, bool isCritConfirm ) const
+AttackRoll Actor::makeMeleeAttackRoll( SingleMeleeAttackInstance &attack, std::shared_ptr<MeleeAttack> attackImpl, bool isCritConfirm ) const
 {
     AttackRoll result;
     result.ctx = &attack;
     result.naturalRoll = m_level->random().diceRoll(20);
-    result.targetValue = attack.defender
-                               ->getAcForAttack(attack);
+    result.targetValue = attack.defender->getAcForMeleeAttack(attack, attackImpl);
     int critRange = getCritRangeForAttack( attack );
 
+    // Start with the natural roll
     result.modifiedRoll = result.naturalRoll;
+    result.modifiedRoll += getModStr();
+    
+    // Apply any modifiers from the type of attack, e.g. reduce to hit from a Power Attack
+    attackImpl->modifyAttackRoll( result );
+
+    // Apply any modifiers from the actors, e.g. Weapon Focus feats or status affects
     applyAllModifiers( &result );
+    
 
     if ( result.naturalRoll >= critRange )
     {
         // Potential crit
         if ( !isCritConfirm )
         {
-            auto confirmResult = makeAttackRoll( attack, true );
+            // TODO: look up whether crit confirms are made with the same attack feat as the original attack
+            auto confirmResult = makeMeleeAttackRoll(attack, attackImpl, true);
             if ( confirmResult.isHit )
             {
                 // Confirmed crit - a hit and crit
@@ -554,6 +566,31 @@ ActionsUsedInfo& Actor::actionInfo()
     return m_actionInfo;
 }
 
+MeleeAttackCountData Actor::getAttackCountForMeleeAttack( std::shared_ptr<MeleeAttack> attackImpl ) const
+{
+    MeleeAttackCountData data;
+    auto [mainWeapon, offWeapon] = getEquippedWeapons();
+    
+    if ( attackImpl->isFullAttack() )
+    {
+        data.attacks.emplace_back( mainWeapon, 0 );
+        
+        if (offWeapon != nullptr)
+        {
+            data.attacks.emplace_back( offWeapon, 0 );
+        }
+    }
+    else
+    {
+        data.attacks.emplace_back( mainWeapon, 0 );
+    }
+    
+    applyAllModifiers(&data);
+    
+    return data;
+}
+
+
 ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
  : m_actor(actor) {}
 
@@ -585,4 +622,9 @@ void ModifiableRollVisitor::operator()(ArmourClassData *data)
 void ModifiableRollVisitor::operator()( ActionSpeedData *data )
 {
     m_actor->modifyTypedRoll( ActorStatModType::ActionSpeedData, data );
+}
+
+void ModifiableRollVisitor::operator()( MeleeAttackCountData *data )
+{
+    m_actor->modifyTypedRoll( ActorStatModType::MeleeAttackCountData, data );
 }
