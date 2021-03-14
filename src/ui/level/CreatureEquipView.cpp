@@ -148,8 +148,6 @@ void UI::EquipViewItem::onClick()
 {
     if (m_item)
     {
-//        auto actorC = manager()->level()->ecs().getComponents<ActorComponent>(m_entity);
-        
         manager()->level()->events().broadcast<GameEvents::ItemUnequip>( m_entity, m_slot );
     }
 }

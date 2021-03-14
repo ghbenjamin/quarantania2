@@ -70,6 +70,8 @@ UI::ContainerViewItem::ContainerViewItem( UI::Manager *manager, UI::Element *par
     
     m_icon = manager->createElement<Icon>( this );
     m_icon->setPreferredContentSize({32, 32});
+
+    addEventCallback(UEventType::Click, [this](UEvent& evt){ this->onClick(); });
 }
 
 void UI::ContainerViewItem::setItem( std::shared_ptr<Item> item )
@@ -87,4 +89,12 @@ void UI::ContainerViewItem::reset()
 void UI::ContainerViewItem::setEntity(EntityRef entity)
 {
     m_entity = entity;
+}
+
+void UI::ContainerViewItem::onClick()
+{
+    if (m_item)
+    {
+        manager()->level()->events().broadcast<GameEvents::ItemUnequip>( m_entity,  );
+    }
 }

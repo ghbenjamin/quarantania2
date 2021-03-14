@@ -21,6 +21,9 @@ public:
     void reset();
 
 private:
+
+    void onClick();
+
     std::shared_ptr<Icon> m_icon;
     std::shared_ptr<Item> m_item;
     EntityRef m_entity;
