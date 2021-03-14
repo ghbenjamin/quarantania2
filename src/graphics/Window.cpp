@@ -157,3 +157,8 @@ void Window::render( RenderInterface const &objs )
     SDL_GL_SwapWindow(m_window);
 }
 
+void Window::onWindowResize( Vector2i screenSize )
+{
+    glViewport(0, 0, screenSize.x(), screenSize.y());
+}
+

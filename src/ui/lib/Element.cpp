@@ -424,7 +424,7 @@ bool Element::hasTooltipSpawner() const
     return m_tooltipSpawner.has_value();
 }
 
-void Element::setTooltipSpawner( std::function<TooltipData()> spawner )
+void Element::setTooltipSpawner( std::function<std::optional<TooltipData>()> spawner )
 {
     m_tooltipSpawner = spawner;
 }

@@ -79,7 +79,7 @@ public:
 
     // Tooltips
     bool hasTooltipSpawner() const;
-    void setTooltipSpawner( std::function<TooltipData()> spawner );
+    void setTooltipSpawner( std::function<std::optional<TooltipData>()> spawner );
     std::optional<TooltipData> getTooltipData();
 
     // DOM
@@ -262,7 +262,7 @@ private:
     std::list<ElementPtr> m_children;
     
     // Tooltips
-    std::optional<std::function<TooltipData()>> m_tooltipSpawner;
+    std::optional< std::function<std::optional<TooltipData>()> > m_tooltipSpawner;
 };
 
 

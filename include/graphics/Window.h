@@ -21,6 +21,9 @@ public:
     SDL_Window* raw();
     Cursor& cursor();
     
+    // Update the OpenGL state when the SDL Window changes size
+    void onWindowResize( Vector2i screenSize );
+    
     const Vector2i getSize() const;
     void render( RenderInterface const& objs );
     void openGLSetup();

@@ -113,4 +113,19 @@ public:
 };
 
 
+class GridLayout : public ElementLayout
+{
+public:
+    GridLayout( Vector2i gridDimensions, Vector2i itemSize, int itemSpacing );
+    ~GridLayout() = default;
+    
+    Vector2i doLayout( Element *ptr ) override;
+
+private:
+    Vector2i m_gridDimensions;
+    Vector2i m_itemSize;
+    int m_itemSpacing;
+};
+
+
 }

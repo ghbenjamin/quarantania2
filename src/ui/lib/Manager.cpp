@@ -320,7 +320,11 @@ bool Manager::handleMouseMove(IEventMouseMove evt)
             
             if (tooltipSpawn)
             {
-                openTooltip(*(tooltipSpawn->getTooltipData()), tooltipSpawn->outerBounds());
+                auto data = tooltipSpawn->getTooltipData();
+                if (data.has_value())
+                {
+                    openTooltip(*data, tooltipSpawn->outerBounds());
+                }
             }
         }
     }

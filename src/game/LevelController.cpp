@@ -368,7 +368,7 @@ void PlayerSelectedController::onExitImpl()
     if ( actorC->actorType == ActorType::PC )
     {
         // Show the equip menu
-        m_level->ui().withId( "ui-equip-container" )->hide();
+        m_level->ui().withId( "ui-equip-view" )->hide();
         m_level->ui().withId( "player-inventory" )->hide();
     }
 }
@@ -383,7 +383,7 @@ void PlayerSelectedController::onEnterImpl()
     if ( actorC->actorType == ActorType::PC )
     {
         // Show the equip menu
-        m_level->ui().withId( "ui-equip-container" )->show();
+        m_level->ui().withId( "ui-equip-view" )->show();
         m_level->ui().withId( "player-inventory" )->show();
     }
 

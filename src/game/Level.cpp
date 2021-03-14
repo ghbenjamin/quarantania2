@@ -213,7 +213,7 @@ void Level::setupUI()
 
     // Default hidden elements
 
-    auto equipUi = m_uiManager.createElement<UI::EquipViewContainer>(nullptr);
+    auto equipUi = m_uiManager.createElement<UI::EquipView>(nullptr);
     m_uiManager.alignElementToWindow( equipUi, UI::Alignment::TopRight, {-20, 20} );
     equipUi->hide();
 

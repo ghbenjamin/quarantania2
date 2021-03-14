@@ -2,74 +2,58 @@
 
 #include <ui/lib/Manager.h>
 #include <game/Level.h>
-#include <game/Action.h>
 #include <resource/ResourceManager.h>
 #include <graphics/RenderInterface.h>
 #include <components/ActorComponent.h>
 #include <game/GameParse.h>
 
 
-UI::EquipViewContainer::EquipViewContainer(UI::Manager *manager, UI::Element *parent)
-    : Element(manager, parent)
+using namespace UI;
+
+EquipView::EquipView(Manager *manager, Element *parent)
+    : Element(manager, parent), m_currEntity(EntityNull)
 {
     auto const& patch = ResourceManager::get().getNinePatch( "simple-border" );
     NinePatch np = { patch.texture(), patch.offsets() };
-    
     setBackground( np );
     setBorderWidth( patch.borderWidth() );
-    setId("ui-equip-container");
+
+
+    auto emptySlot = ResourceManager::get().getSprite("game_ui/empty-item-slot");
+    emptySlot.setRenderLayer(RenderLayer::UI);
     
-    const Vector2i ChildSize = {164, 205};
-    const Vector2i ParentSize = ChildSize + Vector2i {10, 10};
+    setId("ui-equip-view");
+    setLayout<GridLayout>( Vector2{ 3, 4 }, emptySlot.size(), 2 );
     
-    setPreferredContentSize(ParentSize);
+    addRegion(CreatureEquipSlot::Head, "game_ui/pointy-hat");
+    addRegion(CreatureEquipSlot::Shoulders, "game_ui/pauldrons");
+    addRegion(CreatureEquipSlot::Body, "game_ui/walking-boot");
+    addRegion(CreatureEquipSlot::Arms, "game_ui/walking-boot");
     
-    setLayout<CenterLayout>();
-    auto child = manager->createElement<UI::EquipView>(this);
+    addRegion(CreatureEquipSlot::Belt, "game_ui/belt");
+    addRegion(CreatureEquipSlot::Feet, "game_ui/leg-armor");
+    addRegion(CreatureEquipSlot::Ring1, "game_ui/ring");
+    addRegion(CreatureEquipSlot::Neck, "game_ui/pearl-necklace");
     
-    child->setPreferredContentSize(ChildSize);
+    addRegion(CreatureEquipSlot::Ring2, "game_ui/ring");
+    addRegion(CreatureEquipSlot::LeftHand, "game_ui/pointy-sword");
+    addRegion(CreatureEquipSlot::Armour, "game_ui/abdominal-armor");
+    addRegion(CreatureEquipSlot::RightHand, "game_ui/pointy-sword");
+    
+    for ( auto &[k, v] : m_regions )
+    {
+        v->setBackground( emptySlot );
+        v->setPreferredContentSize( emptySlot.size() );
+    }
 }
 
-UI::EquipView::EquipView(UI::Manager *manager, UI::Element *parent)
-    : Element(manager, parent), m_currEntity(EntityNull)
-{
-    setId("ui-equip-inner");
-    setLayout<FreeLayout>();
-    
-    auto sprite = ResourceManager::get().getImageAsSprite( "equip-only" );
-    setBackground( sprite );
-    
-    addRegion( CreatureEquipSlot::Head, "game_ui/pointy-hat", {24, 3} );
-    addRegion( CreatureEquipSlot::Headband, "game_ui/headband-knot", { 66,3 } );
-    addRegion( CreatureEquipSlot::Eyes, "game_ui/steampunk-goggles", { 108,3 } );
-    
-    addRegion( CreatureEquipSlot::Shoulders, "game_ui/pauldrons", { 24,45 });
-    addRegion( CreatureEquipSlot::Neck, "game_ui/pearl-necklace", { 66,45 } );
-    addRegion( CreatureEquipSlot::Chest, "game_ui/chest-armor", { 108,45 } );
-    
-    addRegion( CreatureEquipSlot::Belt, "game_ui/belt", { 24,87 } );
-    addRegion( CreatureEquipSlot::Wrists, "game_ui/walking-boot", { 66,87 } );
-    addRegion( CreatureEquipSlot::Arms, "game_ui/walking-boot", { 108,87 } );
-    
-    addRegion( CreatureEquipSlot::LeftHand, "game_ui/pointy-sword", { 3,129 } );
-    addRegion( CreatureEquipSlot::Body, "game_ui/walking-boot", { 45,129 } );
-    addRegion( CreatureEquipSlot::Armour, "game_ui/abdominal-armor", { 87,129 } );
-    addRegion( CreatureEquipSlot::RightHand, "game_ui/pointy-sword", { 129,129 } );
-    
-    addRegion( CreatureEquipSlot::Ring1, "game_ui/ring",  { 24,170 } );
-    addRegion( CreatureEquipSlot::Feet, "game_ui/leg-armor", { 66,170 } );
-    addRegion( CreatureEquipSlot::Ring2, "game_ui/ring", { 108,170 } );
-}
-
-void UI::EquipView::addRegion(CreatureEquipSlot slot, const SpritesheetKey &key, const Vector2i &offset)
+void EquipView::addRegion( CreatureEquipSlot slot, SpritesheetKey const &key )
 {
     auto item = manager()->createElement<EquipViewItem>( this, m_currEntity, slot, key );
-    item->setLocalPosition(offset);
-    
     m_regions.emplace( slot, item );
 }
 
-void UI::EquipView::refresh(EntityRef entity)
+void EquipView::refresh(EntityRef entity)
 {
     // Clear our existing item data
     for ( auto &[k, v] : m_regions )
@@ -97,7 +81,7 @@ void UI::EquipView::refresh(EntityRef entity)
     }
 }
 
-UI::EquipViewItem::EquipViewItem( UI::Manager *manager, UI::Element *parent, EntityRef entity, CreatureEquipSlot slot,
+EquipViewItem::EquipViewItem( Manager *manager, Element *parent, EntityRef entity, CreatureEquipSlot slot,
                                   SpritesheetKey defaultSprite )
       : Element(manager, parent), m_slot(slot), m_defaultSprite( ResourceManager::get().getSprite( defaultSprite )),
         m_entity(entity)
@@ -109,24 +93,26 @@ UI::EquipViewItem::EquipViewItem( UI::Manager *manager, UI::Element *parent, Ent
     m_defaultSprite.setColour( Colour::White.withAlpha(170) );
     
     m_icon = manager->createElement<Icon>( this, m_defaultSprite );
+    m_icon->setPreferredContentSize( m_defaultSprite.size() );
+    
     
     setTooltipSpawner( [this](){ return this->tooltipSpawner(); } );
     addEventCallback(UEventType::Click, [this](UEvent& evt){ this->onClick(); });
 }
 
-void UI::EquipViewItem::setItem( std::shared_ptr<Item> item, Sprite const &itemSprite )
+void EquipViewItem::setItem( std::shared_ptr<Item> item, Sprite const &itemSprite )
 {
     m_item = item;
     m_icon->setSprite( itemSprite );
 }
 
-void UI::EquipViewItem::resetItem()
+void EquipViewItem::resetItem()
 {
     m_item.reset();
     m_icon->setSprite( m_defaultSprite );
 }
 
-UI::TooltipData UI::EquipViewItem::tooltipSpawner()
+std::optional<TooltipData> EquipViewItem::tooltipSpawner()
 {
     if ( m_item )
     {
@@ -144,7 +130,7 @@ UI::TooltipData UI::EquipViewItem::tooltipSpawner()
     }
 }
 
-void UI::EquipViewItem::onClick()
+void EquipViewItem::onClick()
 {
     if (m_item)
     {
@@ -152,7 +138,7 @@ void UI::EquipViewItem::onClick()
     }
 }
 
-void UI::EquipViewItem::setEntity(EntityRef entity)
+void EquipViewItem::setEntity(EntityRef entity)
 {
     m_entity = entity;
 }

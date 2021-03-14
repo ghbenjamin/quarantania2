@@ -64,6 +64,11 @@ void Engine::run()
 
         for ( auto& ievt : inputInterface.queue() )
         {
+            if (ievt.type == IEventType::WindowResize)
+            {
+                window->onWindowResize( ievt.windowResize.screenSize );
+            }
+        
             m_states.back()->input(ievt);
         }
 

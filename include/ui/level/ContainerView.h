@@ -23,6 +23,7 @@ public:
 private:
 
     void onClick();
+    std::optional<TooltipData> tooltipSpawner();
 
     std::shared_ptr<Icon> m_icon;
     std::shared_ptr<Item> m_item;
@@ -44,8 +45,6 @@ private:
     EntityRef m_entity;
     std::vector<std::shared_ptr<ContainerViewItem>> m_items;
     Vector2i m_iconDims;
-    Sprite m_emptySlot;
-    int m_iconSpacing;
 };
 
 

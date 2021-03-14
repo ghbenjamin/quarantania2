@@ -143,25 +143,17 @@ enum class ItemEquipSlot
 enum class CreatureEquipSlot
 {
     Head,
-    Headband,
-    Eyes,
-
     Shoulders,
-    Neck,
-    Chest,
-
-    Belt,
-    Wrists,
-    Arms,
-
-    LeftHand,
     Body,
-    Armour,
-    RightHand,
-
+    Arms,
+    Belt,
+    Feet,
     Ring1,
+    Neck,
     Ring2,
-    Feet
+    LeftHand,
+    Armour,
+    RightHand
 };
 
 

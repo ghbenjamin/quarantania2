@@ -379,20 +379,12 @@ std::string EnumToString::creatureEquipSlot( CreatureEquipSlot input )
     {
         case CreatureEquipSlot::Head:
             return "Head";
-        case CreatureEquipSlot::Headband:
-            return "Headband";
-        case CreatureEquipSlot::Eyes:
-            return "Eyes";
         case CreatureEquipSlot::Shoulders:
             return "Shoulders";
         case CreatureEquipSlot::Neck:
             return "Neck";
-        case CreatureEquipSlot::Chest:
-            return "Chest";
         case CreatureEquipSlot::Belt:
             return "Belt";
-        case CreatureEquipSlot::Wrists:
-            return "Wrists";
         case CreatureEquipSlot::Arms:
             return "Arms";
         case CreatureEquipSlot::LeftHand:

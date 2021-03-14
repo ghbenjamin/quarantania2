@@ -7,39 +7,29 @@
 #include <game/Level.h>
 #include <utils/GlobalConfig.h>
 
-UI::ContainerView::ContainerView(Manager* manager, Element* parent, Vector2i iconDims)
-: Element(manager, parent), m_iconDims(iconDims), m_iconSpacing(2)
+using namespace UI;
+
+ContainerView::ContainerView(Manager* manager, Element* parent, Vector2i iconDims)
+: Element(manager, parent), m_iconDims(iconDims)
 {
-    setLayout<FreeLayout>();
+    auto emptySprite = ResourceManager::get().getSprite("game_ui/empty-item-slot");
+    emptySprite.setRenderLayer(RenderLayer::UI);
 
-    m_emptySlot = ResourceManager::get().getSprite("game_ui/empty-item-slot");
-    m_emptySlot.setRenderLayer(RenderLayer::UI);
-
-    auto [slotW, slotH] = m_emptySlot.size();
-    setPreferredContentSize({
-        slotW * m_iconDims.x() + m_iconSpacing * ( m_iconDims.x() - 1 ),
-        slotH * m_iconDims.y() + m_iconSpacing * ( m_iconDims.y() - 1 )
-    });
+    setLayout<GridLayout>( m_iconDims, emptySprite.size(), 2 );
     
-    slotW += m_iconSpacing;
-    slotH += m_iconSpacing;
+    auto const& patch = ResourceManager::get().getNinePatch( "simple-border" );
+    NinePatch np = { patch.texture(), patch.offsets() };
+    setBackground( np );
+    setBorderWidth( patch.borderWidth() );
     
-    // Render each of our positions - both the empty slot background and any items if present
-    for (int j = 0; j < m_iconDims.y(); j++)
+    for ( int i = 0; i < m_iconDims.area(); i++ )
     {
-        for (int i = 0; i < m_iconDims.x(); i++)
-        {
-            Vector2i offset = { i * slotW, j * slotH };
-            auto item = manager->createElement<ContainerViewItem>( this, m_entity, m_emptySlot );
-            item->setLocalPosition( offset );
-            
-            m_items.push_back(item);
-        }
+        auto item = manager->createElement<ContainerViewItem>( this, m_entity, emptySprite );
+        m_items.push_back( item );
     }
-    
 }
 
-void UI::ContainerView::refresh(EntityRef entity)
+void ContainerView::refresh(EntityRef entity)
 {
     m_entity = entity;
     
@@ -56,45 +46,58 @@ void UI::ContainerView::refresh(EntityRef entity)
     
     auto containerC = manager()->level()->ecs().getComponents<ContainerComponent>(entity);
     
-    for ( int i = 0; i < containerC->items.size() && i < m_items.size(); i++ )
+    for ( int i = 0; i < (int)containerC->items.size() && i < m_items.size(); i++ )
     {
         m_items[i]->setItem( containerC->items[i] );
     }
 }
 
-UI::ContainerViewItem::ContainerViewItem( UI::Manager *manager, UI::Element *parent, EntityRef entity, Sprite const& backgroundSprite )
+ContainerViewItem::ContainerViewItem( Manager *manager, Element *parent, EntityRef entity, Sprite const& backgroundSprite )
     : Element(manager, parent), m_entity(entity)
 {
-    setPreferredContentSize({32, 32});
+    setPreferredContentSize( backgroundSprite.size() );
     setBackground( backgroundSprite );
+    setLayout<CenterLayout>();
     
     m_icon = manager->createElement<Icon>( this );
-    m_icon->setPreferredContentSize({32, 32});
 
     addEventCallback(UEventType::Click, [this](UEvent& evt){ this->onClick(); });
+    setTooltipSpawner( [this](){ return this->tooltipSpawner(); } );
 }
 
-void UI::ContainerViewItem::setItem( std::shared_ptr<Item> item )
+void ContainerViewItem::setItem( std::shared_ptr<Item> item )
 {
     m_item = item;
     m_icon->setSprite( item->getSprite() );
 }
 
-void UI::ContainerViewItem::reset()
+void ContainerViewItem::reset()
 {
     m_item.reset();
     m_icon->clearSprite();
 }
 
-void UI::ContainerViewItem::setEntity(EntityRef entity)
+void ContainerViewItem::setEntity(EntityRef entity)
 {
     m_entity = entity;
 }
 
-void UI::ContainerViewItem::onClick()
+void ContainerViewItem::onClick()
+{
+}
+
+std::optional<TooltipData> ContainerViewItem::tooltipSpawner()
 {
     if (m_item)
     {
-        manager()->level()->events().broadcast<GameEvents::ItemUnequip>( m_entity,  );
+        return TooltipData {
+            m_item->getName(),
+            "Item",
+            m_item->getDescription()
+        };
+    }
+    else
+    {
+        return {};
     }
 }

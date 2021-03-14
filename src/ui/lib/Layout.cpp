@@ -330,3 +330,42 @@ Vector2i UI::HorizontalSpaceBetweenLayout::doLayout( UI::Element *ptr )
     
     return { w, h };
 }
+
+
+UI::GridLayout::GridLayout( Vector2i gridDimensions, Vector2i itemSize, int itemSpacing )
+    : m_gridDimensions(gridDimensions), m_itemSize(itemSize), m_itemSpacing(itemSpacing) {}
+
+Vector2i UI::GridLayout::doLayout( UI::Element *ptr )
+{
+    Assert( m_gridDimensions.x() > 0 && m_gridDimensions.y() > 0 );
+
+    auto currChild = ptr->children().begin();
+    bool shouldBreak = false;
+    
+    for (int j = 0; j < m_gridDimensions.y() && !shouldBreak; j++)
+    {
+        for (int i = 0; i < m_gridDimensions.x() && !shouldBreak; i++)
+        {
+            Vector2i pos = {
+                (m_itemSize.x() + m_itemSpacing) * i,
+                (m_itemSize.y() + m_itemSpacing) * j
+            };
+            
+            (*currChild)->setLocalPosition( pos );
+            
+            currChild++;
+    
+            if (currChild == ptr->children().end() )
+            {
+                shouldBreak = true;
+            }
+        }
+    }
+    
+    Vector2i size = {
+        m_gridDimensions.x() * (m_itemSize.x() + m_itemSpacing - 1)-1,
+        m_gridDimensions.y() * (m_itemSize.y() + m_itemSpacing - 1)+1
+    };
+    
+    return size;
+}

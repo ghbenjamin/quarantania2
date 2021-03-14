@@ -28,7 +28,7 @@ private:
     void onClick();
 
 
-    TooltipData tooltipSpawner();
+    std::optional<TooltipData> tooltipSpawner();
     
     std::shared_ptr<Icon> m_icon;
     CreatureEquipSlot m_slot;
@@ -49,20 +49,12 @@ public:
     void refresh( EntityRef entity );
 
 private:
-    void addRegion( CreatureEquipSlot slot, SpritesheetKey const& key, Vector2i const& offset );
+    void addRegion( CreatureEquipSlot slot, SpritesheetKey const &key );
     
     
     std::unordered_map<CreatureEquipSlot, std::shared_ptr<EquipViewItem>> m_regions;
     EntityRef m_currEntity;
 };
 
-
-
-class EquipViewContainer : public Element
-{
-public:
-    EquipViewContainer(Manager* manager, Element* parent);
-    ~EquipViewContainer() override = default;
-};
 
 }

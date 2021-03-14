@@ -255,18 +255,12 @@ std::optional<CreatureEquipSlot> Actor::defaultSlotForItemSlot(ItemEquipSlot slo
             return CreatureEquipSlot::Belt;
         case ItemEquipSlot::Body:
             return CreatureEquipSlot::Body;
-        case ItemEquipSlot::Chest:
-            return CreatureEquipSlot::Chest;
-        case ItemEquipSlot::Eyes:
-            return CreatureEquipSlot::Eyes;
         case ItemEquipSlot::Feet:
             return CreatureEquipSlot::Feet;
         case ItemEquipSlot::Hands:
             return CreatureEquipSlot::RightHand;
         case ItemEquipSlot::Head:
             return CreatureEquipSlot::Head;
-        case ItemEquipSlot::Headband:
-            return CreatureEquipSlot::Headband;
         case ItemEquipSlot::Neck:
             return CreatureEquipSlot::Neck;
         case ItemEquipSlot::Ring:
@@ -277,8 +271,6 @@ std::optional<CreatureEquipSlot> Actor::defaultSlotForItemSlot(ItemEquipSlot slo
             return CreatureEquipSlot::Shoulders;
         case ItemEquipSlot::Weapon:
             return CreatureEquipSlot::RightHand;
-        case ItemEquipSlot::Wrists:
-            return CreatureEquipSlot::Wrists;
         default:
             return {};
     }

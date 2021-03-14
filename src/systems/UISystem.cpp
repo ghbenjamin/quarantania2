@@ -50,7 +50,7 @@ void UISystem::operator()(GameEvents::ItemDrop& evt)
 
 void UISystem::operator()(GameEvents::ItemEquip& evt)
 {
-    auto creatureEquip = m_level->ui().withId<UI::EquipView>( "ui-equip-inner" );
+    auto creatureEquip = m_level->ui().withId<UI::EquipView>( "ui-equip-view" );
     creatureEquip->refresh(evt.actor);
 
     auto creatureInventory = m_level->ui().withId<UI::ContainerView>( "player-inventory" );
@@ -59,7 +59,7 @@ void UISystem::operator()(GameEvents::ItemEquip& evt)
 
 void UISystem::operator()(GameEvents::ItemUnequip& evt)
 {
-    auto creatureEquip = m_level->ui().withId<UI::EquipView>( "ui-equip-inner" );
+    auto creatureEquip = m_level->ui().withId<UI::EquipView>( "ui-equip-view" );
     creatureEquip->refresh(evt.actor);
 
     auto creatureInventory = m_level->ui().withId<UI::ContainerView>( "player-inventory" );
@@ -79,7 +79,7 @@ void UISystem::operator()(GameEvents::ControllerEntitySelected& evt)
     actionMenu->closeMenu();
     actionMenu->refresh(evt.entity);
 
-    auto creatureEquip = m_level->ui().withId<UI::EquipView>( "ui-equip-inner" );
+    auto creatureEquip = m_level->ui().withId<UI::EquipView>( "ui-equip-view" );
     creatureEquip->refresh(evt.entity);
 
     auto creatureInventory = m_level->ui().withId<UI::ContainerView>( "player-inventory" );
