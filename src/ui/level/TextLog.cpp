@@ -125,7 +125,7 @@ void UI::MainTextLog::updateSelf(uint32_t ticks, InputInterface &iinter, RenderI
         auto rObj = it->getRenderObj();
         currH += (int) rObj.getScreenBounds().h();
         currH += LineSpacing;
-        rInter.addScreenItem( rObj );
+        rInter.addItem( rObj, RenderLayer::UI );
 
         // Stop drawing once we're over the top of the text box
         if ( currH >= innerBounds().h() )

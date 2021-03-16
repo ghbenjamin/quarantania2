@@ -33,7 +33,7 @@ void Engine::run()
 
     window->openGLSetup();
 
-    RenderInterface renderInterface;
+    RenderInterface renderInterface = window->getRenderInterface();
     InputInterface inputInterface;
 
     auto initState = std::make_unique<InitState>();

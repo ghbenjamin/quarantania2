@@ -121,7 +121,7 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
         if ( ref >= 0 )
         {
             currPos = offset + Vector2i{ col * GlobalConfig::TileSizePx, row * GlobalConfig::TileSizePx };
-            rInter.addWorldItem( m_renderTileMap.get(ref).sprite.renderObject(currPos) );
+            rInter.addItem( m_renderTileMap.get(ref).sprite.renderObject(currPos), RenderLayer::Tiles );
         }
 
         col++;

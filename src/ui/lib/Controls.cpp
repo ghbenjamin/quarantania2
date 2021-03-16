@@ -32,7 +32,7 @@ void Label::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &
     if ( m_text )
     {
         auto pos = globalPosition() + contentOffset();
-        rInter.addScreenItem(m_text.renderObject( pos ));
+        rInter.addItem(m_text.renderObject( pos ), RenderLayer::UI);
     }
 }
 
@@ -147,7 +147,7 @@ void Icon::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &r
     if ( m_sprite.has_value() )
     {
         auto pos = globalPosition() + contentOffset();
-        rInter.addScreenItem( m_sprite->renderObject(pos) );
+        rInter.addItem( m_sprite->renderObject(pos), RenderLayer::UI );
     }
 }
 
@@ -165,7 +165,11 @@ void Icon::setSprite( SpritesheetKey const &sprite )
 
 void Icon::onColourModChange()
 {
-    m_sprite->setColour( getColour() );
+    if (m_sprite)
+    {
+        m_sprite->setColour( getColour() );
+    }
+    
 }
 
 void Icon::clearSprite()

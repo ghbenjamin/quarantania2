@@ -5,18 +5,16 @@
 
 enum class RenderLayer
 {
-    Begin = 0,
-
-    Tiles = 1,
-    Entity = 2,
-    Actor = 3,
-    GFX = 4,
-    FOV = 5,
-    OVERLAY_UI = 6,
-    UI = 7,
-
-    End = 8
+    Tiles   = 0,
+    Entity  = 1,
+    Actor   = 2,
+    GFX     = 3,
+    FOV     = 4,
+    Overlay = 5,
+    UI      = 6
 };
+
+inline const int RENDER_LAYER_COUNT = 7;
 
 class Sprite;
 
@@ -26,25 +24,26 @@ public:
     RenderObject(TextureHandle handle);
     ~RenderObject() = default;
     
-    void setScreenPosition( Vector2f pos );
-    void setScreenSize( Vector2f size );
+    static constexpr int FLOATS_PER_QUAD = 48;
+    static constexpr int TRIANGLES_PER_QUAD = 6;
     
-    void setTextureVerts( float texX, float texY, float texW, float texH );
-    void setScreenVerts( float scX, float scY, float scW, float scH );
-    void setColourVerts( float r, float g, float b, float a );
+    void setTextureVerts( int idx, float texX, float texY, float texW, float texH );
+    void setScreenVerts( int idx, float scX, float scY, float scW, float scH );
+    void setColourVerts( int idx, float r, float g, float b, float a );
     
-    void setRenderLayer( RenderLayer layer );
+    void merge( RenderObject other );
+    int getDataSize();
+    GLfloat* getData();
+    TextureHandle getHandle() const;
+    
+    void setScreenPosition( int idx, Vector2f pos );
+    void setScreenSize( int idx, Vector2f size );
     
     RectF const& getScreenBounds() const;
-    TextureHandle getHandle() const;
-    std::array<GLfloat, 48> const& getVerts() const;
     
-    bool operator<( RenderObject const &rhs ) const;
-
 private:
     
-    RenderLayer m_renderLayer;
     TextureHandle m_handle;
-    std::array<GLfloat, 48> m_verts;
+    std::vector<GLfloat> m_data;
     RectF m_screenBounds;
 };

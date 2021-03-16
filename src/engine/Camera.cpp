@@ -73,7 +73,7 @@ Vector2i const &Camera::getViewportScreenOffset() const
 void Camera::translate(RenderObject &spos) const
 {
     Vector2f newPos = spos.getScreenBounds().left() + m_internalOffset - m_position;
-    spos.setScreenPosition( newPos );
+//    spos.setScreenPosition( newPos );// TODO FIX CAMERA
 }
 
 void Camera::setScrollSpeed(float scrollSpeed)

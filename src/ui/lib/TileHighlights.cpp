@@ -35,7 +35,7 @@ UI::TileRegionHighlight::TileRegionHighlight(UI::Manager *manager, UI::Element *
     setDecorative();
 
     m_sprite = createRectangle({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx}, colour.withAlpha(100));
-    m_sprite.setRenderLayer(RenderLayer::OVERLAY_UI);
+    m_sprite.setRenderLayer(RenderLayer::Overlay);
 }
 
 
@@ -43,7 +43,7 @@ void UI::TileRegionHighlight::updateSelf(uint32_t ticks, InputInterface &iinter,
 {
     for ( auto const& tile : m_region )
     {
-       rInter.addWorldItem(m_sprite.renderObject( tile * GlobalConfig::TileSizePx ));
+       rInter.addItem(m_sprite.renderObject( tile * GlobalConfig::TileSizePx ), RenderLayer::Overlay);
     }
 }
 

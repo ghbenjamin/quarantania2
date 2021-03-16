@@ -8,7 +8,7 @@ class Camera;
 class RenderInterface
 {
 public:
-    explicit RenderInterface() ;
+    RenderInterface( Renderer* renderer );
     virtual ~RenderInterface() = default;
 
     // The items which will be rendered to the screen at the end of the frame
@@ -16,17 +16,14 @@ public:
 
     void clear();
     void present();
-
-    // Add an item which will be rendered relative to the position of the current camera
-    void addWorldItem(RenderObject obj);
-
-    // Add an item which will be rendered without taking the position of the camera into account
-    void addScreenItem(RenderObject obj);
+    
+    void addItem( RenderObject obj, RenderLayer layer );
 
     // Set the current camera
     void setCamera( Camera* camera );
 
 private:
     Camera* m_camera;
+    Renderer* m_renderer;
     std::vector<RenderObject> m_renderables;
 };

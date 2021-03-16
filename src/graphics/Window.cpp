@@ -46,10 +46,6 @@ Window::Window(std::string const &title, Vector2i bounds)
         exit(1);
     }
 
-//    // Loaded OpenGL successfully.
-//    std::cout << "OpenGL version loaded: " << GLVersion.major << "."
-//              << GLVersion.minor << std::endl;
-
     SDL_GL_MakeCurrent(m_window, m_glContext);
     SDL_GL_SetSwapInterval(1);
 }
@@ -79,11 +75,6 @@ void Window::openGLSetup()
     // Set the viewport size and projection
     glViewport(0, 0, m_size.x(), m_size.y());
     
-    // Cargo cult
-//    glMatrixMode( GL_PROJECTION );
-//    glLoadIdentity();
-//    glOrtho( 0.0, m_size.x(), m_size.y(), 0.0, 1.0, -1.0 );
-    
     // Enable alpha blending
     glEnable(GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -101,6 +92,9 @@ void Window::openGLSetup()
     
     glGenBuffers(1, &m_VBO);
     glGenVertexArrays(1, &m_quadVAO);
+    
+    
+    m_renderer.init();
 }
 
 
@@ -130,29 +124,34 @@ void Window::render( RenderInterface const &objs )
 {
     glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    GLuint currTex = 0;
+//    GLuint currTex = 0;
     
-    for ( auto const& item : objs.renderables() )
-    {
-        glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-        glBufferData(GL_ARRAY_BUFFER, item.getVerts().size() * sizeof(GLfloat) * 48, item.getVerts().data(), GL_STATIC_DRAW);
-        
-        glBindVertexArray(m_quadVAO);
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(4 * sizeof(float)));
-        glEnableVertexAttribArray(1);
-
-
-        if ( currTex != item.getHandle() )
-        {
-            currTex = item.getHandle();
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, item.getHandle());
-        }
-        
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-    }
+    
+    m_renderer.render();
+    
+    
+//
+//    for ( auto const& item : objs.renderables() )
+//    {
+//        glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+//        glBufferData(GL_ARRAY_BUFFER, item.getVerts().size() * sizeof(GLfloat) * 48, item.getVerts().data(), GL_STATIC_DRAW);
+//
+//        glBindVertexArray(m_quadVAO);
+//        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+//        glEnableVertexAttribArray(0);
+//        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(4 * sizeof(float)));
+//        glEnableVertexAttribArray(1);
+//
+//
+//        if ( currTex != item.getHandle() )
+//        {
+//            currTex = item.getHandle();
+//            glActiveTexture(GL_TEXTURE0);
+//            glBindTexture(GL_TEXTURE_2D, item.getHandle());
+//        }
+//
+//        glDrawArrays(GL_TRIANGLES, 0, 6);
+//    }
     
     SDL_GL_SwapWindow(m_window);
 }
@@ -160,5 +159,10 @@ void Window::render( RenderInterface const &objs )
 void Window::onWindowResize( Vector2i screenSize )
 {
     glViewport(0, 0, screenSize.x(), screenSize.y());
+}
+
+RenderInterface Window::getRenderInterface()
+{
+    return RenderInterface( &m_renderer );
 }
 

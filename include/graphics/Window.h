@@ -4,6 +4,7 @@
 
 #include <utils/Containers.h>
 #include <graphics/Cursor.h>
+#include <graphics/Renderer.h>
 
 class RenderInterface;
 class ShaderProgram;
@@ -27,6 +28,8 @@ public:
     const Vector2i getSize() const;
     void render( RenderInterface const& objs );
     void openGLSetup();
+    
+    RenderInterface getRenderInterface();
 
 private:
     
@@ -34,6 +37,8 @@ private:
     SDL_GLContext m_glContext;
     Vector2i m_size;
     Cursor m_cursor;
+    
+    Renderer m_renderer;
     
     // Temp OpenGL stuff
     unsigned int m_quadVAO;
