@@ -5,6 +5,8 @@
 #include <resource/ResourceManager.h>
 #include <utils/Logging.h>
 
+#include <graphics/Text.h>
+
 void ResourceManager::setWindow(WindowPtr const &wnd)
 {
     m_context = wnd;
@@ -120,30 +122,10 @@ void ResourceManager::loadAll()
     }
     
 //
-//    // Generate the default font caches
-//    auto const& defaultF = getDefaultFontName();
-//    m_fontManager.generateFontAtlas( defaultF, 16, Colour::Black );
-//    m_fontManager.generateFontAtlas( defaultF, 14, Colour::Black );
-//    m_fontManager.generateFontAtlas( defaultF, 12, Colour::Black );
-//    m_fontManager.generateFontAtlas( defaultF, 10, Colour::Black );
-//    m_fontManager.generateFontAtlas( defaultF, 12, Colour::Red );
-//    m_fontManager.generateFontAtlas( defaultF, 12, Colour::Green );
-
-
-    // DEBUG
-
-//    std::string sample_text = "It was the best of times, it was the worst of times, it was the age of wisdom, it was "
-//                              "the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it "
-//                              "was the season of light, it was the season of darkness, it was the spring of hope, it was "
-//                              "the winter of despair.";
+//    FtFontManager manager;
 //
-//    FontCache foo { getDefaultFont(12), Colour::Black };
-//    auto txt = foo.renderText( sample_text, 200 );
-//    SDL_SaveBMP( txt->raw(), "C:/Users/brh/quick_kerned.bmp" );
-
-//    LiteMarkdownParser lmp;
-//    auto parsed = lmp.parseMarkdown( "The <c:#ff0000>quick brown</c> fox jumped <c:#00ff00>over the lazy</c> dog." );
-//    int t  = 6;
+//    auto face = manager.loadFontFace( "inconsolata-regular", 20 );
+//    int i = 1;
 }
 
 void ResourceManager::unloadAll()
@@ -239,6 +221,12 @@ ShaderResource const& ResourceManager::getShader( const std::string &name)
     }
 }
 
+std::shared_ptr<FtFontFace> ResourceManager::getFont2( std::string name, int fontSize )
+{
+    return m_fontManager.getFont( name, fontSize );
+}
+
+
 FontDataPtr ResourceManager::getDefaultFont(int fontSize)
 {
     return getFont( getDefaultFontName(), fontSize );
@@ -274,3 +262,6 @@ const std::string ResourceManager::getDefaultFontName()
 {
     return "inconsolata-regular";
 }
+
+
+

@@ -38,6 +38,24 @@ Texture::Texture( std::string const &path )
 Texture::Texture( GLuint handle, Vector2i size )
         : m_handle(handle), m_size(size) {}
 
+Texture::Texture( Vector2i size )
+:   m_size(size)
+{
+    glGenTextures( 1, &m_handle );
+    glBindTexture( GL_TEXTURE_2D, m_handle );
+    
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_size.x(), m_size.y(), 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+}
+
+
+
 
 Texture::~Texture()
 {
@@ -54,6 +72,7 @@ Vector2i Texture::size() const
 {
     return m_size;
 }
+
 
 
 Surface::Surface()

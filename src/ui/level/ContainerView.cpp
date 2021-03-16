@@ -46,7 +46,7 @@ void ContainerView::refresh(EntityRef entity)
     
     auto containerC = manager()->level()->ecs().getComponents<ContainerComponent>(entity);
     
-    for ( int i = 0; i < (int)containerC->items.size() && i < m_items.size(); i++ )
+    for ( int i = 0; i < (int) containerC->items.size() && i < (int) m_items.size(); i++ )
     {
         m_items[i]->setItem( containerC->items[i] );
     }

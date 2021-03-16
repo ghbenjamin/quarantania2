@@ -29,7 +29,7 @@ Sprite::Sprite(std::shared_ptr<Texture> texture)
 {
     m_size = m_texture->size();
     
-    m_renderObj.setScreenVerts( 0, 0, m_size.x(), m_size.y() );
+    m_renderObj.setScreenVerts( 0.0f, 0.0f, (float)m_size.x(), (float)m_size.y() );
     m_renderObj.setTextureVerts( 0.0f, 0.0f, 1.0f, 1.0f );
 }
 

@@ -7,7 +7,6 @@
 #include <resource/Spritesheet.h>
 #include <resource/Resource.h>
 #include <resource/Font.h>
-#include <graphics/Text.h>
 #include <graphics/Window.h>
 #include <utils/Assert.h>
 
@@ -39,7 +38,9 @@ public:
     TexturePtr getTexture( std::string const& imgName );
     NinePatchResource const& getNinePatch( std::string const& name );
     ShaderResource const& getShader( std::string const& name );
-
+    
+    std::shared_ptr<FtFontFace> getFont2( std::string name, int fontSize );
+    
 private:
 
     ResourceManager() = default;
@@ -58,7 +59,6 @@ private:
     std::unordered_map<std::string, std::shared_ptr<NinePatchResource>> m_patches;
     std::unordered_map<std::string, std::shared_ptr<ShaderResource>> m_shaders;
 
+    FtFontManager m_fontManager;
     WindowPtr m_context;
-    FontManager m_fontManager;
-
 };

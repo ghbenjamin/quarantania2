@@ -31,3 +31,19 @@ private:
     Vector2i m_size;
     RenderObject m_renderObj;
 };
+
+
+class CompositeSprite
+{
+public:
+    CompositeSprite() = default;
+    ~CompositeSprite() = default;
+
+private:
+    std::size_t m_itemCount;
+    Vector2i m_size;
+    TexturePtr m_texture;
+    
+    std::vector<Colour> m_colours;
+    std::vector<RenderObject> m_renderObjects;
+};

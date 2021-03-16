@@ -1,67 +1,71 @@
 #pragma once
 
-#include <unordered_map>
+#include <memory>
+#include <string>
+#include <vector>
 #include <map>
-#include <optional>
+#include <unordered_map>
 
-#include <utils/Colour.h>
-#include <utils/Containers.h>
-#include <resource/Font.h>
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
-struct SDL_Texture;
-struct SDL_Surface;
-struct SDL_Rect;
-class Texture;
-class FontData;
-class RenderInterface;
+#include <resource/Sprite.h>
 
 
-class FontCache
+struct FtCharData
 {
-public:
-
-    struct GlyphPosition
-    {
-        int idx;
-        int x;
-        int y;
-    };
-
-
-    FontCache(std::shared_ptr<FontData> const& font, Colour colour );
-    ~FontCache() = default;
-
-    std::shared_ptr<Surface> renderText( std::string const& text, int maxWidth = -1 );
-
-private:
-    void generateAsciiCache(std::shared_ptr<FontData> const& font, Colour colour );
-    static constexpr bool idxIsAlphanum( int idx );
-
-    static constexpr int AsciiStartIdx = 32;
-    static constexpr int AsciiEndIdx = 128;
-
-    std::shared_ptr<FontData> m_font;
-    std::vector<SDL_Rect> m_locs;
-    std::vector<GlyphMetric> m_metrics;
-    std::shared_ptr<Surface> m_cache;
+    int width;
+    int height;
+    int bearingX;
+    int bearingY;
+    int advance;
+    float uvX = 0.0f;
+    float uvY = 0.0f;
 };
 
 
-class FontManager
+class FtFontFace
 {
 public:
+    FtFontFace( FT_Face const& face );
+    ~FtFontFace();
+    
+    CompositeSprite renderString( std::string const& str, int fontSize );
+    
+    std::shared_ptr<Texture> texture();
+    
+private:
 
-    FontManager() = default;
-    ~FontManager() = default;
+    void generateFontData( int size );
+    
+    
+    static const int GLYPH_RANGE_MAX = 128;
+    static const int TEXTURE_SIZE_PX = 256;
+    static const int TEXTURE_PER_FONT_SIZE = 256;
+    static const int SPACING_WIDTH = 2;
+    static const int SPACING_HEIGHT = 2;
 
-    // Return a reference to the specified font atlas, or create it if it does not exist.
-    FontCache& getFont( std::string fontName, int size, Colour colour = Colour::Black );
+    Vector2i m_currentTexOffset;
+    FT_Face m_face;
+    std::shared_ptr<Texture> m_texture;
+    std::unordered_map<int,std::vector<FtCharData>> m_charData;
+};
 
-    // Generate an atlas for the specified font, size, and colour
-    FontCache& generateFontAtlas( std::string const& fontName, int size, Colour colour = Colour::Black );
+
+
+class FtFontManager
+{
+public:
+    FtFontManager();
+    ~FtFontManager();
+    
+    std::shared_ptr<FtFontFace> getFont( std::string const& name, int size );
+    std::shared_ptr<FtFontFace> loadFontFace( std::string const& name, int height );
 
 private:
-    std::map<std::string, std::map<std::pair<int, Colour>, FontCache>> m_fontCaches;
+
+    std::map<std::pair<std::string, int>, std::shared_ptr<FtFontFace>> m_fonts;
+    FT_Library m_ft;
 };
 
 
@@ -78,14 +82,14 @@ using MarkdownTokenStream = std::vector<MarkdownTokenSegment>;
 
 class LiteMarkdownParser
 {
-
+    
     struct OpenTagPosition
     {
         std::size_t start;
         std::size_t end;
         std::string value;
     };
-
+    
     struct EndTagPosition
     {
         std::size_t start;

@@ -1,272 +1,250 @@
 #include <graphics/Text.h>
 
+#include <iostream>
 #include <regex>
 
-#include <graphics/Texture.h>
-#include <resource/Font.h>
-#include <resource/ResourceManager.h>
-#include <graphics/RenderInterface.h>
+#include <utils/Assert.h>
+#include <utils/Logging.h>
 
-FontCache::FontCache(std::shared_ptr<FontData> const& font, Colour colour)
-    : m_font(font)
+
+// Font Manager
+
+
+FtFontManager::FtFontManager()
 {
-    generateAsciiCache(font, colour);
+    if ( FT_Init_FreeType(&m_ft) )
+    {
+        AssertAlways();
+    }
 }
 
-void FontCache::generateAsciiCache(std::shared_ptr<FontData> const& font, Colour colour)
+FtFontManager::~FtFontManager()
 {
-    const int maxW = 256;
-
-    const int TotalCount = AsciiEndIdx - AsciiStartIdx;
-    m_locs.reserve(TotalCount);
-    m_metrics.reserve(TotalCount);
-
-    int currX = 0;
-    int currY = 0;
-
-    std::vector<std::shared_ptr<Surface>> surfaceArr;
-
-    for (int i = AsciiStartIdx; i < AsciiEndIdx; i++)
-    {
-        auto surface = font->renderGlyph( i, colour );
-        surfaceArr.push_back( surface );
-
-        int offsetX = surface->raw()->w + 1;
-
-        if (currX + offsetX >= maxW)
-        {
-            currX = 0;
-            currY += font->getLineSkip();
-        }
-
-        m_locs.push_back( SDL_Rect{currX, currY, surface->raw()->w, surface->raw()->w} );
-        m_metrics.push_back( font->glyphMetric(i) );
-        currX += offsetX;
-    }
-
-    currY += font->getLineSkip();
-    Vector2i totalSize = { maxW, currY };
-
-    auto cacheSurface = std::make_shared<Surface>( totalSize );
-    for (int i = 0; i < TotalCount; i++)
-    {
-        SDL_BlitSurface(surfaceArr[i]->raw(), nullptr, cacheSurface->raw(), &m_locs[i] );
-    }
-
-    m_cache = cacheSurface;
+    m_fonts.clear();
+    FT_Done_FreeType(m_ft);
 }
 
-std::shared_ptr<Surface> FontCache::renderText(const std::string &text, int maxWidth )
+std::shared_ptr<FtFontFace> FtFontManager::loadFontFace( std::string const &name, int height )
 {
-    std::vector<GlyphPosition> glyphs;
-    std::vector<GlyphPosition> currentWord;
-
-    glyphs.reserve( text.size() );
-
-    // If w < 0, assume width is unbounded
-    if (maxWidth <= 0)
+    std::string path = "../resource/font/" + name + ".ttf";
+    
+    FT_Face face;
+    if (FT_New_Face(m_ft, path.c_str(), 0, &face))
     {
-        maxWidth = std::numeric_limits<int>::max();
+        AssertAlwaysMsg( "Unknown font: " + path );
     }
-
-    const int LineSpacing = m_font->getLineSkip();
-    int currX = 0;
-    int currY = 0;
-    std::uint16_t previous = 0;
-    int maxX = 0;
-
-    // For each character in the input string:
-    //   - Work out the size of the glyph
-    //   - Work out which word it belongs to
-    //   - If this glyph is the end of a word, work out whether or not the word should go onto the current line or
-    //     the next line, depending on our requested text wrap width
-
-    for (int i = 0; i < (int) text.size(); i++)
-    {
-        // Convert from char to unicode codepoint, offset to start at the alphanumeric characters
-        std::uint16_t idx_noffset = static_cast<std::uint16_t>( text.at(i) );
-        std::uint16_t idx = idx_noffset - AsciiStartIdx;
-
-        currentWord.push_back( GlyphPosition{idx, currX, currY} );
-
-
-        // Move the caret forward the width of the current glyph
-        int advance = m_metrics[idx].advance;
-        currX += advance;
-
-        // If we have a previous glyph, apply kerning offsets
-        if (previous)
-        {
-            currX -= m_font->getKerning( previous, idx );
-        }
-
-        previous = idx;
-
-        // Non-alphanumeric means this could be the end of a word
-        if ( !idxIsAlphanum( idx_noffset ) )
-        {
-            // The left and right edges of the current word (in pixels)
-            int frontEdge = currentWord.front().x;
-            int backEdge = currentWord.back().x + m_locs[idx].w;
-
-            if ( backEdge > maxWidth )
-            {
-                // The current word extends beyond the max width - move the current word down to the next line.
-                for (auto& c : currentWord)
-                {
-                    c.x -= frontEdge;
-                    c.y += LineSpacing;
-                }
-
-                // Reset our current X and Y positions since we've moved the caret
-                maxX = std::max( maxX, frontEdge );
-                currX = backEdge - frontEdge;
-                currY += LineSpacing;
-            }
-
-            // Move the completed word onto the glyph vector and clear the current word
-            glyphs.insert( glyphs.end(), currentWord.begin(), currentWord.end() );
-            currentWord.clear();
-        }
-    }
-
-    // In case this was a single line, maxX should be at least the size of currX
-    maxX = std::max( maxX, currX );
-
-    auto outSurface = std::make_shared<Surface>( Vector2i{maxX, currY + LineSpacing} );
-
-    // For each character, blit the correct glyph onto the target surface
-    for ( int i = 0; i < (int) glyphs.size(); i++)
-    {
-        GlyphPosition glpos = glyphs[i];
-        SDL_Rect* glsize = &m_locs[glpos.idx];
-
-        SDL_Rect outTransform = { glyphs[i].x, glyphs[i].y, glsize->w, glsize->h };
-        SDL_BlitSurface( m_cache->raw(), glsize, outSurface->raw(), &outTransform );
-    }
-
-    return outSurface;
+    
+    FT_Set_Pixel_Sizes(face, 0, height);
+    
+    auto font = std::make_shared<FtFontFace>(face);
+    auto pair = std::make_pair(path, height);
+    m_fonts.emplace( pair, font );
+    
+    return font;
 }
 
-constexpr bool FontCache::idxIsAlphanum(int idx)
+std::shared_ptr<FtFontFace> FtFontManager::getFont( std::string const &name, int size )
 {
-    // Quick and dirty - return whether this index falls within 0-9, a-z, A-Z
-
-    return ( idx >= 48 && idx <= 57 ) ||
-           ( idx >= 65 && idx <= 90 ) ||
-           ( idx >= 97 && idx <= 122);
-}
-
-FontCache &FontManager::getFont(std::string fontName, int size, Colour colour)
-{
-    auto family = m_fontCaches.find( fontName );
-
-    if ( family != m_fontCaches.end() )
+    auto pair = std::make_pair( name, size );
+    auto it = m_fonts.find( pair );
+    
+    if (it != m_fonts.end())
     {
-        std::pair<int, Colour> key = std::make_pair(size, colour);
-
-        auto font_it = family->second.find( key );
-        if (font_it != family->second.end())
-        {
-            return font_it->second;
-        }
-    }
-
-    return generateFontAtlas( fontName, size, colour );
-}
-
-FontCache &FontManager::generateFontAtlas( std::string const& fontName, int size, Colour colour )
-{
-    auto font = ResourceManager::get().getFont( fontName, size );
-
-    FontCache fc { font, colour };
-    std::pair<int, Colour> key = std::make_pair(size, colour);
-
-    auto it = m_fontCaches.find(fontName);
-
-    if (it != m_fontCaches.end() )
-    {
-        it->second.emplace( key, fc );
+        return it->second;
     }
     else
     {
-        m_fontCaches[fontName] = {};
-        m_fontCaches[fontName].emplace( key, fc );
+        return loadFontFace(name, size);
+    }
+}
+
+
+
+// Font Face
+
+
+FtFontFace::FtFontFace( FT_Face const& face )
+    : m_face(face), m_currentTexOffset(0, 0)
+{
+    m_texture = std::make_shared<Texture>( Vector2i{ TEXTURE_SIZE_PX, 2 * TEXTURE_SIZE_PX } );
+    generateFontData( 16 );
+    generateFontData( 14 );
+    generateFontData( 12 );
+}
+
+FtFontFace::~FtFontFace()
+{
+    FT_Done_Face(m_face);
+}
+
+CompositeSprite FtFontFace::renderString( std::string const &str, int fontSize )
+{
+    auto it = m_charData.find(fontSize);
+    AssertMsg( it != m_charData.end(), "Missing font size" );
+    auto& chardata = it->second;
+    
+    int currX = 0;
+    int currY = 0;
+    
+    for (int i = 0; i < (int) str.size(); i++)
+    {
+        std::uint16_t char_idx = static_cast<std::uint16_t>( str.at(i) );
+        
+        
     }
 
-    return m_fontCaches[fontName].at( key );
+    return CompositeSprite();
 }
+
+std::shared_ptr<Texture> FtFontFace::texture()
+{
+    return m_texture;
+}
+
+void FtFontFace::generateFontData( int size )
+{
+    FT_Set_Pixel_Sizes(m_face, 0, size);
+
+    std::vector<FtCharData> charVector;
+    charVector.reserve(GLYPH_RANGE_MAX);
+    
+    int currX = m_currentTexOffset.x();
+    int currY = m_currentTexOffset.y();
+    int nextX = 0;
+    int nextY = 0;
+    int currMaxH = 0;
+    
+    for (int ch = 0; ch < GLYPH_RANGE_MAX; ch++)
+    {
+        if (FT_Load_Char(m_face, ch, FT_LOAD_RENDER))
+        {
+            AssertAlways();
+        }
+        
+        FtCharData charData;
+        
+        charData.width = m_face->glyph->bitmap.width;
+        charData.height = m_face->glyph->bitmap.rows;
+        charData.bearingX = m_face->glyph->bitmap_left;
+        charData.bearingY = m_face->glyph->bitmap_top;
+        charData.advance = m_face->glyph->advance.x;
+        
+        currMaxH = std::max(charData.height, currMaxH);
+        
+        int offset = charData.width + SPACING_WIDTH;
+        if (currX + offset > TEXTURE_PER_FONT_SIZE + m_currentTexOffset.x())
+        {
+            nextY = currY + currMaxH + SPACING_HEIGHT;
+            nextX = m_currentTexOffset.x();
+            
+            currMaxH = charData.height;
+        }
+        else
+        {
+            // There's enough space for the next character, move the cursor along
+            nextY = currY;
+            nextX = currX + offset;
+        }
+        
+        charData.uvX = (float) currX / (float) TEXTURE_SIZE_PX;
+        charData.uvY = (float) currY / (float) TEXTURE_SIZE_PX;
+        
+        
+        glTexSubImage2D(
+                GL_TEXTURE_2D,
+                0,
+                currX,
+                currY,
+                charData.width,
+                charData.height,
+                GL_ALPHA,
+                GL_UNSIGNED_BYTE,
+                m_face->glyph->bitmap.buffer
+        );
+        
+        currX = nextX;
+        currY = nextY;
+    
+        charVector.push_back( std::move(charData) );
+    }
+ 
+ 
+    m_currentTexOffset = {0, nextY + currMaxH};
+    m_charData.emplace(size, std::move(charVector) );
+}
+
+
 
 MarkdownTokenStream LiteMarkdownParser::parseMarkdown( std::string const& text )
 {
     // Example markdown:
     // "The <c:#ff0000>quick brown</c> fox jumped <c:#00ff00>over the lazy</c> dog."
-
+    
     Colour const& DefaultColour = Colour::Black;
-
+    
     std::regex tagOpen { R"(<c:(\S+)>)" };
     std::regex tagClose { R"(</c>)" };
-
+    
     std::sregex_iterator openIt {text.begin(), text.end(), tagOpen };
     std::sregex_iterator closeIt {text.begin(), text.end(), tagClose };
     std::sregex_iterator end;
-
+    
     std::vector<OpenTagPosition> openTags;
     std::vector<EndTagPosition> closeTags;
-
-
+    
+    
     for ( ; openIt != end; openIt++)
     {
         OpenTagPosition tp;
         tp.start = openIt->position();
         tp.end = tp.start + openIt->length();
         tp.value = openIt->str(1);
-
+        
         openTags.push_back(tp);
     }
-
+    
     for ( ; closeIt != end; closeIt++)
     {
         EndTagPosition tp;
         tp.start = closeIt->position();
         tp.end = tp.start + closeIt->length();
-
+        
         closeTags.push_back(tp);
     }
-
+    
     AssertMsg( openTags.size() == closeTags.size(), "Open and close tag mismatch" );
-
+    
     // If we have no tags, return a simple black single element stream
     if ( openTags.size() == 0 )
     {
         return MarkdownTokenStream{ MarkdownTokenSegment{ Colour::Black, text } };
     }
-
+    
     // Otherwise:
-
+    
     MarkdownTokenStream out;
-
+    
     std::size_t lastIdx = 0;
-
+    
     for ( int i = 0; i < (int)openTags.size(); i++ )
     {
         out.push_back( MarkdownTokenSegment {
-            DefaultColour,
-            text.substr( lastIdx, openTags[i].start - lastIdx )
+                DefaultColour,
+                text.substr( lastIdx, openTags[i].start - lastIdx )
         });
-
+        
         out.push_back( MarkdownTokenSegment {
-            Colour{ openTags[i].value },
-            text.substr( openTags[i].end, closeTags[i].start - openTags[i].end )
+                Colour{ openTags[i].value },
+                text.substr( openTags[i].end, closeTags[i].start - openTags[i].end )
         });
-
+        
         lastIdx = closeTags[i].end;
     }
-
+    
     out.push_back( MarkdownTokenSegment {
-        DefaultColour,
-        text.substr( closeTags.back().end, std::string::npos )
+            DefaultColour,
+            text.substr( closeTags.back().end, std::string::npos )
     });
-
+    
     return out;
 }

@@ -135,7 +135,13 @@ Icon::Icon( Manager *manager, Element *parent )
     
 Icon::Icon(Manager *manager, Element *parent, SpritesheetKey const& img)
     : Icon(manager, parent, ResourceManager::get().getSprite(img)) {}
-    
+
+
+Icon::Icon( Manager *manager, Element *parent, std::shared_ptr<Texture> const &img )
+    : Icon( manager, parent, Sprite{img} ) {}
+
+
+
 void Icon::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
     if ( m_sprite.has_value() )

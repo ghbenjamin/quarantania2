@@ -245,3 +245,4 @@ GLuint ShaderResource::getHandle() const
 {
     return m_handle;
 }
+

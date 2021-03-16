@@ -20,8 +20,15 @@ enum class PixelFormat
 class Texture
 {
 public:
+    // Create a texture from an image file
     Texture( std::string const& path );
+    
+    // Take ownership of a texture already in memory
     Texture( GLuint handle, Vector2i size );
+    
+    // Create a new empty texture of the given size
+    Texture( Vector2i size );
+    
     ~Texture();
     
     Texture( const Texture& ) = delete;

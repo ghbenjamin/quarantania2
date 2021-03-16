@@ -8,6 +8,7 @@
 #include <resource/Font.h>
 #include <resource/Spritesheet.h>
 #include <ui/lib/Background.h>
+#include <graphics/Text.h>
 
 class ResourceManager;
 namespace UI { class NinePatch; }

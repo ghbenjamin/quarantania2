@@ -61,6 +61,7 @@ public:
     Icon(Manager* manager, Element* parent);
     Icon(Manager* manager, Element* parent, Sprite const& img);
     Icon(Manager* manager, Element* parent, SpritesheetKey const& img);
+    Icon(Manager* manager, Element* parent, std::shared_ptr<Texture> const& img);
     ~Icon() override = default;
 
     void setSprite( Sprite const& sprite );

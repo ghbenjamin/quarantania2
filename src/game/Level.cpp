@@ -221,6 +221,17 @@ void Level::setupUI()
     m_uiManager.alignElementToElement( playerInventory, equipUi, UI::Alignment::BottomRight, {0, 10} );
     playerInventory->setId("player-inventory");
     playerInventory->hide();
+    
+    
+    
+    // Debug
+    
+    auto font = ResourceManager::get().getFont2( "inconsolata-regular", 20 );
+    auto bigIcon = m_uiManager.createElement<UI::Icon>(nullptr, font->texture());
+    bigIcon->setLocalPosition({200, 200});
+    
+    font->renderString("foo! (bar)", 16);
+    
 }
 
 void Level::layoutWindows()

@@ -163,7 +163,7 @@ public:
 
     Rect(T x, T y, T w, T h)
         : m_rect{(int) x, (int) y, (int) w, (int) h},
-          m_x((int) x), m_y((int) y), m_w((int) w), m_h((int) h)
+          m_x(x), m_y(y), m_w(w), m_h(h)
     {}
 
     Rect(SDL_Rect rect)
