@@ -4,9 +4,9 @@
 
 #include <utils/Containers.h>
 #include <graphics/Cursor.h>
+#include <graphics/Renderer.h>
 
 class RenderInterface;
-class ShaderProgram;
 
 class Window
 {
@@ -27,6 +27,8 @@ public:
     const Vector2i getSize() const;
     void render( RenderInterface const& objs );
     void openGLSetup();
+    
+    RenderInterface createRenderInterface();
 
 private:
     
@@ -35,10 +37,7 @@ private:
     Vector2i m_size;
     Cursor m_cursor;
     
-    // Temp OpenGL stuff
-    unsigned int m_quadVAO;
-    unsigned int m_VBO;
-
+    Renderer m_renderer;
     std::shared_ptr<ShaderProgram> m_shaderProgram;
 };
 

@@ -1,46 +1,22 @@
-#include <utility>
-
 #include <graphics/RenderInterface.h>
-#include <utils/Logging.h>
-#include <engine/Camera.h>
 
-RenderInterface::RenderInterface()
-: m_camera(nullptr)
-{
-}
+#include <graphics/Renderer.h>
+#include <utils/Logging.h>
+
+RenderInterface::RenderInterface( Renderer* renderer )
+: m_renderer(renderer) {}
 
 std::vector<RenderObject> const &RenderInterface::renderables() const
 {
     return m_renderables;
 }
 
-void RenderInterface::clear()
+void RenderInterface::addItem( RenderObject obj, RenderLayer layer )
 {
-    m_renderables.clear();
+    m_renderer->addItem( obj, layer );
 }
 
-void RenderInterface::addWorldItem(RenderObject obj)
+void RenderInterface::setCameraOffset( Vector2f offset )
 {
-    m_camera->translate(obj);
-    m_renderables.push_back(obj);
-}
-
-void RenderInterface::addScreenItem(RenderObject obj)
-{
-    m_renderables.push_back(obj);
-}
-
-void RenderInterface::setCamera(Camera *camera)
-{
-    m_camera = camera;
-}
-
-void RenderInterface::present()
-{
-//    std::stable_sort( m_renderables.begin(), m_renderables.end(),
-//            [](auto const& lhs, auto const& rhs) {
-//        return (int)lhs.renderLayer < (int)rhs.renderLayer;
-//    });
-
-    std::stable_sort( m_renderables.begin(), m_renderables.end() );
+    m_renderer->setCameraOffset( offset );
 }

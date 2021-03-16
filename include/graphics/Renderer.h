@@ -1,0 +1,61 @@
+#pragma once
+
+#include <glm/glm.hpp>
+
+#include <graphics/RenderObject.h>
+
+class ShaderProgram;
+
+// A buffer of renderobjects which are all on the same layer
+class RenderBuffer
+{
+public:
+    RenderBuffer();
+    ~RenderBuffer() = default;
+    
+    void render();
+    void addItem( RenderObject const& robj );
+
+private:
+    std::vector<RenderObject> m_data;
+    GLuint m_vbo;
+    GLuint m_vao;
+};
+
+
+class Renderer
+{
+public:
+    Renderer() = default;
+    ~Renderer() = default;
+    
+    // Delayed initialization until OpenGL context has been created
+    void init( Vector2f windowSize );
+    
+    // Draw the contents of our buffer, then empty the buffers
+    void render();
+    
+    // Add an item to the render queue.
+    void addItem( RenderObject const& robj, RenderLayer layer );
+    
+    // Set the camera offset vector used when drawing objects in world space
+    void setCameraOffset( Vector2f offset );
+    
+    void setWindowSize( Vector2f size );
+    
+private:
+    // Render buffers, indexed by the RenderLayer enum
+    std::vector<RenderBuffer> m_buffers;
+    
+    // Our shader program.
+    // TODO: Multiple shaders
+    std::shared_ptr<ShaderProgram> m_shaderProgram;
+    
+    // Locations of the uniforms in our shader
+    GLuint m_modelLoc;
+    GLuint m_projectionLoc;
+    
+    // Transformation matrices for world and screen space render objects
+    glm::mat4 m_cameraTransform;
+    glm::mat4 m_identity;
+};

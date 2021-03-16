@@ -46,7 +46,7 @@ void ElementBackground::render(Vector2i position, RenderInterface &rInter)
     switch (m_type)
     {
         case BackgroundType::SingleSprite:
-            rInter.addScreenItem( m_singleSprite->renderObject( position ) );
+            rInter.addItem( m_singleSprite->renderObject( position ), RenderLayer::UI );
             break;
 
         case BackgroundType::NinePatch:
@@ -57,7 +57,7 @@ void ElementBackground::render(Vector2i position, RenderInterface &rInter)
         case BackgroundType::ColourWithBorder:
             if (m_colourSprite.has_value())
             {
-                rInter.addScreenItem( m_colourSprite->renderObject( position ) );
+                rInter.addItem( m_colourSprite->renderObject( position ), RenderLayer::UI );
             }
             break;
     }
@@ -164,7 +164,7 @@ void NinePatch::render(Vector2i position, RenderInterface &rInter)
 {
     for (int i = 0; i < 9; i++)
     {
-        rInter.addScreenItem( m_sprites[i].renderObject( position + m_offsets[i].left() ) );
+        rInter.addItem( m_sprites[i].renderObject( position + m_offsets[i].left() ), RenderLayer::UI );
     }
 }
 

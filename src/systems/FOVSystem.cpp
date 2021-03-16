@@ -37,11 +37,11 @@ void FOVSystem::update(uint32_t ticks, RenderInterface &rInter)
         // but not visible, overlay it with a partially transparent black square (fog of war)
         if ( visibility == Visibility::Hidden )
         {
-            rInter.addWorldItem( m_fovHidden.renderObject(currPos) );
+            rInter.addItem( m_fovHidden.renderObject(currPos), RenderLayer::FOV );
         }
         else if ( visibility == Visibility::Explored )
         {
-            rInter.addWorldItem( m_fovFog.renderObject(currPos) );
+            rInter.addItem( m_fovFog.renderObject(currPos), RenderLayer::FOV );
         }
     }
 }

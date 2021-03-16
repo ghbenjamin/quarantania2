@@ -6,11 +6,8 @@
 #include <resource/ResourceManager.h>
 #include <utils/Time.h>
 #include <utils/GlobalConfig.h>
-#include <state/State.h>
 #include <state/LevelState.h>
-#include <engine/InputInterface.h>
 #include <state/InitState.h>
-#include <numeric>
 
 void Engine::run()
 {
@@ -33,7 +30,7 @@ void Engine::run()
 
     window->openGLSetup();
 
-    RenderInterface renderInterface;
+    RenderInterface renderInterface = window->createRenderInterface();
     InputInterface inputInterface;
 
     auto initState = std::make_unique<InitState>();
@@ -76,13 +73,9 @@ void Engine::run()
 
 
         // Update
-
-        renderInterface.clear();
         m_states.back()->update(ticks, inputInterface, renderInterface);
-        renderInterface.present();
 
         // Graphics
-
         window->render(renderInterface);
 
         // State checking
@@ -117,13 +110,6 @@ void Engine::run()
             Logging::log( fmt::format( "FPS: {}", framesPerSecond) );
         }
 #endif
-    
-//
-//        // Hacky framerate limiting
-//        if (ticks < msPerFrame)
-//        {
-//            SDL_Delay(msPerFrame - ticks);
-//        }
     }
 
     // Cleanup

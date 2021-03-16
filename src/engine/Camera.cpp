@@ -5,9 +5,7 @@
 #include <graphics/RenderObject.h>
 
 Camera::Camera( Vector2i bounds )
-: m_bounds(bounds), m_rect{0, 0, 0, 0}, m_scrollSpeed{0.75f}
-{
-}
+: m_bounds(bounds), m_scrollSpeed{0.75f} {}
 
 void Camera::setPosition(Vector2i pos)
 {
@@ -47,17 +45,11 @@ void Camera::enforceBounds()
         m_position.y( (float)(m_bounds.y() - m_size.y()) + overflowY );
 
     m_roundedPosition = m_position.convert<int>();
-    m_rect = { m_roundedPosition.x(), m_roundedPosition.y(), m_size.x(), m_size.y() };
 }
 
 Vector2i const &Camera::getPosition() const
 {
     return m_roundedPosition;
-}
-
-bool Camera::intersects(SDL_Rect* other) const 
-{
-    return SDL_HasIntersection( &m_rect, other ) == SDL_TRUE;
 }
 
 void Camera::setViewportScreenOffset(Vector2i offset)
@@ -70,11 +62,11 @@ Vector2i const &Camera::getViewportScreenOffset() const
     return m_viewportScreenOffset;
 }
 
-void Camera::translate(RenderObject &spos) const
+Vector2f Camera::getOffset() const
 {
-    Vector2f newPos = spos.getScreenBounds().left() + m_internalOffset - m_position;
-    spos.setScreenPosition( newPos );
+    return m_internalOffset - m_position.convert<float>();
 }
+
 
 void Camera::setScrollSpeed(float scrollSpeed)
 {
@@ -112,4 +104,5 @@ void Camera::centreOnTile(Vector2i tilePos)
         tilePos.y() * GlobalConfig::TileSizePx + GlobalConfig::TileSizePx * 2,
     });
 }
+
 

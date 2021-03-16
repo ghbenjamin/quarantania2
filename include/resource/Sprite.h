@@ -25,7 +25,7 @@ public:
     void setRenderLayer(RenderLayer layer);
     
 private:
-
+    RenderLayer m_renderLayer;
     Colour m_colour;
     TexturePtr m_texture;
     Vector2i m_size;

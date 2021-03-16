@@ -13,7 +13,7 @@ Sprite::Sprite(std::shared_ptr<Texture> const& texture, RectI const &region)
     auto regionf = region.convert<float>();
     auto sizef = texture->size().convert<float>();
     
-    m_renderObj.setScreenVerts( 0, 0, regionf.w(), regionf.h() );
+    m_renderObj.setScreenVerts( 0, 0, 0, regionf.w(), regionf.h() );
     
     // Convert our absolute texture bounds to fractional texture bounds
     float texX = regionf.x() / sizef.x();
@@ -21,7 +21,7 @@ Sprite::Sprite(std::shared_ptr<Texture> const& texture, RectI const &region)
     float texW = regionf.w() / sizef.x();
     float texH = regionf.h() / sizef.y();
     
-    m_renderObj.setTextureVerts( texX, texY, texW, texH );
+    m_renderObj.setTextureVerts( 0, texX, texY, texW, texH );
 }
 
 Sprite::Sprite(std::shared_ptr<Texture> texture)
@@ -29,8 +29,8 @@ Sprite::Sprite(std::shared_ptr<Texture> texture)
 {
     m_size = m_texture->size();
     
-    m_renderObj.setScreenVerts( 0.0f, 0.0f, (float)m_size.x(), (float)m_size.y() );
-    m_renderObj.setTextureVerts( 0.0f, 0.0f, 1.0f, 1.0f );
+    m_renderObj.setScreenVerts( 0, 0.0f, 0.0f, (float)m_size.x(), (float)m_size.y() );
+    m_renderObj.setTextureVerts( 0, 0.0f, 0.0f, 1.0f, 1.0f );
 }
 
 Sprite::operator bool() const
@@ -41,13 +41,13 @@ Sprite::operator bool() const
 RenderObject Sprite::renderObject(Vector2i const &pos)
 {
     Assert( !!m_texture );
-    m_renderObj.setScreenPosition( pos.convert<float>() );
+    m_renderObj.setScreenPosition( 0, pos.convert<float>() );
     return m_renderObj;
 }
 
 void Sprite::setRenderLayer(RenderLayer layer)
 {
-    m_renderObj.setRenderLayer( layer );
+    m_renderLayer = layer;
 }
 
 Vector2i Sprite::size() const
@@ -57,14 +57,14 @@ Vector2i Sprite::size() const
 
 void Sprite::setTargetSize(Vector2i size)
 {
-    m_renderObj.setScreenSize( size.convert<float>() );
+    m_renderObj.setScreenSize( 0, size.convert<float>() );
     m_size = size;
 }
 
 void Sprite::setColour( Colour colour )
 {
     auto colourGl = colour.asOpenGL();
-    m_renderObj.setColourVerts( colourGl[0], colourGl[1], colourGl[2], colourGl[3] );
+    m_renderObj.setColourVerts( 0, colourGl[0], colourGl[1], colourGl[2], colourGl[3] );
 }
 
 Colour const &Sprite::getColour()
