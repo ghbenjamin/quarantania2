@@ -20,24 +20,31 @@ public:
     
     RenderObject renderObject(Vector2i const& pos);
     
-    void setColour( Colour colour );
+    void setPosition( Vector2i position );
     void setTargetSize( Vector2i size );
+    void setColour( Colour colour );
     void setRenderLayer(RenderLayer layer);
     
 private:
-    RenderLayer m_renderLayer;
     Colour m_colour;
+    RenderLayer m_renderLayer;
     TexturePtr m_texture;
-    Vector2i m_size;
     RenderObject m_renderObj;
+    RectI m_screenBounds;
 };
 
 
 class CompositeSprite
 {
 public:
-    CompositeSprite() = default;
+    CompositeSprite();
+    CompositeSprite(TexturePtr texture);
     ~CompositeSprite() = default;
+    
+    Vector2i size() const;
+    RenderObject renderObject(Vector2i const& pos);
+    
+    void addQuad( RectF screenOffsets, RectF uvBounds );
 
 private:
     std::size_t m_itemCount;
@@ -45,5 +52,6 @@ private:
     TexturePtr m_texture;
     
     std::vector<Colour> m_colours;
-    std::vector<RenderObject> m_renderObjects;
+    std::vector<RectF> m_screenBounds;
+    RenderObject m_renderObj;
 };

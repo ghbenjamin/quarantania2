@@ -12,10 +12,9 @@ void UI::TextLogLineData::setPos(Vector2i pos)
     m_pos = pos;
 }
 
-void UI::TextLogLineData::renderText(FontDataPtr& font, RectI bounds)
+void UI::TextLogLineData::renderText(std::shared_ptr<FtFontFace>& font, RectI bounds)
 {
-    m_sprite = Sprite{ font->renderText( displayText(), m_colour, bounds.w() ) };
-    m_sprite.setRenderLayer( RenderLayer::UI );
+    m_sprite = { font->renderString( displayText(), 12 ) };
 //    m_sprite.setClipRect( bounds );
 }
 
@@ -31,7 +30,7 @@ std::string UI::TextLogLineData::displayText() const
     }
 }
 
-Sprite const &UI::TextLogLineData::sprite() const
+TextRenderObj const &UI::TextLogLineData::sprite() const
 {
     return m_sprite;
 }
@@ -54,7 +53,7 @@ UI::MainTextLog::MainTextLog(Manager* manager, Element* parent)
     setId("main-text-log");
     setPreferredContentSize({300, 200});
 
-    m_font = ResourceManager::get().getDefaultFont(14);
+    m_font = ResourceManager::get().getDefaultFont();
 }
 
 void UI::MainTextLog::addLine(std::string_view line, Colour const& colour)
@@ -109,7 +108,7 @@ void UI::MainTextLog::layoutLines()
     // Walk over the lines from bottom to top, putting them one after the other
     for ( auto it = m_lines.rbegin(); it != m_lines.rend(); it++ )
     {
-        hOffset -= it->sprite().size().y();
+        hOffset -= it->sprite().getSize().y();
         hOffset -= LineSpacing;
 
         it->setPos({wOffset, hOffset});
@@ -123,7 +122,7 @@ void UI::MainTextLog::updateSelf(uint32_t ticks, InputInterface &iinter, RenderI
     for ( auto it = m_lines.rbegin(); it != m_lines.rend(); it++ )
     {
         auto rObj = it->getRenderObj();
-        currH += (int) rObj.getScreenBounds().h();
+        currH += 20; // TODO REDO THIS WHOLE THING
         currH += LineSpacing;
         rInter.addItem( rObj, RenderLayer::UI );
 
@@ -134,74 +133,3 @@ void UI::MainTextLog::updateSelf(uint32_t ticks, InputInterface &iinter, RenderI
         }
     }
 }
-
-
-
-
-
-
-//Vector2i UI::TextLogLayout::doLayout(UI::Element *ptr)
-//{
-//    return Vector2i{0, 0};
-//}
-//
-//UI::MainTextLog::MainTextLog(UI::Manager *manager, UI::Element *parent)
-//    : Element(manager, parent), m_maxLines(10)
-//{
-//    const int TotalWidth = 300;
-//    const int TotalHeight = 160;
-//    const int ScrollbarWidth = 10;
-//
-//    setLayout<HorizontalLayout>( 0, VAlignment::Fill );
-//    setPreferredContentSize({TotalWidth, TotalHeight});
-//    setBackground( Colour::Grey.withAlpha(200) );
-//    setId("main-text-log");
-//
-//    m_textarea = manager->createElement<UI::TextLogTextArea>(this);
-//    m_textarea->setPreferredContentSize({TotalWidth - ScrollbarWidth, 0});
-//    m_textarea->setLayout<VerticalLayout>( 2, HAlignment::Left );
-//
-//    m_scrollBar = manager->createElement<UI::Scrollbar>(this);
-//    m_scrollBar->setPreferredContentSize({ScrollbarWidth, 0});
-//}
-//
-//void UI::MainTextLog::addLine(std::string const& line, const Colour &colour)
-//{
-//    TextLogItem item = { line, colour, 1 };
-//    auto textLine = manager()->createElement<UI::Label>( m_textarea.get() );
-//    textLine->setColour(colour);
-//    textLine->setText(line);
-//
-//    m_lines.push(item);
-//
-//    if ( (int) m_lines.size() >= m_maxLines)
-//    {
-//        m_lines.pop();
-//    }
-//
-//    doLayout();
-//}
-//
-//UI::Scrollbar::Scrollbar(UI::Manager *manager, UI::Element *parent)
-//    : Element(manager, parent)
-//{
-//    setBackground( Colour::Grey.withAlpha(240) );
-//    setLayout<VerticalLayout>(0, HAlignment::Left );
-//
-//    m_scrollThumb = manager->createElement<UI::Element>( this );
-//    m_scrollThumb->setPreferredContentSize({10, 20});
-//    m_scrollThumb->setBackground(Colour::White);
-//}
-//
-//void UI::Scrollbar::onSizeSelf()
-//{
-//    int w = outerBounds().w();
-//    int h = m_scrollThumb->outerBounds().h();
-//    m_scrollThumb->setPreferredContentSize({w, h});
-//}
-//
-//UI::TextLogTextArea::TextLogTextArea(UI::Manager *manager, UI::Element *parent)
-//    : Element(manager, parent)
-//{
-//
-//}

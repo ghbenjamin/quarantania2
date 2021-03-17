@@ -24,7 +24,7 @@ FtFontManager::~FtFontManager()
     FT_Done_FreeType(m_ft);
 }
 
-std::shared_ptr<FtFontFace> FtFontManager::loadFontFace( std::string const &name, int height )
+std::shared_ptr<FtFontFace> FtFontManager::loadFontFace( std::string const &name )
 {
     std::string path = "../resource/font/" + name + ".ttf";
     
@@ -34,19 +34,15 @@ std::shared_ptr<FtFontFace> FtFontManager::loadFontFace( std::string const &name
         AssertAlwaysMsg( "Unknown font: " + path );
     }
     
-    FT_Set_Pixel_Sizes(face, 0, height);
-    
     auto font = std::make_shared<FtFontFace>(face);
-    auto pair = std::make_pair(path, height);
-    m_fonts.emplace( pair, font );
+    m_fonts.emplace( name, font );
     
     return font;
 }
 
-std::shared_ptr<FtFontFace> FtFontManager::getFont( std::string const &name, int size )
+std::shared_ptr<FtFontFace> FtFontManager::getFont( std::string const &name )
 {
-    auto pair = std::make_pair( name, size );
-    auto it = m_fonts.find( pair );
+    auto it = m_fonts.find( name );
     
     if (it != m_fonts.end())
     {
@@ -54,7 +50,7 @@ std::shared_ptr<FtFontFace> FtFontManager::getFont( std::string const &name, int
     }
     else
     {
-        return loadFontFace(name, size);
+        return loadFontFace(name);
     }
 }
 
@@ -66,10 +62,12 @@ std::shared_ptr<FtFontFace> FtFontManager::getFont( std::string const &name, int
 FtFontFace::FtFontFace( FT_Face const& face )
     : m_face(face), m_currentTexOffset(0, 0)
 {
-    m_texture = std::make_shared<Texture>( Vector2i{ TEXTURE_SIZE_PX, 2 * TEXTURE_SIZE_PX } );
+    m_texture = std::make_shared<Texture>( Vector2i{ TEXTURE_WIDTH_PX, TEXTURE_HEIGHT_PX } );
+    generateFontData( 18 );
     generateFontData( 16 );
     generateFontData( 14 );
     generateFontData( 12 );
+    generateFontData( 10 );
 }
 
 FtFontFace::~FtFontFace()
@@ -77,24 +75,72 @@ FtFontFace::~FtFontFace()
     FT_Done_Face(m_face);
 }
 
-CompositeSprite FtFontFace::renderString( std::string const &str, int fontSize )
+TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize )
 {
     auto it = m_charData.find(fontSize);
-    AssertMsg( it != m_charData.end(), "Missing font size" );
-    auto& chardata = it->second;
+    AssertMsg( it != m_charData.end(), fmt::format("Missing font size: {}", fontSize) );
+    auto& charVector = it->second;
     
-    int currX = 0;
-    int currY = 0;
+    std::vector<FtCharPlacement> char_placements;
+    
+    float maxH = 0;
+    float currX = 0;
+    float currY = 0;
+    float nextX = 0;
+    float nextY = 0;
+    
+    float maxY = -1000;
+    float minY = 1000;
     
     for (int i = 0; i < (int) str.size(); i++)
     {
         std::uint16_t char_idx = static_cast<std::uint16_t>( str.at(i) );
+        auto& char_data = charVector[char_idx];
+
+        auto placement = FtCharPlacement{ currX + char_data.bearingX, currY - char_data.bearingY, char_idx };
+        char_placements.push_back(placement);
         
+        currX += char_data.advance >> 6;
+        maxH = std::max(maxH, char_data.height);
         
+        maxY = std::max(placement.y + char_data.height, maxY);
+        minY = std::min(placement.y, minY);
+    }
+    
+    auto textObj = TextRenderObj{ m_texture };
+    
+    for (auto& c : char_placements )
+    {
+        c.y += maxH;
+    
+        textObj.addQuad(
+            RectF{c.x, c.y, charVector[c.idx].width, charVector[c.idx].height },
+            charVector[c.idx].uv
+        );
     }
 
-    return CompositeSprite();
+    textObj.setSize({
+        (int)(char_placements.back().x + charVector[char_placements.back().idx].width - char_placements.front().x),
+        (int)(maxY - minY)
+    });
+
+    return textObj;
 }
+
+Sprite FtFontFace::renderGlyph( char c, int fontSize )
+{
+    auto it = m_charData.find(fontSize);
+    AssertMsg( it != m_charData.end(), "Missing font size" );
+    auto& charVector = it->second;
+    
+    auto data = charVector[static_cast<std::uint16_t>(c)];
+    
+    RectI bounds = RectF{ data.uv.x() * TEXTURE_WIDTH_PX, data.uv.y() * TEXTURE_HEIGHT_PX,
+        data.uv.w() * TEXTURE_WIDTH_PX, data.uv.h() * TEXTURE_HEIGHT_PX }.convert<int>();
+    
+    return Sprite { m_texture, bounds };
+}
+
 
 std::shared_ptr<Texture> FtFontFace::texture()
 {
@@ -112,7 +158,7 @@ void FtFontFace::generateFontData( int size )
     int currY = m_currentTexOffset.y();
     int nextX = 0;
     int nextY = 0;
-    int currMaxH = 0;
+    float currMaxH = 0;
     
     for (int ch = 0; ch < GLYPH_RANGE_MAX; ch++)
     {
@@ -123,11 +169,11 @@ void FtFontFace::generateFontData( int size )
         
         FtCharData charData;
         
-        charData.width = m_face->glyph->bitmap.width;
-        charData.height = m_face->glyph->bitmap.rows;
-        charData.bearingX = m_face->glyph->bitmap_left;
-        charData.bearingY = m_face->glyph->bitmap_top;
-        charData.advance = m_face->glyph->advance.x;
+        charData.width = (float) m_face->glyph->bitmap.width;
+        charData.height = (float) m_face->glyph->bitmap.rows;
+        charData.bearingX = (float) m_face->glyph->bitmap_left;
+        charData.bearingY = (float) m_face->glyph->bitmap_top;
+        charData.advance = (float) m_face->glyph->advance.x;
         
         currMaxH = std::max(charData.height, currMaxH);
         
@@ -146,9 +192,10 @@ void FtFontFace::generateFontData( int size )
             nextX = currX + offset;
         }
         
-        charData.uvX = (float) currX / (float) TEXTURE_SIZE_PX;
-        charData.uvY = (float) currY / (float) TEXTURE_SIZE_PX;
-        
+        charData.uv.x( (float) currX / (float) TEXTURE_WIDTH_PX );
+        charData.uv.y( (float) currY / (float) TEXTURE_HEIGHT_PX );
+        charData.uv.w( (float) charData.width / (float) TEXTURE_WIDTH_PX );
+        charData.uv.h( (float) charData.height / (float) TEXTURE_HEIGHT_PX );
         
         glTexSubImage2D(
                 GL_TEXTURE_2D,
@@ -169,9 +216,10 @@ void FtFontFace::generateFontData( int size )
     }
  
  
-    m_currentTexOffset = {0, nextY + currMaxH};
+    m_currentTexOffset = {0, nextY + (int) currMaxH};
     m_charData.emplace(size, std::move(charVector) );
 }
+
 
 
 
@@ -247,4 +295,57 @@ MarkdownTokenStream LiteMarkdownParser::parseMarkdown( std::string const& text )
     });
     
     return out;
+}
+
+RenderObject &TextRenderObj::renderObject(Vector2i pos)
+{
+    setPosition( pos.convert<float>() );
+    return m_renderObj;
+}
+
+Vector2i TextRenderObj::getSize() const
+{
+    return m_size;
+}
+
+TextRenderObj::TextRenderObj( TexturePtr texture )
+    : m_texture(texture), m_renderObj(texture->handle()), m_charCount(0) {}
+
+TextRenderObj::TextRenderObj()
+    : m_texture(0), m_renderObj({}), m_charCount(0) {}
+
+void TextRenderObj::addQuad( RectF screenOffsets, RectF uvBounds )
+{
+    if (m_charCount == 0)
+    {
+        m_renderObj.setScreenVerts(0, screenOffsets.x(), screenOffsets.y(), screenOffsets.w(), screenOffsets.h() );
+        m_renderObj.setTextureVerts(0, uvBounds.x(), uvBounds.y(), uvBounds.w(), uvBounds.h() );
+    }
+    else
+    {
+        m_renderObj.addQuad( screenOffsets, uvBounds );
+    }
+    
+    m_charCount++;
+    
+    m_charBounds.push_back( screenOffsets );
+    
+    m_size = {
+        (int)(m_charBounds.back().x() + m_charBounds.back().w() - m_charBounds.front().x()),
+        std::max(m_size.y(), (int) screenOffsets.h())
+    };
+}
+
+void TextRenderObj::setPosition( Vector2f pos )
+{
+    for (int i = 0; i < m_charCount; i++ )
+    {
+        m_renderObj.setScreenVerts(i, pos.x() + m_charBounds[i].x(), pos.y() + m_charBounds[i].y(),
+            m_charBounds[i].w(), m_charBounds[i].h());
+    }
+}
+
+void TextRenderObj::setSize( Vector2i size )
+{
+    m_size = size;
 }

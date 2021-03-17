@@ -211,7 +211,7 @@ UI::ActionMenuSpawnItem::ActionMenuSpawnItem(UI::Manager *manager, UI::Element *
     m_icon->addTag("action-popup-spawn-icon");
     
     m_label = manager->createElement<UI::Label>(this,
-        TextStyle { Colour::White.withAlpha(150), ResourceManager::get().getDefaultFont(10) });
+        TextStyle { Colour::White.withAlpha(150), ResourceManager::get().getDefaultFont(), 10 });
     m_label->setText(name);
     
     addEventCallback( UEventType::MouseIn, [this](UEvent& evt) {

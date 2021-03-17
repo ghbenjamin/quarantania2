@@ -10,13 +10,13 @@ UI::Dialog::Dialog(Manager* manager, Element* parent, std::string const &title, 
     setMaximumOuterSize({maxWidth, 1000});
     setLayout<VerticalLayout>( 1, HAlignment::Left );
 
-    auto titleFont = ResourceManager::get().getDefaultFont(14);
+    auto titleFont = ResourceManager::get().getDefaultFont();
 
     auto titleBar = manager->createElement<Element>( this );
     titleBar->setLayout<HorizontalLayout>( 0, VAlignment::Centre );
     titleBar->setPadding(4);
 
-    auto titleText = manager->createElement<Label>(titleBar.get(), TextStyle{Colour::Black, titleFont } );
+    auto titleText = manager->createElement<Label>(titleBar.get(), TextStyle{Colour::Black, titleFont, 14 } );
     titleText->setText( title );
 
     m_contentHolder = manager->createElement<Element>( this );
@@ -32,9 +32,9 @@ UI::MsgBoxDialog::MsgBoxDialog(UI::Manager *manager, UI::Element *parent, std::s
                                std::string const &message)
        : Dialog(manager, parent, title, maxWidth)
 {
-    auto contentFont = ResourceManager::get().getDefaultFont(14);
+    auto contentFont = ResourceManager::get().getDefaultFont();
 
-    auto textContent = manager->createElement<Label>(m_contentHolder.get(), TextStyle{Colour::Black, contentFont });
+    auto textContent = manager->createElement<Label>(m_contentHolder.get(), TextStyle{Colour::Black, contentFont, 14 });
     textContent->setText( message );
 
     manager->createElement<Button>( m_buttonHolder.get(), "Yes", [](){

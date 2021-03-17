@@ -33,13 +33,13 @@ public:
     Sprite getSprite( std::string const& sheet, std::string const& name );
     Sprite getSprite( SpritesheetKey const& key );
     Sprite getImageAsSprite( std::string const& imgName );
-    FontDataPtr getFont(std::string const& fname, int fontSize );
-    FontDataPtr getDefaultFont(int fontSize );
+    std::shared_ptr<FtFontFace> getFont( std::string const& fname );
+    std::shared_ptr<FtFontFace> getDefaultFont();
     TexturePtr getTexture( std::string const& imgName );
     NinePatchResource const& getNinePatch( std::string const& name );
     ShaderResource const& getShader( std::string const& name );
     
-    std::shared_ptr<FtFontFace> getFont2( std::string name, int fontSize );
+//    std::shared_ptr<FtFontFace> getFont2( std::string name, int fontSize );
     
 private:
 

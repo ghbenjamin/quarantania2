@@ -1,8 +1,8 @@
 #include <graphics/RenderObject.h>
+#include <utils/Logging.h>
 
 RenderObject::RenderObject(TextureHandle handle)
     : m_handle(handle),
-      m_screenBounds{ 0, 0, 0, 0},
       m_data(48, 0.0f)
 {
     m_data = {
@@ -16,24 +16,6 @@ RenderObject::RenderObject(TextureHandle handle)
     };
 }
 
-void RenderObject::setScreenPosition( int idx, Vector2f pos )
-{
-    setScreenVerts( idx, pos.x(), pos.y(), m_screenBounds.w(), m_screenBounds.h() );
-}
-
-void RenderObject::setScreenSize( int idx, Vector2f size )
-{
-    setScreenVerts( idx, m_screenBounds.x(), m_screenBounds.y(), size.x(), size.y() );
-}
-
-
-RectF const &RenderObject::getScreenBounds() const
-{
-    return m_screenBounds;
-}
-
-
-
 TextureHandle RenderObject::getHandle() const
 {
     return m_handle;
@@ -42,67 +24,65 @@ TextureHandle RenderObject::getHandle() const
 void RenderObject::setTextureVerts( int idx, float texX, float texY, float texW, float texH )
 {
     // Top Left
-    m_data[idx+2] = texX;
-    m_data[idx+3] = texY + texH;
+    m_data[idx*FLOATS_PER_QUAD+2] = texX;
+    m_data[idx*FLOATS_PER_QUAD+3] = texY + texH;
     
     // Bottom Right
-    m_data[idx+10] = texX + texW;
-    m_data[idx+11] = texY;
+    m_data[idx*FLOATS_PER_QUAD+10] = texX + texW;
+    m_data[idx*FLOATS_PER_QUAD+11] = texY;
     
     // Bottom Left
-    m_data[idx+18] = texX;
-    m_data[idx+19] = texY;
+    m_data[idx*FLOATS_PER_QUAD+18] = texX;
+    m_data[idx*FLOATS_PER_QUAD+19] = texY;
     
     // Top Left
-    m_data[idx+26] = texX;
-    m_data[idx+27] = texY + texH;
+    m_data[idx*FLOATS_PER_QUAD+26] = texX;
+    m_data[idx*FLOATS_PER_QUAD+27] = texY + texH;
     
     // Top Right
-    m_data[idx+34] = texX + texW;
-    m_data[idx+35] = texY + texH;
+    m_data[idx*FLOATS_PER_QUAD+34] = texX + texW;
+    m_data[idx*FLOATS_PER_QUAD+35] = texY + texH;
     
     // Bottom Left
-    m_data[idx+42] = texX + texW;
-    m_data[idx+43] = texY;
+    m_data[idx*FLOATS_PER_QUAD+42] = texX + texW;
+    m_data[idx*FLOATS_PER_QUAD+43] = texY;
 }
 
 void RenderObject::setScreenVerts( int idx, float scX, float scY, float scW, float scH )
 {
-    m_screenBounds = { scX, scY, scW, scH };
-    
     // Top Left
-    m_data[idx+0] = scX;
-    m_data[idx+1] = scY + scH;
+    m_data[idx*FLOATS_PER_QUAD+0] = scX;
+    m_data[idx*FLOATS_PER_QUAD+1] = scY + scH;
     
     // Bottom Right
-    m_data[idx+8] = scX + scW;
-    m_data[idx+9] = scY;
+    m_data[idx*FLOATS_PER_QUAD+8] = scX + scW;
+    m_data[idx*FLOATS_PER_QUAD+9] = scY;
     
     // Bottom Left
-    m_data[idx+16] = scX;
-    m_data[idx+17] = scY;
+    m_data[idx*FLOATS_PER_QUAD+16] = scX;
+    m_data[idx*FLOATS_PER_QUAD+17] = scY;
     
     // Top Left
-    m_data[idx+24] = scX;
-    m_data[idx+25] = scY + scH;
+    m_data[idx*FLOATS_PER_QUAD+24] = scX;
+    m_data[idx*FLOATS_PER_QUAD+25] = scY + scH;
     
     // Top Right
-    m_data[idx+32] = scX + scW;
-    m_data[idx+33] = scY + scH;
+    m_data[idx*FLOATS_PER_QUAD+32] = scX + scW;
+    m_data[idx*FLOATS_PER_QUAD+33] = scY + scH;
     
     // Bottom Left
-    m_data[idx+40] = scX + scW;
-    m_data[idx+41] = scY;
+    m_data[idx*FLOATS_PER_QUAD+40] = scX + scW;
+    m_data[idx*FLOATS_PER_QUAD+41] = scY;
 }
 
 void RenderObject::setColourVerts( int idx, float r, float g, float b, float a )
 {
     for ( int i = 4; i < FLOATS_PER_QUAD; i += 8)
     {
-        m_data[idx+i+0] = r;
-        m_data[idx+i+1] = g;
-        m_data[idx+i+2] = b;
-        m_data[idx+i+3] = a;
+        m_data[idx*FLOATS_PER_QUAD+i+0] = r;
+        m_data[idx*FLOATS_PER_QUAD+i+1] = g;
+        m_data[idx*FLOATS_PER_QUAD+i+2] = b;
+        m_data[idx*FLOATS_PER_QUAD+i+3] = a;
     }
 }
 
@@ -120,6 +100,16 @@ GLfloat *RenderObject::getData()
 int RenderObject::getDataSize()
 {
     return m_data.size();
+}
+
+void RenderObject::addQuad( RectF screenOffsets, RectF uvBounds )
+{
+    int idx = (m_data.size() / FLOATS_PER_QUAD);
+    m_data.resize( m_data.size() + FLOATS_PER_QUAD, 0.0f );
+    
+    setScreenVerts(idx, screenOffsets.x(), screenOffsets.y(), screenOffsets.w(), screenOffsets.h() );
+    setTextureVerts(idx, uvBounds.x(), uvBounds.y(), uvBounds.w(), uvBounds.h() );
+    setColourVerts(idx, 0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 

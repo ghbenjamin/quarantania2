@@ -5,6 +5,7 @@
 #include <resource/Font.h>
 #include <graphics/Texture.h>
 #include <graphics/RenderObject.h>
+#include <graphics/Text.h>
 
 namespace UI
 {
@@ -29,7 +30,7 @@ protected:
 private:
     void renderText();
 
-    Sprite m_text;
+    std::optional<TextRenderObj> m_text;
     std::string m_data;
     TextStyle m_style;
 };

@@ -11,14 +11,10 @@ using namespace UI;
 
 
 Label::Label(Manager* manager, Element* parent, TextStyle const &style)
-        : Element(manager, parent), m_style(style)
-{
-}
+        : Element(manager, parent), m_style(style) {}
 
 Label::Label(Manager* manager, Element* parent)
-        : Label(manager, parent, {Colour::Black, ResourceManager::get().getDefaultFont(14)})
-{
-}
+        : Label(manager, parent, {Colour::Black, ResourceManager::get().getDefaultFont(), 14}) {}
 
 Label::Label(Manager *manager, Element *parent, const std::string &label)
         : Label(manager, parent)
@@ -32,7 +28,7 @@ void Label::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &
     if ( m_text )
     {
         auto pos = globalPosition() + contentOffset();
-        rInter.addItem(m_text.renderObject( pos ), RenderLayer::UI);
+        rInter.addItem(m_text->renderObject( pos ), RenderLayer::UI);
     }
 }
 
@@ -41,16 +37,17 @@ void Label::renderText()
     if ( m_data.empty() )
         return;
 
-    if ( hasMaximumOuterSize() )
-    {
-        m_text = { m_style.font->renderText( m_data, m_style.textColour, maxOuterSize().x() ) };
-    }
-    else
-    {
-        m_text = { m_style.font->renderText( m_data, m_style.textColour ) };
-    }
+//    if ( hasMaximumOuterSize() )
+//    {
+//        m_text = { m_style.font->renderString( m_data, m_style.textColour, maxOuterSize().x() ) };
+//    }
+//    else
+//    {
+//        m_text = { m_style.font->renderString( m_data, m_style.textColour ) };
+//    }
+
+    m_text = { m_style.font->renderString( m_data, m_style.fontSize ) };
     
-    m_text.setRenderLayer(RenderLayer::UI);
     onMoveSelf();
 }
 
@@ -59,7 +56,7 @@ void Label::setText(std::string const &text)
     m_data = text;
     renderText();
 
-    setPreferredContentSize( m_text.size() );
+    setPreferredContentSize( m_text->getSize() );
 }
 
 void Label::setTextColour( Colour colour)
@@ -73,7 +70,7 @@ void Label::setTextColour( Colour colour)
 
 void Label::onColourModChange()
 {
-    m_text.setColour( getColour() );
+//    m_text.setColour( getColour() );
 }
 
 

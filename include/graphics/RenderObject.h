@@ -31,19 +31,14 @@ public:
     void setScreenVerts( int idx, float scX, float scY, float scW, float scH );
     void setColourVerts( int idx, float r, float g, float b, float a );
     
+    void addQuad( RectF screenOffsets, RectF uvBounds );
+    
     void merge( RenderObject other );
     int getDataSize();
     GLfloat* getData();
     TextureHandle getHandle() const;
     
-    void setScreenPosition( int idx, Vector2f pos );
-    void setScreenSize( int idx, Vector2f size );
-    
-    RectF const& getScreenBounds() const;
-    
 private:
-    
     TextureHandle m_handle;
     std::vector<GLfloat> m_data;
-    RectF m_screenBounds;
 };

@@ -5,27 +5,27 @@
 UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipData const& data)
         : Element(manager, parent)
 {
-    auto titleFont = ResourceManager::get().getDefaultFont(16);
-    auto contentFont = ResourceManager::get().getDefaultFont(14);
+    auto titleFont = ResourceManager::get().getDefaultFont();
+    auto contentFont = ResourceManager::get().getDefaultFont();
 
     setLayout<VerticalLayout>( 4, HAlignment::Fill );
     setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000});
     setPadding(6);
 
-    auto titleNode = manager->createElement<Label>(this, TextStyle{Colour::Black, titleFont });
+    auto titleNode = manager->createElement<Label>(this, TextStyle{Colour::Black, titleFont, 16 });
     titleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
     titleNode->setText( data.title );
 
     if ( data.subtitle.has_value() && !(*(data.subtitle)).empty() )
     {
-        auto subtitleNode = manager->createElement<Label>(this, TextStyle{Colour::Black, contentFont });
+        auto subtitleNode = manager->createElement<Label>(this, TextStyle{Colour::Black, contentFont, 14 });
         subtitleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
         subtitleNode->setText( *(data.subtitle) );
     }
 
     if ( data.content.has_value() && !(*(data.content)).empty() )
     {
-        auto contentNode = manager->createElement<Label>(this, TextStyle{Colour::Black, contentFont });
+        auto contentNode = manager->createElement<Label>(this, TextStyle{Colour::Black, contentFont, 14 });
         contentNode->setMaximumOuterSize({ TOOLTIP_MAX_WIDTH, 1000 });
         contentNode->setText( *(data.content) );
     }

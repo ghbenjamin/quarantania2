@@ -3,7 +3,8 @@
 #include <optional>
 #include <utils/Colour.h>
 #include <utils/Containers.h>
-#include <resource/Font.h>
+
+class FtFontFace;
 
 namespace UI
 {
@@ -11,7 +12,8 @@ namespace UI
 struct TextStyle
 {
     Colour textColour;
-    FontDataPtr font;
+    std::shared_ptr<FtFontFace> font;
+    int fontSize;
 };
 
 struct TooltipData

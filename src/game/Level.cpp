@@ -226,12 +226,15 @@ void Level::setupUI()
     
     // Debug
     
-    auto font = ResourceManager::get().getFont2( "inconsolata-regular", 20 );
-    auto bigIcon = m_uiManager.createElement<UI::Icon>(nullptr, font->texture());
-    bigIcon->setLocalPosition({200, 200});
+//    auto font = ResourceManager::get().getFont2( "inconsolata-regular", 20 );
     
-    font->renderString("foo! (bar)", 16);
-    
+//    auto csprite = font->renderString("foo! (bar)", 16);
+//    auto element = m_uiManager.createElement<UI::Label>(nullptr);
+//
+//    element->setText("HELLO WORLD");
+//    element->setBackground(Colour::Olive);
+//    element->setLocalPosition({200, 200});
+
 }
 
 void Level::layoutWindows()

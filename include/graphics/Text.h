@@ -14,13 +14,43 @@
 
 struct FtCharData
 {
-    int width;
-    int height;
-    int bearingX;
-    int bearingY;
+    float width;
+    float height;
+    float bearingX;
+    float bearingY;
     int advance;
-    float uvX = 0.0f;
-    float uvY = 0.0f;
+    RectF uv;
+};
+
+
+struct FtCharPlacement
+{
+    float x;
+    float y;
+    std::size_t idx;
+};
+
+
+class TextRenderObj
+{
+public:
+    TextRenderObj();
+    TextRenderObj( TexturePtr texture );
+    ~TextRenderObj() = default;
+
+    void addQuad( RectF screenOffsets, RectF uvBounds );
+    void setPosition( Vector2f pos );
+    void setSize( Vector2i size );
+
+    RenderObject& renderObject( Vector2i pos );
+    Vector2i getSize() const;
+
+private:
+    std::size_t m_charCount;
+    TexturePtr m_texture;
+    Vector2i m_size;
+    RenderObject m_renderObj;
+    std::vector<RectF> m_charBounds;
 };
 
 
@@ -30,7 +60,9 @@ public:
     FtFontFace( FT_Face const& face );
     ~FtFontFace();
     
-    CompositeSprite renderString( std::string const& str, int fontSize );
+    TextRenderObj renderString( std::string const& str, int fontSize );
+    Sprite renderGlyph( char c, int fontSize );
+    
     
     std::shared_ptr<Texture> texture();
     
@@ -40,7 +72,8 @@ private:
     
     
     static const int GLYPH_RANGE_MAX = 128;
-    static const int TEXTURE_SIZE_PX = 256;
+    static const int TEXTURE_WIDTH_PX = 256;
+    static const int TEXTURE_HEIGHT_PX = 512;
     static const int TEXTURE_PER_FONT_SIZE = 256;
     static const int SPACING_WIDTH = 2;
     static const int SPACING_HEIGHT = 2;
@@ -59,12 +92,11 @@ public:
     FtFontManager();
     ~FtFontManager();
     
-    std::shared_ptr<FtFontFace> getFont( std::string const& name, int size );
-    std::shared_ptr<FtFontFace> loadFontFace( std::string const& name, int height );
+    std::shared_ptr<FtFontFace> getFont( std::string const& name );
+    std::shared_ptr<FtFontFace> loadFontFace( std::string const& name );
 
 private:
-
-    std::map<std::pair<std::string, int>, std::shared_ptr<FtFontFace>> m_fonts;
+    std::map<std::string, std::shared_ptr<FtFontFace>> m_fonts;
     FT_Library m_ft;
 };
 

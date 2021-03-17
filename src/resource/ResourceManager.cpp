@@ -181,11 +181,11 @@ TexturePtr ResourceManager::getTexture(const std::string &imgName)
 }
 
 
-FontDataPtr ResourceManager::getFont(std::string const &fname, int fontSize)
+std::shared_ptr<FtFontFace> ResourceManager::getFont(std::string const &fname )
 {
     try
     {
-        return m_fonts.at(fname)->get(fontSize);
+        return m_fontManager.getFont( fname );
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
@@ -221,15 +221,15 @@ ShaderResource const& ResourceManager::getShader( const std::string &name)
     }
 }
 
-std::shared_ptr<FtFontFace> ResourceManager::getFont2( std::string name, int fontSize )
-{
-    return m_fontManager.getFont( name, fontSize );
-}
+//std::shared_ptr<FtFontFace> ResourceManager::getFont2( std::string name, int fontSize )
+//{
+//    return m_fontManager.getFont( name, fontSize );
+//}
 
 
-FontDataPtr ResourceManager::getDefaultFont(int fontSize)
+std::shared_ptr<FtFontFace> ResourceManager::getDefaultFont()
 {
-    return getFont( getDefaultFontName(), fontSize );
+    return getFont( getDefaultFontName() );
 }
 
 

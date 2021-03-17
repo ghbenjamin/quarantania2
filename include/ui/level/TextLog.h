@@ -3,6 +3,7 @@
 #include <queue>
 #include <ui/lib/Element.h>
 #include <resource/Font.h>
+#include <graphics/Text.h>
 
 namespace UI
 {
@@ -88,10 +89,10 @@ public:
 
     TextLogLineData(const std::string &text, int count, const Colour &colour);
     ~TextLogLineData() = default;
-
-    Sprite const& sprite() const;
+    
+    TextRenderObj const& sprite() const;
     void setPos( Vector2i pos );
-    void renderText(FontDataPtr& font, RectI bounds);
+    void renderText(std::shared_ptr<FtFontFace>& font, RectI bounds);
 
     RenderObject getRenderObj();
 
@@ -104,7 +105,7 @@ private:
     Colour m_colour;
 
     Vector2i m_pos;
-    Sprite m_sprite;
+    TextRenderObj m_sprite;
 };
 
 
@@ -125,7 +126,7 @@ private:
     void layoutLines();
 
     static constexpr int LineSpacing = 2;
-    FontDataPtr m_font;
+    std::shared_ptr<FtFontFace> m_font;
     int m_maxLines;
     std::list<TextLogLineData> m_lines;
     int m_scrollPos;
