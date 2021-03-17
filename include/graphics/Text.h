@@ -69,8 +69,7 @@ public:
 private:
 
     void generateFontData( int size );
-    
-    
+
     static const int GLYPH_RANGE_MAX = 128;
     static const int TEXTURE_WIDTH_PX = 256;
     static const int TEXTURE_HEIGHT_PX = 512;
@@ -78,7 +77,7 @@ private:
     static const int SPACING_WIDTH = 2;
     static const int SPACING_HEIGHT = 2;
 
-    Vector2i m_currentTexOffset;
+    Vector2f m_currentTexOffset;
     FT_Face m_face;
     std::shared_ptr<Texture> m_texture;
     std::unordered_map<int,std::vector<FtCharData>> m_charData;

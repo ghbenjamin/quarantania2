@@ -11,7 +11,9 @@ using namespace UI;
 
 
 Label::Label(Manager* manager, Element* parent, TextStyle const &style)
-        : Element(manager, parent), m_style(style) {}
+        : Element(manager, parent), m_style(style)
+{
+}
 
 Label::Label(Manager* manager, Element* parent)
         : Label(manager, parent, {Colour::Black, ResourceManager::get().getDefaultFont(), 14}) {}
@@ -47,16 +49,13 @@ void Label::renderText()
 //    }
 
     m_text = { m_style.font->renderString( m_data, m_style.fontSize ) };
-    
-    onMoveSelf();
+    setPreferredContentSize( m_text->getSize() );
 }
 
 void Label::setText(std::string const &text)
 {
     m_data = text;
     renderText();
-
-    setPreferredContentSize( m_text->getSize() );
 }
 
 void Label::setTextColour( Colour colour)
@@ -71,6 +70,12 @@ void Label::setTextColour( Colour colour)
 void Label::onColourModChange()
 {
 //    m_text.setColour( getColour() );
+}
+
+void Label::setTextSize(int size)
+{
+    m_style.fontSize = size;
+    renderText();
 }
 
 

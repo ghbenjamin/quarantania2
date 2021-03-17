@@ -121,7 +121,7 @@ public:
     void setBackground( Args ... args )
     {
         m_background = { std::forward<Args>(args)... };
-        m_background->setColourMod( m_colour );
+        generateBackground();
     }
 
     void removeBackround();

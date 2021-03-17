@@ -154,17 +154,19 @@ void FtFontFace::generateFontData( int size )
     std::vector<FtCharData> charVector;
     charVector.reserve(GLYPH_RANGE_MAX);
     
-    int currX = m_currentTexOffset.x();
-    int currY = m_currentTexOffset.y();
-    int nextX = 0;
-    int nextY = 0;
+    float currX = m_currentTexOffset.x();
+    float currY = m_currentTexOffset.y();
+
+    float nextX = 0;
+    float nextY = 0;
+
     float currMaxH = 0;
     
     for (int ch = 0; ch < GLYPH_RANGE_MAX; ch++)
     {
         if (FT_Load_Char(m_face, ch, FT_LOAD_RENDER))
         {
-            AssertAlways();
+            AssertAlwaysMsg( "Error loading char" );
         }
         
         FtCharData charData;
@@ -176,13 +178,18 @@ void FtFontFace::generateFontData( int size )
         charData.advance = (float) m_face->glyph->advance.x;
         
         currMaxH = std::max(charData.height, currMaxH);
-        
-        int offset = charData.width + SPACING_WIDTH;
-        if (currX + offset > TEXTURE_PER_FONT_SIZE + m_currentTexOffset.x())
+
+
+        float offset = charData.width + SPACING_WIDTH;
+        if (currX + offset >= TEXTURE_PER_FONT_SIZE + m_currentTexOffset.x())
         {
-            nextY = currY + currMaxH + SPACING_HEIGHT;
-            nextX = m_currentTexOffset.x();
-            
+            // Not enough room for this glyph on the current line - move to the next one
+            currY = currY + currMaxH + SPACING_HEIGHT;
+            currX = m_currentTexOffset.x();
+
+            nextY = currY;
+            nextX = offset;
+
             currMaxH = charData.height;
         }
         else
@@ -191,7 +198,8 @@ void FtFontFace::generateFontData( int size )
             nextY = currY;
             nextX = currX + offset;
         }
-        
+
+
         charData.uv.x( (float) currX / (float) TEXTURE_WIDTH_PX );
         charData.uv.y( (float) currY / (float) TEXTURE_HEIGHT_PX );
         charData.uv.w( (float) charData.width / (float) TEXTURE_WIDTH_PX );
@@ -208,7 +216,8 @@ void FtFontFace::generateFontData( int size )
                 GL_UNSIGNED_BYTE,
                 m_face->glyph->bitmap.buffer
         );
-        
+
+
         currX = nextX;
         currY = nextY;
     
@@ -216,7 +225,7 @@ void FtFontFace::generateFontData( int size )
     }
  
  
-    m_currentTexOffset = {0, nextY + (int) currMaxH};
+    m_currentTexOffset = {0, nextY + currMaxH * 2};
     m_charData.emplace(size, std::move(charVector) );
 }
 

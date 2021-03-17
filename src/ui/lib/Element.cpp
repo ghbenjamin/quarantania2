@@ -54,6 +54,11 @@ bool Element::hasParent()
 
 void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
+    if (m_id == "WTF")
+    {
+        int t = 0;
+    }
+
     // If we're hidden, pretend we don't exist
     if ( isHidden() )
     {
@@ -70,6 +75,7 @@ void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rI
             m_alphaTransition.reset();
         }
     }
+
 
 
     // Render our background, if any

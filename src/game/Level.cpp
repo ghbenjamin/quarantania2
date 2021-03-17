@@ -221,20 +221,6 @@ void Level::setupUI()
     m_uiManager.alignElementToElement( playerInventory, equipUi, UI::Alignment::BottomRight, {0, 10} );
     playerInventory->setId("player-inventory");
     playerInventory->hide();
-    
-    
-    
-    // Debug
-    
-//    auto font = ResourceManager::get().getFont2( "inconsolata-regular", 20 );
-    
-//    auto csprite = font->renderString("foo! (bar)", 16);
-//    auto element = m_uiManager.createElement<UI::Label>(nullptr);
-//
-//    element->setText("HELLO WORLD");
-//    element->setBackground(Colour::Olive);
-//    element->setLocalPosition({200, 200});
-
 }
 
 void Level::layoutWindows()

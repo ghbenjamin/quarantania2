@@ -58,16 +58,6 @@ void ResourceManager::loadAll()
         }
     }
 
-    // Load all fonts
-    for ( auto const& file : std::filesystem::directory_iterator(fontPath) )
-    {
-        auto const& fpath = file.path();
-        if ( fpath.has_extension() && fpath.extension().string() == ".ttf" )
-        {
-            addFontResource( fpath.stem().string() );
-        }
-    }
-
     // Load all images
     for ( auto const& file : std::filesystem::directory_iterator(imgPath) )
     {
@@ -106,11 +96,6 @@ void ResourceManager::loadAll()
         v->load();
     }
 
-    for ( auto const &[k, v] : m_fonts )
-    {
-        v->load();
-    }
-
     for ( auto const &[k, v] : m_patches )
     {
         v->load();
@@ -120,18 +105,11 @@ void ResourceManager::loadAll()
     {
         v->load();
     }
-    
-//
-//    FtFontManager manager;
-//
-//    auto face = manager.loadFontFace( "inconsolata-regular", 20 );
-//    int i = 1;
 }
 
 void ResourceManager::unloadAll()
 {
     m_spritesheets.clear();
-    m_fonts.clear();
     m_images.clear();
     m_patches.clear();
 }
@@ -221,17 +199,11 @@ ShaderResource const& ResourceManager::getShader( const std::string &name)
     }
 }
 
-//std::shared_ptr<FtFontFace> ResourceManager::getFont2( std::string name, int fontSize )
-//{
-//    return m_fontManager.getFont( name, fontSize );
-//}
-
 
 std::shared_ptr<FtFontFace> ResourceManager::getDefaultFont()
 {
     return getFont( getDefaultFontName() );
 }
-
 
 void ResourceManager::addImageResource(const std::string &name)
 {
@@ -241,11 +213,6 @@ void ResourceManager::addImageResource(const std::string &name)
 void ResourceManager::addSpritesheetResource(const std::string &name)
 {
     m_spritesheets.emplace(name, std::make_shared<SpritesheetResource>( name ));
-}
-
-void ResourceManager::addFontResource(const std::string &name)
-{
-    m_fonts.emplace(name, std::make_shared<FontResource>( name ));
 }
 
 void ResourceManager::addNinepatchResource(const std::string &name)

@@ -39,34 +39,6 @@ Sprite ImageResource::getSprite() const
     return Sprite( m_texture );
 }
 
-FontResource::FontResource(std::string const &name)
-: Resource(name) {}
-
-FontDataPtr const& FontResource::get(int fontSize)
-{
-    auto it = m_fonts.find(fontSize);
-    if (it == m_fonts.end())
-    {
-        loadForSize(fontSize);
-    }
-
-    return m_fonts.at(fontSize);
-}
-
-void FontResource::load()
-{
-    // Do nothing - we load fonts lazily once a size has been requested
-}
-
-void FontResource::unload()
-{
-    m_fonts.erase( m_fonts.begin(), m_fonts.end() );
-}
-
-void FontResource::loadForSize(int fontSize)
-{
-    m_fonts.emplace(fontSize, FontData::loadFont("../resource/font/" + m_name + ".ttf", fontSize ) );
-}
 
 SpritesheetResource::SpritesheetResource(std::string const &name)
 : Resource(name) {}

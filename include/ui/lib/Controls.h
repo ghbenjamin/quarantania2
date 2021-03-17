@@ -2,7 +2,6 @@
 
 #include <ui/lib/Element.h>
 #include <ui/lib/Defines.h>
-#include <resource/Font.h>
 #include <graphics/Texture.h>
 #include <graphics/RenderObject.h>
 #include <graphics/Text.h>
@@ -20,7 +19,8 @@ public:
     ~Label() override = default;
 
     void setText( std::string const& text );
-    void setTextColour( Colour colour);
+    void setTextColour( Colour colour );
+    void setTextSize( int size );
 
 protected:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;

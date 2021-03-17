@@ -5,7 +5,6 @@
 #include <array>
 
 #include <graphics/Texture.h>
-#include <resource/Font.h>
 #include <resource/Spritesheet.h>
 #include <ui/lib/Background.h>
 #include <graphics/Text.h>
@@ -49,23 +48,23 @@ private:
 };
 
 
-
-class FontResource : public Resource
-{
-public:
-    FontResource(std::string const &name);
-    ~FontResource() override = default;
-
-    const FontDataPtr &get(int fontSize);
-    void load() override;
-    void unload() override;
-
-private:
-    void loadForSize(int fontSize);
-
-    std::unordered_map<int, FontDataPtr> m_fonts;
-};
-
+//
+//class FontResource : public Resource
+//{
+//public:
+//    FontResource(std::string const &name);
+//    ~FontResource() override = default;
+//
+//    const FontDataPtr &get(int fontSize);
+//    void load() override;
+//    void unload() override;
+//
+//private:
+//    void loadForSize(int fontSize);
+//
+//    std::unordered_map<int, FontDataPtr> m_fonts;
+//};
+//
 
 
 class SpritesheetResource : public Resource

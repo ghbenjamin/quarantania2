@@ -1,18 +1,13 @@
 #include <graphics/Window.h>
-
-#include <SDL2/SDL_ttf.h>
-
 #include <utils/Assert.h>
 #include <graphics/RenderInterface.h>
 #include <graphics/Shader.h>
-
 
 Window::Window(std::string const &title, Vector2i bounds)
 : m_size(bounds), m_window(nullptr)
 {
     SDL_Init(SDL_INIT_EVERYTHING);
-    TTF_Init();
-    
+
     SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -54,7 +49,6 @@ Window::~Window()
         SDL_DestroyWindow( m_window );
     }
     
-    TTF_Quit();
     SDL_Quit();
 }
 

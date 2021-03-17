@@ -10,14 +10,12 @@ ElementBackground::ElementBackground(const Sprite &sprite)
     : m_type(BackgroundType::SingleSprite),
       m_singleSprite(sprite)
 {
-    m_singleSprite->setRenderLayer(RenderLayer::UI);
 }
 
 ElementBackground::ElementBackground(const SpritesheetKey &key)
     : m_type(BackgroundType::SingleSprite)
 {
     m_singleSprite = ResourceManager::get().getSprite( key );
-    m_singleSprite->setRenderLayer(RenderLayer::UI);
 }
 
 
