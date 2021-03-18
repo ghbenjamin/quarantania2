@@ -61,13 +61,13 @@ public:
     ~FtFontFace();
     
     TextRenderObj renderString( std::string const& str, int fontSize );
+    TextRenderObj renderString( std::string const& str, int fontSize, int maxWidth );
+
     Sprite renderGlyph( char c, int fontSize );
-    
-    
-    std::shared_ptr<Texture> texture();
-    
+
 private:
 
+    // Generate the texture atlas for our font with the given size and store it in our font texture
     void generateFontData( int size );
 
     static const int GLYPH_RANGE_MAX = 128;

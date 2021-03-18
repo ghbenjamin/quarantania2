@@ -39,16 +39,16 @@ void Label::renderText()
     if ( m_data.empty() )
         return;
 
-//    if ( hasMaximumOuterSize() )
-//    {
-//        m_text = { m_style.font->renderString( m_data, m_style.textColour, maxOuterSize().x() ) };
-//    }
-//    else
-//    {
-//        m_text = { m_style.font->renderString( m_data, m_style.textColour ) };
-//    }
+    if ( hasMaximumOuterSize() )
+    {
+        m_text = { m_style.font->renderString( m_data, m_style.fontSize, maxOuterSize().x() ) };
+    }
+    else
+    {
+        m_text = { m_style.font->renderString( m_data, m_style.fontSize ) };
+    }
 
-    m_text = { m_style.font->renderString( m_data, m_style.fontSize ) };
+
     setPreferredContentSize( m_text->getSize() );
 }
 
