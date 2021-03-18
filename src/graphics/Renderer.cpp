@@ -1,15 +1,15 @@
 #include <graphics/Renderer.h>
 #include <memory>
 #include <glm/gtc/matrix_transform.hpp>
-#include <graphics/Shader.h>
+#include <resource/ResourceManager.h>
 
 
 // Render Buffer
 // ----------------------
 
 
-RenderBuffer::RenderBuffer()
-    : m_vbo(0), m_vao(0)
+RenderBuffer::RenderBuffer(std::vector<ShaderHandle> const& shaders )
+    : m_vbo(0), m_vao(0), m_shaderHandles(shaders)
 {
     glGenBuffers(1, &m_vbo);
     glGenVertexArrays(1, &m_vao);
@@ -29,8 +29,16 @@ void RenderBuffer::addItem( RenderObject const &robj )
 
 void RenderBuffer::render()
 {
+    int currShader = -1;
+
     for ( auto obj : m_data )
     {
+        if ( obj.getShaderType() != currShader )
+        {
+            currShader = obj.getShaderType();
+            glUseProgram( m_shaderHandles[currShader] );
+        }
+    
         // Bind texture
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, obj.getHandle());
@@ -63,35 +71,42 @@ void RenderBuffer::render()
 
 void Renderer::init( Vector2f windowSize )
 {
-    for (int i = 0; i < RENDER_LAYER_COUNT; i++)
-    {
-        m_buffers.push_back({});
-    }
-    
     m_identity = glm::mat4(1.0f);
     m_cameraTransform = glm::mat4(1.0f);
     
-    m_shaderProgram = std::make_shared<ShaderProgram>( "simple_screenspace", "simple_sampler" );
-    m_shaderProgram->useProgram();
+    m_textShader = ResourceManager::get().getShaderProgram( "text_shader" ).getProgram();
+    m_textShader->useProgram();
+    m_textShader->setUniformMat4v( "model", m_identity );
     
-    m_modelLoc = m_shaderProgram->getUniformLocation( "model" );
-    m_projectionLoc = m_shaderProgram->getUniformLocation( "projection" );
+    m_quadShader = ResourceManager::get().getShaderProgram( "quad_shader" ).getProgram();
+    m_quadShader->useProgram();
     
     setWindowSize(windowSize);
+    
+    m_shaderHandles = { m_quadShader->getHandle(), m_textShader->getHandle() };
+    
+    for (int i = 0; i < RENDER_LAYER_COUNT; i++)
+    {
+        m_buffers.push_back({ m_shaderHandles });
+    }
 }
 
 
 void Renderer::render()
 {
     // Render most of the layers with the camera transform
-    m_shaderProgram->setUniformMat4v( m_modelLoc, m_cameraTransform );
+    m_quadShader->useProgram();
+    m_quadShader->setUniformMat4v( "model", m_cameraTransform );
+    
     for (int i = 0; i < (int)RenderLayer::UI; i++)
     {
         m_buffers[i].render();
     }
     
     // Switch to the identity transform for the UI layer
-    m_shaderProgram->setUniformMat4v( m_modelLoc, m_identity );
+    m_quadShader->useProgram();
+    m_quadShader->setUniformMat4v( "model", m_identity );
+    
     m_buffers[(int)RenderLayer::UI].render();
 }
 
@@ -109,5 +124,10 @@ void Renderer::setCameraOffset( Vector2f offset )
 void Renderer::setWindowSize( Vector2f size )
 {
     glm::mat4 projection = glm::ortho(0.0f, size.x(), size.y(), 0.0f, -1.0f, 1.0f);
-    m_shaderProgram->setUniformMat4v( m_projectionLoc, projection );
+    
+    m_quadShader->useProgram();
+    m_quadShader->setUniformMat4v("projection", projection );
+    
+    m_textShader->useProgram();
+    m_textShader->setUniformMat4v("projection", projection );
 }

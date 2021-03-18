@@ -85,6 +85,12 @@ void ResourceManager::loadAll()
         }
     }
 
+    // Load all shader programs
+    // TBD maybe load these in externally
+    
+    addShaderProgram( "quad_shader", "simple_screenspace", "simple_sampler" );
+    addShaderProgram( "text_shader", "simple_screenspace", "text_sampler" );
+
 
     for ( auto const &[k, v] : m_spritesheets )
     {
@@ -102,6 +108,11 @@ void ResourceManager::loadAll()
     }
     
     for (auto const &[k, v] : m_shaders )
+    {
+        v->load();
+    }
+    
+    for (auto const &[k, v] : m_shaderProgs )
     {
         v->load();
     }
@@ -199,6 +210,18 @@ ShaderResource const& ResourceManager::getShader( const std::string &name)
     }
 }
 
+ShaderProgramResource& ResourceManager::getShaderProgram( std::string const &name )
+{
+    try
+    {
+        return *m_shaderProgs.at(name);
+    }
+    catch ( [[maybe_unused]] std::exception const& ex )
+    {
+        Logging::log( "ERROR: Unknown shader program [{}]\n", name );
+        std::terminate();
+    }
+}
 
 std::shared_ptr<FtFontFace> ResourceManager::getDefaultFont()
 {
@@ -225,10 +248,19 @@ void ResourceManager::addShaderResource(std::string const& name, GLuint type)
     m_shaders.emplace(name, std::make_shared<ShaderResource>(name, type) );
 }
 
+void ResourceManager::addShaderProgram( std::string const &name, std::string const &vertName, std::string const &fragName )
+{
+    m_shaderProgs.emplace( name, std::make_shared<ShaderProgramResource>(name, vertName, fragName));
+}
+
 const std::string ResourceManager::getDefaultFontName()
 {
     return "inconsolata-regular";
 }
+
+
+
+
 
 
 

@@ -3,8 +3,12 @@
 #include <fstream>
 
 #include <resource/ResourceManager.h>
+#include <graphics/Shader.h>
 #include <utils/Json.h>
 #include <utils/Logging.h>
+
+// Resource
+// -----------------------
 
 Resource::Resource( std::string const& name )
     : m_isLoaded(false), m_name(name) {}
@@ -14,10 +18,12 @@ bool Resource::isLoaded() const
     return m_isLoaded;
 }
 
+
+// Image Resource
+// -----------------------
+
 ImageResource::ImageResource(std::string const &name)
-: Resource(name)
-{
-}
+: Resource(name) {}
 
 const TexturePtr &ImageResource::get() const
 {
@@ -39,6 +45,9 @@ Sprite ImageResource::getSprite() const
     return Sprite( m_texture );
 }
 
+
+// Spritesheet Resource
+// -----------------------
 
 SpritesheetResource::SpritesheetResource(std::string const &name)
 : Resource(name) {}
@@ -103,10 +112,12 @@ void SpritesheetResource::unload()
     m_spritesheet.reset();
 }
 
+
+// NinePatch Resource
+// -----------------------
+
 NinePatchResource::NinePatchResource(const std::string &name)
-: Resource(name)
-{
-}
+: Resource(name) {}
 
 void NinePatchResource::load()
 {
@@ -157,6 +168,10 @@ UI::NinePatch NinePatchResource::getPatch() const
 {
     return UI::NinePatch { m_texture, m_offsets };
 }
+
+
+// Shader Resource
+// -----------------------
 
 ShaderResource::ShaderResource( std::string const &name, GLuint type )
  : Resource(name), m_type(type) {}
@@ -217,4 +232,28 @@ GLuint ShaderResource::getHandle() const
 {
     return m_handle;
 }
+
+ShaderProgramResource::ShaderProgramResource( std::string const &name, std::string const &vertName, std::string const &fragName )
+    : Resource(name), m_vertName(vertName), m_fragName(fragName) {}
+
+void ShaderProgramResource::load()
+{
+    m_program = std::make_shared<ShaderProgram>(m_vertName, m_fragName);
+}
+
+void ShaderProgramResource::unload()
+{
+    m_program.reset();
+}
+
+std::shared_ptr<ShaderProgram> ShaderProgramResource::getProgram()
+{
+    return m_program;
+}
+
+GLuint ShaderProgramResource::getHandle() const
+{
+    return m_program->getHandle();
+}
+
 

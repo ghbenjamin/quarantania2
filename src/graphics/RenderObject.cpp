@@ -1,8 +1,8 @@
 #include <graphics/RenderObject.h>
-#include <utils/Logging.h>
 
-RenderObject::RenderObject(TextureHandle handle)
+RenderObject::RenderObject(TextureHandle handle, ShaderType shader)
     : m_handle(handle),
+      m_shader(shader),
       m_data(48, 0.0f)
 {
     m_data = {
@@ -15,6 +15,10 @@ RenderObject::RenderObject(TextureHandle handle)
         1.0f, 0.0f, 0, 0, 1.0f, 1.0f, 1.0f, 1.0f
     };
 }
+
+RenderObject::RenderObject( TextureHandle handle )
+ : RenderObject(handle, ShaderType::QuadShader) {}
+
 
 TextureHandle RenderObject::getHandle() const
 {
@@ -111,6 +115,12 @@ void RenderObject::addQuad( RectF screenOffsets, RectF uvBounds )
     setTextureVerts(idx, uvBounds.x(), uvBounds.y(), uvBounds.w(), uvBounds.h() );
     setColourVerts(idx, 0.0f, 0.0f, 0.0f, 1.0f);
 }
+
+int RenderObject::getShaderType() const
+{
+    return (int) m_shader;
+}
+
 
 
 

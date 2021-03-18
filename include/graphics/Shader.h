@@ -20,9 +20,13 @@ public:
     GLuint getUniformLocation( std::string const& name );
 
     void setUniformMat4v( GLuint location, glm::mat4 const& val );
+    void setUniformMat4v( std::string const& name, glm::mat4 const& val );
 
 
 private:
 
     GLuint m_handle;
 };
+
+
+using ShaderHandle = GLuint;

@@ -2,6 +2,7 @@
 
 #include <array>
 #include <graphics/Texture.h>
+#include <graphics/Shader.h>
 
 enum class RenderLayer
 {
@@ -14,6 +15,12 @@ enum class RenderLayer
     UI      = 6
 };
 
+enum class ShaderType
+{
+    QuadShader = 0,
+    TextShader = 1
+};
+
 inline const int RENDER_LAYER_COUNT = 7;
 
 class Sprite;
@@ -21,6 +28,7 @@ class Sprite;
 class RenderObject
 {
 public:
+    RenderObject(TextureHandle handle, ShaderType shader);
     RenderObject(TextureHandle handle);
     ~RenderObject() = default;
     
@@ -37,8 +45,10 @@ public:
     int getDataSize();
     GLfloat* getData();
     TextureHandle getHandle() const;
+    int getShaderType() const;
     
 private:
     TextureHandle m_handle;
+    ShaderType m_shader;
     std::vector<GLfloat> m_data;
 };

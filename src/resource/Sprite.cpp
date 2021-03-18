@@ -7,7 +7,7 @@ Sprite::Sprite()
 {}
 
 Sprite::Sprite(std::shared_ptr<Texture> const& texture, RectI const &region)
-    : m_texture(texture),m_renderObj( m_texture->handle() ), m_colour(Colour::White)
+    : m_texture(texture), m_renderObj( m_texture->handle() ), m_colour(Colour::White)
 {
     m_screenBounds.setRight( region.right() );
     auto regionf = region.convert<float>();
@@ -78,53 +78,4 @@ void Sprite::setColour( Colour colour )
 Colour const &Sprite::getColour()
 {
     return m_colour;
-}
-
-
-// Composite Sprite
-// -------------------------
-
-
-
-CompositeSprite::CompositeSprite()
-    : m_renderObj({}), m_texture(0), m_size(0, 0), m_itemCount(1) {}
-
-CompositeSprite::CompositeSprite( TexturePtr texture )
-    : m_renderObj({}), m_texture(texture), m_size(0, 0), m_itemCount(1) {}
-
-void CompositeSprite::addQuad( RectF screenOffsets, RectF uvBounds )
-{
-    if (m_itemCount == 1)
-    {
-        m_renderObj.setScreenVerts(0, screenOffsets.x(), screenOffsets.y(), screenOffsets.w(), screenOffsets.h() );
-        m_renderObj.setTextureVerts(0, uvBounds.x(), uvBounds.y(), uvBounds.w(), uvBounds.h() );
-    }
-    else
-    {
-        m_renderObj.addQuad( screenOffsets, uvBounds );
-        m_itemCount++;
-    }
-    
-    m_screenBounds.push_back( screenOffsets );
-    
-    m_size = {
-        m_size.x() + (int)screenOffsets.w(),
-        std::max(m_size.y(), (int)screenOffsets.h())
-    };
-}
-
-RenderObject CompositeSprite::renderObject( Vector2i const &pos )
-{
-    for (int i = 0; i < m_itemCount; i++ )
-    {
-        m_renderObj.setScreenVerts(i, pos.x() + m_screenBounds[i].x(), pos.y() + m_screenBounds[i].y(),
-            m_screenBounds[i].w(), m_screenBounds[i].h() );
-    }
-    
-    return m_renderObj;
-}
-
-Vector2i CompositeSprite::size() const
-{
-    return m_size;
 }

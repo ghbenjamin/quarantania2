@@ -10,6 +10,7 @@
 #include <graphics/Text.h>
 
 class ResourceManager;
+class ShaderProgram;
 namespace UI { class NinePatch; }
 
 class Resource
@@ -46,25 +47,6 @@ public:
 private:
     TexturePtr m_texture;
 };
-
-
-//
-//class FontResource : public Resource
-//{
-//public:
-//    FontResource(std::string const &name);
-//    ~FontResource() override = default;
-//
-//    const FontDataPtr &get(int fontSize);
-//    void load() override;
-//    void unload() override;
-//
-//private:
-//    void loadForSize(int fontSize);
-//
-//    std::unordered_map<int, FontDataPtr> m_fonts;
-//};
-//
 
 
 class SpritesheetResource : public Resource
@@ -119,4 +101,23 @@ public:
 private:
     GLuint m_type;
     GLuint m_handle;
+};
+
+
+class ShaderProgramResource : public Resource
+{
+public:
+    ShaderProgramResource( std::string const& name, std::string const& vertName, std::string const& fragName );
+    ~ShaderProgramResource() override = default;
+    
+    void load() override;
+    void unload() override;
+    
+    std::shared_ptr<ShaderProgram> getProgram();
+    GLuint getHandle() const;
+    
+private:
+    std::shared_ptr<ShaderProgram> m_program;
+    std::string m_vertName;
+    std::string m_fragName;
 };

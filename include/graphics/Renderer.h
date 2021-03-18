@@ -10,7 +10,7 @@ class ShaderProgram;
 class RenderBuffer
 {
 public:
-    RenderBuffer();
+    RenderBuffer( std::vector<ShaderHandle> const & shaders );
     ~RenderBuffer() = default;
     
     void render();
@@ -18,6 +18,7 @@ public:
 
 private:
     std::vector<RenderObject> m_data;
+    std::vector<ShaderHandle> m_shaderHandles;
     GLuint m_vbo;
     GLuint m_vao;
 };
@@ -47,13 +48,11 @@ private:
     // Render buffers, indexed by the RenderLayer enum
     std::vector<RenderBuffer> m_buffers;
     
-    // Our shader program.
-    // TODO: Multiple shaders
-    std::shared_ptr<ShaderProgram> m_shaderProgram;
+    // Our shader programs.
+    std::shared_ptr<ShaderProgram> m_quadShader;
+    std::shared_ptr<ShaderProgram> m_textShader;
     
-    // Locations of the uniforms in our shader
-    GLuint m_modelLoc;
-    GLuint m_projectionLoc;
+    std::vector<ShaderHandle> m_shaderHandles;
     
     // Transformation matrices for world and screen space render objects
     glm::mat4 m_cameraTransform;

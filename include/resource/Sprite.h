@@ -32,26 +32,3 @@ private:
     RenderObject m_renderObj;
     RectI m_screenBounds;
 };
-
-
-class CompositeSprite
-{
-public:
-    CompositeSprite();
-    CompositeSprite(TexturePtr texture);
-    ~CompositeSprite() = default;
-    
-    Vector2i size() const;
-    RenderObject renderObject(Vector2i const& pos);
-    
-    void addQuad( RectF screenOffsets, RectF uvBounds );
-
-private:
-    std::size_t m_itemCount;
-    Vector2i m_size;
-    TexturePtr m_texture;
-    
-    std::vector<Colour> m_colours;
-    std::vector<RectF> m_screenBounds;
-    RenderObject m_renderObj;
-};

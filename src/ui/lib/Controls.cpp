@@ -47,8 +47,8 @@ void Label::renderText()
     {
         m_text = { m_style.font->renderString( m_data, m_style.fontSize ) };
     }
-
-
+    
+    m_text->setColour(m_style.textColour);
     setPreferredContentSize( m_text->getSize() );
 }
 
@@ -58,7 +58,7 @@ void Label::setText(std::string const &text)
     renderText();
 }
 
-void Label::setTextColour( Colour colour)
+void Label::setTextColour( Colour colour )
 {
     if (colour != m_style.textColour)
     {

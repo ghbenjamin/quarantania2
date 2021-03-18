@@ -37,6 +37,7 @@ public:
     TexturePtr getTexture( std::string const& imgName );
     NinePatchResource const& getNinePatch( std::string const& name );
     ShaderResource const& getShader( std::string const& name );
+    ShaderProgramResource& getShaderProgram ( std::string const& name );
 
 private:
 
@@ -46,6 +47,7 @@ private:
     void addSpritesheetResource( std::string const& name );
     void addNinepatchResource( std::string const& name );
     void addShaderResource( std::string const& name, GLuint type );
+    void addShaderProgram( std::string const& name, std::string const& vertName, std::string const& fragName );
     
     static const std::string getDefaultFontName();
 
@@ -53,6 +55,7 @@ private:
     std::unordered_map<std::string, std::shared_ptr<ImageResource>> m_images;
     std::unordered_map<std::string, std::shared_ptr<NinePatchResource>> m_patches;
     std::unordered_map<std::string, std::shared_ptr<ShaderResource>> m_shaders;
+    std::unordered_map<std::string, std::shared_ptr<ShaderProgramResource>> m_shaderProgs;
 
     FtFontManager m_fontManager;
     WindowPtr m_context;

@@ -41,6 +41,7 @@ public:
     void addQuad( RectF screenOffsets, RectF uvBounds );
     void setPosition( Vector2f pos );
     void setSize( Vector2i size );
+    void setColour( Colour colour );
 
     RenderObject& renderObject( Vector2i pos );
     Vector2i getSize() const;

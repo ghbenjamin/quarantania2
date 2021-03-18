@@ -6,6 +6,7 @@
 
 #include <utils/Assert.h>
 #include <utils/Logging.h>
+#include <resource/ResourceManager.h>
 
 
 // Font Manager
@@ -85,20 +86,23 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, in
 
     if (maxWidth <= 0)
     {
-        maxWidth = 100000.0f;
+        maxWidth = std::numeric_limits<int>::max();
     }
 
     std::vector<FtCharPlacement> allGlyphs;
     std::vector<FtCharPlacement> currentWordGlyphs;
 
-    float maxH = 0;
+    
     float currX = 0;
     float currY = 0;
     float nextX = 0;
     float nextY = 0;
-    float lineSpacing = fontSize;
+    float lineSpacing = (float) fontSize;
+    
     float maxY = -1000;
     float minY = 1000;
+    float maxH = 0;
+    float maxW = 0;
     
     for (int i = 0; i < (int) str.size(); i++)
     {
@@ -128,6 +132,7 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, in
 
                 currX = rightWordEdge - leftWordEdge;
                 currY += lineSpacing;
+                maxW = std::max( maxW, leftWordEdge );
             }
 
             allGlyphs.insert( allGlyphs.end(), currentWordGlyphs.begin(), currentWordGlyphs.end() );
@@ -153,8 +158,11 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, in
         );
     }
 
+    maxW = std::max( maxW, allGlyphs.back().x + charVector[allGlyphs.back().idx].width - allGlyphs.front().x );
+
     textObj.setSize({
-        (int)(allGlyphs.back().x + charVector[allGlyphs.back().idx].width - allGlyphs.front().x),
+//        (int)(allGlyphs.back().x + charVector[allGlyphs.back().idx].width - allGlyphs.front().x),
+        (int) maxW,
         (int)(maxY - minY)
     });
 
@@ -205,7 +213,7 @@ void FtFontFace::generateFontData( int size )
         charData.height = (float) m_face->glyph->bitmap.rows;
         charData.bearingX = (float) m_face->glyph->bitmap_left;
         charData.bearingY = (float) m_face->glyph->bitmap_top;
-        charData.advance = (float) m_face->glyph->advance.x;
+        charData.advance = m_face->glyph->advance.x;
         
         currMaxH = std::max(charData.height, currMaxH);
 
@@ -351,7 +359,9 @@ Vector2i TextRenderObj::getSize() const
 }
 
 TextRenderObj::TextRenderObj( TexturePtr texture )
-    : m_texture(texture), m_renderObj(texture->handle()), m_charCount(0) {}
+    : m_texture(texture),
+      m_renderObj(texture->handle(), ShaderType::TextShader),
+      m_charCount(0) {}
 
 TextRenderObj::TextRenderObj()
     : m_texture(0), m_renderObj({}), m_charCount(0) {}
@@ -374,10 +384,21 @@ void TextRenderObj::addQuad( RectF screenOffsets, RectF uvBounds )
 
 void TextRenderObj::setPosition( Vector2f pos )
 {
-    for (int i = 0; i < m_charCount; i++ )
+    for (int i = 0; i < (int) m_charCount; i++ )
     {
         m_renderObj.setScreenVerts(i, pos.x() + m_charBounds[i].x(), pos.y() + m_charBounds[i].y(),
             m_charBounds[i].w(), m_charBounds[i].h());
+    }
+}
+
+
+void TextRenderObj::setColour( Colour colour )
+{
+    auto [r, b, g, a] = colour.asOpenGL();
+    
+    for (int i = 0; i < (int) m_charCount; i++)
+    {
+        m_renderObj.setColourVerts( i, r, g, b, a );
     }
 }
 
