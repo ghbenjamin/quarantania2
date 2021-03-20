@@ -48,6 +48,8 @@ public:
     static const Colour White;
     static const Colour Black;
 
+    static const Colour fromName( std::string const& name );
+
 private:
     
     static float intToFloat( std::uint8_t val );

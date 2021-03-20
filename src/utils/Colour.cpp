@@ -124,3 +124,95 @@ std::uint8_t Colour::floatToInt( float val )
 {
     return (std::uint8_t)(val * 255.0f);
 }
+
+const Colour Colour::fromName(const std::string &name)
+{
+    if (name == "Red")
+    {
+        return Colour::Red;
+    }
+    else if (name == "Green")
+    {
+        return Colour::Green;
+    }
+    else if (name == "Yellow")
+    {
+        return Colour::Yellow;
+    }
+    else if (name == "Blue")
+    {
+        return Colour::Blue;
+    }
+    else if (name == "Orange")
+    {
+        return Colour::Orange;
+    }
+    else if (name == "Purple")
+    {
+        return Colour::Purple;
+    }
+    else if (name == "Cyan")
+    {
+        return Colour::Cyan;
+    }
+    else if (name == "Magenta")
+    {
+        return Colour::Magenta;
+    }
+    else if (name == "Lime")
+    {
+        return Colour::Lime;
+    }
+    else if (name == "Pink")
+    {
+        return Colour::Pink;
+    }
+    else if (name == "Teal")
+    {
+        return Colour::Teal;
+    }
+    else if (name == "Lavender")
+    {
+        return Colour::Lavender;
+    }
+    else if (name == "Brown")
+    {
+        return Colour::Brown;
+    }
+    else if (name == "Beige")
+    {
+        return Colour::Beige;
+    }
+    else if (name == "Maroon")
+    {
+        return Colour::Maroon;
+    }
+    else if (name == "Mint")
+    {
+        return Colour::Mint;
+    }
+    else if (name == "Olive")
+    {
+        return Colour::Olive;
+    }
+    else if (name == "Apricot")
+    {
+        return Colour::Apricot;
+    }
+    else if (name == "Navy")
+    {
+        return Colour::Navy;
+    }
+    else if (name == "Grey")
+    {
+        return Colour::Grey;
+    }
+    else if (name == "White")
+    {
+        return Colour::White;
+    }
+    else
+    {
+        return Colour::Black;
+    }
+}

@@ -14,8 +14,8 @@ void UI::TextLogLineData::setPos(Vector2i pos)
 
 void UI::TextLogLineData::renderText(std::shared_ptr<FtFontFace>& font, RectI bounds)
 {
-    m_sprite = { font->renderString( displayText(), 12 ) };
-//    m_sprite.setClipRect( bounds );
+    m_sprite = { font->renderString( displayText(), 14 ) };
+    m_sprite.setColour( m_colour );
 }
 
 std::string UI::TextLogLineData::displayText() const

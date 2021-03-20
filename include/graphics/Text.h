@@ -114,7 +114,6 @@ using MarkdownTokenStream = std::vector<MarkdownTokenSegment>;
 
 class LiteMarkdownParser
 {
-    
     struct OpenTagPosition
     {
         std::size_t start;

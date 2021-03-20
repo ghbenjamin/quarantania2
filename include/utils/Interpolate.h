@@ -24,29 +24,6 @@ private:
     T m_diff;
 };
 
-//template<>
-//class LinearInterpolator<Colour>
-//{
-//public:
-//    LinearInterpolator( Colour start, Colour end )
-//            : m_start(start), m_diff(end - start) {}
-//    LinearInterpolator()
-//            : m_start(), m_diff() {}
-//
-//    ~LinearInterpolator() = default;
-//
-//    // Return the value at the given fraction ( 0 <= frac <= 1 )
-//    Colour value( float frac )
-//    {
-//        return m_start + (m_diff * frac);
-//    }
-//
-//private:
-//    Colour m_start;
-//    Colour m_diff;
-//};
-
-
 
 // Given a start and end value, linearly interpolate between the two values, taking the specified time to do it.
 template <typename T>
