@@ -2,6 +2,7 @@
 #include <resource/Tiled.h>
 #include <utils/Assert.h>
 #include <game/ECS.h>
+#include <resource/ResourceManager.h>
 
 FixedLevelFactory::FixedLevelFactory() : LevelFactory() {}
 
@@ -26,7 +27,9 @@ void FixedLevelFactory::constructTiles()
 
     // Initialize empty data structures of the right size
     m_levelLayout.mapData = std::vector<TileRef>( m_map->width * m_map->height, -1 );
-    m_levelLayout.tileTypes = std::vector<LD::BaseTileType>( m_map->width * m_map->height, LD::BaseTileType::Floor );
+    m_levelLayout.tileTypes = std::vector<BaseTileType>( m_map->width * m_map->height, BaseTileType::Floor );
+    
+    std::string sheetName;
 
     for ( auto const& tlayer : m_map->tileLayers )
     {
@@ -60,6 +63,7 @@ void FixedLevelFactory::constructTiles()
                 {
                     // Any tile we've not seen yet, construct and add to our tileset
                     SpritesheetKey key = m_map->keyFromIdPair(tip);
+                    sheetName = key.sheetName;
                     tileRef = m_levelLayout.tileset.addTile(key);
                     tilesSeenMap.emplace(tipVec, tileRef);
                 }
@@ -80,6 +84,9 @@ void FixedLevelFactory::constructTiles()
             }
         }
     }
+    
+    // Set the tileset texture to the texture of the relevant tilesheet
+    m_levelLayout.tileset.setTexture( ResourceManager::get().getSpritesheet(sheetName).get()->getTexture() );
 }
 
 void FixedLevelFactory::constructObjects()

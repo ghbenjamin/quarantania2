@@ -31,6 +31,7 @@ class RenderObject
 public:
     RenderObject(TextureHandle handle, ShaderType shader);
     RenderObject(TextureHandle handle);
+    RenderObject();
     ~RenderObject() = default;
     
     static constexpr int FLOATS_PER_QUAD = 48;

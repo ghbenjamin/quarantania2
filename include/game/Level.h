@@ -31,7 +31,7 @@ public:
     virtual ~Level() = default;
 
     // Indicate that the level is constructed and ready to begin
-    void setLayout(LD::LevelLayout const& llayout);
+    void setLayout(LevelLayout const& llayout);
     void setReady();
 
     // Core
@@ -80,13 +80,17 @@ private:
 
     // UI Methods
     void setupUI();
-    void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
-    void renderTiles(uint32_t ticks, RenderInterface &rInter);
     void layoutWindows();
-
+    
+    // Rendering methods
+    void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
+    RenderObject generateTileRenderData();
+    void renderTiles(uint32_t ticks, RenderInterface &rInter);
+    
     // Centre the camera on the centroid of the positions of all party members
     void centerCameraOnParty();
     
+
 
     // Misc
     RandomInterface m_random;
@@ -96,8 +100,9 @@ private:
 
     // Map
     Tileset m_renderTileMap;
+    RenderObject m_tileRenderObj;
     std::vector<TileRef> m_mapRendering;
-    std::vector<LD::BaseTileType> m_baseTilemap;
+    std::vector<BaseTileType> m_baseTilemap;
     Grid m_grid;
     Camera m_camera;
 

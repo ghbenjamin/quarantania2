@@ -53,6 +53,11 @@ Spritesheet::Spritesheet(TexturePtr texture)
 
 }
 
+TexturePtr const &Spritesheet::getTexture()
+{
+    return m_texture;
+}
+
 TiledSpritesheet::TiledSpritesheet(TexturePtr texture, SpritesheetGidMap& gidMap, int margin)
 : Spritesheet(texture), m_margin(margin)
 {

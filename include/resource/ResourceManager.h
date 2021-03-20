@@ -32,6 +32,7 @@ public:
     Sprite getSprite( std::string const& sheet, std::string const& name );
     Sprite getSprite( SpritesheetKey const& key );
     Sprite getImageAsSprite( std::string const& imgName );
+    SpritesheetResource const& getSpritesheet( std::string const& sheetName );
     std::shared_ptr<FtFontFace> getFont( std::string const& fname );
     std::shared_ptr<FtFontFace> getDefaultFont();
     TexturePtr getTexture( std::string const& imgName );

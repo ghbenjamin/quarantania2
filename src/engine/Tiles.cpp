@@ -16,3 +16,13 @@ TileRef Tileset::addTile(SpritesheetKey const& key)
     m_tiles.push_back(t);
     return m_tiles.size() - 1;
 }
+
+std::shared_ptr<Texture> Tileset::getTexture()
+{
+    return m_texture;
+}
+
+void Tileset::setTexture(std::shared_ptr<Texture> tex)
+{
+    m_texture = tex;
+}

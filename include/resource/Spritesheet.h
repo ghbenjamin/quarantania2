@@ -41,6 +41,7 @@ public:
     Spritesheet& operator=( const Spritesheet& ) = delete;
 
     virtual Sprite getSprite( SpritesheetKey const& key ) = 0;
+    TexturePtr const& getTexture();
 
 protected:
     TexturePtr m_texture;

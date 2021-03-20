@@ -19,6 +19,8 @@ RenderObject::RenderObject(TextureHandle handle, ShaderType shader)
 RenderObject::RenderObject( TextureHandle handle )
  : RenderObject(handle, ShaderType::QuadShader) {}
 
+RenderObject::RenderObject()
+ : RenderObject(0) {}
 
 TextureHandle RenderObject::getHandle() const
 {

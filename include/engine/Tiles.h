@@ -22,7 +22,11 @@ public:
 
     TileRef addTile(SpritesheetKey const& key);
     Tile& get( TileRef ref );
+    
+    std::shared_ptr<Texture> getTexture();
+    void setTexture( std::shared_ptr<Texture> tex );
 
 private:
     std::vector<Tile> m_tiles;
+    std::shared_ptr<Texture> m_texture;
 };

@@ -13,7 +13,7 @@ public:
 
 protected:
     LevelPtr m_level;
-    LD::LevelLayout m_levelLayout;
+    LevelLayout m_levelLayout;
 
     std::random_device m_rd;
 };

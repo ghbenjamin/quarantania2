@@ -35,6 +35,7 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 
 void Level::setReady()
 {
+    m_tileRenderObj = generateTileRenderData();
     m_gevents.broadcast<GameEvents::LevelReady>();
     centerCameraOnParty();
 }
@@ -62,6 +63,7 @@ void Level::render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
 {
     renderTiles(ticks, rInter);
 }
+
 
 void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
 {
@@ -108,22 +110,28 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
 
 void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
 {
+    rInter.addItem( m_tileRenderObj, RenderLayer::Tiles );
+}
+
+RenderObject Level::generateTileRenderData()
+{
+    RenderObject obj { m_renderTileMap.getTexture()->handle() };
     Vector2i offset;
     Vector2i currPos;
     int row = 0;
     int col = 0;
     int width = m_grid.bounds().x();
-
+    
     offset = {0, 0};
-
+    
     for ( auto const& ref : m_mapRendering )
     {
         if ( ref >= 0 )
         {
             currPos = offset + Vector2i{ col * GlobalConfig::TileSizePx, row * GlobalConfig::TileSizePx };
-            rInter.addItem( m_renderTileMap.get(ref).sprite.renderObject(currPos), RenderLayer::Tiles );
+            obj.merge( m_renderTileMap.get(ref).sprite.renderObject(currPos) );
         }
-
+        
         col++;
         if ( col >= width )
         {
@@ -131,6 +139,8 @@ void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
             row++;
         }
     }
+    
+    return obj;
 }
 
 GameEventHub &Level::events()
@@ -285,7 +295,7 @@ RandomInterface &Level::random()
     return m_random;
 }
 
-void Level::setLayout(const LD::LevelLayout &llayout)
+void Level::setLayout(LevelLayout const& llayout)
 {
     m_baseTilemap = llayout.tileTypes;
     m_renderTileMap = llayout.tileset;
@@ -399,3 +409,5 @@ void Level::advanceRound()
 {
     m_currentRound++;
 }
+
+

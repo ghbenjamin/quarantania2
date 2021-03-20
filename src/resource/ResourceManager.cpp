@@ -223,6 +223,21 @@ ShaderProgramResource& ResourceManager::getShaderProgram( std::string const &nam
     }
 }
 
+SpritesheetResource const& ResourceManager::getSpritesheet( std::string const &sheetName )
+{
+    try
+    {
+        return *m_spritesheets.at(sheetName);
+    }
+    catch ( [[maybe_unused]] std::exception const& ex )
+    {
+        Logging::log( "ERROR: Unknown spritesheet program [{}]\n", sheetName );
+        std::terminate();
+    }
+}
+
+
+
 std::shared_ptr<FtFontFace> ResourceManager::getDefaultFont()
 {
     return getFont( getDefaultFontName() );

@@ -6,11 +6,6 @@
 RenderInterface::RenderInterface( Renderer* renderer )
 : m_renderer(renderer) {}
 
-std::vector<RenderObject> const &RenderInterface::renderables() const
-{
-    return m_renderables;
-}
-
 void RenderInterface::addItem( RenderObject obj, RenderLayer layer )
 {
     m_renderer->addItem( obj, layer );
