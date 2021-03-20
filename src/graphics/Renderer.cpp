@@ -39,7 +39,7 @@ void RenderBuffer::render()
             glUseProgram( m_shaderHandles[currShader] );
         }
     
-        // Bind texture
+        // Bind texture if exists (not all shaders need one)
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, obj.getHandle());
         
@@ -75,15 +75,17 @@ void Renderer::init( Vector2f windowSize )
     m_cameraTransform = glm::mat4(1.0f);
     
     m_textShader = ResourceManager::get().getShaderProgram( "text_shader" ).getProgram();
-    m_textShader->useProgram();
     m_textShader->setUniformMat4v( "model", m_identity );
     
+    m_colourShader = ResourceManager::get().getShaderProgram( "colour_only_shader" ).getProgram();
+    m_colourShader->setUniformMat4v( "model", m_identity );
+    
     m_quadShader = ResourceManager::get().getShaderProgram( "quad_shader" ).getProgram();
-    m_quadShader->useProgram();
+    
     
     setWindowSize(windowSize);
     
-    m_shaderHandles = { m_quadShader->getHandle(), m_textShader->getHandle() };
+    m_shaderHandles = { m_quadShader->getHandle(), m_textShader->getHandle(), m_colourShader->getHandle() };
     
     for (int i = 0; i < RENDER_LAYER_COUNT; i++)
     {
@@ -95,18 +97,18 @@ void Renderer::init( Vector2f windowSize )
 void Renderer::render()
 {
     // Render most of the layers with the camera transform
-    m_quadShader->useProgram();
+    m_colourShader->setUniformMat4v( "model", m_cameraTransform );
     m_quadShader->setUniformMat4v( "model", m_cameraTransform );
-    
+
     for (int i = 0; i < (int)RenderLayer::UI; i++)
     {
         m_buffers[i].render();
     }
     
     // Switch to the identity transform for the UI layer
-    m_quadShader->useProgram();
     m_quadShader->setUniformMat4v( "model", m_identity );
-    
+    m_colourShader->setUniformMat4v( "model", m_identity );
+
     m_buffers[(int)RenderLayer::UI].render();
 }
 
@@ -125,9 +127,7 @@ void Renderer::setWindowSize( Vector2f size )
 {
     glm::mat4 projection = glm::ortho(0.0f, size.x(), size.y(), 0.0f, -1.0f, 1.0f);
     
-    m_quadShader->useProgram();
     m_quadShader->setUniformMat4v("projection", projection );
-    
-    m_textShader->useProgram();
     m_textShader->setUniformMat4v("projection", projection );
+    m_colourShader->setUniformMat4v("projection", projection );
 }

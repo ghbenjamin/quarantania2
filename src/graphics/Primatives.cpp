@@ -3,16 +3,7 @@
 
 Sprite createRectangle(Vector2i dimensions, Colour const &colour)
 {
-    auto surface = std::make_shared<Surface>( dimensions );
-    auto colourSDL = colour.asSDL();
-
-    SDL_Rect rect = { 0, 0, dimensions.x(), dimensions.y() };
-
-    SDL_FillRect( surface->raw(), &rect,
-        SDL_MapRGBA( surface->raw()->format, colourSDL.r, colourSDL.g, colourSDL.b, colourSDL.a )
-    );
-
-    return Sprite{ surface->toTexture() };
+    return Sprite{ createRectangleRObj(dimensions, colour), dimensions };
 }
 
 Sprite
@@ -35,4 +26,15 @@ createBorderedRectangle(Vector2i dimensions, Colour const &borderColour, Colour 
        backColourSDL.r, backColourSDL.g, backColourSDL.b, backColourSDL.a ));
 
     return Sprite{ surface->toTexture() };
+}
+
+RenderObject createRectangleRObj(Vector2i dimensions, Colour colour)
+{
+    auto [r, g, b, a] = colour.asOpenGL();
+
+    RenderObject obj{0, ShaderType::ColourShader};
+    obj.setScreenVerts(0, 0, 0, (float)dimensions.x(), (float)dimensions.y());
+    obj.setColourVerts( 0, r, g, b, a );
+
+    return obj;
 }

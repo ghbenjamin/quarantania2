@@ -18,7 +18,8 @@ enum class RenderLayer
 enum class ShaderType
 {
     QuadShader = 0,
-    TextShader = 1
+    TextShader = 1,
+    ColourShader = 2,
 };
 
 inline const int RENDER_LAYER_COUNT = 7;

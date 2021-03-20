@@ -51,6 +51,7 @@ private:
     // Our shader programs.
     std::shared_ptr<ShaderProgram> m_quadShader;
     std::shared_ptr<ShaderProgram> m_textShader;
+    std::shared_ptr<ShaderProgram> m_colourShader;
     
     std::vector<ShaderHandle> m_shaderHandles;
     

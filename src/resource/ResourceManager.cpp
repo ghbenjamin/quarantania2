@@ -90,7 +90,7 @@ void ResourceManager::loadAll()
     
     addShaderProgram( "quad_shader", "simple_screenspace", "simple_sampler" );
     addShaderProgram( "text_shader", "simple_screenspace", "text_sampler" );
-
+    addShaderProgram( "colour_only_shader", "simple_screenspace", "block_colour" );
 
     for ( auto const &[k, v] : m_spritesheets )
     {

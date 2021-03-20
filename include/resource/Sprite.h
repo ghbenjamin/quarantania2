@@ -12,6 +12,7 @@ public:
     Sprite();
     Sprite(TexturePtr const& texture, RectI const& region);
     Sprite(TexturePtr texture);
+    Sprite(RenderObject const& obj, Vector2i size);
     ~Sprite() = default;
 
     explicit operator bool() const;

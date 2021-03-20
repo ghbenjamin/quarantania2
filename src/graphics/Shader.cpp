@@ -53,6 +53,7 @@ GLuint ShaderProgram::getUniformLocation(const std::string& name)
 
 void ShaderProgram::setUniformMat4v(GLuint location, const glm::mat4 &val)
 {
+    useProgram();
     glUniformMatrix4fv( location, 1, false, glm::value_ptr(val) );
 }
 

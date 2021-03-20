@@ -33,6 +33,10 @@ Sprite::Sprite(std::shared_ptr<Texture> texture)
     m_renderObj.setTextureVerts( 0, 0.0f, 0.0f, 1.0f, 1.0f );
 }
 
+Sprite::Sprite( RenderObject const &obj, Vector2i size )
+        : m_renderObj(obj), m_screenBounds(Vector2i{}, size) {}
+
+
 Sprite::operator bool() const
 {
     return !!m_texture;
@@ -40,7 +44,6 @@ Sprite::operator bool() const
 
 RenderObject Sprite::renderObject(Vector2i const &pos)
 {
-    Assert( !!m_texture );
     setPosition( pos );
     return m_renderObj;
 }
@@ -79,3 +82,4 @@ Colour const &Sprite::getColour()
 {
     return m_colour;
 }
+
