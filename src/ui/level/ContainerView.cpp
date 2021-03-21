@@ -6,6 +6,7 @@
 #include <resource/ResourceManager.h>
 #include <game/Level.h>
 #include <utils/GlobalConfig.h>
+#include <components/ActorComponent.h>
 
 using namespace UI;
 
@@ -84,6 +85,16 @@ void ContainerViewItem::setEntity(EntityRef entity)
 
 void ContainerViewItem::onClick()
 {
+    if (m_item && m_entity != EntityNull)
+    {
+        auto actorC = manager()->level()->ecs().getComponents<ActorComponent>(m_entity);
+        auto equipSlot = actorC->actor.canEquipItem(m_item);
+    
+        if (equipSlot)
+        {
+            manager()->level()->events().broadcast<GameEvents::ItemEquip>( m_entity, m_item, *equipSlot );
+        }
+    }
 }
 
 std::optional<TooltipData> ContainerViewItem::tooltipSpawner()

@@ -33,5 +33,9 @@ public:
 
 private:
 
+    void refreshPlayerInventory();
+    void refreshPlayerEquipView();
+    void refreshPartyStatus();
+
     void pushLogLine( std::string const& line, Colour const& colour = Colour::Black );
 };

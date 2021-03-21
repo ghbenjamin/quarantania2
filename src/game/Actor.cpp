@@ -582,6 +582,12 @@ MeleeAttackCountData Actor::getAttackCountForMeleeAttack( std::shared_ptr<MeleeA
     return data;
 }
 
+std::optional<CreatureEquipSlot> Actor::canEquipItem( ItemPtr item )
+{
+    // For now, always return true.
+    return defaultSlotForItemSlot( item->getEquipSlot() );
+}
+
 
 ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
  : m_actor(actor) {}

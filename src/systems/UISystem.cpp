@@ -120,14 +120,12 @@ void UISystem::operator()( GameEvents::EntityDamage &evt )
 
 void UISystem::operator()(GameEvents::EntityAction &evt)
 {
-    auto playerStatus = m_level->ui().withId<UI::PlayerStatusContainer>( "player-status-container" );
-    playerStatus->refresh();
+    refreshPartyStatus();
 }
 
 void UISystem::operator()(GameEvents::RoundChange &evt)
 {
-    auto playerStatus = m_level->ui().withId<UI::PlayerStatusContainer>( "player-status-container" );
-    playerStatus->reloadEntities();
+    refreshPartyStatus();
 }
 
 void UISystem::operator()(GameEvents::CombatMissedAttack &evt)
@@ -146,4 +144,20 @@ void UISystem::operator()( GameEvents::CombatAttackSucceeded &evt )
             m_level->getDescriptionForEnt( evt.attacker ),
             m_level->getDescriptionForEnt( evt.defender )
     ));
+}
+
+void UISystem::refreshPlayerInventory()
+{
+
+}
+
+void UISystem::refreshPlayerEquipView()
+{
+
+}
+
+void UISystem::refreshPartyStatus()
+{
+    auto playerStatus = m_level->ui().withId<UI::PlayerStatusContainer>( "player-status-container" );
+    playerStatus->reloadEntities();
 }
