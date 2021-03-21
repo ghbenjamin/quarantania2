@@ -100,6 +100,7 @@ private:
 
     // Map
     Tileset m_renderTileMap;
+    bool m_tileRenderDirtyBit;
     RenderObject m_tileRenderObj;
     std::vector<TileRef> m_mapRendering;
     std::vector<BaseTileType> m_baseTilemap;

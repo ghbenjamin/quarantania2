@@ -15,3 +15,13 @@ void RenderInterface::setCameraOffset( Vector2f offset )
 {
     m_renderer->setCameraOffset( offset );
 }
+
+void RenderInterface::holdRenderQueue(RenderLayer layer)
+{
+    m_renderer->holdBuffer(layer);
+}
+
+void RenderInterface::releaseRenderQueue(RenderLayer layer)
+{
+    m_renderer->releaseBuffer(layer);
+}

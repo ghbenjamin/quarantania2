@@ -16,11 +16,15 @@ public:
     void render();
     void addItem( RenderObject const& robj );
 
+    void holdBuffer();
+    void releaseBuffer();
+
 private:
     std::vector<RenderObject> m_data;
     std::vector<ShaderHandle> m_shaderHandles;
     GLuint m_vbo;
     GLuint m_vao;
+    bool m_isHeld;
 };
 
 
@@ -43,7 +47,10 @@ public:
     void setCameraOffset( Vector2f offset );
     
     void setWindowSize( Vector2f size );
-    
+
+    void holdBuffer( RenderLayer layer );
+    void releaseBuffer( RenderLayer layer );
+
 private:
     // Render buffers, indexed by the RenderLayer enum
     std::vector<RenderBuffer> m_buffers;

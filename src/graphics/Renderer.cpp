@@ -9,7 +9,7 @@
 
 
 RenderBuffer::RenderBuffer(std::vector<ShaderHandle> const& shaders )
-    : m_vbo(0), m_vao(0), m_shaderHandles(shaders)
+    : m_vbo(0), m_vao(0), m_shaderHandles(shaders), m_isHeld(false)
 {
     glGenBuffers(1, &m_vbo);
     glGenVertexArrays(1, &m_vao);
@@ -60,7 +60,21 @@ void RenderBuffer::render()
         // Draw!
         glDrawArrays(GL_TRIANGLES, 0, (obj.getDataSize() / RenderObject::FLOATS_PER_QUAD) * RenderObject::TRIANGLES_PER_QUAD );
     }
-    
+
+    if ( !m_isHeld )
+    {
+        m_data.clear();
+    }
+}
+
+void RenderBuffer::holdBuffer()
+{
+    m_isHeld = true;
+}
+
+void RenderBuffer::releaseBuffer()
+{
+    m_isHeld = false;
     m_data.clear();
 }
 
@@ -130,4 +144,14 @@ void Renderer::setWindowSize( Vector2f size )
     m_quadShader->setUniformMat4v("projection", projection );
     m_textShader->setUniformMat4v("projection", projection );
     m_colourShader->setUniformMat4v("projection", projection );
+}
+
+void Renderer::holdBuffer(RenderLayer layer)
+{
+    m_buffers[(int)layer].holdBuffer();
+}
+
+void Renderer::releaseBuffer(RenderLayer layer)
+{
+    m_buffers[(int)layer].releaseBuffer();
 }

@@ -27,4 +27,8 @@ private:
 
     Sprite m_fovHidden;
     Sprite m_fovFog;
+    RenderObject m_renderObj;
+    bool m_renderDirtyBit;
+    Colour m_hiddenColour;
+    Colour m_fovColour;
 };

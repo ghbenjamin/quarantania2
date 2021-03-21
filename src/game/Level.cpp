@@ -27,7 +27,8 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
   m_uiManager(this),
   m_currentRound(0),
   m_isPlayerTurn(true),
-  m_canInteract(true)
+  m_canInteract(true),
+  m_tileRenderDirtyBit(true)
 {
     setupUI();
     layoutWindows();
@@ -61,9 +62,14 @@ bool Level::input(IEvent &evt)
 
 void Level::render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
 {
-    renderTiles(ticks, rInter);
+    if (m_tileRenderDirtyBit)
+    {
+        rInter.releaseRenderQueue(RenderLayer::Tiles);
+        renderTiles(ticks, rInter);
+        rInter.holdRenderQueue(RenderLayer::Tiles);
+        m_tileRenderDirtyBit = false;
+    }
 }
-
 
 void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
 {
