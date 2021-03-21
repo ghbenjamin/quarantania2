@@ -72,14 +72,30 @@ void Sprite::setPosition( Vector2i position )
         (float) m_screenBounds.w(), (float) m_screenBounds.h() );
 }
 
-void Sprite::setColour( Colour colour )
+void Sprite::setColourMod( Colour colour )
 {
     auto colourGl = colour.asOpenGL();
+    m_colour = colour;
     m_renderObj.setColourVerts( 0, colourGl[0], colourGl[1], colourGl[2], colourGl[3] );
 }
 
 Colour const &Sprite::getColour()
 {
     return m_colour;
+}
+
+void Sprite::resetColourMod()
+{
+    setColourMod(Colour::White);
+}
+
+void Sprite::setAlphaMod( float alpha )
+{
+    m_renderObj.setAlphaVerts(0, alpha);
+}
+
+void Sprite::resetAlphaMod()
+{
+    m_renderObj.setAlphaVerts(0, 1.0f);
 }
 

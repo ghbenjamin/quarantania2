@@ -34,7 +34,7 @@ void AnimationSystem::update(uint32_t ticks, RenderInterface &rInter)
             
             if ( anim->colourModAnim->isComplete() )
             {
-                render->sprite.setColour( anim->colourModAnim->colour() );
+                render->sprite.setColourMod(anim->colourModAnim->colour());
                 anim->colourModAnim.reset();
             }
         }
@@ -77,6 +77,6 @@ void AnimationSystem::operator()( GameEvents::EntityDamage &evt )
         auto [renderC, animC] = m_level->ecs().getComponents<RenderComponent, AnimationComponent>(evt.target);
         
         animC->colourModAnim = { renderC->sprite.getColour(), 0.5f };
-        renderC->sprite.setColour( Colour::Red );
+        renderC->sprite.setColourMod(Colour::Red);
     }
 }

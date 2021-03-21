@@ -107,8 +107,12 @@ public:
         auto ptr = std::static_pointer_cast<Element>( child );
         
         m_children.push_back(child);
-        m_children.back()->setColour( getColour() );
-
+        
+        if (m_alphaMod.has_value())
+        {
+            m_children.back()->setAlphaMod(*m_alphaMod);
+        }
+        
         doLayout();
     }
 
@@ -126,10 +130,10 @@ public:
 
     void removeBackround();
     
-    Colour const& getColour();
-    void setColour( Colour colour );
-    void setAlpha( std::uint8_t value );
-    void setAlphaTransition(std::uint8_t start, std::uint8_t end, float time);
+    // Alpha mods for fades in/out
+    std::optional<float> getAlphaMod();
+    void setAlphaMod( float value );
+    void setAlphaTransition(float start, float, float time);
     void setFadeIn();
 
     void setPadding( RectI const& rect );
@@ -150,7 +154,7 @@ protected:
     Manager* manager();
     void onMove();
     void onSize();
-    virtual void onColourModChange();
+    virtual void onAlphaModChange(float newValue);
 
     template <typename Callable>
     void elementsMatchingCondition( Callable&& callable, ElementList* out )
@@ -252,7 +256,9 @@ private:
     std::optional<ElementBackground> m_background;
     int m_borderWidth;
     RectI m_padding;
-    Colour m_colour;
+
+    // Alpha modifications for fade in / out
+    std::optional<float> m_alphaMod;
     std::optional<TimedLinearInterpolator<float>> m_alphaTransition;
 
     // Events

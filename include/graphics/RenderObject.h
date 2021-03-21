@@ -40,6 +40,7 @@ public:
     void setTextureVerts( int idx, float texX, float texY, float texW, float texH );
     void setScreenVerts( int idx, float scX, float scY, float scW, float scH );
     void setColourVerts( int idx, float r, float g, float b, float a );
+    void setAlphaVerts( int idx, float a );
     
     void addQuad( RectF screenOffsets, RectF uvBounds );
     

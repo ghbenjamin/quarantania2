@@ -15,8 +15,7 @@ Element::Element(Manager* manager, Element* parent)
     m_borderWidth(0),
     m_isHidden(false),
     m_maxOuterSize({0, 0}),
-    m_isDecorative(false),
-    m_colour( Colour::White )
+    m_isDecorative(false)
 {
     // Sensible default
     setLayout<UI::VerticalLayout>();
@@ -54,11 +53,6 @@ bool Element::hasParent()
 
 void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
-    if (m_id == "WTF")
-    {
-        int t = 0;
-    }
-
     // If we're hidden, pretend we don't exist
     if ( isHidden() )
     {
@@ -68,16 +62,14 @@ void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rI
     if ( m_alphaTransition.has_value() )
     {
         m_alphaTransition->advance(ticks );
-        setAlpha( (std::uint8_t) m_alphaTransition->current() );
+        setAlphaMod(m_alphaTransition->current());
         
         if (m_alphaTransition->isFinished())
         {
             m_alphaTransition.reset();
         }
     }
-
-
-
+    
     // Render our background, if any
     if ( m_background.has_value() )
     {
@@ -452,45 +444,42 @@ void Element::removeEventCallbacks( UEventType type )
     m_callbacks.erase( type );
 }
 
-Colour const &Element::getColour()
+void Element::setAlphaMod( float value )
 {
-    return m_colour;
-}
-
-void Element::setColour(Colour colour)
-{
-    m_colour = colour;
+    m_alphaMod = value;
     
     if (m_background.has_value())
     {
-        m_background->setColourMod( colour );
+        m_background->setAlphaMod( value );
     }
     
-    onColourModChange();
+    onAlphaModChange(value);
     
     for ( auto const& c : m_children )
     {
-        c->setColour( colour );
+        c->setAlphaMod(value);
     }
 }
 
-void Element::setAlpha( std::uint8_t value )
+void Element::onAlphaModChange( float newValue )
 {
-    setColour( m_colour.withAlpha(value) );
+    // Override in children if necessary
 }
 
-void Element::onColourModChange()
+void Element::setAlphaTransition(float start, float end, float time)
 {
-}
-
-void Element::setAlphaTransition(std::uint8_t start, std::uint8_t end, float time)
-{
-    m_alphaTransition = { (float) start, (float) end, time };
+    Assert( start >= 0.0f && end <= 1.0f );
+    m_alphaTransition = { start, end, time };
 }
 
 void Element::setFadeIn()
 {
-    setAlphaTransition( 0, 255, 0.3f );
+    setAlphaTransition( 0.0f, 1.0f, 0.3f );
+}
+
+std::optional<float> Element::getAlphaMod()
+{
+    return m_alphaMod;
 }
 
 

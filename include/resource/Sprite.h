@@ -23,7 +23,13 @@ public:
     
     void setPosition( Vector2i position );
     void setTargetSize( Vector2i size );
-    void setColour( Colour colour );
+    
+    void setColourMod( Colour colour );
+    void resetColourMod();
+    
+    void setAlphaMod( float alpha );
+    void resetAlphaMod();
+    
     void setRenderLayer(RenderLayer layer);
     
 private:

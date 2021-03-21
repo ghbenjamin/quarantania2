@@ -92,6 +92,15 @@ void RenderObject::setColourVerts( int idx, float r, float g, float b, float a )
     }
 }
 
+void RenderObject::setAlphaVerts( int idx, float a )
+{
+    for ( int i = 4; i < FLOATS_PER_QUAD; i += 8)
+    {
+        m_data[idx*FLOATS_PER_QUAD+i+3] = a;
+    }
+}
+
+
 void RenderObject::merge( RenderObject other )
 {
     m_data.reserve( m_data.size() + other.m_data.size() );
@@ -122,6 +131,7 @@ int RenderObject::getShaderType() const
 {
     return (int) m_shader;
 }
+
 
 
 

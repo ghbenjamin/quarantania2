@@ -14,6 +14,7 @@
 #include <ui/level/CreatureEquipView.h>
 #include <ui/level/ContainerView.h>
 #include <ui/level/Composites.h>
+#include <ui/level/EntityInformationView.h>
 
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
@@ -218,7 +219,6 @@ void Level::setupUI()
     m_uiManager.alignElementToWindow( turnOrderContainer, UI::Alignment::TopLeft, {20, 20} );
 
     // Widget containing icons representing actions which can be taken
-//    auto actionMenu = m_uiManager.createElement<UI::ActionMenu>(nullptr);
     auto actionMenu = m_uiManager.createElement<UI::BottomLeftBar>(nullptr);
     m_uiManager.alignElementToWindow( actionMenu, UI::Alignment::BottomLeft, {20, -20} );
 
@@ -228,9 +228,13 @@ void Level::setupUI()
 
 
     // Default hidden elements
+    
+    auto entityInfo = m_uiManager.createElement<UI::EntityInformationView>(nullptr);
+    m_uiManager.alignElementToWindow( entityInfo, UI::Alignment::TopRight, {-20, 20} );
+    entityInfo->hide();
 
     auto equipUi = m_uiManager.createElement<UI::EquipView>(nullptr);
-    m_uiManager.alignElementToWindow( equipUi, UI::Alignment::TopRight, {-20, 20} );
+    m_uiManager.alignElementToElement( equipUi, entityInfo, UI::Alignment::BottomRight, {0, 10} );
     equipUi->hide();
 
     auto playerInventory = m_uiManager.createElement<UI::ContainerView>(nullptr, Vector2i{6, 4});

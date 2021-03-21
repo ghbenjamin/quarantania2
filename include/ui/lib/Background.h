@@ -39,7 +39,9 @@ public:
 
     void setSize( Vector2i size );
     void render( Vector2i position, RenderInterface &rInter );
+    
     void setColourMod( Colour colour );
+    void setAlphaMod( float alpha );
 
 private:
 
@@ -62,6 +64,7 @@ public:
     void render(Vector2i position, RenderInterface &rInter);
     void regenerateBackground( Vector2i size );
     void setColourMod( Colour colour );
+    void setAlphaMod( float alpha );
 
 private:
 
@@ -87,6 +90,7 @@ private:
     // sprites as well.
     bool m_hasColourMod = false;
     Colour m_elementColourMod;
+    std::optional<float> m_elementAlphaMod;
 };
 
 

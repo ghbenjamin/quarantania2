@@ -36,9 +36,7 @@ private:
     SDL_GLContext m_glContext;
     Vector2i m_size;
     Cursor m_cursor;
-    
     Renderer m_renderer;
-    std::shared_ptr<ShaderProgram> m_shaderProgram;
 };
 
 

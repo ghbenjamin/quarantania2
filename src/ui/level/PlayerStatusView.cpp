@@ -164,16 +164,16 @@ void PlayerStatusActionSpeedBar::refresh()
     }
 }
 
-void PlayerStatusActionSpeedBar::onColourModChange()
+void PlayerStatusActionSpeedBar::onAlphaModChange(float newValue)
 {
     for (auto & s: m_usedSprites)
     {
-        s.setColour( getColour() );
+        s.setAlphaMod( newValue );
     }
     
     for (auto & s: m_unusedSprites)
     {
-        s.setColour( getColour() );
+        s.setAlphaMod( newValue );
     }
 }
 

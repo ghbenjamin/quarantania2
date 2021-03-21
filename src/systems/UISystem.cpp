@@ -7,6 +7,7 @@
 #include <ui/level/CreatureEquipView.h>
 #include <ui/level/TextLog.h>
 #include <ui/level/ContainerView.h>
+#include <ui/level/EntityInformationView.h>
 
 
 UISystem::UISystem(Level *parent)
@@ -84,6 +85,18 @@ void UISystem::operator()(GameEvents::ControllerEntitySelected& evt)
 
     auto creatureInventory = m_level->ui().withId<UI::ContainerView>( "player-inventory" );
     creatureInventory->refresh(evt.entity);
+    
+    auto entityInformation = m_level->ui().withId<UI::EntityInformationView>("entity-information-view");
+    entityInformation->refresh(evt.entity);
+    
+    if (evt.entity == EntityNull)
+    {
+        entityInformation->hide();
+    }
+    else
+    {
+        entityInformation->show();
+    }
 }
 
 void UISystem::operator()(GameEvents::CombatMeleeAttack &evt)

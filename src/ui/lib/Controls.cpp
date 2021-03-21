@@ -67,7 +67,7 @@ void Label::setTextColour( Colour colour )
     }
 }
 
-void Label::onColourModChange()
+void Label::onAlphaModChange(float newValue)
 {
 //    m_text.setColour( getColour() );
 }
@@ -165,11 +165,11 @@ void Icon::setSprite( SpritesheetKey const &sprite )
     setSprite( ResourceManager::get().getSprite(sprite) );
 }
 
-void Icon::onColourModChange()
+void Icon::onAlphaModChange(float newValue)
 {
     if (m_sprite)
     {
-        m_sprite->setColour( getColour() );
+        m_sprite->setAlphaMod(newValue);
     }
     
 }

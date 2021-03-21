@@ -81,13 +81,13 @@ void ElementBackground::regenerateBackground( Vector2i size )
             m_colourSprite = createRectangle( size, m_bgColour );
             m_colourSprite->setRenderLayer( RenderLayer::UI );
             if ( m_hasColourMod )
-                m_colourSprite->setColour( m_elementColourMod );
+                m_colourSprite->setColourMod(m_elementColourMod);
             break;
         case BackgroundType::ColourWithBorder:
             m_colourSprite = createBorderedRectangle( size, m_borderColour, m_bgColour, m_borderWidth );
             m_colourSprite->setRenderLayer( RenderLayer::UI );
             if ( m_hasColourMod )
-                m_colourSprite->setColour( m_elementColourMod );
+                m_colourSprite->setColourMod(m_elementColourMod);
             break;
     }
 }
@@ -99,15 +99,33 @@ void ElementBackground::setColourMod(Colour colour)
     
     if (m_colourSprite.has_value())
     {
-        m_colourSprite->setColour( colour );
+        m_colourSprite->setColourMod(colour);
     }
     else if (m_singleSprite.has_value())
     {
-        m_singleSprite->setColour(colour);
+        m_singleSprite->setColourMod(colour);
     }
     else if (m_ninePatch.has_value())
     {
         m_ninePatch->setColourMod(colour);
+    }
+}
+
+void ElementBackground::setAlphaMod(float alpha)
+{
+    m_elementAlphaMod = alpha;
+    
+    if ( m_colourSprite.has_value() )
+    {
+        m_colourSprite->setAlphaMod(alpha);
+    }
+    else if ( m_singleSprite.has_value() )
+    {
+        m_singleSprite->setAlphaMod(alpha);
+    }
+    else if ( m_ninePatch.has_value() )
+    {
+        m_ninePatch->setAlphaMod(alpha);
     }
 }
 
@@ -170,6 +188,14 @@ void NinePatch::setColourMod( Colour colour )
 {
     for (int i = 0; i < 9; i++)
     {
-        m_sprites[i].setColour( colour );
+        m_sprites[i].setColourMod(colour);
+    }
+}
+
+void NinePatch::setAlphaMod( float alpha )
+{
+    for (int i = 0; i < 9; i++)
+    {
+        m_sprites[i].setAlphaMod(alpha);
     }
 }

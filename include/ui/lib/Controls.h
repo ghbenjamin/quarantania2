@@ -25,7 +25,7 @@ public:
 protected:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
     
-    void onColourModChange() override;
+    void onAlphaModChange(float newValue) override;
 
 private:
     void renderText();
@@ -72,7 +72,7 @@ public:
 protected:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
     
-    void onColourModChange() override;
+    void onAlphaModChange(float newValue) override;
 
 private:
     

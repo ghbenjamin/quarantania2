@@ -362,10 +362,9 @@ Vector2i UI::GridLayout::doLayout( UI::Element *ptr )
         }
     }
     
-    Vector2i size = {
-        m_gridDimensions.x() * (m_itemSize.x() + m_itemSpacing - 1)-1,
-        m_gridDimensions.y() * (m_itemSize.y() + m_itemSpacing - 1)+1
-    };
     
-    return size;
+    int sizeX = m_gridDimensions.x() * m_itemSize.x() + (m_gridDimensions.x() - 1) * m_itemSpacing;
+    int sizeY = m_gridDimensions.y() * m_itemSize.y() + (m_gridDimensions.y() - 1) * m_itemSpacing;
+    
+    return { sizeX, sizeY };
 }

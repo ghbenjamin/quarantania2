@@ -1,7 +1,6 @@
 #include <graphics/Window.h>
 #include <utils/Assert.h>
 #include <graphics/RenderInterface.h>
-#include <graphics/Shader.h>
 
 Window::Window(std::string const &title, Vector2i bounds)
 : m_size(bounds), m_window(nullptr)

@@ -18,7 +18,7 @@ public:
     void refresh();
 
 protected:
-    void onColourModChange() override;
+    void onAlphaModChange(float newValue) override;
 
 private:
     
