@@ -237,7 +237,7 @@ void Level::setupUI()
     m_uiManager.alignElementToElement( equipUi, entityInfo, UI::Alignment::BottomRight, {0, 10} );
     equipUi->hide();
 
-    auto playerInventory = m_uiManager.createElement<UI::ContainerView>(nullptr, Vector2i{6, 4});
+    auto playerInventory = m_uiManager.createElement<UI::ContainerView>(nullptr, Vector2i{6, 2}); // TODO container size from container 
     m_uiManager.alignElementToElement( playerInventory, equipUi, UI::Alignment::BottomRight, {0, 10} );
     playerInventory->setId("player-inventory");
     playerInventory->hide();

@@ -1,6 +1,5 @@
 #include <ui/level/ContainerView.h>
 #include <ui/lib/Manager.h>
-#include <graphics/Primatives.h>
 #include <graphics/RenderInterface.h>
 #include <components/ContainerComponent.h>
 #include <resource/ResourceManager.h>
