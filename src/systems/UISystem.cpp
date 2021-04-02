@@ -8,6 +8,7 @@
 #include <ui/level/TextLog.h>
 #include <ui/level/ContainerView.h>
 #include <ui/level/EntityInformationView.h>
+#include <ui/level/BetterTextLog.h>
 
 
 UISystem::UISystem(Level *parent)
@@ -110,7 +111,7 @@ void UISystem::operator()(GameEvents::CombatMeleeAttack &evt)
 
 void UISystem::pushLogLine(const std::string &line, const Colour &colour)
 {
-    auto textLog = m_level->ui().withId<UI::MainTextLog>("main-text-log");
+    auto textLog = m_level->ui().withId<UI::BetterTextLog>("main-text-log");
     textLog->addLine(line, colour);
 }
 

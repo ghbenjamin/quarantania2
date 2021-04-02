@@ -59,7 +59,7 @@ public:
     template <typename LayoutType, typename... Args>
     void setLayout( Args... args )
     {
-        m_layout = std::make_unique<LayoutType>( std::forward<Args>(args)... );
+        m_layout = std::make_unique<LayoutType>( this, std::forward<Args>(args)... );
     }
 
     // State

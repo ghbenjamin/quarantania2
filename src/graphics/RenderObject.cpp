@@ -3,6 +3,7 @@
 RenderObject::RenderObject(TextureHandle handle, ShaderType shader)
     : m_handle(handle),
       m_shader(shader),
+      m_scissor(0, 0, 0, 0),
       m_data(48, 0.0f)
 {
     m_data = {
@@ -130,6 +131,26 @@ void RenderObject::addQuad( RectF screenOffsets, RectF uvBounds )
 int RenderObject::getShaderType() const
 {
     return (int) m_shader;
+}
+
+bool RenderObject::canMerge( RenderObject const &other ) const
+{
+    return m_handle == other.m_handle && m_shader == other.m_shader && m_scissor == other.m_scissor;
+}
+
+void RenderObject::setScissor( RectI bounds )
+{
+    m_scissor = bounds;
+}
+
+void RenderObject::removeScissor()
+{
+    m_scissor = {0, 0, 0, 0};
+}
+
+RectI const &RenderObject::getScissor() const
+{
+    return m_scissor;
 }
 
 

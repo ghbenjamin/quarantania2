@@ -25,6 +25,12 @@ Label::Label(Manager *manager, Element *parent, const std::string &label)
 }
 
 
+Label::Label( Manager *manager, Element *parent, std::string const &label, Colour colour, int size )
+    : Label(manager, parent, TextStyle{ colour, ResourceManager::get().getDefaultFont(), size })
+{
+    setText(label);
+}
+
 void Label::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
     if ( m_text )
@@ -49,7 +55,11 @@ void Label::renderText()
     }
     
     m_text->setColour(m_style.textColour);
-    setPreferredContentSize( m_text->getSize() );
+    
+    if (m_text->getSize() != preferredContentSize())
+    {
+        setPreferredContentSize( m_text->getSize() );
+    }
 }
 
 void Label::setText(std::string const &text)
@@ -77,6 +87,12 @@ void Label::setTextSize(int size)
     m_style.fontSize = size;
     renderText();
 }
+
+void Label::onSizeSelf()
+{
+    renderText();
+}
+
 
 
 

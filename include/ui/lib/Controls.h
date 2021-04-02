@@ -16,6 +16,7 @@ public:
     Label(Manager* manager, Element* parent);
     Label(Manager* manager, Element* parent, TextStyle const& style);
     Label(Manager* manager, Element* parent, std::string const& label );
+    Label(Manager* manager, Element* parent, std::string const& label, Colour colour, int size );
     ~Label() override = default;
 
     void setText( std::string const& text );
@@ -24,8 +25,8 @@ public:
 
 protected:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
-    
     void onAlphaModChange(float newValue) override;
+    void onSizeSelf() override;
 
 private:
     void renderText();
@@ -71,10 +72,7 @@ public:
 
 protected:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
-    
     void onAlphaModChange(float newValue) override;
-
-private:
     
     std::optional<Sprite> m_sprite;
 };

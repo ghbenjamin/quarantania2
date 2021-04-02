@@ -5,7 +5,13 @@
 #include <ui/lib/Element.h>
 #include <utils/Assert.h>
 
-Vector2i UI::alignRectWithinRect(Vector2i const &outer, Vector2i const &inner, UI::Alignment alignment)
+using namespace UI;
+
+
+// Utils
+// ----------------------------------
+
+Vector2i UI::alignRectWithinRect(Vector2i const &outer, Vector2i const &inner, Alignment alignment)
 {
     Assert( outer.x() >= inner.x() );
     Assert( outer.y() >= inner.y() );
@@ -51,7 +57,6 @@ Vector2i UI::alignRectWithinRect(Vector2i const &outer, Vector2i const &inner, U
 
     return out;
 }
-
 
 Vector2i UI::alignRectToRect( Vector2i const& dep, Vector2i const& fixed, Alignment alignment )
 {
@@ -100,16 +105,25 @@ Vector2i UI::alignRectToRect( Vector2i const& dep, Vector2i const& fixed, Alignm
 }
 
 
+// Base class
+// ---------------------------------
 
-Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
+ElementLayout::ElementLayout( Element *elem )
+        : m_element(elem) {}
+
+
+// Vertical layout
+// ---------------------------------
+
+Vector2i VerticalLayout::doLayout()
 {
     int w = 0;
     int h = 0;
 
-    auto preferred = ptr->preferredContentSize();
+    auto preferred = m_element->preferredContentSize();
 
     // First pass - move our children to the right vertical positions
-    for ( auto const& c: ptr->children() )
+    for ( auto const& c: m_element->children() )
     {
         c->setLocalPosition( Vector2i{0, h } );
         c->doLayout();
@@ -136,7 +150,7 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
     }
 
     // Second pass over children - set the correct horizontal size & position
-    for ( auto const& c: ptr->children() )
+    for ( auto const& c: m_element->children() )
     {
         auto pos = c->localPosition();
         auto size = c->outerBounds().right();
@@ -166,17 +180,22 @@ Vector2i UI::VerticalLayout::doLayout(UI::Element *ptr)
     return { w, h };
 }
 
-UI::VerticalLayout::VerticalLayout(int spacing, UI::HAlignment halign)
-: m_spacing(spacing), m_halign(halign) {}
+VerticalLayout::VerticalLayout(Element* elem, int spacing, HAlignment halign)
+: ElementLayout(elem), m_spacing(spacing), m_halign(halign) {}
 
-Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
+
+// Horizontal layout
+// ---------------------------------
+
+
+Vector2i HorizontalLayout::doLayout()
 {
     int w = 0;
     int h = 0;
 
-    auto preferred = ptr->preferredContentSize();
+    auto preferred = m_element->preferredContentSize();
 
-    for ( auto const& c: ptr->children() )
+    for ( auto const& c: m_element->children() )
     {
         c->setLocalPosition( Vector2i{ w, 0 } );
         c->doLayout();
@@ -200,7 +219,7 @@ Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
         }
     }
 
-    for ( auto const& c: ptr->children() )
+    for ( auto const& c: m_element->children() )
     {
         auto pos = c->localPosition();
         auto size = c->outerBounds().right();
@@ -227,25 +246,40 @@ Vector2i UI::HorizontalLayout::doLayout(UI::Element *ptr)
     return { w, h };
 }
 
-UI::HorizontalLayout::HorizontalLayout(int spacing, UI::VAlignment valign)
-    : m_spacing(spacing), m_valign(valign) {}
+HorizontalLayout::HorizontalLayout(Element* elem, int spacing, VAlignment valign)
+    : ElementLayout(elem), m_spacing(spacing), m_valign(valign) {}
 
-Vector2i UI::FreeLayout::doLayout(UI::Element *ptr)
+
+// Free layout
+// ---------------------------------
+
+
+Vector2i FreeLayout::doLayout()
 {
-    for (auto const& c : ptr->children() )
+    for (auto const& c : m_element->children() )
     {
         c->doLayout();
     }
 
-    return ptr->preferredContentSize();
+    return m_element->preferredContentSize();
 }
 
-Vector2i UI::CenterLayout::doLayout(UI::Element *ptr)
-{
-    Assert( ptr->children().size() == 1 );
+FreeLayout::FreeLayout( Element *elem )
+    : ElementLayout(elem) {}
 
-    auto contentSize = ptr->preferredContentSize();
-    auto& child = ptr->children().front();
+
+// Center layout
+// ---------------------------------
+
+CenterLayout::CenterLayout( Element *elem )
+    : ElementLayout(elem) {}
+    
+Vector2i CenterLayout::doLayout()
+{
+    Assert( m_element->children().size() == 1 );
+
+    auto contentSize = m_element->preferredContentSize();
+    auto& child = m_element->children().front();
 
     child->doLayout();
 
@@ -259,22 +293,26 @@ Vector2i UI::CenterLayout::doLayout(UI::Element *ptr)
     return contentSize;
 }
 
-UI::HorizontalSpaceBetweenLayout::HorizontalSpaceBetweenLayout( UI::VAlignment valign )
- : m_valign(valign) {}
 
-Vector2i UI::HorizontalSpaceBetweenLayout::doLayout( UI::Element *ptr )
+// HorizontalSpaceBetweenLayout layout
+// ----------------------------------
+
+HorizontalSpaceBetweenLayout::HorizontalSpaceBetweenLayout(Element* elem, VAlignment valign )
+ : ElementLayout(elem), m_valign(valign) {}
+ 
+Vector2i HorizontalSpaceBetweenLayout::doLayout()
 {
     int w = 0;
     int h = 0;
     
-    if ( ptr->children().size() <= 1 )
+    if ( m_element->children().size() <= 1 )
     {
         return {w, h};
     }
     
-    auto preferred = ptr->preferredContentSize();
+    auto preferred = m_element->preferredContentSize();
     
-    for ( auto const& c: ptr->children() )
+    for ( auto const& c: m_element->children() )
     {
         c->setLocalPosition( Vector2i{ 0, 0 } );
         c->doLayout();
@@ -299,11 +337,11 @@ Vector2i UI::HorizontalSpaceBetweenLayout::doLayout( UI::Element *ptr )
         }
     }
     
-    int childSpacing = ( w - totalChildW ) / (ptr->children().size() - 1);
+    int childSpacing = ( w - totalChildW ) / (m_element->children().size() - 1);
     
     int x = 0;
     
-    for ( auto const& c: ptr->children() )
+    for ( auto const& c: m_element->children() )
     {
         auto pos = c->localPosition();
         auto size = c->outerBounds().right();
@@ -332,14 +370,18 @@ Vector2i UI::HorizontalSpaceBetweenLayout::doLayout( UI::Element *ptr )
 }
 
 
-UI::GridLayout::GridLayout( Vector2i gridDimensions, Vector2i itemSize, int itemSpacing )
-    : m_gridDimensions(gridDimensions), m_itemSize(itemSize), m_itemSpacing(itemSpacing) {}
+// Grid layout
+// ---------------------------------
 
-Vector2i UI::GridLayout::doLayout( UI::Element *ptr )
+
+GridLayout::GridLayout(Element* elem, Vector2i gridDimensions, Vector2i itemSize, int itemSpacing )
+    : ElementLayout(elem), m_gridDimensions(gridDimensions), m_itemSize(itemSize), m_itemSpacing(itemSpacing) {}
+
+Vector2i GridLayout::doLayout()
 {
     Assert( m_gridDimensions.x() > 0 && m_gridDimensions.y() > 0 );
 
-    auto currChild = ptr->children().begin();
+    auto currChild = m_element->children().begin();
     bool shouldBreak = false;
     
     for (int j = 0; j < m_gridDimensions.y() && !shouldBreak; j++)
@@ -355,7 +397,7 @@ Vector2i UI::GridLayout::doLayout( UI::Element *ptr )
             
             currChild++;
     
-            if (currChild == ptr->children().end() )
+            if (currChild == m_element->children().end() )
             {
                 shouldBreak = true;
             }
@@ -367,4 +409,24 @@ Vector2i UI::GridLayout::doLayout( UI::Element *ptr )
     int sizeY = m_gridDimensions.y() * m_itemSize.y() + (m_gridDimensions.y() - 1) * m_itemSpacing;
     
     return { sizeX, sizeY };
+}
+
+
+
+// Triggered layout
+// ----------------------------------
+
+TriggeredLayout::TriggeredLayout( Element *elem, std::function<void()> func )
+    : ElementLayout(elem), m_callback(func) {}
+
+Vector2i TriggeredLayout::doLayout()
+{
+    for (auto const& c : m_element->children() )
+    {
+        c->doLayout();
+    }
+    
+    m_callback();
+    
+    return m_element->preferredContentSize();
 }

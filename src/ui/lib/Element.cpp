@@ -15,7 +15,10 @@ Element::Element(Manager* manager, Element* parent)
     m_borderWidth(0),
     m_isHidden(false),
     m_maxOuterSize({0, 0}),
-    m_isDecorative(false)
+    m_isDecorative(false),
+    m_outerBounds(0, 0, 0, 0),
+    m_innerBounds(0, 0, 0, 0),
+    m_preferredContentSize(0, 0)
 {
     // Sensible default
     setLayout<UI::VerticalLayout>();
@@ -119,7 +122,6 @@ void Element::onMoveSelf() { }
 void Element::onSize()
 {
     doLayout();
-
     onSizeSelf();
 }
 
@@ -149,8 +151,8 @@ void Element::doLayout()
     // We have children - size to the size of our children, w.r.t. our current layout
     if ( hasChildren() )
     {
-        Assert( !!m_layout );
-        actualContentSize = m_layout->doLayout(this);
+        AssertMsg( !!m_layout, "Elements with children need a layout" );
+        actualContentSize = m_layout->doLayout();
     }
 
     // No children = size to our preferred size

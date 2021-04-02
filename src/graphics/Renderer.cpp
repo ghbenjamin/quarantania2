@@ -2,6 +2,7 @@
 #include <memory>
 #include <glm/gtc/matrix_transform.hpp>
 #include <resource/ResourceManager.h>
+#include <utils/Logging.h>
 
 
 // Render Buffer
@@ -17,7 +18,7 @@ RenderBuffer::RenderBuffer(std::vector<ShaderHandle> const& shaders )
 
 void RenderBuffer::addItem( RenderObject const &robj )
 {
-    if ( !m_data.empty() && robj.getHandle() == m_data.back().getHandle() )
+    if ( !m_data.empty() && m_data.back().canMerge(robj) )
     {
         m_data.back().merge(robj);
     }
@@ -30,6 +31,7 @@ void RenderBuffer::addItem( RenderObject const &robj )
 void RenderBuffer::render()
 {
     int currShader = -1;
+    RectI currScissor = {0, 0, 0, 0};
 
     for ( auto obj : m_data )
     {
@@ -38,7 +40,23 @@ void RenderBuffer::render()
             currShader = obj.getShaderType();
             glUseProgram( m_shaderHandles[currShader] );
         }
+        if ( obj.getScissor() != currScissor )
+        {
+            currScissor = obj.getScissor();
+            if (currScissor == RectI{0, 0, 0, 0})
+            {
+                // Disable scissor
+                glDisable(GL_SCISSOR_TEST);
     
+            }
+            else
+            {
+                // Enable scissor
+                glEnable(GL_SCISSOR_TEST);
+                glScissor( currScissor.x(), currScissor.y(), currScissor.w(), currScissor.h() );
+            }
+        }
+        
         // Bind texture if exists (not all shaders need one)
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, obj.getHandle());
@@ -139,6 +157,7 @@ void Renderer::setCameraOffset( Vector2f offset )
 
 void Renderer::setWindowSize( Vector2f size )
 {
+    m_windowSize = size.convert<int>();
     glm::mat4 projection = glm::ortho(0.0f, size.x(), size.y(), 0.0f, -1.0f, 1.0f);
     
     m_quadShader->setUniformMat4v("projection", projection );

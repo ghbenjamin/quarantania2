@@ -65,4 +65,6 @@ private:
     // Transformation matrices for world and screen space render objects
     glm::mat4 m_cameraTransform;
     glm::mat4 m_identity;
+    
+    Vector2i m_windowSize;
 };

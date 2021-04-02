@@ -51,7 +51,7 @@ UI::MainTextLog::MainTextLog(Manager* manager, Element* parent)
     setBackground( np );
     setBorderWidth( patch.borderWidth() );
     setId("main-text-log");
-    setPreferredContentSize({300, 200});
+    setPreferredContentSize({400, 150});
 
     m_font = ResourceManager::get().getDefaultFont();
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utils/Containers.h>
+#include <functional>
 
 namespace UI
 {
@@ -48,20 +49,23 @@ class ElementLayout
 {
 public:
 
-    ElementLayout() = default;
+    ElementLayout(Element* elem);
     virtual ~ElementLayout() = default;
 
-    virtual Vector2i doLayout( Element* ptr ) = 0;
+    virtual Vector2i doLayout() = 0;
+
+protected:
+    Element* m_element;
 };
 
 
 class VerticalLayout : public ElementLayout
 {
 public:
-    VerticalLayout(int spacing = 0, HAlignment halign=HAlignment::Left);
+    VerticalLayout(Element* elem, int spacing = 0, HAlignment halign=HAlignment::Left);
     ~VerticalLayout() override = default;
 
-    Vector2i doLayout(Element *ptr) override;
+    Vector2i doLayout() override;
 
 private:
     int m_spacing;
@@ -72,10 +76,10 @@ private:
 class HorizontalLayout : public ElementLayout
 {
 public:
-    HorizontalLayout(int spacing = 0, VAlignment valign=VAlignment::Centre);
+    HorizontalLayout(Element* elem, int spacing = 0, VAlignment valign=VAlignment::Centre);
     ~HorizontalLayout() override = default;
 
-    Vector2i doLayout(Element *ptr) override;
+    Vector2i doLayout() override;
 
 private:
     int m_spacing;
@@ -86,10 +90,10 @@ private:
 class HorizontalSpaceBetweenLayout : public ElementLayout
 {
 public:
-    HorizontalSpaceBetweenLayout(VAlignment valign=VAlignment::Centre);
+    HorizontalSpaceBetweenLayout(Element* elem, VAlignment valign=VAlignment::Centre);
     ~HorizontalSpaceBetweenLayout() override = default;
     
-    Vector2i doLayout(Element *ptr) override;
+    Vector2i doLayout() override;
 
 private:
     VAlignment m_valign;
@@ -99,32 +103,49 @@ private:
 class CenterLayout : public ElementLayout
 {
 public:
-    Vector2i doLayout(Element *ptr) override;
+    CenterLayout(Element* elem);
+    ~CenterLayout() override = default;
+    
+    Vector2i doLayout() override;
 };
 
 
 class FreeLayout : public ElementLayout
 {
 public:
-    FreeLayout() = default;
-    ~FreeLayout() = default;
+    FreeLayout(Element* elem);
+    ~FreeLayout() override = default;
 
-    Vector2i doLayout(Element *ptr) override;
+    Vector2i doLayout() override;
 };
 
 
 class GridLayout : public ElementLayout
 {
 public:
-    GridLayout( Vector2i gridDimensions, Vector2i itemSize, int itemSpacing );
+    GridLayout(Element* elem, Vector2i gridDimensions, Vector2i itemSize, int itemSpacing );
     ~GridLayout() = default;
     
-    Vector2i doLayout( Element *ptr ) override;
+    Vector2i doLayout() override;
 
 private:
     Vector2i m_gridDimensions;
     Vector2i m_itemSize;
     int m_itemSpacing;
+};
+
+
+
+class TriggeredLayout : public ElementLayout
+{
+public:
+    TriggeredLayout(Element* elem, std::function<void()> func);
+    ~TriggeredLayout() override = default;
+    
+    Vector2i doLayout() override;
+
+private:
+    std::function<void()> m_callback;
 };
 
 
