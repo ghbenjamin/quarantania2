@@ -41,6 +41,7 @@ PlayerStatusWidget::PlayerStatusWidget(Manager *manager, Element *parent, Entity
     auto labelText = manager->level()->getDescriptionForEnt(ref);
     m_nameLabel = manager->createElement<Label>( rightCont.get() );
     m_nameLabel->setText( std::string(labelText) );
+    m_nameLabel->setTextColour(Colour::White);
     m_nameLabel->setPadding(2);
     
     auto speedHPcont = manager->createElement( rightCont.get() );
@@ -58,7 +59,6 @@ PlayerStatusWidget::PlayerStatusWidget(Manager *manager, Element *parent, Entity
 
 void PlayerStatusWidget::refresh()
 {
-    m_nameLabel->setTextColour(Colour::Black);
     m_actionSpeed->refresh();
     m_hp->refresh();
 }
@@ -198,5 +198,6 @@ void PlayerStatusHP::refresh()
         actorC.getMaxHp()
     ));
     
+    m_text->setTextColour(Colour::White);
     setPreferredContentSize( m_text->outerBounds().right() );
 }

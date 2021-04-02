@@ -20,6 +20,7 @@ BTLScrollArea::BTLScrollArea( Manager *manager, Element *parent )
      : Element(manager, parent), m_scrollPosition(1.0f)
 {
     setLayout<TriggeredLayout>([this](){ layoutLines(); });
+    setBoundsScissoring(true);
 }
 
 void BTLScrollArea::addLine( std::string const &data, Colour colour )
@@ -80,6 +81,21 @@ BTLScrollBar::BTLScrollBar( Manager *manager, Element *parent )
     m_scrollbarBottom = manager->createElement<Icon>(this, "game_ui/scrollbar-bottom");
     m_scrollbarHandle = manager->createElement<Icon>(this, "game_ui/scrollbar-handle");
     
+    for (auto& item : { m_scrollbarTop, m_scrollbarBottom } )
+    {
+        item->addEventCallback( UEventType::MouseIn, [item](UEvent& evt) {
+            item->getSprite().setColourMod( Colour::Grey );
+        });
+    
+        item->addEventCallback( UEventType::MouseOut, [item](UEvent& evt) {
+            item->getSprite().setColourMod( Colour::White );
+        });
+    }
+    
+    addEventCallback( UEventType::Click, [this](UEvent& evt){
+        // TBD
+    });
+    
     setPreferredContentWidth(m_scrollbarTop->outerBounds().w());
     setLayout<FreeLayout>();
 
@@ -91,14 +107,15 @@ void BTLScrollBar::layoutElements()
     auto size = preferredContentSize();
     auto scrollbarSize = m_scrollbarTop->outerBounds().right();
     
+    // Place the scrollbar ends at the top and bottom of the element, centered horizontally
     m_scrollbarTop->setLocalPosition({( size.x() - scrollbarSize.x() ) / 2, 0});
     m_scrollbarBottom->setLocalPosition({( size.x() - scrollbarSize.x() ) / 2, size.y() - scrollbarSize.y()});
     
+    // Stretch the scrollbar and centre it horizontally
     m_scrollbarLine->setLocalPosition({ (size.x() - m_scrollbarLine->outerBounds().w()) / 2, scrollbarSize.y() / 2 });
     m_scrollbarLine->setPreferredContentSize({m_scrollbarLine->outerBounds().w(), size.y() - scrollbarSize.y()});
     
-    int handleOffset = (int)(m_scrollPosition * (float)(size.y() - 2 * scrollbarSize.y() - 2)) + scrollbarSize.y() + 2;
-    m_scrollbarHandle->setLocalPosition({( size.x() - m_scrollbarHandle->outerBounds().w() ) / 2, handleOffset });
+    placeScrollHandle();
 }
 
 void BTLScrollBar::onSizeSelf()
@@ -109,6 +126,25 @@ void BTLScrollBar::onSizeSelf()
 void BTLScrollBar::onMoveSelf()
 {
     layoutElements();
+}
+
+void BTLScrollBar::placeScrollHandle()
+{
+    auto size = preferredContentSize();
+    auto scrollbarSize = m_scrollbarTop->outerBounds().right();
+
+    // Layout the scrollhandle
+    int scrollableRegion = size.y() - (2 * scrollbarSize.y()) - m_scrollbarHandle->outerBounds().h();
+    int handleOffset = (int)( m_scrollPosition * (float)scrollableRegion );
+    handleOffset += scrollbarSize.y();
+    
+    m_scrollbarHandle->setLocalPosition({( size.x() - m_scrollbarHandle->outerBounds().w() ) / 2, handleOffset });
+}
+
+void BTLScrollBar::setScrollPosition( float scrollPos )
+{
+    m_scrollPosition = scrollPos;
+    placeScrollHandle();
 }
 
 
@@ -139,4 +175,9 @@ BetterTextLog::BetterTextLog( Manager *manager, Element *parent )
 void BetterTextLog::addLine( std::string const &data, Colour colour )
 {
     m_scrollArea->addLine(data, colour);
+}
+
+void BetterTextLog::setScrollPosition( float pos )
+{
+    m_scrollPosition = pos;
 }

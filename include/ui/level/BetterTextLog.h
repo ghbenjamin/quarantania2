@@ -56,12 +56,15 @@ public:
     BTLScrollBar(Manager* manager, Element* parent);
     ~BTLScrollBar() override = default;
     
+    void setScrollPosition( float scrollPos );
+    
 protected:
     void onSizeSelf() override;
     void onMoveSelf() override;
 
 private:
     void layoutElements();
+    void placeScrollHandle();
     
     float m_scrollPosition;
     std::shared_ptr<Icon> m_scrollbarTop;
@@ -80,9 +83,10 @@ public:
     ~BetterTextLog() override = default;
 
     void addLine( std::string const& data, Colour colour = Colour::White );
-
+    void setScrollPosition( float pos );
+    
 private:
-
+    float m_scrollPosition;
     std::shared_ptr<BTLScrollArea> m_scrollArea;
     std::shared_ptr<BTLScrollBar> m_scrollbar;
 

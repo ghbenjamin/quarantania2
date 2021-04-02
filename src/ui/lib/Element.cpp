@@ -16,6 +16,7 @@ Element::Element(Manager* manager, Element* parent)
     m_isHidden(false),
     m_maxOuterSize({0, 0}),
     m_isDecorative(false),
+    m_shouldBoundsScissor(false),
     m_outerBounds(0, 0, 0, 0),
     m_innerBounds(0, 0, 0, 0),
     m_preferredContentSize(0, 0)
@@ -62,6 +63,11 @@ void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rI
         return;
     }
 
+    if ( m_shouldBoundsScissor )
+    {
+        rInter.setScissor( outerBounds() );
+    }
+
     if ( m_alphaTransition.has_value() )
     {
         m_alphaTransition->advance(ticks );
@@ -86,6 +92,11 @@ void Element::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rI
     for ( auto& c : m_children )
     {
         c->update(ticks, iinter, rInter);
+    }
+    
+    if ( m_shouldBoundsScissor )
+    {
+        rInter.removeScissor();
     }
 }
 
@@ -482,6 +493,11 @@ void Element::setFadeIn()
 std::optional<float> Element::getAlphaMod()
 {
     return m_alphaMod;
+}
+
+void Element::setBoundsScissoring( bool val )
+{
+    m_shouldBoundsScissor = val;
 }
 
 

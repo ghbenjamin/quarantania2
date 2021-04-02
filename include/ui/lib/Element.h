@@ -135,6 +135,8 @@ public:
     void setAlphaMod( float value );
     void setAlphaTransition(float start, float, float time);
     void setFadeIn();
+    
+    void setBoundsScissoring(bool val);
 
     void setPadding( RectI const& rect );
     void setPadding( int w );
@@ -260,6 +262,7 @@ private:
     // Alpha modifications for fade in / out
     std::optional<float> m_alphaMod;
     std::optional<TimedLinearInterpolator<float>> m_alphaTransition;
+    bool m_shouldBoundsScissor;
 
     // Events
     std::unordered_multimap<UEventType, UEventCallback> m_callbacks;

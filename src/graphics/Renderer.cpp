@@ -1,99 +1,21 @@
 #include <graphics/Renderer.h>
+
 #include <memory>
+
 #include <glm/gtc/matrix_transform.hpp>
+
 #include <resource/ResourceManager.h>
-#include <utils/Logging.h>
 
 
 // Render Buffer
 // ----------------------
 
 
-RenderBuffer::RenderBuffer(std::vector<ShaderHandle> const& shaders )
-    : m_vbo(0), m_vao(0), m_shaderHandles(shaders), m_isHeld(false)
+RenderBuffer::RenderBuffer()
+    : vboIdx(0), vaoIdx(0), isHeld(false)
 {
-    glGenBuffers(1, &m_vbo);
-    glGenVertexArrays(1, &m_vao);
-}
-
-void RenderBuffer::addItem( RenderObject const &robj )
-{
-    if ( !m_data.empty() && m_data.back().canMerge(robj) )
-    {
-        m_data.back().merge(robj);
-    }
-    else
-    {
-        m_data.push_back( robj );
-    }
-}
-
-void RenderBuffer::render()
-{
-    int currShader = -1;
-    RectI currScissor = {0, 0, 0, 0};
-
-    for ( auto obj : m_data )
-    {
-        if ( obj.getShaderType() != currShader )
-        {
-            currShader = obj.getShaderType();
-            glUseProgram( m_shaderHandles[currShader] );
-        }
-        if ( obj.getScissor() != currScissor )
-        {
-            currScissor = obj.getScissor();
-            if (currScissor == RectI{0, 0, 0, 0})
-            {
-                // Disable scissor
-                glDisable(GL_SCISSOR_TEST);
-    
-            }
-            else
-            {
-                // Enable scissor
-                glEnable(GL_SCISSOR_TEST);
-                glScissor( currScissor.x(), currScissor.y(), currScissor.w(), currScissor.h() );
-            }
-        }
-        
-        // Bind texture if exists (not all shaders need one)
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, obj.getHandle());
-        
-        // Bind vertex buffer
-        glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-        glBufferData(GL_ARRAY_BUFFER, obj.getDataSize() * sizeof(GLfloat), obj.getData(), GL_STATIC_DRAW);
-        
-        glBindVertexArray(m_vao);
-        
-        // Texture + UV data
-        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-        glEnableVertexAttribArray(0);
-        
-        // Colour data
-        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(4 * sizeof(float)));
-        glEnableVertexAttribArray(1);
-        
-        // Draw!
-        glDrawArrays(GL_TRIANGLES, 0, (obj.getDataSize() / RenderObject::FLOATS_PER_QUAD) * RenderObject::TRIANGLES_PER_QUAD );
-    }
-
-    if ( !m_isHeld )
-    {
-        m_data.clear();
-    }
-}
-
-void RenderBuffer::holdBuffer()
-{
-    m_isHeld = true;
-}
-
-void RenderBuffer::releaseBuffer()
-{
-    m_isHeld = false;
-    m_data.clear();
+    glGenBuffers(1, &vboIdx);
+    glGenVertexArrays(1, &vaoIdx);
 }
 
 
@@ -121,7 +43,7 @@ void Renderer::init( Vector2f windowSize )
     
     for (int i = 0; i < RENDER_LAYER_COUNT; i++)
     {
-        m_buffers.push_back({ m_shaderHandles });
+        m_buffers.push_back({});
     }
 }
 
@@ -134,20 +56,28 @@ void Renderer::render()
 
     for (int i = 0; i < (int)RenderLayer::UI; i++)
     {
-        m_buffers[i].render();
+        renderBuffer(i);
     }
     
     // Switch to the identity transform for the UI layer
     m_quadShader->setUniformMat4v( "model", m_identity );
     m_colourShader->setUniformMat4v( "model", m_identity );
-
-    m_buffers[(int)RenderLayer::UI].render();
+    
+    renderBuffer((int)RenderLayer::UI);
 }
 
 void Renderer::addItem( RenderObject const &robj, RenderLayer layer )
 {
     auto idx = (std::size_t) layer;
-    m_buffers[idx].addItem( robj );
+    
+    if ( !m_buffers[idx].renderObjs.empty() && m_buffers[idx].renderObjs.back().canMerge(robj) )
+    {
+        m_buffers[idx].renderObjs.back().merge(robj);
+    }
+    else
+    {
+        m_buffers[idx].renderObjs.push_back( robj );
+    }
 }
 
 void Renderer::setCameraOffset( Vector2f offset )
@@ -167,10 +97,75 @@ void Renderer::setWindowSize( Vector2f size )
 
 void Renderer::holdBuffer(RenderLayer layer)
 {
-    m_buffers[(int)layer].holdBuffer();
+    m_buffers[(int)layer].isHeld = true;
 }
 
 void Renderer::releaseBuffer(RenderLayer layer)
 {
-    m_buffers[(int)layer].releaseBuffer();
+    m_buffers[(int)layer].isHeld = false;
+    m_buffers[(int)layer].renderObjs.clear();
+}
+
+void Renderer::renderBuffer( int idx )
+{
+    int currShader = -1;
+    RectI currScissor = {0, 0, 0, 0};
+    
+    for ( auto obj : m_buffers[idx].renderObjs )
+    {
+        if ( obj.getShaderType() != currShader )
+        {
+            currShader = obj.getShaderType();
+            glUseProgram( m_shaderHandles[currShader] );
+        }
+        if ( obj.getScissor() != currScissor )
+        {
+            currScissor = obj.getScissor();
+            if (currScissor == RectI{0, 0, 0, 0})
+            {
+                // Disable scissor
+                glDisable(GL_SCISSOR_TEST);
+                
+            }
+            else
+            {
+                // Enable scissor
+                glEnable(GL_SCISSOR_TEST);
+                
+                // We need to convert from top-left origin to bottom-left origin
+                glScissor(
+                    currScissor.x(),
+                    m_windowSize.y() - currScissor.y() - currScissor.h(),
+                    currScissor.w(),
+                    currScissor.h()
+                );
+            }
+        }
+        
+        // Bind texture if exists (not all shaders need one)
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, obj.getHandle());
+        
+        // Bind vertex buffer
+        glBindBuffer(GL_ARRAY_BUFFER, m_buffers[idx].vboIdx);
+        glBufferData(GL_ARRAY_BUFFER, obj.getDataSize() * sizeof(GLfloat), obj.getData(), GL_STATIC_DRAW);
+        
+        glBindVertexArray(m_buffers[idx].vaoIdx);
+        
+        // Texture + UV data
+        glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+        
+        // Colour data
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(4 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+        
+        // Draw!
+        glDrawArrays(GL_TRIANGLES, 0, (obj.getDataSize() / RenderObject::FLOATS_PER_QUAD) * RenderObject::TRIANGLES_PER_QUAD );
+    }
+    
+    if ( !m_buffers[idx].isHeld )
+    {
+        m_buffers[idx].renderObjs.clear();
+    }
 }

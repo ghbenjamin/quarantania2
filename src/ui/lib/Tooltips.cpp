@@ -12,20 +12,20 @@ UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipD
     setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000});
     setPadding(6);
 
-    auto titleNode = manager->createElement<Label>(this, TextStyle{Colour::Black, titleFont, 16 });
+    auto titleNode = manager->createElement<Label>(this, TextStyle{Colour::White, titleFont, 16 });
     titleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
     titleNode->setText( data.title );
 
     if ( data.subtitle.has_value() && !(*(data.subtitle)).empty() )
     {
-        auto subtitleNode = manager->createElement<Label>(this, TextStyle{Colour::Black, contentFont, 14 });
+        auto subtitleNode = manager->createElement<Label>(this, TextStyle{Colour::White, contentFont, 14 });
         subtitleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
         subtitleNode->setText( *(data.subtitle) );
     }
 
     if ( data.content.has_value() && !(*(data.content)).empty() )
     {
-        auto contentNode = manager->createElement<Label>(this, TextStyle{Colour::Black, contentFont, 14 });
+        auto contentNode = manager->createElement<Label>(this, TextStyle{Colour::White, contentFont, 14 });
         contentNode->setMaximumOuterSize({ TOOLTIP_MAX_WIDTH, 1000 });
         contentNode->setText( *(data.content) );
     }

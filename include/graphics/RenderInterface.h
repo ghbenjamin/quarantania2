@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <graphics/RenderObject.h>
 
 class Renderer;
@@ -24,6 +25,11 @@ public:
     // Set the level camera offset. This should be called once at the beginning of each frame
     void setCameraOffset( Vector2f offset );
 
+    void setScissor(RectI scissor);
+    void removeScissor();
+
 private:
     Renderer* m_renderer;
+    
+    std::optional<RectI> m_currentScissor;
 };

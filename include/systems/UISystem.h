@@ -37,5 +37,5 @@ private:
     void refreshPlayerEquipView();
     void refreshPartyStatus();
 
-    void pushLogLine( std::string const& line, Colour const& colour = Colour::Black );
+    void pushLogLine( std::string const& line, Colour const& colour = Colour::White );
 };

@@ -11,7 +11,7 @@ using namespace UI;
 
 
 Label::Label(Manager* manager, Element* parent, TextStyle const &style)
-        : Element(manager, parent), m_style(style)
+        : Element(manager, parent), m_style(style), m_noRerender(false)
 {
 }
 
@@ -44,6 +44,11 @@ void Label::renderText()
 {
     if ( m_data.empty() )
         return;
+        
+    if ( m_noRerender )
+    {
+        return;
+    }
 
     if ( hasMaximumOuterSize() )
     {
@@ -56,10 +61,10 @@ void Label::renderText()
     
     m_text->setColour(m_style.textColour);
     
-    if (m_text->getSize() != preferredContentSize())
-    {
-        setPreferredContentSize( m_text->getSize() );
-    }
+    // Guard with noRerender to break a loop 
+    m_noRerender = true;
+    setPreferredContentSize( m_text->getSize() );
+    m_noRerender = false;
 }
 
 void Label::setText(std::string const &text)
@@ -193,6 +198,16 @@ void Icon::onAlphaModChange(float newValue)
 void Icon::clearSprite()
 {
     m_sprite.reset();
+}
+
+bool Icon::hasSprite() const
+{
+    return m_sprite.has_value();
+}
+
+Sprite &Icon::getSprite()
+{
+    return *m_sprite;
 }
 
 

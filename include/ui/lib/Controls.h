@@ -34,6 +34,7 @@ private:
     std::optional<TextRenderObj> m_text;
     std::string m_data;
     TextStyle m_style;
+    bool m_noRerender;
 };
 
 
@@ -69,7 +70,10 @@ public:
     void setSprite( Sprite const& sprite );
     void setSprite( SpritesheetKey const& sprite );
     void clearSprite();
-
+    
+    bool hasSprite() const;
+    Sprite& getSprite();
+    
 protected:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
     void onAlphaModChange(float newValue) override;

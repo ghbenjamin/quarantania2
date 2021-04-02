@@ -6,25 +6,15 @@
 
 class ShaderProgram;
 
-// A buffer of renderobjects which are all on the same layer
-class RenderBuffer
+struct RenderBuffer
 {
-public:
-    RenderBuffer( std::vector<ShaderHandle> const & shaders );
+    RenderBuffer();
     ~RenderBuffer() = default;
     
-    void render();
-    void addItem( RenderObject const& robj );
-
-    void holdBuffer();
-    void releaseBuffer();
-
-private:
-    std::vector<RenderObject> m_data;
-    std::vector<ShaderHandle> m_shaderHandles;
-    GLuint m_vbo;
-    GLuint m_vao;
-    bool m_isHeld;
+    std::vector<RenderObject> renderObjs;
+    GLuint vboIdx;
+    GLuint vaoIdx;
+    bool isHeld;
 };
 
 
@@ -49,9 +39,14 @@ public:
     void setWindowSize( Vector2f size );
 
     void holdBuffer( RenderLayer layer );
+    
     void releaseBuffer( RenderLayer layer );
 
 private:
+
+    void renderBuffer(int idx);
+    
+
     // Render buffers, indexed by the RenderLayer enum
     std::vector<RenderBuffer> m_buffers;
     
