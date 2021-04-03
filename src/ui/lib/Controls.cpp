@@ -61,7 +61,7 @@ void Label::renderText()
     
     m_text->setColour(m_style.textColour);
     
-    // Guard with noRerender to break a loop 
+    // Guard with noRerender to break a loop
     m_noRerender = true;
     setPreferredContentSize( m_text->getSize() );
     m_noRerender = false;
@@ -109,16 +109,22 @@ UI::Button::Button(Manager *manager, Element *parent, const std::string &text, s
         : Element(manager, parent)
 {
     setPadding( 4 );
-    setBackground( Colour{200, 200, 200, 255} );
+    setBackground( m_defaultColour );
 
     m_label = manager->createElement<UI::Label>(this );
     m_label->setText( text );
 
     setCallback( callback );
+    
+    addEventCallback( UEventType::MouseIn, [this](UEvent const& evt) {
+        getBackground().setColourMod( m_mouseOverColour );
+    });
+    
+    addEventCallback( UEventType::MouseOut, [this](UEvent const& evt) {
+        getBackground().setColourMod( m_defaultColour );
+    });
 }
 
-Button::Button(Manager *manager, Element *parent)
-        : Button(manager, parent, "", {} ) {}
 
 void Button::setLabel(const std::string &label)
 {

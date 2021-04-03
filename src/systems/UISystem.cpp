@@ -5,7 +5,6 @@
 #include <ui/level/PlayerStatusView.h>
 #include <ui/level/ActionPopupMenu.h>
 #include <ui/level/CreatureEquipView.h>
-#include <ui/level/TextLog.h>
 #include <ui/level/ContainerView.h>
 #include <ui/level/EntityInformationView.h>
 #include <ui/level/BetterTextLog.h>

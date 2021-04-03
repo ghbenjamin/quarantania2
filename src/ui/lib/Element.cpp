@@ -500,5 +500,16 @@ void Element::setBoundsScissoring( bool val )
     m_shouldBoundsScissor = val;
 }
 
+bool Element::hasBackground() const
+{
+    return m_background.has_value();
+}
+
+ElementBackground &Element::getBackground()
+{
+    AssertMsg( hasBackground(), "getBackground called on element without background" );
+    return *m_background;
+}
+
 
 

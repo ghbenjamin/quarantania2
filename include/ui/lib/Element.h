@@ -129,6 +129,8 @@ public:
     }
 
     void removeBackround();
+    bool hasBackground() const;
+    ElementBackground& getBackground();
     
     // Alpha mods for fades in/out
     std::optional<float> getAlphaMod();

@@ -6,6 +6,8 @@
 namespace UI
 {
 
+class Label;
+
 class EntityInformationView : public Element
 {
 public:
@@ -13,6 +15,11 @@ public:
     ~EntityInformationView() override = default;
     
     void refresh(EntityRef entity);
+
+private:
+    
+    std::shared_ptr<Label> m_titleLabel;
+    
 };
 
 

@@ -9,13 +9,13 @@
 #include <resource/ResourceManager.h>
 #include <utils/GlobalConfig.h>
 #include <utils/Math.h>
-#include <ui/level/TextLog.h>
 #include <ui/level/PlayerStatusView.h>
 #include <ui/level/CreatureEquipView.h>
 #include <ui/level/ContainerView.h>
 #include <ui/level/Composites.h>
 #include <ui/level/EntityInformationView.h>
 #include <ui/level/BetterTextLog.h>
+#include <ui/lib/Dialogs.h>
 
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
@@ -242,14 +242,25 @@ void Level::setupUI()
     m_uiManager.alignElementToWindow( entityInfo, UI::Alignment::TopRight, {-20, 20} );
     entityInfo->hide();
 
-    auto equipUi = m_uiManager.createElement<UI::EquipView>(nullptr);
-    m_uiManager.alignElementToElement( equipUi, entityInfo, UI::Alignment::BottomRight, {0, 10} );
-    equipUi->hide();
+   
 
     auto playerInventory = m_uiManager.createElement<UI::ContainerView>(nullptr, Vector2i{6, 2}); // TODO container size from container 
-    m_uiManager.alignElementToElement( playerInventory, equipUi, UI::Alignment::BottomRight, {0, 10} );
+    m_uiManager.alignElementToElement( playerInventory, textLog, UI::Alignment::TopRight, {0, -10} );
     playerInventory->setId("player-inventory");
     playerInventory->hide();
+    
+    auto equipUi = m_uiManager.createElement<UI::EquipView>(nullptr);
+    m_uiManager.alignElementToElement( equipUi, playerInventory, UI::Alignment::TopRight, {0, -10} );
+    equipUi->hide();
+
+    // Debug - example of a dialog
+    
+//    std::vector<UI::MessageBoxButtonInfo> info;
+//    info.emplace_back( "Option 1", [](){ Logging::log("option 1 pressed"); } );
+//    info.emplace_back( "Option 2", [](){ Logging::log("option 2 pressed"); } );
+//
+//    auto dlg = m_uiManager.createElement<UI::MsgBoxDialog>(nullptr, "Hello, World?", 100, "I am a message box with a message and some buttons", info);
+//    dlg->setLocalPosition({300, 300});
 }
 
 void Level::layoutWindows()

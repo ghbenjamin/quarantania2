@@ -43,7 +43,6 @@ private:
 class Button : public Element
 {
 public:
-    Button( Manager* manager, Element* parent );
     Button( Manager* manager, Element* parent, std::string const& text, std::function<void()> const& callback );
     ~Button() override = default;
 
@@ -51,6 +50,10 @@ public:
     void setCallback( std::function<void()> const& callback );
 
 private:
+
+    Colour m_mouseOverColour = Colour::Grey;
+    Colour m_defaultColour = Colour{200, 200, 200, 255};
+
     std::shared_ptr<Label> m_label;
     std::function<void()> m_callback;
 };
