@@ -10,7 +10,10 @@
 using namespace UI;
 
 Manager::Manager(Level *level)
-        : m_level(level) { }
+    : m_level(level),
+      m_isMidDrag(false)
+{
+}
 
 bool Manager::input(IEvent &evt)
 {
@@ -20,13 +23,10 @@ bool Manager::input(IEvent &evt)
             break;
         case IEventType::MouseDown:
             return handleMouseDown(evt.mouseDown);
-            break;
         case IEventType::MouseUp:
             return handleMouseUp(evt.mouseUp);
-            break;
         case IEventType::MouseMove:
             return handleMouseMove(evt.mouseMove);
-            break;
         case IEventType::WindowResize:
             break;
     }
@@ -190,6 +190,8 @@ Manager::partitionWindowLists(ElementList const &lhs, ElementList const &rhs) co
 
 bool Manager::handleMouseDown(IEventMouseDown evt)
 {
+    m_lastMouseDownPos = evt.screenPos;
+
     // Get all the elements under the mouse cursor
     auto elems = windowsAtPoint(evt.screenPos);
 
@@ -220,12 +222,29 @@ bool Manager::handleMouseDown(IEventMouseDown evt)
         elems.back()->acceptEvent(uevent);
 
         m_mouseDownElem = elems.back();
+        
+        m_lastMouseDownPos = evt.screenPos;
         return true;
     }
 }
 
 bool Manager::handleMouseUp(IEventMouseUp evt)
 {
+    if (m_isMidDrag)
+    {
+        UEvent uevent;
+        uevent.type = UEventType::DragStop;
+        uevent.targetElement = m_mouseDownElem;
+        uevent.dragEvent.currPos = {0, 0};
+        uevent.dragEvent.originalTarget = m_mouseDownElem.get();
+        uevent.dragEvent.startPos = *m_lastMouseDownPos;
+        
+        m_mouseDownElem->acceptEvent(uevent);
+        m_isMidDrag = false;
+    }
+    
+    m_lastMouseDownPos.reset();
+    
     auto elems = windowsAtPoint(evt.screenPos);
 
     if ( elems.empty() )
@@ -269,6 +288,40 @@ bool Manager::handleMouseUp(IEventMouseUp evt)
 
 bool Manager::handleMouseMove(IEventMouseMove evt)
 {
+    // Handle dragging if necessary
+
+    if (m_lastMouseDownPos.has_value() && m_mouseDownElem)
+    {
+        if (m_isMidDrag)
+        {
+            // We are mid drag
+            UEvent uevent;
+            uevent.type = UEventType::DragMove;
+            uevent.targetElement = m_mouseDownElem;
+            uevent.dragEvent.currPos = evt.screenPos;
+            uevent.dragEvent.originalTarget = m_mouseDownElem.get();
+            uevent.dragEvent.startPos = *m_lastMouseDownPos;
+            
+            m_mouseDownElem->acceptEvent(uevent);
+        }
+        else
+        {
+            // We were *not* mid drag, and need to start a new drag
+            // We are mid drag
+            UEvent uevent;
+            uevent.type = UEventType::DragStart;
+            uevent.targetElement = m_mouseDownElem;
+            uevent.dragEvent.currPos = evt.screenPos;
+            uevent.dragEvent.originalTarget = m_mouseDownElem.get();
+            uevent.dragEvent.startPos = *m_lastMouseDownPos;
+            m_mouseDownElem->acceptEvent(uevent);
+            
+            m_isMidDrag = true;
+        }
+    }
+
+    // Handle everything else
+
     auto elems = windowsAtPoint(evt.screenPos);
     auto [exits, enters] = partitionWindowLists(m_hoveredElems, elems);
     

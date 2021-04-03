@@ -145,6 +145,9 @@ private:
     
     ElementList m_hoveredElems;
     ElementPtr m_mouseDownElem;
+    
+    bool m_isMidDrag;
+    std::optional<Vector2i> m_lastMouseDownPos;
 
     Level* m_level;
 };

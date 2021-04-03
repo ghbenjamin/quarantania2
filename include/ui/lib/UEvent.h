@@ -8,6 +8,9 @@
 namespace UI
 {
 
+// Forward definitions
+class Element;
+
 enum class UEventType
 {
     MouseDown,
@@ -17,6 +20,10 @@ enum class UEventType
     MouseIn,
     MouseOut,
     MouseMove,
+
+    DragStart,
+    DragMove,
+    DragStop,
 
     KeyDown,
     KeyUp,
@@ -42,7 +49,14 @@ struct UKeyEvent
 
 };
 
-class Element;
+struct UDragEvent
+{
+    Vector2i startPos;
+    Vector2i currPos;
+    Element* originalTarget;
+};
+
+
 struct UEvent
 {
     UEvent() : type(UEventType::MouseDown) {}
@@ -58,6 +72,7 @@ struct UEvent
         UMouseButtonEvent mouseButtonEvent;
         UMouseMoveEvent mouseMoveEvent;
         UKeyEvent keyEvent;
+        UDragEvent dragEvent;
     };
 };
 
