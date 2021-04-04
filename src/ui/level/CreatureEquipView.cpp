@@ -13,11 +13,9 @@ using namespace UI;
 EquipView::EquipView(Manager *manager, Element *parent)
     : Element(manager, parent), m_currEntity(EntityNull)
 {
-    auto const& patch = ResourceManager::get().getNinePatch( "simple-border" );
-    NinePatch np = { patch.texture(), patch.offsets() };
-    setBackground( np );
-    setBorderWidth( patch.borderWidth() );
-
+    auto const& patch = ResourceManager::get().getNinePatch( "simple-border" ).getPatch();
+    setBackground( patch );
+    setBorderWidth( patch.getBorderWidth() );
 
     auto emptySlot = ResourceManager::get().getSprite("game_ui/empty-item-slot");
     emptySlot.setRenderLayer(RenderLayer::UI);

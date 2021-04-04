@@ -160,22 +160,25 @@ protected:
     void onSize();
     virtual void onAlphaModChange(float newValue);
 
+    // Recursively walk the children of this element, adding any which match the specified condition
+    // to the supplied list
     template <typename Callable>
-    void elementsMatchingCondition( Callable&& callable, ElementList* out )
+    void descElementsMatchingCondition( Callable&& callable, ElementList* out )
     {
-        if ( callable(shared_from_this() ))
+        if ( callable( shared_from_this() ))
         {
             out->push_back( shared_from_this() );
         }
 
         for ( auto const& c : m_children )
         {
-            c->elementsMatchingCondition( callable, out );
+            c->descElementsMatchingCondition(callable, out);
         }
     }
 
+    // Recursively walk the children of this element, returning the first element which matches the supplied condition
     template <typename Callable>
-    ElementPtr firstMatchingCondition( Callable&& callable )
+    ElementPtr firstDescMatchingCondition( Callable&& callable )
     {
         ElementPtr out = ElementPtr();
         ElementPtr s_this = shared_from_this();
@@ -189,7 +192,7 @@ protected:
             ElementPtr tmp;
             for ( auto const& c : m_children )
             {
-                tmp = c->firstMatchingCondition(callable);
+                tmp = c->firstDescMatchingCondition(callable);
                 if ( tmp )
                 {
                     out = tmp;
@@ -201,15 +204,17 @@ protected:
         return out;
     }
 
-    template <typename T, typename Callable>
-    std::shared_ptr<T> closestAncestor( Callable&& callable )
+    // Walk the parents of this element, returning the first element matching the specified condition,
+    // if it exists.
+    template <typename Callable>
+    Element* closestAncestor( Callable&& callable )
     {
-        auto* current = parent();
+        Element* current = parent();
         while ( current != nullptr )
         {
             if ( callable(current) )
             {
-                return current->template asType<T>();
+                return current;
             }
             else
             {
@@ -220,12 +225,20 @@ protected:
         return current;
     }
 
-    virtual void updateSelf(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
+    Element* closestAncestorWithTag( std::string const& tag )
+    {
+        return closestAncestor( [&](auto const& elem){ return elem->hasTag(tag); });
+    }
 
+    // Behaviour hooks to implement in children
+    virtual void updateSelf(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     virtual void onSizeSelf();
     virtual void onMoveSelf();
-
+    
+    // Regenerate our cached global position, e.g. if one of our ancestors has moved
     void recachePosition();
+    
+    // Regenerate our background sprite if we have one, e.g. after we've changed size
     void generateBackground();
 
 private:

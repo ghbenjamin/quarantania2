@@ -48,3 +48,6 @@ GameEvents::TurnChange::TurnChange(bool isPlayerTurn)
 
 GameEvents::CombatAttackSucceeded::CombatAttackSucceeded( EntityRef attacker, EntityRef defender )
     : attacker(attacker), defender(defender) {}
+
+GameEvents::ControllerEntityHovered::ControllerEntityHovered( EntityRef entity )
+    : entity(entity) {}

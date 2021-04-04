@@ -102,7 +102,7 @@ public:
 
         for ( auto const& r : m_roots )
         {
-            tmp = r->firstMatchingCondition(callable);
+            tmp = r->firstDescMatchingCondition(callable);
             if ( tmp )
             {
                 out = tmp;

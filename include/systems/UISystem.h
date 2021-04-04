@@ -22,6 +22,7 @@ public:
     void operator()(GameEvents::CombatMeleeAttack& evt);
     void operator()(GameEvents::EntityDamage& evt);
     void operator()(GameEvents::ControllerEntitySelected& evt);
+    void operator()(GameEvents::ControllerEntityHovered& evt);
     void operator()(GameEvents::EntityAction& evt);
     void operator()(GameEvents::CombatMissedAttack& evt);
     void operator()(GameEvents::CombatAttackSucceeded& evt);

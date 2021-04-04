@@ -10,12 +10,10 @@ UI::EntityInformationView::EntityInformationView( UI::Manager *manager, UI::Elem
     : Element(manager, parent)
 {
     setId("entity-information-view");
-    setPreferredContentSize({100, 50});
     
-    auto const& patch = ResourceManager::get().getNinePatch( "simple-border" );
-    NinePatch np = { patch.texture(), patch.offsets() };
-    setBackground( np );
-    setBorderWidth( patch.borderWidth() );
+    auto const& patch = ResourceManager::get().getNinePatch( "simple-border" ).getPatch();
+    setBackground( patch );
+    setBorderWidth( patch.getBorderWidth() );
     
     setLayout<VerticalLayout>( 2, HAlignment::Centre );
     

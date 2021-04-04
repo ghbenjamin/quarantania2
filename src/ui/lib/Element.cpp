@@ -356,8 +356,8 @@ RectI const &Element::innerBounds() const
 
 void Element::acceptEvent(UEvent &evt)
 {
-    if (evt.type == UEventType::DragStart || evt.type == UEventType::DragMove || evt.type == UEventType::DragStop )
-        Logging::log( "Element {}: event {}\n", (void*)this, (int)evt.type );
+//    if (evt.type == UEventType::DragStart || evt.type == UEventType::DragMove || evt.type == UEventType::DragStop )
+//        Logging::log( "Element {}: event {}\n", (void*)this, (int)evt.type );
 
     auto range = m_callbacks.equal_range(evt.type);
 

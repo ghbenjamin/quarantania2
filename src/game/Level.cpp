@@ -16,6 +16,7 @@
 #include <ui/level/EntityInformationView.h>
 #include <ui/level/BetterTextLog.h>
 #include <ui/lib/Dialogs.h>
+#include <ui/level/BottomMenubar.h>
 
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
@@ -223,9 +224,14 @@ void Level::setupUI()
     auto actionMenu = m_uiManager.createElement<UI::BottomLeftBar>(nullptr);
     m_uiManager.alignElementToWindow( actionMenu, UI::Alignment::BottomLeft, {20, -20} );
 
+    // Widget containing fixed action buttons e.g. end turn & options
+    auto bottomMenubar = m_uiManager.createElement<UI::BottomMenubar>(nullptr);
+    m_uiManager.alignElementToWindow( bottomMenubar, UI::Alignment::BottomCentre, {0, -20} );
+
     // Widget containing the global text log
     auto textLog = m_uiManager.createElement<UI::BetterTextLog>(nullptr);
     m_uiManager.alignElementToWindow( textLog, UI::Alignment::BottomRight, {-20, -20} );
+    
 
     textLog->addLine("Lorem ipsum dolor sit amet, consectetur adipiscing elit", Colour::White);
     textLog->addLine("The feijoa is a kind of guava that grows on small trees of the myrtle family, pronounced fey-oa in its native South America and fee-jo-ah in New Zealand, where it is as essential to the culture as the kiwifruit (itself Chinese).", Colour::Teal);

@@ -8,7 +8,6 @@ namespace UI
 
 class BetterTextLog;
 
-
 struct BTLLineData
 {
     BTLLineData( std::string const& data, Colour colour );
@@ -20,7 +19,6 @@ struct BTLLineData
 };
 
 
-
 class BTLScrollArea : public Element
 {
 public:
@@ -28,7 +26,8 @@ public:
     ~BTLScrollArea() override = default;
     
     void addLine( std::string const& data, Colour colour = Colour::White );
-
+    void setScrollPosition(float position);
+    
 private:
     static const int LineSpacing = 3;
 
@@ -49,7 +48,6 @@ protected:
 };
 
 
-
 class BTLScrollBar : public Element
 {
 public:
@@ -65,6 +63,9 @@ protected:
 private:
     void layoutElements();
     void placeScrollHandle();
+    void onClick( Vector2i pos );
+    
+    static constexpr float ScrollPerTopBottomClick = 0.2f;
     
     float m_scrollPosition;
     std::shared_ptr<Icon> m_scrollbarTop;
@@ -72,8 +73,6 @@ private:
     std::shared_ptr<BTLScrollBarLine> m_scrollbarLine;
     std::shared_ptr<Icon> m_scrollbarHandle;
 };
-
-
 
 
 class BetterTextLog : public Element
@@ -84,6 +83,7 @@ public:
 
     void addLine( std::string const& data, Colour colour = Colour::White );
     void setScrollPosition( float pos );
+    void moveScrollPosition( float dy );
     
 private:
     float m_scrollPosition;
@@ -91,7 +91,5 @@ private:
     std::shared_ptr<BTLScrollBar> m_scrollbar;
 
 };
-
-
 
 }

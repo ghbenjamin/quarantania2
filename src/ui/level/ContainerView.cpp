@@ -17,10 +17,9 @@ ContainerView::ContainerView(Manager* manager, Element* parent, Vector2i iconDim
 
     setLayout<GridLayout>( m_iconDims, emptySprite.size(), 2 );
     
-    auto const& patch = ResourceManager::get().getNinePatch( "simple-border" );
-    NinePatch np = { patch.texture(), patch.offsets() };
-    setBackground( np );
-    setBorderWidth( patch.borderWidth() );
+    auto const& patch = ResourceManager::get().getNinePatch( "simple-border" ).getPatch();
+    setBackground( patch );
+    setBorderWidth( patch.getBorderWidth() );
     
     for ( int i = 0; i < m_iconDims.area(); i++ )
     {

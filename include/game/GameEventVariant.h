@@ -20,6 +20,7 @@ namespace GameEvents
     struct CombatMeleeAttack;
     struct CombatMissedAttack;
     struct ControllerEntitySelected;
+    struct ControllerEntityHovered;
     struct CombatAttackSucceeded;
 }
 
@@ -40,5 +41,6 @@ using GameEventVariant = std::variant<
         GameEvents::CombatMeleeAttack,
         GameEvents::CombatMissedAttack,
         GameEvents::ControllerEntitySelected,
+        GameEvents::ControllerEntityHovered,
         GameEvents::CombatAttackSucceeded
 >;

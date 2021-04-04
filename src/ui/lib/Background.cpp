@@ -129,7 +129,8 @@ void ElementBackground::setAlphaMod(float alpha)
     }
 }
 
-NinePatch::NinePatch(TexturePtr texture, const std::array<RectI, 9> &offsets)
+NinePatch::NinePatch(TexturePtr texture, const std::array<RectI, 9> &offsets, int borderWidth )
+    : m_borderWidth(borderWidth)
 {
     for (int i = 0; i < 9; i++)
     {
@@ -198,4 +199,9 @@ void NinePatch::setAlphaMod( float alpha )
     {
         m_sprites[i].setAlphaMod(alpha);
     }
+}
+
+int NinePatch::getBorderWidth() const
+{
+    return m_borderWidth;
 }

@@ -261,6 +261,12 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 {
     m_level->ui().removeSingleTileHighlight();
 
+    if ( m_hoveredEntity != EntityNull )
+    {
+        m_hoveredEntity = EntityNull;
+        m_level->events().broadcast<GameEvents::ControllerEntityHovered>( m_hoveredEntity );
+    }
+
     if (!m_level->grid().inBounds(curr))
     {
         return;
@@ -278,6 +284,10 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     {
         // Highlight hovered entities
         m_level->ui().showSingleTileHighlight(curr, UI::SingleTileHighlightType::Yellow);
+        
+        // Tell the UI that we've hovered an entity
+        m_hoveredEntity = ents.back();
+        m_level->events().broadcast<GameEvents::ControllerEntityHovered>( m_hoveredEntity );
     }
 }
 

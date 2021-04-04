@@ -37,6 +37,7 @@ UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipD
     
     auto const& patch = ResourceManager::get().getNinePatch( "simple-border" ).getPatch();
     setBackground( patch );
+    setBorderWidth( patch.getBorderWidth() );
 }
 
 UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, const std::vector<TooltipData> &data )

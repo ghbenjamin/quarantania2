@@ -217,4 +217,48 @@ Sprite &Icon::getSprite()
 }
 
 
+// Icon button
+// ---------------------------------------
 
+IconButton::IconButton( Manager *manager, Element *parent, SpritesheetKey icon, std::function<void()> const &callback )
+    : Element(manager, parent), m_callback(callback)
+{
+//    setLayout<CenterLayout>();
+    setPadding(4);
+    setBackground(Colour::Teal); // DEBUG
+    
+    m_icon = manager->createElement<Icon>(this, icon);
+    
+    setCallback( callback );
+    
+    addEventCallback( UEventType::MouseIn, [this](UEvent const& evt) {
+        m_icon->getSprite().setColourMod( m_mouseOverColour );
+    });
+    
+    addEventCallback( UEventType::MouseOut, [this](UEvent const& evt) {
+        m_icon->getSprite().setColourMod( m_defaultColour );
+    });
+}
+
+void IconButton::setIcon( SpritesheetKey icon )
+{
+    m_icon->setSprite( icon );
+    doLayout();
+}
+
+void IconButton::setCallback( std::function<void()> const &callback )
+{
+    if (callback)
+    {
+        if (m_callback)
+        {
+            removeEventCallbacks( UEventType::Click );
+        }
+        
+        m_callback = callback;
+        
+        addEventCallback(UEventType::Click, [this] (UEvent& evt) {
+            this->m_callback();
+        });
+    }
+}

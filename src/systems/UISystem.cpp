@@ -22,6 +22,7 @@ UISystem::UISystem(Level *parent)
     m_level->events().subscribe<GameEvents::TurnChange>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::RoundChange>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::ControllerEntitySelected>(this, GEventTiming::After );
+    m_level->events().subscribe<GameEvents::ControllerEntityHovered>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::CombatMeleeAttack>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::EntityAction>(this, GEventTiming::After );
     m_level->events().subscribe<GameEvents::CombatAttackSucceeded>(this, GEventTiming::After );
@@ -85,18 +86,6 @@ void UISystem::operator()(GameEvents::ControllerEntitySelected& evt)
 
     auto creatureInventory = m_level->ui().withId<UI::ContainerView>( "player-inventory" );
     creatureInventory->refresh(evt.entity);
-    
-    auto entityInformation = m_level->ui().withId<UI::EntityInformationView>("entity-information-view");
-    entityInformation->refresh(evt.entity);
-    
-    if (evt.entity == EntityNull)
-    {
-        entityInformation->hide();
-    }
-    else
-    {
-        entityInformation->show();
-    }
 }
 
 void UISystem::operator()(GameEvents::CombatMeleeAttack &evt)
@@ -173,4 +162,19 @@ void UISystem::refreshPartyStatus()
 {
     auto playerStatus = m_level->ui().withId<UI::PlayerStatusContainer>( "player-status-container" );
     playerStatus->reloadEntities();
+}
+
+void UISystem::operator()( GameEvents::ControllerEntityHovered &evt )
+{
+    auto entityInformation = m_level->ui().withId<UI::EntityInformationView>("entity-information-view");
+    entityInformation->refresh(evt.entity);
+    
+    if (evt.entity == EntityNull)
+    {
+        entityInformation->hide();
+    }
+    else
+    {
+        entityInformation->show();
+    }
 }

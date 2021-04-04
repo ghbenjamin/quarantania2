@@ -145,9 +145,9 @@ void UI::ActionMenu::openMenu(RawActionDataType category)
     auto newMenu = manager()->createElement<UI::ActionMenuPopupMenu>(nullptr, menuItems, category);
     
     // Find the position of the button we clicked so that we can align new menu to it
-    auto spawn = firstMatchingCondition( [category](ElementPtr const& elem) {
-        return ( elem->hasTag("action-popup-spawn-icon") &&
-                 elem->parent()->asType<UI::ActionMenuSpawnItem>()->getCategory() == category );
+    auto spawn = firstDescMatchingCondition([category]( ElementPtr const &elem ) {
+        return (elem->hasTag("action-popup-spawn-icon") &&
+                elem->parent()->asType<UI::ActionMenuSpawnItem>()->getCategory() == category);
     });
     
     Assert(!!spawn);

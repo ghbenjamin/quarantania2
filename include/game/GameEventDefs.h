@@ -182,4 +182,12 @@ struct ControllerEntitySelected : public GameEvent<ControllerEntitySelected>
     EntityRef entity;
 };
 
+struct ControllerEntityHovered : public GameEvent<ControllerEntitySelected>
+{
+    ControllerEntityHovered(EntityRef entity);
+    ~ControllerEntityHovered() override = default;
+    
+    EntityRef entity;
+};
+
 }

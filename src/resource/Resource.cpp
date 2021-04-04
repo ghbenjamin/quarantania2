@@ -166,7 +166,7 @@ TexturePtr const &NinePatchResource::texture() const
 
 UI::NinePatch NinePatchResource::getPatch() const
 {
-    return UI::NinePatch { m_texture, m_offsets };
+    return UI::NinePatch { m_texture, m_offsets, m_borderWidth };
 }
 
 

@@ -59,8 +59,6 @@ private:
 };
 
 
-
-
 class Icon : public Element
 {
 public:
@@ -82,6 +80,25 @@ protected:
     void onAlphaModChange(float newValue) override;
     
     std::optional<Sprite> m_sprite;
+};
+
+
+class IconButton : public Element
+{
+public:
+    IconButton( Manager* manager, Element* parent, SpritesheetKey icon, std::function<void()> const& callback );
+    ~IconButton() override = default;
+    
+    void setIcon( SpritesheetKey icon );
+    void setCallback( std::function<void()> const& callback );
+
+private:
+    
+    Colour m_mouseOverColour = Colour::Grey;
+    Colour m_defaultColour = Colour::White;
+    
+    std::shared_ptr<Icon> m_icon;
+    std::function<void()> m_callback;
 };
 
 }

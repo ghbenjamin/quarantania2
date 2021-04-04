@@ -135,11 +135,13 @@ UI::ElementList Manager::windowsAtPoint(Vector2i pos) const
                 }
                 else
                 {
-                    for ( auto const& child : curr->children() )
+                    // Iterate in reverse order - children are drawn front to back so we want the top child
+                    // in case of overlapping children
+                    for (auto it = curr->children().rbegin(); it != curr->children().rend(); it++)
                     {
-                        if ( child->outerBounds().contains(pos) )
+                        if ( (*it)->outerBounds().contains(pos) )
                         {
-                            next = child;
+                            next = *it;
                             break;
                         }
                     }

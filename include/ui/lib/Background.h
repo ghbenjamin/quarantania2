@@ -34,17 +34,19 @@ class NinePatch
 {
 public:
 
-    NinePatch( TexturePtr texture, std::array<RectI, 9> const& offsets );
+    NinePatch( TexturePtr texture, std::array<RectI, 9> const& offsets, int borderWidth );
     ~NinePatch() = default;
+
+    int getBorderWidth() const;
 
     void setSize( Vector2i size );
     void render( Vector2i position, RenderInterface &rInter );
-    
     void setColourMod( Colour colour );
     void setAlphaMod( float alpha );
 
 private:
 
+    int m_borderWidth;
     std::array<Sprite, 9> m_sprites;
     std::array<RectI, 9> m_offsets;
 };

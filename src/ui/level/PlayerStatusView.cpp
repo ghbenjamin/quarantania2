@@ -21,11 +21,9 @@ PlayerStatusWidget::PlayerStatusWidget(Manager *manager, Element *parent, Entity
     setLayout<HorizontalLayout>( 1, VAlignment::Centre );
     setPreferredContentWidth( 200 );
     
-    auto const& patch = ResourceManager::get().getNinePatch( "simple-border" );
-    NinePatch np = { patch.texture(), patch.offsets() };
-    
-    setBackground( np );
-    setBorderWidth( patch.borderWidth() );
+    auto const& patch = ResourceManager::get().getNinePatch( "simple-border" ).getPatch();
+    setBackground( patch );
+    setBorderWidth( patch.getBorderWidth() );
     
     // Add the icon of the entity
     auto& iconSprite = manager->level()->ecs().getComponents<RenderComponent>(ref)->sprite;

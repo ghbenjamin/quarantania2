@@ -10,11 +10,9 @@ UI::Dialog::Dialog(Manager* manager, Element* parent, std::string const &title, 
     setMaximumOuterSize({maxWidth, 1000});
     setLayout<VerticalLayout>( 1, HAlignment::Centre );
     
-    auto const& patch = ResourceManager::get().getNinePatch( "simple-border-solid" );
-    NinePatch np = { patch.texture(), patch.offsets() };
-    
-    setBackground( np );
-    setBorderWidth( patch.borderWidth() );
+    auto const& patch = ResourceManager::get().getNinePatch( "simple-border-solid" ).getPatch();
+    setBackground( patch );
+    setBorderWidth( patch.getBorderWidth() );
     
     auto titleBar = manager->createElement<Element>( this );
     titleBar->setLayout<HorizontalLayout>( 0, VAlignment::Centre );
