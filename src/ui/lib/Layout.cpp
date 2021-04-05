@@ -133,6 +133,12 @@ Vector2i VerticalLayout::doLayout()
         h += m_spacing;
         w = std::max( w, s.x() );
     }
+    
+    // Don't add extra spacing to the end of the final element
+    if ( m_element->children().size() > 0 )
+    {
+        h -= m_spacing;
+    }
 
     // If the max width / total height of the children is smaller than our preferred
     // content size, set our actual size to our content size (avoid being too small)
@@ -204,6 +210,12 @@ Vector2i HorizontalLayout::doLayout()
         w += s.x();
         w += m_spacing;
         h = std::max( h, s.y() );
+    }
+    
+    // Don't add extra spacing to the end of the final element
+    if ( m_element->children().size() > 0 )
+    {
+        w -= m_spacing;
     }
 
     if ( preferred != Vector2i{0, 0} )

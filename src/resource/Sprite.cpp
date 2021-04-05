@@ -75,6 +75,12 @@ void Sprite::setPosition( Vector2i position )
 void Sprite::setColourMod( Colour colour )
 {
     auto colourGl = colour.asOpenGL();
+    m_renderObj.setColourVerts( 0, colourGl[0], colourGl[1], colourGl[2], colourGl[3] );
+}
+
+void Sprite::setPermanentColour( Colour colour )
+{
+    auto colourGl = colour.asOpenGL();
     m_colour = colour;
     m_renderObj.setColourVerts( 0, colourGl[0], colourGl[1], colourGl[2], colourGl[3] );
 }
@@ -86,7 +92,7 @@ Colour const &Sprite::getColour()
 
 void Sprite::resetColourMod()
 {
-    setColourMod(Colour::White);
+    setColourMod(m_colour);
 }
 
 void Sprite::setAlphaMod( float alpha )
@@ -98,4 +104,6 @@ void Sprite::resetAlphaMod()
 {
     m_renderObj.setAlphaVerts(0, 1.0f);
 }
+
+
 

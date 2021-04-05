@@ -94,7 +94,7 @@ BTLScrollBar::BTLScrollBar( Manager *manager, Element *parent )
         });
     
         item->addEventCallback( UEventType::MouseOut, [item](UEvent& evt) {
-            item->getSprite().setColourMod( Colour::White );
+            item->getSprite().resetColourMod();
         });
     }
     

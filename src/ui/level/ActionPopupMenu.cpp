@@ -7,7 +7,7 @@
 #include <components/ActorComponent.h>
 
 
-// Action menu
+// Popup menu
 // --------------------------------------
 
 UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *parent,
@@ -62,11 +62,20 @@ RawActionDataType UI::ActionMenuPopupMenu::getCategory() const
     return m_category;
 }
 
+
+
+// Menu bar
+// --------------------------------------
+
 UI::ActionMenu::ActionMenu(UI::Manager *manager, UI::Element *parent)
         : Element(manager, parent), m_currEntity(EntityNull)
 {
     setId("action-menu");
-    setLayout<HorizontalLayout>( 8, VAlignment::Top );
+    setLayout<HorizontalLayout>( 4, VAlignment::Top );
+    
+    auto const& patch = ResourceManager::get().getNinePatch( "simple-border-solid" ).getPatch();
+    setBackground( patch );
+    setBorderWidth( patch.getBorderWidth() );
     
     m_spawns[RawActionDataType::Attack] = manager->createElement<UI::ActionMenuSpawnItem>(
         this, "Attack", "game_ui/axe-sword", RawActionDataType::Attack);
@@ -74,16 +83,6 @@ UI::ActionMenu::ActionMenu(UI::Manager *manager, UI::Element *parent)
         this, "Move", "game_ui/move", RawActionDataType::Move);
     m_spawns[RawActionDataType::Item] = manager->createElement<UI::ActionMenuSpawnItem>(
         this, "Items", "game_ui/light-backpack", RawActionDataType::Item);
-}
-
-void UI::ActionMenu::onSpawnItemMouseIn(RawActionDataType category)
-{
-    ResourceManager::get().getWindow()->cursor().setCursorType( CursorType::Interact );
-}
-
-void UI::ActionMenu::onSpawnItemMouseOut(RawActionDataType category)
-{
-    ResourceManager::get().getWindow()->cursor().resetCursor();
 }
 
 void UI::ActionMenu::onSpawnItemClick(RawActionDataType category)
@@ -102,7 +101,7 @@ void UI::ActionMenu::refresh(EntityRef entity)
         isPC = manager()->level()->ecs().getComponents<ActorComponent>(entity)->actorType == ActorType::PC;
     }
     
-    // If there's no
+    // If there's no selected player entity, disable all buttons
     if ((m_currEntity == EntityNull) || !isPC)
     {
         for (auto const& [k, v] : m_spawns)
@@ -147,7 +146,7 @@ void UI::ActionMenu::openMenu(RawActionDataType category)
     // Find the position of the button we clicked so that we can align new menu to it
     auto spawn = firstDescMatchingCondition([category]( ElementPtr const &elem ) {
         return (elem->hasTag("action-popup-spawn-icon") &&
-                elem->parent()->asType<UI::ActionMenuSpawnItem>()->getCategory() == category);
+                elem->asType<UI::ActionMenuSpawnItem>()->getCategory() == category);
     });
     
     Assert(!!spawn);
@@ -199,41 +198,14 @@ void UI::ActionMenu::closeMenu()
 }
 
 
+// Menu bar item
+// --------------------------------------
 
-UI::ActionMenuSpawnItem::ActionMenuSpawnItem(UI::Manager *manager, UI::Element *parent,
-                                             std::string const& name, SpritesheetKey const& icon, RawActionDataType category)
-        : Element(manager, parent), m_name(name), m_category(category), m_isDisabled(true)
+UI::ActionMenuSpawnItem::ActionMenuSpawnItem(UI::Manager *manager, UI::Element *parent, std::string const& desc, SpritesheetKey const& icon, RawActionDataType category)
+        : IconButton(manager, parent, icon, [this](){ onClick(); }), m_category(category)
 {
-    setLayout<VerticalLayout>( 4, HAlignment::Centre );
-    
-    m_icon = manager->createElement<UI::Icon>(this, icon);
-    m_icon->setBorder( Colour::Grey.withAlpha(150), 1, Colour::White.withAlpha(150) );
-    m_icon->addTag("action-popup-spawn-icon");
-    
-    m_label = manager->createElement<UI::Label>(this,
-        TextStyle { Colour::White.withAlpha(150), ResourceManager::get().getDefaultFont(), 10 });
-    m_label->setText(name);
-    
-    addEventCallback( UEventType::MouseIn, [this](UEvent& evt) {
-        if (!m_isDisabled)
-        {
-            this->parent()->asType<UI::ActionMenu>()->onSpawnItemMouseIn(m_category);
-        }
-    });
-    
-    addEventCallback( UEventType::MouseOut, [this](UEvent& evt) {
-        if (!m_isDisabled)
-        {
-            this->parent()->asType<UI::ActionMenu>()->onSpawnItemMouseOut(m_category);
-        }
-    });
-    
-    addEventCallback( UEventType::Click, [this](UEvent& evt) {
-        if (!m_isDisabled)
-        {
-            this->parent()->asType<UI::ActionMenu>()->onSpawnItemClick(m_category);
-        }
-    });
+    addTag("action-popup-spawn-icon");
+    setDisabled(true);
 }
 
 RawActionDataType UI::ActionMenuSpawnItem::getCategory() const
@@ -241,23 +213,7 @@ RawActionDataType UI::ActionMenuSpawnItem::getCategory() const
     return m_category;
 }
 
-void UI::ActionMenuSpawnItem::setDisabled(bool value)
+void UI::ActionMenuSpawnItem::onClick()
 {
-    m_isDisabled = value;
-    
-    if (m_isDisabled)
-    {
-        m_icon->setBorder( Colour::Grey.withAlpha(150), 1, Colour::White.withAlpha(150) );
-        m_label->setTextColour(Colour::White.withAlpha(150));
-    }
-    else
-    {
-        m_icon->setBorder( Colour::Grey, 1, Colour::White );
-        m_label->setTextColour(Colour::White);
-    }
-}
-
-bool UI::ActionMenuSpawnItem::isDisabled() const
-{
-    return m_isDisabled;
+    this->parent()->asType<UI::ActionMenu>()->onSpawnItemClick(m_category);
 }

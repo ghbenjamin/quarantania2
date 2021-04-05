@@ -221,22 +221,27 @@ Sprite &Icon::getSprite()
 // ---------------------------------------
 
 IconButton::IconButton( Manager *manager, Element *parent, SpritesheetKey icon, std::function<void()> const &callback )
-    : Element(manager, parent), m_callback(callback)
+    : Element(manager, parent), m_callback(callback), m_isDisabled(false)
 {
-//    setLayout<CenterLayout>();
-    setPadding(4);
-    setBackground(Colour::Teal); // DEBUG
-    
     m_icon = manager->createElement<Icon>(this, icon);
     
+    setPadding(2);
     setCallback( callback );
     
     addEventCallback( UEventType::MouseIn, [this](UEvent const& evt) {
-        m_icon->getSprite().setColourMod( m_mouseOverColour );
+        if (!m_isDisabled)
+        {
+            m_icon->getSprite().setColourMod( m_mouseOverColour );
+            ResourceManager::get().getWindow()->cursor().setCursorType( CursorType::Interact );
+        }
     });
     
     addEventCallback( UEventType::MouseOut, [this](UEvent const& evt) {
-        m_icon->getSprite().setColourMod( m_defaultColour );
+        if (!m_isDisabled)
+        {
+            m_icon->getSprite().resetColourMod();
+            ResourceManager::get().getWindow()->cursor().resetCursor();
+        }
     });
 }
 
@@ -258,9 +263,36 @@ void IconButton::setCallback( std::function<void()> const &callback )
         m_callback = callback;
         
         addEventCallback(UEventType::Click, [this] (UEvent& evt) {
-            this->m_callback();
+            if (!m_isDisabled)
+            {
+                this->m_callback();
+            }
         });
     }
+}
+
+void IconButton::setDisabled( bool val )
+{
+    m_isDisabled = val;
+    
+    if (val)
+    {
+        m_icon->setAlphaMod(0.5f);
+    }
+    else
+    {
+        m_icon->setAlphaMod(1.0f);
+    }
+}
+
+bool IconButton::isDisabled() const
+{
+    return m_isDisabled;
+}
+
+std::shared_ptr<Icon> IconButton::getIcon()
+{
+    return m_icon;
 }
 
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ui/lib/Element.h>
-#include "EndTurnButton.h"
+#include <ui/lib/Controls.h>
 
 namespace UI
 {

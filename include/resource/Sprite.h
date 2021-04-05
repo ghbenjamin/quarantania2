@@ -26,6 +26,7 @@ public:
     
     void setColourMod( Colour colour );
     void resetColourMod();
+    void setPermanentColour( Colour colour );
     
     void setAlphaMod( float alpha );
     void resetAlphaMod();

@@ -92,13 +92,19 @@ public:
     void setIcon( SpritesheetKey icon );
     void setCallback( std::function<void()> const& callback );
 
-private:
+    void setDisabled( bool val );
+    bool isDisabled() const;
     
+    std::shared_ptr<Icon> getIcon();
+
+private:
+
     Colour m_mouseOverColour = Colour::Grey;
-    Colour m_defaultColour = Colour::White;
     
     std::shared_ptr<Icon> m_icon;
     std::function<void()> m_callback;
+    
+    bool m_isDisabled;
 };
 
 

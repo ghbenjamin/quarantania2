@@ -88,7 +88,7 @@ EquipViewItem::EquipViewItem( Manager *manager, Element *parent, EntityRef entit
     setPreferredContentSize({32, 32});
     
     m_defaultSprite.setRenderLayer( RenderLayer::UI );
-    m_defaultSprite.setColourMod(Colour::White.withAlpha(170));
+    m_defaultSprite.setPermanentColour(Colour::White.withAlpha(170));
     
     m_icon = manager->createElement<Icon>( this, m_defaultSprite );
     m_icon->setPreferredContentSize( m_defaultSprite.size() );

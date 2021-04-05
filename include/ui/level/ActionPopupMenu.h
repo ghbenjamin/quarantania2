@@ -1,17 +1,15 @@
 #pragma once
 
 #include <ui/lib/Element.h>
+#include <ui/lib/Controls.h>
 #include <game/RawData.h>
 #include <engine/Entity.h>
-
 
 struct GameAction;
 
 namespace UI
 {
 
-class Label;
-class Icon;
 
 class ActionMenuPopupMenu : public Element
 {
@@ -26,24 +24,18 @@ private:
 };
 
 
-class ActionMenuSpawnItem : public Element
+class ActionMenuSpawnItem : public IconButton
 {
 public:
-    ActionMenuSpawnItem(Manager* manager, Element* parent, std::string const& name,
-                        SpritesheetKey const& icon, RawActionDataType category);
+    ActionMenuSpawnItem(Manager* manager, Element* parent, std::string const& desc, SpritesheetKey const& icon, RawActionDataType category);
     ~ActionMenuSpawnItem() override = default;
     
     RawActionDataType getCategory() const;
-    void setDisabled(bool value);
-    bool isDisabled() const;
 
 private:
-    std::string m_name;
-    RawActionDataType m_category;
-    bool m_isDisabled;
+    void onClick();
     
-    std::shared_ptr<Icon> m_icon;
-    std::shared_ptr<Label> m_label;
+    RawActionDataType m_category;
 };
 
 
@@ -53,8 +45,6 @@ public:
     ActionMenu(Manager* manager, Element* parent);
     ~ActionMenu() override = default;
     
-    void onSpawnItemMouseIn( RawActionDataType category );
-    void onSpawnItemMouseOut( RawActionDataType category );
     void onSpawnItemClick( RawActionDataType category );
     
     void refresh(EntityRef entity);
