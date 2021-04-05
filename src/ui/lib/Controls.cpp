@@ -262,3 +262,23 @@ void IconButton::setCallback( std::function<void()> const &callback )
         });
     }
 }
+
+
+// Spacer
+// ---------------------------------------
+
+Spacer::Spacer(Manager *manager, Element *parent, Vector2i size)
+    : Element(manager, parent)
+{
+    setPreferredContentSize(size);
+}
+
+
+// Horizontal rule
+// ---------------------------------------
+
+HorizontalRule::HorizontalRule(Manager *manager, Element *parent, Colour colour)
+    : Element(manager, parent)
+{
+    
+}

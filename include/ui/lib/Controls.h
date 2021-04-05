@@ -101,4 +101,19 @@ private:
     std::function<void()> m_callback;
 };
 
+
+class Spacer : public Element
+{
+public:
+    Spacer( Manager* manager, Element* parent, Vector2i size );
+    ~Spacer() override = default;
+};
+
+class HorizontalRule : public Element
+{
+public:
+    HorizontalRule( Manager* manager, Element* parent, Colour colour );
+    ~HorizontalRule() override = default;
+};
+
 }
