@@ -6,6 +6,8 @@
 
 #include <utility>
 #include <utils/GlobalConfig.h>
+#include <graphics/Primatives.h>
+#include <ui/level/LevelMainMenu.h>
 
 using namespace UI;
 
@@ -13,6 +15,8 @@ Manager::Manager(Level *level)
     : m_level(level),
       m_isMidDrag(false)
 {
+    auto windowSize = ResourceManager::get().getWindow()->getSize();
+    m_modalSprite = createRectangle( windowSize, Colour::Black.withAlpha(150) );
 }
 
 bool Manager::input(IEvent &evt)
@@ -38,7 +42,17 @@ void Manager::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rI
 {
     for ( auto const& r: m_roots )
     {
-        r->update(ticks, iinter, rInter);
+        if ( !r->isModal() )
+        {
+            r->update(ticks, iinter, rInter);
+        }
+    }
+
+    auto modal = m_modalDialog.lock();
+    if (modal)
+    {
+        rInter.addItem( m_modalSprite.renderObject({0, 0}), RenderLayer::UI);
+        modal->update(ticks, iinter, rInter);
     }
 }
 
@@ -454,6 +468,33 @@ void Manager::removeSingleTileHighlight()
 {
     deleteElement(m_tileHighlight);
     m_tileHighlight.reset();
+}
+
+void Manager::makeElementModal(std::shared_ptr<Element> elem)
+{
+    auto existing = m_modalDialog.lock();
+    if (existing)
+    {
+        existing->setIsModal(false);
+    }
+
+    m_modalDialog = elem;
+    elem->setIsModal(true);
+}
+
+void Manager::centreElementInWindow(const std::shared_ptr<Element> &element)
+{
+    auto size = element->outerBounds().right();
+    auto wndSize = ResourceManager::get().getWindow()->getSize();
+
+    element->setLocalPosition( (wndSize - size) / 2 );
+}
+
+void Manager::openLevelMainMenu()
+{
+    auto menu = createElement<LevelMainMenu>(nullptr);
+    makeElementModal(menu);
+    centreElementInWindow(menu);
 }
 
 

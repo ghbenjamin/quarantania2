@@ -257,14 +257,15 @@ void Level::setupUI()
     m_uiManager.alignElementToElement( equipUi, playerInventory, UI::Alignment::TopRight, {0, -10} );
     equipUi->hide();
 
-    // Debug - example of a dialog
-    
+//    // Debug - example of a dialog
+//
 //    std::vector<UI::MessageBoxButtonInfo> info;
 //    info.emplace_back( "Option 1", [](){ Logging::log("option 1 pressed"); } );
 //    info.emplace_back( "Option 2", [](){ Logging::log("option 2 pressed"); } );
 //
 //    auto dlg = m_uiManager.createElement<UI::MsgBoxDialog>(nullptr, "Hello, World?", 100, "I am a message box with a message and some buttons", info);
-//    dlg->setLocalPosition({300, 300});
+//    m_uiManager.centreElementInWindow(dlg);
+//    m_uiManager.makeElementModal(dlg);
 }
 
 void Level::layoutWindows()

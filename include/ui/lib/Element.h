@@ -137,12 +137,16 @@ public:
     void setAlphaMod( float value );
     void setAlphaTransition(float start, float, float time);
     void setFadeIn();
-    
+
     void setBoundsScissoring(bool val);
 
     void setPadding( RectI const& rect );
     void setPadding( int w );
     void setPadding( int top, int right, int bottom, int left );
+
+    // Modal behaviour
+    void setIsModal( bool value );
+    bool isModal() const;
 
     // Events
 
@@ -265,6 +269,7 @@ private:
     // State
     bool m_isHidden;
     bool m_isDecorative;
+    bool m_isModal;
 
     // Layout
     std::unique_ptr<UI::ElementLayout> m_layout;

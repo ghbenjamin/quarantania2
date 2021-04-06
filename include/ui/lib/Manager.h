@@ -81,6 +81,8 @@ public:
     void alignElementToWindow( const ElementPtr& element, UI::Alignment alignment, Vector2i offset);
     void alignElementToElement( ElementPtr const& desc, ElementPtr const& target, UI::Alignment alignment, Vector2i offset);
 
+    void centreElementInWindow( std::shared_ptr<Element> const& element );
+
     void unalignElementFromWindow(ElementPtr element );
     void unalignElements( ElementPtr const& desc, ElementPtr const& target );
 
@@ -128,6 +130,11 @@ public:
     void showSingleTileHighlight(Vector2i tile, SingleTileHighlightType type);
     void removeSingleTileHighlight();
 
+    void makeElementModal( std::shared_ptr<Element> elem );
+
+
+    // Dialogs
+    void openLevelMainMenu();
 
 private:
     bool handleMouseMove( IEventMouseMove evt );
@@ -150,6 +157,9 @@ private:
     std::optional<Vector2i> m_lastMouseDownPos;
 
     Level* m_level;
+
+    std::weak_ptr<Element> m_modalDialog;
+    Sprite m_modalSprite;
 };
 
 }

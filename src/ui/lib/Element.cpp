@@ -14,6 +14,7 @@ Element::Element(Manager* manager, Element* parent)
     m_manager(manager),
     m_borderWidth(0),
     m_isHidden(false),
+    m_isModal(false),
     m_maxOuterSize({0, 0}),
     m_isDecorative(false),
     m_shouldBoundsScissor(false),
@@ -270,8 +271,8 @@ void Element::setPreferredContentWidth( int width )
 void Element::setPreferredOuterSize(Vector2i size)
 {
     Vector2i preferred {
-        size.x() - (2 * m_borderWidth) + m_padding.y() + m_padding.h(),
-        size.y() - (2 * m_borderWidth) + m_padding.x() + m_padding.w(),
+        size.x() - ((2 * m_borderWidth) + m_padding.y() + m_padding.h()),
+        size.y() - ((2 * m_borderWidth) + m_padding.x() + m_padding.w())
     };
     
     if ( m_preferredContentSize != preferred )
@@ -512,6 +513,16 @@ ElementBackground &Element::getBackground()
 {
     AssertMsg( hasBackground(), "getBackground called on element without background" );
     return *m_background;
+}
+
+void Element::setIsModal(bool value)
+{
+    m_isModal = value;
+}
+
+bool Element::isModal() const
+{
+    return m_isModal;
 }
 
 

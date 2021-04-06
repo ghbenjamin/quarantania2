@@ -24,9 +24,13 @@ public:
 private:
     
     void onBtnEndTurn();
+    void onBtnJournal();
+    void onBtnMap();
     void onBtnSettings();
     
     std::shared_ptr<IconButton> m_btnEndTurn;
+    std::shared_ptr<IconButton> m_btnJournal;
+    std::shared_ptr<IconButton> m_btnMap;
     std::shared_ptr<IconButton> m_btnSettings;
     
 };

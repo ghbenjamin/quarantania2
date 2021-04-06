@@ -125,12 +125,6 @@ UI::Button::Button(Manager *manager, Element *parent, const std::string &text, s
     });
 }
 
-
-void Button::setLabel(const std::string &label)
-{
-    m_label->setText(label);
-}
-
 void Button::setCallback(const std::function<void()> &callback)
 {
     if (callback)
@@ -146,6 +140,11 @@ void Button::setCallback(const std::function<void()> &callback)
             this->m_callback();
         });
     }
+}
+
+Label &Button::getLabel()
+{
+    return *m_label;
 }
 
 

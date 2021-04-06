@@ -25,6 +25,8 @@ BottomMenubar::BottomMenubar( Manager *manager, Element *parent ) : Element(mana
     setBorderWidth( patch.getBorderWidth() );
     
     m_btnEndTurn = manager->createElement<IconButton>( this, "game_ui/w-hourglass", [this](){ onBtnEndTurn(); } );
+    m_btnJournal = manager->createElement<IconButton>( this, "game_ui/w-scroll-unfurled", [this](){ onBtnJournal(); } );
+    m_btnMap = manager->createElement<IconButton>( this, "game_ui/w-compass", [this](){ onBtnMap(); } );
     m_btnSettings = manager->createElement<IconButton>( this, "game_ui/w-gears", [this](){ onBtnSettings(); } );
 }
 
@@ -34,6 +36,16 @@ void BottomMenubar::onBtnEndTurn()
 }
 
 void BottomMenubar::onBtnSettings()
+{
+    manager()->openLevelMainMenu();
+}
+
+void BottomMenubar::onBtnJournal()
+{
+
+}
+
+void BottomMenubar::onBtnMap()
 {
 
 }
