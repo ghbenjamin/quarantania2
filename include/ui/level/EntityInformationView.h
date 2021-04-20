@@ -19,6 +19,7 @@ public:
 private:
     
     std::shared_ptr<Label> m_titleLabel;
+    std::shared_ptr<Label> m_debugText;
     
 };
 

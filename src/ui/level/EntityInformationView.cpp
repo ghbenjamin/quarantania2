@@ -21,6 +21,14 @@ UI::EntityInformationView::EntityInformationView( UI::Manager *manager, UI::Elem
     m_titleLabel->setTextSize(16);
     m_titleLabel->setTextColour(Colour::White);
     m_titleLabel->setPadding(4);
+    
+    auto rule = manager->createElement<HorizontalRule>(this, Colour::White);
+    rule->setPreferredContentWidth(80);
+    
+    m_debugText = manager->createElement<Label>( this );
+    m_debugText->setTextSize(14);
+    m_debugText->setTextColour(Colour::White);
+    m_debugText->setPadding(4);
 }
 
 void UI::EntityInformationView::refresh( EntityRef entity )
@@ -34,7 +42,7 @@ void UI::EntityInformationView::refresh( EntityRef entity )
     
     if ( manager()->level()->ecs().entityHas<ActorComponent>( entity ))
     {
-    
+        m_debugText->setText("Debug text!");
     }
     else
     {

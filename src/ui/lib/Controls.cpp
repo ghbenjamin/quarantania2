@@ -311,5 +311,6 @@ Spacer::Spacer(Manager *manager, Element *parent, Vector2i size)
 HorizontalRule::HorizontalRule(Manager *manager, Element *parent, Colour colour)
     : Element(manager, parent)
 {
-    
+    setBackground(colour);
+    setPreferredContentSize({20, 2});
 }
