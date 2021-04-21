@@ -24,7 +24,7 @@ bool Manager::input(IEvent &evt)
     switch ( evt.type )
     {
         case IEventType::KeyPress:
-            break;
+            return handleKeyPress(evt.keyPress);
         case IEventType::MouseDown:
             return handleMouseDown(evt.mouseDown);
         case IEventType::MouseUp:
@@ -495,6 +495,11 @@ void Manager::openLevelMainMenu()
     auto menu = createElement<LevelMainMenu>(nullptr);
     makeElementModal(menu);
     centreElementInWindow(menu);
+}
+
+bool Manager::handleKeyPress(IEventKeyPress evt)
+{
+    return false;
 }
 
 

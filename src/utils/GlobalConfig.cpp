@@ -16,5 +16,7 @@ GlobalConfigInfo GlobalConfig::load(std::string const &path)
     int h = ssizeObj.FindMember( "h" )->value.GetInt();
     info.screenSize = {w, h};
 
+    info.sizeToScreen = doc.FindMember( "sizeToScreen" )->value.GetBool();
+
     return info;
 }

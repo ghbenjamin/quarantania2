@@ -6,13 +6,14 @@
 #include <graphics/Cursor.h>
 #include <graphics/Renderer.h>
 
+namespace GlobalConfig { struct GlobalConfigInfo; }
 class RenderInterface;
 
 class Window
 {
 public:
 
-    Window( std::string const& title, Vector2i bounds );
+    Window( GlobalConfig::GlobalConfigInfo const& info );
     virtual ~Window();
 
     Window( const Window& ) = delete;

@@ -103,7 +103,8 @@ private:
     bool onMouseDown(IEventMouseDown evt) override;
     bool onKeyDown(IEventKeyPress evt) override;
     void onHoveredTileChange(Vector2i prev, Vector2i curr) override;
-    
+
+
     EntityRef m_hoveredEntity;
 };
 

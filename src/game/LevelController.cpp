@@ -218,6 +218,10 @@ DefaultLController::DefaultLController(Level *level)
 {
     // Don't let us pop the top level controller
     removeKeybinding(SDLK_ESCAPE);
+
+    addKeybinding( SDLK_ESCAPE, [this](){
+        m_level->ui().openLevelMainMenu();
+    });
 }
 
 bool DefaultLController::onMouseMove(IEventMouseMove evt)

@@ -1,9 +1,10 @@
 #include <graphics/Window.h>
 #include <utils/Assert.h>
 #include <graphics/RenderInterface.h>
+#include <utils/GlobalConfig.h>
 
-Window::Window(std::string const &title, Vector2i bounds)
-: m_size(bounds), m_window(nullptr)
+Window::Window(GlobalConfig::GlobalConfigInfo const& info)
+: m_window(nullptr)
 {
     SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -13,8 +14,21 @@ Window::Window(std::string const &title, Vector2i bounds)
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
+    if (info.sizeToScreen)
+    {
+        SDL_Rect usableScreen;
+        SDL_GetDisplayUsableBounds(0, &usableScreen);
+
+        m_size = { usableScreen.w, usableScreen.h };
+    }
+    else
+    {
+        m_size = info.screenSize;
+    }
+
+
     m_window = SDL_CreateWindow(
-        title.c_str(),
+        info.windowTitle.c_str(),
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
         m_size.x(),
@@ -24,7 +38,13 @@ Window::Window(std::string const &title, Vector2i bounds)
     Assert( m_window != nullptr);
 
     SDL_SetWindowMinimumSize( m_window, 800, 600 );
-    
+
+    if (info.sizeToScreen)
+    {
+        SDL_MaximizeWindow( m_window );
+        m_size = getSize();
+    }
+
     m_glContext = SDL_GL_CreateContext(m_window);
 
     if ( !gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress) )

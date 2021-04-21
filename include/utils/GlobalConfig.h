@@ -9,6 +9,7 @@ namespace GlobalConfig
 struct GlobalConfigInfo
 {
     std::string windowTitle;
+    bool sizeToScreen;
     Vector2i screenSize;
     int maxFPS;
 };

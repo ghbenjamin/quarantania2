@@ -1,5 +1,6 @@
 {
-  "windowTitle": "Quarantaina 2!",
+  "windowTitle": "Quarantaina",
+  "sizeToScreen": true,
   "screenSize": {
     "w": 1200,
     "h": 800

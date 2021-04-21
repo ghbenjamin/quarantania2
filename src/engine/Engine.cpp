@@ -21,9 +21,7 @@ void Engine::run()
     GlobalConfig::GlobalConfigInfo globalConfig = GlobalConfig::load( "../config.json" );
     const uint32_t msPerFrame = 1000 / globalConfig.maxFPS;
     
-    auto window = std::make_shared<Window>(
-        globalConfig.windowTitle, globalConfig.screenSize
-    );
+    auto window = std::make_shared<Window>( globalConfig );
     
     ResourceManager::get().loadAll();
     ResourceManager::get().setWindow( window );

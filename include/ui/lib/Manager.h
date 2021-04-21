@@ -140,7 +140,7 @@ private:
     bool handleMouseMove( IEventMouseMove evt );
     bool handleMouseDown( IEventMouseDown evt );
     bool handleMouseUp( IEventMouseUp evt );
-
+    bool handleKeyPress( IEventKeyPress evt );
 
     std::vector<ElementPtr> m_roots;
 
