@@ -9,8 +9,6 @@
 
 ### Bugs
 
-- Closing dialogs should be instant, rather than the suspicious wait we have now 
-
 ### UI
 
 - Rework pathfinding path to be an arrow rather than squares 

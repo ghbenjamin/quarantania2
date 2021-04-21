@@ -20,7 +20,7 @@ UI::ContextMenu::ContextMenu(Manager* manager, Element* parent, const UI::Contex
             auto ptr = manager->createElement<UI::ContextMenuItem>( this, items[i], i );
             ptr->addEventCallback(UEventType::Click, [this](UEvent& evt) {
                 m_callback( evt.targetElement->asType<UI::ContextMenuItem>()->index() );
-                this->manager()->deleteElement( shared_from_this() );
+                deleteSelf();
             });
         }
     }

@@ -42,7 +42,7 @@ UI::MsgBoxDialog::MsgBoxDialog(UI::Manager *manager, UI::Element *parent, std::s
     {
         auto btn =  manager->createElement<Button>( m_buttonHolder.get(), item.message, [=](){
             item.callback();
-            manager->deleteElement( shared_from_this() );
+            deleteSelf();
         });
         m_buttons.push_back(btn);
     }

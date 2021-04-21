@@ -13,7 +13,8 @@ using namespace UI;
 
 Manager::Manager(Level *level)
     : m_level(level),
-      m_isMidDrag(false)
+      m_isMidDrag(false),
+      m_hasModalDialog(false)
 {
     auto windowSize = ResourceManager::get().getWindow()->getSize();
     m_modalSprite = createRectangle( windowSize, Colour::Black.withAlpha(150) );
@@ -21,21 +22,33 @@ Manager::Manager(Level *level)
 
 bool Manager::input(IEvent &evt)
 {
+    bool out = false;
+    
     switch ( evt.type )
     {
         case IEventType::KeyPress:
-            return handleKeyPress(evt.keyPress);
+            out = handleKeyPress(evt.keyPress);
+            break;
         case IEventType::MouseDown:
-            return handleMouseDown(evt.mouseDown);
+            out = handleMouseDown(evt.mouseDown);
+            break;
         case IEventType::MouseUp:
-            return handleMouseUp(evt.mouseUp);
+            out = handleMouseUp(evt.mouseUp);
+            break;
         case IEventType::MouseMove:
-            return handleMouseMove(evt.mouseMove);
+            out = handleMouseMove(evt.mouseMove);
+            break;
         case IEventType::WindowResize:
             break;
     }
 
-    return false;
+    // Stop all events from getting to the level while a modal dialog is open
+    if ( m_hasModalDialog )
+    {
+        return true;
+    }
+
+    return out;
 }
 
 void Manager::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
@@ -47,10 +60,10 @@ void Manager::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rI
             r->update(ticks, iinter, rInter);
         }
     }
-
-    auto modal = m_modalDialog.lock();
-    if (modal)
+    
+    if (m_hasModalDialog)
     {
+        auto modal = m_modalDialog.lock();
         rInter.addItem( m_modalSprite.renderObject({0, 0}), RenderLayer::UI);
         modal->update(ticks, iinter, rInter);
     }
@@ -83,7 +96,13 @@ void Manager::deleteElement(const ElementPtr& element)
 {
     if ( !element )
         return;
-
+    
+    if ( element->isModal() )
+    {
+        m_modalDialog.reset();
+        m_hasModalDialog = false;
+    }
+    
     if ( element->parent() )
     {
         element->parent()->removeChild(element);
@@ -401,6 +420,28 @@ bool Manager::handleMouseMove(IEventMouseMove evt)
     return !m_hoveredElems.empty();
 }
 
+bool Manager::handleKeyPress(IEventKeyPress evt)
+{
+    // TODO: Consider other dialogs?
+    
+    if (m_hasModalDialog)
+    {
+        auto modal = m_modalDialog.lock();
+        if ( modal->hasHotkey(evt.keyCode) )
+        {
+            UEvent uevent;
+            uevent.type = UEventType::KeyPress;
+            uevent.keyEvent.keyCode = evt.keyCode;
+        
+            modal->acceptEvent(uevent);
+            
+            return true;
+        }
+    }
+   
+    return false;
+}
+
 void Manager::openContextMenu(ContextMenuList const &items, Vector2i pos, ContextMenuCallback callback)
 {
     auto cmenu = createElement<UI::ContextMenu>(nullptr, items, callback);
@@ -479,6 +520,7 @@ void Manager::makeElementModal(std::shared_ptr<Element> elem)
     }
 
     m_modalDialog = elem;
+    m_hasModalDialog = true;
     elem->setIsModal(true);
 }
 
@@ -497,9 +539,9 @@ void Manager::openLevelMainMenu()
     centreElementInWindow(menu);
 }
 
-bool Manager::handleKeyPress(IEventKeyPress evt)
+bool Manager::hasModalDialog() const
 {
-    return false;
+    return m_hasModalDialog;
 }
 
 

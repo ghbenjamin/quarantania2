@@ -131,7 +131,7 @@ public:
     void removeSingleTileHighlight();
 
     void makeElementModal( std::shared_ptr<Element> elem );
-
+    bool hasModalDialog() const;
 
     // Dialogs
     void openLevelMainMenu();
@@ -160,6 +160,7 @@ private:
 
     std::weak_ptr<Element> m_modalDialog;
     Sprite m_modalSprite;
+    bool m_hasModalDialog;
 };
 
 }

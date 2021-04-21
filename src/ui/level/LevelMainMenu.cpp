@@ -10,6 +10,10 @@ LevelMainMenu::LevelMainMenu(Manager *manager, Element* parent)
     setLayout<VerticalLayout>(4, HAlignment::Fill );
     setPadding(8);
 
+    addHotkey( SDLK_ESCAPE, [this](){
+        onBtnResume();
+    });
+
     auto const& patch = ResourceManager::get().getNinePatch( "simple-border-solid" ).getPatch();
     setBackground( patch );
     setBorderWidth( patch.getBorderWidth() );
@@ -23,8 +27,9 @@ LevelMainMenu::LevelMainMenu(Manager *manager, Element* parent)
 
     for (auto& b : buttons)
     {
-        b->setPreferredContentSize({40, 20});
+        b->setPreferredContentSize({100, 25});
         b->getLabel().setTextSize(18);
+        b->setLayout<CenterLayout>();
     }
 
     doLayout();
@@ -32,7 +37,7 @@ LevelMainMenu::LevelMainMenu(Manager *manager, Element* parent)
 
 void LevelMainMenu::onBtnResume()
 {
-    manager()->deleteElement( shared_from_this() );
+    deleteSelf();
 }
 
 void LevelMainMenu::onBtnExitMainMenu()

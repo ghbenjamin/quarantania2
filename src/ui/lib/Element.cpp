@@ -357,14 +357,21 @@ RectI const &Element::innerBounds() const
 
 void Element::acceptEvent(UEvent &evt)
 {
-//    if (evt.type == UEventType::DragStart || evt.type == UEventType::DragMove || evt.type == UEventType::DragStop )
-//        Logging::log( "Element {}: event {}\n", (void*)this, (int)evt.type );
-
-    auto range = m_callbacks.equal_range(evt.type);
-
-    for ( auto it = range.first; it != range.second; it++ )
+    if (evt.type == UEventType::KeyPress)
     {
-        it->second(evt);
+        if ( hasHotkey(evt.keyEvent.keyCode) )
+        {
+            m_hotkeys[evt.keyEvent.keyCode]();
+        }
+    }
+    else
+    {
+        auto range = m_callbacks.equal_range(evt.type);
+    
+        for ( auto it = range.first; it != range.second; it++ )
+        {
+            it->second(evt);
+        }
     }
 }
 
@@ -523,6 +530,26 @@ void Element::setIsModal(bool value)
 bool Element::isModal() const
 {
     return m_isModal;
+}
+
+bool Element::hasHotkey( SDL_Keycode key ) const
+{
+    return m_hotkeys.find( key ) != m_hotkeys.end();
+}
+
+void Element::removeHotkey( SDL_Keycode key )
+{
+    m_hotkeys.erase( key );
+}
+
+void Element::addHotkey( SDL_Keycode key, std::function<void()> const &callback )
+{
+    m_hotkeys.emplace( key, callback );
+}
+
+void Element::deleteSelf()
+{
+    manager()->deleteElement( shared_from_this() );
 }
 
 

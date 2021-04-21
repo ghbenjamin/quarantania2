@@ -99,6 +99,8 @@ public:
     std::list<ElementPtr> const& children();
     void removeChild( ElementPtr const& child );
     void removeAllChildren();
+    
+    void deleteSelf();
 
     template <typename ET>
     void addChild( std::shared_ptr<ET> const& child )
@@ -153,7 +155,11 @@ public:
     void addEventCallback( UEventType type, UEventCallback const& callback );
     void removeEventCallbacks( UEventType type );
     void acceptEvent(UEvent& evt);
-
+    
+    void addHotkey(SDL_Keycode key, std::function<void()> const& callback);
+    bool hasHotkey(SDL_Keycode key) const;
+    void removeHotkey(SDL_Keycode key);
+    
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     void doLayout();
 
@@ -286,7 +292,8 @@ private:
 
     // Events
     std::unordered_multimap<UEventType, UEventCallback> m_callbacks;
-
+    std::unordered_map<SDL_Keycode, std::function<void()>> m_hotkeys;
+    
     // DOM
     std::list<ElementPtr> m_children;
     

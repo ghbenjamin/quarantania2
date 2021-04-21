@@ -46,7 +46,7 @@ struct UMouseMoveEvent
 
 struct UKeyEvent
 {
-
+    SDL_Keycode keyCode;
 };
 
 struct UDragEvent
