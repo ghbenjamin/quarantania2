@@ -270,6 +270,7 @@ void ResourceManager::addShaderProgram( std::string const &name, std::string con
 
 const std::string ResourceManager::getDefaultFontName()
 {
+//    return "robotoslab-regular";
     return "inconsolata-regular";
 }
 

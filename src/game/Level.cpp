@@ -231,14 +231,14 @@ void Level::setupUI()
     m_uiManager.alignElementToWindow( textLog, UI::Alignment::BottomRight, {-20, -20} );
     
 
-    textLog->addLine("Lorem ipsum dolor sit amet, consectetur adipiscing elit", Colour::White);
-    textLog->addLine("The feijoa is a kind of guava that grows on small trees of the myrtle family, pronounced fey-oa in its native South America and fee-jo-ah in New Zealand, where it is as essential to the culture as the kiwifruit (itself Chinese).", Colour::Teal);
-    textLog->addLine("Libero volutpat sed cras ornare arcu. Pretium aenean pharetra magna ac placerat vestibulum lectus mauris", Colour::Red);
-    textLog->addLine("Lorem ipsum dolor sit amet.", Colour::Blue);
+//    textLog->addLine("Lorem ipsum dolor sit amet, consectetur adipiscing elit", Colour::White);
+//    textLog->addLine("The feijoa is a kind of guava that grows on small trees of the myrtle family, pronounced fey-oa in its native South America and fee-jo-ah in New Zealand, where it is as essential to the culture as the kiwifruit (itself Chinese).", Colour::Teal);
+//    textLog->addLine("Libero volutpat sed cras ornare arcu. Pretium aenean pharetra magna ac placerat vestibulum lectus mauris", Colour::Red);
+//    textLog->addLine("Lorem ipsum dolor sit amet.", Colour::Blue);
     textLog->addLine("When Polish-born Hania inquired about the strange avocado-like fruit, she was met with a mixture of indignation, hostility and sympathy", Colour::Orange);
-    textLog->addLine("Odio morbi quis commodo odio aenean sed adipiscing diam donec. Eget arcu dictum varius duis at consectetur lorem. Nec ullamcorper sit amet risus nullam eget felis eget nunc", Colour::White);
-    textLog->addLine("Pulvinar mattis nunc sed blandit libero volutpat", Colour::Green);
-    textLog->addLine("Hello world", Colour::White);
+//    textLog->addLine("Odio morbi quis commodo odio aenean sed adipiscing diam donec. Eget arcu dictum varius duis at consectetur lorem. Nec ullamcorper sit amet risus nullam eget felis eget nunc", Colour::White);
+//    textLog->addLine("Pulvinar mattis nunc sed blandit libero volutpat", Colour::Green);
+//    textLog->addLine("Hello world", Colour::White);
 
     // Default hidden elements
     

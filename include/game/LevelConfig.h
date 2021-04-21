@@ -1,15 +1,8 @@
 #pragma once
 
-#include <utils/Containers.h>
-
+#include <string>
 
 struct FixedLevelConfig
 {
     std::string levelName;
-};
-
-struct RandomLevelConfig
-{
-    Vector2i size;
-    int roomDensity = -1;
 };

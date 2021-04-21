@@ -1,17 +1,17 @@
 #pragma once
 
 #include <state/State.h>
-#include <game/Level.h>
 
 
-struct RandomLevelConfig;
-struct PCData;
+class Level;
+struct PartyData;
+struct LevelContext;
 
 class LevelState : public GameState
 {
 public:
 
-    LevelState(RandomLevelConfig const& config, LevelContextPtr ctx, PartyData const& pgen );
+    LevelState(std::shared_ptr<LevelContext> const& ctx, PartyData const& pgen );
     ~LevelState() override = default;
 
     bool input(IEvent &evt) override;
@@ -19,6 +19,6 @@ public:
 
 private:
 
-    LevelPtr m_level;
-    LevelContextPtr m_levelCtx;
+    std::unique_ptr<Level> m_level;
+    std::shared_ptr<LevelContext> m_levelCtx;
 };

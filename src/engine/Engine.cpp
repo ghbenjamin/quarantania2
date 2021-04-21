@@ -8,6 +8,7 @@
 #include <utils/GlobalConfig.h>
 #include <state/LevelState.h>
 #include <state/InitState.h>
+#include <engine/InputInterface.h>
 
 void Engine::run()
 {

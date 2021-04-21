@@ -1,4 +1,6 @@
 #include <state/InitState.h>
+#include <game/Player.h>
+#include <game/LevelContext.h>
 #include <state/LevelState.h>
 
 InitState::InitState()
@@ -55,16 +57,7 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
     PartyData pdata;
     pdata.playerChars = { p1, p2 };
 
-    auto config = generateNextLevelConfig();
-    setNextState<LevelState>( config, m_levelCtx, pdata );
+    setNextState<LevelState>( m_levelCtx, pdata );
 }
 
-RandomLevelConfig InitState::generateNextLevelConfig()
-{
-    RandomLevelConfig config;
-    config.size = {21, 17};
-    config.roomDensity = 400;
-
-    return config;
-}
 

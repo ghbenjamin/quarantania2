@@ -7,6 +7,7 @@ namespace UI
 {
 
 class Label;
+class HorizontalRule;
 
 class EntityInformationView : public Element
 {
@@ -19,8 +20,11 @@ public:
 private:
     
     std::shared_ptr<Label> m_titleLabel;
-    std::shared_ptr<Label> m_debugText;
-    
+    std::shared_ptr<HorizontalRule> m_divider1;
+    std::shared_ptr<Label> m_section1;
+    std::shared_ptr<HorizontalRule> m_divider2;
+    std::shared_ptr<Label> m_section2;
+
 };
 
 

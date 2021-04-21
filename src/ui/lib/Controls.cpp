@@ -312,5 +312,5 @@ HorizontalRule::HorizontalRule(Manager *manager, Element *parent, Colour colour)
     : Element(manager, parent)
 {
     setBackground(colour);
-    setPreferredContentSize({20, 2});
+    setPreferredContentSize({20, 1});
 }

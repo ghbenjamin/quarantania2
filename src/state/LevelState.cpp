@@ -6,7 +6,7 @@
 #include <game/FixedLevelFactory.h>
 
 
-LevelState::LevelState(RandomLevelConfig const& config, LevelContextPtr ctx, PartyData const& pdata )
+LevelState::LevelState(std::shared_ptr<LevelContext> const& ctx, PartyData const& pdata )
 : m_levelCtx(ctx)
 {
     TiledMapLoader loader;

@@ -1,9 +1,8 @@
 #pragma once
 
 #include <state/State.h>
-#include <game/LevelContext.h>
-#include <game/LevelConfig.h>
 
+struct LevelContext;
 
 class InitState : public GameState
 {
@@ -16,7 +15,5 @@ public:
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter) override;
 
 private:
-    RandomLevelConfig generateNextLevelConfig();
-
-    LevelContextPtr m_levelCtx;
+    std::shared_ptr<LevelContext> m_levelCtx;
 };

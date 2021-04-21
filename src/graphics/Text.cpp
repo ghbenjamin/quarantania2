@@ -84,6 +84,7 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, in
     AssertMsg( it != m_charData.end(), fmt::format("Missing font size: {}", fontSize) );
     auto& charVector = it->second;
 
+    // Max width <=0 => unbounded width, never wrap
     if (maxWidth <= 0)
     {
         maxWidth = std::numeric_limits<int>::max();
@@ -97,12 +98,15 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, in
     float currY = 0;
     float nextX = 0;
     float nextY = 0;
-    float lineSpacing = (float) fontSize;
-    
+    float lineSpacing = (float) fontSize; // This is wrong <---
+//    float lineSpacing = (float) (m_face->height / 64);
+
     float maxY = -1000;
     float minY = 1000;
     float maxH = 0;
     float maxW = 0;
+
+    int lineCount = 1;
     
     for (int i = 0; i < (int) str.size(); i++)
     {
@@ -112,19 +116,26 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, in
         auto placement = FtCharPlacement{ currX + char_data.bearingX, currY - char_data.bearingY, char_idx };
         currentWordGlyphs.push_back(placement);
 
-        currX += char_data.advance >> 6;
+        currX += char_data.advance;
         maxH = std::max(maxH, char_data.height);
         maxY = std::max(placement.y + char_data.height, maxY);
         minY = std::min(placement.y, minY);
 
         if ( !std::isalnum( str.at(i)) )
         {
+            // If the current glyph is not alphanumeric, it might be the end of a word. Consider this glyph a possible
+            // break point and work out whether or not we need to wrap onto the net line
+
             float leftWordEdge = currentWordGlyphs.front().x;
-            float rightWordEdge = currentWordGlyphs.back().x + charVector[currentWordGlyphs.back().idx].width;
+            float currGlyphWidth = (float) charVector[currentWordGlyphs.back().idx].advance;
+            float rightWordEdge = currentWordGlyphs.back().x + currGlyphWidth;
 
             if (rightWordEdge > maxWidth)
             {
-                for (auto& c : currentWordGlyphs)
+                // The right-most edge of the current word extends beyond the wrap width - the current word needs
+                // to be moved to the beginning of the next line.
+
+                for ( auto& c : currentWordGlyphs )
                 {
                     c.x -= leftWordEdge;
                     c.y += lineSpacing;
@@ -133,6 +144,7 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, in
                 currX = rightWordEdge - leftWordEdge;
                 currY += lineSpacing;
                 maxW = std::max( maxW, leftWordEdge );
+                lineCount++;
             }
 
             allGlyphs.insert( allGlyphs.end(), currentWordGlyphs.begin(), currentWordGlyphs.end() );
@@ -161,9 +173,8 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, in
     maxW = std::max( maxW, allGlyphs.back().x + charVector[allGlyphs.back().idx].width - allGlyphs.front().x );
 
     textObj.setSize({
-//        (int)(allGlyphs.back().x + charVector[allGlyphs.back().idx].width - allGlyphs.front().x),
         (int) maxW,
-        (int)(maxY - minY)
+        (int)(lineCount * lineSpacing)
     });
 
     return textObj;
@@ -213,7 +224,7 @@ void FtFontFace::generateFontData( int size )
         charData.height = (float) m_face->glyph->bitmap.rows;
         charData.bearingX = (float) m_face->glyph->bitmap_left;
         charData.bearingY = (float) m_face->glyph->bitmap_top;
-        charData.advance = m_face->glyph->advance.x;
+        charData.advance = m_face->glyph->advance.x >> 6;
         
         currMaxH = std::max(charData.height, currMaxH);
 
