@@ -35,4 +35,23 @@ private:
     Sprite m_sprite;
 };
 
+
+
+class TileArrowHighlight : public Element
+{
+public:
+    TileArrowHighlight(Manager* manager, Element* parent, OrderedGridRegion region, Colour colour, Vector2i origin);
+    ~TileArrowHighlight() override = default;
+
+private:
+    
+    void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
+    SpritesheetKey getSpriteForTiles( Vector2i prev, Vector2i curr, Vector2i next );
+    SpritesheetKey getSpriteForTiles( Vector2i curr, Vector2i next );
+    
+    std::vector<Sprite> m_sprites;
+    std::vector<Vector2i> m_offsets;
+};
+
+
 }

@@ -469,7 +469,8 @@ void ActionControllerSingleTile::onHoveredTileChange(Vector2i prev, Vector2i cur
         {
             m_tilePath = m_targeting->pathToTile(curr);
             m_level->ui().deleteElement(m_pathHighlight);
-            m_pathHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, m_tilePath, Colour::Red);
+//            m_pathHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, m_tilePath, Colour::Red);
+            m_pathHighlight = m_level->ui().createElement<UI::TileArrowHighlight>(nullptr, m_tilePath, Colour::Red, m_origin);
         }
     }
 }

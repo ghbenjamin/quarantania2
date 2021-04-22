@@ -68,6 +68,7 @@ GridBitmask& operator|= (GridBitmask& lhs, Direction rhs);
 bool operator== (GridBitmask& lhs, Direction rhs);
 
 using GridRegion = std::vector<Vector2i>;
+using OrderedGridRegion = std::vector<Vector2i>;
 
 class GridUtils
 {
