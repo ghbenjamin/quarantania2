@@ -425,6 +425,8 @@ ActionControllerSingleTile::ActionControllerSingleTile(Level *level, EntityRef r
 
     // Highlight the tiles that can be moved to
     m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, gr, Colour::Lime);
+
+    m_origin = level->ecs().getComponents<PositionComponent>(ref)->tilePosition;
 }
 
 bool ActionControllerSingleTile::onMouseDown(IEventMouseDown evt)

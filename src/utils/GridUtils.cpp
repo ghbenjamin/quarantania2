@@ -37,6 +37,13 @@ bool GridUtils::isAdjacentCardinal(Vector2i lhs, Vector2i rhs)
     return ( x == 0 && y == 1) || ( y == 0 && x == 1 );
 }
 
+bool GridUtils::isDiagonal(Vector2i lhs, Vector2i rhs)
+{
+    int x = std::abs(rhs.x() - lhs.x());
+    int y = std::abs(rhs.y() - lhs.y());
+
+    return x == 1 && y == 1;
+}
 
 GridRegion GridUtils::createLine(Vector2i start, Vector2i end)
 {
@@ -231,6 +238,7 @@ bool GridUtils::isCardinal(Direction dir)
     return dir == Direction::N || dir == Direction::E
            || dir == Direction::S || dir == Direction::W;
 }
+
 
 Direction operator | (Direction lhs, Direction rhs)
 {

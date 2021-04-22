@@ -87,6 +87,7 @@ public:
 
     static bool isAdjacent(Vector2i lhs, Vector2i rhs);
     static bool isAdjacentCardinal(Vector2i lhs, Vector2i rhs);
+    static bool isDiagonal(Vector2i lhs, Vector2i rhs);
 
 private:
     static GridRegion createLineLow( int x0, int y0, int x1, int y1 );
