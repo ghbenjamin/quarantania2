@@ -6,7 +6,7 @@
     "speed": "Move",
     "provokes": false,
     "description": "Take a single step in any direction. Does not provoke attacks of opportunity.",
-    "icon": "game_ui/walking-boot"
+    "icon": "game_ui/w-24-walking-boot"
   },
   {
     "name": "Move",
@@ -15,7 +15,7 @@
     "speed": "Move",
     "provokes": true,
     "description": "Walk to a new position.",
-    "icon": "game_ui/walk"
+    "icon": "game_ui/w-24-walk"
   },
   {
     "name": "Strike",
@@ -24,7 +24,7 @@
     "speed": "Standard",
     "provokes": false,
     "description": "Strike a single enemy with your primary melee weapon.",
-    "icon": "game_ui/sword-brandish"
+    "icon": "game_ui/w-24-sword-brandish"
   },
   {
     "name": "Full Attack",
@@ -33,7 +33,7 @@
     "speed": "FullRound",
     "provokes": false,
     "description": "Spend the turn attacking with all available weapons.",
-    "icon": "game_ui/sword-array"
+    "icon": "game_ui/w-24-sword-array"
   },
   {
     "name": "Power Attack",
@@ -42,6 +42,6 @@
     "speed": "Standard",
     "provokes": false,
     "description": "A melee strike which sacrifices accuracy for damage.",
-    "icon": "game_ui/axe-swing"
+    "icon": "game_ui/w-24-axe-swing"
   }
 ]

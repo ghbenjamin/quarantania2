@@ -17,19 +17,25 @@ UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *
     setId("action-menu-popup-menu");
     setLayout<VerticalLayout>( 4, HAlignment::Left );
     
+    auto const& patch = ResourceManager::get().getNinePatch( "simple-border-solid" ).getPatch();
+    
     for ( GameAction const& act : items )
     {
         auto elem = manager->createElement<UI::Element>(this);
-        elem->setPadding(4);
+        elem->setPadding(2);
+        elem->setPreferredContentSize({150, 10});
         elem->setLayout<HorizontalLayout>(8, VAlignment::Centre);
 
-        manager->createElement<UI::Icon>(elem.get(), act.data.sprite );
-        manager->createElement<UI::Label>(elem.get(), act.data.name );
+        auto iconElem = manager->createElement<UI::Icon>(elem.get(), act.data.sprite );
+        iconElem->getSprite().setPermanentColour( Colour::Black );
+        iconElem->setPadding(2);
+        
+        auto labelElem = manager->createElement<UI::Label>(elem.get(), act.data.name );
+        labelElem->setTextColour(Colour::White);
 
         if (act.enabled)
         {
-            elem->setBackground(Colour::Beige);
-
+            elem->setBackground(patch);
             elem->addEventCallback(UEventType::Click, [manager, act, this](UEvent const& evt) {
 
                 auto actionMenu = manager->firstElementMatching(
@@ -44,9 +50,7 @@ UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *
         {
             elem->setBackground(Colour::Grey);
         }
-
-
-    
+        
         elem->setTooltipSpawner( [=](){
             TooltipData data { act.data.name };
             data.content = act.data.description;
@@ -78,11 +82,11 @@ UI::ActionMenu::ActionMenu(UI::Manager *manager, UI::Element *parent)
     setBorderWidth( patch.getBorderWidth() );
     
     m_spawns[RawActionDataType::Attack] = manager->createElement<UI::ActionMenuSpawnItem>(
-        this, "Attack", "game_ui/axe-sword", RawActionDataType::Attack);
+        this, "Attack", "game_ui/w-axe-sword", RawActionDataType::Attack);
     m_spawns[RawActionDataType::Move] = manager->createElement<UI::ActionMenuSpawnItem>(
-        this, "Move", "game_ui/move", RawActionDataType::Move);
+        this, "Move", "game_ui/w-move", RawActionDataType::Move);
     m_spawns[RawActionDataType::Item] = manager->createElement<UI::ActionMenuSpawnItem>(
-        this, "Items", "game_ui/light-backpack", RawActionDataType::Item);
+        this, "Items", "game_ui/w-light-backpack", RawActionDataType::Item);
 }
 
 void UI::ActionMenu::onSpawnItemClick(RawActionDataType category)
@@ -155,6 +159,8 @@ void UI::ActionMenu::openMenu(RawActionDataType category)
     
     origin.x( spawn->outerBounds().x() );
     origin.y( origin.y() - newMenu->outerBounds().h() );
+    
+    origin = origin + Vector2i(4, -4);
     
     newMenu->setLocalPosition(origin);
     
