@@ -15,20 +15,22 @@ SingleTileHighlight::SingleTileHighlight(Manager* manager, Element* parent, Vect
 : Element( manager, parent )
 {
     setPreferredContentSize({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx});
+    Sprite corners = ResourceManager::get().getSprite( "game_ui/tile-corners-white" );
 
     switch (type)
     {
         case SingleTileHighlightType::Green:
-            setBackground( SpritesheetKey{"game_ui/tile-corners-green"});
+            corners.setPermanentColour(Colour::Green);
             break;
         case SingleTileHighlightType::Red:
-            setBackground( SpritesheetKey{"game_ui/tile-corners-red"});
+            corners.setPermanentColour(Colour::Red);
             break;
         case SingleTileHighlightType::Yellow:
-            setBackground( SpritesheetKey{"game_ui/tile-corners-yellow"});
+            corners.setPermanentColour(Colour::Yellow);
             break;
     }
 
+    setBackground(corners);
     setLocalPosition( manager->level()->tileCoordsToScreen(tile) );
     setDecorative();
 }
