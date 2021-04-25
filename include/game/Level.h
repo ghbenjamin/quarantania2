@@ -100,7 +100,6 @@ private:
     RandomInterface m_random;
     LevelContextPtr m_ctx;
     std::vector<std::shared_ptr<LevelController>> m_controllers;
-    bool m_isComplete;
     LevelExitStatus m_exitStatus;
 
     // Map

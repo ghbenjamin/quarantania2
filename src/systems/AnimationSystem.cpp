@@ -22,7 +22,7 @@ void AnimationSystem::update(uint32_t ticks, RenderInterface &rInter)
             anim->movementPathAnim->advance( ticks );
             tile->pixelPosition = anim->movementPathAnim->currentPosition().convert<int>();
             
-            if ( anim->movementPathAnim->shouldExitLevel())
+            if ( anim->movementPathAnim->isComplete() )
             {
                 tile->pixelPosition = anim->movementPathAnim->finalPosition().convert<int>();
                 anim->movementPathAnim.reset();
@@ -32,7 +32,7 @@ void AnimationSystem::update(uint32_t ticks, RenderInterface &rInter)
         {
             anim->colourModAnim->advance( ticks );
             
-            if ( anim->colourModAnim->shouldExitLevel() )
+            if ( anim->colourModAnim->isComplete() )
             {
                 render->sprite.setColourMod(anim->colourModAnim->colour());
                 anim->colourModAnim.reset();

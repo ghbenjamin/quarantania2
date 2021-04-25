@@ -1,5 +1,14 @@
 #include <state/State.h>
 
+
+GameState::GameState()
+    : m_requestedPopState(false),
+      m_requestedReplaceState(false),
+      m_requestedExit(false)
+{
+}
+
+
 bool GameState::hasNextState() const
 {
     return !!m_nextState;
@@ -18,11 +27,6 @@ bool GameState::hasRequestedPopState() const
 void GameState::requestPopState()
 {
     m_requestedPopState = true;
-}
-
-GameState::GameState()
-: m_requestedPopState(false)
-{
 }
 
 void GameState::requestExit()

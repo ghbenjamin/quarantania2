@@ -1,6 +1,7 @@
 #include <ui/level/LevelMainMenu.h>
 #include <ui/lib/Manager.h>
 #include <resource/ResourceManager.h>
+#include <game/Level.h>
 
 using namespace UI;
 
@@ -42,12 +43,12 @@ void LevelMainMenu::onBtnResume()
 
 void LevelMainMenu::onBtnExitMainMenu()
 {
-
+    manager()->level()->setLevelExitStatus( LevelExitStatus::MainMenu );
 }
 
 void LevelMainMenu::onBtnQuit()
 {
-
+    manager()->level()->setLevelExitStatus( LevelExitStatus::Desktop );
 }
 
 void LevelMainMenu::onBtnOptions()

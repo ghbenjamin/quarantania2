@@ -82,7 +82,7 @@ void Engine::run()
         if ( m_states.back()->hasRequestedExit() )
         {
             // The current state has requested that we exit the program
-            run 
+            runGame = false;
         }
         
         else if (m_states.back()->hasRequestedPopState() )
@@ -99,7 +99,7 @@ void Engine::run()
                 // Replace the current state with the new one.
                 auto next = std::move( m_states.back()->getNextState() );
                 m_states.pop_back();
-                m_states.push_back( next );
+                m_states.push_back( std::move(next) );
             }
             else
             {

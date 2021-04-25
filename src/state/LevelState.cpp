@@ -29,14 +29,20 @@ void LevelState::update(uint32_t ticks, InputInterface& iinter, RenderInterface 
     {
         // TODO: Serialize level state
     
-        
-        
-        if ( m_level->getLevelExitStatus() == LevelExitStatus::Desktop )
-        {
-        
-        }
     
-        requestPopState();
+        switch ( m_level->getLevelExitStatus() )
+        {
+            case LevelExitStatus::Completed:
+                break;
+            case LevelExitStatus::MainMenu:
+                requestExit();
+                break;
+            case LevelExitStatus::Desktop:
+                requestExit();
+                break;
+            default:
+                AssertAlways();
+        }
     }
 }
 
