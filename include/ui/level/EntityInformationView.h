@@ -19,12 +19,11 @@ public:
 
 private:
     
+    std::shared_ptr<Label> addSection( );
+    
     std::shared_ptr<Label> m_titleLabel;
-    std::shared_ptr<HorizontalRule> m_divider1;
-    std::shared_ptr<Label> m_section1;
-    std::shared_ptr<HorizontalRule> m_divider2;
-    std::shared_ptr<Label> m_section2;
-
+    std::vector<std::shared_ptr<HorizontalRule>> m_dividers;
+    std::vector<std::shared_ptr<Label>> m_sections;
 };
 
 

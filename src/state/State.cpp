@@ -24,3 +24,18 @@ GameState::GameState()
 : m_requestedPopState(false)
 {
 }
+
+void GameState::requestExit()
+{
+    m_requestedExit = true;
+}
+
+bool GameState::hasRequestedReplaceState() const
+{
+    return m_requestedReplaceState;
+}
+
+bool GameState::hasRequestedExit() const
+{
+    return m_requestedExit;
+}

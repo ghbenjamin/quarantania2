@@ -24,6 +24,15 @@ class InputInterface;
 struct IEvent;
 
 
+enum class LevelExitStatus
+{
+    None,
+    Completed,
+    MainMenu,
+    Desktop
+};
+
+
 class Level
 {
 public:
@@ -38,6 +47,8 @@ public:
     bool input(IEvent &evt);
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
+
+    // API
     RandomInterface& random();
     Grid& grid();
     GameEventHub& events();
@@ -63,14 +74,14 @@ public:
     // State
     bool isPlayerTurn() const;          // Is the player or the computer taking its turn?
     int getCurrentRound() const;        // The current turn count.
-    void switchTurn();
-    void advanceRound();
+    void switchTurn();                  // Toggle between the player turn and the AI turn
+    void advanceRound();                // Move to the next round. Called automatically once the turn toggles twice
     bool isInteractable() const;        // Can the player currently interact with the level?
     void setInteractible(bool value);   // Set whether or not the player is allowed to interact with the level
 
     // Communication
-    bool isComplete() const;
-    void setComplete();
+    LevelExitStatus getLevelExitStatus() const;
+    void setLevelExitStatus( LevelExitStatus status );
 
     std::string getDescriptionForEnt( EntityRef ent );
     std::string getDescriptionForItem( ItemPtr item );
@@ -79,17 +90,10 @@ public:
 private:
 
     // UI Methods
-    void setupUI();
-    void layoutWindows();
-    
-    // Rendering methods
-    void render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
-    RenderObject generateTileRenderData();
-    void renderTiles(uint32_t ticks, RenderInterface &rInter);
-    
-    // Centre the camera on the centroid of the positions of all party members
-    void centerCameraOnParty();
-    
+    void setupUI();                         // Create our permenant UI elements
+    void layoutWindows();                   // Re-layout our dependent UI windows if one of them moves
+    RenderObject generateTileRenderData();  // Construct the render object for our tile data
+    void centerCameraOnParty();             // Centre the camera on the centroid of the positions of all party members
 
 
     // Misc
@@ -97,6 +101,7 @@ private:
     LevelContextPtr m_ctx;
     std::vector<std::shared_ptr<LevelController>> m_controllers;
     bool m_isComplete;
+    LevelExitStatus m_exitStatus;
 
     // Map
     Tileset m_renderTileMap;

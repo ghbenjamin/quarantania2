@@ -135,7 +135,8 @@ private:
 
 
 
-
+// A PC and an action with a single tile target have been selected. Highlight the possible targets and handle
+// target selection
 class ActionControllerSingleTile : public LevelController
 {
 public:
