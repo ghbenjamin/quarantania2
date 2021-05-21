@@ -19,12 +19,15 @@ public:
     std::array<float, 4> asOpenGL() const;
     
     Colour withAlpha(uint8_t val) const;
+    Colour withAlphaF(float val) const;
 
     bool operator==(const Colour &rhs) const;
     bool operator!=(const Colour &rhs) const;
     bool operator<(const Colour &rhs) const;
     Colour operator-(Colour const &other) const;
-    
+
+    std::string toString();
+
     static const Colour Red;
     static const Colour Green;
     static const Colour Yellow;

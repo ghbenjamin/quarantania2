@@ -549,8 +549,10 @@ void Element::addHotkey( SDL_Keycode key, std::function<void()> const &callback 
 
 void Element::deleteSelf()
 {
-    manager()->deleteElement( shared_from_this() );
+    manager()->delayedDeleteElement( shared_from_this() );
 }
 
-
-
+bool Element::hasActiveAlphaTransition() const
+{
+    return m_alphaTransition.has_value() && !m_alphaTransition->isFinished();
+}

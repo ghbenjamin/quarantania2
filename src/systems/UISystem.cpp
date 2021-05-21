@@ -128,6 +128,8 @@ void UISystem::operator()(GameEvents::EntityAction &evt)
 void UISystem::operator()(GameEvents::RoundChange &evt)
 {
     refreshPartyStatus();
+
+    m_level->ui().displayTransientMessage("Round 1");
 }
 
 void UISystem::operator()(GameEvents::CombatMissedAttack &evt)

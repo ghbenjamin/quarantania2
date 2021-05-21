@@ -16,6 +16,7 @@
 #include <ui/level/EntityInformationView.h>
 #include <ui/level/BetterTextLog.h>
 #include <ui/lib/Dialogs.h>
+#include <ui/lib/TransientMessage.h>
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 : m_ctx(std::move(ctx)),

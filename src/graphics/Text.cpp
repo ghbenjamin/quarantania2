@@ -65,6 +65,7 @@ FtFontFace::FtFontFace( FT_Face const& face )
     : m_face(face), m_currentTexOffset(0, 0)
 {
     m_texture = std::make_shared<Texture>( Vector2i{ TEXTURE_WIDTH_PX, TEXTURE_HEIGHT_PX } );
+    generateFontData( 28 );
     generateFontData( 18 );
     generateFontData( 16 );
     generateFontData( 14 );

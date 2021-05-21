@@ -77,6 +77,7 @@ public:
     }
 
     void deleteElement( const ElementPtr& element );
+    void delayedDeleteElement( const ElementPtr& element );
 
     void alignElementToWindow( const ElementPtr& element, UI::Alignment alignment, Vector2i offset);
     void alignElementToElement( ElementPtr const& desc, ElementPtr const& target, UI::Alignment alignment, Vector2i offset);
@@ -133,6 +134,8 @@ public:
     void makeElementModal( std::shared_ptr<Element> elem );
     bool hasModalDialog() const;
 
+    void displayTransientMessage( std::string message );
+
     // Dialogs
     void openLevelMainMenu();
 
@@ -161,6 +164,8 @@ private:
     std::weak_ptr<Element> m_modalDialog;
     Sprite m_modalSprite;
     bool m_hasModalDialog;
+
+    std::vector<ElementPtr> m_delayedDeleteElems;
 };
 
 }

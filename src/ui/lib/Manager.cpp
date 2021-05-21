@@ -8,6 +8,7 @@
 #include <utils/GlobalConfig.h>
 #include <graphics/Primatives.h>
 #include <ui/level/LevelMainMenu.h>
+#include <ui/lib/TransientMessage.h>
 
 using namespace UI;
 
@@ -66,6 +67,11 @@ void Manager::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rI
         auto modal = m_modalDialog.lock();
         rInter.addItem( m_modalSprite.renderObject({0, 0}), RenderLayer::UI);
         modal->update(ticks, iinter, rInter);
+    }
+
+    for ( auto &elem : m_delayedDeleteElems )
+    {
+        deleteElement(elem);
     }
 }
 
@@ -542,6 +548,25 @@ void Manager::openLevelMainMenu()
 bool Manager::hasModalDialog() const
 {
     return m_hasModalDialog;
+}
+
+void Manager::delayedDeleteElement(const ElementPtr &element)
+{
+    m_delayedDeleteElems.push_back(element);
+}
+
+void Manager::displayTransientMessage(std::string message)
+{
+    auto testTransient = createElement<UI::TransientMessage>( nullptr, 0.5f, 2.0f, 0.8f );
+    testTransient->getLabel()->setText( message );
+
+    //
+    auto dlgSize = testTransient->outerBounds().right();
+    auto wndSize = ResourceManager::get().getWindow()->getSize();
+    testTransient->setLocalPosition({
+            (wndSize.x() - dlgSize.x()) / 2,
+            (wndSize.y() - dlgSize.y()) / 4
+    });
 }
 
 

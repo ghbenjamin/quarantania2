@@ -28,9 +28,6 @@ const Colour Colour::Black = SDL_Colour{ 0, 0, 0, 255 };
 Colour::Colour(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
         : m_colour{r, g, b, a}, m_r(intToFloat(r)), m_g(intToFloat(g)), m_b(intToFloat(b)), m_a(intToFloat(a)) {}
 
-//Colour::Colour(uint8_t r, uint8_t g, uint8_t b)
-//    : m_colour{r, g, b, 255}, m_r(intToFloat(r)), m_g(intToFloat(g)), m_b(intToFloat(b)), m_a(1.0f) {}
-
 Colour::Colour(const std::string& str)
 {
     if ( str.size() == 7 && str.at(0) == '#' )
@@ -79,6 +76,11 @@ Colour Colour::withAlpha(uint8_t val) const
     c.m_colour.a = val;
     c.m_a = intToFloat(val);
     return c;
+}
+
+Colour Colour::withAlphaF(float val) const
+{
+    return withAlpha( (uint8_t)(val * 255.f) );
 }
 
 
@@ -216,3 +218,9 @@ const Colour Colour::fromName(const std::string &name)
         return Colour::Black;
     }
 }
+
+std::string Colour::toString()
+{
+    return fmt::format( "[{}, {}, {}, {}]", m_r, m_g, m_b, m_a );
+}
+

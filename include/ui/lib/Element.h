@@ -136,6 +136,7 @@ public:
     
     // Alpha mods for fades in/out
     std::optional<float> getAlphaMod();
+    bool hasActiveAlphaTransition() const;
     void setAlphaMod( float value );
     void setAlphaTransition(float start, float, float time);
     void setFadeIn();
