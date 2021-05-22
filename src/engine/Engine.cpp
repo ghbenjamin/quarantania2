@@ -79,15 +79,32 @@ void Engine::run()
 
         // State checking
 
-        if (m_states.back()->hasRequestedPopState() )
+        if ( m_states.back()->hasRequestedExit() )
+        {
+            // The current state has requested that we exit the program
+            runGame = false;
+        }
+        
+        else if (m_states.back()->hasRequestedPopState() )
         {
             // Clear the current state if we've been asked to
             m_states.pop_back();
         }
+        
         else if ( m_states.back()->hasNextState() )
         {
-            // Add a new state if we've been asked to
-            m_states.push_back( m_states.back()->getNextState() );
+            // There's a new state. Should we add or replace?
+            if (m_states.back()->hasRequestedReplaceState())
+            {
+                // Replace the current state with the new one.
+                auto next = std::move( m_states.back()->getNextState() );
+                m_states.pop_back();
+                m_states.push_back( std::move(next) );
+            }
+            else
+            {
+                m_states.push_back( m_states.back()->getNextState() );
+            }
         }
 
         // Rely on vsync for now to manage the framerate rather than hacking about with sleeps

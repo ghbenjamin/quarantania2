@@ -22,7 +22,7 @@ void AnimationSystem::update(uint32_t ticks, RenderInterface &rInter)
             anim->movementPathAnim->advance( ticks );
             tile->pixelPosition = anim->movementPathAnim->currentPosition().convert<int>();
             
-            if (anim->movementPathAnim->isComplete())
+            if ( anim->movementPathAnim->isComplete() )
             {
                 tile->pixelPosition = anim->movementPathAnim->finalPosition().convert<int>();
                 anim->movementPathAnim.reset();

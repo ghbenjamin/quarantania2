@@ -25,9 +25,24 @@ void LevelState::update(uint32_t ticks, InputInterface& iinter, RenderInterface 
 {
     m_level->update(ticks, iinter, rInterface);
 
-    if ( m_level->isComplete() )
+    if ( m_level->getLevelExitStatus() != LevelExitStatus::None )
     {
-        requestPopState();
+        // TODO: Serialize level state
+    
+    
+        switch ( m_level->getLevelExitStatus() )
+        {
+            case LevelExitStatus::Completed:
+                break;
+            case LevelExitStatus::MainMenu:
+                requestExit();
+                break;
+            case LevelExitStatus::Desktop:
+                requestExit();
+                break;
+            default:
+                AssertAlways();
+        }
     }
 }
 

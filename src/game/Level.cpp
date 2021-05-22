@@ -22,7 +22,6 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 : m_ctx(std::move(ctx)),
   m_grid(size),
   m_random(rg),
-  m_isComplete(false),
   m_camera( size * GlobalConfig::TileSizePx ),
   m_ecs(this),
   m_controllers{ std::make_shared<DefaultLController>(this) },
@@ -30,7 +29,8 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
   m_currentRound(0),
   m_isPlayerTurn(true),
   m_canInteract(true),
-  m_tileRenderDirtyBit(true)
+  m_tileRenderDirtyBit(true),
+  m_exitStatus(LevelExitStatus::None)
 {
     setupUI();
     layoutWindows();
@@ -62,16 +62,6 @@ bool Level::input(IEvent &evt)
     return m_controllers.back()->input(evt);
 }
 
-void Level::render(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
-{
-    if (m_tileRenderDirtyBit)
-    {
-        rInter.releaseRenderQueue(RenderLayer::Tiles);
-        renderTiles(ticks, rInter);
-        rInter.holdRenderQueue(RenderLayer::Tiles);
-        m_tileRenderDirtyBit = false;
-    }
-}
 
 void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
 {
@@ -103,22 +93,22 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
         m_controllers.back()->onEnter();
     }
     
-
     m_controllers.back()->update(ticks, iinter, rInter);
 
-    // Render statics: tiles, etc.
-    render(ticks, iinter, rInter);
+    // Render our tiles
+    if (m_tileRenderDirtyBit)
+    {
+        rInter.releaseRenderQueue(RenderLayer::Tiles);
+        rInter.addItem( m_tileRenderObj, RenderLayer::Tiles );
+        rInter.holdRenderQueue(RenderLayer::Tiles);
+        m_tileRenderDirtyBit = false;
+    }
 
     // Update + render our entities
     m_ecs.update(ticks, iinter, rInter);
 
     // Render the GUI
     m_uiManager.update(ticks, iinter, rInter);
-}
-
-void Level::renderTiles(uint32_t ticks, RenderInterface &rInter)
-{
-    rInter.addItem( m_tileRenderObj, RenderLayer::Tiles );
 }
 
 RenderObject Level::generateTileRenderData()
@@ -213,7 +203,7 @@ Vector2i Level::tileCoordsToWorld( Vector2i const &tile ) const
 
 void Level::setupUI()
 {
-    // Fixed UI Elements
+    // Fixed-in-place UI Elements
 
     // Widget containing the current party and information
     auto turnOrderContainer = m_uiManager.createElement<UI::PlayerStatusContainer>(nullptr);
@@ -231,24 +221,14 @@ void Level::setupUI()
     auto textLog = m_uiManager.createElement<UI::BetterTextLog>(nullptr);
     m_uiManager.alignElementToWindow( textLog, UI::Alignment::BottomRight, {-20, -20} );
     
-
-//    textLog->addLine("Lorem ipsum dolor sit amet, consectetur adipiscing elit", Colour::White);
-//    textLog->addLine("The feijoa is a kind of guava that grows on small trees of the myrtle family, pronounced fey-oa in its native South America and fee-jo-ah in New Zealand, where it is as essential to the culture as the kiwifruit (itself Chinese).", Colour::Teal);
-//    textLog->addLine("Libero volutpat sed cras ornare arcu. Pretium aenean pharetra magna ac placerat vestibulum lectus mauris", Colour::Red);
-//    textLog->addLine("Lorem ipsum dolor sit amet.", Colour::Blue);
-    textLog->addLine("When Polish-born Hania inquired about the strange avocado-like fruit, she was met with a mixture of indignation, hostility and sympathy", Colour::Orange);
-//    textLog->addLine("Odio morbi quis commodo odio aenean sed adipiscing diam donec. Eget arcu dictum varius duis at consectetur lorem. Nec ullamcorper sit amet risus nullam eget felis eget nunc", Colour::White);
-//    textLog->addLine("Pulvinar mattis nunc sed blandit libero volutpat", Colour::Green);
-//    textLog->addLine("Hello world", Colour::White);
-
+    
     // Default hidden elements
+    
     
     auto entityInfo = m_uiManager.createElement<UI::EntityInformationView>(nullptr);
     m_uiManager.alignElementToWindow( entityInfo, UI::Alignment::TopRight, {-20, 20} );
     entityInfo->hide();
-
-   
-
+    
     auto playerInventory = m_uiManager.createElement<UI::ContainerView>(nullptr, Vector2i{6, 2}); // TODO container size from container 
     m_uiManager.alignElementToElement( playerInventory, textLog, UI::Alignment::TopRight, {0, -10} );
     playerInventory->setId("player-inventory");
@@ -257,16 +237,6 @@ void Level::setupUI()
     auto equipUi = m_uiManager.createElement<UI::EquipView>(nullptr);
     m_uiManager.alignElementToElement( equipUi, playerInventory, UI::Alignment::TopRight, {0, -10} );
     equipUi->hide();
-
-//    // Debug - example of a dialog
-//
-//    std::vector<UI::MessageBoxButtonInfo> info;
-//    info.emplace_back( "Option 1", [](){ Logging::log("option 1 pressed"); } );
-//    info.emplace_back( "Option 2", [](){ Logging::log("option 2 pressed"); } );
-//
-//    auto dlg = m_uiManager.createElement<UI::MsgBoxDialog>(nullptr, "Hello, World?", 100, "I am a message box with a message and some buttons", info);
-//    m_uiManager.centreElementInWindow(dlg);
-//    m_uiManager.makeElementModal(dlg);
 }
 
 void Level::layoutWindows()
@@ -281,11 +251,6 @@ UI::Manager& Level::ui()
     return m_uiManager;
 }
 
-bool Level::isComplete() const
-{
-    return m_isComplete;
-}
-
 int Level::squaredEntityDistance(EntityRef a, EntityRef b)
 {
     auto transformA = m_ecs.getComponents<PositionComponent>(a);
@@ -298,11 +263,6 @@ int Level::squaredEntityDistance(EntityRef a, EntityRef b)
 float Level::entityDistance(EntityRef a, EntityRef b)
 {
     return (float) std::sqrt( squaredEntityDistance(a, b) );
-}
-
-void Level::setComplete()
-{
-    m_isComplete = true;
 }
 
 std::string Level::getDescriptionForEnt(EntityRef ent)
@@ -444,6 +404,16 @@ void Level::switchTurn()
 void Level::advanceRound()
 {
     m_currentRound++;
+}
+
+LevelExitStatus Level::getLevelExitStatus() const
+{
+    return m_exitStatus;
+}
+
+void Level::setLevelExitStatus( LevelExitStatus status )
+{
+    m_exitStatus = status;
 }
 
 

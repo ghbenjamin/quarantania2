@@ -11,6 +11,8 @@ TransientMessage::TransientMessage(Manager *manager, Element *parent,
       m_visibleTime(visibleTime), m_fadeOutTime(fadeOutTime),
       m_messageState(TransientMessageState::FadingIn)
 {
+    setDecorative(true);
+
     m_message = manager->createElement<Label>( this );
     m_message->setTextSize(28);
     m_message->setTextColour(Colour::White);

@@ -85,11 +85,25 @@ TileArrowHighlight::TileArrowHighlight( Manager *manager, Element *parent, Order
             addSpriteForTiles(region[i - 1], region[i], region[i + 1]);
         }
 
-        addSpriteForTiles( region[region.size() - 2], region[region.size() - 1] );
+        Vector2i prev = region[region.size() - 2];
+        Vector2i curr = region[region.size() - 1];
+        addSpriteForTiles( prev, curr );
+        
+        if ( GridUtils::isDiagonal(prev, curr) )
+        {
+            addDiagonalSegments(prev, curr);
+        }
     }
     else
     {
-        addSpriteForTiles( origin, region.front() );
+        Vector2i prev = origin;
+        Vector2i curr = region.front();
+        addSpriteForTiles( prev, curr );
+    
+        if ( GridUtils::isDiagonal(prev, curr) )
+        {
+            addDiagonalSegments(prev, curr);
+        }
     }
 
 
@@ -124,7 +138,11 @@ const std::vector<std::pair<Vector2i, Vector2i>> TileArrowHighlight::TriSegmentD
         { Vector2i(0, 1), Vector2i(1, -1) },  // S_NE,
         { Vector2i(0, 1), Vector2i(-1, -1) },  // S_NW,
         { Vector2i(-1, 0), Vector2i(1, -1) },  // W_NE,
-        { Vector2i(-1, 0), Vector2i(1, 1) }   // W_SE
+        { Vector2i(-1, 0), Vector2i(1, 1) },   // W_SE
+        { Vector2i(-1, 1), Vector2i(1, 1) },   // NE_SE
+        { Vector2i(-1, -1), Vector2i(-1, 1) },   // NW_SW
+        { Vector2i(-1, -1), Vector2i(1, -1) },   // NW_NE
+        { Vector2i(-1, 1), Vector2i(1, 1) },   // SW_SE
 };
 
 const std::vector<Vector2i> TileArrowHighlight::BiSegmentDeltas = {
@@ -154,7 +172,11 @@ const std::vector<SpritesheetKey> TileArrowHighlight::TriSegmentSprites = {
         "game_ui/arrow-seg-s-ne",
         "game_ui/arrow-seg-s-nw",
         "game_ui/arrow-seg-w-ne",
-        "game_ui/arrow-seg-w-se"
+        "game_ui/arrow-seg-w-se",
+        "game_ui/arrow-seg-ne-se",
+        "game_ui/arrow-seg-sw-nw",
+        "game_ui/arrow-seg-nw-ne",
+        "game_ui/arrow-seg-sw-se",
 };
 
 const std::vector<SpritesheetKey> TileArrowHighlight::BiSegmentSprites = {
@@ -162,10 +184,10 @@ const std::vector<SpritesheetKey> TileArrowHighlight::BiSegmentSprites = {
         "game_ui/arrow-seg-e", // E
         "game_ui/arrow-seg-s", // S
         "game_ui/arrow-seg-w", // W
-        "game_ui/arrow-seg-n", // NE
-        "game_ui/arrow-seg-n", // SE
-        "game_ui/arrow-seg-n", // SW
-        "game_ui/arrow-seg-n", // NW
+        "game_ui/arrow-seg-ne", // NE
+        "game_ui/arrow-seg-se", // SE
+        "game_ui/arrow-seg-sw", // SW
+        "game_ui/arrow-seg-nw", // NW
 };
 
 const std::vector<Vector2i> TileArrowHighlight::TriSegmentOffsets = {
@@ -184,18 +206,23 @@ const std::vector<Vector2i> TileArrowHighlight::TriSegmentOffsets = {
         Vector2i(8, 0), // S_NE,
         Vector2i(0, 0), // S_NW,
         Vector2i(0, 0), // W_NE,
-        Vector2i(0, 8)  // W_SE
+        Vector2i(0, 8), // W_SE
+        Vector2i(0, 0), // NE_SE
+        Vector2i(-1, 0), // NW_SW
+        Vector2i(0, 0), // NW_NE
+        Vector2i(0, 0), // SW_SE
+        
 };
 
 const std::vector<Vector2i> TileArrowHighlight::BiSegmentOffsets = {
         Vector2i(8, 0), // N
-        Vector2i(0, 8), // E
-        Vector2i(8, 0), // S
+        Vector2i(8, 8), // E
+        Vector2i(8, 8), // S
         Vector2i(0, 8), // W
-        Vector2i(0, 0), // NE
-        Vector2i(0, 0), // SE
-        Vector2i(0, 0), // SW
-        Vector2i(0, 0), // NW
+        Vector2i(11, -2), // NE
+        Vector2i(11, 11), // SE
+        Vector2i(0, 10), // SW
+        Vector2i(-1, 0), // NW
 };
 
 void TileArrowHighlight::addSpriteForTiles(Vector2i prev, Vector2i curr, Vector2i next )
@@ -252,7 +279,7 @@ BiArrowSegment TileArrowHighlight::segmentFromTiles(Vector2i curr, Vector2i next
     }
 
     // Hopefully not possible?
-//    Logging::log("Weird segment: curr:{}, next:{}\n", curr.to_string(), next.to_string());
+    Logging::log("Weird segment: curr:{}, next:{}\n", curr.to_string(), next.to_string());
     return BiArrowSegment::N;
 }
 
@@ -267,7 +294,7 @@ void TileArrowHighlight::addDiagonalSegments(Vector2i first, Vector2i second)
     {
         auto ne = ResourceManager::get().getSprite( "game_ui/arrow-seg-fill-ne" );
         m_sprites.push_back( ne );
-        m_offsets.push_back( (first + Vector2i{0, 1}) * GlobalConfig::TileSizePx + Vector2(21, 0));
+        m_offsets.push_back( (first + Vector2i{0, 1}) * GlobalConfig::TileSizePx + Vector2(20, 0));
 
         auto sw = ResourceManager::get().getSprite( "game_ui/arrow-seg-fill-sw" );
         m_sprites.push_back( sw );
@@ -281,7 +308,7 @@ void TileArrowHighlight::addDiagonalSegments(Vector2i first, Vector2i second)
 
         auto se = ResourceManager::get().getSprite( "game_ui/arrow-seg-fill-se" );
         m_sprites.push_back( se );
-        m_offsets.push_back( (first + Vector2i{0, -1}) * GlobalConfig::TileSizePx + Vector2(21, 21));
+        m_offsets.push_back( (first + Vector2i{0, -1}) * GlobalConfig::TileSizePx + Vector2(19, 19));
     }
 }
 
