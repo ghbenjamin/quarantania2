@@ -48,11 +48,6 @@ RenderObject Sprite::renderObject(Vector2i const &pos)
     return m_renderObj;
 }
 
-void Sprite::setRenderLayer(RenderLayer layer)
-{
-    m_renderLayer = layer;
-}
-
 Vector2i Sprite::size() const
 {
     return m_screenBounds.right();

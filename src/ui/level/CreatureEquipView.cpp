@@ -18,8 +18,7 @@ EquipView::EquipView(Manager *manager, Element *parent)
     setBorderWidth( patch.getBorderWidth() );
 
     auto emptySlot = ResourceManager::get().getSprite("game_ui/empty-item-slot");
-    emptySlot.setRenderLayer(RenderLayer::UI);
-    
+
     setId("ui-equip-view");
     setLayout<GridLayout>( Vector2{ 3, 4 }, emptySlot.size(), 2 );
     
@@ -73,8 +72,6 @@ void EquipView::refresh(EntityRef entity)
     for ( auto const& [k, v] : actorC->actor.getAllEquippedItems() )
     {
         auto sprite = ResourceManager::get().getSprite( v->getSprite() );
-        sprite.setRenderLayer( RenderLayer::UI );
-        
         m_regions.at(k)->setItem( v, sprite );
     }
 }
@@ -87,7 +84,6 @@ EquipViewItem::EquipViewItem( Manager *manager, Element *parent, EntityRef entit
     setLayout<CenterLayout>();
     setPreferredContentSize({32, 32});
     
-    m_defaultSprite.setRenderLayer( RenderLayer::UI );
     m_defaultSprite.setPermanentColour(Colour::White.withAlpha(170));
     
     m_icon = manager->createElement<Icon>( this, m_defaultSprite );

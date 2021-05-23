@@ -39,21 +39,25 @@ SingleTileHighlight::SingleTileHighlight(Manager* manager, Element* parent, Vect
 // -----------------------
 
 TileRegionHighlight::TileRegionHighlight(Manager *manager, Element *parent, GridRegion region, Colour colour)
-    : Element(manager, parent), m_region(region)
+    : Element(manager, parent)
 {
-    setDecorative();
+    AssertMsg( !region.empty(), "Tile highlight region must not be empty" );
 
-    m_sprite = createRectangle({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx}, colour.withAlpha(100));
-    m_sprite.setRenderLayer(RenderLayer::Overlay);
+    setDecorative();
+    auto sprite = createRectangle(GlobalConfig::TileDimsPx, colour.withAlpha(80));
+
+    m_robj = sprite.renderObject( region[0] * GlobalConfig::TileSizePx );
+
+    for ( int i = 1; i < (int) region.size(); i++ )
+    {
+        m_robj.merge( sprite.renderObject( region[i] * GlobalConfig::TileSizePx) );
+    }
 }
 
 
 void TileRegionHighlight::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
-    for ( auto const& tile : m_region )
-    {
-       rInter.addItem(m_sprite.renderObject( tile * GlobalConfig::TileSizePx ), RenderLayer::Overlay);
-    }
+    rInter.addItem(m_robj, RenderLayer::Overlay);
 }
 
 
@@ -71,7 +75,7 @@ TileArrowHighlight::TileArrowHighlight( Manager *manager, Element *parent, Order
     {
         region.insert( region.begin(), origin );
 
-        for (int i = 1; i < region.size() - 1; i++)
+        for (int i = 1; i < (int) region.size() - 1; i++)
         {
             Vector2i prev = region[i - 1];
             Vector2i curr = region[i];
@@ -116,7 +120,7 @@ TileArrowHighlight::TileArrowHighlight( Manager *manager, Element *parent, Order
 
 void TileArrowHighlight::updateSelf( uint32_t ticks, InputInterface &iinter, RenderInterface &rInter )
 {
-    for (int i = 0; i < m_sprites.size(); i++)
+    for (int i = 0; i < (int) m_sprites.size(); i++)
     {
         rInter.addItem( m_sprites[i].renderObject( m_offsets[i] ), RenderLayer::Overlay);
     }
@@ -139,7 +143,7 @@ const std::vector<std::pair<Vector2i, Vector2i>> TileArrowHighlight::TriSegmentD
         { Vector2i(0, 1), Vector2i(-1, -1) },  // S_NW,
         { Vector2i(-1, 0), Vector2i(1, -1) },  // W_NE,
         { Vector2i(-1, 0), Vector2i(1, 1) },   // W_SE
-        { Vector2i(-1, 1), Vector2i(1, 1) },   // NE_SE
+        { Vector2i(1, -1), Vector2i(1, 1) },   // NE_SE
         { Vector2i(-1, -1), Vector2i(-1, 1) },   // NW_SW
         { Vector2i(-1, -1), Vector2i(1, -1) },   // NW_NE
         { Vector2i(-1, 1), Vector2i(1, 1) },   // SW_SE
@@ -207,7 +211,7 @@ const std::vector<Vector2i> TileArrowHighlight::TriSegmentOffsets = {
         Vector2i(0, 0), // S_NW,
         Vector2i(0, 0), // W_NE,
         Vector2i(0, 8), // W_SE
-        Vector2i(0, 0), // NE_SE
+        Vector2i(3, 0), // NE_SE
         Vector2i(-1, 0), // NW_SW
         Vector2i(0, 0), // NW_NE
         Vector2i(0, 0), // SW_SE
@@ -251,7 +255,7 @@ TriArrowSegment TileArrowHighlight::segmentFromTiles(Vector2i prev, Vector2i cur
     Vector2i forward = next - curr;
     Vector2i backward = prev - curr;
 
-    for (int i = 0; i < TriSegmentDeltas.size(); i++)
+    for (int i = 0; i < (int) TriSegmentDeltas.size(); i++)
     {
         auto const&[a, b] = TriSegmentDeltas[i];
         if ((a == forward && b == backward) || (b == forward && a == backward))
@@ -269,7 +273,7 @@ BiArrowSegment TileArrowHighlight::segmentFromTiles(Vector2i curr, Vector2i next
 {
     Vector2i forward = curr - next;
 
-    for (int i = 0; i < BiSegmentDeltas.size(); i++)
+    for (int i = 0; i < (int) BiSegmentDeltas.size(); i++)
     {
         auto const& a = BiSegmentDeltas[i];
         if (a == forward)

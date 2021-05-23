@@ -11,8 +11,6 @@ TileRef Tileset::addTile(SpritesheetKey const& key)
 {
     Tile t;
     t.sprite = ResourceManager::get().getSprite(key);
-    t.sprite.setRenderLayer(RenderLayer::Tiles);
-
     m_tiles.push_back(t);
     return m_tiles.size() - 1;
 }

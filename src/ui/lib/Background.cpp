@@ -79,13 +79,11 @@ void ElementBackground::regenerateBackground( Vector2i size )
             break;
         case BackgroundType::SingleColour:
             m_colourSprite = createRectangle( size, m_bgColour );
-            m_colourSprite->setRenderLayer( RenderLayer::UI );
             if ( m_hasColourMod )
                 m_colourSprite->setColourMod(m_elementColourMod);
             break;
         case BackgroundType::ColourWithBorder:
             m_colourSprite = createBorderedRectangle( size, m_borderColour, m_bgColour, m_borderWidth );
-            m_colourSprite->setRenderLayer( RenderLayer::UI );
             if ( m_hasColourMod )
                 m_colourSprite->setColourMod(m_elementColourMod);
             break;
@@ -135,7 +133,6 @@ NinePatch::NinePatch(TexturePtr texture, const std::array<RectI, 9> &offsets, in
     for (int i = 0; i < 9; i++)
     {
         m_sprites[i] = Sprite( texture, offsets[i] );
-        m_sprites[i].setRenderLayer( RenderLayer::UI );
         m_offsets[i] = {0, 0, 0, 0};
     }
 }

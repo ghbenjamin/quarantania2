@@ -4,5 +4,4 @@
 RenderComponent::RenderComponent(Sprite const &s)
     : sprite(s)
 {
-    sprite.setRenderLayer( RenderLayer::Entity );
 }

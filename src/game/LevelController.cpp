@@ -421,10 +421,10 @@ ActionControllerSingleTile::ActionControllerSingleTile(Level *level, EntityRef r
       m_entity(ref)
 {
     m_targeting->attach(m_level, ref);
-    auto gr = m_targeting->getValidTiles();
 
-    // Highlight the tiles that can be moved to
-    m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, gr, Colour::Lime);
+    // Highlight the valid tiles
+    m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(
+            nullptr, m_targeting->getValidTiles(), Colour::Lime);
 
     m_origin = level->ecs().getComponents<PositionComponent>(ref)->tilePosition;
 }

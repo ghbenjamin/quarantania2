@@ -13,7 +13,6 @@ ContainerView::ContainerView(Manager* manager, Element* parent, Vector2i iconDim
 : Element(manager, parent), m_iconDims(iconDims)
 {
     auto emptySprite = ResourceManager::get().getSprite("game_ui/empty-item-slot");
-    emptySprite.setRenderLayer(RenderLayer::UI);
 
     setLayout<GridLayout>( m_iconDims, emptySprite.size(), 2 );
     

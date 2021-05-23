@@ -30,12 +30,9 @@ public:
     
     void setAlphaMod( float alpha );
     void resetAlphaMod();
-    
-    void setRenderLayer(RenderLayer layer);
-    
+
 private:
     Colour m_colour;
-    RenderLayer m_renderLayer;
     TexturePtr m_texture;
     RenderObject m_renderObj;
     RectI m_screenBounds;

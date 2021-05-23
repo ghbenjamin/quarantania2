@@ -31,8 +31,9 @@ public:
 private:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
 
-    GridRegion m_region;
-    Sprite m_sprite;
+//    GridRegion m_region;
+//    Sprite m_sprite;
+    RenderObject m_robj;
 };
 
 

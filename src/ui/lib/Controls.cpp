@@ -154,7 +154,6 @@ Label &Button::getLabel()
 Icon::Icon(Manager *manager, Element *parent, const Sprite &img)
         : Element(manager, parent), m_sprite(img)
 {
-    m_sprite->setRenderLayer(RenderLayer::UI);
     setPreferredContentSize(m_sprite->size());
 }
 
@@ -182,7 +181,6 @@ void Icon::updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &r
 void Icon::setSprite( Sprite const& sprite )
 {
     m_sprite = sprite;
-    m_sprite->setRenderLayer( RenderLayer::UI );
     setPreferredContentSize( m_sprite->size() );
 }
 

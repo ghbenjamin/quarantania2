@@ -17,5 +17,6 @@ struct GlobalConfigInfo
 GlobalConfigInfo load( std::string const& path );
 
 static constexpr int TileSizePx = 32;
+static constexpr Vector2i TileDimsPx = {TileSizePx, TileSizePx};
 
 }

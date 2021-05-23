@@ -7,16 +7,13 @@
 #include <utils/GlobalConfig.h>
 
 FOVSystem::FOVSystem(Level *parent) : System(parent),
-   m_fovHidden{ createRectangle({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx}, Colour::Black) },
-   m_fovFog{ createRectangle({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx}, Colour::Black.withAlpha(100)) },
+   m_fovHidden{ createRectangle(GlobalConfig::TileDimsPx, Colour::Black) },
+   m_fovFog{ createRectangle(GlobalConfig::TileDimsPx, Colour::Black.withAlpha(100)) },
    m_hiddenColour( Colour::Black ),
    m_fovColour( Colour::Black.withAlpha(100) ),
    m_renderObj{0, ShaderType::ColourShader},
    m_renderDirtyBit(true)
 {
-    m_fovHidden.setRenderLayer(RenderLayer::FOV);
-    m_fovFog.setRenderLayer(RenderLayer::FOV);
-
     m_level->events().subscribe<GameEvents::EntityMove>(this );
     m_level->events().subscribe<GameEvents::LevelReady>(this );
     m_level->events().subscribe<GameEvents::EntityOpenClose>(this );

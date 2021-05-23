@@ -13,9 +13,7 @@ EntityFactory::EntityFactory(Level* parent)
 EntityRef EntityFactory::createPlayer(Vector2i pos, PlayerData const &data) const
 {
     auto eref = m_parent->ecs().createEntity();
-
     auto sprite = ResourceManager::get().getSprite(data.sprite);
-    sprite.setRenderLayer(RenderLayer::Actor);
 
     m_parent->ecs().addComponent<PositionComponent>(eref, pos);
     m_parent->ecs().addComponent<RenderComponent>(eref, sprite);
@@ -57,9 +55,7 @@ EntityRef EntityFactory::createEnemy(Vector2i pos, std::string const &name) cons
 {
     auto eref = m_parent->ecs().createEntity();
     auto creatureData = ResourceDatabase::instance().creatureFromName( name );
-
     auto sprite = ResourceManager::get().getSprite( creatureData.sprite );
-    sprite.setRenderLayer(RenderLayer::Actor);
 
     m_parent->ecs().addComponent<PositionComponent>(eref, pos);
     m_parent->ecs().addComponent<AIComponent>(eref);
@@ -85,9 +81,7 @@ EntityRef EntityFactory::createItem(Vector2i pos, std::string const &name) const
 EntityRef EntityFactory::createItem(Vector2i pos, std::shared_ptr<Item> item) const
 {
     auto eref = m_parent->ecs().createEntity();
-
     auto sprite = ResourceManager::get().getSprite( item->getSprite() );
-    sprite.setRenderLayer(RenderLayer::Entity);
 
     m_parent->ecs().addComponent<PositionComponent>(eref, pos);
     m_parent->ecs().addComponent<RenderComponent>(eref, sprite);
@@ -103,9 +97,7 @@ EntityRef EntityFactory::createObject(Vector2i pos, std::string const &ptype) co
 {
     auto eref = m_parent->ecs().createEntity();
     auto objData = ResourceDatabase::instance().objectFromName( ptype );
-
     auto sprite = ResourceManager::get().getSprite( objData.sprites[0] );
-    sprite.setRenderLayer(RenderLayer::Entity);
 
     m_parent->ecs().addComponent<PositionComponent>(eref, pos);
     m_parent->ecs().addComponent<RenderComponent>(eref, sprite);
@@ -169,9 +161,7 @@ EntityRef EntityFactory::createObject(Vector2i pos, std::string const& name, Spr
 EntityRef EntityFactory::createDecor(Vector2i pos, SpritesheetKey const& key) const
 {
     auto eref = m_parent->ecs().createEntity();
-
     auto sprite = ResourceManager::get().getSprite( key );
-    sprite.setRenderLayer(RenderLayer::Entity);
 
     m_parent->ecs().addComponent<PositionComponent>(eref, pos);
     m_parent->ecs().addComponent<RenderComponent>(eref, sprite);

@@ -7,12 +7,12 @@
 enum class RenderLayer
 {
     Tiles   = 0,
-    Entity  = 1,
-    Actor   = 2,
-    GFX     = 3,
-    FOV     = 4,
-    Overlay = 5,
-    UI      = 6
+    Entity,
+    Actor,
+    GFX,
+    FOV,
+    Overlay,
+    UI
 };
 
 enum class ShaderType
