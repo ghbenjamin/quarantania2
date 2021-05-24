@@ -40,9 +40,10 @@ public:
     void loadCursors();
     void addCursor( CursorType type, std::string cursorName, Vector2i hotspot );
     
-    void setCursorType( CursorType type );
+    void setCursorType( CursorType type, bool force = false );
     void resetCursor();
 
 private:
     std::unordered_map<CursorType, std::shared_ptr<CursorWrapper>> m_cursors;
+    CursorType m_currentType;
 };

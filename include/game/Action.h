@@ -49,7 +49,7 @@ struct GameAction
 
 struct ActionSpeedData
 {
-    GameAction* action = nullptr;
+    GameAction const* action = nullptr;
     ActionSpeed modified = ActionSpeed::Free;
 };
 
@@ -101,5 +101,6 @@ public:
 
     virtual void perform( EntityRef target ) = 0;
     virtual bool entityIsValid(EntityRef ref) = 0;
+    virtual GridRegion getValidTiles();
 };
 

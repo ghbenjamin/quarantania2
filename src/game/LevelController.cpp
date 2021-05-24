@@ -5,6 +5,8 @@
 #include <components/ActorComponent.h>
 #include <components/PositionComponent.h>
 #include <ui/level/ActionPopupMenu.h>
+#include <game/ActionDefs.h>
+#include <resource/ResourceManager.h>
 
 LevelController::LevelController(Level *level)
 : m_level(level), m_shouldPopController(false)
@@ -315,7 +317,9 @@ void DefaultLController::onExitImpl()
 
 
 PlayerSelectedController::PlayerSelectedController(Level* level, EntityRef entity)
-        : LevelController(level), m_entity(entity)
+        : LevelController(level), m_entity(entity),
+          m_defMoveAction(  "move", TargetingType::SingleTile, std::make_shared<ActionMoveStride>() ),
+          m_defAttackAction( "strike", TargetingType::SingleEntity, std::make_shared<ActionMeleeAttack>() )
 {
     // Hotkeys for the action menus
     addKeybinding( SDLK_q, [this](){
@@ -345,32 +349,82 @@ bool PlayerSelectedController::onMouseDown(IEventMouseDown evt)
 {
     auto tile = m_level->screenCoordsToTile(evt.screenPos);
     auto ents = m_level->grid().entitiesAtTile(tile);
-    
-    if ( ents.empty() )
+
+    if ( evt.button == SDL_BUTTON_LEFT )
     {
-        popController();
-    }
-    else
-    {
-        auto actorEnt = m_level->ecs().firstEntityWith<ActorComponent>( ents );
-        if ( actorEnt != EntityNull )
+        if ( ents.empty() )
         {
-            // Is the thing we clicked a player character?
-            auto actorComp = m_level->ecs().getComponents<ActorComponent>( actorEnt );
-            if ( actorComp->actorType == ActorType::PC )
+            popController();
+        }
+        else
+        {
+            auto actorEnt = m_level->ecs().firstEntityWith<ActorComponent>( ents );
+            if ( actorEnt != EntityNull )
             {
-                replaceController<PlayerSelectedController>(m_level, actorEnt);
-                return true;
+                // Is the thing we clicked a player character?
+                auto actorComp = m_level->ecs().getComponents<ActorComponent>( actorEnt );
+                if ( actorComp->actorType == ActorType::PC )
+                {
+                    replaceController<PlayerSelectedController>(m_level, actorEnt);
+                    return true;
+                }
             }
         }
     }
-
+    else if ( evt.button == SDL_BUTTON_RIGHT )
+    {
+        // If we've right clicked on a valid target to default attack, perform the default attack.
+        auto idx = std::find( m_defAttackTiles.begin(), m_defAttackTiles.end(), tile );
+        if ( idx != m_defAttackTiles.end() )
+        {
+            auto actorEnt = m_level->ecs().firstEntityWith<ActorComponent>( ents );
+            Assert( m_defAttackTargeting->entityIsValid(actorEnt) );
+    
+            m_defAttackTargeting->perform( actorEnt );
+            m_level->events().broadcast<GameEvents::EntityAction>(m_entity, m_defAttackAction );
+    
+            popController();
+            return true;
+        }
+    
+        // If we've right clicked on a valid tile to basic move to, perform the move.
+        idx = std::find( m_defMoveTiles.begin(), m_defMoveTiles.end(), tile );
+        if ( idx != m_defMoveTiles.end() )
+        {
+            Assert( m_defMoveTargeting->tileIsValid( tile ));
+    
+            m_defMoveTargeting->perform( tile );
+            m_level->events().broadcast<GameEvents::EntityAction>(m_entity, m_defMoveAction);
+    
+            popController();
+            return true;
+        }
+    }
+    
+    // Otherwise, ignore the click for now.
+    
     return false;
 }
 
 void PlayerSelectedController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 {
+    // As we move over possible attack/move/examine targets, update our cursor to match
 
+    auto idx = std::find( m_defAttackTiles.begin(), m_defAttackTiles.end(), curr );
+    if ( idx != m_defAttackTiles.end() )
+    {
+        ResourceManager::get().getWindow()->cursor().setCursorType( CursorType::Attack );
+        return;
+    }
+    
+    idx = std::find( m_defMoveTiles.begin(), m_defMoveTiles.end(), curr );
+    if ( idx != m_defMoveTiles.end() )
+    {
+        ResourceManager::get().getWindow()->cursor().setCursorType( CursorType::Move );
+        return;
+    }
+    
+    ResourceManager::get().getWindow()->cursor().resetCursor();
 }
 
 void PlayerSelectedController::onExitImpl()
@@ -381,10 +435,14 @@ void PlayerSelectedController::onExitImpl()
     auto actorC = m_level->ecs().getComponents<ActorComponent>( m_entity );
     if ( actorC->actorType == ActorType::PC )
     {
-        // Show the equip menu
         m_level->ui().withId( "ui-equip-view" )->hide();
         m_level->ui().withId( "player-inventory" )->hide();
     }
+    
+    m_level->ui().deleteElement(m_defaultMoveHighlight);
+    m_level->ui().deleteElement(m_defaultAttackHighlight);
+    
+    ResourceManager::get().getWindow()->cursor().resetCursor();
 }
 
 void PlayerSelectedController::onEnterImpl()
@@ -400,6 +458,36 @@ void PlayerSelectedController::onEnterImpl()
         m_level->ui().withId( "ui-equip-view" )->show();
         m_level->ui().withId( "player-inventory" )->show();
     }
+    
+    
+    // Add some default actions - basic move and basic attack
+
+    
+    if ( actorC->actor.canPerformAction( m_defAttackAction ) )
+    {
+        m_defAttackTargeting = std::static_pointer_cast<SingleEntityTargeting>(m_defAttackAction.impl);
+        m_defAttackTargeting->attach( m_level, m_entity );
+        m_defAttackTiles = m_defAttackTargeting->getValidTiles();
+        
+        if ( !m_defAttackTiles.empty() )
+        {
+            m_defaultAttackHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, m_defAttackTiles, Colour::Red);
+        }
+    }
+    
+    
+    if ( actorC->actor.canPerformAction( m_defMoveAction ) )
+    {
+        m_defMoveTargeting = std::static_pointer_cast<SingleTileTargeting>(m_defMoveAction.impl);
+        m_defMoveTargeting->attach( m_level, m_entity );
+        m_defMoveTiles = m_defMoveTargeting->getValidTiles();
+        
+        if ( !m_defMoveTiles.empty() )
+        {
+            m_defaultMoveHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, m_defMoveTiles, Colour::Lime);
+        }
+    }
+    
 
     m_level->events().broadcast<GameEvents::ControllerEntitySelected>(m_entity);
 }
@@ -527,18 +615,8 @@ bool ActionControllerSingleEntity::onMouseDown(IEventMouseDown evt)
 
 void ActionControllerSingleEntity::onEnterImpl()
 {
-    std::vector<Vector2i> validTiles;
-
-    for ( auto ref : m_level->ecs().allEntities() )
-    {
-        if ( m_targeting->entityIsValid(ref) )
-        {
-            auto pos = m_level->ecs().getComponents<PositionComponent>(ref);
-            validTiles.push_back( pos->tilePosition );
-        }
-    }
-
-    m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, validTiles, Colour::Lime);
+    m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(
+        nullptr, m_targeting->getValidTiles(), Colour::Lime);
 }
 
 void ActionControllerSingleEntity::onExitImpl()

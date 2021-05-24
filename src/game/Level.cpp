@@ -338,16 +338,7 @@ std::vector<GameAction> Level::actionsForActor(EntityRef actor)
 
     for ( auto& act : out )
     {
-        ActionSpeedData speedData;
-        speedData.action = &act;
-        speedData.modified = act.data.speed;
-
-        actorC->actor.applyAllModifiers( &speedData );
-
-        if ( !actorC->actor.actionInfo().canUseAction( speedData.modified ))
-        {
-            act.enabled = false;
-        }
+        act.enabled = actorC->actor.canPerformAction( act );
     }
 
     return out;

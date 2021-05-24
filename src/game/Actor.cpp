@@ -558,6 +558,22 @@ ActionsUsedInfo& Actor::actionInfo()
     return m_actionInfo;
 }
 
+ActionsUsedInfo const &Actor::actionInfo() const
+{
+    return m_actionInfo;
+}
+
+bool Actor::canPerformAction( GameAction const& action ) const
+{
+    ActionSpeedData speedData;
+    speedData.action = &action;
+    speedData.modified = action.data.speed;
+    
+    applyAllModifiers( &speedData );
+    
+    return actionInfo().canUseAction( speedData.modified );
+}
+
 MeleeAttackCountData Actor::getAttackCountForMeleeAttack( std::shared_ptr<MeleeAttack> attackImpl ) const
 {
     MeleeAttackCountData data;
@@ -587,6 +603,8 @@ std::optional<CreatureEquipSlot> Actor::canEquipItem( ItemPtr item )
     // For now, always return true.
     return defaultSlotForItemSlot( item->getEquipSlot() );
 }
+
+
 
 
 ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )

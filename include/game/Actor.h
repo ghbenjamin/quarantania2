@@ -115,7 +115,8 @@ public:
     // Actions
     std::vector<GameAction> getAllGameActions() const;
     ActionsUsedInfo& actionInfo();
-
+    ActionsUsedInfo const& actionInfo() const;
+    bool canPerformAction( GameAction const& action ) const;
 
 private:
 

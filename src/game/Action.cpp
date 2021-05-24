@@ -87,3 +87,19 @@ void ActionsUsedInfo::reset()
     m_usedMove= false;
     m_usedSwift = false;
 }
+
+GridRegion SingleEntityTargeting::getValidTiles()
+{
+    GridRegion validTiles;
+    
+    for ( auto ref : m_level->ecs().allEntities() )
+    {
+        if ( entityIsValid(ref) )
+        {
+            auto pos = m_level->ecs().getComponents<PositionComponent>(ref);
+            validTiles.push_back( pos->tilePosition );
+        }
+    }
+    
+    return validTiles;
+}

@@ -7,12 +7,19 @@
 // Cursor manager
 // ----------------------
 
-CursorManager::CursorManager() {}
+CursorManager::CursorManager()
+ : m_currentType(CursorType::Default) {}
 
-void CursorManager::setCursorType( CursorType type )
+void CursorManager::setCursorType( CursorType type, bool force )
 {
+    if ( !force && type == m_currentType )
+    {
+        return;
+    }
+
     SDL_Cursor* cursor = m_cursors[type]->getCursor();
     SDL_SetCursor( cursor );
+    m_currentType = type;
 }
 
 void CursorManager::resetCursor()
@@ -36,7 +43,7 @@ void CursorManager::loadCursors()
     addCursor(CursorType::Examine, "examine-cursor", { 0, 0 });
     
     // Change from the initial system cursor to our default custom cursor
-    setCursorType(CursorType::Default);
+    setCursorType(CursorType::Default, true);
 }
 
 

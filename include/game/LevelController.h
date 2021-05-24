@@ -131,6 +131,17 @@ private:
 
 
     EntityRef m_entity;
+    std::shared_ptr<UI::Element> m_defaultMoveHighlight;
+    std::shared_ptr<UI::Element> m_defaultAttackHighlight;
+    
+    GameAction m_defMoveAction;
+    GameAction m_defAttackAction;
+    
+    std::shared_ptr<SingleTileTargeting> m_defMoveTargeting;
+    std::shared_ptr<SingleEntityTargeting> m_defAttackTargeting;
+    
+    GridRegion m_defMoveTiles;
+    GridRegion m_defAttackTiles;
 };
 
 
