@@ -86,6 +86,7 @@ void Window::openGLSetup()
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     m_renderer.init( m_size.convert<float>() );
+    m_cursor.loadCursors();
 }
 
 
@@ -105,7 +106,7 @@ const Vector2i Window::getSize() const
     return Vector2i{w, h};
 }
 
-Cursor &Window::cursor()
+CursorManager &Window::cursor()
 {
     return m_cursor;
 }

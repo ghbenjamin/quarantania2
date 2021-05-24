@@ -76,10 +76,40 @@ Vector2i Texture::size() const
 
 
 Surface::Surface()
-: m_surface(nullptr), m_size{-1, -1}, m_format(PixelFormat::RGBA)
-{
+: m_surface(nullptr), m_size{-1, -1}, m_format(PixelFormat::RGBA) {}
 
+Surface::Surface( std::string const &path ) : m_format(PixelFormat::RGBA)
+{
+    int format = STBI_rgb_alpha;
+    int width, height, origFormat;
+    unsigned char* data = stbi_load(path.c_str(), &width, &height, &origFormat, format);
+    
+    if ( data == nullptr )
+    {
+        AssertAlwaysMsg( fmt::format( "Loading image {} failed: {}", path, stbi_failure_reason() ) );
+    }
+    
+    m_size = {width, height};
+    
+    std::uint32_t pixel_format = SDL_PIXELFORMAT_RGBA32;
+    int depth = 32;
+    int pitch = 4 * width;
+    
+    SDL_Surface* temp = SDL_CreateRGBSurfaceWithFormatFrom((void*)data, width, height, depth, pitch, pixel_format);
+    m_surface = SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, SDL_PIXELFORMAT_RGBA32);
+    
+    SDL_BlitSurface( temp, NULL, m_surface, NULL );
+    
+    if ( m_surface == NULL )
+    {
+        stbi_image_free(data);
+        AssertAlwaysMsg( fmt::format( "Error creating SDL surface from stbi data", SDL_GetError() ) );
+    }
+    
+    SDL_FreeSurface(temp);
+    stbi_image_free(data);
 }
+
 
 Surface::Surface(SDL_Surface *surface, PixelFormat format)
     : m_surface(surface), m_format(format)
@@ -155,3 +185,4 @@ SDL_Surface *Surface::raw()
 {
     return m_surface;
 }
+

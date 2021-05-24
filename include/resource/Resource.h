@@ -49,6 +49,21 @@ private:
 };
 
 
+class SurfaceResource : public Resource
+{
+public:
+    SurfaceResource(std::string const& name);
+    ~SurfaceResource() override = default;
+    
+    const SurfacePtr &get() const;
+    void load() override;
+    void unload() override;
+
+private:
+    SurfacePtr m_surface;
+};
+
+
 class SpritesheetResource : public Resource
 {
 public:

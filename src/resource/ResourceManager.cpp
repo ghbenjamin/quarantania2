@@ -23,6 +23,7 @@ void ResourceManager::loadAll()
     auto spritesheetPath = resourceRoot / "spritesheet";
     auto fontPath = resourceRoot / "font";
     auto imgPath = resourceRoot / "img";
+    auto surfacePath = resourceRoot / "surfaces";
     auto ninepatchPath = resourceRoot / "ninepatch";
     auto shaderPath = resourceRoot / "shaders";
 
@@ -68,6 +69,16 @@ void ResourceManager::loadAll()
         }
     }
     
+    // Load all surfaces
+    for ( auto const& file : std::filesystem::directory_iterator(surfacePath) )
+    {
+        auto const& fpath = file.path();
+        if ( fpath.has_extension() && fpath.extension().string() == ".png" )
+        {
+            addSurfaceResource( fpath.stem().string() );
+        }
+    }
+    
     // Load all shaders
     for ( auto const& file : std::filesystem::directory_iterator(shaderPath) )
     {
@@ -98,6 +109,11 @@ void ResourceManager::loadAll()
     }
 
     for ( auto const &[k, v] : m_images )
+    {
+        v->load();
+    }
+    
+    for ( auto const &[k, v] : m_surfaces )
     {
         v->load();
     }
@@ -152,6 +168,19 @@ Sprite ResourceManager::getImageAsSprite(std::string const& imgName)
     catch ( [[maybe_unused]] std::exception const& ex )
     {
         Logging::log( "ERROR: Unknown image [{}]\n", imgName );
+        std::terminate();
+    }
+}
+
+SurfacePtr ResourceManager::getSurface( std::string const &surfaceName )
+{
+    try
+    {
+        return m_surfaces.at(surfaceName)->get();
+    }
+    catch ( [[maybe_unused]] std::exception const& ex )
+    {
+        Logging::log( "ERROR: Unknown surface [{}]\n", surfaceName );
         std::terminate();
     }
 }
@@ -248,6 +277,11 @@ void ResourceManager::addImageResource(const std::string &name)
     m_images.emplace(name, std::make_shared<ImageResource>( name ));
 }
 
+void ResourceManager::addSurfaceResource( std::string const &name )
+{
+    m_surfaces.emplace( name, std::make_shared<SurfaceResource>( name ) );
+}
+
 void ResourceManager::addSpritesheetResource(const std::string &name)
 {
     m_spritesheets.emplace(name, std::make_shared<SpritesheetResource>( name ));
@@ -273,6 +307,9 @@ const std::string ResourceManager::getDefaultFontName()
 //    return "robotoslab-regular";
     return "inconsolata-regular";
 }
+
+
+
 
 
 

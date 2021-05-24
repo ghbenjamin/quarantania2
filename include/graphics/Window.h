@@ -3,7 +3,7 @@
 #include <string>
 
 #include <utils/Containers.h>
-#include <graphics/Cursor.h>
+#include <graphics/CursorManager.h>
 #include <graphics/Renderer.h>
 
 namespace GlobalConfig { struct GlobalConfigInfo; }
@@ -20,7 +20,7 @@ public:
     Window& operator=( const Window& ) = delete;
 
     SDL_Window* raw();
-    Cursor& cursor();
+    CursorManager& cursor();
     
     // Update the OpenGL state when the SDL Window changes size
     void onWindowResize( Vector2i screenSize );
@@ -36,7 +36,7 @@ private:
     SDL_Window* m_window;
     SDL_GLContext m_glContext;
     Vector2i m_size;
-    Cursor m_cursor;
+    CursorManager m_cursor;
     Renderer m_renderer;
 };
 

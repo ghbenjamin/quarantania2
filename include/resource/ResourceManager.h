@@ -36,6 +36,7 @@ public:
     std::shared_ptr<FtFontFace> getFont( std::string const& fname );
     std::shared_ptr<FtFontFace> getDefaultFont();
     TexturePtr getTexture( std::string const& imgName );
+    SurfacePtr getSurface( std::string const& surfaceName );
     NinePatchResource const& getNinePatch( std::string const& name );
     ShaderResource const& getShader( std::string const& name );
     ShaderProgramResource& getShaderProgram ( std::string const& name );
@@ -45,6 +46,7 @@ private:
     ResourceManager() = default;
 
     void addImageResource( std::string const& name );
+    void addSurfaceResource( std::string const& name );
     void addSpritesheetResource( std::string const& name );
     void addNinepatchResource( std::string const& name );
     void addShaderResource( std::string const& name, GLuint type );
@@ -54,6 +56,7 @@ private:
 
     std::unordered_map<std::string, std::shared_ptr<SpritesheetResource>> m_spritesheets;
     std::unordered_map<std::string, std::shared_ptr<ImageResource>> m_images;
+    std::unordered_map<std::string, std::shared_ptr<SurfaceResource>> m_surfaces;
     std::unordered_map<std::string, std::shared_ptr<NinePatchResource>> m_patches;
     std::unordered_map<std::string, std::shared_ptr<ShaderResource>> m_shaders;
     std::unordered_map<std::string, std::shared_ptr<ShaderProgramResource>> m_shaderProgs;

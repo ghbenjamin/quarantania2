@@ -47,6 +47,7 @@ class Surface
 {
 public:
     Surface();
+    Surface( std::string const& path );
     Surface(SDL_Surface* surface, PixelFormat format);
     Surface(Vector2i size);
     ~Surface();
@@ -61,5 +62,6 @@ private:
 };
 
 
+using SurfacePtr = std::shared_ptr<Surface>;
 using TexturePtr = std::shared_ptr<Texture>;
 using TextureHandle = GLuint;

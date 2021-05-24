@@ -37,12 +37,34 @@ void ImageResource::load()
 
 void ImageResource::unload()
 {
-    m_texture = TexturePtr();
+    m_texture.reset();
 }
 
 Sprite ImageResource::getSprite() const
 {
     return Sprite( m_texture );
+}
+
+
+// Surface Resource
+// -----------------------
+
+SurfaceResource::SurfaceResource( std::string const &name )
+    : Resource(name) {}
+
+const SurfacePtr &SurfaceResource::get() const
+{
+    return m_surface;
+}
+
+void SurfaceResource::load()
+{
+    m_surface = std::make_shared<Surface>( "../resource/surfaces/" + m_name + ".png" );
+}
+
+void SurfaceResource::unload()
+{
+    m_surface.reset();
 }
 
 
@@ -255,5 +277,4 @@ GLuint ShaderProgramResource::getHandle() const
 {
     return m_program->getHandle();
 }
-
 
