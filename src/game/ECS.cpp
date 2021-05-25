@@ -13,13 +13,17 @@ ECS::ECS(Level* parent)
 
 void ECS::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter)
 {
-    // Delete our delayed delete entities
-    for ( EntityRef ent : m_delayedDeleteEnts )
+// Delete our delayed delete entities
+    if ( !m_delayedDeleteEnts.empty() )
     {
-        deleteEntity( ent );
+        for ( EntityRef ent : m_delayedDeleteEnts )
+        {
+            deleteEntity( ent );
+        }
+    
+        m_delayedDeleteEnts.clear();
     }
-
-
+    
     // Render everything managed by the ECS
     for ( auto const& sys : m_systems )
     {

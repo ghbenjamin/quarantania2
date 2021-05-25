@@ -25,6 +25,7 @@ public:
     ~ModifiableRollVisitor() = default;
     
     void operator()( AttackRoll* roll );
+    void operator()( DamageRoll* roll );
     void operator()( SavingThrowRoll* roll );
     void operator()( AbilityScoreBonus* roll );
     void operator()( MovementSpeedData* data );
@@ -48,6 +49,7 @@ public:
     // Meta
     std::string const& getName() const;
     CreatureSize getSize();
+    std::string const& getCreatureType() const;
 
     // Stats
     int getAbilityScoreValue( AbilityScoreType type ) const;
@@ -82,8 +84,10 @@ public:
     // Health
     int getCurrentHp() const;
     int getMaxHp() const;
+    HealthLevel getHealthLevel() const;
     void setCurrentHp( int value );
     void acceptDamage( Damage const& dmg );
+    
     
     // Defense
     int getAC() const;
@@ -92,7 +96,7 @@ public:
     // Combat
     int getCritRangeForAttack( SingleMeleeAttackInstance& attack ) const;
     MeleeAttackCountData getAttackCountForMeleeAttack( std::shared_ptr<MeleeAttack> attackImpl ) const;
-    Damage getDamageForMeleeAttack( SingleMeleeAttackInstance& attack, AttackRoll const& roll ) const;
+    Damage makeMeleeDamageRoll( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl, AttackRoll const& roll ) const;
     int getAcForMeleeAttack( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl ) const;
     AttackRoll makeMeleeAttackRoll( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl, bool isCritConfirm ) const;
 
@@ -127,6 +131,7 @@ private:
     // Info
     const std::string m_name;
     CreatureSize m_size;
+    const std::string m_creatureType;
 
     // Stats
     int m_baseAbilityScoreStr;

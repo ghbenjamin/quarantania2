@@ -3,6 +3,7 @@
 #include <resource/ResourceManager.h>
 #include <game/Level.h>
 #include <components/ActorComponent.h>
+#include <game/GameParse.h>
 
 using namespace UI;
 
@@ -49,15 +50,15 @@ void UI::EntityInformationView::refresh( EntityRef entity )
         if (actorC->actorType == ActorType::PC )
         {
             auto s1 = addSection();
-            s1->setText("holla!");
+            s1->setText( EnumToString::creatureHealthLevel( actorC->actor.getHealthLevel() ) );
         }
         else
         {
             auto s1 = addSection();
-            s1->setText("Foo");
-            
+            s1->setText( actorC->actor.getCreatureType() );
+
             auto s2 = addSection();
-            s2->setText("Bar");
+            s2->setText( EnumToString::creatureHealthLevel( actorC->actor.getHealthLevel() ) );
         }
     }
     

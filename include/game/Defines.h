@@ -91,6 +91,16 @@ enum class PlayerClass
     Bard
 };
 
+enum class HealthLevel
+{
+    Uninjured,
+    Barely_Injured,
+    Injured,
+    Badly_Injured,
+    Near_Death
+};
+
+
 // Action Properties
 // --------------------------------------
 

@@ -16,7 +16,8 @@ Actor::Actor(Level* level, EntityRef ref, CreatureData const& rcd)
       m_HpMax(rcd.maxHP),
       m_HpCurrent(rcd.maxHP),
       m_baseSpeed(rcd.speed),
-      m_size(rcd.size)
+      m_size(rcd.size),
+      m_creatureType(rcd.creatureType)
 {
 }
 
@@ -33,13 +34,19 @@ Actor::Actor(Level* level, EntityRef ref, PlayerData const &pdata)
       m_HpMax(pdata.maxHP),
       m_HpCurrent(pdata.maxHP),
       m_baseSpeed(pdata.baseSpeed),
-      m_size(CreatureSize::Medium)
+      m_size(CreatureSize::Medium),
+      m_creatureType("Humanoid")
 {
 }
 
 std::string const& Actor::getName() const
 {
     return m_name;
+}
+
+std::string const &Actor::getCreatureType() const
+{
+    return m_creatureType;
 }
 
 bool Actor::hasEquipped(CreatureEquipSlot slot) const
@@ -171,6 +178,32 @@ int Actor::getMaxHp() const
     return m_HpMax;
 }
 
+HealthLevel Actor::getHealthLevel() const
+{
+    float hpPercentage = (100.f * m_HpMax) / m_HpCurrent;
+    
+    if ( hpPercentage < 10 )
+    {
+        return HealthLevel::Near_Death;
+    }
+    else if ( hpPercentage < 30 )
+    {
+        return HealthLevel::Badly_Injured;
+    }
+    else if ( hpPercentage < 70 )
+    {
+        return HealthLevel::Injured;
+    }
+    else if ( hpPercentage < 95 )
+    {
+        return HealthLevel::Barely_Injured;
+    }
+    else
+    {
+        return HealthLevel::Uninjured;
+    }
+}
+
 void Actor::setCurrentHp(int value)
 {
     m_HpCurrent = value;
@@ -287,21 +320,32 @@ int Actor::getCritRangeForAttack( SingleMeleeAttackInstance &attack ) const
     return attack.weapon->critRange();
 }
 
-Damage Actor::getDamageForMeleeAttack( SingleMeleeAttackInstance &attack, AttackRoll const &roll ) const
+Damage Actor::makeMeleeDamageRoll( SingleMeleeAttackInstance &attack, std::shared_ptr<MeleeAttack> attackImpl, AttackRoll const &roll ) const
 {
-    // TODO: All the modifiers
+    DamageRoll damageRoll;
     
-    // How much damage?
-    int damageRoll = m_level->random().diceRoll( attack.weapon->damage() );
+    // Roll the natural roll
+    damageRoll.naturalRoll =  m_level->random().diceRoll( attack.weapon->damage() );
+    damageRoll.modifiedRoll = damageRoll.naturalRoll;
+    
+    // Add STR mod to the damage roll (TODO: This should be modifible)
+    damageRoll.modifiedRoll += getModStr();
+    
+    
+    // Apply modifiers from the attack type if any (e.g. +dmg from a power attack)
+    attackImpl->modifyDamageRoll(damageRoll);
+    
+    // Apply modifiers from the actors
+    applyAllModifiers( &damageRoll );
     
     // If this is a critical hit, modify the damage
     if ( roll.isCrit )
     {
-        damageRoll *= attack.weapon->critMultiplier();
+        damageRoll.modifiedRoll *= attack.weapon->critMultiplier();
     }
     
     Damage damage;
-    DamageInstance dmgInstance{ DamageType::Untyped, DamageSuperType::Physical, damageRoll };
+    DamageInstance dmgInstance{ DamageType::Untyped, DamageSuperType::Physical, damageRoll.modifiedRoll };
     damage.instances.push_back( dmgInstance );
     
     return damage;
@@ -323,6 +367,8 @@ AttackRoll Actor::makeMeleeAttackRoll( SingleMeleeAttackInstance &attack, std::s
 
     // Start with the natural roll
     result.modifiedRoll = result.naturalRoll;
+    
+    // Add STR mod to the attack roll (TODO: This should be modifible, e.g. Weapon Finesse)
     result.modifiedRoll += getModStr();
     
     // Apply any modifiers from the type of attack, e.g. reduce to hit from a Power Attack
@@ -330,7 +376,6 @@ AttackRoll Actor::makeMeleeAttackRoll( SingleMeleeAttackInstance &attack, std::s
 
     // Apply any modifiers from the actors, e.g. Weapon Focus feats or status affects
     applyAllModifiers( &result );
-    
 
     if ( result.naturalRoll >= critRange )
     {
@@ -380,11 +425,19 @@ void Actor::acceptDamage( Damage const &dmg )
     // Decrease our HP for each instance of damage supplied
     // TODO: Modifiers
     
+    int oldCurrHp = getCurrentHp();
+    int totalDamage = 0;
+    
     for (auto const& instance : dmg.instances )
     {
-        auto newNp = getCurrentHp() - instance.total;
-        setCurrentHp( newNp );
+        totalDamage += instance.total;
     }
+    
+    int newCurrHp = oldCurrHp - totalDamage;
+    setCurrentHp(newCurrHp);
+    
+    
+    Logging::log( "Damage dealt: damage={}, old hp={}, new hp={}", totalDamage, oldCurrHp, newCurrHp );
     
     // Handle falling unconsious and death
     
@@ -605,14 +658,17 @@ std::optional<CreatureEquipSlot> Actor::canEquipItem( ItemPtr item )
 }
 
 
-
-
 ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
  : m_actor(actor) {}
 
 void ModifiableRollVisitor::operator()( AttackRoll *roll )
 {
     m_actor->modifyTypedRoll( ActorStatModType::AttackRolls, roll );
+}
+
+void ModifiableRollVisitor::operator()( DamageRoll *roll )
+{
+    m_actor->modifyTypedRoll( ActorStatModType::DamageRolls, roll );
 }
 
 void ModifiableRollVisitor::operator()( SavingThrowRoll *roll )

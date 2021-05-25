@@ -25,7 +25,7 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
     p1.sprite = "dawnlike_chars/Player_001";
     p1.maxHP = 12;
 
-    p1.attrStr = 16;
+    p1.attrStr = 300;
     p1.attrDex = 12;
     p1.attrCon = 14;
     p1.attrInt = 9;

@@ -14,6 +14,7 @@ class Level;
 enum class ActorStatModType
 {
     AttackRolls,
+    DamageRolls,
     SavingThrows,
     AbilityScores,
     MovementSpeed,
@@ -26,6 +27,7 @@ enum class ActorStatModType
 using ModifiableStatObject = std::variant<
     SavingThrowRoll*,
     AttackRoll*,
+    DamageRoll*,
     AbilityScoreBonus*,
     MovementSpeedData*,
     ArmourClassData*,

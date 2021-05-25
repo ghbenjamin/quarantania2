@@ -16,6 +16,7 @@ namespace EnumParse
 namespace EnumToString
 {
     std::string creatureEquipSlot( CreatureEquipSlot input );
+    std::string creatureHealthLevel( HealthLevel input );
 }
 
 

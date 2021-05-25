@@ -11,7 +11,7 @@
 
 ### UI
 
-- Rework pathfinding path to be an arrow rather than squares 
+- Rework pathfinding path to be an arrow rather than squares <- NEARLY 
 - Make the 'walkable tiles' tile overlay much prettier w/ borders and ideally a nice shader
 
 - Finish text log 

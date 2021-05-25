@@ -21,6 +21,8 @@ struct DamageInstance
 struct Damage
 {
     std::vector<DamageInstance> instances;
+    
+    void mergeDamage( Damage const& other );
 };
 
 // A bonus to an Ability Score, e.g. STR or DEX. Always given as a raw number, not as a +- modifier
@@ -83,7 +85,8 @@ struct AttackRoll
 
 struct DamageRoll
 {
-
+    int naturalRoll = -1;
+    int modifiedRoll = -1;
 };
 
 struct MovementSpeedData

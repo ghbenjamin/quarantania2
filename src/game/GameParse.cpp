@@ -373,6 +373,13 @@ DiceRoll parseDiceRoll(const std::string &input)
     }
 }
 
+
+
+// Enum to String
+// -------------------------------
+
+
+
 std::string EnumToString::creatureEquipSlot( CreatureEquipSlot input )
 {
     switch (input)
@@ -401,5 +408,22 @@ std::string EnumToString::creatureEquipSlot( CreatureEquipSlot input )
             return "Ring";
         case CreatureEquipSlot::Feet:
             return "Feet";
+    }
+}
+
+std::string EnumToString::creatureHealthLevel( HealthLevel input )
+{
+    switch (input)
+    {
+        case HealthLevel::Uninjured:
+            return "Uninjured";
+        case HealthLevel::Barely_Injured:
+            return "Barely Injured";
+        case HealthLevel::Injured:
+            return "Injured";
+        case HealthLevel::Badly_Injured:
+            return "Badly Injured";
+        case HealthLevel::Near_Death:
+            return "Near Neath";
     }
 }
