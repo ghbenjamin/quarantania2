@@ -50,7 +50,7 @@ EntityRef ECS::createEntity()
 void ECS::deleteEntity(EntityRef ent)
 {
     // Delete all the components attached to this entity
-    for ( auto m : m_components )
+    for ( auto& m : m_components )
     {
         auto it = m.find(ent);
         if ( it != m.end() )

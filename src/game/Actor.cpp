@@ -180,7 +180,7 @@ int Actor::getMaxHp() const
 
 HealthLevel Actor::getHealthLevel() const
 {
-    float hpPercentage = (100.f * m_HpMax) / m_HpCurrent;
+    float hpPercentage = (100.f * m_HpCurrent) / m_HpMax;
     
     if ( hpPercentage < 10 )
     {
@@ -437,7 +437,7 @@ void Actor::acceptDamage( Damage const &dmg )
     setCurrentHp(newCurrHp);
     
     
-    Logging::log( "Damage dealt: damage={}, old hp={}, new hp={}", totalDamage, oldCurrHp, newCurrHp );
+    Logging::log( "Damage dealt: damage={}, old hp={}, new hp={}\n", totalDamage, oldCurrHp, newCurrHp );
     
     // Handle falling unconsious and death
     

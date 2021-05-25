@@ -80,13 +80,18 @@ void CollisionSystem::operator()(GameEvents::EntityDeath& evt)
 {
     // An entity died - if it had a collider and was impassible, update the collision map
 
-    if ( m_level->ecs().entityHas<ColliderComponent, PositionComponent>(evt.actor) )
-    {
-        auto const& [posC, colliderC] = m_level->ecs().getComponents<PositionComponent, ColliderComponent>(evt.actor);
+//    if ( m_level->ecs().entityHas<PositionComponent>())
 
-        if ( colliderC->blocksMovement )
+    auto posC = m_level->ecs().tryGetComponent<PositionComponent>(evt.actor);
+    if (posC)
+    {
+        auto colliderC = m_level->ecs().tryGetComponent<ColliderComponent>(evt.actor);
+        if (colliderC->blocksMovement)
         {
             m_level->grid().pass().removeDynamic( posC->tilePosition, evt.actor, Passibility::Impassable );
         }
+
+        m_level->grid().removeEntFromTile( posC->tilePosition, evt.actor );
     }
+
 }
