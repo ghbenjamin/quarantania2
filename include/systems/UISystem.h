@@ -26,6 +26,7 @@ public:
     void operator()(GameEvents::EntityAction& evt);
     void operator()(GameEvents::CombatMissedAttack& evt);
     void operator()(GameEvents::CombatAttackSucceeded& evt);
+    void operator()(GameEvents::EntityDeath& evt);
 
     template <typename T>
     void operator()(T&& t)

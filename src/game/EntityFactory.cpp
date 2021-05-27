@@ -170,4 +170,20 @@ EntityRef EntityFactory::createDecor(Vector2i pos, SpritesheetKey const& key) co
     return eref;
 }
 
+EntityRef EntityFactory::createCorpse(EntityRef actorRef)
+{
+    auto eref = m_parent->ecs().createEntity();
+
+    auto const&[ actorC, renderC, posC ] =  m_parent->ecs().getComponents<
+            ActorComponent, RenderComponent, PositionComponent>(actorRef);
+
+    m_parent->ecs().addComponent<PositionComponent>(eref, posC->tilePosition);
+
+    auto newRenderC = m_parent->ecs().addComponent<RenderComponent>(eref, renderC->sprite);
+    newRenderC->sprite.resetColourMod();
+    newRenderC->sprite.setAlphaMod(0.5f);
+
+    return eref;
+}
+
 

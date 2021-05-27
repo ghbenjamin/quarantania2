@@ -57,10 +57,11 @@ public:
     
     // Can the specified other render object be merged into this one?
     bool canMerge( RenderObject const& other ) const;
-    
+
     void setScissor( RectI bounds );
     void removeScissor();
-    
+
+
     // Data accessors
     
     int getDataSize();

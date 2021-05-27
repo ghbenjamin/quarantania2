@@ -15,6 +15,8 @@ ActorSystem::ActorSystem(Level *parent) : System(parent)
 void ActorSystem::operator()(GameEvents::EntityDeath& evt)
 {
     m_level->ecs().deleteEntityDelayed( evt.actor );
+
+    m_level->ecs().entityFactory().createCorpse( evt.actor );
 }
 
 void ActorSystem::operator()(GameEvents::EntityDamage& evt)

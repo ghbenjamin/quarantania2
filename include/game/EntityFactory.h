@@ -26,6 +26,8 @@ public:
 
     EntityRef createDecor(Vector2i pos, SpritesheetKey const& key) const;
 
+    EntityRef createCorpse( EntityRef actorRef );
+
 private:
     Level* m_parent;
 };
