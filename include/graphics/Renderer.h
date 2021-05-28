@@ -14,6 +14,7 @@ struct RenderBuffer
     std::vector<RenderObject> renderObjs;
     GLuint vboIdx;
     GLuint vaoIdx;
+    GLuint eboIdx;
     bool isHeld;
 };
 

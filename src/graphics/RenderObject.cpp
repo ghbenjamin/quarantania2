@@ -50,7 +50,7 @@ void RenderObject::setTextureVerts( int idx, float texX, float texY, float texW,
     m_data[idx*FLOATS_PER_QUAD+34] = texX + texW;
     m_data[idx*FLOATS_PER_QUAD+35] = texY + texH;
     
-    // Bottom Left
+    // Bottom Right
     m_data[idx*FLOATS_PER_QUAD+42] = texX + texW;
     m_data[idx*FLOATS_PER_QUAD+43] = texY;
 }
@@ -77,7 +77,7 @@ void RenderObject::setScreenVerts( int idx, float scX, float scY, float scW, flo
     m_data[idx*FLOATS_PER_QUAD+32] = scX + scW;
     m_data[idx*FLOATS_PER_QUAD+33] = scY + scH;
     
-    // Bottom Left
+    // Bottom Right
     m_data[idx*FLOATS_PER_QUAD+40] = scX + scW;
     m_data[idx*FLOATS_PER_QUAD+41] = scY;
 }
