@@ -34,9 +34,11 @@ public:
     RenderObject();
     ~RenderObject() = default;
     
-    static constexpr int FLOATS_PER_QUAD = 48;
-    static constexpr int TRIANGLES_PER_QUAD = 6;
-    
+    static constexpr int FLOATS_PER_QUAD = 32;
+    static constexpr int VERTEXES_PER_QUAD = 4;
+    static constexpr int VERTEX_STRIDE_BYTES = 8;
+    static constexpr int INDICES_PER_QUAD = 6;
+
     // Set the uv coordinates of the texture vetex (in uv space)
     void setTextureVerts( int idx, float texX, float texY, float texW, float texH );
     
@@ -66,6 +68,9 @@ public:
     
     int getDataSize();
     GLfloat* getData();
+    GLuint* getIndexes();
+    int getIndexSize() const;
+    int getQuadCount() const;
     TextureHandle getHandle() const;
     int getShaderType() const;
     RectI const& getScissor() const;
@@ -73,6 +78,10 @@ public:
 private:
     TextureHandle m_handle;
     ShaderType m_shader;
-    std::vector<GLfloat> m_data;
     RectI m_scissor;
+    int m_quadCount;
+
+    std::vector<GLfloat> m_data;
+    std::vector<GLuint> m_indexes;
+
 };

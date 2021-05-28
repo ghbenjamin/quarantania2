@@ -4,16 +4,19 @@ RenderObject::RenderObject(TextureHandle handle, ShaderType shader)
     : m_handle(handle),
       m_shader(shader),
       m_scissor(0, 0, 0, 0),
-      m_data(48, 0.0f)
+      m_data(32, 0.0f),
+      m_quadCount(1)
 {
     m_data = {
-        0.0f, 1.0f, 0, 0, 1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 0, 0, 1.0f, 1.0f, 1.0f, 1.0f,
-        0.0f, 0.0f, 0, 0, 1.0f, 1.0f, 1.0f, 1.0f,
-        
-        0.0f, 1.0f, 0, 0, 1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 1.0f, 0, 0, 1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 0, 0, 1.0f, 1.0f, 1.0f, 1.0f
+        0.0f, 1.0f, 0, 0, 1.0f, 1.0f, 1.0f, 1.0f, // Top Left
+        1.0f, 0.0f, 0, 0, 1.0f, 1.0f, 1.0f, 1.0f, // Bottom Right
+        0.0f, 0.0f, 0, 0, 1.0f, 1.0f, 1.0f, 1.0f, // Bottom Left
+        1.0f, 1.0f, 0, 0, 1.0f, 1.0f, 1.0f, 1.0f, // Top Right
+    };
+
+    m_indexes = {
+        0, 1, 2,
+        0, 3, 1,
     };
 }
 
@@ -41,18 +44,10 @@ void RenderObject::setTextureVerts( int idx, float texX, float texY, float texW,
     // Bottom Left
     m_data[idx*FLOATS_PER_QUAD+18] = texX;
     m_data[idx*FLOATS_PER_QUAD+19] = texY;
-    
-    // Top Left
-    m_data[idx*FLOATS_PER_QUAD+26] = texX;
-    m_data[idx*FLOATS_PER_QUAD+27] = texY + texH;
-    
+
     // Top Right
-    m_data[idx*FLOATS_PER_QUAD+34] = texX + texW;
-    m_data[idx*FLOATS_PER_QUAD+35] = texY + texH;
-    
-    // Bottom Right
-    m_data[idx*FLOATS_PER_QUAD+42] = texX + texW;
-    m_data[idx*FLOATS_PER_QUAD+43] = texY;
+    m_data[idx*FLOATS_PER_QUAD+26] = texX + texW;
+    m_data[idx*FLOATS_PER_QUAD+27] = texY + texH;
 }
 
 void RenderObject::setScreenVerts( int idx, float scX, float scY, float scW, float scH )
@@ -68,23 +63,16 @@ void RenderObject::setScreenVerts( int idx, float scX, float scY, float scW, flo
     // Bottom Left
     m_data[idx*FLOATS_PER_QUAD+16] = scX;
     m_data[idx*FLOATS_PER_QUAD+17] = scY;
-    
-    // Top Left
-    m_data[idx*FLOATS_PER_QUAD+24] = scX;
-    m_data[idx*FLOATS_PER_QUAD+25] = scY + scH;
-    
+
     // Top Right
-    m_data[idx*FLOATS_PER_QUAD+32] = scX + scW;
-    m_data[idx*FLOATS_PER_QUAD+33] = scY + scH;
-    
-    // Bottom Right
-    m_data[idx*FLOATS_PER_QUAD+40] = scX + scW;
-    m_data[idx*FLOATS_PER_QUAD+41] = scY;
+    m_data[idx*FLOATS_PER_QUAD+24] = scX + scW;
+    m_data[idx*FLOATS_PER_QUAD+25] = scY + scH;
+
 }
 
 void RenderObject::setColourVerts( int idx, float r, float g, float b, float a )
 {
-    for ( int i = 4; i < FLOATS_PER_QUAD; i += 8)
+    for ( int i = 4; i < FLOATS_PER_QUAD; i += VERTEX_STRIDE_BYTES)
     {
         m_data[idx*FLOATS_PER_QUAD+i+0] = r;
         m_data[idx*FLOATS_PER_QUAD+i+1] = g;
@@ -95,7 +83,7 @@ void RenderObject::setColourVerts( int idx, float r, float g, float b, float a )
 
 void RenderObject::setAlphaVerts( int idx, float a )
 {
-    for ( int i = 4; i < FLOATS_PER_QUAD; i += 8)
+    for ( int i = 4; i < FLOATS_PER_QUAD; i += VERTEX_STRIDE_BYTES)
     {
         m_data[idx*FLOATS_PER_QUAD+i+3] = a;
     }
@@ -104,8 +92,17 @@ void RenderObject::setAlphaVerts( int idx, float a )
 
 void RenderObject::merge( RenderObject other )
 {
-    m_data.reserve( m_data.size() + other.m_data.size() );
     m_data.insert( m_data.end(), other.m_data.begin(), other.m_data.end() );
+
+    for (int i = m_quadCount; i < m_quadCount + other.m_quadCount; i++)
+    {
+        for (int j = 0; j < 6; j++)
+        {
+            m_indexes.push_back( m_indexes[j] + (4 * i) );
+        }
+    }
+
+    m_quadCount += other.m_quadCount;
 }
 
 GLfloat *RenderObject::getData()
@@ -126,6 +123,13 @@ void RenderObject::addQuad( RectF screenOffsets, RectF uvBounds )
     setScreenVerts(idx, screenOffsets.x(), screenOffsets.y(), screenOffsets.w(), screenOffsets.h() );
     setTextureVerts(idx, uvBounds.x(), uvBounds.y(), uvBounds.w(), uvBounds.h() );
     setColourVerts(idx, 0.0f, 0.0f, 0.0f, 1.0f);
+
+    for (int j = 0; j < 6; j++)
+    {
+        m_indexes.push_back( m_indexes[j] + (4 * m_quadCount) );
+    }
+
+    m_quadCount++;
 }
 
 int RenderObject::getShaderType() const
@@ -151,6 +155,21 @@ void RenderObject::removeScissor()
 RectI const &RenderObject::getScissor() const
 {
     return m_scissor;
+}
+
+GLuint *RenderObject::getIndexes()
+{
+    return m_indexes.data();
+}
+
+int RenderObject::getIndexSize() const
+{
+    return m_indexes.size() * sizeof(GLuint);
+}
+
+int RenderObject::getQuadCount() const
+{
+    return m_quadCount;
 }
 
 

@@ -14,15 +14,9 @@
 RenderBuffer::RenderBuffer()
     : vboIdx(0), vaoIdx(0), isHeld(false)
 {
-    glGenBuffers(1, &vboIdx);
     glGenVertexArrays(1, &vaoIdx);
+    glGenBuffers(1, &vboIdx);
     glGenBuffers(1, &eboIdx);
-    
-//    static GLuint EBO_INDICES[] = {0, 1, 3, 1, 2, 3};
-//    static GLuint EBO_INDICES[] = {0, 1, 2, 3, 4, 5};
-    static GLuint EBO_INDICES[] = {0, 1, 2, 0, 4, 1};
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboIdx);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(EBO_INDICES), EBO_INDICES, GL_STATIC_DRAW);
 }
 
 
@@ -117,7 +111,7 @@ void Renderer::renderBuffer( int idx )
 {
     int currShader = -1;
     RectI currScissor = {0, 0, 0, 0};
-    
+
     for ( auto obj : m_buffers[idx].renderObjs )
     {
         if ( obj.getShaderType() != currShader )
@@ -152,15 +146,18 @@ void Renderer::renderBuffer( int idx )
         // Bind texture if exists (not all shaders need one)
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, obj.getHandle());
-        
+
+        // Bind VAO
+        glBindVertexArray(m_buffers[idx].vaoIdx);
+
         // Bind vertex buffer
         glBindBuffer(GL_ARRAY_BUFFER, m_buffers[idx].vboIdx);
         glBufferData(GL_ARRAY_BUFFER, obj.getDataSize() * sizeof(GLfloat), obj.getData(), GL_STATIC_DRAW);
-        
-        glBindVertexArray(m_buffers[idx].vaoIdx);
+
+        // Bind EBO
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffers[idx].eboIdx);
-    
-    
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, obj.getIndexSize(), obj.getIndexes(), GL_STATIC_DRAW);
+
         // Texture + UV data
         glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
@@ -170,13 +167,8 @@ void Renderer::renderBuffer( int idx )
         glEnableVertexAttribArray(1);
         
         // Draw!
-//        glDrawArrays(GL_TRIANGLES, 0, (obj.getDataSize() / RenderObject::FLOATS_PER_QUAD) * RenderObject::TRIANGLES_PER_QUAD );
+        glDrawElements(GL_TRIANGLES, obj.getQuadCount() * RenderObject::INDICES_PER_QUAD, GL_UNSIGNED_INT, 0);
 
-        int dQuadCount = obj.getDataSize() / RenderObject::FLOATS_PER_QUAD;
-        int dVertCount = dQuadCount * RenderObject::TRIANGLES_PER_QUAD;
-        glDrawElements(GL_TRIANGLES, 5, GL_UNSIGNED_INT, NULL);
-//        glDrawElements(GL_TRIANGLES, (obj.getDataSize() / RenderObject::FLOATS_PER_QUAD) * RenderObject::TRIANGLES_PER_QUAD, GL_UNSIGNED_INT, NULL);
-    
     }
     
     if ( !m_buffers[idx].isHeld )
