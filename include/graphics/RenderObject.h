@@ -20,6 +20,7 @@ enum class ShaderType
     QuadShader = 0,
     TextShader = 1,
     ColourShader = 2,
+    NoProjection = 3,
 };
 
 inline const int RENDER_LAYER_COUNT = 7;

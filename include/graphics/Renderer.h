@@ -23,7 +23,7 @@ class Renderer
 {
 public:
     Renderer() = default;
-    ~Renderer() = default;
+    ~Renderer();
     
     // Delayed initialization until OpenGL context has been created
     void init( Vector2f windowSize );
@@ -45,7 +45,7 @@ public:
 
 private:
 
-    void renderBuffer(int idx);
+    void renderBuffer( RenderBuffer* buf );
     
 
     // Render buffers, indexed by the RenderLayer enum
@@ -55,7 +55,8 @@ private:
     std::shared_ptr<ShaderProgram> m_quadShader;
     std::shared_ptr<ShaderProgram> m_textShader;
     std::shared_ptr<ShaderProgram> m_colourShader;
-    
+    std::shared_ptr<ShaderProgram> m_noProjShader;
+
     std::vector<ShaderHandle> m_shaderHandles;
     
     // Transformation matrices for world and screen space render objects
@@ -63,4 +64,10 @@ private:
     glm::mat4 m_identity;
     
     Vector2i m_windowSize;
+
+    GLuint m_fbFrameBuffer;
+    GLuint m_fbTexture;
+    GLuint m_fbRenderBuffer;
+    RenderObject m_fbQuad;
+    RenderBuffer m_pprocessBuffer;
 };

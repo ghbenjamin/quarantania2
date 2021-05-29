@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 
 #include <utils/Containers.h>
 #include <graphics/CursorManager.h>
@@ -37,7 +38,7 @@ private:
     SDL_GLContext m_glContext;
     Vector2i m_size;
     CursorManager m_cursor;
-    Renderer m_renderer;
+    std::unique_ptr<Renderer> m_renderer;
 };
 
 

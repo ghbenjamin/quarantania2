@@ -84,8 +84,12 @@ void Window::openGLSetup()
     // Enable alpha blending
     glEnable(GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
-    m_renderer.init( m_size.convert<float>() );
+
+    // Uncomment me to turn on wireframe mode
+    //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    m_renderer = std::make_unique<Renderer>();
+    m_renderer->init( m_size.convert<float>() );
     m_cursor.loadCursors();
 }
 
@@ -116,7 +120,7 @@ void Window::render( RenderInterface const &objs )
     glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    m_renderer.render();
+    m_renderer->render();
     
     SDL_GL_SwapWindow(m_window);
 }
@@ -124,11 +128,11 @@ void Window::render( RenderInterface const &objs )
 void Window::onWindowResize( Vector2i screenSize )
 {
     glViewport(0, 0, screenSize.x(), screenSize.y());
-    m_renderer.setWindowSize( screenSize.convert<float>() );
+    m_renderer->setWindowSize( screenSize.convert<float>() );
 }
 
 RenderInterface Window::createRenderInterface()
 {
-    return RenderInterface( &m_renderer );
+    return RenderInterface( m_renderer.get() );
 }
 
