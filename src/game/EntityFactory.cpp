@@ -134,7 +134,7 @@ EntityRef EntityFactory::createObject(Vector2i pos, std::string const &ptype) co
 }
 
 EntityRef EntityFactory::createObject(Vector2i pos, std::string const& name, SpritesheetKey const& sprite,
-        const std::unordered_map<std::string, std::string> &data) const
+        const std::unordered_map<std::string, JSONValue> &data) const
 {
     auto eref = m_parent->ecs().createEntity();
 
@@ -143,16 +143,37 @@ EntityRef EntityFactory::createObject(Vector2i pos, std::string const& name, Spr
     auto spriteRef = ResourceManager::get().getSprite( sprite );
     m_parent->ecs().addComponent<RenderComponent>(eref, spriteRef);
 
+
+    // Handle any objects whose behaviour is specified by name
     if ( name == "door" )
     {
         m_parent->ecs().addComponent<ColliderComponent>(eref, true, true);
         m_parent->ecs().addComponent<OpenableComponent>(eref);
     }
-    else
+   
+   
+    // Handle objects whose behaviour is componentized
+    
+    // Handle lighting component
+    auto lightIntensity = data.find("light-intensity");
+    if ( lightIntensity != data.end() )
     {
-
+        float intensityVal = std::get<float>(lightIntensity->second);
+        std::string colourVal;
+        
+        auto lightColour = data.find("light-colour");
+        if (lightColour != data.end())
+        {
+            colourVal = std::get<std::string>(lightColour->second);
+        }
+        else
+        {
+            colourVal = "#ffffffff";
+        }
+    
+        m_parent->ecs().addComponent<LightingComponent>(eref, intensityVal, Colour(colourVal));
     }
-
+   
 
     m_parent->ecs().entityReady(eref);
     return eref;

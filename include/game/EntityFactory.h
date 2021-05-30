@@ -5,6 +5,7 @@
 #include <game/Items.h>
 #include <utils/Containers.h>
 #include <utils/Random.h>
+#include <resource/Tiled.h>
 
 class Level;
 
@@ -19,7 +20,7 @@ public:
 
     EntityRef createObject(Vector2i pos, std::string const &ptype) const;
     EntityRef createObject(Vector2i pos, std::string const& name, SpritesheetKey const& sprite,
-            std::unordered_map<std::string, std::string> const& data) const;
+            std::unordered_map<std::string, JSONValue> const& data) const;
 
     EntityRef createItem(Vector2i pos, std::string const &name) const;
     EntityRef createItem(Vector2i pos, std::shared_ptr<Item> item) const;

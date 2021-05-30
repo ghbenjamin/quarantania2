@@ -147,26 +147,28 @@ void FixedLevelFactory::constructSpawnPoints(TiledObjectLayer const& olayer)
             {
                 if (k == "power")
                 {
-                    if ( v == "small" )
+                    std::string power = std::get<std::string>(v);
+                
+                    if ( power == "small" )
                     {
                         spawn.power = RandomEnemyPower::SMALL;
                     }
-                    else if (v == "medium")
+                    else if (power == "medium")
                     {
                         spawn.power = RandomEnemyPower::MEDIUM;
                     }
-                    else if (v == "large")
+                    else if (power == "large")
                     {
                         spawn.power = RandomEnemyPower::LARGE;
                     }
                     else
                     {
-                        AssertAlwaysMsg( "Unknown enemy spawn power: '" + v + "'" );
+                        AssertAlwaysMsg( "Unknown enemy spawn power: '" + power + "'" );
                     }
                 }
                 else if (k == "name")
                 {
-                    spawn.name = v;
+                    spawn.name = std::get<std::string>(v);
                 }
                 else
                 {

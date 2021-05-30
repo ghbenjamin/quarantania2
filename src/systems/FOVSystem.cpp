@@ -5,12 +5,11 @@
 #include <components/PositionComponent.h>
 #include <components/ActorComponent.h>
 #include <utils/GlobalConfig.h>
+#include <components/LightingComponent.h>
 
 FOVSystem::FOVSystem(Level *parent) : System(parent),
    m_fovHidden{ createRectangle(GlobalConfig::TileDimsPx, Colour::Black) },
    m_fovFog{ createRectangle(GlobalConfig::TileDimsPx, Colour::Black.withAlpha(100)) },
-   m_hiddenColour( Colour::Black ),
-   m_fovColour( Colour::Black.withAlpha(100) ),
    m_renderObj{0, ShaderType::ColourShader},
    m_renderDirtyBit(true)
 {
@@ -46,46 +45,57 @@ void FOVSystem::operator()(GameEvents::LevelReady& evt)
 void FOVSystem::recalculateFOV()
 {
     // Work out which actors are acting as FOV sources
-
-    std::vector<FOVObserver> sources;
-
-    for ( auto const&[actor, position] : m_level->ecs().entitiesWith<ActorComponent, PositionComponent>() )
+    std::vector<FOVObserver> observers;
+    for ( auto const&[actorC, posC] : m_level->ecs().entitiesWith<ActorComponent, PositionComponent>() )
     {
-        if (actor->actorType == ActorType::PC)
+        if (actorC->actorType == ActorType::PC)
         {
-            sources.push_back({position->tilePosition, 15 /* TODO: Don't hard code this */ });
+            observers.push_back({ posC->tilePosition, 15 /* TODO: Don't hard code this */ });
         }
     }
-
+    
     // Set the corrent FOV level for our level grid using the above sources
-    m_level->grid().calculateFOV(sources);
+    m_level->grid().calculateFOV(observers);
+    
+    // Work out which entities are acting as light sources
+    std::vector<LightSource> lightSources;
+    for ( auto const&[lightC, posC] : m_level->ecs().entitiesWith<LightingComponent, PositionComponent>() )
+    {
+        lightSources.push_back({ posC->tilePosition, lightC->intensity, lightC->colour });
+    }
 
-    // Update our FOV render object
-
+    // Set the current light levels using the above light sources
+    m_level->grid().calculateLightLevel(lightSources);
 
     // Reset our render object
     m_renderObj = {0, ShaderType::ColourShader};
 
     // Update our render object with the correct colour for each tile
     Vector2i currPos;
-    Vector2i tileSize = {GlobalConfig::TileSizePx, GlobalConfig::TileSizePx};
-    Sprite hiddenSprite = createRectangle(tileSize, m_hiddenColour);
-    Sprite fovSprite = createRectangle(tileSize, m_fovColour);
     int tcount =  m_level->grid().bounds().area();
+    
     for ( int i = 0; i < tcount; i++ )
     {
-        currPos = m_level->grid().idxToPos(i) * GlobalConfig::TileSizePx;
+        currPos = m_level->tileIdxToWorld(i);
         auto visibility = m_level->grid().fov().valueAt(i);
+        auto lighting = m_level->grid().light().valueAt(i);
 
         // If the current tile is hidden, block it out entirely with a black square. If the tile is explored
         // but not visible, overlay it with a partially transparent black square (fog of war)
         if ( visibility == Visibility::Hidden )
         {
-            m_renderObj.merge( hiddenSprite.renderObject(currPos) );
+            m_renderObj.merge( m_fovHidden.renderObject(currPos) );
         }
         else if ( visibility == Visibility::Explored )
         {
-            m_renderObj.merge( fovSprite.renderObject(currPos) );
+            m_renderObj.merge( m_fovFog.renderObject(currPos) );
+        }
+        
+        if (lighting > 0.01)
+        {
+            auto yellowObjs = m_fovFog.renderObject(currPos);
+            yellowObjs.setColourVerts( 0, 1.000, 0.980, 0.804, lighting * 0.5f );
+            m_renderObj.merge(yellowObjs);
         }
     }
 

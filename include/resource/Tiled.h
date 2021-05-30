@@ -2,9 +2,18 @@
 
 #include <string>
 #include <vector>
+#include <variant>
+
 #include <resource/Spritesheet.h>
 
 using TiledGid = std::uint32_t;
+
+using JSONValue = std::variant<
+        int,
+        float,
+        std::string,
+        bool
+    >;
 
 struct TiledTileset
 {
@@ -45,7 +54,7 @@ struct TiledObjectData
     Vector2i rawPos;
     Vector2i tilePos;
 
-    std::unordered_map<std::string, std::string> props;
+    std::unordered_map<std::string, JSONValue> props;
 };
 
 struct TiledObjectLayer

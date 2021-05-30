@@ -6,11 +6,9 @@
 #include <utils/Containers.h>
 #include <utils/GridUtils.h>
 
-template <typename DataType, typename RefType>
+template <typename DataType, typename RefType, typename InternalType = std::uint8_t>
 class GridFeature
 {
-
-using InternalType = std::uint8_t;
 
 public:
     explicit GridFeature( Vector2i bounds )

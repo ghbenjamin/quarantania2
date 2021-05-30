@@ -41,6 +41,17 @@ Colour::Colour(const std::string& str)
         m_b = intToFloat(b);
         m_a = 1.0f;
     }
+    else if ( str.size() == 9 && str.at(0) == '#' )
+    {
+        unsigned short r, g, b, a;
+        sscanf_s( str.substr(1, 6).c_str(), "%2hx%2hx%2hx%2hx", &r, &g, &b, &a );
+    
+        m_colour = { (std::uint8_t)r, (std::uint8_t)g, (std::uint8_t)b, (std::uint8_t)a };
+        m_r = intToFloat(r);
+        m_g = intToFloat(g);
+        m_b = intToFloat(b);
+        m_a = intToFloat(a);
+    }
     else
     {
         AssertAlwaysMsg( fmt::format( "Unknown colour string: {}", str ) );

@@ -20,7 +20,7 @@ GridFeature<Visibility, EntityRef> &Grid::fov()
     return m_visGrid;
 }
 
-GridFeature<LightLevel, EntityRef> &Grid::light()
+GridFeature<float, EntityRef, float> &Grid::light()
 {
     return m_lightGrid;
 }
@@ -32,7 +32,7 @@ void Grid::toBounds(GridRegion *region)
     }), region->end() );
 }
 
-bool Grid::inBounds(Vector2i pos)
+bool Grid::inBounds(Vector2i pos) const
 {
     return 
 		pos.x() >= 0 && 
@@ -56,12 +56,33 @@ void Grid::calculateFOV(std::vector<FOVObserver> const& sources)
 
     for ( auto const& source : sources )
     {
+        // For each source, sweep 8 right-triangular octants of the level starting from the source tile, working out
+        // which tiles are visible and which are not.
         for ( int i = 0; i < 8; i++ )
         {
             FOVWorker(source.source, source.sightLength, 1, 1.0f, 0.0f, &MatrixTransform::squareTransforms[i] );
         }
 
+        // Make sure to include the origin tile itself in the visible tiles
         m_visGrid.setFixed(source.source, Visibility::Visible);
+    }
+}
+
+void Grid::calculateLightLevel( std::vector<LightSource> const &sources )
+{
+    for ( int i = 0;  i < m_bounds.area(); i++ )
+    {
+        m_lightGrid.setFixed(i, 0.0f);
+    }
+    
+    for ( auto const& source : sources )
+    {
+        for ( int i = 0; i < 8; i++ )
+        {
+            static const float LightCalcLength = 5.0f;
+            LightMapWorker(source.source, source.intensity, LightCalcLength,
+                1, 1.0f, 0.0f, &MatrixTransform::squareTransforms[i] );
+        }
     }
 }
 
@@ -83,6 +104,7 @@ void Grid::FOVWorker(Vector2i source, int maxLength, int row,
         {
             float l_slope = ((float)dx - 0.5f) / ((float)dy + 0.5f);
             float r_slope = ((float)dx + 0.5f) / ((float)dy - 0.5f);
+            
             if (start_slope < r_slope)
             {
                 continue;
@@ -94,8 +116,7 @@ void Grid::FOVWorker(Vector2i source, int maxLength, int row,
 
             Vector2 tr = transform->transform({dx, dy});
 
-            if ((tr.x() < 0 && std::abs(tr.x()) > source.x())
-            || (tr.y() < 0 && std::abs(tr.y()) > source.y()))
+            if ((tr.x() < 0 && std::abs(tr.x()) > source.x()) || (tr.y() < 0 && std::abs(tr.y()) > source.y()))
             {
                 continue;
             }
@@ -141,6 +162,93 @@ void Grid::FOVWorker(Vector2i source, int maxLength, int row,
     }
 }
 
+
+void Grid::LightMapWorker( Vector2i source, float intensity, float maxLength, int row, float start_slope, float end_slope,
+                           Matrix2i const *transform )
+{
+    float maxRadius2 = maxLength * maxLength;
+
+    if (start_slope < end_slope)
+    {
+        return;
+    }
+    
+    float next_start_slope = start_slope;
+    for (int i = row; i <= maxLength; i++)
+    {
+        bool blocked = false;
+        for (int dx = -i, dy = -i; dx <= 0; dx++)
+        {
+            float l_slope = ((float)dx - 0.5f) / ((float)dy + 0.5f);
+            float r_slope = ((float)dx + 0.5f) / ((float)dy - 0.5f);
+            
+            if (start_slope < r_slope)
+            {
+                continue;
+            }
+            else if (end_slope > l_slope)
+            {
+                break;
+            }
+            
+            Vector2 tr = transform->transform({dx, dy});
+            
+            if ((tr.x() < 0 && std::abs(tr.x()) > source.x()) || (tr.y() < 0 && std::abs(tr.y()) > source.y()))
+            {
+                continue;
+            }
+            
+            Vector2 curr = source + tr;
+            
+            if (curr.x() >= m_bounds.x() || curr.y() >= m_bounds.y())
+            {
+                continue;
+            }
+            
+            float radius2 = (float)dx * dx + (float)dy * dy;
+            if (radius2 < maxRadius2 )
+            {
+                // Don't light up regions of the map that we can't see
+                if (m_visGrid.valueAt(curr) != Visibility::Visible)
+                {
+                    return;
+                }
+    
+                // Set the current light level as a function of how far away we are from the light we're considering
+                // Linearly combine contributions from different lights
+                float currLightVal = intensity * 0.4f / std::sqrt(radius2);
+                float oldLightVal = m_lightGrid.valueAt(curr);
+                m_lightGrid.setFixed( curr, currLightVal + oldLightVal );
+            }
+            
+            if (blocked)
+            {
+                if ( m_passGrid.valueAt(curr) == Passibility::Impassable )
+                {
+                    next_start_slope = r_slope;
+                    continue;
+                }
+                else
+                {
+                    blocked = false;
+                    start_slope = next_start_slope;
+                }
+            }
+            else if ( m_passGrid.valueAt(curr) == Passibility::Impassable )
+            {
+                blocked = true;
+                next_start_slope = r_slope;
+                LightMapWorker(source, intensity, maxLength, i + 1, start_slope, l_slope, transform);
+            }
+        }
+        
+        if (blocked)
+        {
+            break;
+        }
+    }
+}
+
 std::vector<EntityRef> Grid::entitiesAtTile(Vector2i pos) const
 {
     std::vector<EntityRef> out;
@@ -177,12 +285,12 @@ void Grid::removeEntFromTile(Vector2i pos, EntityRef ent)
     }
 }
 
-Vector2i Grid::idxToPos(int idx)
+Vector2i Grid::idxToPos(int idx) const
 {
     return { idx % m_bounds.x(), idx / m_bounds.x() };
 }
 
-int Grid::posToIdx(Vector2i pos)
+int Grid::posToIdx(Vector2i pos) const
 {
     return pos.x() + pos.y() * m_bounds.x();
 }
@@ -288,3 +396,6 @@ std::vector<Vector2i> Grid::pathFromPathMap(const PathMap &map, Vector2i tile)
 
     return std::move(path);
 }
+
+
+

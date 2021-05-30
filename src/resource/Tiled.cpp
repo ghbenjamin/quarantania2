@@ -67,28 +67,36 @@ TiledMap TiledMapLoader::load(const std::string &path)
                     for ( auto const& prop : object.FindMember("properties")->value.GetArray() )
                     {
                         auto propObj = prop.GetObject();
-                        std::string value;
                         std::string name = propObj.FindMember("name")->value.GetString();
                         std::string type = propObj.FindMember("type")->value.GetString();
+                        JSONValue val;
 
                         if ( type == "string" )
                         {
-                            value = propObj.FindMember("value")->value.GetString();
+                            val = std::string(propObj.FindMember("value")->value.GetString());
                         }
                         else if ( type == "bool" )
                         {
-                            value = propObj.FindMember("value")->value.GetBool() ? "true" : "false";
+                            val = propObj.FindMember("value")->value.GetBool();
                         }
                         else if ( type == "int" )
                         {
-                            value = propObj.FindMember("value")->value.GetInt();
+                            val = propObj.FindMember("value")->value.GetInt();
+                        }
+                        else if ( type == "color" )
+                        {
+                            val = std::string(propObj.FindMember("value")->value.GetString());
+                        }
+                        else if ( type == "float" )
+                        {
+                            val = propObj.FindMember("value")->value.GetFloat();
                         }
                         else
                         {
                             AssertAlwaysMsg( "unknown object prop type: " + type );
                         }
-
-                        tod.props.emplace(name, value);
+                        
+                        tod.props.emplace(name, val);
                     }
                 }
 

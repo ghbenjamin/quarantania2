@@ -8,6 +8,7 @@
 #include <components/ContainerComponent.h>
 #include <components/DescriptionComponent.h>
 #include <components/ItemComponent.h>
+#include <components/LightingComponent.h>
 #include <components/OpenableComponent.h>
 #include <components/RenderComponent.h>
 #include <components/PositionComponent.h>
@@ -24,6 +25,7 @@ using AllComponents = ComponentTypes<
     ContainerComponent,
     DescriptionComponent,
     ItemComponent,
+    LightingComponent,
     OpenableComponent,
     RenderComponent,
     PositionComponent

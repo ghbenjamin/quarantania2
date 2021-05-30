@@ -408,6 +408,9 @@ std::string EnumToString::creatureEquipSlot( CreatureEquipSlot input )
             return "Ring";
         case CreatureEquipSlot::Feet:
             return "Feet";
+        default:
+            AssertAlways();
+            return "???";
     }
 }
 
@@ -425,5 +428,8 @@ std::string EnumToString::creatureHealthLevel( HealthLevel input )
             return "Badly Injured";
         case HealthLevel::Near_Death:
             return "Near Neath";
+        default:
+            AssertAlways();
+            return "???";
     }
 }

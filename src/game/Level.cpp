@@ -192,12 +192,13 @@ Vector2i Level::tileCoordsToScreen( Vector2i const& tile ) const
 
 Vector2i Level::tileCoordsToWorld( Vector2i const &tile ) const
 {
-    return {
-            tile.x() * GlobalConfig::TileSizePx,
-            tile.y() * GlobalConfig::TileSizePx
-    };
+    return tile * GlobalConfig::TileSizePx;
 }
 
+Vector2i Level::tileIdxToWorld( int idx ) const
+{
+    return tileCoordsToWorld( m_grid.idxToPos(idx) );
+}
 
 
 void Level::setupUI()
@@ -405,5 +406,6 @@ void Level::setLevelExitStatus( LevelExitStatus status )
 {
     m_exitStatus = status;
 }
+
 
 

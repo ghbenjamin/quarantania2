@@ -82,6 +82,17 @@
                  "height":32,
                  "id":7,
                  "name":"candle",
+                 "properties":[
+                        {
+                         "name":"light-colour",
+                         "type":"color",
+                         "value":"#fffdffdc"
+                        }, 
+                        {
+                         "name":"light-intensity",
+                         "type":"float",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -94,6 +105,17 @@
                  "height":32,
                  "id":8,
                  "name":"candle",
+                 "properties":[
+                        {
+                         "name":"light-colour",
+                         "type":"color",
+                         "value":"#fffdffdc"
+                        }, 
+                        {
+                         "name":"light-intensity",
+                         "type":"float",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -106,6 +128,17 @@
                  "height":32,
                  "id":9,
                  "name":"candle",
+                 "properties":[
+                        {
+                         "name":"light-colour",
+                         "type":"color",
+                         "value":"#fffdffdc"
+                        }, 
+                        {
+                         "name":"light-intensity",
+                         "type":"float",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -118,6 +151,17 @@
                  "height":32,
                  "id":10,
                  "name":"candle",
+                 "properties":[
+                        {
+                         "name":"light-colour",
+                         "type":"color",
+                         "value":"#fffdffdc"
+                        }, 
+                        {
+                         "name":"light-intensity",
+                         "type":"float",
+                         "value":1
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,

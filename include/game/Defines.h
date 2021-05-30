@@ -20,9 +20,6 @@ enum class Visibility
     Visible
 };
 
-using LightLevel = std::uint8_t;
-
-
 
 // Creature Properties
 // --------------------------------------

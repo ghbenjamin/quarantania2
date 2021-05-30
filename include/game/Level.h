@@ -64,6 +64,7 @@ public:
     Vector2i screenCoordsToTile( Vector2i const& screen) const;
     Vector2i tileCoordsToScreen( Vector2i const& tile ) const;
     Vector2i tileCoordsToWorld( Vector2i const& tile ) const;
+    Vector2i tileIdxToWorld( int idx ) const;
 
     int squaredEntityDistance(EntityRef a, EntityRef b);
     float entityDistance(EntityRef a, EntityRef b);
