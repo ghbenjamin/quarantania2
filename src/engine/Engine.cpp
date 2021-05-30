@@ -75,6 +75,7 @@ void Engine::run()
 
         // Update
         m_states.back()->update(ticks, inputInterface, renderInterface);
+        renderer.update(ticks);
 
         // Graphics
         renderer.render();

@@ -172,6 +172,11 @@ int RenderObject::getQuadCount() const
     return m_quadCount;
 }
 
+void RenderObject::setShader( ShaderType type )
+{
+    m_shader = type;
+}
+
 
 
 

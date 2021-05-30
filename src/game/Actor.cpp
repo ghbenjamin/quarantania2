@@ -436,8 +436,7 @@ void Actor::acceptDamage( Damage const &dmg )
     int newCurrHp = oldCurrHp - totalDamage;
     setCurrentHp(newCurrHp);
     
-    
-    Logging::log( "Damage dealt: damage={}, old hp={}, new hp={}\n", totalDamage, oldCurrHp, newCurrHp );
+//    Logging::log( "Damage dealt: damage={}, old hp={}, new hp={}\n", totalDamage, oldCurrHp, newCurrHp );
     
     // Handle falling unconsious and death
     

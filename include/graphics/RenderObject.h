@@ -21,6 +21,7 @@ enum class ShaderType
     TextShader = 1,
     ColourShader = 2,
     NoProjection = 3,
+    SceneFadeout = 4
 };
 
 inline const int RENDER_LAYER_COUNT = 7;
@@ -60,6 +61,8 @@ public:
     
     // Can the specified other render object be merged into this one?
     bool canMerge( RenderObject const& other ) const;
+
+    void setShader( ShaderType type );
 
     void setScissor( RectI bounds );
     void removeScissor();

@@ -1,8 +1,11 @@
 #pragma once
 
+#include <optional>
+
 #include <glm/glm.hpp>
 
 #include <graphics/RenderObject.h>
+#include <utils/Interpolate.h>
 
 class ShaderProgram;
 
@@ -24,8 +27,8 @@ class Renderer
 public:
     Renderer( Vector2f initWndSize );
     ~Renderer();
-
-
+    
+    
     // Draw the contents of our buffer, then empty the buffers
     void render();
 
@@ -45,6 +48,12 @@ public:
     void holdBuffer( RenderLayer layer );
     void releaseBuffer( RenderLayer layer );
 
+
+    void startFadeout( float time );
+    void startFadein( float time );
+    
+    bool isMidTransition() const;
+
 private:
 
     void renderBuffer( RenderBuffer* buf );
@@ -58,6 +67,7 @@ private:
     std::shared_ptr<ShaderProgram> m_textShader;
     std::shared_ptr<ShaderProgram> m_colourShader;
     std::shared_ptr<ShaderProgram> m_noProjShader;
+    std::shared_ptr<ShaderProgram> m_sceneFadeout;
 
     std::vector<ShaderHandle> m_shaderHandles;
     
@@ -71,4 +81,7 @@ private:
     GLuint m_fbTexture;
     RenderObject m_fbQuad;
     RenderBuffer m_pprocessBuffer;
+    
+    bool m_isFadingOut;
+    std::optional<TimedLinearInterpolator<float>> m_fadeTimer;
 };

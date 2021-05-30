@@ -40,3 +40,13 @@ void RenderInterface::removeScissor()
 {
     m_currentScissor.reset();
 }
+
+void RenderInterface::startFadeout( float time )
+{
+    m_renderer->startFadeout(time);
+}
+
+void RenderInterface::startFadein( float time )
+{
+    m_renderer->startFadein( time );
+}

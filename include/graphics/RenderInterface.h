@@ -27,6 +27,10 @@ public:
 
     void setScissor(RectI scissor);
     void removeScissor();
+    
+    
+    void startFadeout( float time );
+    void startFadein( float time );
 
 private:
     Renderer* m_renderer;

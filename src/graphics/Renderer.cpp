@@ -51,6 +51,9 @@ Renderer::Renderer( Vector2f initWndSize )
 
     m_quadShader = ResourceManager::get().getShaderProgram( "quad_shader" ).getProgram();
     m_noProjShader = ResourceManager::get().getShaderProgram( "no_projection" ).getProgram();
+    
+    m_sceneFadeout = ResourceManager::get().getShaderProgram( "scene_fadeout" ).getProgram();
+    m_sceneFadeout->setUniformFloat( "fadeFrac", 1.0f );
 
     setWindowSize(initWndSize);
 
@@ -58,7 +61,8 @@ Renderer::Renderer( Vector2f initWndSize )
             m_quadShader->getHandle(),
             m_textShader->getHandle(),
             m_colourShader->getHandle(),
-            m_noProjShader->getHandle()
+            m_noProjShader->getHandle(),
+            m_sceneFadeout->getHandle()
     };
 
     for (int i = 0; i < RENDER_LAYER_COUNT; i++)
@@ -87,7 +91,7 @@ Renderer::Renderer( Vector2f initWndSize )
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     // Create a fullscreen quad render object using the scene framebuffer object
-    RenderObject fullscreenQuad = RenderObject( m_fbTexture, ShaderType::NoProjection );
+    RenderObject fullscreenQuad = RenderObject( m_fbTexture, ShaderType::SceneFadeout );
     fullscreenQuad.setScreenVerts(0, -1.0f, -1.0f, 2.f, 2.f);
     fullscreenQuad.setTextureVerts(0, 0.f, 0.f, 1.f, 1.f);
     m_pprocessBuffer.renderObjs.push_back(fullscreenQuad);
@@ -248,7 +252,43 @@ void Renderer::renderBuffer( RenderBuffer* buf )
 
 void Renderer::update(std::uint32_t ticks)
 {
+    if ( m_fadeTimer.has_value() )
+    {
+        m_fadeTimer->advance(ticks);
+        
+        m_sceneFadeout->setUniformFloat( "fadeFrac", m_fadeTimer->current() );
+        
+        if ( m_fadeTimer->isFinished() )
+        {
+            if (m_isFadingOut)
+            {
+                // We've finished fading out - leave the shader as is for now
+            }
+            else
+            {
+                // We've finished fading in - switch back to the regular shader
+                m_pprocessBuffer.renderObjs.front().setShader(ShaderType::NoProjection);
+            }
+        }
+    }
+}
 
+void Renderer::startFadeout( float time )
+{
+    m_fadeTimer = TimedLinearInterpolator<float>(1.0f, 0.0f, time);
+    m_isFadingOut = true;
+}
+
+void Renderer::startFadein( float time )
+{
+    m_pprocessBuffer.renderObjs.front().setShader(ShaderType::SceneFadeout);
+    m_fadeTimer = TimedLinearInterpolator<float>(0.0f, 1.0f, time);
+    m_isFadingOut = false;
+}
+
+bool Renderer::isMidTransition() const
+{
+   return m_fadeTimer.has_value() && !m_fadeTimer->isFinished();
 }
 
 

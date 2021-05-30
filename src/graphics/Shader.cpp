@@ -57,6 +57,12 @@ void ShaderProgram::setUniformMat4v(GLuint location, const glm::mat4 &val)
     glUniformMatrix4fv( location, 1, false, glm::value_ptr(val) );
 }
 
+void ShaderProgram::setUniformFloat( std::string const &name, float val )
+{
+    useProgram();
+    glUniform1f( getUniformLocation(name), val );
+}
+
 void ShaderProgram::setUniformMat4v( std::string const &name, glm::mat4 const &val )
 {
     setUniformMat4v( getUniformLocation(name), val );
@@ -66,4 +72,6 @@ GLuint ShaderProgram::getHandle()
 {
     return m_handle;
 }
+
+
 

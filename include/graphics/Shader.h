@@ -21,6 +21,7 @@ public:
 
     void setUniformMat4v( GLuint location, glm::mat4 const& val );
     void setUniformMat4v( std::string const& name, glm::mat4 const& val );
+    void setUniformFloat( std::string const& name, float val );
 
 
 private:
