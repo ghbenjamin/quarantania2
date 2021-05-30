@@ -22,25 +22,27 @@ struct RenderBuffer
 class Renderer
 {
 public:
-    Renderer() = default;
+    Renderer( Vector2f initWndSize );
     ~Renderer();
-    
-    // Delayed initialization until OpenGL context has been created
-    void init( Vector2f windowSize );
-    
+
+
     // Draw the contents of our buffer, then empty the buffers
     void render();
+
+    void update( std::uint32_t ticks );
     
     // Add an item to the render queue.
     void addItem( RenderObject const& robj, RenderLayer layer );
     
     // Set the camera offset vector used when drawing objects in world space
     void setCameraOffset( Vector2f offset );
-    
+
+    // Update internal state that depends on the size of the window 
     void setWindowSize( Vector2f size );
 
+    // Hold & release the buffer - while held, the buffer will stop clearing at the end of each tick,
+    // and will instead just rerender what it has buffered.
     void holdBuffer( RenderLayer layer );
-    
     void releaseBuffer( RenderLayer layer );
 
 private:
@@ -67,7 +69,6 @@ private:
 
     GLuint m_fbFrameBuffer;
     GLuint m_fbTexture;
-    GLuint m_fbRenderBuffer;
     RenderObject m_fbQuad;
     RenderBuffer m_pprocessBuffer;
 };

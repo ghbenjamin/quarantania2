@@ -44,7 +44,7 @@ TileRegionHighlight::TileRegionHighlight(Manager *manager, Element *parent, Grid
     AssertMsg( !region.empty(), "Tile highlight region must not be empty" );
 
     setDecorative();
-    auto sprite = createRectangle(GlobalConfig::TileDimsPx, colour.withAlpha(80));
+    auto sprite = createRectangle(GlobalConfig::TileDimsPx, colour.withAlpha(50));
 
     m_robj = sprite.renderObject( region[0] * GlobalConfig::TileSizePx );
 

@@ -27,9 +27,10 @@ void Engine::run()
     ResourceManager::get().loadAll();
     ResourceManager::get().setWindow( window );
 
-    window->openGLSetup();
+    Renderer renderer( window->getSize().convert<float>() );
+    window->initResources();
 
-    RenderInterface renderInterface = window->createRenderInterface();
+    RenderInterface renderInterface ( &renderer );
     InputInterface inputInterface;
 
     auto initState = std::make_unique<InitState>();
@@ -63,6 +64,7 @@ void Engine::run()
             if (ievt.type == IEventType::WindowResize)
             {
                 window->onWindowResize( ievt.windowResize.screenSize );
+                renderer.setWindowSize( ievt.windowResize.screenSize.convert<float>() );
             }
         
             m_states.back()->input(ievt);
@@ -75,7 +77,8 @@ void Engine::run()
         m_states.back()->update(ticks, inputInterface, renderInterface);
 
         // Graphics
-        window->render(renderInterface);
+        renderer.render();
+        window->swapWindow();
 
         // State checking
 

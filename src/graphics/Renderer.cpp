@@ -24,30 +24,43 @@ RenderBuffer::RenderBuffer()
 //-----------------------
 
 
-void Renderer::init( Vector2f windowSize )
+Renderer::Renderer( Vector2f initWndSize )
 {
+    // No depth testing or face culling
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+
+    // Set the viewport size and projection
+    glViewport(0, 0, (GLsizei)initWndSize.x(), (GLsizei)initWndSize.y());
+
+    // Enable alpha blending
+    glEnable(GL_BLEND);
+    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Uncomment me to turn on wireframe mode
+    //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
     m_identity = glm::mat4(1.0f);
     m_cameraTransform = glm::mat4(1.0f);
-    
+
     m_textShader = ResourceManager::get().getShaderProgram( "text_shader" ).getProgram();
     m_textShader->setUniformMat4v( "model", m_identity );
-    
+
     m_colourShader = ResourceManager::get().getShaderProgram( "colour_only_shader" ).getProgram();
     m_colourShader->setUniformMat4v( "model", m_identity );
-    
+
     m_quadShader = ResourceManager::get().getShaderProgram( "quad_shader" ).getProgram();
     m_noProjShader = ResourceManager::get().getShaderProgram( "no_projection" ).getProgram();
 
-    
-    setWindowSize(windowSize);
-    
+    setWindowSize(initWndSize);
+
     m_shaderHandles = {
             m_quadShader->getHandle(),
             m_textShader->getHandle(),
             m_colourShader->getHandle(),
             m_noProjShader->getHandle()
     };
-    
+
     for (int i = 0; i < RENDER_LAYER_COUNT; i++)
     {
         m_buffers.push_back({});
@@ -68,13 +81,6 @@ void Renderer::init( Vector2f windowSize )
 
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_fbTexture, 0);
 
-    // Create a renderbuffer for the scene framebuffer
-    glGenRenderbuffers(1, &m_fbRenderBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, m_fbRenderBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, m_windowSize.x(), m_windowSize.y());
-    glBindRenderbuffer(GL_RENDERBUFFER, 0);
-
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_fbRenderBuffer);
 
     Assert( glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE );
 
@@ -88,11 +94,15 @@ void Renderer::init( Vector2f windowSize )
     m_pprocessBuffer.isHeld = true;
 }
 
+Renderer::~Renderer()
+{
+    glDeleteFramebuffers(1, &m_fbFrameBuffer);
+}
+
 
 void Renderer::render()
 {
     // Render our scene to a framebuffer
-
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbFrameBuffer);
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -107,13 +117,6 @@ void Renderer::render()
     }
 
 
-    // Render the framebuffer to the screen
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    renderBuffer( &m_pprocessBuffer );
-
-
     // Render our UI
 
     // Switch to the identity transform for the UI layer
@@ -121,6 +124,14 @@ void Renderer::render()
     m_colourShader->setUniformMat4v( "model", m_identity );
 
     renderBuffer( &m_buffers[(int)RenderLayer::UI] );
+
+
+
+    // Render the framebuffer to the screen
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    renderBuffer( &m_pprocessBuffer );
 }
 
 void Renderer::addItem( RenderObject const &robj, RenderLayer layer )
@@ -144,6 +155,8 @@ void Renderer::setCameraOffset( Vector2f offset )
 
 void Renderer::setWindowSize( Vector2f size )
 {
+    glViewport(0, 0, (GLsizei)size.x(), (GLsizei)size.y());
+
     m_windowSize = size.convert<int>();
     glm::mat4 projection = glm::ortho(0.0f, size.x(), size.y(), 0.0f, -1.0f, 1.0f);
     
@@ -233,7 +246,9 @@ void Renderer::renderBuffer( RenderBuffer* buf )
     }
 }
 
-Renderer::~Renderer()
+void Renderer::update(std::uint32_t ticks)
 {
-    glDeleteFramebuffers(1, &m_fbFrameBuffer);
+
 }
+
+

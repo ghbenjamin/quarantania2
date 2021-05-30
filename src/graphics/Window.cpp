@@ -16,6 +16,7 @@ Window::Window(GlobalConfig::GlobalConfigInfo const& info)
 
     if (info.sizeToScreen)
     {
+        // If we're max screen size but not fullscreen (default)
         SDL_Rect usableScreen;
         SDL_GetDisplayUsableBounds(0, &usableScreen);
 
@@ -23,6 +24,7 @@ Window::Window(GlobalConfig::GlobalConfigInfo const& info)
     }
     else
     {
+        // If we've been forced into windowed mode by our config
         m_size = info.screenSize;
     }
 
@@ -35,6 +37,7 @@ Window::Window(GlobalConfig::GlobalConfigInfo const& info)
         m_size.y(),
         SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE
     );
+
     Assert( m_window != nullptr);
 
     SDL_SetWindowMinimumSize( m_window, 800, 600 );
@@ -72,24 +75,8 @@ Window::~Window()
 }
 
 
-void Window::openGLSetup()
+void Window::initResources()
 {
-    // No depth testing or face culling
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
-    
-    // Set the viewport size and projection
-    glViewport(0, 0, m_size.x(), m_size.y());
-    
-    // Enable alpha blending
-    glEnable(GL_BLEND);
-    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    // Uncomment me to turn on wireframe mode
-    //    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-    m_renderer = std::make_unique<Renderer>();
-    m_renderer->init( m_size.convert<float>() );
     m_cursor.loadCursors();
 }
 
@@ -115,24 +102,12 @@ CursorManager &Window::cursor()
     return m_cursor;
 }
 
-void Window::render( RenderInterface const &objs )
+void Window::swapWindow( )
 {
-    glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    
-    m_renderer->render();
-    
     SDL_GL_SwapWindow(m_window);
 }
 
 void Window::onWindowResize( Vector2i screenSize )
 {
-    glViewport(0, 0, screenSize.x(), screenSize.y());
-    m_renderer->setWindowSize( screenSize.convert<float>() );
+    m_size = screenSize;
 }
-
-RenderInterface Window::createRenderInterface()
-{
-    return RenderInterface( m_renderer.get() );
-}
-
