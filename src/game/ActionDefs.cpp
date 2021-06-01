@@ -57,7 +57,7 @@ void ActionMoveParent::attachImpl()
 bool ActionAttackParent::entityIsValid(EntityRef ref)
 {
     auto actorC = m_level->ecs().tryGetComponent<ActorComponent>(ref);
-    if ( actorC && (actorC->actorType == ActorType::NPC) )
+    if ( actorC )
     {
         auto posDef = m_level->ecs().tryGetComponent<PositionComponent>(ref);
         auto posAtk = m_level->ecs().tryGetComponent<PositionComponent>(m_actor);

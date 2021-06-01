@@ -103,3 +103,27 @@ GridRegion SingleEntityTargeting::getValidTiles()
     
     return validTiles;
 }
+
+void ReifiedGameAction::perform(Level* level, EntityRef actor)
+{
+    action.impl->attach( level, actor );
+
+    switch (action.ttype)
+    {
+        case TargetingType::SingleTile:
+            std::static_pointer_cast<SingleTileTargeting>(action.impl)->perform( std::get<Vector2i>(target) );
+            break;
+        case TargetingType::GridRegion:
+            AssertNotImplemented();
+            break;
+        case TargetingType::SingleEntity:
+            std::static_pointer_cast<SingleEntityTargeting>(action.impl)->perform( std::get<EntityRef>(target) );
+            break;
+    }
+
+    level->events().broadcast<GameEvents::EntityAction>(actor, action);
+}
+
+ReifiedGameAction::ReifiedGameAction(const GameAction &action, const ActionTarget &target)
+        : action(action), target(target)
+{}

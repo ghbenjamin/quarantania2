@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <variant>
+
 #include <resource/Spritesheet.h>
 #include <game/RawData.h>
 #include <game/Grid.h>
@@ -16,6 +18,13 @@ enum class TargetingType
     GridRegion,
     SingleEntity,
 };
+
+using ActionTarget = std::variant<
+        Vector2i,       // Single Tile
+        GridRegion,     // Grid Region
+        EntityRef       // Single entity
+    >;
+
 
 class IActionTargeting
 {
@@ -45,6 +54,16 @@ struct GameAction
     TargetingType ttype;
     std::shared_ptr<IActionTargeting> impl;
     bool enabled;
+};
+
+
+struct ReifiedGameAction
+{
+    GameAction action;
+    ActionTarget target;
+
+    ReifiedGameAction(const GameAction &action, const ActionTarget &target);
+    void perform( Level* level, EntityRef actor );
 };
 
 struct ActionSpeedData

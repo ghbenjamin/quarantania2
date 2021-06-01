@@ -5,6 +5,7 @@
 #include <resource/ResourceManager.h>
 #include <components/All.h>
 #include <components/AnimationComponent.h>
+#include <ai/BehaviourNodes.h>
 
 EntityFactory::EntityFactory(Level* parent)
 : m_parent(parent) {}
@@ -58,12 +59,15 @@ EntityRef EntityFactory::createEnemy(Vector2i pos, std::string const &name) cons
     auto sprite = ResourceManager::get().getSprite( creatureData.sprite );
 
     m_parent->ecs().addComponent<PositionComponent>(eref, pos);
-    m_parent->ecs().addComponent<AIComponent>(eref);
     m_parent->ecs().addComponent<RenderComponent>(eref, sprite);
     m_parent->ecs().addComponent<ColliderComponent>(eref, false, true);
     m_parent->ecs().addComponent<DescriptionComponent>( eref, creatureData.name, "Creature", creatureData.description );
     m_parent->ecs().addComponent<AnimationComponent>(eref);
-    
+
+    // DEBUG
+    auto aiC = m_parent->ecs().addComponent<AIComponent>(eref);
+    aiC->behaviour.root()->addChild<BehaviourNodes::MeleeAttackNearestTarget>();
+
     auto actor = Actor( m_parent, eref, creatureData );
     auto actComp = m_parent->ecs().addComponent<ActorComponent>(eref, std::move(actor));
     actComp->actorType = ActorType::NPC;

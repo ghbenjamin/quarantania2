@@ -3,12 +3,13 @@
 #include <engine/Component.h>
 #include <engine/Entity.h>
 #include <game/Items.h>
+#include <ai/BehaviourTree.h>
 
 struct AIComponent : public Component<AIComponent>
 {
-    AIComponent() = default;
+    AIComponent();
     ~AIComponent() override = default;
 
-    // TBD
+    BehaviourTree behaviour;
 };
 
