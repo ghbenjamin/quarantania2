@@ -18,7 +18,11 @@ std::shared_ptr<ReifiedGameAction> BehaviourTree::evaluate(Level* level, EntityR
         return {};
     }
 
-    return m_root->evaluate(level, actor);
+    auto action = m_root->evaluate(level, actor);
+    
+    
+    
+    return action;
 }
 
 std::shared_ptr<BTNode> &BehaviourTree::root()

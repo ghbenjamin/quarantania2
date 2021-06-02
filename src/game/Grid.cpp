@@ -4,6 +4,7 @@
 
 #include <utils/Logging.h>
 #include <utils/Assert.h>
+#include <queue>
 
 Grid::Grid(Vector2i bounds)
 : m_bounds(bounds), m_passGrid(m_bounds), m_visGrid(m_bounds), m_lightGrid(m_bounds)
@@ -395,6 +396,51 @@ std::vector<Vector2i> Grid::pathFromPathMap(const PathMap &map, Vector2i tile)
     std::reverse( path.begin(), path.end() );
 
     return std::move(path);
+}
+
+std::vector<Vector2i> Grid::pathBetweenPoints( Vector2i source, Vector2i dest )
+{
+    using VecPair = std::pair<Vector2i, float>;
+    auto VecPairCmp = []( VecPair const& lhs, VecPair const& rhs ){ return lhs.second < rhs.second; };
+    auto heuristic = []( Vector2i const& lhs, Vector2i const& rhs ){ return (rhs.x() - lhs.x()) + (rhs.y() - lhs.y()); };
+    
+    std::vector<Vector2i> out;
+    std::priority_queue<VecPair, std::vector<VecPair>, decltype(VecPairCmp)> openSet;
+    std::unordered_map<Vector2i, float, Vector2iHash> costs;
+    std::unordered_map<Vector2i, Vector2i, Vector2iHash> cameFrom;
+    
+    
+    openSet.push( std::make_pair(source, 0) );
+    costs[source] = 0;
+
+    while (!openSet.empty())
+    {
+        auto current = openSet.top();
+        openSet.pop();
+        
+        if (current.first == dest)
+        {
+            break;
+        }
+        
+        for (auto const&[dir, nn] : GridUtils::AllNeighbours)
+        {
+            auto next = current.first + nn;
+            auto newCost = costs[current.first] + 1;
+            
+            auto nextInCosts = costs.find(next);
+            if ( nextInCosts == costs.end() || newCost < costs[next] )
+            {
+                costs[next] = newCost;
+                float priority = newCost + heuristic( next, dest );
+                
+                openSet.push( std::make_pair(next, priority) );
+                cameFrom[next] = current.first;
+            }
+        }
+    }
+
+    return out;
 }
 
 

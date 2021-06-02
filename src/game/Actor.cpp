@@ -617,10 +617,7 @@ ActionsUsedInfo const &Actor::actionInfo() const
 
 bool Actor::canPerformAction( GameAction const& action ) const
 {
-    ActionSpeedData speedData;
-    speedData.action = &action;
-    speedData.modified = action.data.speed;
-    
+    ActionSpeedData speedData(&action);
     applyAllModifiers( &speedData );
     
     return actionInfo().canUseAction( speedData.modified );

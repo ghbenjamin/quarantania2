@@ -64,10 +64,13 @@ public:
 
     // Mark all tiles as 'explored' (all tiles will be visible but in FOW)
     void exploreAllTiles();
-
-
+    
     PathMap allPathsFromTile(Vector2i source, int maxDistance);
     std::vector<Vector2i> pathFromPathMap(PathMap const& map, Vector2i tile);
+
+    // Find the fastest path between two points
+    std::vector<Vector2i> pathBetweenPoints( Vector2i source, Vector2i dest );
+
 
 private:
     // Adjust the specified grid region so that it is entirely within bounds

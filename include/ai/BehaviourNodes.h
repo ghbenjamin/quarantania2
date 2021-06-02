@@ -2,21 +2,37 @@
 
 #include <ai/BehaviourTree.h>
 
+class EntityTargetingScheme;
 
 namespace BehaviourNodes
 {
 
-//
 class Identity : public BTNode
 {
 public:
     std::shared_ptr<ReifiedGameAction> evaluate(Level *level, EntityRef actor) override;
 };
 
-class MeleeAttackNearestTarget : public BTNode
+
+class MeleeAttackTarget : public BTNode
 {
 public:
+    MeleeAttackTarget( std::shared_ptr<EntityTargetingScheme> targeting );
     std::shared_ptr<ReifiedGameAction> evaluate(Level* level, EntityRef actor) override;
+
+private:
+    std::shared_ptr<EntityTargetingScheme> m_targeting;
+};
+
+
+class MoveToTarget : public BTNode
+{
+public:
+    MoveToTarget( std::shared_ptr<EntityTargetingScheme> targeting );
+    std::shared_ptr<ReifiedGameAction> evaluate(Level* level, EntityRef actor) override;
+    
+private:
+    std::shared_ptr<EntityTargetingScheme> m_targeting;
 };
 
 }

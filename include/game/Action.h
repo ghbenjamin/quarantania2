@@ -68,6 +68,9 @@ struct ReifiedGameAction
 
 struct ActionSpeedData
 {
+    ActionSpeedData( GameAction const* action );
+    ActionSpeedData( GameAction* action );
+    
     GameAction const* action = nullptr;
     ActionSpeed modified = ActionSpeed::Free;
 };
