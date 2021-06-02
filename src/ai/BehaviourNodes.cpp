@@ -71,8 +71,22 @@ std::shared_ptr<ReifiedGameAction> BehaviourNodes::MoveToTarget::evaluate( Level
     
     auto targetPosC = level->ecs().getComponents<PositionComponent>(target);
     
+    float actorSpeed = (float) actorC->actor.getSpeed();
+    auto pathToTarget = level->grid().pathBetweenPoints( posC->tilePosition, targetPosC->tilePosition );
     
     
+    if ( pathToTarget.empty() )
+    {
+        // There's no path to our closest target, do nothing for now
+        return {};
+    }
+    
+    auto pathIt = pathToTarget.begin();
+    auto stopIt = pathToTarget.end() - 2;
+    for ( ; pathIt->second < actorSpeed && pathIt != stopIt; pathIt++ )
+    {}
+    
+    Vector2i targetTile = pathIt->first;
     
     auto moveTargeting = std::make_shared<ActionMoveStride>();
     moveTargeting->attach(level, actor);
@@ -84,5 +98,7 @@ std::shared_ptr<ReifiedGameAction> BehaviourNodes::MoveToTarget::evaluate( Level
     {
         return {};
     }
+    
+    return std::make_shared<ReifiedGameAction>(gameAction, targetTile);
 }
 

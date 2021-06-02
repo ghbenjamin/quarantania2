@@ -67,7 +67,8 @@ EntityRef EntityFactory::createEnemy(Vector2i pos, std::string const &name) cons
 
     // DEBUG
     auto aiC = m_parent->ecs().addComponent<AIComponent>(eref);
-    aiC->behaviour.root()->addChild<BehaviourNodes::MeleeAttackTarget>( std::make_shared<EntityTargetingNearest>() );
+//    aiC->behaviour.root()->addChild<BehaviourNodes::MeleeAttackTarget>( std::make_shared<EntityTargetingNearest>() );
+    aiC->behaviour.root()->addChild<BehaviourNodes::MoveToTarget>( std::make_shared<EntityTargetingNearest>() );
 
     auto actor = Actor( m_parent, eref, creatureData );
     auto actComp = m_parent->ecs().addComponent<ActorComponent>(eref, std::move(actor));

@@ -69,7 +69,7 @@ public:
     std::vector<Vector2i> pathFromPathMap(PathMap const& map, Vector2i tile);
 
     // Find the fastest path between two points
-    std::vector<Vector2i> pathBetweenPoints( Vector2i source, Vector2i dest );
+    std::vector<std::pair<Vector2i, float>> pathBetweenPoints( Vector2i source, Vector2i dest );
 
 
 private:

@@ -398,20 +398,20 @@ std::vector<Vector2i> Grid::pathFromPathMap(const PathMap &map, Vector2i tile)
     return std::move(path);
 }
 
-std::vector<Vector2i> Grid::pathBetweenPoints( Vector2i source, Vector2i dest )
+std::vector<std::pair<Vector2i, float>> Grid::pathBetweenPoints( Vector2i source, Vector2i dest )
 {
     using VecPair = std::pair<Vector2i, float>;
-    auto VecPairCmp = []( VecPair const& lhs, VecPair const& rhs ){ return lhs.second < rhs.second; };
+    auto VecPairCmp = []( VecPair const& lhs, VecPair const& rhs ){ return lhs.second > rhs.second; };
     auto heuristic = []( Vector2i const& lhs, Vector2i const& rhs ){ return (rhs.x() - lhs.x()) + (rhs.y() - lhs.y()); };
     
-    std::vector<Vector2i> out;
-    std::priority_queue<VecPair, std::vector<VecPair>, decltype(VecPairCmp)> openSet;
+    std::vector<std::pair<Vector2i, float>> out;
+    std::priority_queue<VecPair, std::vector<VecPair>, decltype(VecPairCmp)> openSet( VecPairCmp );
     std::unordered_map<Vector2i, float, Vector2iHash> costs;
     std::unordered_map<Vector2i, Vector2i, Vector2iHash> cameFrom;
     
     
-    openSet.push( std::make_pair(source, 0) );
-    costs[source] = 0;
+    openSet.push( std::make_pair(source, 0.f) );
+    costs[source] = 0.f;
 
     while (!openSet.empty())
     {
@@ -426,7 +426,20 @@ std::vector<Vector2i> Grid::pathBetweenPoints( Vector2i source, Vector2i dest )
         for (auto const&[dir, nn] : GridUtils::AllNeighbours)
         {
             auto next = current.first + nn;
-            auto newCost = costs[current.first] + 1;
+            float deltaCost = GridUtils::isAdjacentCardinal(current.first, next) ? 1.0f : 1.41f;
+            auto newCost = costs[current.first] + deltaCost;
+    
+            // Don't walk off of the map
+            if (!inBounds(next))
+            {
+                continue;
+            }
+    
+            // Don't walk through walls
+            if (m_passGrid.valueAt(next) != Passibility::Passable)
+            {
+                continue;
+            }
             
             auto nextInCosts = costs.find(next);
             if ( nextInCosts == costs.end() || newCost < costs[next] )
@@ -439,6 +452,28 @@ std::vector<Vector2i> Grid::pathBetweenPoints( Vector2i source, Vector2i dest )
             }
         }
     }
+    
+    // Empty out path => there's no path between the specified points
+    if ( out.empty() )
+    {
+        return out;
+    }
+    
+    
+    // Convert our map of to -> from nodes to a linear path, making sure both the start and
+    // end nodes are on the path
+    
+    Vector2i curr = dest;
+    auto it = cameFrom.find(curr);
+    
+    for (; it != cameFrom.end(); it = cameFrom.find(curr))
+    {
+        out.push_back(std::make_pair(curr, costs[curr]));
+        curr = it->second;
+    }
+    
+    out.push_back( std::make_pair(source, 0.0f) );
+    std::reverse( out.begin(), out.end() );
 
     return out;
 }

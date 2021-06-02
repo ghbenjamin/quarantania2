@@ -143,6 +143,7 @@ void ResourceDatabase::loadAllCreatureData()
         rcd.combatManeuverBonus = cr.FindMember("cmb")->value.GetInt();
         rcd.combatManeuverDefence = cr.FindMember("cmd")->value.GetInt();
         rcd.initiative = cr.FindMember("initative")->value.GetInt();
+        rcd.speed = cr.FindMember("speed")->value.GetInt();
 
         if ( cr.HasMember("description") )
         {
