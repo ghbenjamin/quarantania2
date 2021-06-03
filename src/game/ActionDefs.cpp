@@ -82,9 +82,15 @@ void ActionAttackParent::attachImpl()
 void ActionMoveStride::perform(Vector2i tile)
 {
     auto origin = m_level->ecs().getComponents<PositionComponent>(m_actor)->tilePosition;
-    auto pathMap = m_level->grid().pathFromPathMap(m_pathMap, tile);
+    auto pathInfo = m_level->grid().pathBetweenPoints( origin, tile );
 
-    m_level->events().broadcast<GameEvents::EntityMove>(m_actor, origin, tile, pathMap);
+    std::vector<Vector2i> path;
+    for ( auto const& item : pathInfo )
+    {
+        path.push_back(item.first);
+    }
+
+    m_level->events().broadcast<GameEvents::EntityMove>(m_actor, origin, tile, path);
 }
 
 ActionMoveStep::ActionMoveStep()
@@ -94,9 +100,9 @@ ActionMoveStep::ActionMoveStep()
 void ActionMoveStep::perform(Vector2i tile)
 {
     auto origin = m_level->ecs().getComponents<PositionComponent>(m_actor)->tilePosition;
-    auto pathMap = m_level->grid().pathFromPathMap(m_pathMap, tile);
+    std::vector<Vector2i> path = { tile };
 
-    m_level->events().broadcast<GameEvents::EntityMove>(m_actor, origin, tile, pathMap);
+    m_level->events().broadcast<GameEvents::EntityMove>(m_actor, origin, tile, path);
 }
 
 

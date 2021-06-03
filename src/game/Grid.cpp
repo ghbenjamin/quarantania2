@@ -402,7 +402,7 @@ std::vector<std::pair<Vector2i, float>> Grid::pathBetweenPoints( Vector2i source
 {
     using VecPair = std::pair<Vector2i, float>;
     auto VecPairCmp = []( VecPair const& lhs, VecPair const& rhs ){ return lhs.second > rhs.second; };
-    auto heuristic = []( Vector2i const& lhs, Vector2i const& rhs ){ return (rhs.x() - lhs.x()) + (rhs.y() - lhs.y()); };
+    auto heuristic = []( Vector2i const& lhs, Vector2i const& rhs ){ return std::abs(rhs.x() - lhs.x()) + std::abs(rhs.y() - lhs.y()); };
     
     std::vector<std::pair<Vector2i, float>> out;
     std::priority_queue<VecPair, std::vector<VecPair>, decltype(VecPairCmp)> openSet( VecPairCmp );
@@ -436,7 +436,7 @@ std::vector<std::pair<Vector2i, float>> Grid::pathBetweenPoints( Vector2i source
             }
     
             // Don't walk through walls
-            if (m_passGrid.valueAt(next) != Passibility::Passable)
+            if (m_passGrid.valueAt(next) != Passibility::Passable && next != dest)
             {
                 continue;
             }
@@ -453,18 +453,17 @@ std::vector<std::pair<Vector2i, float>> Grid::pathBetweenPoints( Vector2i source
         }
     }
     
-    // Empty out path => there's no path between the specified points
-    if ( out.empty() )
-    {
-        return out;
-    }
-    
-    
     // Convert our map of to -> from nodes to a linear path, making sure both the start and
     // end nodes are on the path
     
     Vector2i curr = dest;
     auto it = cameFrom.find(curr);
+
+    // Endpoint not in the map => there's no path between the specified points
+    if (it == cameFrom.end())
+    {
+        return {};
+    }
     
     for (; it != cameFrom.end(); it = cameFrom.find(curr))
     {
