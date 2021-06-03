@@ -7,6 +7,7 @@
 #include <components/AnimationComponent.h>
 #include <ai/BehaviourNodes.h>
 #include <ai/EntityTargetingScheme.h>
+#include <ai/BehaviourFactory.h>
 
 EntityFactory::EntityFactory(Level* parent)
 : m_parent(parent) {}
@@ -64,11 +65,9 @@ EntityRef EntityFactory::createEnemy(Vector2i pos, std::string const &name) cons
     m_parent->ecs().addComponent<ColliderComponent>(eref, false, true);
     m_parent->ecs().addComponent<DescriptionComponent>( eref, creatureData.name, "Creature", creatureData.description );
     m_parent->ecs().addComponent<AnimationComponent>(eref);
-
-    // DEBUG
+    
     auto aiC = m_parent->ecs().addComponent<AIComponent>(eref);
-//    aiC->behaviour.root()->addChild<BehaviourNodes::MeleeAttackTarget>( std::make_shared<EntityTargetingNearest>() );
-    aiC->behaviour.root()->addChild<BehaviourNodes::MoveToTarget>( std::make_shared<EntityTargetingNearest>() );
+    aiC->behaviour = BehaviourFactory::moveAndAttackNearestEnemy();
 
     auto actor = Actor( m_parent, eref, creatureData );
     auto actComp = m_parent->ecs().addComponent<ActorComponent>(eref, std::move(actor));

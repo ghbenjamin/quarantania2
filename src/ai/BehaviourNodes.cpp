@@ -68,12 +68,19 @@ std::shared_ptr<ReifiedGameAction> BehaviourNodes::MoveToTarget::evaluate( Level
     }
     
     EntityRef target = *targetOpt;
-    
     auto targetPosC = level->ecs().getComponents<PositionComponent>(target);
+    
+    
+    // If we're already at the right position, do nothing.
+    if ( (targetPosC->tilePosition == posC->tilePosition) ||
+        GridUtils::isAdjacent( targetPosC->tilePosition, posC->tilePosition ) )
+    {
+        return {};
+    }
+    
     
     float actorSpeed = (float) actorC->actor.getSpeed();
     auto pathToTarget = level->grid().pathBetweenPoints( posC->tilePosition, targetPosC->tilePosition );
-    
     
     if ( pathToTarget.empty() )
     {
@@ -102,3 +109,32 @@ std::shared_ptr<ReifiedGameAction> BehaviourNodes::MoveToTarget::evaluate( Level
     return std::make_shared<ReifiedGameAction>(gameAction, targetTile);
 }
 
+BehaviourNodes::MoveOrPerformAction::MoveOrPerformAction(
+    std::shared_ptr<EntityTargetingScheme> targeting, std::shared_ptr<BTNode> ifNotAdj, std::shared_ptr<BTNode> ifAdj )
+    : m_targeting(targeting)
+    {
+        m_children = { ifNotAdj, ifAdj };
+    }
+
+std::shared_ptr<ReifiedGameAction> BehaviourNodes::MoveOrPerformAction::evaluate( Level *level, EntityRef actor )
+{
+    auto targetOpt = m_targeting->getEntity(level, actor);
+    if (!targetOpt)
+    {
+        return {};
+    }
+    
+    EntityRef target = *targetOpt;
+    auto const& targetPosC = level->ecs().getComponents<PositionComponent>(target);
+    auto const& actorPosC = level->ecs().getComponents<PositionComponent>(actor);
+    
+    
+    if (GridUtils::isAdjacent( targetPosC->tilePosition, actorPosC->tilePosition ) )
+    {
+        return m_children[1]->evaluate(level, actor);
+    }
+    else
+    {
+        return m_children[0]->evaluate(level, actor);
+    }
+}

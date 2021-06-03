@@ -35,4 +35,16 @@ private:
     std::shared_ptr<EntityTargetingScheme> m_targeting;
 };
 
+class MoveOrPerformAction : public BTNode
+{
+public:
+    MoveOrPerformAction( std::shared_ptr<EntityTargetingScheme> targeting, std::shared_ptr<BTNode> ifNotAdj, std::shared_ptr<BTNode> ifAdj );
+    std::shared_ptr<ReifiedGameAction> evaluate(Level* level, EntityRef actor) override;
+
+private:
+    std::shared_ptr<EntityTargetingScheme> m_targeting;
+};
+
+
+
 }

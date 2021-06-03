@@ -45,6 +45,10 @@ class BehaviourTree
 {
 public:
     
+    template <typename T>
+    BehaviourTree( std::shared_ptr<T> root )
+        : m_root( std::static_pointer_cast<BTNode>( root )) {}
+        
     BehaviourTree();
     ~BehaviourTree() = default;
 
