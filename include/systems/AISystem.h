@@ -21,5 +21,7 @@ public:
 
 private:
     std::vector<EntityRef> m_entsToAct;
+    std::size_t m_currEnt;
+    std::size_t m_passedCount;
 
 };

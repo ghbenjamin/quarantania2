@@ -1,26 +1,9 @@
 #include <game/GameEventHub.h>
+#include <game/Level.h>
 
-GameEventHub::GameEventHub()
-{
-    
-    // Uncomment me for a reference to help with debugging event issues
-//    Logging::log("Game Event Def IDs:");
-//    Logging::log( "EntityMove ID: {}\n", GameEvent<GameEvents::EntityMove>::id() );
-//    Logging::log( "EntityReady ID: {}\n", GameEvent<GameEvents::EntityReady>::id() );
-//    Logging::log( "EntityOpenClose ID: {}\n", GameEvent<GameEvents::EntityOpenClose>::id() );
-//    Logging::log( "LevelReady ID: {}\n", GameEvent<GameEvents::LevelReady>::id() );
-//    Logging::log( "TurnChange ID: {}\n", GameEvent<GameEvents::TurnChange>::id() );
-//    Logging::log( "RoundChange ID: {}\n", GameEvent<GameEvents::RoundChange>::id() );
-//    Logging::log( "EntityAction ID: {}\n", GameEvent<GameEvents::EntityAction>::id() );
-//    Logging::log( "ItemPickup ID: {}\n", GameEvent<GameEvents::ItemPickup>::id() );
-//    Logging::log( "ItemDrop ID: {}\n", GameEvent<GameEvents::ItemDrop>::id() );
-//    Logging::log( "ItemEquip ID: {}\n", GameEvent<GameEvents::ItemEquip>::id() );
-//    Logging::log( "ItemUnequip ID: {}\n", GameEvent<GameEvents::ItemUnequip>::id() );
-//    Logging::log( "EntityDeath ID: {}\n", GameEvent<GameEvents::EntityDeath>::id() );
-//    Logging::log( "EntityDamage ID: {}\n", GameEvent<GameEvents::EntityDamage>::id() );
-//    Logging::log( "CombatMeleeAttack ID: {}\n", GameEvent<GameEvents::CombatMeleeAttack>::id() );
-//    Logging::log( "ControllerEntitySelected ID: {}\n", GameEvent<GameEvents::ControllerEntitySelected>::id() );
-}
+
+GameEventHub::GameEventHub(Level* level)
+: m_level(level) {}
 
 void GameEventHub::popQueue()
 {
@@ -43,5 +26,14 @@ void GameEventHub::popQueue()
                 base->accept( evt.evt );
             }
         }
+    }
+}
+
+void GameEventHub::pollAllEvents()
+{
+    // Pause the event queue while we're waiting for an animation to finish
+    while ( !m_evtQueue.empty() && !m_level->isAnimationBlocking() )
+    {
+        popQueue();
     }
 }

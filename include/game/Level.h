@@ -22,7 +22,7 @@
 class RenderInterface;
 class InputInterface;
 struct IEvent;
-
+class Animation;
 
 enum class LevelExitStatus
 {
@@ -77,8 +77,12 @@ public:
     int getCurrentRound() const;        // The current turn count.
     void switchTurn();                  // Toggle between the player turn and the AI turn
     void advanceRound();                // Move to the next round. Called automatically once the turn toggles twice
-    bool isInteractable() const;        // Can the player currently interact with the level?
-    void setInteractible(bool value);   // Set whether or not the player is allowed to interact with the level
+    void setIsAnimationBlocking(bool value);
+    bool isAnimationBlocking() const;
+
+    // Animation
+    void pushAnimation( std::unique_ptr<Animation>&& animation );
+
 
     // Communication
     LevelExitStatus getLevelExitStatus() const;
@@ -117,10 +121,13 @@ private:
     GameEventHub m_gevents;
     ECS m_ecs;
 
+    // Animation
+    std::queue<std::unique_ptr<Animation>> m_blockingAnimationQueue;
+
     // State
-    int m_currentRound;  // The turn counter, where one turn is
+    int m_currentRound;
     bool m_isPlayerTurn; // Is it currently the player's turn?
-    bool m_canInteract; // Can the player currently interact with the level?
+    bool m_isAnimationBlocking;
 };
 
 using LevelPtr = std::unique_ptr<Level>;

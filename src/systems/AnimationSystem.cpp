@@ -2,9 +2,9 @@
 
 #include <game/Level.h>
 #include <graphics/RenderInterface.h>
-#include <components/PositionComponent.h>
 #include <components/RenderComponent.h>
 #include <components/AnimationComponent.h>
+#include <utils/Memory.h>
 
 AnimationSystem::AnimationSystem(Level *parent)
         : System(parent)
@@ -13,33 +13,6 @@ AnimationSystem::AnimationSystem(Level *parent)
     m_level->events().subscribe<GameEvents::EntityDamage>(this);
 }
 
-void AnimationSystem::update(uint32_t ticks, RenderInterface &rInter)
-{
-    for ( auto &[render, tile, anim] : m_level->ecs().entitiesWith<RenderComponent, PositionComponent, AnimationComponent>() )
-    {
-        if ( anim->movementPathAnim.has_value() )
-        {
-            anim->movementPathAnim->advance( ticks );
-            tile->pixelPosition = anim->movementPathAnim->currentPosition().convert<int>();
-            
-            if ( anim->movementPathAnim->isComplete() )
-            {
-                tile->pixelPosition = anim->movementPathAnim->finalPosition().convert<int>();
-                anim->movementPathAnim.reset();
-            }
-        }
-        if ( anim->colourModAnim.has_value() )
-        {
-            anim->colourModAnim->advance( ticks );
-            
-            if ( anim->colourModAnim->isComplete() )
-            {
-                render->sprite.setColourMod(anim->colourModAnim->colour());
-                anim->colourModAnim.reset();
-            }
-        }
-    }
-}
 
 void AnimationSystem::operator()( GameEvents::EntityMove &evt )
 {
@@ -65,9 +38,8 @@ void AnimationSystem::operator()( GameEvents::EntityMove &evt )
     {
         worldPath.push_back( m_level->tileCoordsToWorld( tile ).convert<float>() );
     }
-    
-    TileAnimationPath pathAnim {worldPath, 0.2f};
-    animC->movementPathAnim = std::move(pathAnim);
+
+    m_level->pushAnimation( Utils::make_unique_with_type<Animation, AnimTilePath>(m_level, evt.ent, worldPath, 0.2f) );
 }
 
 void AnimationSystem::operator()( GameEvents::EntityDamage &evt )
@@ -75,8 +47,8 @@ void AnimationSystem::operator()( GameEvents::EntityDamage &evt )
     if ( m_level->ecs().entityHas<AnimationComponent>( evt.target ) )
     {
         auto [renderC, animC] = m_level->ecs().getComponents<RenderComponent, AnimationComponent>(evt.target);
-        
-        animC->colourModAnim = { renderC->sprite.getColour(), 0.5f };
-        renderC->sprite.setColourMod(Colour::Red);
+
+        m_level->pushAnimation( Utils::make_unique_with_type<Animation, AnimColourMod>(m_level, evt.target,
+                Colour::Red, renderC->sprite.getColour(), 0.5f) );
     }
 }

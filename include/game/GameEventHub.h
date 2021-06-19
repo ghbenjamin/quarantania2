@@ -6,6 +6,8 @@
 #include <game/GameEventVariant.h>
 
 
+class Level;
+
 struct QueuedEvent
 {
     GEventId id;
@@ -15,7 +17,7 @@ struct QueuedEvent
 class GameEventHub
 {
 public:
-    GameEventHub();
+    GameEventHub(Level* level);
     ~GameEventHub() = default;
 
     GameEventHub( const GameEventHub& ) = delete;
@@ -63,24 +65,29 @@ public:
         // Push the event to the back of the queue
         m_evtQueue.push(queued);
         
-        // If we're already resolving an event, add it to the queue and do nothing - the original event will handle
-        // broadcasting this derived event. If not, then take responsiblity for popping events off of the queue
-        // untill the queue is empty.
-        if ( !m_evtInProgress )
-        {
-            m_evtInProgress = true;
-            while ( !m_evtQueue.empty() )
-            {
-                popQueue();
-            }
-            m_evtInProgress = false;
-        }
+//        // If we're already resolving an event, add it to the queue and do nothing - the original event will handle
+//        // broadcasting this derived event. If not, then take responsiblity for popping events off of the queue
+//        // untill the queue is empty.
+//        if ( !m_evtInProgress )
+//        {
+//            m_evtInProgress = true;
+//            while ( !m_evtQueue.empty() )
+//            {
+//                popQueue();
+//            }
+//            m_evtInProgress = false;
+//        }
     }
+
+
+    void pollAllEvents();
 
 private:
 
     void popQueue();
 
+
+    Level* m_level;
     std::unordered_multimap<GEventId, GEventCallback> m_subs;
     std::queue<QueuedEvent> m_evtQueue;
     

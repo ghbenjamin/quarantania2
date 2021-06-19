@@ -9,6 +9,8 @@
 #include <resource/ResourceManager.h>
 #include <utils/GlobalConfig.h>
 #include <utils/Math.h>
+#include <game/Animation.h>
+
 #include <ui/level/PlayerStatusView.h>
 #include <ui/level/CreatureEquipView.h>
 #include <ui/level/ContainerView.h>
@@ -27,9 +29,10 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
   m_uiManager(this),
   m_currentRound(0),
   m_isPlayerTurn(true),
-  m_canInteract(true),
   m_tileRenderDirtyBit(true),
-  m_exitStatus(LevelExitStatus::None)
+  m_isAnimationBlocking(false),
+  m_exitStatus(LevelExitStatus::None),
+  m_gevents(this)
 {
     setupUI();
     layoutWindows();
@@ -103,8 +106,27 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
         m_tileRenderDirtyBit = false;
     }
 
+    // Advance our animation state if necessary
+    if ( !m_blockingAnimationQueue.empty() )
+    {
+        auto& front = m_blockingAnimationQueue.front();
+        front->advance(ticks);
+
+        if (front->isComplete())
+        {
+            m_blockingAnimationQueue.pop();
+            if ( m_blockingAnimationQueue.empty() )
+            {
+                setIsAnimationBlocking(false);
+            }
+        }
+    }
+
     // Update + render our entities
     m_ecs.update(ticks, iinter, rInter);
+
+    // Poll our game event queue
+    m_gevents.pollAllEvents();
 
     // Render the GUI
     m_uiManager.update(ticks, iinter, rInter);
@@ -377,16 +399,6 @@ int Level::getCurrentRound() const
     return m_currentRound;
 }
 
-bool Level::isInteractable() const
-{
-    return m_canInteract;
-}
-
-void Level::setInteractible(bool val)
-{
-    m_canInteract = val;
-}
-
 void Level::switchTurn()
 {
     m_isPlayerTurn = !m_isPlayerTurn;
@@ -405,6 +417,22 @@ LevelExitStatus Level::getLevelExitStatus() const
 void Level::setLevelExitStatus( LevelExitStatus status )
 {
     m_exitStatus = status;
+}
+
+void Level::pushAnimation(std::unique_ptr<Animation> && animation)
+{
+    setIsAnimationBlocking(true);
+    m_blockingAnimationQueue.push( std::move(animation) );
+}
+
+void Level::setIsAnimationBlocking(bool value)
+{
+    m_isAnimationBlocking = value;
+}
+
+bool Level::isAnimationBlocking() const
+{
+    return m_isAnimationBlocking;
 }
 
 
