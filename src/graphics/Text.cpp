@@ -7,6 +7,7 @@
 #include <utils/Assert.h>
 #include <utils/Logging.h>
 #include <resource/ResourceManager.h>
+#include <utils/BBCode.h>
 
 
 // Font Manager
@@ -81,9 +82,9 @@ FtFontFace::~FtFontFace()
 TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, int maxWidth )
 {
     // Grab the character data for the requested font size
-    auto it = m_charData.find(fontSize);
-    AssertMsg( it != m_charData.end(), fmt::format("Missing font size: {}", fontSize) );
-    auto& charVector = it->second;
+    auto cdataIt = m_charData.find(fontSize);
+    AssertMsg( cdataIt != m_charData.end(), fmt::format("Missing font size: {}", fontSize) );
+    auto& charVector = cdataIt->second;
 
     // Max width <=0 => unbounded width, never wrap
     if (maxWidth <= 0)
@@ -93,6 +94,8 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, in
 
     std::vector<FtCharPlacement> allGlyphs;
     std::vector<FtCharPlacement> currentWordGlyphs;
+
+    auto bbDoc = BBCode::parseText( str );
 
     
     float currX = 0;
@@ -109,9 +112,10 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, in
 
     int lineCount = 1;
     
-    for (int i = 0; i < (int) str.size(); i++)
+//    for (int i = 0; i < (int) str.size(); i++)
+    for ( auto it = bbDoc.begin(); it != bbDoc.end(); ++it )
     {
-        auto char_val = str.at(i);
+        auto char_val = it->first;
         std::uint16_t char_idx = static_cast<std::uint16_t>( char_val );
         auto& char_data = charVector[char_idx];
 

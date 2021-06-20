@@ -50,7 +50,7 @@ BBDocument BBCode::parseText( std::string const& text )
     // If we have no tags, return the entire text as a single node.
     if ( openTags.size() == 0 )
     {
-        out.nodes.emplace_back( text );
+        out.addNode( text );
         return out;
     }
     
@@ -60,10 +60,10 @@ BBDocument BBCode::parseText( std::string const& text )
     for ( int i = 0; i < (int)openTags.size(); i++ )
     {
         // Add the text region from the last end tag (or start of string) to the beginning of this tag.
-        out.nodes.emplace_back( text.substr( lastIdx, openTags[i].start - lastIdx ) );
+        out.addNode( text.substr( lastIdx, openTags[i].start - lastIdx ) );
         
         // Add the tagged region
-        out.nodes.emplace_back(
+        out.addNode(
             text.substr( openTags[i].end, closeTags[i].start - openTags[i].end ),
             Colour{ openTags[i].value }
         );
@@ -72,7 +72,7 @@ BBDocument BBCode::parseText( std::string const& text )
     }
     
     // Add the region from the end of the last tag to the end of the string.
-    out.nodes.emplace_back( text.substr( closeTags.back().end, std::string::npos ) );
+    out.addNode( text.substr( closeTags.back().end, std::string::npos ) );
     
     return out;
 }
@@ -86,10 +86,10 @@ BBNode::BBNode( std::string const &text, std::optional<Colour> const &colour )
 BBDocument::Iterator::Iterator( BBDocument const* ptr, std::size_t idx )
     : m_ptr(ptr), m_charIdx(0), m_nodeIdx(0)
 {
-    for ( ; m_nodeIdx < ptr->nodes.size(); m_nodeIdx++ )
+    for ( ; m_nodeIdx < ptr->m_nodes.size(); m_nodeIdx++ )
     {
-        std::size_t nodeSize = ptr->nodes[m_nodeIdx].text.size();
-        if ( idx > nodeSize )
+        std::size_t nodeSize = ptr->m_nodes[m_nodeIdx].text.size();
+        if ( idx >= nodeSize )
         {
             idx -= nodeSize;
         }
@@ -100,9 +100,10 @@ BBDocument::Iterator::Iterator( BBDocument const* ptr, std::size_t idx )
         }
     }
     
-    auto& vec =  m_ptr->nodes[m_nodeIdx];
+    auto& vec =  m_ptr->m_nodes[m_nodeIdx];
     m_curr = std::make_pair( vec.text.at(m_charIdx), vec.colour );
 }
+
 
 bool BBDocument::Iterator::operator==( BBDocument::Iterator const &i )
 {
@@ -117,13 +118,13 @@ bool BBDocument::Iterator::operator!=( BBDocument::Iterator const &i )
 BBDocument::Iterator &BBDocument::Iterator::operator++()
 {
     m_charIdx++;
-    if ( m_charIdx >= m_ptr->nodes[m_nodeIdx].text.size() )
+    if ( m_charIdx >=m_ptr->m_nodes[m_nodeIdx].text.size() )
     {
         m_charIdx = 0;
         m_nodeIdx++;
     }
     
-    auto& vec =  m_ptr->nodes[m_nodeIdx];
+    auto& vec =  m_ptr->m_nodes[m_nodeIdx];
     m_curr = std::make_pair( vec.text.at(m_charIdx), vec.colour );
     
     return *this;
@@ -146,5 +147,22 @@ BBDocument::Iterator BBDocument::begin()
 
 BBDocument::Iterator BBDocument::end()
 {
-    return BBDocument::Iterator(this, nodes.size());
+    return BBDocument::Iterator(this, m_size);
+}
+
+void BBDocument::addNode( BBNode node )
+{
+    m_nodes.push_back(node);
+    m_size += node.text.size();
+}
+
+void BBDocument::addNode( std::string const& data, Colour colour )
+{
+    m_nodes.emplace_back(data, colour );
+    m_size += m_nodes.back().text.size();
+}
+
+std::vector<BBNode> const &BBDocument::nodes() const
+{
+    return m_nodes;
 }

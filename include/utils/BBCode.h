@@ -40,7 +40,11 @@ class BBDocument
 {
 public:
     BBDocument() = default;
-    std::vector<BBNode> nodes;
+    
+    void addNode( BBNode node );
+    void addNode( std::string const& data, Colour colour );
+    
+    
     
     class Iterator
     {
@@ -68,6 +72,12 @@ public:
     
     Iterator begin();
     Iterator end();
+    
+    std::vector<BBNode> const &nodes() const;
+
+private:
+    std::vector<BBNode> m_nodes;
+    std::size_t m_size = 0;
 };
 
 /**

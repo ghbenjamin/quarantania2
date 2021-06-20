@@ -8,23 +8,23 @@ TEST_CASE( "BBCode parsing", "[utils]" ) {
         std::string str = "The quick brown fox jumps over the lazy dog";
         auto doc = BBCode::parseText( str );
         
-        REQUIRE( doc.nodes.size() == 1 );
-        REQUIRE( doc.nodes.front().text == str );
-        REQUIRE( !doc.nodes.front().colour.has_value() );
+        REQUIRE(doc.nodes().size() == 1 );
+        REQUIRE(doc.nodes().front().text == str );
+        REQUIRE( !doc.nodes().front().colour.has_value() );
     }
     
     SECTION( "Simple bbcode" ) {
         std::string str = "The <c:Red>quick brown fox</c> jumps over the lazy dog";
         auto doc = BBCode::parseText( str );
         
-        REQUIRE( doc.nodes.size() == 3 );
+        REQUIRE(doc.nodes().size() == 3 );
     }
     
     SECTION( "More complicated bbcode" ) {
         std::string str = "The <c:red>quick brown fox</c><c:#00FF00> jumps</c> over the lazy dog";
         auto doc = BBCode::parseText( str );
         
-        REQUIRE( doc.nodes.size() == 5 );
+        REQUIRE(doc.nodes().size() == 5 );
     }
     
     SECTION( "Iterating over a bbdoc" ) {
@@ -45,5 +45,18 @@ TEST_CASE( "BBCode parsing", "[utils]" ) {
         ++it;
         REQUIRE( it->first == 'q' );
         REQUIRE( it->second.has_value() );
+    }
+    
+    SECTION ( "BBDoc for loop" ) {
+        std::string str = "The <c:red>quick brown fox</c><c:#00FF00> jumps</c> over the lazy dog";
+        auto doc = BBCode::parseText( str );
+        
+        std::string out;
+        for ( auto it = doc.begin(); it != doc.end(); ++it )
+        {
+            out.push_back( it->first );
+        }
+        
+        REQUIRE( out == "The quick brown fox jumps over the lazy dog" );
     }
 }
