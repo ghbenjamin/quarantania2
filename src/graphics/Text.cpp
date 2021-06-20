@@ -125,7 +125,7 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, in
         if ( !std::isalnum( str.at(i)) )
         {
             // If the current glyph is not alphanumeric, it might be the end of a word. Consider this glyph a possible
-            // break point and work out whether or not we need to wrap onto the net line
+            // break point and work out whether or not we need to wrap onto the next line
 
             float leftWordEdge = currentWordGlyphs.front().x;
             float currGlyphWidth = (float) charVector[currentWordGlyphs.back().idx].advance;
@@ -284,80 +284,6 @@ TextRenderObj FtFontFace::renderString(const std::string &str, int fontSize)
     return renderString(str, fontSize, -1);
 }
 
-
-MarkdownTokenStream LiteMarkdownParser::parseMarkdown( std::string const& text )
-{
-    // Example markdown:
-    // "The <c:#ff0000>quick brown</c> fox jumped <c:#00ff00>over the lazy</c> dog."
-    
-    Colour const& DefaultColour = Colour::Black;
-    
-    std::regex tagOpen { R"(<c:(\S+)>)" };
-    std::regex tagClose { R"(</c>)" };
-    
-    std::sregex_iterator openIt {text.begin(), text.end(), tagOpen };
-    std::sregex_iterator closeIt {text.begin(), text.end(), tagClose };
-    std::sregex_iterator end;
-    
-    std::vector<OpenTagPosition> openTags;
-    std::vector<EndTagPosition> closeTags;
-    
-    
-    for ( ; openIt != end; openIt++)
-    {
-        OpenTagPosition tp;
-        tp.start = openIt->position();
-        tp.end = tp.start + openIt->length();
-        tp.value = openIt->str(1);
-        
-        openTags.push_back(tp);
-    }
-    
-    for ( ; closeIt != end; closeIt++)
-    {
-        EndTagPosition tp;
-        tp.start = closeIt->position();
-        tp.end = tp.start + closeIt->length();
-        
-        closeTags.push_back(tp);
-    }
-    
-    AssertMsg( openTags.size() == closeTags.size(), "Open and close tag mismatch" );
-    
-    // If we have no tags, return a simple black single element stream
-    if ( openTags.size() == 0 )
-    {
-        return MarkdownTokenStream{ MarkdownTokenSegment{ Colour::Black, text } };
-    }
-    
-    // Otherwise:
-    
-    MarkdownTokenStream out;
-    
-    std::size_t lastIdx = 0;
-    
-    for ( int i = 0; i < (int)openTags.size(); i++ )
-    {
-        out.push_back( MarkdownTokenSegment {
-                DefaultColour,
-                text.substr( lastIdx, openTags[i].start - lastIdx )
-        });
-        
-        out.push_back( MarkdownTokenSegment {
-                Colour{ openTags[i].value },
-                text.substr( openTags[i].end, closeTags[i].start - openTags[i].end )
-        });
-        
-        lastIdx = closeTags[i].end;
-    }
-    
-    out.push_back( MarkdownTokenSegment {
-            DefaultColour,
-            text.substr( closeTags.back().end, std::string::npos )
-    });
-    
-    return out;
-}
 
 RenderObject &TextRenderObj::renderObject(Vector2i pos)
 {

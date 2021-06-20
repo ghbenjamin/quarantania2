@@ -131,7 +131,7 @@ void UISystem::operator()(GameEvents::RoundChange &evt)
 {
     refreshPartyStatus();
 
-    m_level->ui().displayTransientMessage("Player Turn");
+    m_level->ui().displayTransientMessage("Player Turn", 1.0f);
 }
 
 void UISystem::operator()(GameEvents::CombatMissedAttack &evt)

@@ -54,6 +54,7 @@ bool Manager::input(IEvent &evt)
 
 void Manager::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
+    // Update all of our non-modal dialogs
     for ( auto const& r: m_roots )
     {
         if ( !r->isModal() )
@@ -62,13 +63,15 @@ void Manager::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rI
         }
     }
     
-    if (m_hasModalDialog)
+    // If we have a modal dialog, render the background overlay sprite and then render the modal dialog
+    if ( m_hasModalDialog )
     {
         auto modal = m_modalDialog.lock();
         rInter.addItem( m_modalSprite.renderObject({0, 0}), RenderLayer::UI);
         modal->update(ticks, iinter, rInter);
     }
 
+    // Render any of our elements which have been queued up to delete
     for ( auto &elem : m_delayedDeleteElems )
     {
         deleteElement(elem);
@@ -79,6 +82,7 @@ void Manager::doLayout()
 {
     auto windowSize = ResourceManager::get().getWindow()->getSize();
 
+    // Set the position of any elements whose position is relative to the current window size
     for ( auto const& wa : m_windowAlignments )
     {
         auto pos = alignRectWithinRect( windowSize, wa.element->outerBounds().right(), wa.alignment );
@@ -86,6 +90,7 @@ void Manager::doLayout()
         wa.element->setLocalPosition(pos);
     }
 
+    // Set the position of any elements whose position is relative to other elements
     for ( auto const& ea : m_elementAlignments )
     {
         auto depBounds = ea.dependent->outerBounds();
@@ -103,6 +108,7 @@ void Manager::deleteElement(const ElementPtr& element)
     if ( !element )
         return;
     
+    // If this element is modal, remove our modal overlay along with the element
     if ( element->isModal() )
     {
         m_modalDialog.reset();
@@ -555,9 +561,9 @@ void Manager::delayedDeleteElement(const ElementPtr &element)
     m_delayedDeleteElems.push_back(element);
 }
 
-void Manager::displayTransientMessage(std::string message)
+void Manager::displayTransientMessage(std::string message, float displayTime )
 {
-    auto testTransient = createElement<UI::TransientMessage>( nullptr, 0.5f, 2.0f, 0.8f );
+    auto testTransient = createElement<UI::TransientMessage>( nullptr, 0.5f, displayTime, 0.8f );
     testTransient->getLabel()->setText( message );
 
     //

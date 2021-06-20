@@ -134,7 +134,7 @@ public:
     void makeElementModal( std::shared_ptr<Element> elem );
     bool hasModalDialog() const;
 
-    void displayTransientMessage( std::string message );
+    void displayTransientMessage( std::string message, float displayTime );
 
     // Dialogs
     void openLevelMainMenu();

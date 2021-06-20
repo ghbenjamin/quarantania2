@@ -11,7 +11,7 @@
 
 #include <resource/Sprite.h>
 
-
+// A single glyph within a font
 struct FtCharData
 {
     float width;
@@ -19,7 +19,7 @@ struct FtCharData
     float bearingX;
     float bearingY;
     int advance;
-    RectF uv;
+    RectF uv;           // UV coordinates of the glyph within the font atlas
 };
 
 
@@ -102,31 +102,3 @@ private:
 
 
 
-
-struct MarkdownTokenSegment
-{
-    Colour colour;
-    std::string text;
-};
-
-using MarkdownTokenStream = std::vector<MarkdownTokenSegment>;
-
-
-class LiteMarkdownParser
-{
-    struct OpenTagPosition
-    {
-        std::size_t start;
-        std::size_t end;
-        std::string value;
-    };
-    
-    struct EndTagPosition
-    {
-        std::size_t start;
-        std::size_t end;
-    };
-
-public:
-    MarkdownTokenStream parseMarkdown( std::string const& text );
-};
