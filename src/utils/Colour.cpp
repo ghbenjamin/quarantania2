@@ -32,8 +32,8 @@ Colour::Colour(const std::string& str)
 {
     if ( str.size() == 7 && str.at(0) == '#' )
     {
-        unsigned short r, g, b;
-        sscanf_s( str.substr(1, 6).c_str(), "%2hx%2hx%2hx", &r, &g, &b );
+        std::uint8_t r, g, b;
+        sscanf_s( str.substr(1, 6).c_str(), "%hhx%hhx%hhx", &r, &g, &b );
 
         m_colour = { (std::uint8_t)r, (std::uint8_t)g, (std::uint8_t)b, 255 };
         m_r = intToFloat(r);
@@ -43,8 +43,8 @@ Colour::Colour(const std::string& str)
     }
     else if ( str.size() == 9 && str.at(0) == '#' )
     {
-        unsigned short r, g, b, a;
-        sscanf_s( str.substr(1, 6).c_str(), "%2hx%2hx%2hx%2hx", &r, &g, &b, &a );
+        std::uint8_t r, g, b, a;
+        sscanf_s( str.substr(1, 6).c_str(), "%hhx%hhx%hhx%hhx", &r, &g, &b, &a );
     
         m_colour = { (std::uint8_t)r, (std::uint8_t)g, (std::uint8_t)b, (std::uint8_t)a };
         m_r = intToFloat(r);
@@ -54,7 +54,11 @@ Colour::Colour(const std::string& str)
     }
     else
     {
-        AssertAlwaysMsg( fmt::format( "Unknown colour string: {}", str ) );
+        auto col = Colour::fromName(str);
+        m_r = col.m_r;
+        m_g = col.m_g;
+        m_b = col.m_b;
+        m_a = col.m_a;
     }
 }
 

@@ -111,7 +111,8 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, in
     
     for (int i = 0; i < (int) str.size(); i++)
     {
-        std::uint16_t char_idx = static_cast<std::uint16_t>( str.at(i) );
+        auto char_val = str.at(i);
+        std::uint16_t char_idx = static_cast<std::uint16_t>( char_val );
         auto& char_data = charVector[char_idx];
 
         auto placement = FtCharPlacement{ currX + char_data.bearingX, currY - char_data.bearingY, char_idx };
@@ -122,7 +123,7 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, in
         maxY = std::max(placement.y + char_data.height, maxY);
         minY = std::min(placement.y, minY);
 
-        if ( !std::isalnum( str.at(i)) )
+        if ( !std::isalnum( char_val ) )
         {
             // If the current glyph is not alphanumeric, it might be the end of a word. Consider this glyph a possible
             // break point and work out whether or not we need to wrap onto the next line

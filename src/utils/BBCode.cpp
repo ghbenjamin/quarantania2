@@ -68,7 +68,6 @@ BBDocument BBCode::parseText( std::string const& text )
             Colour{ openTags[i].value }
         );
         
-        
         lastIdx = closeTags[i].end;
     }
     
@@ -100,6 +99,9 @@ BBDocument::Iterator::Iterator( BBDocument const* ptr, std::size_t idx )
             break;
         }
     }
+    
+    auto& vec =  m_ptr->nodes[m_nodeIdx];
+    m_curr = std::make_pair( vec.text.at(m_charIdx), vec.colour );
 }
 
 bool BBDocument::Iterator::operator==( BBDocument::Iterator const &i )
@@ -115,7 +117,7 @@ bool BBDocument::Iterator::operator!=( BBDocument::Iterator const &i )
 BBDocument::Iterator &BBDocument::Iterator::operator++()
 {
     m_charIdx++;
-    if ( m_charIdx >= m_ptr->nodes[m_nodeIdx].text.size() - 1 )
+    if ( m_charIdx >= m_ptr->nodes[m_nodeIdx].text.size() )
     {
         m_charIdx = 0;
         m_nodeIdx++;
