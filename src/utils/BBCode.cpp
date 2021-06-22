@@ -60,7 +60,10 @@ BBDocument BBCode::parseText( std::string const& text )
     for ( int i = 0; i < (int)openTags.size(); i++ )
     {
         // Add the text region from the last end tag (or start of string) to the beginning of this tag.
-        out.addNode( text.substr( lastIdx, openTags[i].start - lastIdx ) );
+        if ( openTags[i].start - lastIdx != 0 )
+        {
+            out.addNode( text.substr( lastIdx, openTags[i].start - lastIdx ) );
+        }
         
         // Add the tagged region
         out.addNode(
@@ -72,7 +75,10 @@ BBDocument BBCode::parseText( std::string const& text )
     }
     
     // Add the region from the end of the last tag to the end of the string.
-    out.addNode( text.substr( closeTags.back().end, std::string::npos ) );
+    if ( closeTags.back().end != text.size() )
+    {
+        out.addNode( text.substr( closeTags.back().end, std::string::npos ) );
+    }
     
     return out;
 }
@@ -99,9 +105,16 @@ BBDocument::Iterator::Iterator( BBDocument const* ptr, std::size_t idx )
             break;
         }
     }
-    
-    auto& vec =  m_ptr->m_nodes[m_nodeIdx];
-    m_curr = std::make_pair( vec.text.at(m_charIdx), vec.colour );
+
+    if ( m_nodeIdx >= m_ptr->m_nodes.size() )
+    {
+        m_curr = {};
+    }
+    else
+    {
+        auto& vec =  m_ptr->m_nodes[m_nodeIdx];
+        m_curr = std::make_pair( vec.text.at(m_charIdx), vec.colour );
+    }
 }
 
 
@@ -123,9 +136,16 @@ BBDocument::Iterator &BBDocument::Iterator::operator++()
         m_charIdx = 0;
         m_nodeIdx++;
     }
-    
-    auto& vec =  m_ptr->m_nodes[m_nodeIdx];
-    m_curr = std::make_pair( vec.text.at(m_charIdx), vec.colour );
+
+    if ( m_nodeIdx >= m_ptr->m_nodes.size() )
+    {
+        m_curr = {};
+    }
+    else
+    {
+        auto& vec =  m_ptr->m_nodes[m_nodeIdx];
+        m_curr = std::make_pair( vec.text.at(m_charIdx), vec.colour );
+    }
     
     return *this;
 }

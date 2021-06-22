@@ -92,6 +92,12 @@ void UISystem::operator()(GameEvents::ControllerEntitySelected& evt)
 
 void UISystem::operator()(GameEvents::CombatMeleeAttack &evt)
 {
+    auto atkActorC = m_level->ecs().getComponents<ActorComponent>( evt.attacker );
+    auto atkDefenderC = m_level->ecs().getComponents<ActorComponent>( evt.defender );
+
+    bool attackerHostile = atkActorC->actorType == ActorType::NPC;
+    bool defenderHostile = atkDefenderC->actorType == ActorType::NPC;
+
     pushLogLine( fmt::format(
         "{} attacks {}",
         m_level->getDescriptionForEnt( evt.attacker ),

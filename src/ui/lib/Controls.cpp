@@ -52,15 +52,13 @@ void Label::renderText()
 
     if ( hasMaximumOuterSize() )
     {
-        m_text = { m_style.font->renderString( m_data, m_style.fontSize, maxOuterSize().x() ) };
+        m_text = { m_style.font->renderString( m_data, m_style.fontSize, m_style.textColour, maxOuterSize().x() ) };
     }
     else
     {
-        m_text = { m_style.font->renderString( m_data, m_style.fontSize ) };
+        m_text = { m_style.font->renderString( m_data, m_style.fontSize, m_style.textColour ) };
     }
-    
-    m_text->setColour(m_style.textColour);
-    
+
     // Guard with noRerender to break a loop
     m_noRerender = true;
     setPreferredContentSize( m_text->getSize() );

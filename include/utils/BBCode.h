@@ -44,8 +44,6 @@ public:
     void addNode( BBNode node );
     void addNode( std::string const& data, Colour colour );
     
-    
-    
     class Iterator
     {
     public:

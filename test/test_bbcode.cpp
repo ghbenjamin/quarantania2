@@ -24,9 +24,23 @@ TEST_CASE( "BBCode parsing", "[utils]" ) {
         std::string str = "The <c:red>quick brown fox</c><c:#00FF00> jumps</c> over the lazy dog";
         auto doc = BBCode::parseText( str );
         
+        REQUIRE(doc.nodes().size() == 4 );
+    }
+
+    SECTION( "Example from testing" ) {
+        std::string str = "<c:#ff0000>Gwendlyn</c> <c:#0000ff>Di</c> <c:#0af22d>Corci</c>";
+        auto doc = BBCode::parseText( str );
+
         REQUIRE(doc.nodes().size() == 5 );
     }
-    
+
+    SECTION( "Tag is entire string" ) {
+        std::string str = "<c:red>quick brown fox jumps over the lazy dog</c>";
+        auto doc = BBCode::parseText( str );
+
+        REQUIRE(doc.nodes().size() == 1 );
+    }
+
     SECTION( "Iterating over a bbdoc" ) {
         std::string str = "The <c:red>quick brown fox</c><c:#00FF00> jumps</c> over the lazy dog";
         auto doc = BBCode::parseText( str );

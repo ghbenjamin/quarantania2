@@ -42,6 +42,7 @@ public:
     void setPosition( Vector2f pos );
     void setSize( Vector2i size );
     void setColour( Colour colour );
+    void setColourIdx( Colour colour, std::size_t idx );
 
     RenderObject& renderObject( Vector2i pos );
     Vector2i getSize() const;
@@ -61,8 +62,8 @@ public:
     FtFontFace( FT_Face const& face );
     ~FtFontFace();
     
-    TextRenderObj renderString( std::string const& str, int fontSize );
-    TextRenderObj renderString( std::string const& str, int fontSize, int maxWidth );
+    TextRenderObj renderString( std::string const& str, int fontSize, Colour defaultColour );
+    TextRenderObj renderString( std::string const& str, int fontSize, Colour defaultColour, int maxWidth );
 
     Sprite renderGlyph( char c, int fontSize );
 

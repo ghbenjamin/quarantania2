@@ -79,7 +79,7 @@ FtFontFace::~FtFontFace()
     FT_Done_Face(m_face);
 }
 
-TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, int maxWidth )
+TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, Colour defaultColour, int maxWidth )
 {
     // Grab the character data for the requested font size
     auto cdataIt = m_charData.find(fontSize);
@@ -175,6 +175,21 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, in
             charVector[c.idx].uv
         );
     }
+
+    auto bbIt = bbDoc.begin();
+    for ( int i = 0; i < allGlyphs.size(); i++ )
+    {
+        if ( bbIt->second.has_value() )
+        {
+            textObj.setColourIdx( *bbIt->second, i );
+        }
+        else
+        {
+            textObj.setColourIdx( defaultColour, i );
+        }
+        ++bbIt;
+    }
+
 
     maxW = std::max( maxW, allGlyphs.back().x + charVector[allGlyphs.back().idx].width - allGlyphs.front().x );
 
@@ -284,9 +299,9 @@ void FtFontFace::generateFontData( int size )
     m_charData.emplace(size, std::move(charVector) );
 }
 
-TextRenderObj FtFontFace::renderString(const std::string &str, int fontSize)
+TextRenderObj FtFontFace::renderString(const std::string &str, int fontSize, Colour defaultColour)
 {
-    return renderString(str, fontSize, -1);
+    return renderString(str, fontSize, defaultColour, -1);
 }
 
 
@@ -345,7 +360,15 @@ void TextRenderObj::setColour( Colour colour )
     }
 }
 
+void TextRenderObj::setColourIdx(Colour colour, std::size_t idx)
+{
+    auto [r, b, g, a] = colour.asOpenGL();
+    m_renderObj.setColourVerts( idx, r, g, b, a );
+}
+
+
 void TextRenderObj::setSize( Vector2i size )
 {
     m_size = size;
 }
+
