@@ -5,7 +5,8 @@
 #include <components/RenderComponent.h>
 
 Animation::Animation( Level* level, float totalTime )
-    : m_level(level), m_isComplete(false), m_totalTime(totalTime), m_currentTime(0.0f) {}
+    : m_level(level), m_isComplete(false), m_totalTime(totalTime), m_currentTime(0.0f), m_hasStarted(false)
+    {}
 
 bool Animation::isComplete() const
 {
@@ -14,6 +15,12 @@ bool Animation::isComplete() const
 
 void Animation::advance(std::uint32_t ticks)
 {
+    if (!m_hasStarted)
+    {
+        m_hasStarted = true;
+        onStart();
+    }
+
     m_currentTime += ((float) ticks / 1000.0f);
 
     if (m_currentTime > m_totalTime)
@@ -80,4 +87,18 @@ void AnimColourMod::onStart()
 {
     auto animC = m_level->ecs().getComponents<RenderComponent>(m_entity);
     animC->sprite.setColourMod(m_startColour);
+}
+
+
+AnimLinearSpline::AnimLinearSpline(Level *level, EntityRef entity, Vector2i target, const Spline &spline, float seconds)
+    : Animation(level, seconds), m_entity(entity), m_target(target), m_spline(spline)
+{
+    auto posC = m_level->ecs().getComponents<PositionComponent>(m_entity);
+
+    auto delta = target - posC->tilePosition;
+}
+
+void AnimLinearSpline::advanceSelf(std::uint32_t ticks)
+{
+
 }

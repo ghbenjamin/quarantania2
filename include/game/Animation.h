@@ -6,7 +6,7 @@
 #include <utils/Colour.h>
 #include <engine/Entity.h>
 #include <utils/Interpolate.h>
-
+#include <utils/Splines.h>
 
 class Level;
 
@@ -27,6 +27,8 @@ protected:
     Level* m_level;
     float m_totalTime;
     float m_currentTime;
+
+    bool m_hasStarted;
     bool m_isComplete;
 };
 
@@ -39,6 +41,7 @@ public:
 protected:
     void advanceSelf(std::uint32_t ticks) override;
 
+private:
     EntityRef m_entity;
     std::vector<Vector2f> m_path;
     TimedLinearInterpolator<Vector2f> m_interpolator;
@@ -53,10 +56,26 @@ public:
 
 protected:
     void advanceSelf(std::uint32_t ticks) override;
-
     void onStart() override;
 
+private:
     EntityRef m_entity;
     Colour m_startColour;
     Colour m_endColour;
+};
+
+// TODO Unfinished
+class AnimLinearSpline : public Animation
+{
+public:
+    AnimLinearSpline( Level* level, EntityRef entity, Vector2i target, Spline const& spline, float seconds );
+
+protected:
+    void advanceSelf(std::uint32_t ticks) override;
+
+private:
+    EntityRef m_entity;
+    Vector2i m_target;
+    Vector2f m_vector;
+    Spline m_spline;
 };
