@@ -4,19 +4,21 @@
 #include <ui/level/ActionPopupMenu.h>
 #include <resource/ResourceManager.h>
 #include <game/Level.h>
+#include <ui/level/LevelMainMenu.h>
 
 
 using namespace UI;
 
-UI::BottomLeftBar::BottomLeftBar(UI::Manager *manager, UI::Element *parent)
-        : Element(manager, parent)
+UI::BottomLeftBar::BottomLeftBar(UI::Manager *manager, UI::Element *parent, Level* level)
+    : Element(manager, parent)
 {
     setLayout<HorizontalLayout>( 4, VAlignment::Centre );
 
-    auto actionMenu = manager->createElement<UI::ActionMenu>(this);
+    auto actionMenu = manager->createElement<UI::ActionMenu>(this, level);
 }
 
-BottomMenubar::BottomMenubar( Manager *manager, Element *parent ) : Element(manager, parent)
+BottomMenubar::BottomMenubar( Manager *manager, UI::Element* parent, Level* level )
+    : Element(manager, parent), m_level(level)
 {
     setLayout<HorizontalLayout>( 4, VAlignment::Centre );
     
@@ -32,12 +34,14 @@ BottomMenubar::BottomMenubar( Manager *manager, Element *parent ) : Element(mana
 
 void BottomMenubar::onBtnEndTurn()
 {
-    manager()->level()->events().broadcast<GameEvents::TurnChange>(false);
+    m_level->events().broadcast<GameEvents::TurnChange>(false);
 }
 
 void BottomMenubar::onBtnSettings()
 {
-    manager()->openLevelMainMenu();
+    auto menu = manager()->createElement<LevelMainMenu>(nullptr, m_level);
+    manager()->makeElementModal(menu);
+    manager()->centreElementInWindow(menu);
 }
 
 void BottomMenubar::onBtnJournal()

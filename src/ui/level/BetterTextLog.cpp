@@ -16,8 +16,8 @@ BTLLineData::BTLLineData( std::string const &data, Colour colour )
 // Scroll area
 // ------------------------------------
 
-BTLScrollArea::BTLScrollArea( Manager *manager, Element *parent )
-     : Element(manager, parent), m_scrollPosition(1.0f)
+BTLScrollArea::BTLScrollArea( Manager *manager, Element *parent, Level* level )
+     : Element(manager, parent), m_scrollPosition(1.0f), m_level(level)
 {
     setLayout<TriggeredLayout>([this](){ layoutLines(); });
     setBoundsScissoring(true);
@@ -79,8 +79,8 @@ void BTLScrollBarLine::onSizeSelf()
 // ------------------------------------
 
 
-BTLScrollBar::BTLScrollBar( Manager *manager, Element *parent )
-    : Element(manager, parent), m_scrollPosition(1.0f)
+BTLScrollBar::BTLScrollBar( Manager *manager, Element *parent, Level* level )
+    : Element(manager, parent), m_scrollPosition(1.0f), m_level(level)
 {
     m_scrollbarLine = manager->createElement<BTLScrollBarLine>(this, "game_ui/scrollbar-line");
     m_scrollbarTop = manager->createElement<Icon>(this, "game_ui/scrollbar-top");
@@ -188,8 +188,8 @@ void BTLScrollBar::onClick( Vector2i pos )
 // Main text log
 // ------------------------------------
 
-BetterTextLog::BetterTextLog( Manager *manager, Element *parent )
-    : Element(manager, parent), m_scrollPosition(1.0f)
+BetterTextLog::BetterTextLog( Manager *manager, Element *parent, Level* level )
+    : Element(manager, parent), m_scrollPosition(1.0f), m_level(level)
 {
     
     setPreferredContentSize({350, 150});
@@ -202,8 +202,8 @@ BetterTextLog::BetterTextLog( Manager *manager, Element *parent )
     setId("main-text-log");
     addTag("scroll-parent");
     
-    m_scrollArea = manager->createElement<BTLScrollArea>(this);
-    m_scrollbar = manager->createElement<BTLScrollBar>(this);
+    m_scrollArea = manager->createElement<BTLScrollArea>(this, level);
+    m_scrollbar = manager->createElement<BTLScrollBar>(this, level);
     
     m_scrollArea->setPreferredContentWidth( preferredContentSize().x() - m_scrollbar->outerBounds().w() );
 }

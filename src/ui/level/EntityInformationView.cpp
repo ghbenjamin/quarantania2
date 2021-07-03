@@ -7,8 +7,8 @@
 
 using namespace UI;
 
-UI::EntityInformationView::EntityInformationView( UI::Manager *manager, UI::Element *parent )
-    : Element(manager, parent)
+UI::EntityInformationView::EntityInformationView( UI::Manager *manager, UI::Element *parent, Level* level )
+    : Element(manager, parent), m_level(level)
 {
     setId("entity-information-view");
     
@@ -32,7 +32,7 @@ void UI::EntityInformationView::refresh( EntityRef entity )
         return;
     }
     
-    m_titleLabel->setText(manager()->level()->getDescriptionForEnt( entity ));
+    m_titleLabel->setText(m_level->getDescriptionForEnt( entity ));
     
     for ( auto const& elem : m_dividers )
     {
@@ -44,7 +44,7 @@ void UI::EntityInformationView::refresh( EntityRef entity )
         manager()->deleteElement( elem );
     }
     
-    auto actorC = manager()->level()->ecs().tryGetComponent<ActorComponent>( entity );
+    auto actorC = m_level->ecs().tryGetComponent<ActorComponent>( entity );
     if ( actorC )
     {
         if (actorC->actorType == ActorType::PC )

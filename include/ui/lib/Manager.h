@@ -8,7 +8,7 @@
 #include <ui/lib/ContextMenu.h>
 #include <engine/InputInterface.h>
 #include <ui/lib/Tooltips.h>
-#include "TileHighlights.h"
+#include <ui/level/TileHighlights.h>
 
 struct IEvent;
 class Level;
@@ -44,10 +44,8 @@ class Manager
 {
 public:
 
-    Manager(Level* level);
+    Manager();
     ~Manager() = default;
-
-    Level* level();
 
     bool input(IEvent &evt);
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
@@ -136,9 +134,6 @@ public:
 
     void displayTransientMessage( std::string message, float displayTime );
 
-    // Dialogs
-    void openLevelMainMenu();
-
 private:
     bool handleMouseMove( IEventMouseMove evt );
     bool handleMouseDown( IEventMouseDown evt );
@@ -158,9 +153,7 @@ private:
     
     bool m_isMidDrag;
     std::optional<Vector2i> m_lastMouseDownPos;
-
-    Level* m_level;
-
+    
     std::weak_ptr<Element> m_modalDialog;
     Sprite m_modalSprite;
     bool m_hasModalDialog;

@@ -5,8 +5,8 @@
 
 using namespace UI;
 
-LevelMainMenu::LevelMainMenu(Manager *manager, Element* parent)
-    : Element(manager, parent)
+LevelMainMenu::LevelMainMenu(Manager *manager, Element* parent, Level* level)
+    : Element(manager, parent), m_level(level)
 {
     setLayout<VerticalLayout>(4, HAlignment::Fill );
     setPadding(8);
@@ -43,12 +43,12 @@ void LevelMainMenu::onBtnResume()
 
 void LevelMainMenu::onBtnExitMainMenu()
 {
-    manager()->level()->setLevelExitStatus( LevelExitStatus::MainMenu );
+    m_level->setLevelExitStatus( LevelExitStatus::MainMenu );
 }
 
 void LevelMainMenu::onBtnQuit()
 {
-    manager()->level()->setLevelExitStatus( LevelExitStatus::Desktop );
+    m_level->setLevelExitStatus( LevelExitStatus::Desktop );
 }
 
 void LevelMainMenu::onBtnOptions()

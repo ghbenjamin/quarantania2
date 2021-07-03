@@ -2,6 +2,8 @@
 
 #include <ui/lib/Element.h>
 
+class Level;
+
 namespace UI
 {
 
@@ -9,7 +11,7 @@ class LevelMainMenu : public Element
 {
 public:
 
-    LevelMainMenu(Manager* manager, Element* parent);
+    LevelMainMenu(Manager* manager, Element* parent, Level* level);
     ~LevelMainMenu() override = default;
 
 private:
@@ -18,6 +20,8 @@ private:
     void onBtnExitMainMenu();
     void onBtnQuit();
     void onBtnOptions();
+
+    Level* m_level;
 
 };
 

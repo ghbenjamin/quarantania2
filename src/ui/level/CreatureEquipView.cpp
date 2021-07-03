@@ -10,8 +10,8 @@
 
 using namespace UI;
 
-EquipView::EquipView(Manager *manager, Element *parent)
-    : Element(manager, parent), m_currEntity(EntityNull)
+EquipView::EquipView(Manager *manager, Element *parent, Level* level)
+    : Element(manager, parent), m_currEntity(EntityNull), m_level(level)
 {
     auto const& patch = ResourceManager::get().getNinePatch( "simple-border" ).getPatch();
     setBackground( patch );
@@ -46,7 +46,7 @@ EquipView::EquipView(Manager *manager, Element *parent)
 
 void EquipView::addRegion( CreatureEquipSlot slot, SpritesheetKey const &key )
 {
-    auto item = manager()->createElement<EquipViewItem>( this, m_currEntity, slot, key );
+    auto item = manager()->createElement<EquipViewItem>( this, m_level, m_currEntity, slot, key );
     m_regions.emplace( slot, item );
 }
 
@@ -66,7 +66,7 @@ void EquipView::refresh(EntityRef entity)
         return;
     }
 
-    auto actorC = manager()->level()->ecs().getComponents<ActorComponent>( entity );
+    auto actorC = m_level->ecs().getComponents<ActorComponent>( entity );
 
     // Load the equipped items for the current entity
     for ( auto const& [k, v] : actorC->actor.getAllEquippedItems() )
@@ -76,10 +76,10 @@ void EquipView::refresh(EntityRef entity)
     }
 }
 
-EquipViewItem::EquipViewItem( Manager *manager, Element *parent, EntityRef entity, CreatureEquipSlot slot,
+EquipViewItem::EquipViewItem( Manager *manager, Element *parent, Level* level, EntityRef entity, CreatureEquipSlot slot,
                                   SpritesheetKey defaultSprite )
       : Element(manager, parent), m_slot(slot), m_defaultSprite( ResourceManager::get().getSprite( defaultSprite )),
-        m_entity(entity)
+        m_entity(entity), m_level(level)
 {
     setLayout<CenterLayout>();
     setPreferredContentSize({32, 32});
@@ -128,7 +128,7 @@ void EquipViewItem::onClick()
 {
     if (m_item)
     {
-        manager()->level()->events().broadcast<GameEvents::ItemUnequip>( m_entity, m_slot );
+        m_level->events().broadcast<GameEvents::ItemUnequip>( m_entity, m_slot );
     }
 }
 

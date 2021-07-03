@@ -9,8 +9,8 @@
 
 using namespace UI;
 
-ContainerView::ContainerView(Manager* manager, Element* parent, Vector2i iconDims)
-: Element(manager, parent), m_iconDims(iconDims)
+ContainerView::ContainerView(Manager* manager, Element* parent, Level* level, Vector2i iconDims)
+: Element(manager, parent), m_iconDims(iconDims), m_level(level)
 {
     auto emptySprite = ResourceManager::get().getSprite("game_ui/empty-item-slot");
 
@@ -22,7 +22,7 @@ ContainerView::ContainerView(Manager* manager, Element* parent, Vector2i iconDim
     
     for ( int i = 0; i < m_iconDims.area(); i++ )
     {
-        auto item = manager->createElement<ContainerViewItem>( this, m_entity, emptySprite );
+        auto item = manager->createElement<ContainerViewItem>( this, level, m_entity, emptySprite );
         m_items.push_back( item );
     }
 }
@@ -42,7 +42,7 @@ void ContainerView::refresh(EntityRef entity)
         return;
     }
     
-    auto containerC = manager()->level()->ecs().getComponents<ContainerComponent>(entity);
+    auto containerC = m_level->ecs().getComponents<ContainerComponent>(entity);
     
     for ( int i = 0; i < (int) containerC->items.size() && i < (int) m_items.size(); i++ )
     {
@@ -50,8 +50,8 @@ void ContainerView::refresh(EntityRef entity)
     }
 }
 
-ContainerViewItem::ContainerViewItem( Manager *manager, Element *parent, EntityRef entity, Sprite const& backgroundSprite )
-    : Element(manager, parent), m_entity(entity)
+ContainerViewItem::ContainerViewItem( Manager *manager, Element *parent, Level* level, EntityRef entity, Sprite const& backgroundSprite )
+    : Element(manager, parent), m_entity(entity), m_level(level)
 {
     setPreferredContentSize( backgroundSprite.size() );
     setBackground( backgroundSprite );
@@ -84,12 +84,12 @@ void ContainerViewItem::onClick()
 {
     if (m_item && m_entity != EntityNull)
     {
-        auto actorC = manager()->level()->ecs().getComponents<ActorComponent>(m_entity);
+        auto actorC = m_level->ecs().getComponents<ActorComponent>(m_entity);
         auto equipSlot = actorC->actor.canEquipItem(m_item);
     
         if (equipSlot)
         {
-            manager()->level()->events().broadcast<GameEvents::ItemEquip>( m_entity, m_item, *equipSlot );
+            m_level->events().broadcast<GameEvents::ItemEquip>( m_entity, m_item, *equipSlot );
         }
     }
 }

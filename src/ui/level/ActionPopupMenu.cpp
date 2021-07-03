@@ -10,9 +10,9 @@
 // Popup menu
 // --------------------------------------
 
-UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *parent,
+UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *parent, Level* level,
                                              std::vector<GameAction> const& items,  RawActionDataType category)
-        : Element(manager, parent), m_category(category)
+        : Element(manager, parent), m_category(category), m_level(level)
 {
     setId("action-menu-popup-menu");
     setLayout<VerticalLayout>( 4, HAlignment::Left );
@@ -42,7 +42,7 @@ UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *
                          [](ElementPtr const& elem){ return elem->id() == "action-menu"; }
                 )->asType<ActionMenu>();
 
-                manager->level()->controller()->pushActionController( actionMenu->currentEntity(), act );
+                m_level->controller()->pushActionController( actionMenu->currentEntity(), act );
                 manager->deleteElement( shared_from_this() );
             });
         }
@@ -71,8 +71,8 @@ RawActionDataType UI::ActionMenuPopupMenu::getCategory() const
 // Menu bar
 // --------------------------------------
 
-UI::ActionMenu::ActionMenu(UI::Manager *manager, UI::Element *parent)
-        : Element(manager, parent), m_currEntity(EntityNull)
+UI::ActionMenu::ActionMenu(UI::Manager *manager, UI::Element *parent, Level* level)
+        : Element(manager, parent), m_currEntity(EntityNull), m_level(level)
 {
     setId("action-menu");
     setLayout<HorizontalLayout>( 4, VAlignment::Top );
@@ -82,11 +82,11 @@ UI::ActionMenu::ActionMenu(UI::Manager *manager, UI::Element *parent)
     setBorderWidth( patch.getBorderWidth() );
     
     m_spawns[RawActionDataType::Attack] = manager->createElement<UI::ActionMenuSpawnItem>(
-        this, "Attack", "game_ui/w-axe-sword", RawActionDataType::Attack);
+        this, level, "Attack", "game_ui/w-axe-sword", RawActionDataType::Attack);
     m_spawns[RawActionDataType::Move] = manager->createElement<UI::ActionMenuSpawnItem>(
-        this, "Move", "game_ui/w-move", RawActionDataType::Move);
+        this, level, "Move", "game_ui/w-move", RawActionDataType::Move);
     m_spawns[RawActionDataType::Item] = manager->createElement<UI::ActionMenuSpawnItem>(
-        this, "Items", "game_ui/w-light-backpack", RawActionDataType::Item);
+        this, level, "Items", "game_ui/w-light-backpack", RawActionDataType::Item);
 }
 
 void UI::ActionMenu::onSpawnItemClick(RawActionDataType category)
@@ -100,9 +100,9 @@ void UI::ActionMenu::refresh(EntityRef entity)
     
     bool isPC = false;
     
-    if (manager()->level()->ecs().entityHas<ActorComponent>(entity))
+    if (m_level->ecs().entityHas<ActorComponent>(entity))
     {
-        isPC = manager()->level()->ecs().getComponents<ActorComponent>(entity)->actorType == ActorType::PC;
+        isPC = m_level->ecs().getComponents<ActorComponent>(entity)->actorType == ActorType::PC;
     }
     
     // If there's no selected player entity, disable all buttons
@@ -130,7 +130,7 @@ EntityRef UI::ActionMenu::currentEntity() const
 void UI::ActionMenu::openMenu(RawActionDataType category)
 {
     std::vector<GameAction> menuItems;
-    auto actions = manager()->level()->actionsForActor(m_currEntity);
+    auto actions = m_level->actionsForActor(m_currEntity);
     
     for ( auto& action : actions )
     {
@@ -145,7 +145,7 @@ void UI::ActionMenu::openMenu(RawActionDataType category)
         return;
     }
     
-    auto newMenu = manager()->createElement<UI::ActionMenuPopupMenu>(nullptr, menuItems, category);
+    auto newMenu = manager()->createElement<UI::ActionMenuPopupMenu>(nullptr, m_level, menuItems, category);
     
     // Find the position of the button we clicked so that we can align new menu to it
     auto spawn = firstDescMatchingCondition([category]( ElementPtr const &elem ) {
@@ -207,8 +207,9 @@ void UI::ActionMenu::closeMenu()
 // Menu bar item
 // --------------------------------------
 
-UI::ActionMenuSpawnItem::ActionMenuSpawnItem(UI::Manager *manager, UI::Element *parent, std::string const& desc, SpritesheetKey const& icon, RawActionDataType category)
-        : IconButton(manager, parent, icon, [this](){ onClick(); }), m_category(category)
+UI::ActionMenuSpawnItem::ActionMenuSpawnItem(UI::Manager *manager, UI::Element *parent, Level* level,
+ std::string const& desc, SpritesheetKey const& icon, RawActionDataType category)
+        : IconButton(manager, parent, icon, [this](){ onClick(); }), m_category(category), m_level(level)
 {
     addTag("action-popup-spawn-icon");
     setDisabled(true);

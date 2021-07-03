@@ -6,16 +6,12 @@
 
 #include <utility>
 #include <utils/GlobalConfig.h>
-#include <graphics/Primatives.h>
-#include <ui/level/LevelMainMenu.h>
 #include <ui/lib/TransientMessage.h>
 
 using namespace UI;
 
-Manager::Manager(Level *level)
-    : m_level(level),
-      m_isMidDrag(false),
-      m_hasModalDialog(false)
+Manager::Manager()
+    : m_isMidDrag(false), m_hasModalDialog(false)
 {
     auto windowSize = ResourceManager::get().getWindow()->getSize();
     m_modalSprite = createRectangle( windowSize, Colour::Black.withAlpha(150) );
@@ -465,11 +461,6 @@ void Manager::cancelContextMenu()
     deleteElement( withId( "context-menu" ) );
 }
 
-Level *Manager::level()
-{
-    return m_level;
-}
-
 void Manager::openTooltip( TooltipData const &data, RectI const &spawner )
 {
     // Never want more than one tooltip
@@ -519,8 +510,11 @@ void Manager::showSingleTileHighlight(Vector2i tile, SingleTileHighlightType typ
 
 void Manager::removeSingleTileHighlight()
 {
-    deleteElement(m_tileHighlight);
-    m_tileHighlight.reset();
+    if (m_tileHighlight)
+    {
+        deleteElement(m_tileHighlight);
+        m_tileHighlight.reset();
+    }
 }
 
 void Manager::makeElementModal(std::shared_ptr<Element> elem)
@@ -544,13 +538,6 @@ void Manager::centreElementInWindow(const std::shared_ptr<Element> &element)
     element->setLocalPosition( (wndSize - size) / 2 );
 }
 
-void Manager::openLevelMainMenu()
-{
-    auto menu = createElement<LevelMainMenu>(nullptr);
-    makeElementModal(menu);
-    centreElementInWindow(menu);
-}
-
 bool Manager::hasModalDialog() const
 {
     return m_hasModalDialog;
@@ -566,7 +553,6 @@ void Manager::displayTransientMessage(std::string message, float displayTime )
     auto testTransient = createElement<UI::TransientMessage>( nullptr, 0.5f, displayTime, 0.8f );
     testTransient->getLabel()->setText( message );
 
-    //
     auto dlgSize = testTransient->outerBounds().right();
     auto wndSize = ResourceManager::get().getWindow()->getSize();
     testTransient->setLocalPosition({

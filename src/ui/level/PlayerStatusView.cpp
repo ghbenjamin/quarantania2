@@ -14,8 +14,8 @@ using namespace UI;
 // Turn order Widget
 // --------------------------------------
 
-PlayerStatusWidget::PlayerStatusWidget(Manager *manager, Element *parent, EntityRef ref)
-        : Element(manager, parent), m_entity(ref)
+PlayerStatusWidget::PlayerStatusWidget(Manager *manager, Element *parent, Level* level, EntityRef ref)
+        : Element(manager, parent), m_level(level), m_entity(ref)
 {
     // Layout
     setLayout<HorizontalLayout>( 1, VAlignment::Centre );
@@ -26,7 +26,7 @@ PlayerStatusWidget::PlayerStatusWidget(Manager *manager, Element *parent, Entity
     setBorderWidth( patch.getBorderWidth() );
     
     // Add the icon of the entity
-    auto& iconSprite = manager->level()->ecs().getComponents<RenderComponent>(ref)->sprite;
+    auto& iconSprite = level->ecs().getComponents<RenderComponent>(ref)->sprite;
     auto icon = manager->createElement<Icon>(this, iconSprite);
     icon->setPadding(2);
     
@@ -36,7 +36,7 @@ PlayerStatusWidget::PlayerStatusWidget(Manager *manager, Element *parent, Entity
     rightCont->setPreferredContentWidth(150);
     
     // Add the name of the entity
-    auto labelText = manager->level()->getDescriptionForEnt(ref);
+    auto labelText = level->getDescriptionForEnt(ref);
     m_nameLabel = manager->createElement<Label>( rightCont.get() );
     m_nameLabel->setText( std::string(labelText) );
     m_nameLabel->setTextColour(Colour::White);
@@ -46,8 +46,8 @@ PlayerStatusWidget::PlayerStatusWidget(Manager *manager, Element *parent, Entity
     speedHPcont->setLayout<HorizontalSpaceBetweenLayout>( VAlignment::Centre );
     speedHPcont->setPreferredContentWidth(150);
 
-    m_actionSpeed = manager->createElement<PlayerStatusActionSpeedBar>( speedHPcont.get(), ref );
-    m_hp = manager->createElement<PlayerStatusHP>( speedHPcont.get(), ref );
+    m_actionSpeed = manager->createElement<PlayerStatusActionSpeedBar>( speedHPcont.get(), level, ref );
+    m_hp = manager->createElement<PlayerStatusHP>( speedHPcont.get(), level, ref );
 
     // Let us select/hover the entity by selecting interacting with the widgets
     addEventCallback(UEventType::MouseIn, [this] (UEvent& evt) { this->highlightEntity(); });
@@ -63,13 +63,13 @@ void PlayerStatusWidget::refresh()
 
 void PlayerStatusWidget::highlightEntity()
 {
-    auto pos = manager()->level()->ecs().getComponents<PositionComponent>(m_entity)->tilePosition;
-    manager()->level()->ui().showSingleTileHighlight(pos, SingleTileHighlightType::Green);
+    auto pos = m_level->ecs().getComponents<PositionComponent>(m_entity)->tilePosition;
+    manager()->showSingleTileHighlight(m_level->tileCoordsToScreen(pos), SingleTileHighlightType::Green);
 }
 
 void PlayerStatusWidget::unhighlightEntity()
 {
-    manager()->level()->ui().removeSingleTileHighlight();
+    manager()->removeSingleTileHighlight();
 }
 
 void PlayerStatusWidget::selectEntity()
@@ -84,8 +84,8 @@ void PlayerStatusWidget::selectEntity()
 // --------------------------------------
 
 
-PlayerStatusContainer::PlayerStatusContainer(Manager *manager, Element *parent)
-        : Element(manager, parent)
+PlayerStatusContainer::PlayerStatusContainer(Manager *manager, Element *parent, Level* level)
+        : Element(manager, parent), m_level(level)
 {
     setId("player-status-container");
     setLayout<VerticalLayout>( 4, HAlignment::Fill );
@@ -103,16 +103,16 @@ void PlayerStatusContainer::reloadEntities()
 {
     removeAllChildren();
 
-    auto ents = manager()->level()->ecs().entitiesHaving<ActorComponent>();
+    auto ents = m_level->ecs().entitiesHaving<ActorComponent>();
     std::sort( ents.begin(), ents.end() );
 
     for (auto const& ref : ents )
     {
-        auto actorC = manager()->level()->ecs().getComponents<ActorComponent>(ref);
+        auto actorC = m_level->ecs().getComponents<ActorComponent>(ref);
 
         if (actorC->actorType == ActorType::PC)
         {
-            manager()->createElement<PlayerStatusWidget>(this, ref);
+            manager()->createElement<PlayerStatusWidget>(this, m_level, ref);
         }
     }
     
@@ -124,8 +124,8 @@ void PlayerStatusContainer::reloadEntities()
 // --------------------------------------
 
 
-PlayerStatusActionSpeedBar::PlayerStatusActionSpeedBar( Manager *manager, Element *parent, EntityRef entity )
-  : Element(manager, parent), m_entity(entity)
+PlayerStatusActionSpeedBar::PlayerStatusActionSpeedBar( Manager *manager, Element *parent, Level* level, EntityRef entity )
+  : Element(manager, parent), m_level(level), m_entity(entity)
 {
     setLayout<HorizontalLayout>( -1, VAlignment::Centre );
 
@@ -151,7 +151,7 @@ PlayerStatusActionSpeedBar::PlayerStatusActionSpeedBar( Manager *manager, Elemen
 
 void PlayerStatusActionSpeedBar::refresh()
 {
-    auto& actorC = manager()->level()->ecs().getComponents<ActorComponent>(m_entity)->actor;
+    auto& actorC = m_level->ecs().getComponents<ActorComponent>(m_entity)->actor;
     auto used = actorC.actionInfo().getUsedActions();
     
     for (int i = 0; i < 3; i++)
@@ -180,15 +180,15 @@ void PlayerStatusActionSpeedBar::onAlphaModChange(float newValue)
     }
 }
 
-PlayerStatusHP::PlayerStatusHP( Manager *manager, Element *parent, EntityRef entity )
-    : Element(manager, parent), m_entity(entity)
+PlayerStatusHP::PlayerStatusHP( Manager *manager, Element *parent, Level* level, EntityRef entity )
+    : Element(manager, parent), m_level(level), m_entity(entity)
 {
     m_text = manager->createElement<Label>( this );
 }
 
 void PlayerStatusHP::refresh()
 {
-    auto& actorC = manager()->level()->ecs().getComponents<ActorComponent>(m_entity)->actor;
+    auto& actorC = m_level->ecs().getComponents<ActorComponent>(m_entity)->actor;
     
     m_text->setText( fmt::format(
         "{}/{}",

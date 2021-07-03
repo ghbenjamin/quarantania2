@@ -1,8 +1,5 @@
 #include <state/LevelState.h>
-#include <game/LevelConfig.h>
 #include <game/Level.h>
-#include <utils/Logging.h>
-#include <resource/Tiled.h>
 #include <game/FixedLevelFactory.h>
 
 

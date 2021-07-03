@@ -1,4 +1,4 @@
-#include <ui/lib/TileHighlights.h>
+#include <ui/level/TileHighlights.h>
 #include <ui/lib/Manager.h>
 #include <utils/GlobalConfig.h>
 #include <graphics/RenderInterface.h>
@@ -11,7 +11,7 @@ using namespace UI;
 // Single Tile Highlight
 // -----------------------
 
-SingleTileHighlight::SingleTileHighlight(Manager* manager, Element* parent, Vector2i tile, SingleTileHighlightType type)
+SingleTileHighlight::SingleTileHighlight(Manager* manager, Element* parent, Vector2i screenCoords, SingleTileHighlightType type)
 : Element( manager, parent )
 {
     setPreferredContentSize({GlobalConfig::TileSizePx, GlobalConfig::TileSizePx});
@@ -31,7 +31,7 @@ SingleTileHighlight::SingleTileHighlight(Manager* manager, Element* parent, Vect
     }
 
     setBackground(corners);
-    setLocalPosition( manager->level()->tileCoordsToScreen(tile) );
+    setLocalPosition( screenCoords );
     setDecorative();
 }
 

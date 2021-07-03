@@ -7,6 +7,7 @@
 #include <ui/level/ActionPopupMenu.h>
 #include <game/ActionDefs.h>
 #include <resource/ResourceManager.h>
+#include <ui/level/LevelMainMenu.h>
 
 LevelController::LevelController(Level *level)
 : m_level(level), m_shouldPopController(false)
@@ -221,8 +222,10 @@ DefaultLController::DefaultLController(Level *level)
     // Don't let us pop the top level controller
     removeKeybinding(SDLK_ESCAPE);
 
-    addKeybinding( SDLK_ESCAPE, [this](){
-        m_level->ui().openLevelMainMenu();
+    addKeybinding( SDLK_ESCAPE, [this, level](){
+        auto menu = m_level->ui().createElement<UI::LevelMainMenu>(nullptr, level);
+        m_level->ui().makeElementModal(menu);
+        m_level->ui().centreElementInWindow(menu);
     });
 }
 
@@ -289,7 +292,7 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     if ( !ents.empty() )
     {
         // Highlight hovered entities
-        m_level->ui().showSingleTileHighlight(curr, UI::SingleTileHighlightType::Yellow);
+        m_level->ui().showSingleTileHighlight(m_level->tileCoordsToScreen(curr), UI::SingleTileHighlightType::Yellow);
         
         // Tell the UI that we've hovered an entity
         m_hoveredEntity = ents.back();
@@ -449,7 +452,7 @@ void PlayerSelectedController::onEnterImpl()
 {
     // Highlight the selected player
     auto position = m_level->ecs().getComponents<PositionComponent>(m_entity)->tilePosition;
-    m_level->ui().showSingleTileHighlight(position, UI::SingleTileHighlightType::Green);
+    m_level->ui().showSingleTileHighlight(m_level->tileCoordsToScreen(position), UI::SingleTileHighlightType::Green);
 
     auto actorC = m_level->ecs().getComponents<ActorComponent>( m_entity );
     if ( actorC->actorType == ActorType::PC )
@@ -511,9 +514,7 @@ ActionControllerSingleTile::ActionControllerSingleTile(Level *level, EntityRef r
     m_targeting->attach(m_level, ref);
 
     // Highlight the valid tiles
-    m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(
-            nullptr, m_targeting->getValidTiles(), Colour::Lime);
-
+    m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, m_targeting->getValidTiles(), Colour::Lime);
     m_origin = level->ecs().getComponents<PositionComponent>(ref)->tilePosition;
 }
 

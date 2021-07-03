@@ -1,7 +1,10 @@
 #pragma once
 
 #include <ui/lib/Element.h>
+
 #include <utils/GridUtils.h>
+
+class Level;
 
 namespace UI
 {
@@ -16,7 +19,7 @@ enum class SingleTileHighlightType
 class SingleTileHighlight : public Element
 {
 public:
-    SingleTileHighlight(Manager* manager, Element* parent, Vector2i tile, SingleTileHighlightType type);
+    SingleTileHighlight(Manager* manager, Element* parent, Vector2i screenCoords, SingleTileHighlightType type);
     ~SingleTileHighlight() override = default;
 };
 
@@ -30,9 +33,7 @@ public:
 
 private:
     void updateSelf(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter) override;
-
-//    GridRegion m_region;
-//    Sprite m_sprite;
+    
     RenderObject m_robj;
 };
 

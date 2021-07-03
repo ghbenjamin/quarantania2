@@ -26,7 +26,6 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
   m_camera( size * GlobalConfig::TileSizePx ),
   m_ecs(this),
   m_controllers{ std::make_shared<DefaultLController>(this) },
-  m_uiManager(this),
   m_currentRound(0),
   m_isPlayerTurn(true),
   m_tileRenderDirtyBit(true),
@@ -228,35 +227,35 @@ void Level::setupUI()
     // Fixed-in-place UI Elements
 
     // Widget containing the current party and information
-    auto turnOrderContainer = m_uiManager.createElement<UI::PlayerStatusContainer>(nullptr);
+    auto turnOrderContainer = m_uiManager.createElement<UI::PlayerStatusContainer>(nullptr, this);
     m_uiManager.alignElementToWindow( turnOrderContainer, UI::Alignment::TopLeft, {20, 20} );
 
     // Widget containing icons representing actions which can be taken
-    auto actionMenu = m_uiManager.createElement<UI::BottomLeftBar>(nullptr);
+    auto actionMenu = m_uiManager.createElement<UI::BottomLeftBar>(nullptr, this);
     m_uiManager.alignElementToWindow( actionMenu, UI::Alignment::BottomLeft, {20, -20} );
 
     // Widget containing fixed action buttons e.g. end turn & options
-    auto bottomMenubar = m_uiManager.createElement<UI::BottomMenubar>(nullptr);
+    auto bottomMenubar = m_uiManager.createElement<UI::BottomMenubar>(nullptr, this);
     m_uiManager.alignElementToWindow( bottomMenubar, UI::Alignment::BottomCentre, {0, -20} );
 
     // Widget containing the global text log
-    auto textLog = m_uiManager.createElement<UI::BetterTextLog>(nullptr);
+    auto textLog = m_uiManager.createElement<UI::BetterTextLog>(nullptr, this);
     m_uiManager.alignElementToWindow( textLog, UI::Alignment::BottomRight, {-20, -20} );
     
     
     // Default hidden elements
     
     
-    auto entityInfo = m_uiManager.createElement<UI::EntityInformationView>(nullptr);
+    auto entityInfo = m_uiManager.createElement<UI::EntityInformationView>(nullptr, this);
     m_uiManager.alignElementToWindow( entityInfo, UI::Alignment::TopRight, {-20, 20} );
     entityInfo->hide();
     
-    auto playerInventory = m_uiManager.createElement<UI::ContainerView>(nullptr, Vector2i{6, 2}); // TODO container size from container 
+    auto playerInventory = m_uiManager.createElement<UI::ContainerView>(nullptr, this, Vector2i{6, 2}); // TODO container size from container
     m_uiManager.alignElementToElement( playerInventory, textLog, UI::Alignment::TopRight, {0, -10} );
     playerInventory->setId("player-inventory");
     playerInventory->hide();
     
-    auto equipUi = m_uiManager.createElement<UI::EquipView>(nullptr);
+    auto equipUi = m_uiManager.createElement<UI::EquipView>(nullptr, this);
     m_uiManager.alignElementToElement( equipUi, playerInventory, UI::Alignment::TopRight, {0, -10} );
     equipUi->hide();
 }
