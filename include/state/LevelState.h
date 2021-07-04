@@ -5,6 +5,7 @@
 #include <game/GameEventDefs.h>
 #include <utils/Colour.h>
 
+// Forward definitions
 class Level;
 struct PartyData;
 struct LevelContext;
@@ -24,7 +25,6 @@ public:
     
     
 private:
-
     void setupUI( );
 
     std::unique_ptr<Level> m_level;

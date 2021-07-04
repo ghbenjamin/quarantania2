@@ -5,6 +5,7 @@
 #include <components/ActorComponent.h>
 #include <components/PositionComponent.h>
 #include <ui/level/ActionPopupMenu.h>
+#include <ui/lib/Manager.h>
 #include <game/ActionDefs.h>
 #include <resource/ResourceManager.h>
 #include <ui/level/LevelMainMenu.h>

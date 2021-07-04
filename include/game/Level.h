@@ -14,8 +14,6 @@
 #include <game/ECS.h>
 #include <game/Defines.h>
 #include <game/Grid.h>
-#include <ui/lib/Manager.h>
-#include <game/LevelController.h>
 #include <game/GameEventHub.h>
 
 // Forward definitions
@@ -75,12 +73,11 @@ public:
     int getCurrentRound() const;        // The current turn count.
     void switchTurn();                  // Toggle between the player turn and the AI turn
     void advanceRound();                // Move to the next round. Called automatically once the turn toggles twice
-    void setIsAnimationBlocking(bool value);
-    bool isAnimationBlocking() const;
 
     // Animation
     void pushAnimation( std::unique_ptr<Animation>&& animation );
-
+    void setIsAnimationBlocking(bool value);
+    bool isAnimationBlocking() const;
 
     // Communication
     LevelExitStatus getLevelExitStatus() const;
@@ -101,7 +98,6 @@ private:
     // Misc
     RandomInterface m_random;
     LevelContextPtr m_ctx;
-//    std::vector<std::shared_ptr<LevelController>> m_controllers;
     LevelExitStatus m_exitStatus;
 
     // Map
@@ -114,7 +110,6 @@ private:
     Camera m_camera;
 
     // Core
-//    UI::Manager m_uiManager;
     GameEventHub m_gevents;
     ECS m_ecs;
 

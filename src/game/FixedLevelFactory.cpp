@@ -4,22 +4,41 @@
 #include <game/ECS.h>
 #include <resource/ResourceManager.h>
 
-FixedLevelFactory::FixedLevelFactory() : LevelFactory() {}
-
-LevelPtr FixedLevelFactory::create(TiledMap const* map, const LevelContextPtr &ctx, const PartyData &pdata)
+FixedLevelFactory::FixedLevelFactory(TiledMap const* map, const LevelContextPtr &ctx, const PartyData &pdata)
+    : LevelFactory(), m_map(map), m_ctx(ctx), m_pdata(pdata)
 {
-    m_map = map;
-    m_level = std::make_unique<Level>( Vector2i{map->width, map->height}, ctx, RandomGenerator{ m_rd() } );
+
+}
+
+
+std::unique_ptr<Level> FixedLevelFactory::createLevel()
+{
+    m_level = std::make_unique<Level>( Vector2i{m_map->width, m_map->height}, m_ctx, RandomGenerator{ m_rd() } );
 
     constructTiles();
     constructObjects();
-    constructParty(pdata);
+    constructParty(m_pdata);
     constructEnemies();
 
     m_level->setLayout(m_levelLayout);
     m_level->setReady();
     return std::move(m_level);
 }
+
+//LevelPtr FixedLevelFactory::create(TiledMap const* map, const LevelContextPtr &ctx, const PartyData &pdata)
+//{
+//    m_map = map;
+//    m_level = std::make_unique<Level>( Vector2i{map->width, map->height}, ctx, RandomGenerator{ m_rd() } );
+//
+//    constructTiles();
+//    constructObjects();
+//    constructParty(pdata);
+//    constructEnemies();
+//
+//    m_level->setLayout(m_levelLayout);
+//    m_level->setReady();
+//    return std::move(m_level);
+//}
 
 void FixedLevelFactory::constructTiles()
 {

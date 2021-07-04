@@ -2,7 +2,8 @@
 #include <game/Level.h>
 #include <game/FixedLevelFactory.h>
 #include <components/ActorComponent.h>
-
+#include <game/LevelController.h>
+#include <ui/lib/Manager.h>
 #include <ui/level/PlayerStatusView.h>
 #include <ui/level/ActionPopupMenu.h>
 #include <ui/level/CreatureEquipView.h>
@@ -17,8 +18,8 @@ LevelState::LevelState(std::shared_ptr<LevelContext> const& ctx, PartyData const
     TiledMapLoader loader;
     TiledMap tm = loader.load( "../resource/maps/arena.json" );
 
-    FixedLevelFactory ffactory;
-    m_level = ffactory.create(&tm, m_levelCtx, pdata);
+    FixedLevelFactory ffactory(&tm, m_levelCtx, pdata);
+    m_level = ffactory.createLevel();
     m_ui = std::make_unique<UI::Manager>();
     setupUI();
     m_uiWatcher = std::make_unique<LSUISystem>( m_level.get(), m_ui.get() );
@@ -81,6 +82,7 @@ void LevelState::update(uint32_t ticks, InputInterface& iinter, RenderInterface 
         switch ( m_level->getLevelExitStatus() )
         {
             case LevelExitStatus::Completed:
+                requestPopState();
                 break;
             case LevelExitStatus::MainMenu:
                 requestExit();

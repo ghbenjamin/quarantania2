@@ -11,13 +11,6 @@
 #include <utils/Math.h>
 #include <game/Animation.h>
 
-#include <ui/level/PlayerStatusView.h>
-#include <ui/level/CreatureEquipView.h>
-#include <ui/level/ContainerView.h>
-#include <ui/level/Composites.h>
-#include <ui/level/EntityInformationView.h>
-#include <ui/level/BetterTextLog.h>
-
 
 Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
 : m_ctx(std::move(ctx)),

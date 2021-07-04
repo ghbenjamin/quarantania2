@@ -7,13 +7,13 @@
 class LevelFactory
 {
 public:
-
-    LevelFactory();
+    LevelFactory() = default;
     virtual ~LevelFactory() = default;
+
+    virtual std::unique_ptr<Level> createLevel() = 0;
 
 protected:
     LevelPtr m_level;
     LevelLayout m_levelLayout;
-
     std::random_device m_rd;
 };
