@@ -1,18 +1,13 @@
 #pragma once
 
-#include <numeric>
+#include <array>
+#include <vector>
+#include <utils/Containers.h>
 
-Vector2f findCentroid( std::vector<Vector2i> points )
+namespace Math
 {
-    Vector2i sum = {0, 0};
 
-    for (auto const& p : points)
-    {
-        sum += p;
-    }
+Vector2f findCentroid( std::vector<Vector2i> points );
+std::array<Vector2f, 4> getQuadForLine( Vector2f lineBegin, Vector2f lineEnd, float lineWidth );
 
-    float total = (float) points.size();
-    Vector2f avg = { sum.x() / total, sum.y() / total };
-
-    return avg;
 }

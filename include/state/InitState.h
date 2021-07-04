@@ -13,7 +13,4 @@ public:
 
     bool input(IEvent &evt) override;
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter) override;
-
-private:
-    std::shared_ptr<LevelContext> m_levelCtx;
 };

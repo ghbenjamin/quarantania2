@@ -1,22 +1,55 @@
 #pragma once
 
+#include <vector>
+#include <unordered_map>
 
-#include <cstdint>
+#include <utils/Containers.h>
+#include <utils/Random.h>
 
 // Forward definitions
 class RenderInterface;
 class InputInterface;
 struct IEvent;
 
+enum class OverworldLocationType
+{
+    Fight,
+    Shop,
+    Mystery,
+    Boss
+};
+
+struct OverworldLocation
+{
+    OverworldLocationType type;
+    Vector2i gridPos;
+    Vector2i displayOffset;
+};
+
+struct OverworldData
+{
+    Vector2i gridSize;
+    std::vector<OverworldLocation> locations;
+    std::unordered_map<int, int> connections;
+};
+
+
+
 class Overworld
 {
 public:
 
-    Overworld() = default;
+    Overworld(OverworldData const& data, RandomGenerator const& rg);
     ~Overworld() = default;
 
     bool input(IEvent &evt);
     void update(std::uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     
+    Vector2i const& gridSize() const;
+    std::vector<OverworldLocation> const& locations();
+    std::unordered_map<int, int> const& connections();
+    
 private:
+    OverworldData m_data;
+    RandomGenerator m_rg;
 };

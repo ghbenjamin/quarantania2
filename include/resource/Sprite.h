@@ -9,10 +9,10 @@ class Sprite
 {
 public:
 
-    Sprite();
-    Sprite(TexturePtr const& texture, RectI const& region);
-    Sprite(TexturePtr texture);
-    Sprite(RenderObject const& obj, Vector2i size);
+    Sprite();   // Empty sprite
+    Sprite(TexturePtr const& texture, RectI const& region); // Subregion of texture
+    Sprite(TexturePtr texture);     // Entire textire
+    Sprite(RenderObject const& obj, Vector2i size); // From existing renderobject
     ~Sprite() = default;
 
     explicit operator bool() const;

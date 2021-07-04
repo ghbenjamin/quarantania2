@@ -240,6 +240,7 @@ IconButton::IconButton( Manager *manager, Element *parent, SpritesheetKey icon, 
     });
 }
 
+
 void IconButton::setIcon( SpritesheetKey icon )
 {
     m_icon->setSprite( icon );
@@ -289,6 +290,7 @@ std::shared_ptr<Icon> IconButton::getIcon()
 {
     return m_icon;
 }
+
 
 
 // Spacer

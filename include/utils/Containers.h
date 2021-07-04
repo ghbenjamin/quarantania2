@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 #include <string>
 #include <sstream>
@@ -42,14 +42,16 @@ public:
         return Vector2(x() - other.x(), y() - other.y());
     }
 
-    Vector2& operator+=(const Vector2& rhs){
+    Vector2& operator+=(const Vector2& rhs)
+    {
 
         this->m_x += rhs.m_x;
         this->m_y += rhs.m_y;
         return *this;
     }
 
-    Vector2& operator-=(const Vector2& rhs){
+    Vector2& operator-=(const Vector2& rhs)
+    {
 
         this->m_x -= rhs.m_x;
         this->m_y -= rhs.m_y;
@@ -80,6 +82,11 @@ public:
     bool operator!=(const Vector2 &rhs) const
     {
         return !(rhs == *this);
+    }
+
+    Vector2 hadamard( Vector2 const& other ) const
+    {
+        return Vector2( m_x * other.m_x, m_y * other.m_y );
     }
 
     T area() const

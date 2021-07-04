@@ -33,9 +33,7 @@ public:
 
     FixedLevelFactory(TiledMap const* map, const LevelContextPtr &ctx, const PartyData &pdata);
     ~FixedLevelFactory() override = default;
-
-//    LevelPtr create(TiledMap const* map, LevelContextPtr const& ctx, PartyData const& pdata);
-
+    
     std::unique_ptr<Level> createLevel() override;
 
 

@@ -291,7 +291,7 @@ void Level::centerCameraOnParty()
         }
     }
 
-    Vector2f centre = findCentroid( points );
+    Vector2f centre = Math::findCentroid( points );
     m_camera.centreOnTile( centre.convert<int>() );
 }
 

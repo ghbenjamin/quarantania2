@@ -17,6 +17,8 @@ public:
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter) override;
 
 private:
+    void setupUI( );
+
     std::unique_ptr<Overworld> m_overworld;
     std::unique_ptr<UI::Manager> m_ui;
 
