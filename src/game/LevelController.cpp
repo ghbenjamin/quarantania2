@@ -9,8 +9,8 @@
 #include <resource/ResourceManager.h>
 #include <ui/level/LevelMainMenu.h>
 
-LevelController::LevelController(Level *level)
-: m_level(level), m_shouldPopController(false)
+LevelController::LevelController(Level *level, UI::Manager* ui)
+: m_level(level), m_ui(ui), m_shouldPopController(false)
 {
     addKeybinding( SDLK_ESCAPE, [this]() {
         this->popController();
@@ -113,6 +113,11 @@ bool LevelController::input(IEvent &evt)
                 return false;
             }
         }
+        case IEventType::WindowResize:
+        {
+            m_ui->doLayout();
+            break;
+        }
         default:
             break;
     }
@@ -200,10 +205,10 @@ void LevelController::pushActionController(EntityRef ref, GameAction const& acti
     switch (action.ttype)
     {
         case TargetingType::SingleTile:
-            pushController<ActionControllerSingleTile>(m_level, ref, action);
+            pushController<ActionControllerSingleTile>(m_level, m_ui, ref, action);
             break;
         case TargetingType::SingleEntity:
-            pushController<ActionControllerSingleEntity>(m_level, ref, action);
+            pushController<ActionControllerSingleEntity>(m_level, m_ui, ref, action);
             break;
         default:
             AssertNotImplemented();
@@ -216,16 +221,16 @@ void LevelController::pushActionController(EntityRef ref, GameAction const& acti
 // --------------------------------------
 
 
-DefaultLController::DefaultLController(Level *level)
-    : LevelController(level)
+DefaultLController::DefaultLController(Level *level, UI::Manager* ui)
+    : LevelController(level, ui)
 {
     // Don't let us pop the top level controller
     removeKeybinding(SDLK_ESCAPE);
 
     addKeybinding( SDLK_ESCAPE, [this, level](){
-        auto menu = m_level->ui().createElement<UI::LevelMainMenu>(nullptr, level);
-        m_level->ui().makeElementModal(menu);
-        m_level->ui().centreElementInWindow(menu);
+        auto menu = m_ui->createElement<UI::LevelMainMenu>(nullptr, level);
+        m_ui->makeElementModal(menu);
+        m_ui->centreElementInWindow(menu);
     });
 }
 
@@ -251,7 +256,7 @@ bool DefaultLController::onMouseDown(IEventMouseDown evt)
                 auto actorComp = m_level->ecs().getComponents<ActorComponent>( actorEnt );
                 if ( actorComp->actorType == ActorType::PC )
                 {
-                    pushController<PlayerSelectedController>(m_level, actorEnt);
+                    pushController<PlayerSelectedController>(m_level, m_ui, actorEnt);
                     return true;
                 }
             }
@@ -268,7 +273,7 @@ bool DefaultLController::onKeyDown(IEventKeyPress evt)
 
 void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 {
-    m_level->ui().removeSingleTileHighlight();
+    m_ui->removeSingleTileHighlight();
 
     if ( m_hoveredEntity != EntityNull )
     {
@@ -292,7 +297,7 @@ void DefaultLController::onHoveredTileChange(Vector2i prev, Vector2i curr)
     if ( !ents.empty() )
     {
         // Highlight hovered entities
-        m_level->ui().showSingleTileHighlight(m_level->tileCoordsToScreen(curr), UI::SingleTileHighlightType::Yellow);
+        m_ui->showSingleTileHighlight(m_level->tileCoordsToScreen(curr), UI::SingleTileHighlightType::Yellow);
         
         // Tell the UI that we've hovered an entity
         m_hoveredEntity = ents.back();
@@ -307,7 +312,7 @@ void DefaultLController::updateImpl(std::uint32_t ticks, InputInterface &iinter,
 
 void DefaultLController::onExitImpl()
 {
-    m_level->ui().removeSingleTileHighlight();
+    m_ui->removeSingleTileHighlight();
     m_lastHoveredTile = {-1, -1};
 }
 
@@ -319,22 +324,22 @@ void DefaultLController::onExitImpl()
 
 
 
-PlayerSelectedController::PlayerSelectedController(Level* level, EntityRef entity)
-        : LevelController(level), m_entity(entity),
+PlayerSelectedController::PlayerSelectedController(Level* level, UI::Manager* ui, EntityRef entity)
+        : LevelController(level, ui), m_entity(entity),
           m_defMoveAction(  "move", TargetingType::SingleTile, std::make_shared<ActionMoveStride>() ),
           m_defAttackAction( "strike", TargetingType::SingleEntity, std::make_shared<ActionMeleeAttack>() )
 {
     // Hotkeys for the action menus
     addKeybinding( SDLK_q, [this](){
-        m_level->ui().withId<UI::ActionMenu>("action-menu")->toggleMenu(RawActionDataType::Attack);
+        m_ui->withId<UI::ActionMenu>("action-menu")->toggleMenu(RawActionDataType::Attack);
     });
 
     addKeybinding( SDLK_w, [this](){
-        m_level->ui().withId<UI::ActionMenu>("action-menu")->toggleMenu(RawActionDataType::Move);
+        m_ui->withId<UI::ActionMenu>("action-menu")->toggleMenu(RawActionDataType::Move);
     });
 
     addKeybinding( SDLK_e, [this](){
-        m_level->ui().withId<UI::ActionMenu>("action-menu")->toggleMenu(RawActionDataType::Item);
+        m_ui->withId<UI::ActionMenu>("action-menu")->toggleMenu(RawActionDataType::Item);
     });
 }
 
@@ -368,7 +373,7 @@ bool PlayerSelectedController::onMouseDown(IEventMouseDown evt)
                 auto actorComp = m_level->ecs().getComponents<ActorComponent>( actorEnt );
                 if ( actorComp->actorType == ActorType::PC )
                 {
-                    replaceController<PlayerSelectedController>(m_level, actorEnt);
+                    replaceController<PlayerSelectedController>(m_level, m_ui, actorEnt);
                     return true;
                 }
             }
@@ -432,18 +437,18 @@ void PlayerSelectedController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 
 void PlayerSelectedController::onExitImpl()
 {
-    m_level->ui().removeSingleTileHighlight();
+    m_ui->removeSingleTileHighlight();
     m_level->events().broadcast<GameEvents::ControllerEntitySelected>(EntityNull);
 
     auto actorC = m_level->ecs().getComponents<ActorComponent>( m_entity );
     if ( actorC->actorType == ActorType::PC )
     {
-        m_level->ui().withId( "ui-equip-view" )->hide();
-        m_level->ui().withId( "player-inventory" )->hide();
+        m_ui->withId( "ui-equip-view" )->hide();
+        m_ui->withId( "player-inventory" )->hide();
     }
     
-    m_level->ui().deleteElement(m_defaultMoveHighlight);
-    m_level->ui().deleteElement(m_defaultAttackHighlight);
+    m_ui->deleteElement(m_defaultMoveHighlight);
+    m_ui->deleteElement(m_defaultAttackHighlight);
     
     ResourceManager::get().getWindow()->cursor().resetCursor();
 }
@@ -452,14 +457,14 @@ void PlayerSelectedController::onEnterImpl()
 {
     // Highlight the selected player
     auto position = m_level->ecs().getComponents<PositionComponent>(m_entity)->tilePosition;
-    m_level->ui().showSingleTileHighlight(m_level->tileCoordsToScreen(position), UI::SingleTileHighlightType::Green);
+    m_ui->showSingleTileHighlight(m_level->tileCoordsToScreen(position), UI::SingleTileHighlightType::Green);
 
     auto actorC = m_level->ecs().getComponents<ActorComponent>( m_entity );
     if ( actorC->actorType == ActorType::PC )
     {
         // Show the equip menu
-        m_level->ui().withId( "ui-equip-view" )->show();
-        m_level->ui().withId( "player-inventory" )->show();
+        m_ui->withId( "ui-equip-view" )->show();
+        m_ui->withId( "player-inventory" )->show();
     }
     
     
@@ -474,7 +479,7 @@ void PlayerSelectedController::onEnterImpl()
         
         if ( !m_defAttackTiles.empty() )
         {
-            m_defaultAttackHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, m_defAttackTiles, Colour::Red);
+            m_defaultAttackHighlight = m_ui->createElement<UI::TileRegionHighlight>(nullptr, m_defAttackTiles, Colour::Red);
         }
     }
     
@@ -487,7 +492,7 @@ void PlayerSelectedController::onEnterImpl()
         
         if ( !m_defMoveTiles.empty() )
         {
-            m_defaultMoveHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, m_defMoveTiles, Colour::Lime);
+            m_defaultMoveHighlight = m_ui->createElement<UI::TileRegionHighlight>(nullptr, m_defMoveTiles, Colour::Lime);
         }
     }
     
@@ -505,8 +510,8 @@ void PlayerSelectedController::onEnterImpl()
 // --------------------------------------
 
 
-ActionControllerSingleTile::ActionControllerSingleTile(Level *level, EntityRef ref, GameAction const& action)
-    : LevelController(level),
+ActionControllerSingleTile::ActionControllerSingleTile(Level *level, UI::Manager* ui, EntityRef ref, GameAction const& action)
+    : LevelController(level, ui),
       m_targeting{ std::static_pointer_cast<SingleTileTargeting>(m_action.impl) },
       m_action(action),
       m_entity(ref)
@@ -514,7 +519,7 @@ ActionControllerSingleTile::ActionControllerSingleTile(Level *level, EntityRef r
     m_targeting->attach(m_level, ref);
 
     // Highlight the valid tiles
-    m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, m_targeting->getValidTiles(), Colour::Lime);
+    m_tileHighlight = m_ui->createElement<UI::TileRegionHighlight>(nullptr, m_targeting->getValidTiles(), Colour::Lime);
     m_origin = level->ecs().getComponents<PositionComponent>(ref)->tilePosition;
 }
 
@@ -543,8 +548,8 @@ bool ActionControllerSingleTile::onMouseDown(IEventMouseDown evt)
 
 void ActionControllerSingleTile::onExitImpl()
 {
-    m_level->ui().deleteElement(m_tileHighlight);
-    m_level->ui().deleteElement(m_pathHighlight);
+    m_ui->deleteElement(m_tileHighlight);
+    m_ui->deleteElement(m_pathHighlight);
 }
 
 void ActionControllerSingleTile::updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
@@ -559,9 +564,9 @@ void ActionControllerSingleTile::onHoveredTileChange(Vector2i prev, Vector2i cur
         if ( m_targeting->tileIsValid(curr) )
         {
             m_tilePath = m_targeting->pathToTile(curr);
-            m_level->ui().deleteElement(m_pathHighlight);
-//            m_pathHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(nullptr, m_tilePath, Colour::Red);
-            m_pathHighlight = m_level->ui().createElement<UI::TileArrowHighlight>(nullptr, m_tilePath, Colour::Red, m_origin);
+            m_ui->deleteElement(m_pathHighlight);
+//            m_pathHighlight = m_ui->createElement<UI::TileRegionHighlight>(nullptr, m_tilePath, Colour::Red);
+            m_pathHighlight = m_ui->createElement<UI::TileArrowHighlight>(nullptr, m_tilePath, Colour::Red, m_origin);
         }
     }
 }
@@ -571,8 +576,8 @@ void ActionControllerSingleTile::onHoveredTileChange(Vector2i prev, Vector2i cur
 // --------------------------------------
 
 
-ActionControllerSingleEntity::ActionControllerSingleEntity(Level *level, EntityRef ref, const GameAction &action)
-:   LevelController(level),
+ActionControllerSingleEntity::ActionControllerSingleEntity(Level *level, UI::Manager* ui, EntityRef ref, const GameAction &action)
+:   LevelController(level, ui),
     m_targeting{ std::static_pointer_cast<SingleEntityTargeting>(m_action.impl) },
     m_action(action),
     m_entity(ref)
@@ -616,13 +621,13 @@ bool ActionControllerSingleEntity::onMouseDown(IEventMouseDown evt)
 
 void ActionControllerSingleEntity::onEnterImpl()
 {
-    m_tileHighlight = m_level->ui().createElement<UI::TileRegionHighlight>(
+    m_tileHighlight = m_ui->createElement<UI::TileRegionHighlight>(
         nullptr, m_targeting->getValidTiles(), Colour::Lime);
 }
 
 void ActionControllerSingleEntity::onExitImpl()
 {
-    m_level->ui().deleteElement(m_tileHighlight);
+    m_ui->deleteElement(m_tileHighlight);
 }
 
 void ActionControllerSingleEntity::updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)

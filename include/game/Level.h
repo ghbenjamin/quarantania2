@@ -47,15 +47,13 @@ public:
     bool input(IEvent &evt);
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
-
     // API
     RandomInterface& random();
     Grid& grid();
     GameEventHub& events();
-    UI::Manager& ui();
     Camera& camera();
     ECS& ecs();
-    LevelController* controller();
+
 
     // Coordinates
     Vector2i worldCoordsToScreen( Vector2i const& world ) const;
@@ -95,7 +93,6 @@ public:
 private:
 
     // UI Methods
-    void setupUI();                         // Create our permenant UI elements
     void layoutWindows();                   // Re-layout our dependent UI windows if one of them moves
     RenderObject generateTileRenderData();  // Construct the render object for our tile data
     void centerCameraOnParty();             // Centre the camera on the centroid of the positions of all party members
@@ -104,7 +101,7 @@ private:
     // Misc
     RandomInterface m_random;
     LevelContextPtr m_ctx;
-    std::vector<std::shared_ptr<LevelController>> m_controllers;
+//    std::vector<std::shared_ptr<LevelController>> m_controllers;
     LevelExitStatus m_exitStatus;
 
     // Map
@@ -117,7 +114,7 @@ private:
     Camera m_camera;
 
     // Core
-    UI::Manager m_uiManager;
+//    UI::Manager m_uiManager;
     GameEventHub m_gevents;
     ECS m_ecs;
 

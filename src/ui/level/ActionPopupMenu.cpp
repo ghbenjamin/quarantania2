@@ -37,12 +37,13 @@ UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *
         {
             elem->setBackground(patch);
             elem->addEventCallback(UEventType::Click, [manager, act, this](UEvent const& evt) {
-
+            
                 auto actionMenu = manager->firstElementMatching(
                          [](ElementPtr const& elem){ return elem->id() == "action-menu"; }
                 )->asType<ActionMenu>();
 
-                m_level->controller()->pushActionController( actionMenu->currentEntity(), act );
+                // TODO FIX CONTROLLER ACTIONS BROKEN ARGH
+//                m_level->controller()->pushActionController( actionMenu->currentEntity(), act );
                 manager->deleteElement( shared_from_this() );
             });
         }

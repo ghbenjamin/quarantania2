@@ -25,7 +25,6 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
   m_random(rg),
   m_camera( size * GlobalConfig::TileSizePx ),
   m_ecs(this),
-  m_controllers{ std::make_shared<DefaultLController>(this) },
   m_currentRound(0),
   m_isPlayerTurn(true),
   m_tileRenderDirtyBit(true),
@@ -33,7 +32,6 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
   m_exitStatus(LevelExitStatus::None),
   m_gevents(this)
 {
-    setupUI();
     layoutWindows();
 }
 
@@ -46,11 +44,6 @@ void Level::setReady()
 
 bool Level::input(IEvent &evt)
 {
-    if ( m_uiManager.input(evt) )
-    {
-        return true;
-    }
-
     switch (evt.type)
     {
         case IEventType::WindowResize:
@@ -59,8 +52,8 @@ bool Level::input(IEvent &evt)
         default:
             break;
     }
-
-    return m_controllers.back()->input(evt);
+    
+    return false;
 }
 
 
@@ -68,33 +61,6 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
 {
     // Specify which camera we are using
     rInter.setCameraOffset( m_camera.getOffset() );
-
-    // Handle controller changes if necessary
-    
-    if ( m_controllers.back()->hasNextController() )
-    {
-        auto next = m_controllers.back()->getNextController();
-        bool shouldPop = m_controllers.back()->shouldPopController();
-        
-        m_controllers.back()->onExit();
-        
-        if (shouldPop)
-        {
-            m_controllers.pop_back();
-        }
-        
-        m_controllers.push_back( next );
-        m_controllers.back()->onEnter();
-    }
-    
-    else if ( m_controllers.back()->shouldPopController() )
-    {
-        m_controllers.back()->onExit();
-        m_controllers.pop_back();
-        m_controllers.back()->onEnter();
-    }
-    
-    m_controllers.back()->update(ticks, iinter, rInter);
 
     // Render our tiles
     if (m_tileRenderDirtyBit)
@@ -126,9 +92,6 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
 
     // Poll our game event queue
     m_gevents.pollAllEvents();
-
-    // Render the GUI
-    m_uiManager.update(ticks, iinter, rInter);
 }
 
 RenderObject Level::generateTileRenderData()
@@ -221,56 +184,12 @@ Vector2i Level::tileIdxToWorld( int idx ) const
     return tileCoordsToWorld( m_grid.idxToPos(idx) );
 }
 
-
-void Level::setupUI()
-{
-    // Fixed-in-place UI Elements
-
-    // Widget containing the current party and information
-    auto turnOrderContainer = m_uiManager.createElement<UI::PlayerStatusContainer>(nullptr, this);
-    m_uiManager.alignElementToWindow( turnOrderContainer, UI::Alignment::TopLeft, {20, 20} );
-
-    // Widget containing icons representing actions which can be taken
-    auto actionMenu = m_uiManager.createElement<UI::BottomLeftBar>(nullptr, this);
-    m_uiManager.alignElementToWindow( actionMenu, UI::Alignment::BottomLeft, {20, -20} );
-
-    // Widget containing fixed action buttons e.g. end turn & options
-    auto bottomMenubar = m_uiManager.createElement<UI::BottomMenubar>(nullptr, this);
-    m_uiManager.alignElementToWindow( bottomMenubar, UI::Alignment::BottomCentre, {0, -20} );
-
-    // Widget containing the global text log
-    auto textLog = m_uiManager.createElement<UI::BetterTextLog>(nullptr, this);
-    m_uiManager.alignElementToWindow( textLog, UI::Alignment::BottomRight, {-20, -20} );
-    
-    
-    // Default hidden elements
-    
-    
-    auto entityInfo = m_uiManager.createElement<UI::EntityInformationView>(nullptr, this);
-    m_uiManager.alignElementToWindow( entityInfo, UI::Alignment::TopRight, {-20, 20} );
-    entityInfo->hide();
-    
-    auto playerInventory = m_uiManager.createElement<UI::ContainerView>(nullptr, this, Vector2i{6, 2}); // TODO container size from container
-    m_uiManager.alignElementToElement( playerInventory, textLog, UI::Alignment::TopRight, {0, -10} );
-    playerInventory->setId("player-inventory");
-    playerInventory->hide();
-    
-    auto equipUi = m_uiManager.createElement<UI::EquipView>(nullptr, this);
-    m_uiManager.alignElementToElement( equipUi, playerInventory, UI::Alignment::TopRight, {0, -10} );
-    equipUi->hide();
-}
-
 void Level::layoutWindows()
 {
     auto wndSize = ResourceManager::get().getWindow()->getSize();
     m_camera.setViewportSize(wndSize);
-    m_uiManager.doLayout();
 }
 
-UI::Manager& Level::ui()
-{
-    return m_uiManager;
-}
 
 int Level::squaredEntityDistance(EntityRef a, EntityRef b)
 {
@@ -366,11 +285,6 @@ std::vector<GameAction> Level::actionsForActor(EntityRef actor)
     return out;
 }
 
-LevelController* Level::controller()
-{
-    return m_controllers.back().get();
-}
-
 void Level::centerCameraOnParty()
 {
     std::vector<Vector2i> points;
@@ -433,6 +347,3 @@ bool Level::isAnimationBlocking() const
 {
     return m_isAnimationBlocking;
 }
-
-
-

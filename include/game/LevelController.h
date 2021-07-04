@@ -13,18 +13,21 @@
 // Forward definitions
 class Level;
 class RenderInterface;
-namespace UI { class Element; }
 class SingleTileTargeting;
 class SingleEntityTargeting;
 
-// Forward definitions
-class RenderInterface;
+namespace UI
+{
+    class Manager;
+    class Element;
+}
+
 
 class LevelController
 {
 public:
 
-    LevelController(Level* level);
+    LevelController(Level* level, UI::Manager* ui);
     virtual ~LevelController() = default;
 
     bool input(IEvent &evt);
@@ -76,6 +79,7 @@ protected:
 
 
     Level* m_level;
+    UI::Manager* m_ui;
     Vector2i m_lastHoveredTile;
 
 private:
@@ -90,7 +94,7 @@ class DefaultLController : public LevelController
 {
 public:
 
-    explicit DefaultLController(Level* level);
+    explicit DefaultLController(Level* level, UI::Manager* ui);
     ~DefaultLController() override = default;
 
 
@@ -116,7 +120,7 @@ class PlayerSelectedController : public LevelController
 {
 public:
 
-    PlayerSelectedController(Level*, EntityRef entity);
+    PlayerSelectedController(Level*, UI::Manager* ui, EntityRef entity);
     ~PlayerSelectedController() override = default;
 
 protected:
@@ -151,7 +155,7 @@ private:
 class ActionControllerSingleTile : public LevelController
 {
 public:
-    ActionControllerSingleTile(Level* level, EntityRef ref, GameAction const& action);
+    ActionControllerSingleTile(Level* level, UI::Manager* ui, EntityRef ref, GameAction const& action);
     ~ActionControllerSingleTile() override = default;
 
 protected:
@@ -182,7 +186,7 @@ private:
 class ActionControllerSingleEntity : public LevelController
 {
 public:
-    ActionControllerSingleEntity(Level* level, EntityRef ref, GameAction const& action);
+    ActionControllerSingleEntity(Level* level, UI::Manager* ui, EntityRef ref, GameAction const& action);
     ~ActionControllerSingleEntity() override = default;
 
 protected:
