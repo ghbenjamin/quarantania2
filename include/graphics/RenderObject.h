@@ -44,8 +44,11 @@ public:
     // Set the uv coordinates of the texture vetex (in uv space)
     void setTextureVerts( int idx, float texX, float texY, float texW, float texH );
     
-    // Set the coodinates of of the screen vertex (in screen space)
+    // Set the coodinates of of the screen vertex (in screen space, assiming a screen aligned rect)
     void setScreenVerts( int idx, float scX, float scY, float scW, float scH );
+    
+    // Set the coodinates of of the screen vertex (in screen space, with custom rect orientation)
+    void setScreenVerts( int idx, Vector2f topLeft, Vector2f bottomRight, Vector2f bottomLeft, Vector2f topRight );
     
     // Set the colour bytes for the vertex
     void setColourVerts( int idx, float r, float g, float b, float a );

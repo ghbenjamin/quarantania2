@@ -59,3 +59,10 @@ LocationView::LocationView( Manager *manager, Element *parent, Overworld *overwo
     }
 }
 
+LocationPathItem::LocationPathItem( Manager *manager, Element *parent, Vector2i start, Vector2i end )
+    : Element(manager, parent)
+{
+    setDecorative(true);
+    auto lineSprite = createLine(start, end, 3, Colour::Red);
+    m_icon = manager->createElement<Icon>( this, lineSprite );
+}

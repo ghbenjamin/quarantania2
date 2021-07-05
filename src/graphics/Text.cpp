@@ -177,7 +177,7 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, Co
     }
 
     auto bbIt = bbDoc.begin();
-    for ( int i = 0; i < allGlyphs.size(); i++ )
+    for ( int i = 0; i < (int) allGlyphs.size(); i++ )
     {
         if ( bbIt->second.has_value() )
         {

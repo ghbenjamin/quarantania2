@@ -39,4 +39,7 @@ void OverworldState::setupUI()
 {
     auto turnOrderContainer = m_ui->createElement<UI::LocationView>(nullptr, m_overworld.get());
     m_ui->alignElementToWindow( turnOrderContainer, UI::Alignment::CentreLeft, {20, 0} );
+    
+    auto test = m_ui->createElement<UI::LocationPathItem>(nullptr, Vector2i{10, 20}, Vector2i{40, 50});
+    m_ui->alignElementToWindow( test, UI::Alignment::Centre, {0, 0} );
 }

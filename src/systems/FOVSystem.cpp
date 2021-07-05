@@ -94,7 +94,7 @@ void FOVSystem::recalculateFOV()
         if (lighting > 0.01)
         {
             auto yellowObjs = m_fovFog.renderObject(currPos);
-            yellowObjs.setColourVerts( 0, 1.000, 0.980, 0.804, lighting * 0.5f );
+            yellowObjs.setColourVerts( 0, 1.000f, 0.980f, 0.804f, lighting * 0.5f );
             m_renderObj.merge(yellowObjs);
         }
     }

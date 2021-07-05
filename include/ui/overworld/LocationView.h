@@ -5,7 +5,7 @@
 
 
 class Overworld;
-class OverworldLocation;
+struct OverworldLocation;
 
 namespace UI
 {
@@ -21,6 +21,15 @@ private:
     std::shared_ptr<Icon> m_icon;
 };
 
+
+class LocationPathItem : public Element
+{
+public:
+    LocationPathItem( Manager *manager, Element *parent, Vector2i start, Vector2i end );
+
+private:
+    std::shared_ptr<Icon> m_icon;
+};
 
 
 class LocationView : public Element
