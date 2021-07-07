@@ -35,6 +35,9 @@ bool Manager::input(IEvent &evt)
         case IEventType::MouseMove:
             out = handleMouseMove(evt.mouseMove);
             break;
+        case IEventType::ScrollWheel:
+            out = handleScrollwheel(evt.scrollWheel);
+            break;
         case IEventType::WindowResize:
             break;
     }
@@ -450,6 +453,34 @@ bool Manager::handleKeyPress(IEventKeyPress evt)
     return false;
 }
 
+bool Manager::handleScrollwheel(IEventScrollWheel evt)
+{
+    // Get all the elements under the mouse cursor
+    auto elems = windowsAtPoint(evt.screenPos);
+
+    if ( elems.empty() )
+    {
+        return false;
+    }
+    else
+    {
+        UEvent uevent;
+        uevent.type = UEventType::ScrollWheel;
+        uevent.mouseScrollEvent.screenPos = evt.screenPos;
+        uevent.mouseScrollEvent.magnitude = evt.magnitude;
+
+        for ( auto it = elems.rbegin(); it != elems.rend(); it++ )
+        {
+            (*it)->acceptEvent(uevent);
+        }
+
+        return true;
+    }
+
+
+    return false;
+}
+
 void Manager::openContextMenu(ContextMenuList const &items, Vector2i pos, ContextMenuCallback callback)
 {
     auto cmenu = createElement<UI::ContextMenu>(nullptr, items, callback);
@@ -560,7 +591,6 @@ void Manager::displayTransientMessage(std::string message, float displayTime )
             (wndSize.y() - dlgSize.y()) / 4
     });
 }
-
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, Vector2i offset)
 : element(std::move(element)), alignment(alignment), offset(offset) {}

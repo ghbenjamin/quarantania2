@@ -16,18 +16,10 @@ class LocationViewItem : public Element
 public:
     LocationViewItem( Manager *manager, Element *parent, OverworldLocation const* loc );
 
+    void refresh();
+
 private:
     OverworldLocation const* m_loc;
-    std::shared_ptr<Icon> m_icon;
-};
-
-
-class LocationPathItem : public Element
-{
-public:
-    LocationPathItem( Manager *manager, Element *parent, Vector2i start, Vector2i end );
-
-private:
     std::shared_ptr<Icon> m_icon;
 };
 
@@ -38,8 +30,11 @@ public:
     LocationView( Manager *manager, Element *parent, Overworld* overworld );
     ~LocationView() override = default;
 
+    void refresh();
+
 private:
     Overworld* m_overworld;
+    std::vector<std::shared_ptr<LocationViewItem>> m_locations;
 };
 
 

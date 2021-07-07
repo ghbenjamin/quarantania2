@@ -44,6 +44,7 @@ Vector2i alignRectWithinRect( Vector2i const& outer, Vector2i const& inner, Alig
 Vector2i alignRectToRect( Vector2i const& dep, Vector2i const& fixed, Alignment alignment );
 
 class Element;
+class ScrollHolder;
 
 class ElementLayout
 {
@@ -146,6 +147,19 @@ public:
 
 private:
     std::function<void()> m_callback;
+};
+
+
+class VScrollLayout : public ElementLayout
+{
+public:
+    VScrollLayout(ScrollHolder* elem);
+    ~VScrollLayout() = default;
+
+    Vector2i doLayout() override;
+
+private:
+    ScrollHolder* m_scrollHolder;
 };
 
 

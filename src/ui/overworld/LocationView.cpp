@@ -41,14 +41,19 @@ LocationViewItem::LocationViewItem( Manager *manager, Element *parent, Overworld
     });
 }
 
+void LocationViewItem::refresh()
+{
+
+}
+
 LocationView::LocationView( Manager *manager, Element *parent, Overworld *overworld )
 : Element( manager, parent ), m_overworld(overworld)
 {
-    Vector2i scaling = {50, 70};
+    Vector2i scaling = {80, 100};
 
     setPreferredContentSize({ scaling.x() * overworld->gridSize().x(), scaling.y()  * overworld->gridSize().y() });
     setLayout<FreeLayout>();
-    setBackground(Colour::White);
+    setBackground(Colour::White.withAlphaF(0.5));
 
     
     for ( auto const& loc : overworld->locations() )
@@ -56,13 +61,15 @@ LocationView::LocationView( Manager *manager, Element *parent, Overworld *overwo
         Vector2i pos = loc.gridPos.hadamard( scaling );
         auto locItem = manager->createElement<LocationViewItem>( this, &loc );
         locItem->setLocalPosition( pos );
+
+        m_locations.push_back(locItem);
     }
 }
 
-LocationPathItem::LocationPathItem( Manager *manager, Element *parent, Vector2i start, Vector2i end )
-    : Element(manager, parent)
+void LocationView::refresh()
 {
-    setDecorative(true);
-    auto lineSprite = createLine(start, end, 3, Colour::Red);
-    m_icon = manager->createElement<Icon>( this, lineSprite );
+    for ( auto const loc : m_locations )
+    {
+        loc->refresh();
+    }
 }

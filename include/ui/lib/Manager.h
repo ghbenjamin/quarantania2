@@ -139,6 +139,7 @@ private:
     bool handleMouseDown( IEventMouseDown evt );
     bool handleMouseUp( IEventMouseUp evt );
     bool handleKeyPress( IEventKeyPress evt );
+    bool handleScrollwheel( IEventScrollWheel evt );
 
     std::vector<ElementPtr> m_roots;
 

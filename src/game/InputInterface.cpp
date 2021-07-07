@@ -85,6 +85,23 @@ void InputInterface::input(SDL_Event &sdlEvent)
             break;
         }
 
+        case SDL_MOUSEWHEEL:
+        {
+            IEvent evt;
+            evt.type = IEventType::ScrollWheel;
+
+            int mouseX, mouseY;
+            SDL_GetMouseState(&mouseX, &mouseY);
+
+            evt.scrollWheel = IEventScrollWheel {
+                Vector2i( mouseX, mouseY ),
+                (int) sdlEvent.wheel.y
+            };
+
+            m_queue.push_back(evt);
+            break;
+        }
+
         case SDL_WINDOWEVENT:
         {
             switch (sdlEvent.window.event)
@@ -134,68 +151,39 @@ void InputInterface::clear()
     m_queue.clear();
 }
 
-IEventKeyPress::IEventKeyPress()
-{
-
-}
+IEventKeyPress::IEventKeyPress() {}
 
 IEventKeyPress::IEventKeyPress(SDL_Keycode key)
-: keyCode(key)
-{
-
-}
+    : keyCode(key) {}
 
 IEventMouseDown::IEventMouseDown()
-: screenPos{0, 0}, button(-1)
-{
-
-}
+    : screenPos{0, 0}, button(-1) {}
 
 IEventMouseDown::IEventMouseDown(Vector2i sp, int btn)
-: screenPos(sp), button(btn)
-{
-
-}
+    : screenPos(sp), button(btn) {}
 
 IEventMouseMove::IEventMouseMove()
-: screenPos{0, 0}
-{
-
-}
+    : screenPos{0, 0} {}
 
 IEventMouseMove::IEventMouseMove(Vector2i sp)
-: screenPos(sp)
-{
+    : screenPos(sp) {}
 
-}
-
-IEvent::IEvent()
-{
-
-}
+IEvent::IEvent() {}
 
 IEventWindowResize::IEventWindowResize()
-: screenSize{0, 0}
-{
-
-}
+    : screenSize{0, 0} {}
 
 IEventWindowResize::IEventWindowResize(Vector2i size)
-: screenSize(size)
-{
-
-}
+    : screenSize(size) {}
 
 IEventMouseUp::IEventMouseUp()
-    : screenPos{0, 0}, button(-1)
-
-{
-
-}
+    : screenPos{0, 0}, button(-1) {}
 
 IEventMouseUp::IEventMouseUp(Vector2i sp, int btn)
-    : screenPos(sp), button(btn)
+    : screenPos(sp), button(btn) {}
 
-{
+IEventScrollWheel::IEventScrollWheel()
+    : screenPos(0, 0), magnitude(0) {}
 
-}
+IEventScrollWheel::IEventScrollWheel(Vector2i screenPos, int magnitude )
+    : screenPos(screenPos), magnitude(magnitude) {}

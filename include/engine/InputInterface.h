@@ -12,6 +12,7 @@ enum class IEventType
     MouseDown,
     MouseUp,
     MouseMove,
+    ScrollWheel,
 
     WindowResize
 };
@@ -42,6 +43,14 @@ struct IEventMouseUp
     int button;
 };
 
+struct IEventScrollWheel
+{
+    IEventScrollWheel();
+    IEventScrollWheel( Vector2i screenPos, int magnitude);
+
+    Vector2i screenPos;
+    int magnitude;
+};
 
 struct IEventMouseMove
 {
@@ -73,6 +82,7 @@ struct IEvent
         IEventMouseDown mouseDown;
         IEventMouseUp mouseUp;
         IEventMouseMove mouseMove;
+        IEventScrollWheel scrollWheel;
 
         IEventWindowResize windowResize;
     };

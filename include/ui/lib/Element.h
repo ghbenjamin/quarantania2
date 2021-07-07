@@ -62,6 +62,9 @@ public:
         m_layout = std::make_unique<LayoutType>( this, std::forward<Args>(args)... );
     }
 
+    void setLayout( std::unique_ptr<ElementLayout>& layout );
+
+
     // State
     void setHidden( bool val );
     bool isHidden() const;

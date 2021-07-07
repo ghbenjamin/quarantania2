@@ -28,6 +28,8 @@ enum class UEventType
     KeyDown,
     KeyUp,
     KeyPress,
+
+    ScrollWheel,
 };
 
 struct UMouseButtonEvent
@@ -42,6 +44,12 @@ struct UMouseButtonEvent
 struct UMouseMoveEvent
 {
     Vector2i pos;
+};
+
+struct UMouseScrollEvent
+{
+    Vector2i screenPos;
+    int magnitude;
 };
 
 struct UKeyEvent
@@ -73,6 +81,7 @@ struct UEvent
         UMouseMoveEvent mouseMoveEvent;
         UKeyEvent keyEvent;
         UDragEvent dragEvent;
+        UMouseScrollEvent mouseScrollEvent;
     };
 };
 

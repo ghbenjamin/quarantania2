@@ -39,21 +39,3 @@ RenderObject createRectangleRObj(Vector2i dimensions, Colour colour)
 
     return obj;
 }
-
-Sprite createLine( Vector2i start, Vector2i end, int width, Colour colour )
-{
-    RenderObject obj{0, ShaderType::ColourShader};
- 
-    auto lineVerts = Math::getQuadForLine( start.convert<float>(), end.convert<float>(), (float)width );
-    obj.setScreenVerts( 0, lineVerts[0], lineVerts[1], lineVerts[2], lineVerts[3] );
-    
-    auto [r, g, b, a] = colour.asOpenGL();
-    obj.setColourVerts( 0, r, g, b, a );
-    
-    Vector2i dims = {
-        (int)std::abs( lineVerts[1].x() - lineVerts[0].x() ),
-        (int)std::abs( lineVerts[1].y() - lineVerts[0].y() )
-    };
-    
-    return Sprite{ obj, dims };
-}

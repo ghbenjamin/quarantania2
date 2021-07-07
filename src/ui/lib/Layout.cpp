@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include <ui/lib/Element.h>
+#include <ui/lib/ScrollHolder.h>
 #include <utils/Assert.h>
 
 using namespace UI;
@@ -441,4 +442,38 @@ Vector2i TriggeredLayout::doLayout()
     m_callback();
     
     return m_element->preferredContentSize();
+}
+
+VScrollLayout::VScrollLayout(ScrollHolder *elem)
+        : ElementLayout(elem), m_scrollHolder(elem) {}
+
+Vector2i VScrollLayout::doLayout()
+{
+    Assert( m_element->children().size() == 1 );
+
+    // Get our size
+    auto contentSize = m_element->preferredContentSize();
+
+    // Get our child size
+    auto& child = m_element->children().front();
+    child->doLayout();
+    auto childBounds = child->outerBounds();
+
+    // We need to be at least as large as our child
+    if ( contentSize.x() < childBounds.w() )
+    {
+        contentSize.x( childBounds.w() );
+    }
+
+
+    int scrollHeightDiff = childBounds.h() - contentSize.y();
+    float scrollPercent = m_scrollHolder->getScrollPercentage();
+    int scrollOffset = (int)( scrollPercent * (float) scrollHeightDiff );
+
+    child->setLocalPosition({
+            contentSize.x() / 2 - childBounds.w() / 2,  // Center horizontally
+            -scrollOffset
+    });
+
+    return contentSize;
 }

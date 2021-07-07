@@ -21,9 +21,13 @@ enum class OverworldLocationType
 
 struct OverworldLocation
 {
+    int index = 0;
+    int floor = 0;
     OverworldLocationType type;
     Vector2i gridPos;
     Vector2i displayOffset;
+    bool completed = false;
+    bool visitable = false;
 };
 
 struct OverworldData

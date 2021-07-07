@@ -69,26 +69,6 @@ void RenderObject::setScreenVerts( int idx, float scX, float scY, float scW, flo
     m_data[idx*FLOATS_PER_QUAD+25] = scY + scH;
 }
 
-void
-RenderObject::setScreenVerts( int idx, Vector2f topLeft, Vector2f bottomRight, Vector2f bottomLeft, Vector2f topRight )
-{
-    // Top Left
-    m_data[idx*FLOATS_PER_QUAD+0] = topLeft.x();
-    m_data[idx*FLOATS_PER_QUAD+1] = topLeft.y();
-    
-    // Bottom Right
-    m_data[idx*FLOATS_PER_QUAD+8] = bottomRight.x();
-    m_data[idx*FLOATS_PER_QUAD+9] = bottomRight.y();
-    
-    // Bottom Left
-    m_data[idx*FLOATS_PER_QUAD+16] = bottomLeft.x();
-    m_data[idx*FLOATS_PER_QUAD+17] = bottomLeft.y();
-    
-    // Top Right
-    m_data[idx*FLOATS_PER_QUAD+24] = topRight.x();
-    m_data[idx*FLOATS_PER_QUAD+25] = topRight.y();
-}
-
 void RenderObject::setColourVerts( int idx, float r, float g, float b, float a )
 {
     for ( int i = 4; i < FLOATS_PER_QUAD; i += VERTEX_STRIDE_BYTES)

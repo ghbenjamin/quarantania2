@@ -4,6 +4,7 @@
 
 #include <game/Overworld.h>
 #include <ui/lib/Manager.h>
+#include <ui/lib/ScrollHolder.h>
 #include <game/OverworldFactory.h>
 #include <ui/overworld/LocationView.h>
 
@@ -37,9 +38,10 @@ void OverworldState::update( uint32_t ticks, InputInterface &iinter, RenderInter
 
 void OverworldState::setupUI()
 {
-    auto turnOrderContainer = m_ui->createElement<UI::LocationView>(nullptr, m_overworld.get());
-    m_ui->alignElementToWindow( turnOrderContainer, UI::Alignment::CentreLeft, {20, 0} );
-    
-    auto test = m_ui->createElement<UI::LocationPathItem>(nullptr, Vector2i{10, 20}, Vector2i{40, 50});
-    m_ui->alignElementToWindow( test, UI::Alignment::Centre, {0, 0} );
+    auto locationViewHolder = m_ui->createElement<UI::ScrollHolder>( nullptr );
+    locationViewHolder->setPreferredContentSize({1, 700});
+
+    m_ui->alignElementToWindow( locationViewHolder, UI::Alignment::Centre, {0, 0} );
+
+    auto locationView = m_ui->createElement<UI::LocationView>(locationViewHolder.get(), m_overworld.get());
 }
