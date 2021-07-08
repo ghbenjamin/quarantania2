@@ -33,7 +33,7 @@ void AISystem::update( uint32_t ticks, RenderInterface &rInter )
 {
     // Only update the AI system if there are enemy AIs in the action queue and the level is not
     // currently waiting for an animation to finish
-    if ( !m_entsToAct.empty() && !m_level->isAnimationBlocking() )
+    if ( !m_entsToAct.empty() && !m_level->animation().isBlocking() )
     {
         EntityRef eref = m_entsToAct[m_currEnt];
         auto const &aiC = m_level->ecs().getComponents<AIComponent>(eref);

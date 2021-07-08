@@ -1,9 +1,9 @@
 #include <game/GameEventHub.h>
-#include <game/Level.h>
+#include <game/AnimationQueue.h>
 
 
-GameEventHub::GameEventHub(Level* level)
-: m_level(level) {}
+GameEventHub::GameEventHub(AnimationQueue* animation)
+: m_animation(animation) {}
 
 void GameEventHub::popQueue()
 {
@@ -32,7 +32,7 @@ void GameEventHub::popQueue()
 void GameEventHub::pollAllEvents()
 {
     // Pause the event queue while we're waiting for an animation to finish
-    while ( !m_evtQueue.empty() && !m_level->isAnimationBlocking() )
+    while ( !m_evtQueue.empty() && !m_animation->isBlocking() )
     {
         popQueue();
     }

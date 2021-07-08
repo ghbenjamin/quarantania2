@@ -15,12 +15,12 @@
 #include <game/Defines.h>
 #include <game/Grid.h>
 #include <game/GameEventHub.h>
+#include <game/AnimationQueue.h>
 
 // Forward definitions
 class RenderInterface;
 class InputInterface;
 struct IEvent;
-class Animation;
 
 enum class LevelExitStatus
 {
@@ -51,7 +51,7 @@ public:
     GameEventHub& events();
     Camera& camera();
     ECS& ecs();
-
+    AnimationQueue& animation();
 
     // Coordinates
     Vector2i worldCoordsToScreen( Vector2i const& world ) const;
@@ -74,11 +74,6 @@ public:
     void switchTurn();                  // Toggle between the player turn and the AI turn
     void advanceRound();                // Move to the next round. Called automatically once the turn toggles twice
 
-    // Animation
-    void pushAnimation( std::unique_ptr<Animation>&& animation );
-    void setIsAnimationBlocking(bool value);
-    bool isAnimationBlocking() const;
-
     // Communication
     LevelExitStatus getLevelExitStatus() const;
     void setLevelExitStatus( LevelExitStatus status );
@@ -94,7 +89,6 @@ private:
     RenderObject generateTileRenderData();  // Construct the render object for our tile data
     void centerCameraOnParty();             // Centre the camera on the centroid of the positions of all party members
 
-
     // Misc
     RandomInterface m_random;
     LevelContextPtr m_ctx;
@@ -108,18 +102,17 @@ private:
     std::vector<BaseTileType> m_baseTilemap;
     Grid m_grid;
     Camera m_camera;
-
+    
+    // Animation
+    AnimationQueue m_animationQueue;
+    
     // Core
     GameEventHub m_gevents;
     ECS m_ecs;
 
-    // Animation
-    std::queue<std::unique_ptr<Animation>> m_blockingAnimationQueue;
-
     // State
     int m_currentRound;
     bool m_isPlayerTurn; // Is it currently the player's turn?
-    bool m_isAnimationBlocking;
 };
 
 using LevelPtr = std::unique_ptr<Level>;

@@ -2,10 +2,10 @@
 
 #include <components/All.h>
 #include <engine/InputInterface.h>
+#include <graphics/RenderInterface.h>
 #include <game/GameEventDefs.h>
 #include <game/Level.h>
 #include <game/ActionDefs.h>
-#include <graphics/RenderInterface.h>
 #include <resource/ResourceManager.h>
 #include <utils/GlobalConfig.h>
 #include <utils/Math.h>
@@ -21,9 +21,8 @@ Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
   m_currentRound(0),
   m_isPlayerTurn(true),
   m_tileRenderDirtyBit(true),
-  m_isAnimationBlocking(false),
   m_exitStatus(LevelExitStatus::None),
-  m_gevents(this)
+  m_gevents(&m_animationQueue)
 {
     layoutWindows();
 }
@@ -65,20 +64,7 @@ void Level::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInt
     }
 
     // Advance our animation state if necessary
-    if ( !m_blockingAnimationQueue.empty() )
-    {
-        auto& front = m_blockingAnimationQueue.front();
-        front->advance(ticks);
-
-        if (front->isComplete())
-        {
-            m_blockingAnimationQueue.pop();
-            if ( m_blockingAnimationQueue.empty() )
-            {
-                setIsAnimationBlocking(false);
-            }
-        }
-    }
+    m_animationQueue.update(ticks, iinter, rInter);
 
     // Update + render our entities
     m_ecs.update(ticks, iinter, rInter);
@@ -325,18 +311,7 @@ void Level::setLevelExitStatus( LevelExitStatus status )
     m_exitStatus = status;
 }
 
-void Level::pushAnimation(std::unique_ptr<Animation> && animation)
+AnimationQueue& Level::animation()
 {
-    setIsAnimationBlocking(true);
-    m_blockingAnimationQueue.push( std::move(animation) );
-}
-
-void Level::setIsAnimationBlocking(bool value)
-{
-    m_isAnimationBlocking = value;
-}
-
-bool Level::isAnimationBlocking() const
-{
-    return m_isAnimationBlocking;
+    return m_animationQueue;
 }
