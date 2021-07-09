@@ -190,4 +190,17 @@ struct ControllerEntityHovered : public GameEvent<ControllerEntitySelected>
     EntityRef entity;
 };
 
+
+// Overworld Events
+// ------------------------------
+
+struct OverworldLocationSelect : public GameEvent<OverworldLocationSelect>
+{
+    OverworldLocationSelect( int locationIdx );
+    ~OverworldLocationSelect() override = default;
+    
+    int locationIdx;
+};
+
+
 }

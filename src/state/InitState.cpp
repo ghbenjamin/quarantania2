@@ -57,13 +57,13 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
     PartyData pdata;
     pdata.playerChars = { p1, p2 };
     
-    // LEVEL START
-    auto ctx = std::make_shared<LevelContext>();
-    setNextState<LevelState>( ctx, pdata );
+//    // LEVEL START
+//    auto ctx = std::make_shared<LevelContext>();
+//    setNextState<LevelState>( ctx, pdata );
 
     
-//    // OVERWORLD START
-//    setNextState<OverworldState>();
+    // OVERWORLD START
+    setNextState<OverworldState>();
 }
 
 

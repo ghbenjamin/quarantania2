@@ -3,10 +3,11 @@
 #include <queue>
 #include <memory>
 
+#include <game/Animation.h>
+
 // Forward definitions
 class RenderInterface;
 class InputInterface;
-class Animation;
 
 class AnimationQueue
 {

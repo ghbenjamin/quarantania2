@@ -3,6 +3,8 @@
 #include <vector>
 #include <unordered_map>
 
+#include <game/GameEventHub.h>
+#include <game/AnimationQueue.h>
 #include <utils/Containers.h>
 #include <utils/Random.h>
 
@@ -38,7 +40,6 @@ struct OverworldData
 };
 
 
-
 class Overworld
 {
 public:
@@ -49,11 +50,14 @@ public:
     bool input(IEvent &evt);
     void update(std::uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     
+    GameEventHub& events();
     Vector2i const& gridSize() const;
     std::vector<OverworldLocation> const& locations();
     std::unordered_map<int, int> const& connections();
     
 private:
     OverworldData m_data;
+    AnimationQueue m_animation;
+    GameEventHub m_gevents;
     RandomGenerator m_rg;
 };

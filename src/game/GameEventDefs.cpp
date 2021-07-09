@@ -51,3 +51,6 @@ GameEvents::CombatAttackSucceeded::CombatAttackSucceeded( EntityRef attacker, En
 
 GameEvents::ControllerEntityHovered::ControllerEntityHovered( EntityRef entity )
     : entity(entity) {}
+
+GameEvents::OverworldLocationSelect::OverworldLocationSelect( int locationIdx )
+    : locationIdx(locationIdx) {}

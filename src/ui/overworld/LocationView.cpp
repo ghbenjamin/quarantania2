@@ -6,8 +6,8 @@
 using namespace UI;
 
 
-LocationViewItem::LocationViewItem( Manager *manager, Element *parent, OverworldLocation const *loc )
-        : Element(manager, parent), m_loc(loc)
+LocationViewItem::LocationViewItem( Manager *manager, Element *parent, Overworld* overworld, OverworldLocation const *loc )
+        : Element(manager, parent), m_loc(loc), m_overworld(overworld)
 {
     SpritesheetKey locSprite;
     switch ( loc->type )
@@ -39,11 +39,20 @@ LocationViewItem::LocationViewItem( Manager *manager, Element *parent, Overworld
         m_icon->getSprite().resetColourMod();
         ResourceManager::get().getWindow()->cursor().resetCursor();
     });
+    
+    addEventCallback( UEventType::Click, [this](UEvent const& evt) {
+        this->onClick();
+    });
 }
 
 void LocationViewItem::refresh()
 {
 
+}
+
+void LocationViewItem::onClick()
+{
+    m_overworld->events().broadcast<GameEvents::OverworldLocationSelect>( m_loc->index );
 }
 
 LocationView::LocationView( Manager *manager, Element *parent, Overworld *overworld )
@@ -59,7 +68,7 @@ LocationView::LocationView( Manager *manager, Element *parent, Overworld *overwo
     for ( auto const& loc : overworld->locations() )
     {
         Vector2i pos = loc.gridPos.hadamard( scaling );
-        auto locItem = manager->createElement<LocationViewItem>( this, &loc );
+        auto locItem = manager->createElement<LocationViewItem>( this, m_overworld, &loc );
         locItem->setLocalPosition( pos );
 
         m_locations.push_back(locItem);

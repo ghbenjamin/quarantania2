@@ -15,6 +15,8 @@ OverworldState::OverworldState()
     OverworldFactory factory;
     m_overworld = factory.createOverworld();
     
+    m_eventSub = std::make_unique<OverworldStateEventSub>( m_overworld.get() );
+    
     setupUI();
 }
 
@@ -44,4 +46,15 @@ void OverworldState::setupUI()
     m_ui->alignElementToWindow( locationViewHolder, UI::Alignment::Centre, {0, 0} );
 
     auto locationView = m_ui->createElement<UI::LocationView>(locationViewHolder.get(), m_overworld.get());
+}
+
+OverworldStateEventSub::OverworldStateEventSub( Overworld *parent )
+    : m_overworld(parent)
+{
+    m_overworld->events().subscribe<GameEvents::OverworldLocationSelect>( this );
+}
+
+void OverworldStateEventSub::operator()( GameEvents::OverworldLocationSelect &evt )
+{
+
 }

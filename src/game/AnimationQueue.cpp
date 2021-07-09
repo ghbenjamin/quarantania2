@@ -1,6 +1,4 @@
 #include <game/AnimationQueue.h>
-#include <game/Animation.h>
-
 #include <engine/InputInterface.h>
 #include <graphics/RenderInterface.h>
 
