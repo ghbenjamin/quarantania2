@@ -6,16 +6,9 @@ RunState::RunState()
     startTime = std::chrono::system_clock::now();
 }
 
-Utils::Json::Object RunState::serialize( Utils::Json::Document& doc ) const
+nlohmann::json RunState::serialize( ) const
 {
-    using namespace Utils::Json;
+    nlohmann::json json;
 
-    Utils::Json::Object out;
-    out.SetObject();
-
-    Value seedVal;
-    seedVal.SetString( this->seed.seed().c_str(), doc.GetAllocator() );
-    out.AddMember( "seed", seedVal, doc.GetAllocator() );
-
-    return out;
+    return json;
 }

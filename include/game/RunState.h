@@ -51,7 +51,7 @@ public:
     RunState();
     ~RunState() = default;
 
-    Utils::Json::Object serialize( Utils::Json::Document& doc ) const;
+    nlohmann::json serialize() const;
 
     // Globals
     std::chrono::time_point<std::chrono::system_clock> startTime;

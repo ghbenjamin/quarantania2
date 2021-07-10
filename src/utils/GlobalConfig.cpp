@@ -8,15 +8,13 @@ GlobalConfigInfo GlobalConfig::load(std::string const &path)
     GlobalConfigInfo info;
     auto doc = Utils::Json::loadFromPath( path );
 
-    info.windowTitle = doc.FindMember( "windowTitle" )->value.GetString();
-    info.maxFPS = doc.FindMember( "maxFPS" )->value.GetInt();
+    info.windowTitle = doc["windowTitle"];
+    info.maxFPS = doc["maxFPS"];
 
-    auto ssizeObj = doc.FindMember( "screenSize" )->value.GetObject();
-    int w = ssizeObj.FindMember( "w" )->value.GetInt();
-    int h = ssizeObj.FindMember( "h" )->value.GetInt();
-    info.screenSize = {w, h};
+    auto ssize = doc["screenSize"];
+    info.screenSize = { ssize["w"], ssize["h"] };
 
-    info.sizeToScreen = doc.FindMember( "sizeToScreen" )->value.GetBool();
+    info.sizeToScreen = doc["sizeToScreen"];
 
     return info;
 }

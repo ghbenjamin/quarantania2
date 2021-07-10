@@ -16,9 +16,6 @@ include_directories(include)
 file(GLOB_RECURSE CPP_SOURCE_LIST "src/*.cpp")
 add_library( quarantania2_lib STATIC ${CPP_SOURCE_LIST} )
 
-# Disable spurious warning from old version of RapidJson
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4996")
-
 # VCPKG Dependencies
 find_package(SDL2 CONFIG REQUIRED)
 target_link_libraries(quarantania2_lib PRIVATE SDL2::SDL2main SDL2::SDL2-static)
@@ -26,8 +23,8 @@ target_link_libraries(quarantania2_lib PRIVATE SDL2::SDL2main SDL2::SDL2-static)
 find_package(freetype CONFIG REQUIRED)
 target_link_libraries(quarantania2_lib PRIVATE freetype)
 
-find_package(RapidJSON CONFIG REQUIRED)
-target_include_directories(quarantania2_lib PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
+find_package(nlohmann_json CONFIG REQUIRED)
+target_link_libraries(quarantania2_lib PRIVATE nlohmann_json nlohmann_json::nlohmann_json)
 
 find_package(fmt CONFIG REQUIRED)
 target_link_libraries(quarantania2_lib PRIVATE fmt::fmt fmt::fmt-header-only)

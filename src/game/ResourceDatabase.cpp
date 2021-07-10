@@ -18,9 +18,7 @@ ResourceDatabase::ResourceDatabase()
 ItemData ResourceDatabase::itemFromName(std::string_view name)
 {
     auto it = std::find_if( m_itemData.begin(), m_itemData.end(),
-            [name](auto const& item){
-        return item.name == name;
-    });
+        [name](auto const& item){ return item.name == name; });
 
     AssertMsg( it != m_itemData.end(), fmt::format( "Unexpected item: {}", name ) );
     return ItemData( *it );
@@ -29,9 +27,7 @@ ItemData ResourceDatabase::itemFromName(std::string_view name)
 WeaponData ResourceDatabase::weaponFromName(std::string_view name)
 {
     auto it = std::find_if( m_weaponData.begin(), m_weaponData.end(),
-            [name](auto const& item){
-                return item.itemName == name;
-            });
+        [name](auto const& item){ return item.itemName == name; });
 
     Assert( it != m_weaponData.end() );
     return WeaponData( *it );
@@ -40,9 +36,7 @@ WeaponData ResourceDatabase::weaponFromName(std::string_view name)
 CreatureData ResourceDatabase::creatureFromName(std::string_view name)
 {
     auto it = std::find_if( m_creatureData.begin(), m_creatureData.end(),
-            [name](auto const& item){
-                return item.name == name;
-            });
+        [name](auto const& item){ return item.name == name; });
 
     AssertMsg( it != m_creatureData.end(), fmt::format("Unknown creature '{}'", name)  );
     return CreatureData( *it );
@@ -51,9 +45,7 @@ CreatureData ResourceDatabase::creatureFromName(std::string_view name)
 RawPlayerRaceData ResourceDatabase::playerRaceFromName(std::string_view name)
 {
     auto it = std::find_if( m_playerRaceData.begin(), m_playerRaceData.end(),
-            [name](auto const& item){
-                return item.name == name;
-            });
+        [name](auto const& item){ return item.name == name; });
 
     Assert( it != m_playerRaceData.end() );
     return RawPlayerRaceData( *it );
@@ -62,9 +54,7 @@ RawPlayerRaceData ResourceDatabase::playerRaceFromName(std::string_view name)
 RawPlayerClassData ResourceDatabase::playerClassFromName(std::string_view name)
 {
     auto it = std::find_if( m_playerClassData.begin(), m_playerClassData.end(),
-            [name](auto const& item){
-                return item.name == name;
-            });
+        [name](auto const& item){ return item.name == name; });
 
     Assert( it != m_playerClassData.end() );
     return RawPlayerClassData( *it );
@@ -73,9 +63,7 @@ RawPlayerClassData ResourceDatabase::playerClassFromName(std::string_view name)
 ArmourData ResourceDatabase::armourFromName(std::string_view name)
 {
     auto it = std::find_if( m_armourData.begin(), m_armourData.end(),
-            [name](auto const& item){
-                return item.itemName == name;
-            });
+        [name](auto const& item){ return item.itemName == name; });
 
     Assert( it != m_armourData.end() );
     return ArmourData( *it );
@@ -84,9 +72,7 @@ ArmourData ResourceDatabase::armourFromName(std::string_view name)
 RawObjectData ResourceDatabase::objectFromName(std::string_view name)
 {
     auto it = std::find_if( m_objectData.begin(), m_objectData.end(),
-            [name](auto const& item){
-                return item.name == name;
-            });
+        [name](auto const& item){ return item.name == name; });
 
     Assert( it != m_objectData.end() );
     return RawObjectData( *it );
@@ -95,9 +81,7 @@ RawObjectData ResourceDatabase::objectFromName(std::string_view name)
 ActionData ResourceDatabase::actionFromId(std::string_view id)
 {
     auto it = std::find_if( m_actionData.begin(), m_actionData.end(),
-            [id](auto const& item){
-                return item.id == id;
-            });
+        [id](auto const& item){ return item.id == id; });
 
     Assert( it != m_actionData.end() );
     return ActionData( *it );
@@ -106,9 +90,7 @@ ActionData ResourceDatabase::actionFromId(std::string_view id)
 FeatData ResourceDatabase::featFromId( std::string_view id )
 {
     auto it = std::find_if( m_featData.begin(), m_featData.end(),
-                            [id](auto const& item){
-                                return item.id == id;
-                            });
+        [id](auto const& item){ return item.id == id; });
     
     Assert( it != m_featData.end() );
     return FeatData( *it );
@@ -118,119 +100,113 @@ FeatData ResourceDatabase::featFromId( std::string_view id )
 void ResourceDatabase::loadAllCreatureData()
 {
     auto doc = Utils::Json::loadFromPath( "../resource/data/creatures.json" );
-    for ( auto const& cr_raw : doc.GetArray() )
+    for ( auto const& cr : doc )
     {
         CreatureData rcd;
-        auto cr = cr_raw.GetObject();
 
-        rcd.name = cr.FindMember( "name" )->value.GetString();
-        rcd.alignment = EnumParse::alignment(cr.FindMember("alignment")->value.GetString());
-        rcd.creatureType = cr.FindMember("creature_type" )->value.GetString();
-        rcd.sprite = { cr.FindMember( "sprite" )->value.GetString() };
+        rcd.name = cr["name"];
+        rcd.alignment = EnumParse::alignment( cr["alignment"] );
+        rcd.creatureType = cr["creature_type"];
+        rcd.sprite = { cr["sprite"] };
+        rcd.experience = cr["xp"];
+        rcd.maxHP = cr["hp"];
+        rcd.attrStr = cr["attr_str"];
+        rcd.attrDex = cr["attr_dex"];
+        rcd.attrCon = cr["attr_con"];
+        rcd.attrInt = cr["attr_int"];
+        rcd.attrWis = cr["attr_wis"];
+        rcd.attrCha = cr["attr_cha"];
+        rcd.saveFort = cr["save_fort"];
+        rcd.saveRef = cr["save_ref"];
+        rcd.saveWill = cr["save_will"];
+        rcd.baseAttackBonus = cr["base_attack"];
+        rcd.combatManeuverBonus = cr["cmb"];
+        rcd.combatManeuverDefence = cr["cmd"];
+        rcd.initiative = cr["initative"];
+        rcd.speed = cr["speed"];
 
-        rcd.experience = cr.FindMember( "xp" )->value.GetInt();
-        rcd.maxHP = cr.FindMember( "hp" )->value.GetInt();
-        rcd.attrStr = cr.FindMember("attr_str")->value.GetInt();
-        rcd.attrDex = cr.FindMember("attr_dex")->value.GetInt();
-        rcd.attrCon = cr.FindMember("attr_con")->value.GetInt();
-        rcd.attrInt = cr.FindMember("attr_int")->value.GetInt();
-        rcd.attrWis = cr.FindMember("attr_wis")->value.GetInt();
-        rcd.attrCha = cr.FindMember("attr_cha")->value.GetInt();
-        rcd.saveFort = cr.FindMember("save_fort")->value.GetInt();
-        rcd.saveRef = cr.FindMember("save_ref")->value.GetInt();
-        rcd.saveWill = cr.FindMember("save_will")->value.GetInt();
-        rcd.baseAttackBonus = cr.FindMember("base_attack")->value.GetInt();
-        rcd.combatManeuverBonus = cr.FindMember("cmb")->value.GetInt();
-        rcd.combatManeuverDefence = cr.FindMember("cmd")->value.GetInt();
-        rcd.initiative = cr.FindMember("initative")->value.GetInt();
-        rcd.speed = cr.FindMember("speed")->value.GetInt();
-
-        if ( cr.HasMember("description") )
+        if ( cr.contains("description") )
         {
-            rcd.description = cr.FindMember( "description" )->value.GetString();
+            rcd.description = cr["description"];
         }
 
-        if ( cr.HasMember("creature_subtype") )
+        if ( cr.contains("creature_subtype") )
         {
-            auto subtypeArr = cr.FindMember("creature_subtype" )->value.GetArray();
-            for ( auto const& stype : subtypeArr )
+            auto subtypeArr = cr["creature_subtype"];
+            for ( auto const& stype : subtypeArr.items() )
             {
-                rcd.creatureSubtypes.emplace_back( stype.GetString() );
+                rcd.creatureSubtypes.emplace_back( stype.value().get<std::string>() );
             }
         }
 
-        if ( cr.HasMember("damage_resistance") )
+        if ( cr.contains("damage_resistance") )
         {
-            for (auto const& dr : cr.FindMember("damage_resistance")->value.GetObject() )
+            for (auto const& dr : cr["damage_resistance"].items() )
             {
-                std::string k = dr.name.GetString();
-                int v = dr.value.GetInt();
+                std::string k = dr.key();
+                int v = dr.value();
                 rcd.damageResistance[k] = v;
             }
         }
 
-        if ( cr.HasMember("elemental_resistance") )
+        if ( cr.contains("elemental_resistance") )
         {
-            for (auto const& dr : cr.FindMember("elemental_resistance")->value.GetObject() )
+            for (auto const& dr : cr["elemental_resistance"].items() )
             {
-                ElementalDamageType k = EnumParse::elementalDamageType( dr.name.GetString() );
-                int v = dr.value.GetInt();
+                ElementalDamageType k = EnumParse::elementalDamageType( dr.key() );
+                int v = dr.value();
                 rcd.elementalResistance[k] = v;
             }
         }
 
-        if ( cr.HasMember("feats") )
+        if ( cr.contains("feats") )
         {
-            auto featsArr = cr.FindMember("feats" )->value.GetArray();
-            for ( auto const& feat : featsArr )
+            for ( auto const& feat : cr["feats"].items() )
             {
-                rcd.feats.emplace_back( feat.GetString() );
+                rcd.feats.emplace_back( feat.value() );
             }
         }
 
-        if ( cr.HasMember("immune") )
+        if ( cr.contains("immune") )
         {
-            auto immuneArr = cr.FindMember( "immune" )->value.GetArray();
-            for ( auto const& immune : immuneArr )
+            for ( auto const& immune : cr["immune"].items() )
             {
-                rcd.immune.emplace_back( immune.GetString() );
+                rcd.immune.emplace_back( immune.value() );
             }
         }
 
-        if ( cr.HasMember("senses") )
+        if ( cr.contains("senses") )
         {
-            auto sensesArr = cr.FindMember( "senses" )->value.GetArray();
-            for ( auto const& senses : sensesArr )
+            for ( auto const& senses : cr["senses"].items() )
             {
-                rcd.senses.emplace_back( senses.GetString() );
+                rcd.senses.emplace_back( senses.value() );
             }
         }
 
-        if ( cr.HasMember("weaknesses") )
+        if ( cr.contains("weaknesses") )
         {
-            auto weaknessArr = cr.FindMember( "weaknesses" )->value.GetArray();
-            for ( auto const& weakness : weaknessArr )
+            for ( auto const& weakness : cr["weaknesses"].items() )
             {
-                rcd.weaknesses.emplace_back( EnumParse::elementalDamageType( weakness.GetString() ) );
+                rcd.weaknesses.emplace_back( EnumParse::elementalDamageType( weakness.value() ) );
             }
         }
 
-        if ( cr.HasMember("melee") )
+        if ( cr.contains("melee") )
         {
-            auto meleeArr = cr.FindMember( "melee" )->value.GetArray();
-            for ( auto const& melee :meleeArr )
+            for ( auto const& melee : cr["melee"].items() )
             {
-                auto meleeObj = melee.GetObject();
+                auto meleeObj = melee.value();
+
                 CreatureAttack creatureAttack;
 
-                creatureAttack.name = meleeObj.FindMember("name")->value.GetString();
+                creatureAttack.name = meleeObj["name"];
                 creatureAttack.count = 1;
-                creatureAttack.toHit =  meleeObj.FindMember("to_hit")->value.GetInt();
-                creatureAttack.stats  = parseDiceRoll( meleeObj.FindMember("damage")->value.GetString() );
+                creatureAttack.toHit =  meleeObj["to_hit"];
+                creatureAttack.stats  = parseDiceRoll( meleeObj["damage"] );
 
-                if ( meleeObj.HasMember("count"))
+                if ( meleeObj.contains("count"))
                 {
-                    creatureAttack.count = meleeObj.FindMember("count")->value.GetInt();
+                    creatureAttack.count = meleeObj["count"];
                 }
 
                 rcd.attacks.push_back(creatureAttack);
@@ -245,50 +221,48 @@ void ResourceDatabase::loadAllCreatureData()
 void ResourceDatabase::loadAllItemData()
 {
     auto doc = Utils::Json::loadFromPath( "../resource/data/items.json" );
-    for ( auto const& it_raw : doc.GetArray() )
+    for ( auto const& it : doc )
     {
         ItemData rit;
-        auto it = it_raw.GetObject();
 
-        rit.name = it.FindMember( "name" )->value.GetString();
-        rit.weight = it.FindMember( "weight" )->value.GetInt();
-        rit.value = it.FindMember( "price" )->value.GetInt();
-        rit.description = it.FindMember( "description" )->value.GetString();
-        rit.itemType = it.FindMember("item_type" )->value.GetString();
-        rit.sprite = { it.FindMember( "sprite_sheet" )->value.GetString(),
-                       it.FindMember( "sprite_name" )->value.GetString()};
+        rit.name = it["name"];
+        rit.weight = it["weight"];
+        rit.value = it["price"];
+        rit.description = it["description"];
+        rit.itemType = it["item_type"];
+        rit.sprite = { it["sprite_sheet"].get<std::string>(), it["sprite_name"].get<std::string>() };
 
-        if ( it.HasMember( "aura_strength" ) )
+        if ( it.contains( "aura_strength" ) )
         {
-            rit.auraStrength = it.FindMember("aura_strength" )->value.GetString();
+            rit.auraStrength = it["aura_strength"];
         }
 
-        if ( it.HasMember( "aura_value" ) )
+        if ( it.contains( "aura_value" ) )
         {
-            rit.auraValue = it.FindMember("aura_value" )->value.GetString();
+            rit.auraValue = it["aura_value"];
         }
 
-        if ( it.HasMember( "slot" ) )
+        if ( it.contains( "slot" ) )
         {
-            rit.slot = it.FindMember( "slot" )->value.GetString();
+            rit.slot = it["slot"];
         }
 
-        if ( it.HasMember( "weapon" ) )
+        if ( it.contains( "weapon" ) )
         {
             WeaponData rwd;
-            auto wObj = it.FindMember( "weapon" )->value.GetObject();
+            auto wObj = it["weapon"];
 
             rwd.itemName = rit.name;
-            rwd.critLower = wObj.FindMember("crit_lower" )->value.GetInt();
-            rwd.critMult = wObj.FindMember("crit_mult" )->value.GetInt();
+            rwd.critLower = wObj["crit_lower"];
+            rwd.critMult = wObj["crit_mult"];
             rwd.damage = {
-                    wObj.FindMember( "damage_dcount" )->value.GetInt(),
-                    wObj.FindMember( "damage_dsize" )->value.GetInt(),
+                    wObj[ "damage_dcount"],
+                    wObj[ "damage_dsize"],
             };
 
-            rwd.damageType = wObj.FindMember("damage_type" )->value.GetString();
+            rwd.damageType = wObj["damage_type"];
 
-            std::string weaponClass = wObj.FindMember("weapon_class" )->value.GetString();
+            std::string weaponClass = wObj["weapon_class"];
             if ( stringContains(weaponClass, "Melee") )
             {
                 rwd.weaponType = WeaponType::Melee;
@@ -302,12 +276,12 @@ void ResourceDatabase::loadAllItemData()
                 AssertAlwaysMsg( fmt::format( "Unknown weapon class", weaponClass ) );
             }
 
-            if ( wObj.HasMember("Special") )
+            if ( wObj.contains("Special") )
             {
-                rwd.specials = wObj.FindMember( "Special" )->value.GetString();
+                rwd.specials = wObj["Special"];
             }
 
-            std::string profStr = wObj.FindMember( "proficiency" )->value.GetString();
+            std::string profStr = wObj["proficiency"];
             if ( profStr == "Simple" )
             {
                 rwd.proficiency = WeaponProficiency::Simple;
@@ -324,55 +298,55 @@ void ResourceDatabase::loadAllItemData()
             m_weaponData.push_back( std::move(rwd) );
         }
 
-        if ( it.HasMember( "armour" ) )
+        if ( it.contains( "armour" ) )
         {
             ArmourData rad;
-            auto aObj = it.FindMember("armour")->value.GetObject();
+            auto aObj = it["armour"];
 
             rad.itemName = rit.name;
 
-            if ( aObj.HasMember("Arcane Spell Failure Chance") )
+            if ( aObj.contains("Arcane Spell Failure Chance") )
             {
-                rad.arcaneFailureChance = aObj.FindMember( "Arcane Spell Failure Chance" )->value.GetInt();
+                rad.arcaneFailureChance = aObj[ "Arcane Spell Failure Chance" ];
             }
 
-            if ( aObj.HasMember("Armour Bonus") )
+            if ( aObj.contains("Armour Bonus") )
             {
-                rad.armourBonus = aObj.FindMember( "Armour Bonus" )->value.GetInt();
+                rad.armourBonus = aObj[ "Armour Bonus" ];
             }
 
-            if ( aObj.HasMember("Shield Bonus") )
+            if ( aObj.contains("Shield Bonus") )
             {
-                rad.shieldBonus = aObj.FindMember( "Shield Bonus" )->value.GetInt();
+                rad.shieldBonus = aObj[ "Shield Bonus" ];
             }
 
-            if ( aObj.HasMember("Armor Check Penalty") )
+            if ( aObj.contains("Armor Check Penalty") )
             {
-                rad.armourCheck = aObj.FindMember( "Armor Check Penalty" )->value.GetInt();
+                rad.armourCheck = aObj[ "Armor Check Penalty" ];
             }
 
-            if ( aObj.HasMember("Maximum Dex Bonus") )
+            if ( aObj.contains("Maximum Dex Bonus") )
             {
-                rad.maxDex = aObj.FindMember( "Maximum Dex Bonus" )->value.GetInt();
+                rad.maxDex = aObj[ "Maximum Dex Bonus" ];
             }
             else
             {
                 rad.maxDex = std::numeric_limits<int>::max();
             }
 
-            if ( aObj.HasMember("Speed 20") )
+            if ( aObj.contains("Speed 20") )
             {
-                rad.speed20 = aObj.FindMember( "Speed 20" )->value.GetInt();
+                rad.speed20 = aObj[ "Speed 20" ];
             }
 
-            if ( aObj.HasMember("Speed 30") )
+            if ( aObj.contains("Speed 30") )
             {
-                rad.speed30 = aObj.FindMember( "Speed 30" )->value.GetInt();
+                rad.speed30 = aObj[ "Speed 30" ];
             }
 
-            if ( aObj.HasMember("Armor Type") )
+            if ( aObj.contains("Armor Type") )
             {
-                rad.armourType = aObj.FindMember("Armor Type" )->value.GetString();
+                rad.armourType = aObj["Armor Type"];
             }
 
             m_armourData.push_back( std::move(rad) );
@@ -387,41 +361,37 @@ void ResourceDatabase::loadAllPlayerData()
 {
     auto doc = Utils::Json::loadFromPath( "../resource/data/player.json" );
 
-    auto classesArr = doc.FindMember( "classes" )->value.GetArray();
-    for ( auto const& item : classesArr )
+    for ( auto const& itemObj : doc["classes"] )
     {
         RawPlayerClassData pcd;
-        auto itemObj = item.GetObject();
 
-        pcd.name = itemObj.FindMember("name")->value.GetString();
-        pcd.description = itemObj.FindMember("description")->value.GetString();
-        pcd.hitDie = itemObj.FindMember( "hit_die" )->value.GetInt();
-        pcd.skillsPerLevel = itemObj.FindMember( "skills_per_level" )->value.GetInt();
+        pcd.name = itemObj["name"];
+        pcd.description = itemObj["description"];
+        pcd.hitDie = itemObj["hit_die"];
+        pcd.skillsPerLevel = itemObj["skills_per_level"];
 
-        auto babArr = itemObj.FindMember( "bab_by_level" )->value.GetArray();
-        auto fortArr = itemObj.FindMember( "fort_by_level" )->value.GetArray();
-        auto refArr = itemObj.FindMember( "ref_by_level" )->value.GetArray();
-        auto willArr = itemObj.FindMember( "will_by_level" )->value.GetArray();
+        auto babArr = itemObj["bab_by_level"];
+        auto fortArr = itemObj["fort_by_level"];
+        auto refArr = itemObj["ref_by_level"];
+        auto willArr = itemObj["will_by_level"];
 
         for ( int i = 0; i < 20; i++ )
         {
-            pcd.babByLevel[i] = babArr[i].GetInt();
-            pcd.fortByLevel[i] = fortArr[i].GetInt();
-            pcd.refByLevel[i] = refArr[i].GetInt();
-            pcd.willByLevel[i] = willArr[i].GetInt();
+            pcd.babByLevel[i] = babArr[i];
+            pcd.fortByLevel[i] = fortArr[i];
+            pcd.refByLevel[i] = refArr[i];
+            pcd.willByLevel[i] = willArr[i];
         }
 
         m_playerClassData.push_back( pcd );
     }
 
-    auto racesArr = doc.FindMember( "races" )->value.GetArray();
-    for ( auto const& item : racesArr )
+    for ( auto const& itemObj : doc["races"] )
     {
         RawPlayerRaceData prd;
-        auto itemObj = item.GetObject();
 
-        prd.name = itemObj.FindMember("name")->value.GetString();
-        prd.baseSpeed = itemObj.FindMember("base_speed")->value.GetInt();
+        prd.name = itemObj["name"];
+        prd.baseSpeed = itemObj["base_speed"];
 
         m_playerRaceData.push_back(prd);
     }
@@ -432,20 +402,18 @@ void ResourceDatabase::loadAllPlayerData()
 void ResourceDatabase::loadAllObjectData()
 {
     auto doc = Utils::Json::loadFromPath( "../resource/data/objects.json" );
-    for ( auto const& it_raw : doc.GetArray() )
+    for ( auto const& it : doc )
     {
         RawObjectData robj;
-        auto it = it_raw.GetObject();
 
-        robj.name = it.FindMember("name")->value.GetString();
-        robj.description = it.FindMember("description")->value.GetString();
-        robj.type = it.FindMember("type")->value.GetString();
+        robj.name = it["name"];
+        robj.description = it["description"];
+        robj.type = it["type"];
 
-        for ( auto const& sprite_node : it.FindMember("sprites")->value.GetArray() )
+        for ( auto const& sprite_obj : it["sprites"] )
         {
-            auto sprite_obj = sprite_node.GetObject();
-            robj.sprites.emplace_back( sprite_obj.FindMember("sprite_sheet")->value.GetString(),
-                    sprite_obj.FindMember("sprite_name")->value.GetString() );
+            robj.sprites.emplace_back( sprite_obj["sprite_sheet"].get<std::string>(),
+                    sprite_obj["sprite_name"].get<std::string>() );
         }
 
         m_objectData.push_back( robj );
@@ -455,15 +423,14 @@ void ResourceDatabase::loadAllObjectData()
 void ResourceDatabase::loadAllActionData()
 {
     auto doc = Utils::Json::loadFromPath( "../resource/data/actions.json" );
-    for ( auto const& it_raw : doc.GetArray() )
+    for ( auto const& it : doc )
     {
         ActionData robj;
-        auto it = it_raw.GetObject();
 
-        robj.name = it.FindMember("name")->value.GetString();
-        robj.id = it.FindMember("id")->value.GetString();
+        robj.name = it["name"];
+        robj.id = it["id"];
 
-        std::string typeStr = it.FindMember("type")->value.GetString();
+        std::string typeStr = it["type"];
         if (typeStr == "move")
         {
             robj.type = RawActionDataType::Move;
@@ -477,10 +444,10 @@ void ResourceDatabase::loadAllActionData()
             AssertAlwaysMsg( fmt::format("Unknown action type: '{}'", typeStr) );
         }
 
-        robj.speed = EnumParse::actionSpeed( it.FindMember("speed")->value.GetString() );
-        robj.provokes = it.FindMember("provokes")->value.GetBool();
-        robj.description = it.FindMember("description")->value.GetString();
-        robj.sprite = SpritesheetKey{ it.FindMember("icon")->value.GetString() };
+        robj.speed = EnumParse::actionSpeed( it["speed"] );
+        robj.provokes = it["provokes"];
+        robj.description = it["description"];
+        robj.sprite = SpritesheetKey{ it["icon"] };
 
         m_actionData.push_back(robj);
     }
@@ -489,16 +456,15 @@ void ResourceDatabase::loadAllActionData()
 void ResourceDatabase::loadAllFeatData()
 {
     auto doc = Utils::Json::loadFromPath( "../resource/data/feats.json" );
-    for ( auto const& it_raw : doc.GetArray() )
+    for ( auto const& it : doc )
     {
         FeatData robj;
-        auto it = it_raw.GetObject();
-    
-        robj.id = it.FindMember("id")->value.GetString();
-        robj.name = it.FindMember("name")->value.GetString();
-        robj.benefit = it.FindMember("benefit")->value.GetString();
-        robj.description = it.FindMember("desc")->value.GetString();
-        
+
+        robj.id = it["id"];
+        robj.name = it["name"];
+        robj.benefit = it["benefit"];
+        robj.description = it["desc"];
+
         m_featData.push_back(robj);
     }
 }

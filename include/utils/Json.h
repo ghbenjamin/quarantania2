@@ -1,14 +1,10 @@
 #pragma once
 
-#include <rapidjson/document.h>
+#include <nlohmann/json.hpp>
 
 namespace Utils::Json
 {
 
-using Document = rapidjson::Document;
-using Object = rapidjson::Value;
-using Value = rapidjson::Value;
-
-Document loadFromPath( std::string const& path );
+nlohmann::json loadFromPath( std::string const& path );
 
 }

@@ -87,37 +87,36 @@ void SpritesheetResource::load()
 #endif
 
     auto tex = std::make_shared<Texture>( "../resource/spritesheet/" + m_name + ".png" );
-
     auto doc = Utils::Json::loadFromPath( "../resource/spritesheet/" + m_name + ".json" );
 
-    auto metaObj = doc.FindMember( "meta" )->value.GetObject();
-    auto dataObj = doc.FindMember( "data" )->value.GetObject();
+    auto metaObj = doc["meta"];
+    auto dataObj = doc["data"];
 
-    std::string sheetType = metaObj.FindMember("type")->value.GetString();
+    std::string sheetType = metaObj["type"];
     if ( sheetType == "tiled" )
     {
         std::unordered_map<std::string, int> gidMap;
 
-        for ( auto& node : dataObj )
+        for ( auto& node : dataObj.items() )
         {
-            gidMap.emplace( node.name.GetString(), node.value.GetInt() );
+            gidMap.emplace( node.key(), node.value() );
         }
 
-        int marginVal = metaObj.FindMember( "margin" )->value.GetInt();
+        int marginVal = metaObj["margin"];
         m_spritesheet = std::make_shared<TiledSpritesheet>( tex, gidMap, marginVal );
     }
     else if ( sheetType == "free" )
     {
         std::unordered_map<std::string, RectI> rectMap;
 
-        for ( auto& node : dataObj )
+        for ( auto& node : dataObj.items() )
         {
-            auto rectData = node.value.GetArray();
-            rectMap.emplace( node.name.GetString(),
-                    RectI{ rectData[0].GetInt(),
-                           rectData[1].GetInt(),
-                           rectData[2].GetInt(),
-                           rectData[3].GetInt()
+            auto rectData = node.value();
+            rectMap.emplace( node.key(),
+                    RectI{ rectData[0],
+                           rectData[1],
+                           rectData[2],
+                           rectData[3]
             });
         }
 
@@ -144,21 +143,19 @@ NinePatchResource::NinePatchResource(const std::string &name)
 void NinePatchResource::load()
 {
     m_texture = std::make_shared<Texture>( "../resource/ninepatch/" + m_name + ".png" );
-
     auto doc = Utils::Json::loadFromPath( "../resource/ninepatch/" + m_name + ".json" );
 
-    m_borderWidth = doc.FindMember( "border_width" )->value.GetInt();
-    auto offsetArr = doc.FindMember("offsets")->value.GetArray();
-
+    m_borderWidth = doc["border_width"];
+    auto offsetArr = doc["offsets"];
 
     for ( int i = 0; i < 9; i++ )
     {
-        auto offArr = offsetArr[i].GetArray();
+        auto offArr = offsetArr[i];
         RectI offsetRect = {
-            offArr[0].GetInt(),
-            offArr[1].GetInt(),
-            offArr[2].GetInt(),
-            offArr[3].GetInt(),
+            offArr[0],
+            offArr[1],
+            offArr[2],
+            offArr[3],
         };
 
         m_offsets[i] = offsetRect;

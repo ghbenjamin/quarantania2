@@ -9,42 +9,37 @@
 
 TiledMap TiledMapLoader::load(const std::string &path)
 {
-// MSVC compiler error
-#ifdef GetObject
-#undef GetObject
-#endif
-
     auto doc = Utils::Json::loadFromPath( path );
 
-    m_map.width = doc.FindMember("width")->value.GetInt();
-    m_map.height = doc.FindMember("height")->value.GetInt();
-    m_map.tileHeight = doc.FindMember("tileheight")->value.GetInt();
-    m_map.tileWidth = doc.FindMember("tilewidth")->value.GetInt();
+    m_map.width = doc["width"];
+    m_map.height = doc["height"];
+    m_map.tileHeight = doc["tileheight"];
+    m_map.tileWidth = doc["tilewidth"];
 
-    for ( auto const& layer : doc.FindMember("tilesets")->value.GetArray() )
+    for ( auto const& layer : doc["tilesets"] )
     {
         TiledTileset ts;
-        ts.filename = layer.FindMember("source")->value.GetString();
-        ts.firstGid = layer.FindMember("firstgid")->value.GetInt();
+        ts.filename = layer["source"];
+        ts.firstGid = layer["firstgid"];
         ts.sheetName = std::filesystem::path(ts.filename).stem().string();
         m_map.tilesets.push_back(ts);
     }
 
-    for ( auto const& layer : doc.FindMember("layers")->value.GetArray() )
+    for ( auto const& layer : doc["layers"] )
     {
-        std::string layerType = layer.FindMember("type")->value.GetString();
+        std::string layerType = layer["type"];
         if ( layerType == "tilelayer" )
         {
             TiledTileLayer ttl;
 
-            ttl.width = layer.FindMember("width")->value.GetInt();
-            ttl.height = layer.FindMember("height")->value.GetInt();
-            ttl.xOffset = layer.FindMember("x")->value.GetInt();
-            ttl.yOffset = layer.FindMember("y")->value.GetInt();
-            ttl.name = layer.FindMember("name")->value.GetString();
-            ttl.rawData = layer.FindMember("data")->value.GetString();
-            ttl.encoding = layer.FindMember("encoding")->value.GetString();
-            ttl.compression = layer.FindMember("compression")->value.GetString();
+            ttl.width = layer["width"];
+            ttl.height = layer["height"];
+            ttl.xOffset = layer["x"];
+            ttl.yOffset = layer["y"];
+            ttl.name = layer["name"];
+            ttl.rawData = layer["data"];
+            ttl.encoding = layer["encoding"];
+            ttl.compression = layer["compression"];
 
             m_map.tileLayers.push_back(ttl);
         }
@@ -52,71 +47,70 @@ TiledMap TiledMapLoader::load(const std::string &path)
         {
             TiledObjectLayer tol;
 
-            tol.name = layer.FindMember("name")->value.GetString();
-            tol.xOffset = layer.FindMember("x")->value.GetInt();
-            tol.yOffset = layer.FindMember("y")->value.GetInt();
+            tol.name = layer["name"];
+            tol.xOffset = layer["x"];
+            tol.yOffset = layer["y"];
 
-            for ( auto const& object : layer.FindMember("objects")->value.GetArray() )
+            for ( auto const& object : layer["objects"] )
             {
                 TiledObjectData tod;
 
-                tod.name = object.FindMember("name")->value.GetString();
+                tod.name = object["name"];
 
-                if ( object.HasMember("properties") )
+                if ( object.contains("properties") )
                 {
-                    for ( auto const& prop : object.FindMember("properties")->value.GetArray() )
+                    for ( auto const& prop : object["properties"] )
                     {
-                        auto propObj = prop.GetObject();
-                        std::string name = propObj.FindMember("name")->value.GetString();
-                        std::string type = propObj.FindMember("type")->value.GetString();
+                        std::string name = prop["name"];
+                        std::string type = prop["type"];
                         JSONValue val;
 
                         if ( type == "string" )
                         {
-                            val = std::string(propObj.FindMember("value")->value.GetString());
+                            val = std::string(prop["value"]);
                         }
                         else if ( type == "bool" )
                         {
-                            val = propObj.FindMember("value")->value.GetBool();
+                            val = prop["value"].get<bool>();
                         }
                         else if ( type == "int" )
                         {
-                            val = propObj.FindMember("value")->value.GetInt();
+                            val = prop["value"].get<int>();
                         }
                         else if ( type == "color" )
                         {
-                            val = std::string(propObj.FindMember("value")->value.GetString());
+                            val = std::string(prop["value"]);
                         }
                         else if ( type == "float" )
                         {
-                            val = propObj.FindMember("value")->value.GetFloat();
+                            val = prop["value"].get<float>();
                         }
                         else
                         {
                             AssertAlwaysMsg( "unknown object prop type: " + type );
                         }
-                        
+
                         tod.props.emplace(name, val);
                     }
                 }
 
-                if ( object.HasMember("gid") )
+                if ( object.contains("gid") )
                 {
-                    int x = object.FindMember("x")->value.GetInt();
-                    int y = object.FindMember("y")->value.GetInt();
+                    int x = object["x"];
+                    int y = object["y"];
 
                     tod.rawPos = { x, y };
-                    tod.gid = object.FindMember("gid")->value.GetInt();
+                    tod.gid = object["gid"];
                     tod.sprite = resolveGid(tod.gid);
                 }
-                else if ( object.HasMember("point") )
+                else if ( object.contains("point") )
                 {
-                    float x = object.FindMember("x")->value.GetFloat();
-                    float y = object.FindMember("y")->value.GetFloat();
+                    float x = object["x"];
+                    float y = object["y"];
 
                     tod.rawPos = {
-                        (int) std::floorf(x),
-                        (int) std::floorf(y)
+                            (int) std::floorf(x),
+                            (int) std::floorf(y)
                     };
                 }
 
