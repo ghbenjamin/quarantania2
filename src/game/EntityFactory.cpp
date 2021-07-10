@@ -8,6 +8,7 @@
 #include <ai/BehaviourNodes.h>
 #include <ai/EntityTargetingScheme.h>
 #include <ai/BehaviourFactory.h>
+#include <game/RunState.h>
 
 EntityFactory::EntityFactory(Level* parent)
 : m_parent(parent) {}

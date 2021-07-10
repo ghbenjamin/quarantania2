@@ -4,7 +4,8 @@
 #include <fstream>
 #include <sstream>
 
-rapidjson::Document JsonUtils::loadFromPath(std::string const &path)
+
+rapidjson::Document Utils::Json::loadFromPath(std::string const &path)
 {
     std::ifstream fstream( path );
 

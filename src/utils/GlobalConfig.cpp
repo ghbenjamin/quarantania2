@@ -6,7 +6,7 @@ using namespace GlobalConfig;
 GlobalConfigInfo GlobalConfig::load(std::string const &path)
 {
     GlobalConfigInfo info;
-    rapidjson::Document doc = JsonUtils::loadFromPath( path );
+    auto doc = Utils::Json::loadFromPath( path );
 
     info.windowTitle = doc.FindMember( "windowTitle" )->value.GetString();
     info.maxFPS = doc.FindMember( "maxFPS" )->value.GetInt();

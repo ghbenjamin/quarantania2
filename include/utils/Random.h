@@ -57,3 +57,19 @@ private:
     RandomGenerator m_mt;
 
 };
+
+class RandomSeed
+{
+public:
+    RandomSeed( std::string const& seed );
+    RandomSeed();
+    ~RandomSeed() = default;
+
+    std::string const& seed() const;
+
+private:
+    static const std::string SeedChars;
+    static constexpr int SeedSize = 24;
+
+    std::string m_seed;
+};

@@ -3,9 +3,10 @@
 #include <utils/Assert.h>
 #include <game/ECS.h>
 #include <resource/ResourceManager.h>
+#include <game/RunState.h>
 
-FixedLevelFactory::FixedLevelFactory(TiledMap const* map, const LevelContextPtr &ctx, const PartyData &pdata)
-    : LevelFactory(), m_map(map), m_ctx(ctx), m_pdata(pdata) {}
+FixedLevelFactory::FixedLevelFactory(TiledMap const* map, const LevelContextPtr &ctx, std::shared_ptr<RunState> const& runState)
+    : LevelFactory(), m_map(map), m_ctx(ctx), m_runState(runState) {}
 
 
 std::unique_ptr<Level> FixedLevelFactory::createLevel()
@@ -14,7 +15,7 @@ std::unique_ptr<Level> FixedLevelFactory::createLevel()
 
     constructTiles();
     constructObjects();
-    constructParty(m_pdata);
+    constructParty();
     constructEnemies();
 
     m_level->setLayout(m_levelLayout);
@@ -187,17 +188,17 @@ void FixedLevelFactory::constructSpawnPoints(TiledObjectLayer const& olayer)
     }
 }
 
-void FixedLevelFactory::constructParty(const PartyData &pdata)
+void FixedLevelFactory::constructParty()
 {
     m_level->random().shuffle( m_playerSpawns );
 
-    AssertMsg( pdata.playerChars.size() <= m_playerSpawns.size(),
+    AssertMsg( m_runState->playerChars.size() <= m_playerSpawns.size(),
         "more players than spawns available" );
 
-    auto playerIt = pdata.playerChars.begin();
+    auto playerIt = m_runState->playerChars.begin();
     auto spawnIt = m_playerSpawns.begin();
 
-    for ( ; playerIt != pdata.playerChars.end(); playerIt++,spawnIt++ )
+    for ( ; playerIt != m_runState->playerChars.end(); playerIt++,spawnIt++ )
     {
         m_level->ecs().entityFactory().createPlayer( spawnIt->pos, *playerIt );
     }

@@ -1,7 +1,7 @@
 #include <game/Actor.h>
-#include <game/Player.h>
 #include <game/Level.h>
 #include <game/Attack.h>
+#include <game/RunState.h>
 
 Actor::Actor(Level* level, EntityRef ref, CreatureData const& rcd)
     : m_level(level),

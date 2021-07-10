@@ -1,4 +1,5 @@
 #include <utils/Random.h>
+#include <utils/Assert.h>
 
 RandomInterface::RandomInterface(RandomGenerator rg)
         : m_mt(rg) { }
@@ -41,4 +42,35 @@ int RandomInterface::randomInt(int lower, int upper)
 {
     std::uniform_int_distribution<> dist( lower, upper );
     return dist( m_mt );
+}
+
+const std::string RandomSeed::SeedChars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+
+RandomSeed::RandomSeed()
+{
+
+
+    std::random_device rd;
+    std::mt19937 twister( rd() );
+
+    m_seed.resize(SeedSize, ' ');
+
+    std::uniform_int_distribution<> seedGen( 0, SeedChars.size() );
+
+    for ( int i = 0; i < SeedSize; i++ )
+    {
+        auto idx = seedGen( twister );
+        m_seed[i] = SeedChars[idx];
+    }
+}
+
+std::string const &RandomSeed::seed() const
+{
+    return m_seed;
+}
+
+RandomSeed::RandomSeed(const std::string &seed )
+    : m_seed(seed)
+{
+    Assert( seed.size() == SeedSize );
 }

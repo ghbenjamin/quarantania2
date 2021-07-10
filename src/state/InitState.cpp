@@ -1,13 +1,10 @@
 #include <state/InitState.h>
-
-#include <game/Player.h>
 #include <game/LevelContext.h>
+#include <game/RunState.h>
 #include <state/LevelState.h>
 #include <state/OverworldState.h>
 
-InitState::InitState()
-{
-}
+InitState::InitState() {}
 
 bool InitState::input(IEvent &evt)
 {
@@ -16,6 +13,23 @@ bool InitState::input(IEvent &evt)
 
 void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
+    auto runState = generateNewRun();
+
+    Utils::Json::Document doc;
+    runState->serialize(doc);
+
+    // LEVEL START
+    auto ctx = std::make_shared<LevelContext>();
+    setNextState<LevelState>( ctx, runState );
+
+    
+//    // OVERWORLD START
+//    setNextState<OverworldState>();
+}
+
+std::shared_ptr<RunState> InitState::generateNewRun()
+{
+    auto state = std::make_shared<RunState>();
 
     PlayerData p1;
     p1.name = "Angus MacKenzie";
@@ -53,17 +67,9 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
 
     p2.startingEquippedItems.emplace_back( "Scimitar" );
 
+    state->playerChars = { p1, p2 };
 
-    PartyData pdata;
-    pdata.playerChars = { p1, p2 };
-    
-//    // LEVEL START
-//    auto ctx = std::make_shared<LevelContext>();
-//    setNextState<LevelState>( ctx, pdata );
-
-    
-    // OVERWORLD START
-    setNextState<OverworldState>();
+    return state;
 }
 
 

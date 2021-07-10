@@ -1,7 +1,11 @@
 #include <game/Overworld.h>
 
 Overworld::Overworld( OverworldData const &data, RandomGenerator const& rg )
-    : m_data(data), m_rg(rg), m_gevents(&m_animation) {}
+    : m_data(data), m_rg(rg), m_gevents(&m_animation)
+{
+    RandomSeed seed;
+    Logging::log( seed.seed() );
+}
 
 bool Overworld::input( IEvent &evt )
 {

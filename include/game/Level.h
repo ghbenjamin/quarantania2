@@ -8,7 +8,6 @@
 #include <engine/GridFeature.h>
 #include <engine/Camera.h>
 #include <game/GameEvent.h>
-#include <game/Player.h>
 #include <game/LevelData.h>
 #include <game/LevelContext.h>
 #include <game/ECS.h>

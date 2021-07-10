@@ -88,7 +88,7 @@ void SpritesheetResource::load()
 
     auto tex = std::make_shared<Texture>( "../resource/spritesheet/" + m_name + ".png" );
 
-    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/spritesheet/" + m_name + ".json" );
+    auto doc = Utils::Json::loadFromPath( "../resource/spritesheet/" + m_name + ".json" );
 
     auto metaObj = doc.FindMember( "meta" )->value.GetObject();
     auto dataObj = doc.FindMember( "data" )->value.GetObject();
@@ -145,7 +145,7 @@ void NinePatchResource::load()
 {
     m_texture = std::make_shared<Texture>( "../resource/ninepatch/" + m_name + ".png" );
 
-    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/ninepatch/" + m_name + ".json" );
+    auto doc = Utils::Json::loadFromPath( "../resource/ninepatch/" + m_name + ".json" );
 
     m_borderWidth = doc.FindMember( "border_width" )->value.GetInt();
     auto offsetArr = doc.FindMember("offsets")->value.GetArray();

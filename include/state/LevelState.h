@@ -7,7 +7,7 @@
 
 // Forward definitions
 class Level;
-struct PartyData;
+class RunState;
 struct LevelContext;
 class LevelController;
 class LSUISystem;
@@ -17,7 +17,7 @@ namespace UI { class Manager; }
 class LevelState : public GameState
 {
 public:
-    LevelState(std::shared_ptr<LevelContext> const& ctx, PartyData const& pgen );
+    LevelState(std::shared_ptr<LevelContext> const& ctx, std::shared_ptr<RunState> const& runState);
     ~LevelState() override = default;
 
     bool input(IEvent &evt) override;

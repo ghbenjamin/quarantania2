@@ -2,9 +2,13 @@
 
 #include <rapidjson/document.h>
 
-namespace JsonUtils
+namespace Utils::Json
 {
 
-rapidjson::Document loadFromPath( std::string const& path );
+using Document = rapidjson::Document;
+using Object = rapidjson::Value;
+using Value = rapidjson::Value;
+
+Document loadFromPath( std::string const& path );
 
 }

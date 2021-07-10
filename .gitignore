@@ -1,4 +1,4 @@
-cmake-build-debug
+cmake-build-*
 tools/data/PSRD-Data-release/
 tools/data/psrd_data_modified/
 *.db

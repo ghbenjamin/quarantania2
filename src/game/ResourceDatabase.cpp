@@ -117,7 +117,7 @@ FeatData ResourceDatabase::featFromId( std::string_view id )
 
 void ResourceDatabase::loadAllCreatureData()
 {
-    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/creatures.json" );
+    auto doc = Utils::Json::loadFromPath( "../resource/data/creatures.json" );
     for ( auto const& cr_raw : doc.GetArray() )
     {
         CreatureData rcd;
@@ -244,7 +244,7 @@ void ResourceDatabase::loadAllCreatureData()
 
 void ResourceDatabase::loadAllItemData()
 {
-    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/items.json" );
+    auto doc = Utils::Json::loadFromPath( "../resource/data/items.json" );
     for ( auto const& it_raw : doc.GetArray() )
     {
         ItemData rit;
@@ -385,7 +385,7 @@ void ResourceDatabase::loadAllItemData()
 
 void ResourceDatabase::loadAllPlayerData()
 {
-    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/player.json" );
+    auto doc = Utils::Json::loadFromPath( "../resource/data/player.json" );
 
     auto classesArr = doc.FindMember( "classes" )->value.GetArray();
     for ( auto const& item : classesArr )
@@ -431,7 +431,7 @@ void ResourceDatabase::loadAllPlayerData()
 
 void ResourceDatabase::loadAllObjectData()
 {
-    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/objects.json" );
+    auto doc = Utils::Json::loadFromPath( "../resource/data/objects.json" );
     for ( auto const& it_raw : doc.GetArray() )
     {
         RawObjectData robj;
@@ -454,7 +454,7 @@ void ResourceDatabase::loadAllObjectData()
 
 void ResourceDatabase::loadAllActionData()
 {
-    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/actions.json" );
+    auto doc = Utils::Json::loadFromPath( "../resource/data/actions.json" );
     for ( auto const& it_raw : doc.GetArray() )
     {
         ActionData robj;
@@ -488,7 +488,7 @@ void ResourceDatabase::loadAllActionData()
 
 void ResourceDatabase::loadAllFeatData()
 {
-    rapidjson::Document doc = JsonUtils::loadFromPath( "../resource/data/feats.json" );
+    auto doc = Utils::Json::loadFromPath( "../resource/data/feats.json" );
     for ( auto const& it_raw : doc.GetArray() )
     {
         FeatData robj;

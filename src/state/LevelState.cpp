@@ -12,13 +12,13 @@
 #include <ui/level/BetterTextLog.h>
 #include <ui/level/Composites.h>
 
-LevelState::LevelState(std::shared_ptr<LevelContext> const& ctx, PartyData const& pdata )
+LevelState::LevelState(std::shared_ptr<LevelContext> const& ctx, std::shared_ptr<RunState> const& runState )
 : m_levelCtx(ctx)
 {
     TiledMapLoader loader;
     TiledMap tm = loader.load( "../resource/maps/arena.json" );
 
-    FixedLevelFactory ffactory(&tm, m_levelCtx, pdata);
+    FixedLevelFactory ffactory(&tm, m_levelCtx, runState);
     m_level = ffactory.createLevel();
     m_ui = std::make_unique<UI::Manager>();
     setupUI();

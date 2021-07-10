@@ -14,7 +14,7 @@ TiledMap TiledMapLoader::load(const std::string &path)
 #undef GetObject
 #endif
 
-    rapidjson::Document doc = JsonUtils::loadFromPath( path );
+    auto doc = Utils::Json::loadFromPath( path );
 
     m_map.width = doc.FindMember("width")->value.GetInt();
     m_map.height = doc.FindMember("height")->value.GetInt();

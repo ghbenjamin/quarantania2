@@ -4,7 +4,7 @@
 
 struct TiledMap;
 struct TiledObjectLayer;
-
+class RunState;
 
 enum class RandomEnemyPower
 {
@@ -31,7 +31,7 @@ class FixedLevelFactory : public LevelFactory
 {
 public:
 
-    FixedLevelFactory(TiledMap const* map, const LevelContextPtr &ctx, const PartyData &pdata);
+    FixedLevelFactory(TiledMap const* map, const LevelContextPtr &ctx, std::shared_ptr<RunState> const& runState);
     ~FixedLevelFactory() override = default;
     
     std::unique_ptr<Level> createLevel() override;
@@ -46,7 +46,7 @@ private:
     void constructDecor(TiledObjectLayer const& olayer);
     void constructSpawnPoints(TiledObjectLayer const& olayer);
 
-    void constructParty(PartyData const& pdata);
+    void constructParty();
     void constructEnemies();
 
 
@@ -55,5 +55,5 @@ private:
 
     TiledMap const* m_map;
     const LevelContextPtr &m_ctx;
-    const PartyData &m_pdata;
+    std::shared_ptr<RunState> m_runState;
 };

@@ -1,13 +1,13 @@
 #pragma once
 
 #include <engine/Entity.h>
-#include <game/Player.h>
 #include <game/Items.h>
 #include <utils/Containers.h>
 #include <utils/Random.h>
 #include <resource/Tiled.h>
 
 class Level;
+struct PlayerData;
 
 class EntityFactory
 {
