@@ -14,8 +14,8 @@ bool InitState::input(IEvent &evt)
 void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
 {
     auto runState = generateNewRun();
-    auto serialized = runState->serialize();
-    Logging::log( serialized.dump(1) );
+//    auto serialized = runState->serialize();
+//    Logging::log( serialized.dump(1) );
 
     // LEVEL START
     auto ctx = std::make_shared<LevelContext>();
