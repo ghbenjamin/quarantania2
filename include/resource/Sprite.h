@@ -11,7 +11,7 @@ public:
 
     Sprite();   // Empty sprite
     Sprite(TexturePtr const& texture, RectI const& region); // Subregion of texture
-    Sprite(TexturePtr texture);     // Entire textire
+    Sprite(TexturePtr texture);     // Entire texture
     Sprite(RenderObject const& obj, Vector2i size); // From existing renderobject
     ~Sprite() = default;
 
@@ -31,9 +31,12 @@ public:
     void setAlphaMod( float alpha );
     void resetAlphaMod();
 
+    void setRotation( float rotation );
+
 private:
     Colour m_colour;
     TexturePtr m_texture;
     RenderObject m_renderObj;
     RectI m_screenBounds;
+    float m_rotation;
 };

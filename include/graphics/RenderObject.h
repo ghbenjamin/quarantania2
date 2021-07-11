@@ -67,6 +67,7 @@ public:
     void setScissor( RectI bounds );
     void removeScissor();
 
+    void setTransform( glm::mat4 const& transform );
 
     // Data accessors
     
@@ -78,6 +79,7 @@ public:
     TextureHandle getHandle() const;
     int getShaderType() const;
     RectI const& getScissor() const;
+    glm::mat4 const& getTransform() const;
     
 private:
     TextureHandle m_handle;
@@ -85,6 +87,7 @@ private:
     RectI m_scissor;
     int m_quadCount;
 
+    glm::mat4 m_transform;
     std::vector<GLfloat> m_data;
     std::vector<GLuint> m_indexes;
 

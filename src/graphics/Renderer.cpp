@@ -45,11 +45,15 @@ Renderer::Renderer( Vector2f initWndSize )
 
     m_textShader = ResourceManager::get().getShaderProgram( "text_shader" ).getProgram();
     m_textShader->setUniformMat4v( "model", m_identity );
+    m_textShader->setUniformMat4v( "localTransform", m_identity );
 
     m_colourShader = ResourceManager::get().getShaderProgram( "colour_only_shader" ).getProgram();
     m_colourShader->setUniformMat4v( "model", m_identity );
+    m_colourShader->setUniformMat4v( "localTransform", m_identity );
 
     m_quadShader = ResourceManager::get().getShaderProgram( "quad_shader" ).getProgram();
+    m_quadShader->setUniformMat4v( "localTransform", m_identity );
+
     m_noProjShader = ResourceManager::get().getShaderProgram( "no_projection" ).getProgram();
     
     m_sceneFadeout = ResourceManager::get().getShaderProgram( "scene_fadeout" ).getProgram();
@@ -57,12 +61,12 @@ Renderer::Renderer( Vector2f initWndSize )
 
     setWindowSize(initWndSize);
 
-    m_shaderHandles = {
-            m_quadShader->getHandle(),
-            m_textShader->getHandle(),
-            m_colourShader->getHandle(),
-            m_noProjShader->getHandle(),
-            m_sceneFadeout->getHandle()
+    m_allShaders = {
+        m_quadShader,
+        m_textShader,
+        m_colourShader,
+        m_noProjShader,
+        m_sceneFadeout
     };
 
     for (int i = 0; i < RENDER_LAYER_COUNT; i++)
@@ -182,15 +186,19 @@ void Renderer::releaseBuffer(RenderLayer layer)
 
 void Renderer::renderBuffer( RenderBuffer* buf )
 {
+    std::shared_ptr<ShaderProgram> currentShader;
     int currShader = -1;
     RectI currScissor = {0, 0, 0, 0};
+    glm::mat4 currentTransform = glm::mat4(1.0f);
 
     for ( auto obj : buf->renderObjs )
     {
         if ( obj.getShaderType() != currShader )
         {
             currShader = obj.getShaderType();
-            glUseProgram( m_shaderHandles[currShader] );
+            currentShader = m_allShaders[currShader];
+            currentShader->setUniformMat4v("localTransform", m_identity);
+            currentShader->useProgram();
         }
         if ( obj.getScissor() != currScissor )
         {
@@ -214,6 +222,11 @@ void Renderer::renderBuffer( RenderBuffer* buf )
                     currScissor.h()
                 );
             }
+        }
+        if ( obj.getTransform() != currentTransform )
+        {
+            currentTransform = obj.getTransform();
+            currentShader->setUniformMat4v("localTransform", currentTransform);
         }
         
         // Bind texture if exists (not all shaders need one)

@@ -69,7 +69,7 @@ private:
     std::shared_ptr<ShaderProgram> m_noProjShader;
     std::shared_ptr<ShaderProgram> m_sceneFadeout;
 
-    std::vector<ShaderHandle> m_shaderHandles;
+    std::vector<std::shared_ptr<ShaderProgram>> m_allShaders;
     
     // Transformation matrices for world and screen space render objects
     glm::mat4 m_cameraTransform;

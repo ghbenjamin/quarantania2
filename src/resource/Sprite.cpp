@@ -1,13 +1,14 @@
 #include <resource/Sprite.h>
 
 #include <utils/Assert.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 Sprite::Sprite()
-    : m_renderObj(0), m_colour(Colour::White)
+    : m_renderObj(0), m_colour(Colour::White), m_rotation(0)
 {}
 
 Sprite::Sprite(std::shared_ptr<Texture> const& texture, RectI const &region)
-    : m_texture(texture), m_renderObj( m_texture->handle() ), m_colour(Colour::White)
+    : m_texture(texture), m_renderObj( m_texture->handle() ), m_colour(Colour::White), m_rotation(0)
 {
     m_screenBounds.setRight( region.right() );
     auto regionf = region.convert<float>();
@@ -25,7 +26,7 @@ Sprite::Sprite(std::shared_ptr<Texture> const& texture, RectI const &region)
 }
 
 Sprite::Sprite(std::shared_ptr<Texture> texture)
-    : m_texture(texture), m_renderObj( m_texture->handle() ), m_colour(Colour::White)
+    : m_texture(texture), m_renderObj( m_texture->handle() ), m_colour(Colour::White), m_rotation(0)
 {
     m_screenBounds.setRight( m_texture->size() );
     
@@ -34,7 +35,7 @@ Sprite::Sprite(std::shared_ptr<Texture> texture)
 }
 
 Sprite::Sprite( RenderObject const &obj, Vector2i size )
-        : m_renderObj(obj), m_screenBounds(Vector2i{}, size) {}
+        : m_renderObj(obj), m_screenBounds(Vector2i{}, size), m_rotation(0) {}
 
 
 Sprite::operator bool() const
@@ -45,6 +46,16 @@ Sprite::operator bool() const
 RenderObject Sprite::renderObject(Vector2i const &pos)
 {
     setPosition( pos );
+
+    if ( m_rotation != 0 )
+    {
+        auto transform = glm::mat4(1.0f);
+        transform = glm::translate(transform, glm::vec3(pos.x() + m_screenBounds.w() / 2, pos.y() + m_screenBounds.h() / 2, 0.0f));
+        transform = glm::rotate(transform, glm::radians(m_rotation), glm::vec3(0.0f, 0.0f, 1.0f) );
+        transform = glm::translate(transform, glm::vec3(-pos.x() - m_screenBounds.w() / 2, -pos.y() - m_screenBounds.h() / 2, 0.0f));
+        m_renderObj.setTransform(transform);
+    }
+
     return m_renderObj;
 }
 
@@ -98,6 +109,11 @@ void Sprite::setAlphaMod( float alpha )
 void Sprite::resetAlphaMod()
 {
     m_renderObj.setAlphaVerts(0, 1.0f);
+}
+
+void Sprite::setRotation(float rotation)
+{
+    m_rotation = rotation;
 }
 
 

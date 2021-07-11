@@ -5,7 +5,8 @@ RenderObject::RenderObject(TextureHandle handle, ShaderType shader)
       m_shader(shader),
       m_scissor(0, 0, 0, 0),
       m_data(32, 0.0f),
-      m_quadCount(1)
+      m_quadCount(1),
+      m_transform(glm::mat4(1.0f))
 {
     m_data = {
         0.0f, 1.0f, 0, 0, 1.0f, 1.0f, 1.0f, 1.0f, // Top Left
@@ -138,7 +139,10 @@ int RenderObject::getShaderType() const
 
 bool RenderObject::canMerge( RenderObject const &other ) const
 {
-    return m_handle == other.m_handle && m_shader == other.m_shader && m_scissor == other.m_scissor;
+    return m_handle == other.m_handle
+        && m_shader == other.m_shader
+        && m_scissor == other.m_scissor
+        && m_transform == other.m_transform;
 }
 
 void RenderObject::setScissor( RectI bounds )
@@ -174,6 +178,16 @@ int RenderObject::getQuadCount() const
 void RenderObject::setShader( ShaderType type )
 {
     m_shader = type;
+}
+
+glm::mat4 const &RenderObject::getTransform() const
+{
+    return m_transform;
+}
+
+void RenderObject::setTransform(const glm::mat4 &transform)
+{
+    m_transform = transform;
 }
 
 
