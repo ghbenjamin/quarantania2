@@ -110,11 +110,13 @@ Renderer::~Renderer()
 
 void Renderer::render()
 {
+    // I cause massive flicker and I don't know why
+//    glClearColor(1, 1, 1, 1.0f);
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     // Render our scene to a framebuffer
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbFrameBuffer);
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    
     // Render most of the layers with the camera transform
     m_colourShader->setUniformMat4v( "model", m_cameraTransform );
     m_quadShader->setUniformMat4v( "model", m_cameraTransform );
@@ -132,13 +134,10 @@ void Renderer::render()
     m_colourShader->setUniformMat4v( "model", m_identity );
 
     renderBuffer( &m_buffers[(int)RenderLayer::UI] );
-
-
-
+    
     // Render the framebuffer to the screen
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glClear(GL_COLOR_BUFFER_BIT);
-
+    
     renderBuffer( &m_pprocessBuffer );
 }
 

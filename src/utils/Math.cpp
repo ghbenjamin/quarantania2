@@ -32,3 +32,18 @@ std::array<Vector2f, 4> Math::getQuadForLine( Vector2f lineBegin, Vector2f lineE
     out[3] = lineEnd + delta;   // BOTTOM RIGHT
     return out;
 }
+
+float Math::pointDistance( Vector2i p1, Vector2i p2 )
+{
+    int dx = p2.x() - p1.x();
+    int dy = p2.y() - p1.y();
+    return (float) std::sqrt( dx * dx + dy * dy );
+}
+
+Vector2i Math::centrePoint( Vector2i p1, Vector2i p2 )
+{
+    int dx = p2.x() - p1.x();
+    int dy = p2.y() - p1.y();
+
+    return Vector2i( p1.x() + dx / 2, p1.y() + dy / 2 );
+}

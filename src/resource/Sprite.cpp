@@ -51,7 +51,7 @@ RenderObject Sprite::renderObject(Vector2i const &pos)
     {
         auto transform = glm::mat4(1.0f);
         transform = glm::translate(transform, glm::vec3(pos.x() + m_screenBounds.w() / 2, pos.y() + m_screenBounds.h() / 2, 0.0f));
-        transform = glm::rotate(transform, glm::radians(m_rotation), glm::vec3(0.0f, 0.0f, 1.0f) );
+        transform = glm::rotate(transform, m_rotation, glm::vec3(0.0f, 0.0f, 1.0f) );
         transform = glm::translate(transform, glm::vec3(-pos.x() - m_screenBounds.w() / 2, -pos.y() - m_screenBounds.h() / 2, 0.0f));
         m_renderObj.setTransform(transform);
     }
@@ -115,5 +115,6 @@ void Sprite::setRotation(float rotation)
 {
     m_rotation = rotation;
 }
+
 
 

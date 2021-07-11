@@ -7,6 +7,7 @@
 #include <utility>
 #include <utils/GlobalConfig.h>
 #include <ui/lib/TransientMessage.h>
+#include <graphics/Primatives.h>
 
 using namespace UI;
 

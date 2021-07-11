@@ -34,9 +34,13 @@ public:
 
     void refresh();
 
+protected:
+    void updateSelf( uint32_t ticks, InputInterface &iinter, RenderInterface &rInter ) override;
+
 private:
     Overworld* m_overworld;
     std::vector<std::shared_ptr<LocationViewItem>> m_locations;
+    std::unordered_map<Vector2i, Sprite, Vector2iHash> m_connections;
 };
 
 

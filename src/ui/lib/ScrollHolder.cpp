@@ -4,7 +4,7 @@
 UI::ScrollHolder::ScrollHolder(UI::Manager *manager, UI::Element *parent)
         : Element(manager, parent), m_scrollPercentage(0.0f)
 {
-    setBackground( Colour::Pink.withAlphaF(0.4) );
+    setBackground( Colour::Pink.withAlphaF(0.4f) );
 
     auto layout = Utils::make_unique_with_type<ElementLayout, VScrollLayout>( this );
     setLayout( layout );

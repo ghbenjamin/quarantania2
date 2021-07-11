@@ -8,13 +8,13 @@
 // Foward definitions
 class Overworld;
 class OverworldStateEventSub;
+class RunState;
 namespace UI { class Manager; }
 
 class OverworldState : public GameState
 {
 public:
-    
-    OverworldState();
+    OverworldState(std::shared_ptr<RunState>);
     ~OverworldState() override = default;
 
     bool input(IEvent &evt) override;
@@ -22,13 +22,12 @@ public:
 
 private:
     void setupUI( );
-
+    
+    std::shared_ptr<RunState> m_runState;
     std::unique_ptr<Overworld> m_overworld;
     std::unique_ptr<UI::Manager> m_ui;
     std::unique_ptr<OverworldStateEventSub> m_eventSub;
 };
-
-
 
 
 

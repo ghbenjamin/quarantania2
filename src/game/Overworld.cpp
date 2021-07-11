@@ -1,10 +1,9 @@
 #include <game/Overworld.h>
+#include <graphics/RenderInterface.h>
 
 Overworld::Overworld( OverworldData const &data, RandomGenerator const& rg )
     : m_data(data), m_rg(rg), m_gevents(&m_animation)
 {
-    RandomSeed seed;
-    Logging::log( seed.seed() );
 }
 
 bool Overworld::input( IEvent &evt )
@@ -14,6 +13,8 @@ bool Overworld::input( IEvent &evt )
 
 void Overworld::update( uint32_t ticks, InputInterface &iinter, RenderInterface &rInter )
 {
+    rInter.setCameraOffset({0.0f, 0.0f});
+
     m_animation.update(ticks, iinter, rInter);
     
     m_gevents.pollAllEvents();

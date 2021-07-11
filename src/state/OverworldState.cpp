@@ -8,12 +8,13 @@
 #include <game/OverworldFactory.h>
 #include <ui/overworld/LocationView.h>
 
-OverworldState::OverworldState()
+OverworldState::OverworldState(std::shared_ptr<RunState> runState)
+    : m_runState(runState)
 {
     m_ui = std::make_unique<UI::Manager>();
 
     OverworldFactory factory;
-    m_overworld = factory.createOverworld();
+    m_overworld = factory.createOverworld( runState );
     
     m_eventSub = std::make_unique<OverworldStateEventSub>( m_overworld.get() );
     

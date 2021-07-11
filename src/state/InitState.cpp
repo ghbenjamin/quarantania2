@@ -18,12 +18,12 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
 //    Logging::log( serialized.dump(1) );
 
     // LEVEL START
-    auto ctx = std::make_shared<LevelContext>();
-    setNextState<LevelState>( ctx, runState );
+//    auto ctx = std::make_shared<LevelContext>();
+//    setNextState<LevelState>( ctx, runState );
 
     
 //    // OVERWORLD START
-//    setNextState<OverworldState>();
+    setNextState<OverworldState>( runState );
 }
 
 std::shared_ptr<RunState> InitState::generateNewRun()

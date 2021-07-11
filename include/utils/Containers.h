@@ -262,6 +262,11 @@ public:
         return SDL_PointInRect( &p, &m_rect ) == SDL_TRUE;
     }
 
+    Vector2<T> center( ) const
+    {
+        return Vector2<T>{ m_x + (m_w / 2), m_y + (m_h / 2) };
+    }
+
     const SDL_Rect &raw() const
     {
         return m_rect;
