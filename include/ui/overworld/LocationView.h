@@ -38,8 +38,12 @@ protected:
     void updateSelf( uint32_t ticks, InputInterface &iinter, RenderInterface &rInter ) override;
 
 private:
+
+    void addConnectionLine( Vector2i startPos, Vector2i endPos, int width, int margins );
+
+
     Overworld* m_overworld;
-    std::vector<std::shared_ptr<LocationViewItem>> m_locations;
+    std::unordered_map<Vector2i, std::shared_ptr<LocationViewItem>, Vector2iHash> m_locations;
     std::unordered_map<Vector2i, Sprite, Vector2iHash> m_connections;
 };
 

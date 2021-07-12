@@ -55,7 +55,7 @@ void LocationViewItem::refresh()
 
 void LocationViewItem::onClick()
 {
-    m_overworld->events().broadcast<GameEvents::OverworldLocationSelect>( m_loc->index );
+
 }
 
 LocationView::LocationView( Manager *manager, Element *parent, Overworld *overworld )
@@ -74,7 +74,7 @@ LocationView::LocationView( Manager *manager, Element *parent, Overworld *overwo
         auto locItem = manager->createElement<LocationViewItem>( this, m_overworld, &loc );
         locItem->setLocalPosition( pos );
 
-        m_locations.push_back(locItem);
+        m_locations.emplace(loc.gridPos, locItem);
     }
     
     // Create overworld connection elements
@@ -89,24 +89,8 @@ LocationView::LocationView( Manager *manager, Element *parent, Overworld *overwo
         Vector2i endLocHalfSize = endLoc->outerBounds().right() / 2;
         Vector2i startCenter( startLocPos + startLocHalfSize );
         Vector2i endCenter( endLocPos + endLocHalfSize );
-    
-        float dist = Math::pointDistance(startCenter, endCenter);
-        int rectWidth = 3;
-        int rectHeight = (int) dist - 40;
-        Vector2i rectSize = { rectWidth, rectHeight };
-    
-        auto sprite = createRectangle( rectSize, Colour::Red );
-        auto centrePoint = Math::centrePoint( startCenter, endCenter );
-        
-        centrePoint = centrePoint - rectSize / 2;
-        
-        
-        auto delta = endLocPos - startLocPos;
-        
-        float angle = -std::atan2( delta.x(), delta.y() );
-        sprite.setRotation(angle);
-        
-        m_connections.emplace( centrePoint, sprite );
+
+        addConnectionLine( startCenter, endCenter, 3, 40 );
     }
 }
 
@@ -114,7 +98,7 @@ void LocationView::refresh()
 {
     for ( auto const loc : m_locations )
     {
-        loc->refresh();
+        loc.second->refresh();
     }
 }
 
@@ -126,4 +110,22 @@ void LocationView::updateSelf( uint32_t ticks, InputInterface &iinter, RenderInt
         Vector2i localPos = globalPos + k;
         rInter.addItem( v.renderObject(localPos), RenderLayer::UI );
     }
+}
+
+void LocationView::addConnectionLine(Vector2i startLoc, Vector2i endLoc, int width, int margins)
+{
+    float dist = Math::pointDistance(startLoc, endLoc);
+    int rectHeight = (int) dist - margins;
+    Vector2i rectSize = { width, rectHeight };
+
+    auto sprite = createRectangle( rectSize, Colour::Grey.withAlphaF( 0.5f ) );
+    auto centrePoint = Math::centrePoint( startLoc, endLoc );
+
+    centrePoint = centrePoint - rectSize / 2;
+
+    auto delta = endLoc - startLoc;
+    float angle = -std::atan2( delta.x(), delta.y() );
+    sprite.setRotation(angle);
+
+    m_connections.emplace( centrePoint, sprite );
 }

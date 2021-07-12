@@ -25,7 +25,7 @@ std::vector<OverworldLocation> const &Overworld::locations()
     return m_data.locations;
 }
 
-std::unordered_map<int, int> const &Overworld::connections()
+std::unordered_multimap<Vector2i, Vector2i, Vector2iHash> const &Overworld::connections()
 {
     return m_data.connections;
 }

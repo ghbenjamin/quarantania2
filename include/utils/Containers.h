@@ -339,8 +339,28 @@ namespace std {
 }
 
 
+template <typename T, typename R>
+struct PairHash
+{
+    std::size_t operator()(const std::pair<T, R>& p) const
+    {
+        return std::hash<T>{}(p.first) ^ ( std::hash<R>{}(p.second) << 1 );
+    }
+};
+
+template <typename T, typename THash, typename R, typename RHash>
+struct PairHashCust
+{
+    std::size_t operator()(const std::pair<T, R>& p) const
+    {
+        return THash{}(p.first) ^ ( RHash{}(p.second) << 1 );
+    }
+};
+
+
 typedef Vector2<int> Vector2i;
 using Vector2iHash = Vector2Hash<int>;
 typedef Vector2<float> Vector2f;
 typedef Rect<int> RectI;
 typedef Rect<float> RectF;
+using Vector2iPairHash = PairHashCust<Vector2i, Vector2iHash, Vector2i, Vector2iHash>;

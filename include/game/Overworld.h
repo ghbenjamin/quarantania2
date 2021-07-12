@@ -23,8 +23,6 @@ enum class OverworldLocationType
 
 struct OverworldLocation
 {
-    int index = 0;
-    int floor = 0;
     OverworldLocationType type;
     Vector2i gridPos;
     Vector2i displayOffset;
@@ -36,7 +34,7 @@ struct OverworldData
 {
     Vector2i gridSize;
     std::vector<OverworldLocation> locations;
-    std::unordered_map<int, int> connections;
+    std::unordered_multimap<Vector2i, Vector2i, Vector2iHash> connections;
 };
 
 
@@ -53,7 +51,7 @@ public:
     GameEventHub& events();
     Vector2i const& gridSize() const;
     std::vector<OverworldLocation> const& locations();
-    std::unordered_map<int, int> const& connections();
+    std::unordered_multimap<Vector2i, Vector2i, Vector2iHash> const& connections();
     
 private:
     OverworldData m_data;

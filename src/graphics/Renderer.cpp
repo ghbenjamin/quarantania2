@@ -111,8 +111,8 @@ Renderer::~Renderer()
 void Renderer::render()
 {
     // I cause massive flicker and I don't know why
-//    glClearColor(1, 1, 1, 1.0f);
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(0, 0, 0, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Render our scene to a framebuffer
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbFrameBuffer);
