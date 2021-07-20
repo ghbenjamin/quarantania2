@@ -325,7 +325,7 @@ Damage Actor::makeMeleeDamageRoll( SingleMeleeAttackInstance &attack, std::share
     DamageRoll damageRoll;
     
     // Roll the natural roll
-    damageRoll.naturalRoll =  m_level->random().diceRoll( attack.weapon->damage() );
+    damageRoll.naturalRoll =  m_level->random()->diceRoll( attack.weapon->damage() );
     damageRoll.modifiedRoll = damageRoll.naturalRoll;
     
     // Add STR mod to the damage roll (TODO: This should be modifible)
@@ -361,7 +361,7 @@ AttackRoll Actor::makeMeleeAttackRoll( SingleMeleeAttackInstance &attack, std::s
 {
     AttackRoll result;
     result.ctx = &attack;
-    result.naturalRoll = m_level->random().diceRoll(20);
+    result.naturalRoll = m_level->random()->diceRoll(20);
     result.targetValue = attack.defender->getAcForMeleeAttack(attack, attackImpl);
     int critRange = getCritRangeForAttack( attack );
 
@@ -495,7 +495,7 @@ SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type) c
     SavingThrowRoll roll;
     roll.source = source;
     roll.defender = m_entity;
-    roll.natural = m_level->random().diceRoll(20);
+    roll.natural = m_level->random()->diceRoll(20);
     roll.modified = roll.natural + abilityScoreMod;
 
     applyAllModifiers( &roll );

@@ -2,8 +2,12 @@
 
 #include <nlohmann/json.hpp>
 
-namespace Utils::Json
+
+
+namespace utils::json
 {
+
+using object = nlohmann::json;
 
 nlohmann::json loadFromPath( std::string const& path );
 

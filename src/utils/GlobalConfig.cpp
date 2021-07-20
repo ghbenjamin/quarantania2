@@ -6,7 +6,7 @@ using namespace GlobalConfig;
 GlobalConfigInfo GlobalConfig::load(std::string const &path)
 {
     GlobalConfigInfo info;
-    auto doc = Utils::Json::loadFromPath( path );
+    auto doc = utils::json::loadFromPath(path );
 
     info.windowTitle = doc["windowTitle"];
     info.maxFPS = doc["maxFPS"];

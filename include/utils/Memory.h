@@ -2,7 +2,7 @@
 
 #include <memory>
 
-namespace Utils
+namespace utils
 {
 
 template <typename OldT, typename NewT>

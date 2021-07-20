@@ -97,25 +97,8 @@ struct CreatureData
     SpritesheetKey sprite;
 };
 
-struct RawPlayerRaceData
-{
-    std::string name;
-    int baseSpeed;
-};
 
-struct RawPlayerClassData
-{
-    std::string name;
-    std::string description;
-    int hitDie;
-    int skillsPerLevel;
-    std::array<int, 20> babByLevel;
-    std::array<int, 20> fortByLevel;
-    std::array<int, 20> refByLevel;
-    std::array<int, 20> willByLevel;
-};
-
-struct RawObjectData
+struct ObjectData
 {
     std::string name;
     std::string description;
@@ -148,4 +131,18 @@ struct FeatData
     std::string name;
     std::string benefit;
     std::string description;
+};
+
+
+struct ChargenData
+{
+    std::string id;
+    std::string name;
+    SpritesheetKey sprite;
+    int maxHP;
+    int attrStr, attrDex, attrCon, attrInt, attrWis, attrCha;
+    
+    std::vector<std::string> feats;
+    std::vector<std::string> equippedItems;
+    std::vector<std::string> heldItems;
 };

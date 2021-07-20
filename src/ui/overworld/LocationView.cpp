@@ -124,7 +124,7 @@ void LocationView::addConnectionLine(Vector2i startLoc, Vector2i endLoc, int wid
     centrePoint = centrePoint - rectSize / 2;
 
     auto delta = endLoc - startLoc;
-    float angle = -std::atan2( delta.x(), delta.y() );
+    float angle = (float) -std::atan2( delta.x(), delta.y() );
     sprite.setRotation(angle);
 
     m_connections.emplace( centrePoint, sprite );

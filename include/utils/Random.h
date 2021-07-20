@@ -3,39 +3,22 @@
 #include <random>
 #include <algorithm>
 
-#include <game/Defines.h>
+struct DiceRoll;
 
-using RandomGenerator = std::mt19937;
 
-class RandomInterface
+class RandomState
 {
 public:
-    RandomInterface(RandomGenerator rg);
-    ~RandomInterface() = default;
 
-    // Return a random iterator between the given ranges (inclusive)
-    template <typename It>
-    It randomElement(It begin, It end)
-    {
-        std::uniform_int_distribution<> distribution(0, std::distance(begin, end) - 1);
-        std::advance(begin, distribution(m_mt));
-        return begin;
-    }
+    RandomState();
+    RandomState( std::string const& seed, std::string const& prngState );
 
-    // Return a random iterator within the supplied container.
-    template <typename T>
-    auto randomElement( T const& t )
-    {
-        return randomElement( t.begin(), t.end() );
-    }
-
-    // Shuffle the given STL container
-    template <typename T>
-    void shuffle( T& t )
-    {
-        std::shuffle( t.begin(), t.end(), m_mt );
-    }
-
+    ~RandomState() = default;
+    
+    std::string const& seed() const;
+    std::string prngState() const;
+    
+    
     // Flip a weighted coin which returns true 1 in [odds] times.
     bool weightedFlip(int odds);
 
@@ -51,25 +34,37 @@ public:
     int randomInt( int lower, int upper );
 
 
+    // Return a random iterator between the given ranges (inclusive)
+    template <typename It>
+    It randomElement(It begin, It end)
+    {
+        std::uniform_int_distribution<> distribution(0, std::distance(begin, end) - 1);
+        std::advance(begin, distribution(m_mt));
+        return begin;
+    }
+    
+    // Return a random iterator within the supplied container.
+    template <typename T>
+    auto randomElement( T const& t )
+    {
+        return randomElement( t.begin(), t.end() );
+    }
+    
+    // Shuffle the given STL container
+    template <typename T>
+    void shuffle( T& t )
+    {
+        std::shuffle( t.begin(), t.end(), m_mt );
+    }
+    
+    
 private:
 
-    // Cache our supplied random engine to make seeding easier
-    RandomGenerator m_mt;
-
-};
-
-class RandomSeed
-{
-public:
-    RandomSeed( std::string const& seed );
-    RandomSeed();
-    ~RandomSeed() = default;
-
-    std::string const& seed() const;
-
-private:
+    static std::string generateSeed();
     static const std::string SeedChars;
     static constexpr int SeedSize = 24;
 
+    std::mt19937 m_mt;
     std::string m_seed;
+
 };

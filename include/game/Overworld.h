@@ -6,11 +6,11 @@
 #include <game/GameEventHub.h>
 #include <game/AnimationQueue.h>
 #include <utils/Containers.h>
-#include <utils/Random.h>
 
 // Forward definitions
 class RenderInterface;
 class InputInterface;
+class RandomState;
 struct IEvent;
 
 enum class OverworldLocationType
@@ -42,7 +42,7 @@ class Overworld
 {
 public:
 
-    Overworld(OverworldData const& data, RandomGenerator const& rg);
+    Overworld(OverworldData const& data, RandomState* randomState);
     ~Overworld() = default;
 
     bool input(IEvent &evt);
@@ -57,5 +57,5 @@ private:
     OverworldData m_data;
     AnimationQueue m_animation;
     GameEventHub m_gevents;
-    RandomGenerator m_rg;
+    RandomState* m_randomState;
 };

@@ -9,10 +9,10 @@ ResourceDatabase::ResourceDatabase()
 {
     loadAllItemData();
     loadAllCreatureData();
-    loadAllPlayerData();
     loadAllObjectData();
     loadAllActionData();
     loadAllFeatData();
+    loadAllChargenData();
 }
 
 ItemData ResourceDatabase::itemFromName(std::string_view name)
@@ -42,24 +42,6 @@ CreatureData ResourceDatabase::creatureFromName(std::string_view name)
     return CreatureData( *it );
 }
 
-RawPlayerRaceData ResourceDatabase::playerRaceFromName(std::string_view name)
-{
-    auto it = std::find_if( m_playerRaceData.begin(), m_playerRaceData.end(),
-        [name](auto const& item){ return item.name == name; });
-
-    Assert( it != m_playerRaceData.end() );
-    return RawPlayerRaceData( *it );
-}
-
-RawPlayerClassData ResourceDatabase::playerClassFromName(std::string_view name)
-{
-    auto it = std::find_if( m_playerClassData.begin(), m_playerClassData.end(),
-        [name](auto const& item){ return item.name == name; });
-
-    Assert( it != m_playerClassData.end() );
-    return RawPlayerClassData( *it );
-}
-
 ArmourData ResourceDatabase::armourFromName(std::string_view name)
 {
     auto it = std::find_if( m_armourData.begin(), m_armourData.end(),
@@ -69,13 +51,13 @@ ArmourData ResourceDatabase::armourFromName(std::string_view name)
     return ArmourData( *it );
 }
 
-RawObjectData ResourceDatabase::objectFromName(std::string_view name)
+ObjectData ResourceDatabase::objectFromName( std::string_view name)
 {
     auto it = std::find_if( m_objectData.begin(), m_objectData.end(),
         [name](auto const& item){ return item.name == name; });
 
     Assert( it != m_objectData.end() );
-    return RawObjectData( *it );
+    return ObjectData( *it );
 }
 
 ActionData ResourceDatabase::actionFromId(std::string_view id)
@@ -96,10 +78,19 @@ FeatData ResourceDatabase::featFromId( std::string_view id )
     return FeatData( *it );
 }
 
+ChargenData ResourceDatabase::chargenFromClassId( std::string_view id )
+{
+    auto it = std::find_if( m_chargenData.begin(), m_chargenData.end(),
+                            [id](auto const& item){ return item.id == id; });
+    
+    Assert( it != m_chargenData.end() );
+    return *it;
+}
+
 
 void ResourceDatabase::loadAllCreatureData()
 {
-    auto doc = Utils::Json::loadFromPath( "../resource/data/creatures.json" );
+    auto doc = utils::json::loadFromPath("../resource/data/creatures.json" );
     for ( auto const& cr : doc )
     {
         CreatureData rcd;
@@ -220,7 +211,7 @@ void ResourceDatabase::loadAllCreatureData()
 
 void ResourceDatabase::loadAllItemData()
 {
-    auto doc = Utils::Json::loadFromPath( "../resource/data/items.json" );
+    auto doc = utils::json::loadFromPath("../resource/data/items.json" );
     for ( auto const& it : doc )
     {
         ItemData rit;
@@ -357,54 +348,13 @@ void ResourceDatabase::loadAllItemData()
     }
 }
 
-void ResourceDatabase::loadAllPlayerData()
-{
-    auto doc = Utils::Json::loadFromPath( "../resource/data/player.json" );
-
-    for ( auto const& itemObj : doc["classes"] )
-    {
-        RawPlayerClassData pcd;
-
-        pcd.name = itemObj["name"];
-        pcd.description = itemObj["description"];
-        pcd.hitDie = itemObj["hit_die"];
-        pcd.skillsPerLevel = itemObj["skills_per_level"];
-
-        auto babArr = itemObj["bab_by_level"];
-        auto fortArr = itemObj["fort_by_level"];
-        auto refArr = itemObj["ref_by_level"];
-        auto willArr = itemObj["will_by_level"];
-
-        for ( int i = 0; i < 20; i++ )
-        {
-            pcd.babByLevel[i] = babArr[i];
-            pcd.fortByLevel[i] = fortArr[i];
-            pcd.refByLevel[i] = refArr[i];
-            pcd.willByLevel[i] = willArr[i];
-        }
-
-        m_playerClassData.push_back( pcd );
-    }
-
-    for ( auto const& itemObj : doc["races"] )
-    {
-        RawPlayerRaceData prd;
-
-        prd.name = itemObj["name"];
-        prd.baseSpeed = itemObj["base_speed"];
-
-        m_playerRaceData.push_back(prd);
-    }
-}
-
-
 
 void ResourceDatabase::loadAllObjectData()
 {
-    auto doc = Utils::Json::loadFromPath( "../resource/data/objects.json" );
+    auto doc = utils::json::loadFromPath("../resource/data/objects.json" );
     for ( auto const& it : doc )
     {
-        RawObjectData robj;
+        ObjectData robj;
 
         robj.name = it["name"];
         robj.description = it["description"];
@@ -422,7 +372,7 @@ void ResourceDatabase::loadAllObjectData()
 
 void ResourceDatabase::loadAllActionData()
 {
-    auto doc = Utils::Json::loadFromPath( "../resource/data/actions.json" );
+    auto doc = utils::json::loadFromPath("../resource/data/actions.json" );
     for ( auto const& it : doc )
     {
         ActionData robj;
@@ -455,7 +405,7 @@ void ResourceDatabase::loadAllActionData()
 
 void ResourceDatabase::loadAllFeatData()
 {
-    auto doc = Utils::Json::loadFromPath( "../resource/data/feats.json" );
+    auto doc = utils::json::loadFromPath("../resource/data/feats.json" );
     for ( auto const& it : doc )
     {
         FeatData robj;
@@ -468,4 +418,54 @@ void ResourceDatabase::loadAllFeatData()
         m_featData.push_back(robj);
     }
 }
+
+void ResourceDatabase::loadAllChargenData()
+{
+    auto doc = utils::json::loadFromPath("../resource/data/starting_chars.json" );
+    
+    for ( auto const& classObj : doc["classes"] )
+    {
+        ChargenData cgdata;
+        cgdata.id = classObj["id"];
+        cgdata.name = classObj["name"];
+        cgdata.sprite = classObj["sprite"].get<std::string>();
+        cgdata.maxHP = classObj["max_hp"];
+        
+        cgdata.attrStr = classObj["attributes"][0];
+        cgdata.attrDex = classObj["attributes"][1];
+        cgdata.attrCon = classObj["attributes"][2];
+        cgdata.attrInt = classObj["attributes"][3];
+        cgdata.attrWis = classObj["attributes"][4];
+        cgdata.attrCha = classObj["attributes"][5];
+        
+        for ( auto const& item : classObj["starting_equipped_items"] )
+        {
+            cgdata.equippedItems.push_back( item );
+        }
+    
+        for ( auto const& item : classObj["starting_held_items"] )
+        {
+            cgdata.heldItems.push_back( item );
+        }
+    
+        for ( auto const& item : classObj["feats"] )
+        {
+            cgdata.feats.push_back( item );
+        }
+        
+        m_chargenData.push_back( std::move(cgdata) );
+    }
+    
+    for ( auto const& name : doc["names"] )
+    {
+        m_randomNames.push_back(name);
+    }
+}
+
+std::vector<std::string> const &ResourceDatabase::randomNames()
+{
+    return m_randomNames;
+}
+
+
 

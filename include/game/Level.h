@@ -33,7 +33,7 @@ enum class LevelExitStatus
 class Level
 {
 public:
-    explicit Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg);
+    explicit Level(Vector2i size, LevelContextPtr ctx, RandomState* randomState);
     virtual ~Level() = default;
 
     // Indicate that the level is constructed and ready to begin
@@ -45,7 +45,7 @@ public:
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
 
     // API
-    RandomInterface& random();
+    RandomState* random();
     Grid& grid();
     GameEventHub& events();
     Camera& camera();
@@ -89,7 +89,7 @@ private:
     void centerCameraOnParty();             // Centre the camera on the centroid of the positions of all party members
 
     // Misc
-    RandomInterface m_random;
+    RandomState* m_randomState;
     LevelContextPtr m_ctx;
     LevelExitStatus m_exitStatus;
 

@@ -24,9 +24,8 @@ public:
 
     EntityRef createItem(Vector2i pos, std::string const &name) const;
     EntityRef createItem(Vector2i pos, std::shared_ptr<Item> item) const;
-
+    
     EntityRef createDecor(Vector2i pos, SpritesheetKey const& key) const;
-
     EntityRef createCorpse( EntityRef actorRef );
 
 private:

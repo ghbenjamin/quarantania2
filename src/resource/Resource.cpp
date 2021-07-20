@@ -87,7 +87,7 @@ void SpritesheetResource::load()
 #endif
 
     auto tex = std::make_shared<Texture>( "../resource/spritesheet/" + m_name + ".png" );
-    auto doc = Utils::Json::loadFromPath( "../resource/spritesheet/" + m_name + ".json" );
+    auto doc = utils::json::loadFromPath("../resource/spritesheet/" + m_name + ".json" );
 
     auto metaObj = doc["meta"];
     auto dataObj = doc["data"];
@@ -143,7 +143,7 @@ NinePatchResource::NinePatchResource(const std::string &name)
 void NinePatchResource::load()
 {
     m_texture = std::make_shared<Texture>( "../resource/ninepatch/" + m_name + ".png" );
-    auto doc = Utils::Json::loadFromPath( "../resource/ninepatch/" + m_name + ".json" );
+    auto doc = utils::json::loadFromPath("../resource/ninepatch/" + m_name + ".json" );
 
     m_borderWidth = doc["border_width"];
     auto offsetArr = doc["offsets"];

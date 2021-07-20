@@ -4,7 +4,7 @@
 #include <sstream>
 
 
-nlohmann::json Utils::Json::loadFromPath(std::string const &path)
+nlohmann::json utils::json::loadFromPath( std::string const &path)
 {
     std::ifstream fstream( path );
 

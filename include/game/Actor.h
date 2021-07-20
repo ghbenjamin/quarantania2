@@ -14,7 +14,7 @@ struct CreatureData;
 struct PlayerData;
 struct Damage;
 class Level;
-class RandomInterface;
+class RandomState;
 class MeleeAttack;
 
 

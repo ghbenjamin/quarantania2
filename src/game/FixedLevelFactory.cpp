@@ -11,7 +11,7 @@ FixedLevelFactory::FixedLevelFactory(TiledMap const* map, const LevelContextPtr 
 
 std::unique_ptr<Level> FixedLevelFactory::createLevel()
 {
-    m_level = std::make_unique<Level>( Vector2i{m_map->width, m_map->height}, m_ctx, RandomGenerator{ m_rd() } );
+    m_level = std::make_unique<Level>( Vector2i{m_map->width, m_map->height}, m_ctx, &m_runState->randomState );
 
     constructTiles();
     constructObjects();
@@ -190,7 +190,7 @@ void FixedLevelFactory::constructSpawnPoints(TiledObjectLayer const& olayer)
 
 void FixedLevelFactory::constructParty()
 {
-    m_level->random().shuffle( m_playerSpawns );
+    m_level->random()->shuffle( m_playerSpawns );
 
     AssertMsg( m_runState->playerChars.size() <= m_playerSpawns.size(),
         "more players than spawns available" );

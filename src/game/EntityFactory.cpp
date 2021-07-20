@@ -32,12 +32,12 @@ EntityRef EntityFactory::createPlayer(Vector2i pos, PlayerData const &data) cons
 
     m_parent->ecs().entityReady(eref);
 
-    for ( auto const& iname : data.startingHeldItems )
+    for ( auto const& iname : data.heldItems )
     {
         cContainer->items.push_back( Item::fromName( iname ) );
     }
 
-    for ( auto const& iname : data.startingEquippedItems )
+    for ( auto const& iname : data.equippedItems )
     {
         auto ptr = Item::fromName( iname );
         auto slot = cActor->actor.defaultSlotForItemSlot( ptr->getEquipSlot() );

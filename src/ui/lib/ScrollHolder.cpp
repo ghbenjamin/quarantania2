@@ -6,7 +6,7 @@ UI::ScrollHolder::ScrollHolder(UI::Manager *manager, UI::Element *parent)
 {
     setBackground( Colour::Pink.withAlphaF(0.4f) );
 
-    auto layout = Utils::make_unique_with_type<ElementLayout, VScrollLayout>( this );
+    auto layout = utils::make_unique_with_type<ElementLayout, VScrollLayout>(this );
     setLayout( layout );
     setBoundsScissoring(true);
 

@@ -9,7 +9,7 @@
 
 TiledMap TiledMapLoader::load(const std::string &path)
 {
-    auto doc = Utils::Json::loadFromPath( path );
+    auto doc = utils::json::loadFromPath(path );
 
     m_map.width = doc["width"];
     m_map.height = doc["height"];

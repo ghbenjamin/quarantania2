@@ -1,8 +1,8 @@
 #include <game/Overworld.h>
 #include <graphics/RenderInterface.h>
 
-Overworld::Overworld( OverworldData const &data, RandomGenerator const& rg )
-    : m_data(data), m_rg(rg), m_gevents(&m_animation)
+Overworld::Overworld( OverworldData const &data, RandomState* randomState )
+    : m_data(data), m_randomState(randomState), m_gevents(&m_animation)
 {
 }
 

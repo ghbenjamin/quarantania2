@@ -3,12 +3,12 @@
 #include <unordered_set>
 
 #include <game/Overworld.h>
+#include <game/RunState.h>
 
 OverworldFactory::OverworldFactory() {}
 
 std::unique_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<RunState> runState)
 {
-    RandomInterface random( (RandomGenerator (m_rd())) );
     OverworldData data;
     data.gridSize = { 7, 13 };
 
@@ -19,7 +19,7 @@ std::unique_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<Run
 
     for ( int snode = 0; snode < 4; snode++ )
     {
-        int lastCol = random.diceRoll(data.gridSize.x()) - 1;
+        int lastCol = runState->randomState.diceRoll(data.gridSize.x()) - 1;
         Vector2i lastLoc = {-1, -1};
 
         for ( int currRow = 0; currRow < data.gridSize.y(); currRow++ )
@@ -39,7 +39,7 @@ std::unique_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<Run
             }
 
             // Select a position to move to at random from the available positions
-            int deltaCol = *random.randomElement( colOpts );
+            int deltaCol = *runState->randomState.randomElement( colOpts );
             int currCol = deltaCol + lastCol;
             Vector2i currLoc = Vector2i{currCol, currRow};
 
@@ -74,8 +74,7 @@ std::unique_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<Run
             lastCol = currCol;
         }
     }
-
-
-    return std::make_unique<Overworld>(data, RandomGenerator{ m_rd() });
+    
+    return std::make_unique<Overworld>(data, &runState->randomState);
 }
 

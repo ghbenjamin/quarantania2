@@ -1,21 +1,41 @@
 #include <utils/Random.h>
+
+#include <sstream>
+
 #include <utils/Assert.h>
+#include <game/Defines.h>
 
-RandomInterface::RandomInterface(RandomGenerator rg)
-        : m_mt(rg) { }
 
-bool RandomInterface::weightedFlip(int odds)
+RandomState::RandomState( std::string const &seed, std::string const& prngState )
+    : m_seed(seed)
+{
+    std::seed_seq seedSeq(m_seed.begin(), m_seed.end());
+    m_mt = std::mt19937{ seedSeq };
+    
+    if ( !prngState.empty() )
+    {
+        std::stringstream ss;
+        ss.str(prngState);
+        ss >> m_mt;
+    }
+}
+
+RandomState::RandomState()
+: RandomState(  RandomState::generateSeed(), "" )
+{}
+
+bool RandomState::weightedFlip( int odds)
 {
     std::uniform_int_distribution<> dis(1, odds);
     return dis(m_mt) == 1;
 }
 
-bool RandomInterface::coinflip()
+bool RandomState::coinflip()
 {
     return std::uniform_int_distribution<>(1, 2)(m_mt) == 1;
 }
 
-int RandomInterface::diceRoll(int dcount, int dsize)
+int RandomState::diceRoll( int dcount, int dsize)
 {
     std::uniform_int_distribution dist(1, dsize);
     int out = 0;
@@ -28,49 +48,53 @@ int RandomInterface::diceRoll(int dcount, int dsize)
     return out;
 }
 
-int RandomInterface::diceRoll(const DiceRoll &roll)
+int RandomState::diceRoll( const DiceRoll &roll)
 {
     return diceRoll(roll.diceCount, roll.diceSize) + roll.modifier;
 }
 
-int RandomInterface::diceRoll(int size)
+int RandomState::diceRoll( int size)
 {
     return diceRoll(1, size);
 }
 
-int RandomInterface::randomInt(int lower, int upper)
+int RandomState::randomInt( int lower, int upper)
 {
     std::uniform_int_distribution<> dist( lower, upper );
     return dist( m_mt );
 }
 
-const std::string RandomSeed::SeedChars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+const std::string RandomState::SeedChars = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890";
 
-RandomSeed::RandomSeed()
+
+std::string RandomState::generateSeed()
 {
-
-
+    std::string seed;
     std::random_device rd;
     std::mt19937 twister( rd() );
-
-    m_seed.resize(SeedSize, ' ');
-
+    
+    seed.resize(SeedSize, ' ');
+    
     std::uniform_int_distribution<> seedGen( 0, SeedChars.size() );
-
+    
     for ( int i = 0; i < SeedSize; i++ )
     {
         auto idx = seedGen( twister );
-        m_seed[i] = SeedChars[idx];
+        seed[i] = SeedChars[idx];
     }
+    
+    return seed;
 }
 
-std::string const &RandomSeed::seed() const
+std::string const &RandomState::seed() const
 {
     return m_seed;
 }
 
-RandomSeed::RandomSeed(const std::string &seed )
-    : m_seed(seed)
+std::string RandomState::prngState() const
 {
-    Assert( seed.size() == SeedSize );
+    std::stringstream ss;
+    ss << m_mt;
+    
+    return ss.str();
 }

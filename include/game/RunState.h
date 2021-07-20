@@ -8,9 +8,13 @@
 #include <game/Defines.h>
 #include <resource/Spritesheet.h>
 
+struct ChargenData;
 
 struct PlayerData
 {
+    PlayerData() = default;
+    PlayerData( ChargenData& chargenData );
+    
     std::string name;
 
     PlayerRace playerRace;
@@ -38,8 +42,8 @@ struct PlayerData
     int baseSpeed = 6;
     int bab = 0;
 
-    std::vector<std::string> startingHeldItems;
-    std::vector<std::string> startingEquippedItems;
+    std::vector<std::string> heldItems;
+    std::vector<std::string> equippedItems;
     std::vector<std::string> featIds;
 };
 
@@ -47,20 +51,25 @@ struct PlayerData
 class RunState
 {
 public:
-
-    RunState();
+    
+    static std::shared_ptr<RunState> generateNewRun();
+    
     ~RunState() = default;
 
-    nlohmann::json serialize() const;
+    utils::json::object serialize() const;
 
     // Globals
     std::chrono::time_point<std::chrono::system_clock> startTime;
-    RandomSeed seed;
-
+    RandomState randomState;
+    
     // Current overworld state
     int currentLocation;
     std::vector<int> locationsVisited;
 
     // Current party state
     std::vector<PlayerData> playerChars;
+
+private:
+    RunState();
+    PlayerData generateStartingCharacter( std::string const& pclassId );
 };

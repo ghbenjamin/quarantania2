@@ -11,10 +11,10 @@
 #include <utils/Math.h>
 
 
-Level::Level(Vector2i size, LevelContextPtr ctx, RandomGenerator const& rg)
+Level::Level(Vector2i size, LevelContextPtr ctx, RandomState* randomState)
 : m_ctx(std::move(ctx)),
   m_grid(size),
-  m_random(rg),
+  m_randomState(randomState),
   m_camera( size * GlobalConfig::TileSizePx ),
   m_ecs(this),
   m_currentRound(0),
@@ -204,9 +204,9 @@ std::string Level::getDescriptionForItem(ItemPtr item)
     return item->getName();
 }
 
-RandomInterface &Level::random()
+RandomState* Level::random()
 {
-    return m_random;
+    return m_randomState;
 }
 
 void Level::setLayout(LevelLayout const& llayout)
