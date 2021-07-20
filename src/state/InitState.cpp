@@ -19,6 +19,8 @@ void InitState::update(uint32_t ticks, InputInterface &iinter, RenderInterface &
     auto ctx = std::make_shared<LevelContext>();
     setNextState<LevelState>( ctx, runState );
     
+//    runState->serialize();
+    
 //    // OVERWORLD START
 //    setNextState<OverworldState>( runState );
 }

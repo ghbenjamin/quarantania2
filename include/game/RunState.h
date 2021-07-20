@@ -15,6 +15,8 @@ struct PlayerData
     PlayerData() = default;
     PlayerData( ChargenData& chargenData );
     
+    utils::json::object serialize() const;
+    
     std::string name;
 
     PlayerRace playerRace;
