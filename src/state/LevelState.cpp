@@ -76,12 +76,11 @@ void LevelState::update(uint32_t ticks, InputInterface& iinter, RenderInterface 
 
     if ( m_level->getLevelExitStatus() != LevelExitStatus::None )
     {
-        // TODO: Serialize level state
-    
-    
         switch ( m_level->getLevelExitStatus() )
         {
             case LevelExitStatus::Completed:
+                // TODO: Serialize level state
+            
                 requestPopState();
                 break;
             case LevelExitStatus::MainMenu:

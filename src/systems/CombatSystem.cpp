@@ -32,16 +32,18 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
         // Make independent attack and damage rolls for each attack instance
         auto attackRoll = attacker.makeMeleeAttackRoll(singleAttack, evt.attack, false);
     
-//        Logging::log( "Attack roll: natural={}, modified={}, target={}\n", attackRoll.naturalRoll, attackRoll.modifiedRoll, attackRoll.targetValue );
+        Logging::log( "Attack roll: natural={}, modified={}, target={}\n", attackRoll.naturalRoll, attackRoll.modifiedRoll, attackRoll.targetValue );
     
         if ( attackRoll.isHit )
         {
             missedAll = false;
             
-            auto damageInstance = attacker.makeMeleeDamageRoll(singleAttack, evt.attack, attackRoll);
-            damage.mergeDamage( damageInstance );
+            auto damageRoll = attacker.makeMeleeDamageRoll(singleAttack, evt.attack, attackRoll);
     
-//            Logging::log( "Damage roll: natural={}, modified={}\n", attackRoll.naturalRoll, attackRoll.modifiedRoll );
+            DamageInstance dmgInstance{ DamageType::Untyped, DamageSuperType::Physical, damageRoll.modifiedRoll };
+            damage.instances.push_back( dmgInstance );
+    
+            Logging::log( "Damage roll: natural={}, modified={}\n", damageRoll.naturalRoll, damageRoll.modifiedRoll );
         }
     }
     

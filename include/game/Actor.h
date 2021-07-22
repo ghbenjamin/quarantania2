@@ -96,7 +96,7 @@ public:
     // Combat
     int getCritRangeForAttack( SingleMeleeAttackInstance& attack ) const;
     MeleeAttackCountData getAttackCountForMeleeAttack( std::shared_ptr<MeleeAttack> attackImpl ) const;
-    Damage makeMeleeDamageRoll( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl, AttackRoll const& roll ) const;
+    DamageRoll makeMeleeDamageRoll( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl, AttackRoll const& roll ) const;
     int getAcForMeleeAttack( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl ) const;
     AttackRoll makeMeleeAttackRoll( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl, bool isCritConfirm ) const;
 

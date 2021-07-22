@@ -320,7 +320,7 @@ int Actor::getCritRangeForAttack( SingleMeleeAttackInstance &attack ) const
     return attack.weapon->critRange();
 }
 
-Damage Actor::makeMeleeDamageRoll( SingleMeleeAttackInstance &attack, std::shared_ptr<MeleeAttack> attackImpl, AttackRoll const &roll ) const
+DamageRoll Actor::makeMeleeDamageRoll( SingleMeleeAttackInstance &attack, std::shared_ptr<MeleeAttack> attackImpl, AttackRoll const &roll ) const
 {
     DamageRoll damageRoll;
     
@@ -344,11 +344,7 @@ Damage Actor::makeMeleeDamageRoll( SingleMeleeAttackInstance &attack, std::share
         damageRoll.modifiedRoll *= attack.weapon->critMultiplier();
     }
     
-    Damage damage;
-    DamageInstance dmgInstance{ DamageType::Untyped, DamageSuperType::Physical, damageRoll.modifiedRoll };
-    damage.instances.push_back( dmgInstance );
-    
-    return damage;
+    return damageRoll;
 }
 
 int Actor::getAcForMeleeAttack( SingleMeleeAttackInstance &attack, std::shared_ptr<MeleeAttack> attackImpl) const
@@ -436,13 +432,13 @@ void Actor::acceptDamage( Damage const &dmg )
     int newCurrHp = oldCurrHp - totalDamage;
     setCurrentHp(newCurrHp);
     
-//    Logging::log( "Damage dealt: damage={}, old hp={}, new hp={}\n", totalDamage, oldCurrHp, newCurrHp );
+    Logging::log( "Damage dealt: damage={}, old hp={}, new hp={}\n", totalDamage, oldCurrHp, newCurrHp );
     
     // Handle falling unconsious and death
     
-    if ( getCurrentHp() < 0 )
+    if ( getCurrentHp() <= 0 )
     {
-        if ( getCurrentHp() > -getAbilityScoreValue(AbilityScoreType::CON) )
+        if ( /*getCurrentHp() > -getAbilityScoreValue(AbilityScoreType::CON)*/ false )
         {
             // Unconscious! TODO
         }
