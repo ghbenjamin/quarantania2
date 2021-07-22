@@ -7,12 +7,11 @@
 #include <ui/lib/ScrollHolder.h>
 #include <game/OverworldFactory.h>
 #include <ui/overworld/LocationView.h>
+#include <state/LevelState.h>
 
 OverworldState::OverworldState(std::shared_ptr<RunState> runState)
     : m_runState(runState)
 {
-    m_ui = std::make_unique<UI::Manager>();
-
     OverworldFactory factory;
     m_overworld = factory.createOverworld( runState );
     
@@ -21,22 +20,14 @@ OverworldState::OverworldState(std::shared_ptr<RunState> runState)
     setupUI();
 }
 
-bool OverworldState::input( IEvent &evt )
+bool OverworldState::inputImpl( IEvent &evt )
 {
-    if ( m_ui->input(evt) )
-    {
-        return true;
-    }
-    else
-    {
-        return m_overworld->input( evt );
-    }
+    return m_overworld->input( evt );
 }
 
-void OverworldState::update( uint32_t ticks, InputInterface &iinter, RenderInterface &rInter )
+void OverworldState::updateImpl( uint32_t ticks, InputInterface &iinter, RenderInterface &rInter )
 {
     m_overworld->update( ticks, iinter, rInter );
-    m_ui->update(ticks, iinter, rInter);
 }
 
 void OverworldState::setupUI()
@@ -47,6 +38,11 @@ void OverworldState::setupUI()
     m_ui->alignElementToWindow( locationViewHolder, UI::Alignment::Centre, {0, 0} );
 
     auto locationView = m_ui->createElement<UI::LocationView>(locationViewHolder.get(), m_overworld.get());
+}
+
+void OverworldState::startLevel()
+{
+    replaceNextState<LevelState>( m_runState );
 }
 
 OverworldStateEventSub::OverworldStateEventSub( Overworld *parent )

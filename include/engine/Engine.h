@@ -1,4 +1,4 @@
-#include <state/State.h>
+#include <state/GameState.h>
 #include <vector>
 #include <memory>
 
@@ -15,6 +15,6 @@ public:
     void run();
 
 private:
-    std::vector<GameStatePtr> m_states;
+    std::vector<std::unique_ptr<GameState>> m_states;
 
 };

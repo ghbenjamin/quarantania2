@@ -47,7 +47,9 @@ public:
     // and will instead just rerender what it has buffered.
     void holdBuffer( RenderLayer layer );
     void releaseBuffer( RenderLayer layer );
-
+    
+    // Reset the state of the renderer
+    void reset();
 
     void startFadeout( float time );
     void startFadein( float time );

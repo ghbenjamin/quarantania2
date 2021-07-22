@@ -1,6 +1,6 @@
 #pragma once
 
-#include <state/State.h>
+#include <state/GameState.h>
 #include <game/GameEvent.h>
 #include <game/GameEventDefs.h>
 #include <utils/Colour.h>
@@ -8,29 +8,26 @@
 // Forward definitions
 class Level;
 class RunState;
-struct LevelContext;
 class LevelController;
 class LSUISystem;
-namespace UI { class Manager; }
 
 
 class LevelState : public GameState
 {
 public:
-    LevelState(std::shared_ptr<LevelContext> const& ctx, std::shared_ptr<RunState> const& runState);
+    LevelState(std::shared_ptr<RunState> const& runState);
     ~LevelState() override = default;
 
-    bool input(IEvent &evt) override;
-    void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter) override;
-    
+protected:
+    bool inputImpl(IEvent &evt) override;
+    void updateImpl(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter) override;
     
 private:
     void setupUI( );
-
+    
+    std::shared_ptr<RunState> m_runState;
     std::unique_ptr<Level> m_level;
     std::unique_ptr<LSUISystem> m_uiWatcher;
-    std::unique_ptr<UI::Manager> m_ui;
-    std::shared_ptr<LevelContext> m_levelCtx;
     std::vector<std::shared_ptr<LevelController>> m_controllers;
 };
 

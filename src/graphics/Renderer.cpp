@@ -187,6 +187,15 @@ void Renderer::releaseBuffer(RenderLayer layer)
     m_buffers[(int)layer].renderObjs.clear();
 }
 
+void Renderer::reset()
+{
+    for ( auto& buf : m_buffers )
+    {
+        buf.isHeld = false;
+        buf.renderObjs.clear();
+    }
+}
+
 void Renderer::renderBuffer( RenderBuffer* buf )
 {
     std::shared_ptr<ShaderProgram> currentShader;
@@ -308,5 +317,6 @@ bool Renderer::isMidTransition() const
 {
    return m_fadeTimer.has_value() && !m_fadeTimer->isFinished();
 }
+
 
 

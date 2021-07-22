@@ -1,19 +1,17 @@
-#include <utility>
+#include <game/Level.h>
 
 #include <components/All.h>
 #include <engine/InputInterface.h>
 #include <graphics/RenderInterface.h>
 #include <game/GameEventDefs.h>
-#include <game/Level.h>
 #include <game/ActionDefs.h>
 #include <resource/ResourceManager.h>
 #include <utils/GlobalConfig.h>
 #include <utils/Math.h>
 
 
-Level::Level(Vector2i size, LevelContextPtr ctx, RandomState* randomState)
-: m_ctx(std::move(ctx)),
-  m_grid(size),
+Level::Level(Vector2i size, RandomState* randomState)
+: m_grid(size),
   m_randomState(randomState),
   m_camera( size * GlobalConfig::TileSizePx ),
   m_ecs(this),

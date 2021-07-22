@@ -1,17 +1,15 @@
 #pragma once
 
-#include <state/State.h>
+#include <state/GameState.h>
 
-struct LevelContext;
 class RunState;
 
 class InitState : public GameState
 {
 
 public:
-    InitState();
-    ~InitState() override = default;
+    using GameState::GameState;
 
-    bool input(IEvent &evt) override;
-    void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter) override;
+protected:
+    void updateImpl(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter) override;
 };

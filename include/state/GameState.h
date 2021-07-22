@@ -7,10 +7,7 @@ class RenderInterface;
 class InputInterface;
 class GameState;
 struct IEvent;
-
-// Typedefs
-using GameStatePtr = std::unique_ptr<GameState>;
-
+namespace UI { class Manager; }
 
 class GameState
 {
@@ -19,17 +16,21 @@ public:
     GameState();
     virtual ~GameState() = default;
 
-    virtual bool input(IEvent& evt) = 0;
-    virtual void update(uint32_t ticks, InputInterface&, RenderInterface&) = 0;
+    bool input(IEvent& evt);
+    void update(uint32_t ticks, InputInterface&, RenderInterface&);
 
     bool hasNextState() const;
-    GameStatePtr getNextState();
+    std::unique_ptr<GameState> getNextState();
 
     bool hasRequestedPopState() const;
     bool hasRequestedReplaceState() const;
     bool hasRequestedExit() const;
 
 protected:
+
+    virtual bool inputImpl(IEvent& evt);
+    virtual void updateImpl(uint32_t ticks, InputInterface&, RenderInterface&);
+
 
     // Request that a new state be pushed onto the stack
     template <typename T, typename... Args>
@@ -52,9 +53,13 @@ protected:
 
     // Request that the program exit.
     void requestExit();
+    
+    
+    std::shared_ptr<UI::Manager> m_ui;
 
 private:
-    GameStatePtr m_nextState;
+    
+    std::unique_ptr<GameState> m_nextState;
     bool m_requestedReplaceState;
     bool m_requestedPopState;
     bool m_requestedExit;

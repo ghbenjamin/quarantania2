@@ -1,14 +1,15 @@
 #pragma once
 
-#include <state/State.h>
+#include <state/GameState.h>
 
 class MenuState : public GameState
 {
 
 public:
     using GameState::GameState;
-
-    bool input(IEvent &evt) override;
-    void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter) override;
+    
+protected:
+    bool inputImpl(IEvent &evt) override;
+    void updateImpl(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter) override;
 
 };

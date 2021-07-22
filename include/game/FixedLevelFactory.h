@@ -31,7 +31,7 @@ class FixedLevelFactory : public LevelFactory
 {
 public:
 
-    FixedLevelFactory(TiledMap const* map, const LevelContextPtr &ctx, std::shared_ptr<RunState> const& runState);
+    FixedLevelFactory(TiledMap const* map, std::shared_ptr<RunState> const& runState);
     ~FixedLevelFactory() override = default;
     
     std::unique_ptr<Level> createLevel() override;
@@ -54,6 +54,5 @@ private:
     std::vector<EnemySpawnData> m_enemySpawns;
 
     TiledMap const* m_map;
-    const LevelContextPtr &m_ctx;
     std::shared_ptr<RunState> m_runState;
 };

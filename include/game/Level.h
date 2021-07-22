@@ -9,7 +9,6 @@
 #include <engine/Camera.h>
 #include <game/GameEvent.h>
 #include <game/LevelData.h>
-#include <game/LevelContext.h>
 #include <game/ECS.h>
 #include <game/Defines.h>
 #include <game/Grid.h>
@@ -33,7 +32,7 @@ enum class LevelExitStatus
 class Level
 {
 public:
-    explicit Level(Vector2i size, LevelContextPtr ctx, RandomState* randomState);
+    explicit Level(Vector2i size, RandomState* randomState);
     virtual ~Level() = default;
 
     // Indicate that the level is constructed and ready to begin
@@ -95,7 +94,6 @@ private:
 
     // Misc
     RandomState* m_randomState;
-    LevelContextPtr m_ctx;
     LevelExitStatus m_exitStatus;
 
     // Map

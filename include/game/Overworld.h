@@ -21,6 +21,14 @@ enum class OverworldLocationType
     Boss
 };
 
+enum class OverworldExitStatus
+{
+    None,
+    Completed,
+    MainMenu,
+    Desktop
+};
+
 struct OverworldLocation
 {
     OverworldLocationType type;

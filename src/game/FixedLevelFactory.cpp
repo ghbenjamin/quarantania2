@@ -5,13 +5,13 @@
 #include <resource/ResourceManager.h>
 #include <game/RunState.h>
 
-FixedLevelFactory::FixedLevelFactory(TiledMap const* map, const LevelContextPtr &ctx, std::shared_ptr<RunState> const& runState)
-    : LevelFactory(), m_map(map), m_ctx(ctx), m_runState(runState) {}
+FixedLevelFactory::FixedLevelFactory(TiledMap const* map, std::shared_ptr<RunState> const& runState)
+    : LevelFactory(), m_map(map),  m_runState(runState) {}
 
 
 std::unique_ptr<Level> FixedLevelFactory::createLevel()
 {
-    m_level = std::make_unique<Level>( Vector2i{m_map->width, m_map->height}, m_ctx, &m_runState->randomState );
+    m_level = std::make_unique<Level>( Vector2i{m_map->width, m_map->height}, &m_runState->randomState );
 
     constructTiles();
     constructObjects();

@@ -5,7 +5,7 @@
 
 ObjectivesSystem::ObjectivesSystem( Level *parent ) : System(parent)
 {
-    m_level->events().subscribe<GameEvents::EntityDeath>(this);
+    m_level->events().subscribe<GameEvents::EntityDeath>(this, GEventTiming::After);
 }
 
 void ObjectivesSystem::operator()( GameEvents::EntityDeath &evt )
@@ -14,14 +14,15 @@ void ObjectivesSystem::operator()( GameEvents::EntityDeath &evt )
 
     if ( actorC->actorType == ActorType::PC )
     {
-        if ( m_level->partyRemainingCount() == 0 )
+        if ( m_level->partyRemainingCount() == 1 )
         {
             // Party has died! -> Fail
         }
     }
     else
     {
-        if ( m_level->enemiesRemainingCount() == 0 )
+        // This event will kick in before
+        if ( m_level->enemiesRemainingCount() == 1 )
         {
             // Enemies are all dead -> Success
             m_level->setLevelExitStatus( LevelExitStatus::Completed );

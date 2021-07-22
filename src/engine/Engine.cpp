@@ -6,7 +6,6 @@
 #include <resource/ResourceManager.h>
 #include <utils/Time.h>
 #include <utils/GlobalConfig.h>
-#include <state/LevelState.h>
 #include <state/InitState.h>
 #include <engine/InputInterface.h>
 
@@ -83,6 +82,8 @@ void Engine::run()
 
         // State checking
 
+        bool stateChanged = false;
+
         if ( m_states.back()->hasRequestedExit() )
         {
             // The current state has requested that we exit the program
@@ -93,6 +94,7 @@ void Engine::run()
         {
             // Clear the current state if we've been asked to
             m_states.pop_back();
+            stateChanged = true;
         }
         
         else if ( m_states.back()->hasNextState() )
@@ -104,11 +106,18 @@ void Engine::run()
                 auto next = std::move( m_states.back()->getNextState() );
                 m_states.pop_back();
                 m_states.push_back( std::move(next) );
+                stateChanged = true;
             }
             else
             {
                 m_states.push_back( m_states.back()->getNextState() );
+                stateChanged = true;
             }
+        }
+
+        if (stateChanged)
+        {
+            renderer.reset();
         }
 
         // Rely on vsync for now to manage the framerate rather than hacking about with sleeps

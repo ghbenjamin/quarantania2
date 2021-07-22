@@ -1,9 +1,9 @@
 #include <state/LevelState.h>
 #include <game/Level.h>
+#include <ui/lib/Manager.h>
 #include <game/FixedLevelFactory.h>
 #include <components/ActorComponent.h>
 #include <game/LevelController.h>
-#include <ui/lib/Manager.h>
 #include <ui/level/PlayerStatusView.h>
 #include <ui/level/ActionPopupMenu.h>
 #include <ui/level/CreatureEquipView.h>
@@ -11,28 +11,26 @@
 #include <ui/level/EntityInformationView.h>
 #include <ui/level/BetterTextLog.h>
 #include <ui/level/Composites.h>
+#include <state/OverworldState.h>
+#include <graphics/RenderInterface.h>
 
-LevelState::LevelState(std::shared_ptr<LevelContext> const& ctx, std::shared_ptr<RunState> const& runState )
-: m_levelCtx(ctx)
+LevelState::LevelState( std::shared_ptr<RunState> const& runState )
+    : m_runState(runState)
 {
     TiledMapLoader loader;
     TiledMap tm = loader.load( "../resource/maps/arena.json" );
 
-    FixedLevelFactory ffactory(&tm, m_levelCtx, runState);
+    FixedLevelFactory ffactory(&tm, runState);
     m_level = ffactory.createLevel();
-    m_ui = std::make_unique<UI::Manager>();
+    
     setupUI();
     m_uiWatcher = std::make_unique<LSUISystem>( m_level.get(), m_ui.get() );
     m_controllers = { std::make_shared<DefaultLController>( m_level.get(), m_ui.get() ) };
 }
 
-bool LevelState::input(IEvent &evt)
+bool LevelState::inputImpl(IEvent &evt)
 {
-    if ( m_ui->input(evt))
-    {
-        return true;
-    }
-    else if ( m_level->input(evt) )
+    if ( m_level->input(evt) )
     {
         return true;
     }
@@ -42,7 +40,7 @@ bool LevelState::input(IEvent &evt)
     }
 }
 
-void LevelState::update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInterface)
+void LevelState::updateImpl(uint32_t ticks, InputInterface& iinter, RenderInterface &rInterface)
 {
     m_level->update(ticks, iinter, rInterface);
     
@@ -70,18 +68,13 @@ void LevelState::update(uint32_t ticks, InputInterface& iinter, RenderInterface 
     }
 
     m_controllers.back()->update(ticks, iinter, rInterface);
-    
-    // Render the GUI
-    m_ui->update(ticks, iinter, rInterface);
 
     if ( m_level->getLevelExitStatus() != LevelExitStatus::None )
     {
         switch ( m_level->getLevelExitStatus() )
         {
             case LevelExitStatus::Completed:
-                // TODO: Serialize level state
-            
-                requestPopState();
+                replaceNextState<OverworldState>(m_runState);
                 break;
             case LevelExitStatus::MainMenu:
                 requestExit();
@@ -132,7 +125,6 @@ void LevelState::setupUI()
     m_ui->alignElementToElement( equipUi, playerInventory, UI::Alignment::TopRight, {0, -10} );
     equipUi->hide();
 }
-
 
 LSUISystem::LSUISystem(Level *level, UI::Manager* ui)
     : m_level(level), m_ui(ui)
