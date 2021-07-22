@@ -204,6 +204,12 @@ private:
     }
 
     template <typename CT>
+    EntityCompMap& mapForComponent() const
+    {
+        return m_components.at( Component<CT>::id() );
+    }
+
+    template <typename CT>
     void registerComponent()
     {
         static_assert( std::is_base_of_v<BaseComponent, CT> );

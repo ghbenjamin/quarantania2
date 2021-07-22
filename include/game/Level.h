@@ -77,8 +77,13 @@ public:
     LevelExitStatus getLevelExitStatus() const;
     void setLevelExitStatus( LevelExitStatus status );
 
+
+    // Helpful functions
     std::string getDescriptionForEnt( EntityRef ent );
     std::string getDescriptionForItem( ItemPtr item );
+
+    int partyRemainingCount();
+    int enemiesRemainingCount();
 
 
 private:

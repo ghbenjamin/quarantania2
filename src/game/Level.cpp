@@ -314,3 +314,31 @@ AnimationQueue& Level::animation()
 {
     return m_animationQueue;
 }
+
+int Level::partyRemainingCount()
+{
+    int count = 0;
+    for ( auto const& [c] : m_ecs.entitiesWith<ActorComponent>() )
+    {
+        if (c->actorType == ActorType::PC)
+        {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+int Level::enemiesRemainingCount()
+{
+    int count = 0;
+    for ( auto const& [c] : m_ecs.entitiesWith<ActorComponent>() )
+    {
+        if (c->actorType != ActorType::PC)
+        {
+            count++;
+        }
+    }
+
+    return count;
+}
