@@ -1,19 +1,11 @@
 #include <utils/Logging.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 
-template <>
-void Logging::log( Vector2i const& t )
+Logger::Logger()
 {
-    fmt::print( "({}, {})\n", t.x(), t.y() );
-}
-
-template<>
-void Logging::log(RectI const &t)
-{
-    fmt::print( "({}, {}, {}, {})\n", t.x(), t.y(), t.w(), t.h() );
-}
-
-template<>
-void Logging::log(SDL_Rect const &t)
-{
-    fmt::print( "({}, {}, {}, {})\n", t.x, t.y, t.w, t.h );
+    auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+    console_sink->set_level(spdlog::level::info);
+    console_sink->set_pattern("[%^%l%$] %v");
+    
+    m_logger = std::make_shared<spdlog::logger>( "logger", console_sink );
 }

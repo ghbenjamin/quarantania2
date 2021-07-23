@@ -1,47 +1,48 @@
 #pragma once
 
 #include <fmt/format.h>
-#include <utils/Containers.h>
+#include <spdlog/logger.h>
 
-namespace Logging
+
+class Logger
 {
+public:
+    ~Logger() = default;
 
-    template <typename...Args>
-    void log( const char* format, Args...args )
+    static Logger& get()
     {
-        if constexpr(sizeof...(Args) == 0)
-        {
-            fmt::print( "{}\n", format );
-        }
-
-        else
-        {
-            fmt::print( format, std::forward<Args>(args)... );
-        }
+        static Logger l;
+        return l;
+    }
+    
+    
+    template <typename... Args>
+    void info(Args... args)
+    {
+        m_logger->info( std::forward<Args>(args)... );
+    }
+    
+    template <typename... Args>
+    void error(Args... args)
+    {
+        m_logger->error( std::forward<Args>(args)... );
+    }
+    
+    template <typename... Args>
+    void debug(Args... args)
+    {
+        m_logger->debug( std::forward<Args>(args)... );
+    }
+    
+    template <typename... Args>
+    void warn(Args... args)
+    {
+        m_logger->warn( std::forward<Args>(args)... );
     }
 
-    template <typename T>
-    void log(T const& t)
-    {
-        fmt::print( "{}\n", t );
-    }
-
-    template <typename T>
-    void log(std::vector<T> const& t)
-    {
-        for (auto const& item : t)
-        {
-            log(item);
-        }
-    }
-
-    template <>
-    void log( Vector2i const& t );
-
-    template <>
-    void log( RectI const& t);
-
-    template <>
-    void log( SDL_Rect const& t );
-}
+private:
+    Logger();
+    
+    std::shared_ptr<spdlog::logger> m_logger;
+};
 

@@ -32,7 +32,8 @@ ShaderProgram::ShaderProgram(std::string const& vertName, std::string const& fra
 
         glDeleteProgram(m_handle);
 
-        Logging::log( fmt::format( "Error linking shader from {} and {}:\n{}", vertName, fragName, err));
+        Logger::get().error( "Error linking shader from {} and {}:\n{}", vertName, fragName, err );
+        std::terminate();
     }
 }
 

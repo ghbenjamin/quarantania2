@@ -55,7 +55,7 @@ void LocationViewItem::refresh()
 
 void LocationViewItem::onClick()
 {
-
+    m_overworld->events().broadcast<GameEvents::OverworldLocationSelect>( 0 /* FIXME */ );
 }
 
 LocationView::LocationView( Manager *manager, Element *parent, Overworld *overworld )

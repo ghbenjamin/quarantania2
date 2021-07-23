@@ -73,9 +73,8 @@ public:
     void advanceRound();                // Move to the next round. Called automatically once the turn toggles twice
 
     // Communication
-    LevelExitStatus getLevelExitStatus() const;
-    void setLevelExitStatus( LevelExitStatus status );
-
+    LevelExitStatus getExitStatus() const;
+    void setExitStatus( LevelExitStatus status );
 
     // Helpful functions
     std::string getDescriptionForEnt( EntityRef ent );

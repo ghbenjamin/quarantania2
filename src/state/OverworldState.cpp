@@ -13,9 +13,9 @@ OverworldState::OverworldState(std::shared_ptr<RunState> runState)
     : m_runState(runState)
 {
     OverworldFactory factory;
-    m_overworld = factory.createOverworld( runState );
     
-    m_eventSub = std::make_unique<OverworldStateEventSub>( m_overworld.get() );
+    m_overworld = factory.createOverworld( runState );
+    m_eventSub = std::make_unique<OverworldStateEventSub>( this );
     
     setupUI();
 }
@@ -45,13 +45,18 @@ void OverworldState::startLevel()
     replaceNextState<LevelState>( m_runState );
 }
 
-OverworldStateEventSub::OverworldStateEventSub( Overworld *parent )
-    : m_overworld(parent)
+Overworld *OverworldState::overworld()
 {
-    m_overworld->events().subscribe<GameEvents::OverworldLocationSelect>( this );
+    return m_overworld.get();
+}
+
+OverworldStateEventSub::OverworldStateEventSub( OverworldState *parent )
+    : m_parent(parent)
+{
+    parent->overworld()->events().subscribe<GameEvents::OverworldLocationSelect>( this );
 }
 
 void OverworldStateEventSub::operator()( GameEvents::OverworldLocationSelect &evt )
 {
-
+    m_parent->startLevel();
 }

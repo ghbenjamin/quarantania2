@@ -43,12 +43,12 @@ void LevelMainMenu::onBtnResume()
 
 void LevelMainMenu::onBtnExitMainMenu()
 {
-    m_level->setLevelExitStatus( LevelExitStatus::MainMenu );
+    m_level->setExitStatus(LevelExitStatus::MainMenu);
 }
 
 void LevelMainMenu::onBtnQuit()
 {
-    m_level->setLevelExitStatus( LevelExitStatus::Desktop );
+    m_level->setExitStatus(LevelExitStatus::Desktop);
 }
 
 void LevelMainMenu::onBtnOptions()

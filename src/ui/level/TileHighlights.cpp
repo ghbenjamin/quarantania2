@@ -283,7 +283,7 @@ BiArrowSegment TileArrowHighlight::segmentFromTiles(Vector2i curr, Vector2i next
     }
 
     // Hopefully not possible?
-    Logging::log("Weird segment: curr:{}, next:{}\n", curr.to_string(), next.to_string());
+    Logger::get().warn("Weird segment: curr:{}, next:{}\n", curr.to_string(), next.to_string());
     return BiArrowSegment::N;
 }
 

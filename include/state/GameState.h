@@ -22,6 +22,8 @@ public:
     bool hasNextState() const;
     std::unique_ptr<GameState> getNextState();
 
+    UI::Manager* ui();
+
     bool hasRequestedPopState() const;
     bool hasRequestedReplaceState() const;
     bool hasRequestedExit() const;

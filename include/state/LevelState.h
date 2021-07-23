@@ -18,6 +18,8 @@ public:
     LevelState(std::shared_ptr<RunState> const& runState);
     ~LevelState() override = default;
 
+    Level* level();
+
 protected:
     bool inputImpl(IEvent &evt) override;
     void updateImpl(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter) override;
@@ -36,7 +38,7 @@ private:
 class LSUISystem : public GameEventSub<LSUISystem>
 {
 public:
-    explicit LSUISystem(Level *parent, UI::Manager* ui);
+    explicit LSUISystem(LevelState* parent);
     ~LSUISystem() override = default;
     
     void operator()(GameEvents::LevelReady& evt);
@@ -69,6 +71,5 @@ private:
     
     void pushLogLine( std::string const& line, Colour const& colour = Colour::White );
     
-    Level* m_level;
-    UI::Manager* m_ui;
+    LevelState* m_parent;
 };

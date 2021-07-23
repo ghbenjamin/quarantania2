@@ -17,6 +17,8 @@ public:
     OverworldState(std::shared_ptr<RunState>);
     ~OverworldState() override = default;
 
+    Overworld* overworld();
+
     void startLevel(); // TODO Arguments
 
 protected:
@@ -36,7 +38,7 @@ private:
 class OverworldStateEventSub : public GameEventSub<OverworldStateEventSub>
 {
 public:
-    explicit OverworldStateEventSub(Overworld* parent);
+    explicit OverworldStateEventSub(OverworldState* parent);
     ~OverworldStateEventSub() override = default;
     
     void operator()(GameEvents::OverworldLocationSelect& evt);
@@ -47,5 +49,5 @@ public:
 
 
 private:
-    Overworld* m_overworld;
+    OverworldState* m_parent;
 };

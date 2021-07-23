@@ -156,7 +156,7 @@ Sprite ResourceManager::getSprite(SpritesheetKey const& key)
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
-        Logging::log( "ERROR: Unknown sprite [{}, {}, {}]\n", key.spriteName, key.gid, key.sheetName );
+        Logger::get().error( "Unknown sprite [{}, {}, {}]\n", key.spriteName, key.gid, key.sheetName );
         std::terminate();
     }
 }
@@ -169,7 +169,7 @@ Sprite ResourceManager::getImageAsSprite(std::string const& imgName)
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
-        Logging::log( "ERROR: Unknown image [{}]\n", imgName );
+        Logger::get().error( "Unknown image [{}]\n", imgName );
         std::terminate();
     }
 }
@@ -182,7 +182,7 @@ SurfacePtr ResourceManager::getSurface( std::string const &surfaceName )
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
-        Logging::log( "ERROR: Unknown surface [{}]\n", surfaceName );
+        Logger::get().error( "Unknown surface [{}]\n", surfaceName );
         std::terminate();
     }
 }
@@ -195,7 +195,7 @@ TexturePtr ResourceManager::getTexture(const std::string &imgName)
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
-        Logging::log( "ERROR: Unknown image [{}]\n", imgName );
+        Logger::get().error( "Unknown image [{}]\n", imgName );
         std::terminate();
     }
 }
@@ -209,7 +209,7 @@ std::shared_ptr<FtFontFace> ResourceManager::getFont(std::string const &fname )
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
-        Logging::log( "ERROR: Unknown font [{}]\n", fname );
+        Logger::get().error( "Unknown font [{}]\n", fname );
         std::terminate();
     }
 }
@@ -223,7 +223,7 @@ NinePatchResource const& ResourceManager::getNinePatch(const std::string &name)
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
-        Logging::log( "ERROR: Unknown ninepatch [{}]\n", name );
+        Logger::get().error( "Unknown ninepatch [{}]\n", name );
         std::terminate();
     }
 }
@@ -236,7 +236,7 @@ ShaderResource const& ResourceManager::getShader( const std::string &name)
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
-        Logging::log( "ERROR: Unknown shader [{}]\n", name );
+        Logger::get().error( "Unknown shader [{}]\n", name );
         std::terminate();
     }
 }
@@ -249,7 +249,7 @@ ShaderProgramResource& ResourceManager::getShaderProgram( std::string const &nam
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
-        Logging::log( "ERROR: Unknown shader program [{}]\n", name );
+        Logger::get().error( "Unknown shader program [{}]\n", name );
         std::terminate();
     }
 }
@@ -262,7 +262,7 @@ SpritesheetResource const& ResourceManager::getSpritesheet( std::string const &s
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
-        Logging::log( "ERROR: Unknown spritesheet program [{}]\n", sheetName );
+        Logger::get().error( "Unknown spritesheet program [{}]\n", sheetName );
         std::terminate();
     }
 }

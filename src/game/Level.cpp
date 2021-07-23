@@ -298,12 +298,12 @@ void Level::advanceRound()
     m_currentRound++;
 }
 
-LevelExitStatus Level::getLevelExitStatus() const
+LevelExitStatus Level::getExitStatus() const
 {
     return m_exitStatus;
 }
 
-void Level::setLevelExitStatus( LevelExitStatus status )
+void Level::setExitStatus( LevelExitStatus status )
 {
     m_exitStatus = status;
 }

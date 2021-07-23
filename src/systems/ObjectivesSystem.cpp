@@ -25,7 +25,7 @@ void ObjectivesSystem::operator()( GameEvents::EntityDeath &evt )
         if ( m_level->enemiesRemainingCount() == 1 )
         {
             // Enemies are all dead -> Success
-            m_level->setLevelExitStatus( LevelExitStatus::Completed );
+            m_level->setExitStatus(LevelExitStatus::Completed);
         }
     }
 }

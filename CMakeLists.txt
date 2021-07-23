@@ -41,6 +41,8 @@ target_include_directories(quarantania2_lib PRIVATE ${STB_INCLUDE_DIRS})
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(quarantania2_lib PRIVATE glm::glm)
 
+find_package(spdlog CONFIG REQUIRED)
+target_link_libraries(quarantania2_lib PRIVATE spdlog::spdlog spdlog::spdlog_header_only)
 
 # Main executable
 

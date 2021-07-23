@@ -24,7 +24,7 @@ LevelState::LevelState( std::shared_ptr<RunState> const& runState )
     m_level = ffactory.createLevel();
     
     setupUI();
-    m_uiWatcher = std::make_unique<LSUISystem>( m_level.get(), m_ui.get() );
+    m_uiWatcher = std::make_unique<LSUISystem>( this );
     m_controllers = { std::make_shared<DefaultLController>( m_level.get(), m_ui.get() ) };
 }
 
@@ -69,9 +69,9 @@ void LevelState::updateImpl(uint32_t ticks, InputInterface& iinter, RenderInterf
 
     m_controllers.back()->update(ticks, iinter, rInterface);
 
-    if ( m_level->getLevelExitStatus() != LevelExitStatus::None )
+    if ( m_level->getExitStatus() != LevelExitStatus::None )
     {
-        switch ( m_level->getLevelExitStatus() )
+        switch ( m_level->getExitStatus() )
         {
             case LevelExitStatus::Completed:
                 replaceNextState<OverworldState>(m_runState);
@@ -126,29 +126,34 @@ void LevelState::setupUI()
     equipUi->hide();
 }
 
-LSUISystem::LSUISystem(Level *level, UI::Manager* ui)
-    : m_level(level), m_ui(ui)
+Level *LevelState::level()
 {
-    m_level->events().subscribe<GameEvents::LevelReady>(this, GEventTiming::After );
-    m_level->events().subscribe<GameEvents::EntityMove>(this, GEventTiming::After );
-    m_level->events().subscribe<GameEvents::ItemPickup>(this, GEventTiming::After );
-    m_level->events().subscribe<GameEvents::ItemDrop>(this, GEventTiming::After );
-    m_level->events().subscribe<GameEvents::ItemEquip>(this, GEventTiming::After );
-    m_level->events().subscribe<GameEvents::ItemUnequip>(this, GEventTiming::After );
-    m_level->events().subscribe<GameEvents::TurnChange>(this, GEventTiming::After );
-    m_level->events().subscribe<GameEvents::RoundChange>(this, GEventTiming::After );
-    m_level->events().subscribe<GameEvents::ControllerEntitySelected>(this, GEventTiming::After );
-    m_level->events().subscribe<GameEvents::ControllerEntityHovered>(this, GEventTiming::After );
-    m_level->events().subscribe<GameEvents::CombatMeleeAttack>(this, GEventTiming::After );
-    m_level->events().subscribe<GameEvents::EntityAction>(this, GEventTiming::After );
-    m_level->events().subscribe<GameEvents::CombatAttackSucceeded>(this, GEventTiming::After );
-    m_level->events().subscribe<GameEvents::CombatMissedAttack>(this, GEventTiming::After );
-    m_level->events().subscribe<GameEvents::EntityDeath>(this, GEventTiming::After );
+    return m_level.get();
+}
+
+LSUISystem::LSUISystem(LevelState* parent)
+    : m_parent(parent)
+{
+    parent->level()->events().subscribe<GameEvents::LevelReady>(this, GEventTiming::After );
+    parent->level()->events().subscribe<GameEvents::EntityMove>(this, GEventTiming::After );
+    parent->level()->events().subscribe<GameEvents::ItemPickup>(this, GEventTiming::After );
+    parent->level()->events().subscribe<GameEvents::ItemDrop>(this, GEventTiming::After );
+    parent->level()->events().subscribe<GameEvents::ItemEquip>(this, GEventTiming::After );
+    parent->level()->events().subscribe<GameEvents::ItemUnequip>(this, GEventTiming::After );
+    parent->level()->events().subscribe<GameEvents::TurnChange>(this, GEventTiming::After );
+    parent->level()->events().subscribe<GameEvents::RoundChange>(this, GEventTiming::After );
+    parent->level()->events().subscribe<GameEvents::ControllerEntitySelected>(this, GEventTiming::After );
+    parent->level()->events().subscribe<GameEvents::ControllerEntityHovered>(this, GEventTiming::After );
+    parent->level()->events().subscribe<GameEvents::CombatMeleeAttack>(this, GEventTiming::After );
+    parent->level()->events().subscribe<GameEvents::EntityAction>(this, GEventTiming::After );
+    parent->level()->events().subscribe<GameEvents::CombatAttackSucceeded>(this, GEventTiming::After );
+    parent->level()->events().subscribe<GameEvents::CombatMissedAttack>(this, GEventTiming::After );
+    parent->level()->events().subscribe<GameEvents::EntityDeath>(this, GEventTiming::After );
 }
 
 void LSUISystem::operator()(GameEvents::LevelReady& evt)
 {
-    auto playerStatus = m_ui->withId<UI::PlayerStatusContainer>( "player-status-container" );
+    auto playerStatus = m_parent->ui()->withId<UI::PlayerStatusContainer>( "player-status-container" );
     playerStatus->reloadEntities();
 }
 
@@ -170,60 +175,60 @@ void LSUISystem::operator()(GameEvents::ItemDrop& evt)
 
 void LSUISystem::operator()(GameEvents::ItemEquip& evt)
 {
-    auto creatureEquip = m_ui->withId<UI::EquipView>( "ui-equip-view" );
+    auto creatureEquip = m_parent->ui()->withId<UI::EquipView>( "ui-equip-view" );
     creatureEquip->refresh(evt.actor);
     
-    auto creatureInventory = m_ui->withId<UI::ContainerView>( "player-inventory" );
+    auto creatureInventory = m_parent->ui()->withId<UI::ContainerView>( "player-inventory" );
     creatureInventory->refresh(evt.actor);
 }
 
 void LSUISystem::operator()(GameEvents::ItemUnequip& evt)
 {
-    auto creatureEquip = m_ui->withId<UI::EquipView>( "ui-equip-view" );
+    auto creatureEquip = m_parent->ui()->withId<UI::EquipView>( "ui-equip-view" );
     creatureEquip->refresh(evt.actor);
     
-    auto creatureInventory = m_ui->withId<UI::ContainerView>( "player-inventory" );
+    auto creatureInventory = m_parent->ui()->withId<UI::ContainerView>( "player-inventory" );
     creatureInventory->refresh(evt.actor);
 }
 
 void LSUISystem::operator()(GameEvents::TurnChange& evt)
 {
-    auto playerStatus = m_ui->withId<UI::PlayerStatusContainer>( "player-status-container" );
+    auto playerStatus = m_parent->ui()->withId<UI::PlayerStatusContainer>( "player-status-container" );
     playerStatus->refresh();
 }
 
 void LSUISystem::operator()(GameEvents::ControllerEntitySelected& evt)
 {
     // We've selected an entity - update our UI to match
-    auto actionMenu = m_ui->withId<UI::ActionMenu>( "action-menu" );
+    auto actionMenu = m_parent->ui()->withId<UI::ActionMenu>( "action-menu" );
     actionMenu->closeMenu();
     actionMenu->refresh(evt.entity);
     
-    auto creatureEquip = m_ui->withId<UI::EquipView>( "ui-equip-view" );
+    auto creatureEquip = m_parent->ui()->withId<UI::EquipView>( "ui-equip-view" );
     creatureEquip->refresh(evt.entity);
     
-    auto creatureInventory = m_ui->withId<UI::ContainerView>( "player-inventory" );
+    auto creatureInventory = m_parent->ui()->withId<UI::ContainerView>( "player-inventory" );
     creatureInventory->refresh(evt.entity);
 }
 
 void LSUISystem::operator()(GameEvents::CombatMeleeAttack &evt)
 {
-    auto atkActorC = m_level->ecs().getComponents<ActorComponent>( evt.attacker );
-    auto atkDefenderC = m_level->ecs().getComponents<ActorComponent>( evt.defender );
-    
-    bool attackerHostile = atkActorC->actorType == ActorType::NPC;
-    bool defenderHostile = atkDefenderC->actorType == ActorType::NPC;
-    
+//    auto atkActorC = m_parent->level()->ecs().getComponents<ActorComponent>( evt.attacker );
+//    auto atkDefenderC = m_parent->level()->ecs().getComponents<ActorComponent>( evt.defender );
+//
+//    bool attackerHostile = atkActorC->actorType == ActorType::NPC;
+//    bool defenderHostile = atkDefenderC->actorType == ActorType::NPC;
+//
     pushLogLine( fmt::format(
             "{} attacks {}",
-            m_level->getDescriptionForEnt( evt.attacker ),
-            m_level->getDescriptionForEnt( evt.defender )
+            m_parent->level()->getDescriptionForEnt( evt.attacker ),
+            m_parent->level()->getDescriptionForEnt( evt.defender )
     ));
 }
 
 void LSUISystem::pushLogLine(const std::string &line, const Colour &colour)
 {
-    auto textLog = m_ui->withId<UI::BetterTextLog>("main-text-log");
+    auto textLog = m_parent->ui()->withId<UI::BetterTextLog>("main-text-log");
     textLog->addLine(line, colour);
 }
 
@@ -238,9 +243,9 @@ void LSUISystem::operator()( GameEvents::EntityDamage &evt )
     
     pushLogLine( fmt::format(
             "{} deals {} damage to {}",
-            m_level->getDescriptionForEnt( evt.source ),
+            m_parent->level()->getDescriptionForEnt( evt.source ),
             total,
-            m_level->getDescriptionForEnt( evt.target )
+            m_parent->level()->getDescriptionForEnt( evt.target )
     ));
 }
 
@@ -253,15 +258,15 @@ void LSUISystem::operator()(GameEvents::RoundChange &evt)
 {
     refreshPartyStatus();
     
-    m_ui->displayTransientMessage("Player Turn", 1.0f);
+    m_parent->ui()->displayTransientMessage("Player Turn", 1.0f);
 }
 
 void LSUISystem::operator()(GameEvents::CombatMissedAttack &evt)
 {
     pushLogLine( fmt::format(
             "{} misses {} ",
-            m_level->getDescriptionForEnt( evt.attacker ),
-            m_level->getDescriptionForEnt( evt.defender )
+            m_parent->level()->getDescriptionForEnt( evt.attacker ),
+            m_parent->level()->getDescriptionForEnt( evt.defender )
     ));
 }
 
@@ -269,8 +274,8 @@ void LSUISystem::operator()( GameEvents::CombatAttackSucceeded &evt )
 {
     pushLogLine( fmt::format(
             "{} hits {} ",
-            m_level->getDescriptionForEnt( evt.attacker ),
-            m_level->getDescriptionForEnt( evt.defender )
+            m_parent->level()->getDescriptionForEnt( evt.attacker ),
+            m_parent->level()->getDescriptionForEnt( evt.defender )
     ));
 }
 
@@ -278,7 +283,7 @@ void LSUISystem::operator()(GameEvents::EntityDeath &evt)
 {
     pushLogLine( fmt::format(
             "{} has died! ",
-            m_level->getDescriptionForEnt( evt.actor )
+            m_parent->level()->getDescriptionForEnt( evt.actor )
     ));
 }
 
@@ -296,13 +301,13 @@ void LSUISystem::refreshPlayerEquipView()
 
 void LSUISystem::refreshPartyStatus()
 {
-    auto playerStatus = m_ui->withId<UI::PlayerStatusContainer>( "player-status-container" );
+    auto playerStatus = m_parent->ui()->withId<UI::PlayerStatusContainer>( "player-status-container" );
     playerStatus->reloadEntities();
 }
 
 void LSUISystem::operator()( GameEvents::ControllerEntityHovered &evt )
 {
-    auto entityInformation = m_ui->withId<UI::EntityInformationView>("entity-information-view");
+    auto entityInformation = m_parent->ui()->withId<UI::EntityInformationView>("entity-information-view");
     entityInformation->refresh(evt.entity);
     
     if (evt.entity == EntityNull)

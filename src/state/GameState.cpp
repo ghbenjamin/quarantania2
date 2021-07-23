@@ -66,3 +66,8 @@ bool GameState::hasRequestedExit() const
 
 bool GameState::inputImpl( IEvent &evt ) { return false; }
 void GameState::updateImpl( uint32_t ticks, InputInterface &, RenderInterface & ) {}
+
+UI::Manager *GameState::ui()
+{
+    return m_ui.get();
+}
