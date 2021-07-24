@@ -3,7 +3,7 @@
     {
       "id": "fighter",
       "name": "Fighter",
-      "sprite": "dawnlike_chars/Player_001",
+      "sprite": "dawnlike/Player_001",
       "max_hp": 12,
       "attributes": [16, 12, 14, 9, 10, 12],
       "starting_equipped_items": ["Longsword"],
@@ -14,7 +14,7 @@
     {
       "id": "rogue",
       "name": "Rogue",
-      "sprite": "dawnlike_chars/Player_002",
+      "sprite": "dawnlike/Player_002",
       "max_hp": 8,
       "attributes": [10, 16, 10, 14, 10, 12],
       "starting_equipped_items": ["Dagger"],

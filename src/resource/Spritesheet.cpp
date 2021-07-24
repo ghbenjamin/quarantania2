@@ -46,6 +46,22 @@ SpritesheetKey::SpritesheetKey(const char *key)
  : SpritesheetKey( std::string(key) )
  {}
 
+std::string SpritesheetKey::toString() const
+{
+    std::stringstream ss;
+    ss << sheetName << "/";
+    if ( gid < 0 )
+    {
+        ss << spriteName;
+    }
+    else
+    {
+        ss << gid;
+    }
+    
+    return ss.str();
+}
+
 
 Spritesheet::Spritesheet(TexturePtr texture)
 : m_texture(texture)

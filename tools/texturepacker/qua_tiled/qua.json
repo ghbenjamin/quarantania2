@@ -1,0 +1,10 @@
+{
+  "meta": {
+    "type": "tiled",
+    "shapePadding": {{ variantParams.shapePadding }},
+    "extrude": {{ variantParams.extrude }}
+  },
+  "data": { {% for sprite in allSprites %}
+      "{{sprite.trimmedName}}": {{ forloop.counter0 }}{% if not forloop.last %},{% endif %}{% endfor %}
+  }
+}

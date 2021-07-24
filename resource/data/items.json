@@ -9,7 +9,7 @@
     "price": 5017000,
     "slot": "shield",
     "sprite_name": "Shield_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 15
   },
   {
@@ -18,7 +18,7 @@
     "name": "Acid",
     "price": 1000,
     "sprite_name": "Potion_032",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -27,7 +27,7 @@
     "name": "Alchemist's Fire",
     "price": 2000,
     "sprite_name": "Potion_034",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -36,7 +36,7 @@
     "name": "Alchemist's Lab",
     "price": 20000,
     "sprite_name": "Chest_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 40
   },
   {
@@ -49,7 +49,7 @@
     "price": 0,
     "slot": "neck",
     "sprite_name": "Amulet_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -62,7 +62,7 @@
     "price": 400000,
     "slot": "neck",
     "sprite_name": "Amulet_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -75,7 +75,7 @@
     "price": 200000,
     "slot": "neck",
     "sprite_name": "Amulet_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -88,7 +88,7 @@
     "price": 3500000,
     "slot": "neck",
     "sprite_name": "Amulet_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -101,7 +101,7 @@
     "price": 12000000,
     "slot": "neck",
     "sprite_name": "Amulet_006",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -110,7 +110,7 @@
     "name": "Antitoxin",
     "price": 5000,
     "sprite_name": "Potion_033",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -123,7 +123,7 @@
     "price": 0,
     "slot": "armor",
     "sprite_name": "Armor_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 50
   },
   {
@@ -136,7 +136,7 @@
     "price": 0,
     "slot": "body",
     "sprite_name": "Armor_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 50
   },
   {
@@ -145,7 +145,7 @@
     "name": "Artisan's Tools",
     "price": 500,
     "sprite_name": "Food_035",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -154,7 +154,7 @@
     "name": "Masterwork Artisan's Tools",
     "price": 5500,
     "sprite_name": "Food_035",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -166,7 +166,7 @@
     "name": "Assassin's Dagger",
     "price": 1030200,
     "sprite_name": "ShortWep_010",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -178,7 +178,7 @@
     "name": "Axe of the Dwarvish Lords",
     "price": 0,
     "sprite_name": "LongWep_023",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 12
   },
   {
@@ -188,7 +188,7 @@
     "price": 6000,
     "slot": "weapon",
     "sprite_name": "LongWep_024",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "double",
       "crit_lower": 20,
@@ -207,7 +207,7 @@
     "name": "Backpack",
     "price": 200,
     "sprite_name": "Chest_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -219,7 +219,7 @@
     "name": "Bag of Devouring",
     "price": 0,
     "sprite_name": "Chest_016",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 15
   },
   {
@@ -231,7 +231,7 @@
     "name": "Bag of Holding",
     "price": 0,
     "sprite_name": "Chest_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -243,7 +243,7 @@
     "name": "Bag of Tricks",
     "price": 340000,
     "sprite_name": "Chest_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -261,7 +261,7 @@
     "name": "Banded Mail",
     "price": 25000,
     "sprite_name": "Armor_053",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 35
   },
   {
@@ -274,7 +274,7 @@
     "price": 1890000,
     "slot": "armor",
     "sprite_name": "Armor_058",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 35
   },
   {
@@ -283,7 +283,7 @@
     "name": "Barrel",
     "price": 200,
     "sprite_name": "Chest_009",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 30
   },
   {
@@ -292,7 +292,7 @@
     "name": "Basket",
     "price": 40,
     "sprite_name": "Flesh_050",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -302,7 +302,7 @@
     "price": 1000,
     "slot": "weapon",
     "sprite_name": "LongWep_025",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
@@ -323,7 +323,7 @@
     "name": "Bead of Force",
     "price": 300000,
     "sprite_name": "Ammo_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -332,7 +332,7 @@
     "name": "Bedroll",
     "price": 10,
     "sprite_name": "Food_033",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -341,7 +341,7 @@
     "name": "Bell",
     "price": 100,
     "sprite_name": "Music_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -354,7 +354,7 @@
     "price": 1490000,
     "slot": "belt",
     "sprite_name": "Hat_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -367,7 +367,7 @@
     "price": 400000,
     "slot": "belt",
     "sprite_name": "Hat_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -380,7 +380,7 @@
     "price": 400000,
     "slot": "belt",
     "sprite_name": "Hat_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -393,7 +393,7 @@
     "price": 400000,
     "slot": "belt",
     "sprite_name": "Hat_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -406,7 +406,7 @@
     "price": 1000000,
     "slot": "belt",
     "sprite_name": "Hat_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -419,7 +419,7 @@
     "price": 1600000,
     "slot": "belt",
     "sprite_name": "Hat_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -431,7 +431,7 @@
     "name": "Blessed Book",
     "price": 1250000,
     "sprite_name": "Book_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -441,7 +441,7 @@
     "price": 500,
     "slot": "weapon",
     "sprite_name": "LongWep_029",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 10,
       "Special": "nonlethal, trip",
@@ -464,7 +464,7 @@
     "name": "Book of Infinite Spells",
     "price": 0,
     "sprite_name": "Book_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -477,7 +477,7 @@
     "price": 0,
     "slot": "feet",
     "sprite_name": "Boot_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -490,7 +490,7 @@
     "price": 250000,
     "slot": "feet",
     "sprite_name": "Boot_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -503,7 +503,7 @@
     "price": 750000,
     "slot": "feet",
     "sprite_name": "Boot_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -516,7 +516,7 @@
     "price": 1200000,
     "slot": "feet",
     "sprite_name": "Boot_006",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -529,7 +529,7 @@
     "price": 4900000,
     "slot": "feet",
     "sprite_name": "Boot_008",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -542,7 +542,7 @@
     "price": 250000,
     "slot": "feet",
     "sprite_name": "Boot_010",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -555,7 +555,7 @@
     "price": 1600000,
     "slot": "feet",
     "sprite_name": "Boot_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -564,7 +564,7 @@
     "name": "Bottle",
     "price": 200,
     "sprite_name": "Potion_016",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -576,7 +576,7 @@
     "name": "Bottle of Air",
     "price": 725000,
     "sprite_name": "Potion_027",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -589,7 +589,7 @@
     "price": 1900000,
     "slot": "wrists",
     "sprite_name": "Ring_044",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -602,7 +602,7 @@
     "price": 2500000,
     "slot": "wrists",
     "sprite_name": "Food_037",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -615,7 +615,7 @@
     "price": 500000,
     "slot": "wrists",
     "sprite_name": "Food_037",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -628,7 +628,7 @@
     "price": 100000,
     "slot": "wrists",
     "sprite_name": "Food_037",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -641,7 +641,7 @@
     "price": 0,
     "slot": "arms",
     "sprite_name": "Food_037",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -659,7 +659,7 @@
     "name": "Breastplate",
     "price": 20000,
     "sprite_name": "Armor_039",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 30
   },
   {
@@ -672,7 +672,7 @@
     "price": 2540000,
     "slot": "armor",
     "sprite_name": "Armor_008",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 30
   },
   {
@@ -685,7 +685,7 @@
     "price": 150000,
     "slot": "neck",
     "sprite_name": "Amulet_011",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -694,7 +694,7 @@
     "name": "Bucket",
     "price": 50,
     "sprite_name": "Tool_011",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -710,7 +710,7 @@
     "name": "Buckler",
     "price": 500,
     "sprite_name": "Shield_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -719,7 +719,7 @@
     "name": "Caltrops",
     "price": 100,
     "sprite_name": "Ammo_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -728,7 +728,7 @@
     "name": "Candle",
     "price": 1,
     "sprite_name": "Light_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -740,7 +740,7 @@
     "name": "Candle of Invocation",
     "price": 840000,
     "sprite_name": "Light_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -752,7 +752,7 @@
     "name": "Candle of Truth",
     "price": 250000,
     "sprite_name": "Light_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -765,7 +765,7 @@
     "price": 1080000,
     "slot": "shoulders",
     "sprite_name": "Armor_027",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -778,7 +778,7 @@
     "price": 315300,
     "slot": "shield",
     "sprite_name": "Shield_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -791,7 +791,7 @@
     "price": 2240000,
     "slot": "armor",
     "sprite_name": "Armor_010",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 20
   },
   {
@@ -809,7 +809,7 @@
     "name": "Chainmail",
     "price": 15000,
     "sprite_name": "Armor_043",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 40
   },
   {
@@ -827,7 +827,7 @@
     "name": "Chain Shirt",
     "price": 10000,
     "sprite_name": "Armor_055",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 25
   },
   {
@@ -837,7 +837,7 @@
     "price": 2500,
     "slot": "weapon",
     "sprite_name": "ShortWep_020",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "disarm, trip",
       "crit_lower": 20,
@@ -856,7 +856,7 @@
     "name": "Chest",
     "price": 200,
     "sprite_name": "Chest_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 25
   },
   {
@@ -868,7 +868,7 @@
     "name": "Chime of Interruption",
     "price": 1680000,
     "sprite_name": "Music_011",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -880,7 +880,7 @@
     "name": "Chime of Opening",
     "price": 300000,
     "sprite_name": "Music_012",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -893,7 +893,7 @@
     "price": 450000,
     "slot": "head",
     "sprite_name": "Ring_033",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -902,7 +902,7 @@
     "name": "Climber's Kit",
     "price": 8000,
     "sprite_name": "Tool_019",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -915,7 +915,7 @@
     "price": 1400000,
     "slot": "shoulders",
     "sprite_name": "Armor_028",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -928,7 +928,7 @@
     "price": 5000000,
     "slot": "shoulders",
     "sprite_name": "Armor_026",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -941,7 +941,7 @@
     "price": 2400000,
     "slot": "shoulders",
     "sprite_name": "Armor_033",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -954,7 +954,7 @@
     "price": 250000,
     "slot": "shoulders",
     "sprite_name": "Armor_029",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -967,7 +967,7 @@
     "price": 5500000,
     "slot": "shoulders",
     "sprite_name": "Armor_031",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -980,7 +980,7 @@
     "price": 100000,
     "slot": "shoulders",
     "sprite_name": "Armor_032",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -993,7 +993,7 @@
     "price": 2600000,
     "slot": "shoulders",
     "sprite_name": "Armor_033",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -1006,7 +1006,7 @@
     "price": 720000,
     "slot": "shoulders",
     "sprite_name": "Armor_034",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -1016,7 +1016,7 @@
     "price": 0,
     "slot": "weapon",
     "sprite_name": "ShortWep_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 10,
       "crit_lower": 20,
@@ -1038,7 +1038,7 @@
     "name": "Codex of the Infinite Planes",
     "price": 0,
     "sprite_name": "Book_021",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 300
   },
   {
@@ -1048,7 +1048,7 @@
     "price": 10000,
     "slot": "weapon",
     "sprite_name": "Ammo_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 30,
       "crit_lower": 19,
@@ -1068,7 +1068,7 @@
     "price": 5000,
     "slot": "weapon",
     "sprite_name": "Ammo_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 120,
       "crit_lower": 19,
@@ -1088,7 +1088,7 @@
     "price": 3500,
     "slot": "weapon",
     "sprite_name": "Ammo_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 80,
       "crit_lower": 19,
@@ -1108,7 +1108,7 @@
     "price": 40000,
     "slot": "weapon",
     "sprite_name": "Ammo_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 120,
       "crit_lower": 19,
@@ -1128,7 +1128,7 @@
     "price": 25000,
     "slot": "weapon",
     "sprite_name": "Ammo_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 80,
       "crit_lower": 19,
@@ -1151,7 +1151,7 @@
     "price": 2376000,
     "slot": "head",
     "sprite_name": "Hat_015",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -1164,7 +1164,7 @@
     "price": 648000,
     "slot": "head",
     "sprite_name": "Hat_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -1176,7 +1176,7 @@
     "name": "Crystal Ball",
     "price": 4200000,
     "sprite_name": "Tool_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 7
   },
   {
@@ -1188,7 +1188,7 @@
     "name": "Crystal Hypnosis Ball",
     "price": 0,
     "sprite_name": "Tool_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 7
   },
   {
@@ -1200,7 +1200,7 @@
     "name": "Cube of Force",
     "price": 6200000,
     "sprite_name": "Money_015",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -1212,7 +1212,7 @@
     "name": "Cube of Frost Resistance",
     "price": 2700000,
     "sprite_name": "Money_007",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -1222,7 +1222,7 @@
     "price": 8000,
     "slot": "weapon",
     "sprite_name": "LongWep_012",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
@@ -1241,7 +1241,7 @@
     "price": 200,
     "slot": "weapon",
     "sprite_name": "ShortWep_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 10,
       "crit_lower": 19,
@@ -1263,7 +1263,7 @@
     "name": "Dagger of Venom",
     "price": 830200,
     "sprite_name": "ShortWep_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -1273,7 +1273,7 @@
     "price": 200,
     "slot": "weapon",
     "sprite_name": "MedWep_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
@@ -1293,7 +1293,7 @@
     "price": 20300,
     "slot": "shield",
     "sprite_name": "Shield_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -1304,7 +1304,7 @@
     "price": 25700,
     "slot": "shield",
     "sprite_name": "Shield_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -1314,7 +1314,7 @@
     "price": 50,
     "slot": "weapon",
     "sprite_name": "Ammo_021",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 20,
       "crit_lower": 20,
@@ -1336,7 +1336,7 @@
     "name": "Decanter of Endless Water",
     "price": 900000,
     "sprite_name": "Potion_029",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -1348,7 +1348,7 @@
     "name": "Deck of Illusions",
     "price": 810000,
     "sprite_name": "Book_022",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -1360,7 +1360,7 @@
     "name": "Deck of Many Things",
     "price": 0,
     "sprite_name": "Book_023",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1373,7 +1373,7 @@
     "price": 5226000,
     "slot": "armor",
     "sprite_name": "Armor_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 50
   },
   {
@@ -1384,7 +1384,7 @@
     "price": 330000,
     "slot": "armor",
     "sprite_name": "Armor_012",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 50
   },
   {
@@ -1396,7 +1396,7 @@
     "name": "Drums of Panic",
     "price": 3000000,
     "sprite_name": "Music_010",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 10
   },
   {
@@ -1408,7 +1408,7 @@
     "name": "Dust of Appearance",
     "price": 180000,
     "sprite_name": "Rock_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1420,7 +1420,7 @@
     "name": "Dust of Disappearance",
     "price": 350000,
     "sprite_name": "Rock_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1432,7 +1432,7 @@
     "name": "Dust of Dryness",
     "price": 85000,
     "sprite_name": "Rock_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1444,7 +1444,7 @@
     "name": "Dust of Sneezing and Choking",
     "price": 0,
     "sprite_name": "Rock_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1456,7 +1456,7 @@
     "name": "Dust of Tracelessness",
     "price": 25000,
     "sprite_name": "Rock_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1467,7 +1467,7 @@
     "price": 1650000,
     "slot": "armor",
     "sprite_name": "Armor_040",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 50
   },
   {
@@ -1479,7 +1479,7 @@
     "name": "Efficient Quiver",
     "price": 180000,
     "sprite_name": "Ammo_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -1491,7 +1491,7 @@
     "name": "Efreeti Bottle",
     "price": 14500000,
     "sprite_name": "Potion_040",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -1503,7 +1503,7 @@
     "name": "Elemental Gem",
     "price": 225000,
     "sprite_name": "Money_019",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1515,7 +1515,7 @@
     "name": "Elixir of Fire Breath",
     "price": 110000,
     "sprite_name": "Potion_030",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1527,7 +1527,7 @@
     "name": "Elixir of Hiding",
     "price": 25000,
     "sprite_name": "Potion_031",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1539,7 +1539,7 @@
     "name": "Elixir of Love",
     "price": 15000,
     "sprite_name": "Potion_032",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1551,7 +1551,7 @@
     "name": "Elixir of Swimming",
     "price": 25000,
     "sprite_name": "Potion_033",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1563,7 +1563,7 @@
     "name": "Elixir of Truth",
     "price": 50000,
     "sprite_name": "Potion_034",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1575,7 +1575,7 @@
     "name": "Elixir of Tumbling",
     "price": 25000,
     "sprite_name": "Potion_035",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1587,7 +1587,7 @@
     "name": "Elixir of Vision",
     "price": 25000,
     "sprite_name": "Potion_036",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1596,7 +1596,7 @@
     "name": "Everburning Torch",
     "price": 11000,
     "sprite_name": "Music_007",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -1608,7 +1608,7 @@
     "name": "Eversmoking Bottle",
     "price": 540000,
     "sprite_name": "Potion_028",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -1621,7 +1621,7 @@
     "price": 5600000,
     "slot": "eyes",
     "sprite_name": "Tool_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1634,7 +1634,7 @@
     "price": 2500000,
     "slot": "eyes",
     "sprite_name": "Tool_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1647,7 +1647,7 @@
     "price": 250000,
     "slot": "eyes",
     "sprite_name": "Tool_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1657,7 +1657,7 @@
     "price": 7500,
     "slot": "weapon",
     "sprite_name": "MedWep_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
@@ -1676,7 +1676,7 @@
     "price": 800,
     "slot": "weapon",
     "sprite_name": "LongWep_030",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "disarm, trip",
       "crit_lower": 20,
@@ -1696,7 +1696,7 @@
     "price": 9000,
     "slot": "weapon",
     "sprite_name": "LongWep_030",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "disarm, double, trip",
       "crit_lower": 20,
@@ -1716,7 +1716,7 @@
     "price": 1500,
     "slot": "weapon",
     "sprite_name": "LongWep_030",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "disarm, trip",
       "crit_lower": 19,
@@ -1735,7 +1735,7 @@
     "name": "Flask",
     "price": 3,
     "sprite_name": "Potion_038",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -1747,7 +1747,7 @@
     "name": "Flask of Curses",
     "price": 0,
     "sprite_name": "Potion_039",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -1756,7 +1756,7 @@
     "name": "Flint and Steel",
     "price": 100,
     "sprite_name": "Chest_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1774,7 +1774,7 @@
     "name": "Full Plate",
     "price": 150000,
     "sprite_name": "Armor_044",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 50
   },
   {
@@ -1787,7 +1787,7 @@
     "price": 0,
     "slot": "hands",
     "sprite_name": "Glove_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -1800,7 +1800,7 @@
     "price": 1150000,
     "slot": "hands",
     "sprite_name": "Glove_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -1812,7 +1812,7 @@
     "name": "Gem of Brightness",
     "price": 1300000,
     "sprite_name": "Money_026",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1824,7 +1824,7 @@
     "name": "Gem of Seeing",
     "price": 7500000,
     "sprite_name": "Money_023",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1834,7 +1834,7 @@
     "price": 800,
     "slot": "weapon",
     "sprite_name": "LongWep_021",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "reach",
       "crit_lower": 20,
@@ -1857,7 +1857,7 @@
     "price": 400000,
     "slot": "hands",
     "sprite_name": "Glove_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1870,7 +1870,7 @@
     "price": 625000,
     "slot": "hands",
     "sprite_name": "Glove_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1883,7 +1883,7 @@
     "price": 1000000,
     "slot": "hands",
     "sprite_name": "Glove_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1896,7 +1896,7 @@
     "price": 250000,
     "slot": "eyes",
     "sprite_name": "Tool_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1909,7 +1909,7 @@
     "price": 1200000,
     "slot": "eyes",
     "sprite_name": "Tool_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -1918,7 +1918,7 @@
     "name": "Grappling Hook",
     "price": 100,
     "sprite_name": "Tool_006",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 4
   },
   {
@@ -1928,7 +1928,7 @@
     "price": 2000,
     "slot": "weapon",
     "sprite_name": "LongWep_025",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
@@ -1947,7 +1947,7 @@
     "price": 500,
     "slot": "weapon",
     "sprite_name": "ShortWep_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -1966,7 +1966,7 @@
     "price": 5000,
     "slot": "weapon",
     "sprite_name": "LongWep_010",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 19,
       "crit_mult": 2,
@@ -1985,7 +1985,7 @@
     "price": 900,
     "slot": "weapon",
     "sprite_name": "LongWep_017",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "reach, trip",
       "crit_lower": 20,
@@ -2005,7 +2005,7 @@
     "price": 1000,
     "slot": "weapon",
     "sprite_name": "LongWep_020",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "brace, trip",
       "crit_lower": 20,
@@ -2033,7 +2033,7 @@
     "name": "Half-Plate",
     "price": 60000,
     "sprite_name": "Armor_042",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 50
   },
   {
@@ -2042,7 +2042,7 @@
     "name": "Hammer",
     "price": 50,
     "sprite_name": "LongWep_032",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -2052,7 +2052,7 @@
     "price": 2000,
     "slot": "weapon",
     "sprite_name": "LongWep_022",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "double, trip",
       "crit_lower": 20,
@@ -2072,7 +2072,7 @@
     "price": 600,
     "slot": "weapon",
     "sprite_name": "MedWep_007",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
@@ -2093,7 +2093,7 @@
     "name": "Handy Haversack",
     "price": 200000,
     "sprite_name": "Chest_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -2106,7 +2106,7 @@
     "price": 800000,
     "slot": "neck",
     "sprite_name": "Glove_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -2119,7 +2119,7 @@
     "price": 90000,
     "slot": "neck",
     "sprite_name": "Glove_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -2131,7 +2131,7 @@
     "name": "Harp of Charming",
     "price": 750000,
     "sprite_name": "Music_012",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -2144,7 +2144,7 @@
     "price": 400000,
     "slot": "headband",
     "sprite_name": "Hat_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2157,7 +2157,7 @@
     "price": 400000,
     "slot": "headband",
     "sprite_name": "Hat_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2170,7 +2170,7 @@
     "price": 1000000,
     "slot": "headband",
     "sprite_name": "Hat_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2183,7 +2183,7 @@
     "price": 1600000,
     "slot": "headband",
     "sprite_name": "Hat_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2196,7 +2196,7 @@
     "price": 400000,
     "slot": "headband",
     "sprite_name": "Hat_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2205,7 +2205,7 @@
     "name": "Healer's Kit",
     "price": 5000,
     "sprite_name": "Food_035",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2215,7 +2215,7 @@
     "price": 800,
     "slot": "weapon",
     "sprite_name": "ShortWep_017",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 4,
@@ -2237,7 +2237,7 @@
     "price": 12500000,
     "slot": "head",
     "sprite_name": "Hat_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -2250,7 +2250,7 @@
     "price": 520000,
     "slot": "head",
     "sprite_name": "Hat_008",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -2263,7 +2263,7 @@
     "price": 0,
     "slot": "head",
     "sprite_name": "Hat_007",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -2276,7 +2276,7 @@
     "price": 2700000,
     "slot": "head",
     "sprite_name": "Hat_006",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -2289,7 +2289,7 @@
     "price": 7350000,
     "slot": "head",
     "sprite_name": "Hat_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -2302,7 +2302,7 @@
     "price": 2400000,
     "slot": "head",
     "sprite_name": "Hat_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -2320,7 +2320,7 @@
     "name": "Hide",
     "price": 1500,
     "sprite_name": "Armor_059",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 25
   },
   {
@@ -2329,7 +2329,7 @@
     "name": "Holly and Mistletoe",
     "price": 0,
     "sprite_name": "Food_024",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -2341,7 +2341,7 @@
     "name": "Holy Avenger",
     "price": 12063000,
     "sprite_name": "MedWep_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 4
   },
   {
@@ -2350,7 +2350,7 @@
     "name": "Holy Water",
     "price": 2500,
     "sprite_name": "Potion_018",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2362,7 +2362,7 @@
     "name": "Horn of Blasting",
     "price": 2000000,
     "sprite_name": "Music_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2374,7 +2374,7 @@
     "name": "Greater Horn of Blasting",
     "price": 7000000,
     "sprite_name": "Music_008",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2386,7 +2386,7 @@
     "name": "Horn of Fog",
     "price": 200000,
     "sprite_name": "Music_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2398,7 +2398,7 @@
     "name": "Horn of Goodness/Evil",
     "price": 650000,
     "sprite_name": "Music_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2410,7 +2410,7 @@
     "name": "Horn of Valhalla",
     "price": 5000000,
     "sprite_name": "Music_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -2422,7 +2422,7 @@
     "name": "Immovable Rod",
     "price": 500000,
     "sprite_name": "Wand_006",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -2434,7 +2434,7 @@
     "name": "Incense of Meditation",
     "price": 490000,
     "sprite_name": "Wand_028",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2446,7 +2446,7 @@
     "name": "Incense of Obsession",
     "price": 0,
     "sprite_name": "Wand_028",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -2458,7 +2458,7 @@
     "name": "Iron Bands of Binding",
     "price": 2600000,
     "sprite_name": "Wand_028",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2470,7 +2470,7 @@
     "name": "Iron Flask",
     "price": 17000000,
     "sprite_name": "Potion_039",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2480,7 +2480,7 @@
     "price": 100,
     "slot": "weapon",
     "sprite_name": "LongWep_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 30,
       "crit_lower": 20,
@@ -2502,7 +2502,7 @@
     "name": "Javelin of Lightning",
     "price": 150000,
     "sprite_name": "LongWep_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -2512,7 +2512,7 @@
     "price": 800,
     "slot": "weapon",
     "sprite_name": "LongWep_008",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
@@ -2531,7 +2531,7 @@
     "price": 1000,
     "slot": "weapon",
     "sprite_name": "LongWep_033",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "reach",
       "crit_lower": 20,
@@ -2559,7 +2559,7 @@
     "name": "Leather",
     "price": 1000,
     "sprite_name": "Armor_045",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 15
   },
   {
@@ -2572,7 +2572,7 @@
     "price": 350000,
     "slot": "eyes",
     "sprite_name": "Tool_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -2584,7 +2584,7 @@
     "name": "Life-Drinker",
     "price": 4032000,
     "sprite_name": "LongWep_009",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 12
   },
   {
@@ -2594,7 +2594,7 @@
     "price": 100,
     "slot": "weapon",
     "sprite_name": "LongWep_032",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 20,
       "crit_lower": 20,
@@ -2614,7 +2614,7 @@
     "price": 400,
     "slot": "weapon",
     "sprite_name": "ShortWep_016",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 4,
@@ -2636,7 +2636,7 @@
     "price": 917000,
     "slot": "shield",
     "sprite_name": "Shield_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 15
   },
   {
@@ -2646,7 +2646,7 @@
     "price": 7500,
     "slot": "weapon",
     "sprite_name": "Ammo_010",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 100,
       "crit_lower": 20,
@@ -2666,7 +2666,7 @@
     "price": 10000,
     "slot": "weapon",
     "sprite_name": "Ammo_012",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 110,
       "crit_lower": 20,
@@ -2686,7 +2686,7 @@
     "price": 500,
     "slot": "weapon",
     "sprite_name": "LongWep_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "brace, reach",
       "crit_lower": 20,
@@ -2706,7 +2706,7 @@
     "price": 1500,
     "slot": "weapon",
     "sprite_name": "MedWep_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 19,
       "crit_mult": 2,
@@ -2725,7 +2725,7 @@
     "name": "Cold Iron Masterwork Longsword",
     "price": 33000,
     "sprite_name": "LongWep_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 4
   },
   {
@@ -2737,7 +2737,7 @@
     "name": "Luck Blade",
     "price": 2206000,
     "sprite_name": "LongWep_008",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -2749,7 +2749,7 @@
     "name": "Lyre of Building",
     "price": 1300000,
     "sprite_name": "Music_011",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -2759,7 +2759,7 @@
     "price": 500,
     "slot": "weapon",
     "sprite_name": "LongWep_032",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -2778,7 +2778,7 @@
     "price": 1200,
     "slot": "weapon",
     "sprite_name": "LongWep_028",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -2799,7 +2799,7 @@
     "name": "Mace of Blood",
     "price": 0,
     "sprite_name": "LongWep_007",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 8
   },
   {
@@ -2811,7 +2811,7 @@
     "name": "Mace of Smiting",
     "price": 7531200,
     "sprite_name": "LongWep_007",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 8
   },
   {
@@ -2823,7 +2823,7 @@
     "name": "Mace of Terror",
     "price": 3855200,
     "sprite_name": "LongWep_007",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 8
   },
   {
@@ -2836,7 +2836,7 @@
     "price": 7600000,
     "slot": "chest",
     "sprite_name": "Armor_048",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -2849,7 +2849,7 @@
     "price": 9000000,
     "slot": "chest",
     "sprite_name": "Armor_049",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -2861,7 +2861,7 @@
     "name": "Manual of Bodily Health",
     "price": 2750000,
     "sprite_name": "Book_026",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -2873,7 +2873,7 @@
     "name": "Manual of Gainful Exercise",
     "price": 2750000,
     "sprite_name": "Book_027",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -2885,7 +2885,7 @@
     "name": "Manual of Quickness of Action",
     "price": 2750000,
     "sprite_name": "Book_028",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -2898,7 +2898,7 @@
     "price": 2200000,
     "slot": "head",
     "sprite_name": "Hat_006",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -2910,7 +2910,7 @@
     "name": "Maul of the Titans",
     "price": 2530500,
     "sprite_name": "ShortWep_020",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 160
   },
   {
@@ -2923,7 +2923,7 @@
     "price": 1200000,
     "slot": "neck",
     "sprite_name": "Amulet_015",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -2936,7 +2936,7 @@
     "price": 0,
     "slot": "neck",
     "sprite_name": "Amulet_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -2948,7 +2948,7 @@
     "name": "Mirror of Life Trapping",
     "price": 20000000,
     "sprite_name": "Tool_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 50
   },
   {
@@ -2960,7 +2960,7 @@
     "name": "Mirror of Opposition",
     "price": 9200000,
     "sprite_name": "Tool_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 45
   },
   {
@@ -2973,7 +2973,7 @@
     "price": 2650000,
     "slot": "armor",
     "sprite_name": "Armor_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 25
   },
   {
@@ -2984,7 +2984,7 @@
     "price": 102000,
     "slot": "shield",
     "sprite_name": "Shield_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -2995,7 +2995,7 @@
     "price": 110000,
     "slot": "armor",
     "sprite_name": "Armor_053",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 10
   },
   {
@@ -3005,7 +3005,7 @@
     "price": 800,
     "slot": "weapon",
     "sprite_name": "ShortWep_019",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -3027,7 +3027,7 @@
     "price": 900000,
     "slot": "neck",
     "sprite_name": "Amulet_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -3040,7 +3040,7 @@
     "price": 165000,
     "slot": "neck",
     "sprite_name": "Amulet_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -3053,7 +3053,7 @@
     "price": 0,
     "slot": "neck",
     "sprite_name": "Amulet_006",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3063,7 +3063,7 @@
     "price": 200,
     "slot": "weapon",
     "sprite_name": "ShortWep_015",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "disarm, monk",
       "crit_lower": 20,
@@ -3085,7 +3085,7 @@
     "name": "Oathbow",
     "price": 2560000,
     "sprite_name": "Ammo_010",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -3097,7 +3097,7 @@
     "name": "Orb of Storms",
     "price": 4800000,
     "sprite_name": "Food_007",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 6
   },
   {
@@ -3115,7 +3115,7 @@
     "name": "Padded",
     "price": 500,
     "sprite_name": "Armor_037",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 10
   },
   {
@@ -3127,7 +3127,7 @@
     "name": "Pearl of Power",
     "price": 100000,
     "sprite_name": "Money_024",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3139,7 +3139,7 @@
     "name": "Pearl of the Sirines",
     "price": 1530000,
     "sprite_name": "Money_024",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3152,7 +3152,7 @@
     "price": 0,
     "slot": "neck",
     "sprite_name": "Amulet_007",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3165,7 +3165,7 @@
     "price": 750000,
     "slot": "neck",
     "sprite_name": "Amulet_008",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3178,7 +3178,7 @@
     "price": 2700000,
     "slot": "neck",
     "sprite_name": "Amulet_009",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3191,7 +3191,7 @@
     "price": 1500000,
     "slot": "neck",
     "sprite_name": "Amulet_010",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3203,7 +3203,7 @@
     "name": "Philosopher's Stone",
     "price": 0,
     "sprite_name": "Money_017",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -3216,7 +3216,7 @@
     "price": 100000,
     "slot": "headband",
     "sprite_name": "Flesh_053",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3229,7 +3229,7 @@
     "price": 1100000,
     "slot": "headband",
     "sprite_name": "Flesh_059",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3242,7 +3242,7 @@
     "price": 1100000,
     "slot": "headband",
     "sprite_name": "Flesh_040",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3251,7 +3251,7 @@
     "name": "Miner's Pick",
     "price": 300,
     "sprite_name": "ShortWep_017",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 10
   },
   {
@@ -3263,7 +3263,7 @@
     "name": "Pipes of Haunting",
     "price": 600000,
     "sprite_name": "Music_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -3275,7 +3275,7 @@
     "name": "Pipes of Sounding",
     "price": 180000,
     "sprite_name": "Music_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -3287,7 +3287,7 @@
     "name": "Pipes of the Sewers",
     "price": 115000,
     "sprite_name": "Music_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -3300,7 +3300,7 @@
     "price": 2465000,
     "slot": "armor",
     "sprite_name": "Armor_009",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 50
   },
   {
@@ -3313,7 +3313,7 @@
     "price": 0,
     "slot": "shoulders",
     "sprite_name": "Armor_025",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -3325,7 +3325,7 @@
     "name": "Potion of Poison",
     "price": 0,
     "sprite_name": "Potion_006",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3335,7 +3335,7 @@
     "price": 0,
     "slot": "weapon",
     "sprite_name": "LongWep_006",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "double, monk",
       "crit_lower": 20,
@@ -3355,7 +3355,7 @@
     "price": 1000,
     "slot": "weapon",
     "sprite_name": "LongWep_020",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "disarm, reach",
       "crit_lower": 20,
@@ -3375,7 +3375,7 @@
     "price": 2000,
     "slot": "weapon",
     "sprite_name": "MedWep_006",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
@@ -3396,7 +3396,7 @@
     "name": "Rapier of Puncturing",
     "price": 5032000,
     "sprite_name": "ShortWep_008",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -3408,7 +3408,7 @@
     "name": "Restorative Ointment",
     "price": 400000,
     "sprite_name": "Potion_025",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -3421,7 +3421,7 @@
     "price": 516500,
     "slot": "armor",
     "sprite_name": "Armor_039",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 25
   },
   {
@@ -3433,7 +3433,7 @@
     "name": "Ring Gates",
     "price": 4000000,
     "sprite_name": "Tool_018",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -3446,7 +3446,7 @@
     "price": 1080000,
     "slot": "ring",
     "sprite_name": "Ring_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3459,7 +3459,7 @@
     "price": 2700000,
     "slot": "ring",
     "sprite_name": "Ring_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3472,7 +3472,7 @@
     "price": 1270000,
     "slot": "ring",
     "sprite_name": "Ring_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3485,7 +3485,7 @@
     "price": 250000,
     "slot": "ring",
     "sprite_name": "Ring_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3498,7 +3498,7 @@
     "price": 1000000,
     "slot": "ring",
     "sprite_name": "Ring_025",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3511,7 +3511,7 @@
     "price": 0,
     "slot": "ring",
     "sprite_name": "Ring_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3524,7 +3524,7 @@
     "price": 400000,
     "slot": "ring",
     "sprite_name": "Ring_006",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3537,7 +3537,7 @@
     "price": 12500000,
     "slot": "ring",
     "sprite_name": "Ring_007",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3550,7 +3550,7 @@
     "price": 20000000,
     "slot": "ring",
     "sprite_name": "Ring_008",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3563,7 +3563,7 @@
     "price": 1200000,
     "slot": "ring",
     "sprite_name": "Ring_009",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3576,7 +3576,7 @@
     "price": 2500000,
     "slot": "ring",
     "sprite_name": "Ring_010",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3589,7 +3589,7 @@
     "price": 850000,
     "slot": "ring",
     "sprite_name": "Ring_012",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3602,7 +3602,7 @@
     "price": 4000000,
     "slot": "ring",
     "sprite_name": "Ring_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3615,7 +3615,7 @@
     "price": 5000000,
     "slot": "ring",
     "sprite_name": "Ring_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3628,7 +3628,7 @@
     "price": 2000000,
     "slot": "ring",
     "sprite_name": "Ring_015",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3641,7 +3641,7 @@
     "price": 250000,
     "slot": "ring",
     "sprite_name": "Ring_016",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3654,7 +3654,7 @@
     "price": 1000000,
     "slot": "ring",
     "sprite_name": "Ring_026",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3667,7 +3667,7 @@
     "price": 800000,
     "slot": "ring",
     "sprite_name": "Ring_017",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3680,7 +3680,7 @@
     "price": 200000,
     "slot": "ring",
     "sprite_name": "Ring_018",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3693,7 +3693,7 @@
     "price": 9000000,
     "slot": "ring",
     "sprite_name": "Ring_019",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3706,7 +3706,7 @@
     "price": 5000000,
     "slot": "ring",
     "sprite_name": "Ring_020",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3719,7 +3719,7 @@
     "price": 5000000,
     "slot": "ring",
     "sprite_name": "Ring_021",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3732,7 +3732,7 @@
     "price": 20000000,
     "slot": "ring",
     "sprite_name": "Ring_028",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3745,7 +3745,7 @@
     "price": 1800000,
     "slot": "ring",
     "sprite_name": "Ring_031",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3758,7 +3758,7 @@
     "price": 10000000,
     "slot": "ring",
     "sprite_name": "Ring_022",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3771,7 +3771,7 @@
     "price": 250000,
     "slot": "ring",
     "sprite_name": "Ring_023",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3784,7 +3784,7 @@
     "price": 250000,
     "slot": "ring",
     "sprite_name": "Ring_024",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3797,7 +3797,7 @@
     "price": 1000000,
     "slot": "ring",
     "sprite_name": "Ring_027",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3810,7 +3810,7 @@
     "price": 7500000,
     "slot": "ring",
     "sprite_name": "Ring_025",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3823,7 +3823,7 @@
     "price": 860000,
     "slot": "ring",
     "sprite_name": "Ring_030",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3836,7 +3836,7 @@
     "price": 12000000,
     "slot": "ring",
     "sprite_name": "Ring_026",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3849,7 +3849,7 @@
     "price": 1500000,
     "slot": "ring",
     "sprite_name": "Ring_027",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3862,7 +3862,7 @@
     "price": 2000000,
     "slot": "ring",
     "sprite_name": "Ring_028",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3875,7 +3875,7 @@
     "price": 2500000,
     "slot": "ring",
     "sprite_name": "Ring_029",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -3888,7 +3888,7 @@
     "price": 1300000,
     "slot": "body",
     "sprite_name": "Armor_046",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -3901,7 +3901,7 @@
     "price": 840000,
     "slot": "body",
     "sprite_name": "Armor_025",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -3914,7 +3914,7 @@
     "price": 240000,
     "slot": "body",
     "sprite_name": "Armor_026",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -3927,7 +3927,7 @@
     "price": 12000000,
     "slot": "body",
     "sprite_name": "Armor_027",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -3940,7 +3940,7 @@
     "price": 0,
     "slot": "body",
     "sprite_name": "Armor_028",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -3953,7 +3953,7 @@
     "price": 2700000,
     "slot": "body",
     "sprite_name": "Armor_029",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -3966,7 +3966,7 @@
     "price": 5800000,
     "slot": "body",
     "sprite_name": "Armor_031",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -3979,7 +3979,7 @@
     "price": 7500000,
     "slot": "body",
     "sprite_name": "Armor_034",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -3992,7 +3992,7 @@
     "price": 700000,
     "slot": "body",
     "sprite_name": "Armor_032",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -4005,7 +4005,7 @@
     "price": 0,
     "slot": "body",
     "sprite_name": "Armor_033",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -4017,7 +4017,7 @@
     "name": "Rod of Absorption",
     "price": 5000000,
     "sprite_name": "Wand_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4029,7 +4029,7 @@
     "name": "Rod of Alertness",
     "price": 8500000,
     "sprite_name": "Wand_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 4
   },
   {
@@ -4041,7 +4041,7 @@
     "name": "Rod of Cancellation",
     "price": 1100000,
     "sprite_name": "Wand_006",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4053,7 +4053,7 @@
     "name": "Rod of Enemy Detection",
     "price": 2350000,
     "sprite_name": "Wand_007",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4065,7 +4065,7 @@
     "name": "Rod of Flailing",
     "price": 5000000,
     "sprite_name": "Wand_008",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4077,7 +4077,7 @@
     "name": "Rod of Flame Extinguishing",
     "price": 1500000,
     "sprite_name": "Wand_009",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4089,7 +4089,7 @@
     "name": "Rod of Metal and Mineral Detection",
     "price": 1050000,
     "sprite_name": "Wand_010",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4101,7 +4101,7 @@
     "name": "Rod of Negation",
     "price": 3700000,
     "sprite_name": "Wand_011",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4113,7 +4113,7 @@
     "name": "Rod of Rulership",
     "price": 6000000,
     "sprite_name": "Wand_012",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 8
   },
   {
@@ -4125,7 +4125,7 @@
     "name": "Rod of Security",
     "price": 6100000,
     "sprite_name": "Wand_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4137,7 +4137,7 @@
     "name": "Rod of Splendor",
     "price": 2500000,
     "sprite_name": "Wand_014",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4149,7 +4149,7 @@
     "name": "Rod of the Python",
     "price": 1300000,
     "sprite_name": "Wand_018",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 10
   },
   {
@@ -4161,7 +4161,7 @@
     "name": "Rod of the Viper",
     "price": 1900000,
     "sprite_name": "Wand_019",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4173,7 +4173,7 @@
     "name": "Rod of Thunder and Lightning",
     "price": 3300000,
     "sprite_name": "Wand_015",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4185,7 +4185,7 @@
     "name": "Rod of Withering",
     "price": 2500000,
     "sprite_name": "Wand_016",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4197,7 +4197,7 @@
     "name": "Rod of Wonder",
     "price": 1200000,
     "sprite_name": "Wand_017",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4206,7 +4206,7 @@
     "name": "Hemp Rope",
     "price": 100,
     "sprite_name": "Tool_019",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 10
   },
   {
@@ -4218,7 +4218,7 @@
     "name": "Rope of Climbing",
     "price": 300000,
     "sprite_name": "Tool_019",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -4230,7 +4230,7 @@
     "name": "Rope of Entanglement",
     "price": 2100000,
     "sprite_name": "Tool_019",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4239,7 +4239,7 @@
     "name": "Silk Rope",
     "price": 1000,
     "sprite_name": "Tool_019",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4249,7 +4249,7 @@
     "price": 100,
     "slot": "weapon",
     "sprite_name": "MedWep_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "disarm, monk",
       "crit_lower": 20,
@@ -4271,7 +4271,7 @@
     "name": "Salve of Slipperiness",
     "price": 100000,
     "sprite_name": "Scroll_027",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -4281,7 +4281,7 @@
     "price": 100,
     "slot": "weapon",
     "sprite_name": "ShortWep_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "nonlethal",
       "crit_lower": 20,
@@ -4303,7 +4303,7 @@
     "name": "Scabbard of Keen Edges",
     "price": 1600000,
     "sprite_name": "Tool_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -4321,7 +4321,7 @@
     "name": "Scale Mail",
     "price": 5000,
     "sprite_name": "Armor_040",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 30
   },
   {
@@ -4334,7 +4334,7 @@
     "price": 250000,
     "slot": "neck",
     "sprite_name": "Flesh_034",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -4347,7 +4347,7 @@
     "price": 0,
     "slot": "neck",
     "sprite_name": "Flesh_007",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -4360,7 +4360,7 @@
     "price": 3800000,
     "slot": "neck",
     "sprite_name": "Flesh_034",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -4370,7 +4370,7 @@
     "price": 1500,
     "slot": "weapon",
     "sprite_name": "LongWep_012",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 18,
       "crit_mult": 2,
@@ -4391,7 +4391,7 @@
     "name": "Screaming Bolt",
     "price": 26700,
     "sprite_name": "Ammo_021",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -4400,7 +4400,7 @@
     "name": "Scroll Case",
     "price": 100,
     "sprite_name": "Chest_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -4410,7 +4410,7 @@
     "price": 1800,
     "slot": "weapon",
     "sprite_name": "LongWep_027",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "trip",
       "crit_lower": 20,
@@ -4429,7 +4429,7 @@
     "name": "Sealing Wax",
     "price": 100,
     "sprite_name": "Tool_012",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -4438,7 +4438,7 @@
     "name": "Sewing Needle",
     "price": 50,
     "sprite_name": "Tool_020",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -4450,7 +4450,7 @@
     "name": "Shatterspike",
     "price": 431500,
     "sprite_name": "ShortWep_016",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 4
   },
   {
@@ -4467,7 +4467,7 @@
     "price": 2000,
     "slot": "weapon",
     "sprite_name": "Shield_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -4493,7 +4493,7 @@
     "price": 700,
     "slot": "weapon",
     "sprite_name": "Shield_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 2,
@@ -4518,7 +4518,7 @@
     "name": "Light Steel Shield",
     "price": 900,
     "sprite_name": "Shield_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 6
   },
   {
@@ -4534,7 +4534,7 @@
     "name": "Light Wooden Shield",
     "price": 300,
     "sprite_name": "Shield_006",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4550,7 +4550,7 @@
     "name": "Tower Shield",
     "price": 3000,
     "sprite_name": "Shield_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 45
   },
   {
@@ -4560,7 +4560,7 @@
     "price": 3000,
     "slot": "weapon",
     "sprite_name": "Ammo_011",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 60,
       "crit_lower": 20,
@@ -4580,7 +4580,7 @@
     "price": 7500,
     "slot": "weapon",
     "sprite_name": "Ammo_011",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 70,
       "crit_lower": 20,
@@ -4600,7 +4600,7 @@
     "price": 100,
     "slot": "weapon",
     "sprite_name": "LongWep_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 20,
       "crit_lower": 20,
@@ -4620,7 +4620,7 @@
     "price": 1000,
     "slot": "weapon",
     "sprite_name": "MedWep_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 19,
       "crit_mult": 2,
@@ -4638,7 +4638,7 @@
     "name": "Shovel",
     "price": 200,
     "sprite_name": "LongWep_028",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 8
   },
   {
@@ -4648,7 +4648,7 @@
     "price": 600,
     "slot": "weapon",
     "sprite_name": "LongWep_019",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "trip",
       "crit_lower": 20,
@@ -4667,7 +4667,7 @@
     "name": "Signet Ring",
     "price": 500,
     "sprite_name": "Ring_017",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -4677,7 +4677,7 @@
     "name": "Masterwork Silver Dagger",
     "price": 32200,
     "sprite_name": "ShortWep_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -4689,7 +4689,7 @@
     "name": "Slaying Arrow",
     "price": 228200,
     "sprite_name": "Ammo_017",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -4698,7 +4698,7 @@
     "name": "Sledge",
     "price": 100,
     "sprite_name": "LongWep_032",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 10
   },
   {
@@ -4710,7 +4710,7 @@
     "name": "Sleep Arrow",
     "price": 13200,
     "sprite_name": "Ammo_018",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -4720,7 +4720,7 @@
     "price": 0,
     "slot": "weapon",
     "sprite_name": "Ammo_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 50,
       "crit_lower": 20,
@@ -4743,7 +4743,7 @@
     "price": 480000,
     "slot": "feet",
     "sprite_name": "Boot_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -4752,7 +4752,7 @@
     "name": "Smokestick",
     "price": 2000,
     "sprite_name": "Music_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -4761,7 +4761,7 @@
     "name": "Soap",
     "price": 50,
     "sprite_name": "Flesh_023",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -4773,7 +4773,7 @@
     "name": "Sovereign Glue",
     "price": 240000,
     "sprite_name": "Potion_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -4783,7 +4783,7 @@
     "price": 200,
     "slot": "weapon",
     "sprite_name": "LongWep_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 20,
       "Special": "brace",
@@ -4803,7 +4803,7 @@
     "name": "Wizard's Spellbook",
     "price": 1500,
     "sprite_name": "Book_040",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 3
   },
   {
@@ -4812,7 +4812,7 @@
     "name": "Spell Component Pouch",
     "price": 500,
     "sprite_name": "Chest_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -4824,7 +4824,7 @@
     "name": "Sphere of Annihilation",
     "price": 0,
     "sprite_name": "Food_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -4837,7 +4837,7 @@
     "price": 558000,
     "slot": "shield",
     "sprite_name": "Shield_005",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 15
   },
   {
@@ -4855,7 +4855,7 @@
     "name": "Splint Mail",
     "price": 20000,
     "sprite_name": "Armor_041",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 45
   },
   {
@@ -4867,7 +4867,7 @@
     "name": "Staff of Abjuration",
     "price": 8200000,
     "sprite_name": "Wand_023",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4879,7 +4879,7 @@
     "name": "Staff of Charming",
     "price": 1760000,
     "sprite_name": "Wand_024",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4891,7 +4891,7 @@
     "name": "Staff of Conjuration",
     "price": 8200000,
     "sprite_name": "Wand_025",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4903,7 +4903,7 @@
     "name": "Staff of Defense",
     "price": 6200000,
     "sprite_name": "Wand_026",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4915,7 +4915,7 @@
     "name": "Staff of Divination",
     "price": 8200000,
     "sprite_name": "Wand_027",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4927,7 +4927,7 @@
     "name": "Staff of Earth and Stone",
     "price": 8580000,
     "sprite_name": "Wand_028",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4939,7 +4939,7 @@
     "name": "Staff of Enchantment",
     "price": 8200000,
     "sprite_name": "Wand_029",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4951,7 +4951,7 @@
     "name": "Staff of Evocation",
     "price": 8200000,
     "sprite_name": "Wand_030",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4963,7 +4963,7 @@
     "name": "Staff of Fire",
     "price": 1895000,
     "sprite_name": "Wand_031",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4975,7 +4975,7 @@
     "name": "Staff of Frost",
     "price": 4140000,
     "sprite_name": "Wand_032",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4987,7 +4987,7 @@
     "name": "Staff of Healing",
     "price": 2960000,
     "sprite_name": "Wand_033",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -4999,7 +4999,7 @@
     "name": "Staff of Illumination",
     "price": 5150000,
     "sprite_name": "Wand_034",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -5011,7 +5011,7 @@
     "name": "Staff of Illusion",
     "price": 8200000,
     "sprite_name": "Wand_035",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -5023,7 +5023,7 @@
     "name": "Staff of Life",
     "price": 10940000,
     "sprite_name": "Wand_036",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -5035,7 +5035,7 @@
     "name": "Staff of Necromancy",
     "price": 8200000,
     "sprite_name": "Wand_037",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -5047,7 +5047,7 @@
     "name": "Staff of Passage",
     "price": 20690000,
     "sprite_name": "Wand_038",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -5059,7 +5059,7 @@
     "name": "Staff of Power",
     "price": 23500000,
     "sprite_name": "Wand_039",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -5071,7 +5071,7 @@
     "name": "Staff of Size Alteration",
     "price": 2615000,
     "sprite_name": "Wand_040",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -5083,7 +5083,7 @@
     "name": "Staff of Swarming Insects",
     "price": 2280000,
     "sprite_name": "Wand_041",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -5095,7 +5095,7 @@
     "name": "Staff of the Magi",
     "price": 0,
     "sprite_name": "Wand_043",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -5107,7 +5107,7 @@
     "name": "Staff of the Woodlands",
     "price": 10040000,
     "sprite_name": "Wand_044",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -5119,7 +5119,7 @@
     "name": "Staff of Transmutation",
     "price": 8200000,
     "sprite_name": "Wand_042",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -5129,7 +5129,7 @@
     "price": 2400,
     "slot": "weapon",
     "sprite_name": "MedWep_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 20,
       "crit_lower": 20,
@@ -5151,7 +5151,7 @@
     "name": "Stone of Alarm",
     "price": 270000,
     "sprite_name": "Money_028",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -5164,7 +5164,7 @@
     "name": "Stone of Good Luck",
     "price": 2000000,
     "sprite_name": "Money_033",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -5176,7 +5176,7 @@
     "name": "Stone of Weight (Loadstone)",
     "price": 0,
     "sprite_name": "Money_035",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -5188,7 +5188,7 @@
     "name": "Stone Salve",
     "price": 400000,
     "sprite_name": "Potion_023",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -5198,7 +5198,7 @@
     "name": "Strand of Prayer Beads",
     "price": 960000,
     "sprite_name": "Tool_018",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -5216,7 +5216,7 @@
     "name": "Studded Leather",
     "price": 2500,
     "sprite_name": "Armor_046",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 20
   },
   {
@@ -5225,7 +5225,7 @@
     "name": "Sunrod",
     "price": 200,
     "sprite_name": "Music_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -5237,7 +5237,7 @@
     "name": "Sun Blade",
     "price": 5033500,
     "sprite_name": "MedWep_003",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -5249,7 +5249,7 @@
     "name": "Sustaining Spoon",
     "price": 540000,
     "sprite_name": "Tool_016",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -5259,7 +5259,7 @@
     "price": 3500,
     "slot": "weapon",
     "sprite_name": "LongWep_010",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 19,
       "crit_mult": 2,
@@ -5280,7 +5280,7 @@
     "name": "Berserking Sword",
     "price": 0,
     "sprite_name": "LongWep_009",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 12
   },
   {
@@ -5292,7 +5292,7 @@
     "name": "Sword of Life Stealing",
     "price": 2571500,
     "sprite_name": "MedWep_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 4
   },
   {
@@ -5304,7 +5304,7 @@
     "name": "Sword of Subtlety",
     "price": 2231000,
     "sprite_name": "MedWep_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -5316,7 +5316,7 @@
     "name": "Sword of the Planes",
     "price": 2231500,
     "sprite_name": "MedWep_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 4
   },
   {
@@ -5326,7 +5326,7 @@
     "price": 10000,
     "slot": "weapon",
     "sprite_name": "LongWep_021",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Special": "double",
       "crit_lower": 19,
@@ -5348,7 +5348,7 @@
     "name": "Sylvan Scimitar",
     "price": 4731500,
     "sprite_name": "LongWep_012",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 4
   },
   {
@@ -5360,7 +5360,7 @@
     "name": "Talisman of Pure Good",
     "price": 0,
     "sprite_name": "Amulet_011",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -5372,7 +5372,7 @@
     "name": "Talisman of the Sphere",
     "price": 0,
     "sprite_name": "Amulet_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -5384,7 +5384,7 @@
     "name": "Talisman of Ultimate Evil",
     "price": 0,
     "sprite_name": "Amulet_012",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -5393,7 +5393,7 @@
     "name": "Tanglefoot Bag",
     "price": 5000,
     "sprite_name": "Chest_013",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 4
   },
   {
@@ -5405,7 +5405,7 @@
     "name": "The Shadowstaff",
     "price": 0,
     "sprite_name": "Wand_028",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -5414,7 +5414,7 @@
     "name": "Thieves' Tools",
     "price": 3000,
     "sprite_name": "Food_035",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -5423,7 +5423,7 @@
     "name": "Masterwork Thieves' Tools",
     "price": 10000,
     "sprite_name": "Food_036",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -5433,7 +5433,7 @@
     "price": 800,
     "slot": "weapon",
     "sprite_name": "MedWep_007",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 10,
       "crit_lower": 20,
@@ -5452,7 +5452,7 @@
     "name": "Thunderstone",
     "price": 3000,
     "sprite_name": "Money_039",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -5461,7 +5461,7 @@
     "name": "Tindertwig",
     "price": 100,
     "sprite_name": "Flesh_030",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -5473,7 +5473,7 @@
     "name": "Tome of Clear Thought",
     "price": 2750000,
     "sprite_name": "Book_033",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -5485,7 +5485,7 @@
     "name": "Tome of Leadership and Influence",
     "price": 2750000,
     "sprite_name": "Book_034",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -5497,7 +5497,7 @@
     "name": "Tome of Understanding",
     "price": 2750000,
     "sprite_name": "Book_035",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 5
   },
   {
@@ -5506,7 +5506,7 @@
     "name": "Torch",
     "price": 1,
     "sprite_name": "Light_001",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -5515,7 +5515,7 @@
     "name": "Trail Rations",
     "price": 50,
     "sprite_name": "Food_034",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -5525,7 +5525,7 @@
     "price": 1500,
     "slot": "weapon",
     "sprite_name": "LongWep_016",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "Range": 10,
       "Special": "brace",
@@ -5548,7 +5548,7 @@
     "name": "Trident of Warning",
     "price": 1011500,
     "sprite_name": "LongWep_016",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 4
   },
   {
@@ -5560,7 +5560,7 @@
     "name": "Unguent of Timelessness",
     "price": 15000,
     "sprite_name": "Potion_032",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -5572,7 +5572,7 @@
     "name": "Universal Solvent",
     "price": 5000,
     "sprite_name": "Potion_007",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -5584,7 +5584,7 @@
     "name": "Vacuous Grimoire",
     "price": 0,
     "sprite_name": "Book_022",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   },
   {
@@ -5597,7 +5597,7 @@
     "price": 375000,
     "slot": "body",
     "sprite_name": "Armor_025",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -5610,7 +5610,7 @@
     "price": 520000,
     "slot": "chest",
     "sprite_name": "Armor_033",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -5619,7 +5619,7 @@
     "name": "Vial",
     "price": 100,
     "sprite_name": "Potion_038",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 0
   },
   {
@@ -5629,7 +5629,7 @@
     "price": 3000,
     "slot": "weapon",
     "sprite_name": "MedWep_008",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
@@ -5648,7 +5648,7 @@
     "price": 1200,
     "slot": "weapon",
     "sprite_name": "LongWep_032",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weapon": {
       "crit_lower": 20,
       "crit_mult": 3,
@@ -5666,7 +5666,7 @@
     "name": "Whetstone",
     "price": 2,
     "sprite_name": "Rock_004",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 1
   },
   {
@@ -5679,7 +5679,7 @@
     "price": 1725700,
     "slot": "shield",
     "sprite_name": "Shield_002",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 10
   },
   {
@@ -5692,7 +5692,7 @@
     "price": 5400000,
     "slot": "shoulders",
     "sprite_name": "Armor_036",
-    "sprite_sheet": "dawnlike_items",
+    "sprite_sheet": "dawnlike",
     "weight": 2
   }
 ]

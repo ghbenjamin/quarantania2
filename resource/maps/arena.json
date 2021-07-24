@@ -1,17 +1,10 @@
 { "compressionlevel":-1,
- "editorsettings":
-    {
-     "export":
-        {
-         "target":"."
-        }
-    },
  "height":21,
  "infinite":false,
  "layers":[
         {
          "compression":"zlib",
-         "data":"eJztwzENAAAMA6DOS\/1rrItdkNBLqqqqTwfQAmEh",
+         "data":"eJwTZWZgEB3Fo3gUj+JRPIpH8SgexaOYThgAVAU\/AQ==",
          "encoding":"base64",
          "height":21,
          "id":1,
@@ -25,7 +18,7 @@
         }, 
         {
          "compression":"zlib",
-         "data":"eJxjYBgFIHCXiYHhHh78lIA8Kfg+E6b9j7CIkSJPCsBm1qj9o\/YTqwc9r2BLz7S0H10tqWEzFO1\/PMD241M70u1\/PMD2kwpG7ccUe05C\/f2Swvr\/BRXL8qEOAGAHZaA=",
+         "data":"eJxjYBh4kMjJwJBEAKcSoYYUnMyJsL+AE7fbSFFDCigYtX\/U\/mFmPyluHLV\/1P6hZH\/hANtPqpmj9g8d++up1KZpJEFtA5XrE3IBAA6LNN0=",
          "encoding":"base64",
          "height":21,
          "id":3,
@@ -43,28 +36,28 @@
          "name":"Decor",
          "objects":[
                 {
-                 "gid":118,
+                 "gid":455,
                  "height":32,
-                 "id":11,
-                 "name":"cobweb",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":448,
-                 "y":288
-                }, 
-                {
-                 "gid":119,
-                 "height":32,
-                 "id":12,
+                 "id":18,
                  "name":"cobweb",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
                  "x":288,
-                 "y":96
+                 "y":64
+                }, 
+                {
+                 "gid":457,
+                 "height":32,
+                 "id":19,
+                 "name":"cobweb",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":576,
+                 "y":576
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -78,10 +71,10 @@
          "name":"Fixed",
          "objects":[
                 {
-                 "gid":67,
+                 "gid":385,
                  "height":32,
-                 "id":7,
-                 "name":"candle",
+                 "id":14,
+                 "name":"torch",
                  "properties":[
                         {
                          "name":"light-colour",
@@ -97,14 +90,14 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":128,
-                 "y":128
+                 "x":864,
+                 "y":512
                 }, 
                 {
-                 "gid":67,
+                 "gid":385,
                  "height":32,
-                 "id":8,
-                 "name":"candle",
+                 "id":15,
+                 "name":"torch",
                  "properties":[
                         {
                          "name":"light-colour",
@@ -124,10 +117,10 @@
                  "y":128
                 }, 
                 {
-                 "gid":67,
+                 "gid":385,
                  "height":32,
-                 "id":9,
-                 "name":"candle",
+                 "id":16,
+                 "name":"torch",
                  "properties":[
                         {
                          "name":"light-colour",
@@ -147,10 +140,10 @@
                  "y":512
                 }, 
                 {
-                 "gid":67,
+                 "gid":385,
                  "height":32,
-                 "id":10,
-                 "name":"candle",
+                 "id":17,
+                 "name":"torch",
                  "properties":[
                         {
                          "name":"light-colour",
@@ -166,8 +159,8 @@
                  "type":"",
                  "visible":true,
                  "width":32,
-                 "x":864,
-                 "y":512
+                 "x":128,
+                 "y":128
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -201,8 +194,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":686.982500815886,
-                 "y":407.065585146127
+                 "x":687.649167482553,
+                 "y":499.732251812794
                 }, 
                 {
                  "height":0,
@@ -247,18 +240,18 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":13,
+ "nextobjectid":20,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.4.1",
+ "tiledversion":"1.7.1",
  "tileheight":32,
  "tilesets":[
         {
          "firstgid":1,
-         "source":"dawnlike_objects.tsx"
+         "source":"dawnlike.tsx"
         }],
  "tilewidth":32,
  "type":"map",
- "version":1.4,
+ "version":"1.6",
  "width":32
 }

@@ -81,11 +81,6 @@ const SpritesheetPtr &SpritesheetResource::get() const
 
 void SpritesheetResource::load()
 {
-// MSVC compiler error
-#ifdef GetObject
-#undef GetObject
-#endif
-
     auto tex = std::make_shared<Texture>( "../resource/spritesheet/" + m_name + ".png" );
     auto doc = utils::json::loadFromPath("../resource/spritesheet/" + m_name + ".json" );
 
@@ -102,7 +97,10 @@ void SpritesheetResource::load()
             gidMap.emplace( node.key(), node.value() );
         }
 
-        int marginVal = metaObj["margin"];
+        int paddingVal = metaObj["shapePadding"];
+        int extrudeVal = metaObj["extrude"];
+        int marginVal = paddingVal + 2 * extrudeVal;
+        
         m_spritesheet = std::make_shared<TiledSpritesheet>( tex, gidMap, marginVal );
     }
     else if ( sheetType == "free" )

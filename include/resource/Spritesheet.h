@@ -25,6 +25,9 @@ struct SpritesheetKey
 
     ~SpritesheetKey() = default;
 
+    // String representation (mostly for debugging)
+    std::string toString() const;
+
     std::string sheetName;
     std::string spriteName;
     int gid;

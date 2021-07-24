@@ -156,7 +156,7 @@ Sprite ResourceManager::getSprite(SpritesheetKey const& key)
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
-        Logger::get().error( "Unknown sprite [{}, {}, {}]\n", key.spriteName, key.gid, key.sheetName );
+        Logger::get().error( "Unknown sprite [{}]\n", key.toString() );
         std::terminate();
     }
 }
