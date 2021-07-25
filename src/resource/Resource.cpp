@@ -99,9 +99,11 @@ void SpritesheetResource::load()
 
         int paddingVal = metaObj["shapePadding"];
         int extrudeVal = metaObj["extrude"];
-        int marginVal = paddingVal + 2 * extrudeVal;
         
-        m_spritesheet = std::make_shared<TiledSpritesheet>( tex, gidMap, marginVal );
+        int marginVal = paddingVal + 2 * extrudeVal;
+        int globalMargin = extrudeVal;
+        
+        m_spritesheet = std::make_shared<TiledSpritesheet>( tex, gidMap, marginVal, globalMargin );
     }
     else if ( sheetType == "free" )
     {

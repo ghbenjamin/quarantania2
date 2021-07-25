@@ -74,24 +74,14 @@ TexturePtr const &Spritesheet::getTexture()
     return m_texture;
 }
 
-TiledSpritesheet::TiledSpritesheet(TexturePtr texture, SpritesheetGidMap& gidMap, int margin)
-: Spritesheet(texture), m_margin(margin)
+TiledSpritesheet::TiledSpritesheet(TexturePtr texture, SpritesheetGidMap& gidMap, int spriteMargin, int globalMargin)
+: Spritesheet(texture), m_margin(spriteMargin), m_globalMargin(globalMargin)
 {
     auto w = m_texture->size().x();
     w -= GlobalConfig::TileSizePx;
-    m_tileWidth = ( w / (margin + GlobalConfig::TileSizePx) ) + 1;
-
+    m_tileWidth = ( w / (m_margin + GlobalConfig::TileSizePx) ) + 1;
     m_gidMap = std::move(gidMap);
-}
-
-const RectI TiledSpritesheet::getRegion(int id) const
-{
-    return RectI{
-        { (id % m_tileWidth) * (GlobalConfig::TileSizePx + m_margin),
-          (id / m_tileWidth) * (GlobalConfig::TileSizePx + m_margin) },
-        { GlobalConfig::TileSizePx,
-          GlobalConfig::TileSizePx }
-    };
+    m_globalOffset = Vector2i(m_globalMargin, m_globalMargin);
 }
 
 const Vector2i TiledSpritesheet::sheetPosFromGid(int gid) const
@@ -99,7 +89,7 @@ const Vector2i TiledSpritesheet::sheetPosFromGid(int gid) const
     int x = (gid % m_tileWidth) * (GlobalConfig::TileSizePx + m_margin);
     int y = (gid / m_tileWidth) * (GlobalConfig::TileSizePx + m_margin);
 
-    return {x, y};
+    return m_globalOffset + Vector2i{x, y};
 }
 
 Sprite TiledSpritesheet::spriteFromGid(int gid)

@@ -54,19 +54,19 @@ protected:
 class TiledSpritesheet : public Spritesheet
 {
 public:
-    TiledSpritesheet( TexturePtr texture, SpritesheetGidMap& gidMap, int margin );
+    TiledSpritesheet( TexturePtr texture, SpritesheetGidMap& gidMap, int spriteMargin, int globalMargin );
     ~TiledSpritesheet() override = default;
 
     Sprite spriteFromGid( int gid );
     const Vector2i sheetPosFromGid( int gid ) const;
-    const RectI getRegion( int id ) const;
-
     virtual Sprite getSprite( SpritesheetKey const& key ) override;
 
 private:
 
     int m_margin;
     int m_tileWidth;
+    int m_globalMargin;
+    Vector2i m_globalOffset;
     SpritesheetGidMap m_gidMap;
 };
 
