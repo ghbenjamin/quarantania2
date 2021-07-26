@@ -42,7 +42,7 @@ void OverworldState::setupUI()
 
 void OverworldState::startLevel()
 {
-    replaceNextState<LevelState>( m_runState );
+    replaceNextState<LevelState>( m_runState, "arena" );
 }
 
 Overworld *OverworldState::overworld()

@@ -15,7 +15,7 @@ class LSUISystem;
 class LevelState : public GameState
 {
 public:
-    LevelState(std::shared_ptr<RunState> const& runState);
+    LevelState(std::shared_ptr<RunState> const& runState, std::string levelName);
     ~LevelState() override = default;
 
     Level* level();

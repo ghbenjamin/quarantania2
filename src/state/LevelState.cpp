@@ -14,11 +14,13 @@
 #include <state/OverworldState.h>
 #include <graphics/RenderInterface.h>
 
-LevelState::LevelState( std::shared_ptr<RunState> const& runState )
+LevelState::LevelState( std::shared_ptr<RunState> const& runState, std::string levelName )
     : m_runState(runState)
 {
+    std::string levelPath = "../resource/maps/" + levelName + ".json";
+
     TiledMapLoader loader;
-    TiledMap tm = loader.load( "../resource/maps/arena.json" );
+    TiledMap tm = loader.load( levelPath );
 
     FixedLevelFactory ffactory(&tm, runState);
     m_level = ffactory.createLevel();

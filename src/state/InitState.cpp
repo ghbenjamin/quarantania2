@@ -9,7 +9,7 @@ void InitState::updateImpl(uint32_t ticks, InputInterface &iinter, RenderInterfa
     auto runState = RunState::generateNewRun();
 
     // LEVEL START
-    setNextState<LevelState>( runState );
+    setNextState<LevelState>( runState, "arena" );
     
 //    runState->serialize();
     
