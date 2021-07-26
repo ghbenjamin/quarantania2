@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <tileset firstgid="1" source="../tilesets/dawnlike.tsx"/>
+ <object name="torch" gid="385" width="32" height="32">
+  <properties>
+   <property name="light-colour" type="color" value="#fffdffdc"/>
+   <property name="light-intensity" type="float" value="1"/>
+  </properties>
+ </object>
+</template>

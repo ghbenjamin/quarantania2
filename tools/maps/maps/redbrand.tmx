@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="11">
+ <tileset firstgid="1" source="../tilesets/dawnlike.tsx"/>
+ <layer id="2" name="Floor" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt1rEKwCAMAFGHLv3/H5YMhbZohkbpDfcgiy6HIKQ1rXAezxmdve/+7MuG0Jc1U/qIyG3Bvm9m/4DCvhr71qB2XeyryXYCAlLLHfnNgn2SJEmSdus3VQSg
+  </data>
+ </layer>
+ <layer id="1" name="Walls" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztlksKgDAMBQuuPJ93V+levIC61kIDJcTip7Rv8QKD0IoOSYwdOucGcMbeuUnhjTW9l7unpN9yPU+Htab3lsIeb/xygeCHnr8101v7xRGvNfy2pN9D+Irv/pLHWnV7ypjULcQW6zeDeN59Cyh5pB/9WmLNvwlwBqLOP+0n808ofV7662dFSy/r/yH9KDlEzBtKH9LvH9Jv1jm0tRshhBBCCCFInC/BNmQ=
+  </data>
+ </layer>
+ <objectgroup id="3" name="Spawns">
+  <object id="1" template="../templates/player-spawn.tx" x="80" y="629"/>
+  <object id="2" template="../templates/player-spawn.tx" x="114" y="658"/>
+  <object id="3" template="../templates/player-spawn.tx" x="212" y="629"/>
+  <object id="4" template="../templates/player-spawn.tx" x="211" y="688"/>
+ </objectgroup>
+ <objectgroup id="4" name="Fixed">
+  <object id="6" name="door" gid="526" x="128" y="576" width="32" height="32"/>
+  <object id="7" template="../templates/torch.tx" x="128" y="352"/>
+  <object id="8" name="door" gid="526" x="128" y="448" width="32" height="32"/>
+  <object id="9" name="door" gid="526" x="128" y="192" width="32" height="32"/>
+  <object id="10" name="door" gid="526" x="192" y="96" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="5" name="Decor"/>
+</map>

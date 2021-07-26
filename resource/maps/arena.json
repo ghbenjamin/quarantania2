@@ -58,6 +58,18 @@
                  "width":32,
                  "x":576,
                  "y":576
+                }, 
+                {
+                 "gid":357,
+                 "height":32,
+                 "id":20,
+                 "name":"shelf",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":928,
+                 "y":64
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -182,8 +194,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":720.676531558059,
-                 "y":464.608697000588
+                 "x":720.677,
+                 "y":464.609
                 }, 
                 {
                  "height":0,
@@ -194,8 +206,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":687.649167482553,
-                 "y":499.732251812794
+                 "x":687.649,
+                 "y":499.732
                 }, 
                 {
                  "height":0,
@@ -212,8 +224,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":681.357151420693,
-                 "y":460.37645366263
+                 "x":681.357,
+                 "y":460.376
                 }, 
                 {
                  "height":0,
@@ -230,8 +242,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":746.423690205012,
-                 "y":494.75122886944
+                 "x":746.424,
+                 "y":494.751
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -240,7 +252,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":20,
+ "nextobjectid":21,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.1",
@@ -248,7 +260,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"dawnlike.tsx"
+         "source":"..\/..\/tools\/maps\/dawnlike.tsx"
         }],
  "tilewidth":32,
  "type":"map",

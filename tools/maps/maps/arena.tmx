@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="32" height="21" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="21">
+ <tileset firstgid="1" source="../tilesets/dawnlike.tsx"/>
+ <layer id="1" name="Floor" width="32" height="21">
+  <data encoding="base64" compression="zlib">
+   eJwTZWZgEB3Fo3gUj+JRPIpH8SgexaOYThgAVAU/AQ==
+  </data>
+ </layer>
+ <layer id="3" name="Walls" width="32" height="21">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh4kMjJwJBEAKcSoYYUnMyJsL+AE7fbSFFDCigYtX/U/mFmPyluHLV/1P6hZH/hANtPqpmj9g8d++up1KZpJEFtA5XrE3IBAA6LNN0=
+  </data>
+ </layer>
+ <objectgroup id="5" name="Decor">
+  <object id="18" name="cobweb" gid="455" x="288" y="64" width="32" height="32"/>
+  <object id="19" name="cobweb" gid="457" x="576" y="576" width="32" height="32"/>
+  <object id="20" name="shelf" gid="357" x="928" y="64" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="4" name="Fixed">
+  <object id="14" name="torch" gid="385" x="864" y="512" width="32" height="32">
+   <properties>
+    <property name="light-colour" type="color" value="#fffdffdc"/>
+    <property name="light-intensity" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="15" name="torch" gid="385" x="864" y="128" width="32" height="32">
+   <properties>
+    <property name="light-colour" type="color" value="#fffdffdc"/>
+    <property name="light-intensity" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="16" name="torch" gid="385" x="128" y="512" width="32" height="32">
+   <properties>
+    <property name="light-colour" type="color" value="#fffdffdc"/>
+    <property name="light-intensity" type="float" value="1"/>
+   </properties>
+  </object>
+  <object id="17" name="torch" gid="385" x="128" y="128" width="32" height="32">
+   <properties>
+    <property name="light-colour" type="color" value="#fffdffdc"/>
+    <property name="light-intensity" type="float" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="2" name="Spawns">
+  <object id="1" template="../templates/player-spawn.tx" x="720.677" y="464.609"/>
+  <object id="2" name="player-spawn" x="687.649" y="499.732">
+   <point/>
+  </object>
+  <object id="3" name="enemy-spawn" x="681.357" y="460.376">
+   <properties>
+    <property name="name" value="Poison Frog"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="4" name="enemy-spawn" x="746.424" y="494.751">
+   <properties>
+    <property name="name" value="Poison Frog"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+</map>
