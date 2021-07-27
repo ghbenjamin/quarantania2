@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 
 #include <game/GameEventHub.h>
 #include <game/AnimationQueue.h>
@@ -32,6 +33,7 @@ enum class OverworldExitStatus
 struct OverworldLocation
 {
     OverworldLocationType type;
+    int idx;
     Vector2i gridPos;
     Vector2i displayOffset;
     bool completed = false;
@@ -42,7 +44,9 @@ struct OverworldData
 {
     Vector2i gridSize;
     std::vector<OverworldLocation> locations;
-    std::unordered_multimap<Vector2i, Vector2i, Vector2iHash> connections;
+    std::unordered_multimap<int, int> connections;
+    int currentLocation;
+    std::unordered_set<int> rootNodes;
 };
 
 
@@ -59,11 +63,15 @@ public:
     GameEventHub& events();
     Vector2i const& gridSize() const;
     std::vector<OverworldLocation> const& locations();
-    std::unordered_multimap<Vector2i, Vector2i, Vector2iHash> const& connections();
+    std::unordered_multimap<int, int> const& connections();
+    
+    int currentLocation() const;
+    std::unordered_set<int> const& nextLocations() const;
     
 private:
     OverworldData m_data;
     AnimationQueue m_animation;
     GameEventHub m_gevents;
     RandomState* m_randomState;
+    std::unordered_set<int> m_allowedNextLocs;
 };

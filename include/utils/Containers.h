@@ -84,7 +84,7 @@ public:
         return !(rhs == *this);
     }
 
-    Vector2 hadamard( Vector2 const& other ) const
+    Vector2 elemProduct( Vector2 const& other ) const
     {
         return Vector2( m_x * other.m_x, m_y * other.m_y );
     }

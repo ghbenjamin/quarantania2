@@ -1,8 +1,9 @@
 #pragma once
 
 #include <vector>
-#include <cassert>
 #include <unordered_map>
+
+#include <utils/Assert.h>
 #include <utils/Containers.h>
 #include <utils/GridUtils.h>
 
@@ -88,7 +89,7 @@ public:
     DataType valueAt( Vector2i pos )
     {
 		auto idx = vectorToIdx(pos);
-		assert(idx < m_cached.size());
+		Assert(idx < m_cached.size());
         return static_cast<DataType>(m_cached[idx]);
     }
 

@@ -30,22 +30,25 @@ LocationViewItem::LocationViewItem( Manager *manager, Element *parent, Overworld
     }
     
     m_icon = manager->createElement<Icon>( this, locSprite );
-    m_icon->getSprite().setPermanentColour(Colour::Black);
     
     
-    addEventCallback( UEventType::MouseIn, [this](UEvent const& evt) {
-        m_icon->getSprite().setColourMod( Colour::Red );
-        ResourceManager::get().getWindow()->cursor().setCursorType( CursorType::Interact );
-    });
+    if ( m_overworld->nextLocations().count(m_loc->idx) )
+    {
+        m_icon->getSprite().setPermanentColour(Colour::Green);
+    }
+    else if ( m_overworld->currentLocation() == m_loc->idx )
+    {
+        m_icon->getSprite().setPermanentColour(Colour::Blue);
+    }
+    else
+    {
+        m_icon->getSprite().setPermanentColour(Colour::Black);
+    }
     
-    addEventCallback( UEventType::MouseOut, [this](UEvent const& evt) {
-        m_icon->getSprite().resetColourMod();
-        ResourceManager::get().getWindow()->cursor().resetCursor();
-    });
     
-    addEventCallback( UEventType::Click, [this](UEvent const& evt) {
-        this->onClick();
-    });
+    addEventCallback( UEventType::MouseIn, [this](UEvent const& evt) { onMouseIn(); });
+    addEventCallback( UEventType::MouseOut, [this](UEvent const& evt) { onMouseOut(); });
+    addEventCallback( UEventType::Click, [this](UEvent const& evt) { onClick(); });
 }
 
 void LocationViewItem::refresh()
@@ -55,7 +58,19 @@ void LocationViewItem::refresh()
 
 void LocationViewItem::onClick()
 {
-    m_overworld->events().broadcast<GameEvents::OverworldLocationSelect>( 0 /* FIXME */ );
+    m_overworld->events().broadcast<GameEvents::OverworldLocationSelect>( m_loc->idx );
+}
+
+void LocationViewItem::onMouseIn()
+{
+    m_icon->getSprite().setColourMod( Colour::Red );
+    ResourceManager::get().getWindow()->cursor().setCursorType( CursorType::Interact );
+}
+
+void LocationViewItem::onMouseOut()
+{
+    m_icon->getSprite().resetColourMod();
+    ResourceManager::get().getWindow()->cursor().resetCursor();
 }
 
 LocationView::LocationView( Manager *manager, Element *parent, Overworld *overworld )
@@ -63,18 +78,18 @@ LocationView::LocationView( Manager *manager, Element *parent, Overworld *overwo
 {
     Vector2i scaling = {80, 100};
 
-    setPreferredContentSize({ scaling.x() * overworld->gridSize().x(), scaling.y()  * overworld->gridSize().y() });
+    setPreferredContentSize( scaling.elemProduct(overworld->gridSize()) );
     setLayout<FreeLayout>();
     setBackground(Colour::White.withAlphaF(0.5));
 
     // Create overworld location elements
     for ( auto const& loc : overworld->locations() )
     {
-        Vector2i pos = loc.gridPos.hadamard( scaling );
+        Vector2i pos = loc.gridPos.elemProduct(scaling);
         auto locItem = manager->createElement<LocationViewItem>( this, m_overworld, &loc );
         locItem->setLocalPosition( pos );
-
-        m_locations.emplace(loc.gridPos, locItem);
+        
+        m_locations.push_back(locItem);
     }
     
     // Create overworld connection elements
@@ -98,7 +113,7 @@ void LocationView::refresh()
 {
     for ( auto const loc : m_locations )
     {
-        loc.second->refresh();
+        loc->refresh();
     }
 }
 

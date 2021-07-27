@@ -17,9 +17,13 @@ public:
     LocationViewItem( Manager *manager, Element *parent, Overworld* overworld, OverworldLocation const* loc );
 
     void refresh();
-    void onClick();
+    
 
 private:
+    void onClick();
+    void onMouseIn();
+    void onMouseOut();
+
     OverworldLocation const* m_loc;
     Overworld* m_overworld;
     std::shared_ptr<Icon> m_icon;
@@ -43,7 +47,7 @@ private:
 
 
     Overworld* m_overworld;
-    std::unordered_map<Vector2i, std::shared_ptr<LocationViewItem>, Vector2iHash> m_locations;
+    std::vector<std::shared_ptr<LocationViewItem>> m_locations;
     std::unordered_map<Vector2i, Sprite, Vector2iHash> m_connections;
 };
 

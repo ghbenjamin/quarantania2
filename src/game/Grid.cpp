@@ -331,16 +331,16 @@ PathMap Grid::allPathsFromTile(Vector2i source, int maxDistance)
             auto next = nn + curr;
             float dw = GridUtils::isAdjacentCardinal(curr, next) ? 1.0f : 1.41f;
             auto next_weight = curr_weight + dw;
+    
+            if (!inBounds(next))
+            {
+                // Don't walk off of the map
+                continue;
+            }
 
             if (m_passGrid.valueAt(next) != Passibility::Passable)
             {
                 // Don't walk through walls
-                continue;
-            }
-
-            if (!inBounds(next))
-            {
-                // Don't walk off of the map
                 continue;
             }
 

@@ -11,9 +11,12 @@ std::unique_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<Run
 {
     OverworldData data;
     data.gridSize = { 7, 13 };
-
+    data.currentLocation = -1;
+    
     std::unordered_set<Vector2i, Vector2iHash> occupiedNodes;
     std::unordered_set<std::pair<Vector2i, Vector2i>, Vector2iPairHash> blockedEdges;
+    std::unordered_map<Vector2i, int, Vector2iHash> locToIdx;
+    int idx = 0;
 
     // Start from the bottom and walk up, creating nodes as we go
 
@@ -59,15 +62,25 @@ std::unique_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<Run
                 loc.type = OverworldLocationType::Mystery;
                 loc.displayOffset = {0, 0};
                 loc.gridPos = currLoc;
+                loc.idx = idx;
 
                 data.locations.push_back(loc);
                 occupiedNodes.insert( currLoc );
+                
+                locToIdx.emplace(currLoc, idx);
+                
+                if (currRow == 0)
+                {
+                    data.rootNodes.insert(idx);
+                }
+                
+                idx++;
             }
 
             // Add the connection to our list of connections
             if ( lastLoc != Vector2i{-1, -1} )
             {
-                data.connections.emplace( lastLoc, currLoc );
+                data.connections.emplace( locToIdx[lastLoc], locToIdx[currLoc] );
             }
 
             lastLoc = currLoc;
