@@ -77,17 +77,20 @@ LocationView::LocationView( Manager *manager, Element *parent, Overworld *overwo
 : Element( manager, parent ), m_overworld(overworld)
 {
     Vector2i scaling = {80, 100};
-
-    setPreferredContentSize( scaling.elemProduct(overworld->gridSize()) );
+    Vector2i contentSize = scaling.elemProduct(overworld->gridSize() - Vector2i{0, 1});
+    
+    setPreferredContentSize( contentSize );
     setLayout<FreeLayout>();
     setBackground(Colour::White.withAlphaF(0.5));
+    setPadding(20);
 
     // Create overworld location elements
     for ( auto const& loc : overworld->locations() )
     {
         Vector2i pos = loc.gridPos.elemProduct(scaling);
         auto locItem = manager->createElement<LocationViewItem>( this, m_overworld, &loc );
-        locItem->setLocalPosition( pos );
+        
+        locItem->setLocalPosition( { pos.x(), contentSize.y() - pos.y() - locItem->outerBounds().h() } );
         
         m_locations.push_back(locItem);
     }
