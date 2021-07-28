@@ -10,12 +10,14 @@ OverworldFactory::OverworldFactory() {}
 std::unique_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<RunState> runState)
 {
     OverworldData data;
-    data.gridSize = { 7, 13 };
+    data.gridSize = { 7, 15 };
     data.currentLocation = -1;
     
     std::unordered_set<Vector2i, Vector2iHash> occupiedNodes;
     std::unordered_set<std::pair<Vector2i, Vector2i>, Vector2iPairHash> blockedEdges;
     std::unordered_map<Vector2i, int, Vector2iHash> locToIdx;
+    std::unordered_set<int> penultimateNodes;
+    
     int idx = 0;
 
     // Start from the bottom and walk up, creating nodes as we go
@@ -25,7 +27,7 @@ std::unique_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<Run
         int lastCol = runState->randomState.diceRoll(data.gridSize.x()) - 1;
         Vector2i lastLoc = {-1, -1};
 
-        for ( int currRow = 0; currRow < data.gridSize.y(); currRow++ )
+        for ( int currRow = 0; currRow < data.gridSize.y() - 1; currRow++ )
         {
             std::vector<int> colOpts;
             for ( int i = -1; i <= 1; i++ )
@@ -73,6 +75,10 @@ std::unique_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<Run
                 {
                     data.rootNodes.insert(idx);
                 }
+                else if ( currRow == data.gridSize.y() - 2 )
+                {
+                    penultimateNodes.insert(idx);
+                }
                 
                 idx++;
             }
@@ -86,6 +92,20 @@ std::unique_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<Run
             lastLoc = currLoc;
             lastCol = currCol;
         }
+    }
+    
+    // Create the fixed final boss node
+    
+    OverworldLocation loc;
+    loc.type = OverworldLocationType::Boss;
+    loc.displayOffset = {0, 0};
+    loc.gridPos = { data.gridSize.x() / 2, data.gridSize.y() - 1 };
+    loc.idx = idx;
+    data.locations.push_back(loc);
+    
+    for ( int p : penultimateNodes )
+    {
+        data.connections.emplace( p, idx );
     }
     
     return std::make_unique<Overworld>(data, &runState->randomState);

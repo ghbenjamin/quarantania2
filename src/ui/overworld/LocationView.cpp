@@ -25,7 +25,7 @@ LocationViewItem::LocationViewItem( Manager *manager, Element *parent, Overworld
             locSprite = "game_ui/w-position-marker";
             break;
         case OverworldLocationType::Boss:
-            locSprite = "game_ui/w-position-marker";
+            locSprite = "game_ui/w-crowned-skull";
             break;
     }
     
@@ -58,7 +58,10 @@ void LocationViewItem::refresh()
 
 void LocationViewItem::onClick()
 {
-    m_overworld->events().broadcast<GameEvents::OverworldLocationSelect>( m_loc->idx );
+    if ( m_overworld->nextLocations().count(m_loc->idx) )
+    {
+        m_overworld->events().broadcast<GameEvents::OverworldLocationSelect>( m_loc->idx );
+    }
 }
 
 void LocationViewItem::onMouseIn()
@@ -77,7 +80,7 @@ LocationView::LocationView( Manager *manager, Element *parent, Overworld *overwo
 : Element( manager, parent ), m_overworld(overworld)
 {
     Vector2i scaling = {80, 100};
-    Vector2i contentSize = scaling.elemProduct(overworld->gridSize() - Vector2i{0, 1});
+    Vector2i contentSize = scaling.elemProduct(overworld->gridSize() - Vector2i{0, 1}) + Vector2i(0, 32);
     
     setPreferredContentSize( contentSize );
     setLayout<FreeLayout>();
