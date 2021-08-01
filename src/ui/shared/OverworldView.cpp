@@ -9,8 +9,8 @@
 using namespace UI;
 
 
-OverworldViewLocationItem::OverworldViewLocationItem( Manager *manager, Element *parent, Overworld* overworld, OverworldLocation const *loc )
-        : Element(manager, parent), m_loc(loc), m_overworld(overworld)
+OverworldViewLocationItem::OverworldViewLocationItem( Manager *manager, Element *parent, Overworld* overworld, OverworldLocation const *loc, bool readOnly )
+        : Element(manager, parent), m_loc(loc), m_overworld(overworld), m_readOnly(readOnly)
 {
     SpritesheetKey locSprite;
     switch ( loc->type )
@@ -32,7 +32,7 @@ OverworldViewLocationItem::OverworldViewLocationItem( Manager *manager, Element 
     m_icon = manager->createElement<Icon>( this, locSprite );
     
     
-    if ( m_overworld->nextLocations().count(m_loc->idx) )
+    if ( m_overworld->nextLocations().count(m_loc->idx) && !m_readOnly )
     {
         m_icon->getSprite().setPermanentColour(Colour::Green);
     }
@@ -58,22 +58,31 @@ void OverworldViewLocationItem::refresh()
 
 void OverworldViewLocationItem::onClick()
 {
-    if ( m_overworld->nextLocations().count(m_loc->idx) )
+    if ( !m_readOnly )
     {
-        m_overworld->events().broadcast<GameEvents::OverworldLocationSelect>( m_loc->idx );
+        if ( m_overworld->nextLocations().count(m_loc->idx) )
+        {
+            m_overworld->events().broadcast<GameEvents::OverworldLocationSelect>( m_loc->idx );
+        }
     }
 }
 
 void OverworldViewLocationItem::onMouseIn()
 {
-    m_icon->getSprite().setColourMod( Colour::Red );
-    ResourceManager::get().getWindow()->cursor().setCursorType( CursorType::Interact );
+    if ( !m_readOnly )
+    {
+        m_icon->getSprite().setColourMod(Colour::Red);
+        ResourceManager::get().getWindow()->cursor().setCursorType(CursorType::Interact);
+    }
 }
 
 void OverworldViewLocationItem::onMouseOut()
 {
-    m_icon->getSprite().resetColourMod();
-    ResourceManager::get().getWindow()->cursor().resetCursor();
+    if ( !m_readOnly )
+    {
+        m_icon->getSprite().resetColourMod();
+        ResourceManager::get().getWindow()->cursor().resetCursor();
+    }
 }
 
 OverworldView::OverworldView( Manager *manager, Element *parent, Overworld *overworld, bool readOnly )
@@ -91,7 +100,7 @@ OverworldView::OverworldView( Manager *manager, Element *parent, Overworld *over
     for ( auto const& loc : overworld->locations() )
     {
         Vector2i pos = loc.gridPos.elemProduct(scaling);
-        auto locItem = manager->createElement<OverworldViewLocationItem>(this, m_overworld, &loc );
+        auto locItem = manager->createElement<OverworldViewLocationItem>(this, m_overworld, &loc, m_readOnly );
         
         locItem->setLocalPosition( { pos.x(), contentSize.y() - pos.y() - locItem->outerBounds().h() } );
         

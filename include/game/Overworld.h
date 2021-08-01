@@ -53,8 +53,7 @@ struct OverworldData
 class Overworld
 {
 public:
-
-    Overworld(OverworldData const& data, RandomState* randomState);
+    Overworld(std::shared_ptr<OverworldData> const& data, RandomState* randomState);
     ~Overworld() = default;
 
     bool input(IEvent &evt);
@@ -64,12 +63,14 @@ public:
     Vector2i const& gridSize() const;
     std::vector<OverworldLocation> const& locations();
     std::unordered_multimap<int, int> const& connections();
-    
     int currentLocation() const;
     std::unordered_set<int> const& nextLocations() const;
     
+    std::shared_ptr<OverworldData> data();
+    
 private:
-    OverworldData m_data;
+    std::shared_ptr<OverworldData> m_data;
+    
     AnimationQueue m_animation;
     GameEventHub m_gevents;
     RandomState* m_randomState;

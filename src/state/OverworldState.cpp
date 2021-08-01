@@ -5,7 +5,6 @@
 #include <game/Overworld.h>
 #include <ui/lib/Manager.h>
 #include <ui/lib/ScrollHolder.h>
-#include <game/OverworldFactory.h>
 #include <ui/shared/OverworldView.h>
 #include <state/LevelState.h>
 #include <game/RunState.h>
@@ -13,10 +12,7 @@
 OverworldState::OverworldState(std::shared_ptr<RunState> runState)
     : m_runState(runState)
 {
-    OverworldFactory factory;
-    
-    m_overworld = factory.createOverworld( runState );
-    runState->overworld = m_overworld;
+    m_overworld = runState->overworld;
     m_eventSub = std::make_unique<OverworldStateEventSub>( this );
     
     setupUI();
@@ -42,8 +38,9 @@ void OverworldState::setupUI()
     auto locationView = m_ui->createElement<UI::OverworldView>(locationViewHolder.get(), m_overworld.get(), false);
 }
 
-void OverworldState::startLevel()
+void OverworldState::startLevel(int idx)
 {
+    m_runState->overworld->data()->currentLocation = idx;
     replaceNextState<LevelState>( m_runState, "arena" );
 }
 
@@ -60,5 +57,5 @@ OverworldStateEventSub::OverworldStateEventSub( OverworldState *parent )
 
 void OverworldStateEventSub::operator()( GameEvents::OverworldLocationSelect &evt )
 {
-    m_parent->startLevel();
+    m_parent->startLevel(evt.locationIdx);
 }

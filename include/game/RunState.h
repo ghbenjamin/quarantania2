@@ -61,17 +61,12 @@ public:
     ~RunState() = default;
     utils::json::object serialize() const;
 
-
-
     // Globals
     std::chrono::time_point<std::chrono::system_clock> startTime;
     RandomState randomState;
-    std::shared_ptr<Overworld> overworld;
     
     // Current overworld state
-    
-    int currentLocation;
-    std::vector<int> locationsVisited;
+    std::shared_ptr<Overworld> overworld;
 
     // Current party state
     std::vector<PlayerData> playerChars;

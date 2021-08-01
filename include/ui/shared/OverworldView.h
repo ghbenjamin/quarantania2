@@ -14,7 +14,7 @@ namespace UI
 class OverworldViewLocationItem : public Element
 {
 public:
-    OverworldViewLocationItem( Manager *manager, Element *parent, Overworld* overworld, OverworldLocation const* loc );
+    OverworldViewLocationItem( Manager *manager, Element *parent, Overworld* overworld, OverworldLocation const* loc, bool readOnly );
 
     void refresh();
     
@@ -23,7 +23,8 @@ private:
     void onClick();
     void onMouseIn();
     void onMouseOut();
-
+    
+    bool m_readOnly;
     OverworldLocation const* m_loc;
     Overworld* m_overworld;
     std::shared_ptr<Icon> m_icon;

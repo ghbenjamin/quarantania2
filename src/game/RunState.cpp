@@ -1,6 +1,8 @@
 #include <game/RunState.h>
 #include <game/ResourceDatabase.h>
+#include <game/Overworld.h>
 #include <utils/Logging.h>
+#include <game/OverworldFactory.h>
 
 
 PlayerData::PlayerData( ChargenData &chargenData )
@@ -59,7 +61,6 @@ utils::json::object PlayerData::serialize() const
 RunState::RunState()
 {
     startTime = std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::system_clock::now() );
-    currentLocation = 0;
 }
 
 utils::json::object RunState::serialize( ) const
@@ -70,8 +71,8 @@ utils::json::object RunState::serialize( ) const
     json["meta"]["seed"] = this->randomState.seed();
     json["meta"]["prngState"] = this->randomState.prngState();
 
-    json["overworld"]["currentLoc"] = this->currentLocation;
-    json["overworld"]["locsVisited"] = this->locationsVisited;
+    json["overworld"]["currentLoc"] = this->overworld->currentLocation();
+//    json["overworld"]["locsVisited"] = this->overworld->;
     
     json["party"] = utils::json::object::array();
     for ( auto const& p : playerChars )
@@ -86,6 +87,9 @@ utils::json::object RunState::serialize( ) const
 std::shared_ptr<RunState> RunState::generateNewRun()
 {
     auto state = std::shared_ptr<RunState>( new RunState() );
+    
+    OverworldFactory factory;
+    state->overworld = factory.createOverworld( state );
 
     auto p1 = state->generateStartingCharacter("fighter");
     auto p2 = state->generateStartingCharacter("rogue");

@@ -19,7 +19,7 @@ public:
 
     Overworld* overworld();
 
-    void startLevel(); // TODO Arguments
+    void startLevel(int idx); // TODO Arguments
 
 protected:
     bool inputImpl(IEvent &evt) override;

@@ -76,6 +76,8 @@ void Manager::update(uint32_t ticks, InputInterface &iinter, RenderInterface &rI
     {
         deleteElement(elem);
     }
+    
+    m_delayedDeleteElems.clear();
 }
 
 void Manager::doLayout()

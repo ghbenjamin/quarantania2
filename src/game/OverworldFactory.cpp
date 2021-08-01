@@ -9,9 +9,9 @@ OverworldFactory::OverworldFactory() {}
 
 std::shared_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<RunState> runState)
 {
-    OverworldData data;
-    data.gridSize = { 7, 15 };
-    data.currentLocation = -1;
+    std::shared_ptr<OverworldData> data = std::make_shared<OverworldData>();
+    data->gridSize = { 7, 15 };
+    data->currentLocation = -1;
     
     std::unordered_set<Vector2i, Vector2iHash> occupiedNodes;
     std::unordered_set<std::pair<Vector2i, Vector2i>, Vector2iPairHash> blockedEdges;
@@ -24,16 +24,16 @@ std::shared_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<Run
 
     for ( int snode = 0; snode < 4; snode++ )
     {
-        int lastCol = runState->randomState.diceRoll(data.gridSize.x()) - 1;
+        int lastCol = runState->randomState.diceRoll(data->gridSize.x()) - 1;
         Vector2i lastLoc = {-1, -1};
 
-        for ( int currRow = 0; currRow < data.gridSize.y() - 1; currRow++ )
+        for ( int currRow = 0; currRow < data->gridSize.y() - 1; currRow++ )
         {
             std::vector<int> colOpts;
             for ( int i = -1; i <= 1; i++ )
             {
                 int trial = i + lastCol;
-                if (trial >= 0 && trial < data.gridSize.x() )
+                if (trial >= 0 && trial < data->gridSize.x() )
                 {
                     auto pair = std::make_pair( lastLoc, Vector2i(trial, currRow) );
                     if ( !blockedEdges.count(pair) )
@@ -66,16 +66,16 @@ std::shared_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<Run
                 loc.gridPos = currLoc;
                 loc.idx = idx;
 
-                data.locations.push_back(loc);
+                data->locations.push_back(loc);
                 occupiedNodes.insert( currLoc );
                 
                 locToIdx.emplace(currLoc, idx);
                 
                 if (currRow == 0)
                 {
-                    data.rootNodes.insert(idx);
+                    data->rootNodes.insert(idx);
                 }
-                else if ( currRow == data.gridSize.y() - 2 )
+                else if ( currRow == data->gridSize.y() - 2 )
                 {
                     penultimateNodes.insert(idx);
                 }
@@ -86,7 +86,7 @@ std::shared_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<Run
             // Add the connection to our list of connections
             if ( lastLoc != Vector2i{-1, -1} )
             {
-                data.connections.emplace( locToIdx[lastLoc], locToIdx[currLoc] );
+                data->connections.emplace( locToIdx[lastLoc], locToIdx[currLoc] );
             }
 
             lastLoc = currLoc;
@@ -99,13 +99,13 @@ std::shared_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<Run
     OverworldLocation loc;
     loc.type = OverworldLocationType::Boss;
     loc.displayOffset = {0, 0};
-    loc.gridPos = { data.gridSize.x() / 2, data.gridSize.y() - 1 };
+    loc.gridPos = { data->gridSize.x() / 2, data->gridSize.y() - 1 };
     loc.idx = idx;
-    data.locations.push_back(loc);
+    data->locations.push_back(loc);
     
     for ( int p : penultimateNodes )
     {
-        data.connections.emplace( p, idx );
+        data->connections.emplace( p, idx );
     }
     
     return std::make_shared<Overworld>(data, &runState->randomState);
