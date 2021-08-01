@@ -5,6 +5,7 @@
 #include <resource/ResourceManager.h>
 #include <game/Level.h>
 #include <ui/level/LevelMainMenu.h>
+#include <ui/level/OverworldMapDialog.h>
 
 
 using namespace UI;
@@ -17,8 +18,8 @@ UI::BottomLeftBar::BottomLeftBar(UI::Manager *manager, UI::Element *parent, Leve
     auto actionMenu = manager->createElement<UI::ActionMenu>(this, level);
 }
 
-BottomMenubar::BottomMenubar( Manager *manager, UI::Element* parent, Level* level )
-    : Element(manager, parent), m_level(level)
+BottomMenubar::BottomMenubar( Manager *manager, UI::Element* parent, Level* level, Overworld* overworld )
+    : Element(manager, parent), m_level(level), m_overworld(overworld)
 {
     setLayout<HorizontalLayout>( 4, VAlignment::Centre );
     
@@ -26,10 +27,14 @@ BottomMenubar::BottomMenubar( Manager *manager, UI::Element* parent, Level* leve
     setBackground( patch );
     setBorderWidth( patch.getBorderWidth() );
     
-    m_btnEndTurn = manager->createElement<IconButton>( this, "game_ui/w-hourglass", [this](){ onBtnEndTurn(); } );
-    m_btnJournal = manager->createElement<IconButton>( this, "game_ui/w-scroll-unfurled", [this](){ onBtnJournal(); } );
-    m_btnMap = manager->createElement<IconButton>( this, "game_ui/w-compass", [this](){ onBtnMap(); } );
-    m_btnSettings = manager->createElement<IconButton>( this, "game_ui/w-gears", [this](){ onBtnSettings(); } );
+    m_btnEndTurn = manager->createElement<IconButton>( this,
+        "game_ui/w-hourglass", [this](){ onBtnEndTurn(); } );
+    m_btnJournal = manager->createElement<IconButton>( this,
+        "game_ui/w-scroll-unfurled", [this](){ onBtnJournal(); } );
+    m_btnMap = manager->createElement<IconButton>( this,
+        "game_ui/w-compass", [this](){ onBtnMap(); } );
+    m_btnSettings = manager->createElement<IconButton>( this,
+        "game_ui/w-gears", [this](){ onBtnSettings(); } );
 }
 
 void BottomMenubar::onBtnEndTurn()
@@ -51,5 +56,7 @@ void BottomMenubar::onBtnJournal()
 
 void BottomMenubar::onBtnMap()
 {
-
+    auto menu = manager()->createElement<OverworldMapDialog>(nullptr, m_level, m_overworld);
+    manager()->makeElementModal(menu);
+    manager()->centreElementInWindow(menu);
 }

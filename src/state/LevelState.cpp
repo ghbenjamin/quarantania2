@@ -13,6 +13,7 @@
 #include <ui/level/Composites.h>
 #include <state/OverworldState.h>
 #include <graphics/RenderInterface.h>
+#include <game/RunState.h>
 
 LevelState::LevelState( std::shared_ptr<RunState> const& runState, std::string levelName )
     : m_runState(runState)
@@ -103,7 +104,7 @@ void LevelState::setupUI()
     m_ui->alignElementToWindow( actionMenu, UI::Alignment::BottomLeft, {20, -20} );
     
     // Widget containing fixed action buttons e.g. end turn & options
-    auto bottomMenubar = m_ui->createElement<UI::BottomMenubar>(nullptr, m_level.get());
+    auto bottomMenubar = m_ui->createElement<UI::BottomMenubar>(nullptr, m_level.get(), m_runState->overworld.get());
     m_ui->alignElementToWindow( bottomMenubar, UI::Alignment::BottomCentre, {0, -20} );
     
     // Widget containing the global text log

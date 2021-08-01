@@ -7,7 +7,7 @@
 
 OverworldFactory::OverworldFactory() {}
 
-std::unique_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<RunState> runState)
+std::shared_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<RunState> runState)
 {
     OverworldData data;
     data.gridSize = { 7, 15 };
@@ -108,6 +108,6 @@ std::unique_ptr<Overworld> OverworldFactory::createOverworld(std::shared_ptr<Run
         data.connections.emplace( p, idx );
     }
     
-    return std::make_unique<Overworld>(data, &runState->randomState);
+    return std::make_shared<Overworld>(data, &runState->randomState);
 }
 

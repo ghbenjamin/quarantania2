@@ -11,10 +11,10 @@ namespace UI
 {
 
 
-class LocationViewItem : public Element
+class OverworldViewLocationItem : public Element
 {
 public:
-    LocationViewItem( Manager *manager, Element *parent, Overworld* overworld, OverworldLocation const* loc );
+    OverworldViewLocationItem( Manager *manager, Element *parent, Overworld* overworld, OverworldLocation const* loc );
 
     void refresh();
     
@@ -30,11 +30,11 @@ private:
 };
 
 
-class LocationView : public Element
+class OverworldView : public Element
 {
 public:
-    LocationView( Manager *manager, Element *parent, Overworld* overworld );
-    ~LocationView() override = default;
+    OverworldView( Manager *manager, Element *parent, Overworld* overworld, bool readOnly );
+    ~OverworldView() override = default;
 
     void refresh();
 
@@ -47,7 +47,8 @@ private:
 
 
     Overworld* m_overworld;
-    std::vector<std::shared_ptr<LocationViewItem>> m_locations;
+    bool m_readOnly;
+    std::vector<std::shared_ptr<OverworldViewLocationItem>> m_locations;
     std::unordered_map<Vector2i, Sprite, Vector2iHash> m_connections;
 };
 

@@ -6,8 +6,9 @@
 #include <ui/lib/Manager.h>
 #include <ui/lib/ScrollHolder.h>
 #include <game/OverworldFactory.h>
-#include <ui/overworld/LocationView.h>
+#include <ui/shared/OverworldView.h>
 #include <state/LevelState.h>
+#include <game/RunState.h>
 
 OverworldState::OverworldState(std::shared_ptr<RunState> runState)
     : m_runState(runState)
@@ -15,6 +16,7 @@ OverworldState::OverworldState(std::shared_ptr<RunState> runState)
     OverworldFactory factory;
     
     m_overworld = factory.createOverworld( runState );
+    runState->overworld = m_overworld;
     m_eventSub = std::make_unique<OverworldStateEventSub>( this );
     
     setupUI();
@@ -37,7 +39,7 @@ void OverworldState::setupUI()
 
     m_ui->alignElementToWindow( locationViewHolder, UI::Alignment::Centre, {0, 0} );
 
-    auto locationView = m_ui->createElement<UI::LocationView>(locationViewHolder.get(), m_overworld.get());
+    auto locationView = m_ui->createElement<UI::OverworldView>(locationViewHolder.get(), m_overworld.get(), false);
 }
 
 void OverworldState::startLevel()

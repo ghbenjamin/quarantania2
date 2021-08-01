@@ -14,5 +14,5 @@ public:
     OverworldFactory();
     virtual ~OverworldFactory() = default;
 
-    std::unique_ptr<Overworld> createOverworld(std::shared_ptr<RunState> runState);
+    std::shared_ptr<Overworld> createOverworld(std::shared_ptr<RunState> runState);
 };

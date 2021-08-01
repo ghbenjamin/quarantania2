@@ -1,4 +1,4 @@
-#include <ui/overworld/LocationView.h>
+#include <ui/shared/OverworldView.h>
 #include <ui/lib/Manager.h>
 #include <game/Overworld.h>
 #include <resource/ResourceManager.h>
@@ -9,7 +9,7 @@
 using namespace UI;
 
 
-LocationViewItem::LocationViewItem( Manager *manager, Element *parent, Overworld* overworld, OverworldLocation const *loc )
+OverworldViewLocationItem::OverworldViewLocationItem( Manager *manager, Element *parent, Overworld* overworld, OverworldLocation const *loc )
         : Element(manager, parent), m_loc(loc), m_overworld(overworld)
 {
     SpritesheetKey locSprite;
@@ -51,12 +51,12 @@ LocationViewItem::LocationViewItem( Manager *manager, Element *parent, Overworld
     addEventCallback( UEventType::Click, [this](UEvent const& evt) { onClick(); });
 }
 
-void LocationViewItem::refresh()
+void OverworldViewLocationItem::refresh()
 {
 
 }
 
-void LocationViewItem::onClick()
+void OverworldViewLocationItem::onClick()
 {
     if ( m_overworld->nextLocations().count(m_loc->idx) )
     {
@@ -64,20 +64,20 @@ void LocationViewItem::onClick()
     }
 }
 
-void LocationViewItem::onMouseIn()
+void OverworldViewLocationItem::onMouseIn()
 {
     m_icon->getSprite().setColourMod( Colour::Red );
     ResourceManager::get().getWindow()->cursor().setCursorType( CursorType::Interact );
 }
 
-void LocationViewItem::onMouseOut()
+void OverworldViewLocationItem::onMouseOut()
 {
     m_icon->getSprite().resetColourMod();
     ResourceManager::get().getWindow()->cursor().resetCursor();
 }
 
-LocationView::LocationView( Manager *manager, Element *parent, Overworld *overworld )
-: Element( manager, parent ), m_overworld(overworld)
+OverworldView::OverworldView( Manager *manager, Element *parent, Overworld *overworld, bool readOnly )
+: Element( manager, parent ), m_overworld(overworld), m_readOnly(readOnly)
 {
     Vector2i scaling = {80, 100};
     Vector2i contentSize = scaling.elemProduct(overworld->gridSize() - Vector2i{0, 1}) + Vector2i(0, 32);
@@ -91,7 +91,7 @@ LocationView::LocationView( Manager *manager, Element *parent, Overworld *overwo
     for ( auto const& loc : overworld->locations() )
     {
         Vector2i pos = loc.gridPos.elemProduct(scaling);
-        auto locItem = manager->createElement<LocationViewItem>( this, m_overworld, &loc );
+        auto locItem = manager->createElement<OverworldViewLocationItem>(this, m_overworld, &loc );
         
         locItem->setLocalPosition( { pos.x(), contentSize.y() - pos.y() - locItem->outerBounds().h() } );
         
@@ -115,7 +115,7 @@ LocationView::LocationView( Manager *manager, Element *parent, Overworld *overwo
     }
 }
 
-void LocationView::refresh()
+void OverworldView::refresh()
 {
     for ( auto const loc : m_locations )
     {
@@ -123,7 +123,7 @@ void LocationView::refresh()
     }
 }
 
-void LocationView::updateSelf( uint32_t ticks, InputInterface &iinter, RenderInterface &rInter )
+void OverworldView::updateSelf( uint32_t ticks, InputInterface &iinter, RenderInterface &rInter )
 {
     auto globalPos = globalPosition() + contentOffset();
     for ( auto& [k, v] : m_connections )
@@ -133,7 +133,7 @@ void LocationView::updateSelf( uint32_t ticks, InputInterface &iinter, RenderInt
     }
 }
 
-void LocationView::addConnectionLine(Vector2i startLoc, Vector2i endLoc, int width, int margins)
+void OverworldView::addConnectionLine( Vector2i startLoc, Vector2i endLoc, int width, int margins)
 {
     float dist = Math::pointDistance(startLoc, endLoc);
     int rectHeight = (int) dist - margins;

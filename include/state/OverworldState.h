@@ -29,7 +29,7 @@ private:
     void setupUI( );
     
     std::shared_ptr<RunState> m_runState;
-    std::unique_ptr<Overworld> m_overworld;
+    std::shared_ptr<Overworld> m_overworld;
     std::unique_ptr<OverworldStateEventSub> m_eventSub;
 };
 

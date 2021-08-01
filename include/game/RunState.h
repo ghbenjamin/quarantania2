@@ -8,7 +8,9 @@
 #include <game/Defines.h>
 #include <resource/Spritesheet.h>
 
+// Forward definitions
 struct ChargenData;
+class Overworld;
 
 struct PlayerData
 {
@@ -57,14 +59,17 @@ public:
     static std::shared_ptr<RunState> generateNewRun();
     
     ~RunState() = default;
-
     utils::json::object serialize() const;
+
+
 
     // Globals
     std::chrono::time_point<std::chrono::system_clock> startTime;
     RandomState randomState;
+    std::shared_ptr<Overworld> overworld;
     
     // Current overworld state
+    
     int currentLocation;
     std::vector<int> locationsVisited;
 
