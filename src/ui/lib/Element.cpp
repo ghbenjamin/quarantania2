@@ -446,12 +446,12 @@ bool Element::hasTooltipSpawner() const
     return m_tooltipSpawner.has_value();
 }
 
-void Element::setTooltipSpawner( std::function<std::optional<TooltipData>()> spawner )
+void Element::setTooltipSpawner( std::function<std::shared_ptr<Tooltip>()> spawner )
 {
     m_tooltipSpawner = spawner;
 }
 
-std::optional<TooltipData> Element::getTooltipData()
+std::shared_ptr<Tooltip> Element::generateTooltip()
 {
     if ( m_tooltipSpawner.has_value() )
     {

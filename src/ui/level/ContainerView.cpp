@@ -6,6 +6,7 @@
 #include <game/Level.h>
 #include <utils/GlobalConfig.h>
 #include <components/ActorComponent.h>
+#include <utils/Memory.h>
 
 using namespace UI;
 
@@ -94,15 +95,11 @@ void ContainerViewItem::onClick()
     }
 }
 
-std::optional<TooltipData> ContainerViewItem::tooltipSpawner()
+std::shared_ptr<Tooltip> ContainerViewItem::tooltipSpawner()
 {
     if (m_item)
     {
-        return TooltipData {
-            m_item->getName(),
-            "Item",
-            m_item->getDescription()
-        };
+        return manager()->createElement<SimpleTooltip>( nullptr, m_item->getName(), m_item->getDescription() );
     }
     else
     {

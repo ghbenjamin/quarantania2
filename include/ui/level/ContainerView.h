@@ -25,7 +25,7 @@ public:
 private:
 
     void onClick();
-    std::optional<TooltipData> tooltipSpawner();
+    std::shared_ptr<Tooltip> tooltipSpawner();
     
     Level* m_level;
     std::shared_ptr<Icon> m_icon;

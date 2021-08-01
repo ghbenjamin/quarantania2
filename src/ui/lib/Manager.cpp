@@ -417,14 +417,14 @@ bool Manager::handleMouseMove(IEventMouseMove evt)
             {
                 tooltipSpawn = w;
             }
-            
-            if (tooltipSpawn)
+        }
+    
+        if (tooltipSpawn)
+        {
+            auto tooltip = tooltipSpawn->generateTooltip();
+            if (tooltip)
             {
-                auto data = tooltipSpawn->getTooltipData();
-                if (data.has_value())
-                {
-                    openTooltip(*data, tooltipSpawn->outerBounds());
-                }
+                openTooltip(tooltip, tooltipSpawn->outerBounds());
             }
         }
     }
@@ -493,13 +493,13 @@ void Manager::cancelContextMenu()
     deleteElement( withId( "context-menu" ) );
 }
 
-void Manager::openTooltip( TooltipData const &data, RectI const &spawner )
+void Manager::openTooltip( std::shared_ptr<Tooltip> const &data, RectI const &spawner )
 {
     // Never want more than one tooltip
     closeTooltip();
 
     int offset = 4;
-    m_tooltip = createElement<Tooltip>( nullptr, data );
+    m_tooltip = data;
     Vector2i tooltipSize = m_tooltip->outerBounds().right();
     
     // Default to the top right of the spawning rectangle
@@ -519,7 +519,7 @@ void Manager::openTooltip( TooltipData const &data, RectI const &spawner )
     }
     
     m_tooltip->setLocalPosition( tooltipPos );
-    m_tooltip->setFadeIn();
+//    m_tooltip->setFadeIn();
 }
 
 void Manager::closeTooltip()

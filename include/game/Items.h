@@ -99,9 +99,6 @@ public:
     bool isArmour() const;
     Armour const& getArmour() const;
 
-    UI::TooltipData tooltipData() const;
-
-
 private:
     void initFromData(ItemData const& rawData );
 

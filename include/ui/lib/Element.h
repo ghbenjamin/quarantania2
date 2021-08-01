@@ -25,6 +25,7 @@ namespace UI
 
 class Manager;
 class Element;
+class Tooltip;
 
 using ElementPtr = std::shared_ptr<Element>;
 using ElementList = std::vector<ElementPtr>;
@@ -82,8 +83,8 @@ public:
 
     // Tooltips
     bool hasTooltipSpawner() const;
-    void setTooltipSpawner( std::function<std::optional<TooltipData>()> spawner );
-    std::optional<TooltipData> getTooltipData();
+    void setTooltipSpawner( std::function<std::shared_ptr<Tooltip>()> spawner );
+    std::shared_ptr<Tooltip> generateTooltip();
 
     // DOM
     void setParent( Element* elem );
@@ -302,7 +303,7 @@ private:
     std::list<ElementPtr> m_children;
     
     // Tooltips
-    std::optional< std::function<std::optional<TooltipData>()> > m_tooltipSpawner;
+    std::optional< std::function<std::shared_ptr<Tooltip>()> > m_tooltipSpawner;
 };
 
 

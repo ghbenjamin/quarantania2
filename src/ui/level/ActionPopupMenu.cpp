@@ -5,6 +5,8 @@
 #include <game/Action.h>
 #include <resource/ResourceManager.h>
 #include <components/ActorComponent.h>
+#include <utils/Memory.h>
+#include <ui/lib/Tooltips.h>
 
 
 // Popup menu
@@ -52,10 +54,8 @@ UI::ActionMenuPopupMenu::ActionMenuPopupMenu(UI::Manager *manager, UI::Element *
             elem->setBackground(Colour::Grey);
         }
         
-        elem->setTooltipSpawner( [=](){
-            TooltipData data { act.data.name };
-            data.content = act.data.description;
-            return data;
+        elem->setTooltipSpawner( [=] () {
+            return manager->createElement<SimpleTooltip>(nullptr, act.data.name, act.data.description);
         });
     }
     

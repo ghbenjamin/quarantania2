@@ -123,7 +123,7 @@ public:
     void openContextMenu( ContextMenuList const& items, Vector2i pos, ContextMenuCallback callback);
     void cancelContextMenu();
 
-    void openTooltip( TooltipData const& data, RectI const& spawner );
+    void openTooltip( std::shared_ptr<Tooltip> const &tooltip, RectI const& spawner );
     void closeTooltip();
 
     void showSingleTileHighlight(Vector2i tile, SingleTileHighlightType type);

@@ -1,6 +1,4 @@
 #include <game/Items.h>
-#include <utils/Json.h>
-#include <utils/Logging.h>
 #include <game/RawData.h>
 #include <game/ResourceDatabase.h>
 #include <game/GameParse.h>
@@ -182,18 +180,6 @@ std::string const& Item::getDescription() const
 {
     return m_description;
 }
-
-UI::TooltipData Item::tooltipData() const
-{
-    UI::TooltipData td { m_name, "Item", m_description };
-
-    auto fc = td.title.at(0);
-    fc = std::toupper(fc);
-    td.title[0] = fc;
-
-    return td;
-}
-
 
 // Armour
 // --------------------------------------

@@ -10,24 +10,27 @@ static inline const int TOOLTIP_MAX_WIDTH = 300;
 static inline const int TOOLTIP_MIN_WIDTH = 150;
 
 
-class TooltipItem : public Element
-{
-public:
-    TooltipItem(Manager* manager, Element* parent, TooltipData const& data );
-    ~TooltipItem() override = default;
-};
-
-
 class Tooltip : public Element
 {
 public:
-
-    Tooltip(Manager* manager, Element* parent, TooltipData const& data );
-    Tooltip(Manager* manager, Element* parent, std::vector<TooltipData> const& data );
+    
+    Tooltip( Manager* manager, Element* parent );
     ~Tooltip() override = default;
-
-private:
-    void sharedInit();
 };
+
+class SimpleTooltipItem : public Element
+{
+public:
+    SimpleTooltipItem( Manager* manager, Element* parent, std::string const& title, std::string const& content );
+    ~SimpleTooltipItem() override = default;
+};
+
+class SimpleTooltip : public Tooltip
+{
+public:
+    SimpleTooltip(Manager* manager, Element* parent, std::string const& title, std::string const& content );
+    ~SimpleTooltip() override = default;
+};
+
 
 }

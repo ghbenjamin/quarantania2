@@ -16,14 +16,4 @@ struct TextStyle
     int fontSize;
 };
 
-struct TooltipData
-{
-    TooltipData( std::string const& title );
-    TooltipData( std::string const& title, std::string const& subtitle, std::string const& content );
-
-    std::string title;
-    std::optional<std::string> subtitle;
-    std::optional<std::string> content;
-};
-
 }

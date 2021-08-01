@@ -2,7 +2,9 @@
 #include <resource/ResourceManager.h>
 #include <ui/lib/Manager.h>
 
-UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipData const& data)
+using namespace UI; 
+
+SimpleTooltipItem::SimpleTooltipItem( Manager *manager, Element *parent, std::string const& title, std::string const& content)
         : Element(manager, parent)
 {
     auto titleFont = ResourceManager::get().getDefaultFont();
@@ -14,20 +16,13 @@ UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipD
 
     auto titleNode = manager->createElement<Label>(this, TextStyle{Colour::White, titleFont, 16 });
     titleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
-    titleNode->setText( data.title );
+    titleNode->setText( title );
 
-    if ( data.subtitle.has_value() && !(*(data.subtitle)).empty() )
-    {
-        auto subtitleNode = manager->createElement<Label>(this, TextStyle{Colour::White, contentFont, 14 });
-        subtitleNode->setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000 });
-        subtitleNode->setText( *(data.subtitle) );
-    }
-
-    if ( data.content.has_value() && !(*(data.content)).empty() )
+    if ( !content.empty() )
     {
         auto contentNode = manager->createElement<Label>(this, TextStyle{Colour::White, contentFont, 14 });
         contentNode->setMaximumOuterSize({ TOOLTIP_MAX_WIDTH, 1000 });
-        contentNode->setText( *(data.content) );
+        contentNode->setText( content );
     }
     
     if ( outerBounds().w() < TOOLTIP_MIN_WIDTH )
@@ -40,15 +35,13 @@ UI::TooltipItem::TooltipItem(UI::Manager *manager, UI::Element *parent, TooltipD
     setBorderWidth( patch.getBorderWidth() );
 }
 
-UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, const std::vector<TooltipData> &data )
+Tooltip::Tooltip(Manager *manager, Element *parent )
         : Element(manager, parent)
 {
-    sharedInit();
-
-    for ( auto const& td : data )
-    {
-        manager->createElement<TooltipItem>( this, td );
-    }
+    setLayout<VerticalLayout>( 4, HAlignment::Left );
+    setPadding( 4 );
+    setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000});
+    setId( "tooltip" );
     
     // Delete tooltips if someone manages to hover one
     addEventCallback( UEventType::MouseIn, [this](UEvent& evt) {
@@ -56,18 +49,9 @@ UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, const std::vecto
     });
 }
 
-UI::Tooltip::Tooltip(UI::Manager *manager, UI::Element *parent, const UI::TooltipData &data )
-        : Element(manager, parent)
-{
-    sharedInit();
 
-    manager->createElement<TooltipItem>( this, data );
-}
-
-void UI::Tooltip::sharedInit()
+SimpleTooltip::SimpleTooltip( Manager *manager, Element *parent, std::string const& title, std::string const& content)
+: Tooltip(manager, parent)
 {
-    setLayout<VerticalLayout>( 4, HAlignment::Left );
-    setPadding( 4 );
-    setMaximumOuterSize({TOOLTIP_MAX_WIDTH, 1000});
-    setId( "tooltip" );
+    manager->createElement<SimpleTooltipItem>(this, title, content);
 }

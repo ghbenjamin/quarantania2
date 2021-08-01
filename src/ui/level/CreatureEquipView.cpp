@@ -6,6 +6,7 @@
 #include <graphics/RenderInterface.h>
 #include <components/ActorComponent.h>
 #include <game/GameParse.h>
+#include <utils/Memory.h>
 
 
 using namespace UI;
@@ -106,21 +107,15 @@ void EquipViewItem::resetItem()
     m_icon->setSprite( m_defaultSprite );
 }
 
-std::optional<TooltipData> EquipViewItem::tooltipSpawner()
+std::shared_ptr<Tooltip> EquipViewItem::tooltipSpawner()
 {
     if ( m_item )
     {
-        return TooltipData {
-            m_item->getName(),
-            EnumToString::creatureEquipSlot( m_slot ),
-            m_item->getDescription()
-        };
+        return manager()->createElement<SimpleTooltip>( nullptr, m_item->getName(), m_item->getDescription() );
     }
     else
     {
-        return TooltipData {
-            EnumToString::creatureEquipSlot( m_slot ),
-        };
+        return manager()->createElement<SimpleTooltip>( nullptr, EnumToString::creatureEquipSlot( m_slot ), "");
     }
 }
 
