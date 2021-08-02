@@ -139,7 +139,14 @@ public:
     {
         bool shouldCreate;
         bool shouldDelete;
-    
+        
+        // If the dialog has already been closed in some other way, remove the name from our registry
+        if ( m_exclusiveDialog.expired() )
+        {
+            m_exclusiveDialog.reset();
+            m_exclusiveDialogName.reset();
+        }
+        
         if ( !m_exclusiveDialogName.has_value() )
         {
             // There is no exclusive dialog - create one
