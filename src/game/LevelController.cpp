@@ -229,9 +229,7 @@ DefaultLController::DefaultLController(Level *level, UI::Manager* ui)
     removeKeybinding(SDLK_ESCAPE);
 
     addKeybinding( SDLK_ESCAPE, [this, level](){
-        auto menu = m_ui->createElement<UI::LevelMainMenu>(nullptr, level);
-        m_ui->makeElementModal(menu);
-        m_ui->centreElementInWindow(menu);
+        m_ui->toggleExclusiveDialog<UI::LevelMainMenu>( "levelMainMenu", level );
     });
 }
 

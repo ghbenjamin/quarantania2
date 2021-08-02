@@ -11,9 +11,9 @@ LevelMainMenu::LevelMainMenu(Manager *manager, Element* parent, Level* level)
     setLayout<VerticalLayout>(4, HAlignment::Fill );
     setPadding(8);
 
-    addHotkey( SDLK_ESCAPE, [this](){
-        onBtnResume();
-    });
+//    addHotkey( SDLK_ESCAPE, [this](){
+//        onBtnResume();
+//    });
 
     auto const& patch = ResourceManager::get().getNinePatch( "simple-border-solid" ).getPatch();
     setBackground( patch );

@@ -44,9 +44,11 @@ void BottomMenubar::onBtnEndTurn()
 
 void BottomMenubar::onBtnSettings()
 {
-    auto menu = manager()->createElement<LevelMainMenu>(nullptr, m_level);
-    manager()->makeElementModal(menu);
-    manager()->centreElementInWindow(menu);
+    manager()->toggleExclusiveDialog<LevelMainMenu>( "levelMainMenu", m_level );
+
+//    auto menu = manager()->createElement<LevelMainMenu>(nullptr, m_level);
+//    manager()->makeElementModal(menu);
+//    manager()->centreElementInWindow(menu);
 }
 
 void BottomMenubar::onBtnJournal()
@@ -56,7 +58,9 @@ void BottomMenubar::onBtnJournal()
 
 void BottomMenubar::onBtnMap()
 {
-    auto menu = manager()->createElement<OverworldMapDialog>(nullptr, m_level, m_overworld);
-    manager()->makeElementModal(menu);
-    manager()->centreElementInWindow(menu);
+//    auto menu = manager()->createElement<OverworldMapDialog>(nullptr, m_level, m_overworld);
+//    manager()->makeElementModal(menu);
+//    manager()->centreElementInWindow(menu);
+
+    manager()->toggleExclusiveDialog<OverworldMapDialog>( "overworldMapDialog", m_level, m_overworld );
 }

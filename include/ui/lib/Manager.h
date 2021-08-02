@@ -134,6 +134,53 @@ public:
 
     void displayTransientMessage( std::string message, float displayTime );
 
+    template <typename T, typename ... Args>
+    void toggleExclusiveDialog( std::string const& name, Args... args )
+    {
+        bool shouldCreate;
+        bool shouldDelete;
+    
+        if ( !m_exclusiveDialogName.has_value() )
+        {
+            // There is no exclusive dialog - create one
+            shouldCreate = true;
+            shouldDelete = false;
+        }
+        else
+        {
+            if (name == *m_exclusiveDialogName)
+            {
+                // We're toggling the dialog which already exists. Destroy the existing one and don't create another
+                shouldCreate = false;
+                shouldDelete = true;
+            }
+            else
+            {
+                // We're toggling a different dialog - clear the existing one and open a new one
+                shouldCreate = true;
+                shouldDelete = true;
+            }
+        }
+        
+        
+        if ( shouldDelete )
+        {
+            deleteElement( m_exclusiveDialog.lock() );
+            m_exclusiveDialog.reset();
+            m_exclusiveDialogName.reset();
+        }
+        
+        if ( shouldCreate )
+        {
+            auto newDialog = createElement<T>( nullptr, std::forward<Args>(args)... );
+            makeElementModal( newDialog );
+            centreElementInWindow( newDialog );
+            
+            m_exclusiveDialog = newDialog;
+            m_exclusiveDialogName = name;
+        }
+    }
+
 private:
     bool handleMouseMove( IEventMouseMove evt );
     bool handleMouseDown( IEventMouseDown evt );
@@ -141,13 +188,19 @@ private:
     bool handleKeyPress( IEventKeyPress evt );
     bool handleScrollwheel( IEventScrollWheel evt );
 
+    // Our root UI elements.
     std::vector<ElementPtr> m_roots;
 
+    // Registry of which UI elements need to be kept in place relative to the window or to other UI elements
     std::vector<WindowAlignment> m_windowAlignments;
     std::vector<ElementAlignment> m_elementAlignments;
 
+    // Elements which there need to be only one of
     std::shared_ptr<SingleTileHighlight> m_tileHighlight;
     std::shared_ptr<Tooltip> m_tooltip;
+    
+    std::weak_ptr<Element> m_exclusiveDialog;
+    std::optional<std::string> m_exclusiveDialogName;
     
     ElementList m_hoveredElems;
     ElementPtr m_mouseDownElem;

@@ -44,7 +44,7 @@ bool Manager::input(IEvent &evt)
     }
 
     // Stop all events from getting to the level while a modal dialog is open
-    if ( m_hasModalDialog )
+    if ( m_hasModalDialog && evt.type != IEventType::KeyPress )
     {
         return true;
     }
@@ -438,7 +438,7 @@ bool Manager::handleKeyPress(IEventKeyPress evt)
 {
     // TODO: Consider other dialogs?
     
-    if (m_hasModalDialog)
+    if ( m_hasModalDialog )
     {
         auto modal = m_modalDialog.lock();
         if ( modal->hasHotkey(evt.keyCode) )
