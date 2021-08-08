@@ -9,13 +9,12 @@ namespace UI
 {
 
 class Label;
-class HorizontalRule;
-
 
 enum class EntityInformationSectionType
 {
     Meta,
-    Stats
+    Stats,
+    Statuses
 };
 
 
@@ -69,7 +68,11 @@ class MetaView : public EntityInformationContent
 public:
     MetaView(Manager* manager, Element* parent, Level* level);
     void refresh( EntityRef entity ) override;
+
+private:
+    std::shared_ptr<Label> m_lEntityType;
 };
+
 
 class StatsView : public EntityInformationContent
 {
@@ -84,10 +87,20 @@ private:
     std::shared_ptr<Label> m_lIntValue;
     std::shared_ptr<Label> m_lWisValue;
     std::shared_ptr<Label> m_lChaValue;
+    std::shared_ptr<Label> m_lFortValue;
+    std::shared_ptr<Label> m_lRefValue;
+    std::shared_ptr<Label> m_lWillValue;
 };
 
+class StatusView : public EntityInformationContent
+{
+public:
+    StatusView(Manager* manager, Element* parent, Level* level);
+    void refresh( EntityRef entity ) override;
+
+};
+
+
+
 }
-
-
-
 }

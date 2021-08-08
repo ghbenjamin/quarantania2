@@ -13,6 +13,9 @@ Actor::Actor(Level* level, EntityRef ref, CreatureData const& rcd)
       m_baseAbilityScoreInt(rcd.attrInt),
       m_baseAbilityScoreWis(rcd.attrWis),
       m_baseAbilityScoreCha(rcd.attrCha),
+      m_baseFortitude(rcd.saveFort),
+      m_baseReflex(rcd.saveRef),
+      m_baseWill(rcd.saveWill),
       m_HpMax(rcd.maxHP),
       m_HpCurrent(rcd.maxHP),
       m_baseSpeed(rcd.speed),
@@ -31,6 +34,9 @@ Actor::Actor(Level* level, EntityRef ref, PlayerData const &pdata)
       m_baseAbilityScoreInt(pdata.attrInt),
       m_baseAbilityScoreWis(pdata.attrWis),
       m_baseAbilityScoreCha(pdata.attrCha),
+      m_baseFortitude(pdata.saveFort),
+      m_baseReflex(pdata.saveRef),
+      m_baseWill(pdata.saveWill),
       m_HpMax(pdata.maxHP),
       m_HpCurrent(pdata.maxHP),
       m_baseSpeed(pdata.baseSpeed),
@@ -647,6 +653,21 @@ std::optional<CreatureEquipSlot> Actor::canEquipItem( ItemPtr item )
 {
     // For now, always return true.
     return defaultSlotForItemSlot( item->getEquipSlot() );
+}
+
+int Actor::getRefSave() const
+{
+    return m_baseReflex + getModDex();
+}
+
+int Actor::getWillSave() const
+{
+    return m_baseWill + getModWis();
+}
+
+int Actor::getFortSave() const
+{
+    return m_baseFortitude + getModCon();
 }
 
 

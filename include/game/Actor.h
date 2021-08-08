@@ -61,6 +61,11 @@ public:
     int getModWis() const;
     int getModCha() const;
 
+    // Saves
+    int getFortSave() const;
+    int getRefSave() const;
+    int getWillSave() const;
+
     // Items
     bool hasEquipped( CreatureEquipSlot slot ) const;
     const ItemPtr getEquipped( CreatureEquipSlot slot ) const;
@@ -141,6 +146,11 @@ private:
     int m_baseAbilityScoreWis;
     int m_baseAbilityScoreCha;
     int m_baseSpeed;
+
+    // Saving throws
+    int m_baseFortitude;
+    int m_baseReflex;
+    int m_baseWill;
 
     // Health
     int m_HpCurrent;
