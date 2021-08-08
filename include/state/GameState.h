@@ -19,13 +19,11 @@ public:
     bool input(IEvent& evt);
     void update(uint32_t ticks, InputInterface&, RenderInterface&);
 
-    bool hasNextState() const;
-    std::unique_ptr<GameState> getNextState();
-
     UI::Manager* ui();
 
-    bool hasRequestedPopState() const;
-    bool hasRequestedReplaceState() const;
+    std::unique_ptr<GameState> getPushedState();
+    bool hasPushedState() const;
+    bool hasPoppedState() const;
     bool hasRequestedExit() const;
 
 protected:
@@ -36,22 +34,14 @@ protected:
 
     // Request that a new state be pushed onto the stack
     template <typename T, typename... Args>
-    void setNextState(Args... args)
+    void pushState(Args... args)
     {
         auto dptr = std::make_unique<T>(std::forward<Args>(args)...);
         m_nextState = std::unique_ptr<GameState>( dptr.release() );
     }
-    
-    // Request that the current state be replaced by a new state
-    template <typename T, typename... Args>
-    void replaceNextState(Args... args)
-    {
-        setNextState<T>(args...);
-        m_requestedReplaceState = true;
-    }
 
     // Request that the current state be popped
-    void requestPopState();
+    void popState();
 
     // Request that the program exit.
     void requestExit();
@@ -60,9 +50,7 @@ protected:
     std::shared_ptr<UI::Manager> m_ui;
 
 private:
-    
     std::unique_ptr<GameState> m_nextState;
-    bool m_requestedReplaceState;
     bool m_requestedPopState;
     bool m_requestedExit;
 };

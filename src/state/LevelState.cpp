@@ -1,9 +1,9 @@
 #include <state/LevelState.h>
 #include <game/Level.h>
-#include <ui/lib/Manager.h>
 #include <game/FixedLevelFactory.h>
-#include <components/ActorComponent.h>
 #include <game/LevelController.h>
+#include <game/RunState.h>
+#include <ui/lib/Manager.h>
 #include <ui/level/PlayerStatusView.h>
 #include <ui/level/ActionPopupMenu.h>
 #include <ui/level/CreatureEquipView.h>
@@ -13,7 +13,6 @@
 #include <ui/level/Composites.h>
 #include <state/OverworldState.h>
 #include <graphics/RenderInterface.h>
-#include <game/RunState.h>
 
 LevelState::LevelState( std::shared_ptr<RunState> const& runState, std::string levelName )
     : m_runState(runState)
@@ -77,7 +76,8 @@ void LevelState::updateImpl(uint32_t ticks, InputInterface& iinter, RenderInterf
         switch ( m_level->getExitStatus() )
         {
             case LevelExitStatus::Completed:
-                replaceNextState<OverworldState>(m_runState);
+                popState();
+                pushState<OverworldState>(m_runState);
                 break;
             case LevelExitStatus::MainMenu:
                 requestExit();

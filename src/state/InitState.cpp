@@ -14,7 +14,7 @@ void InitState::updateImpl(uint32_t ticks, InputInterface &iinter, RenderInterfa
 //    runState->serialize();
     
 //    // OVERWORLD START
-//    setNextState<OverworldState>( runState );
-    
-    setNextState<LevelState>( runState, "arena" );
+//    pushState<OverworldState>( runState );
+
+    pushState<LevelState>(runState, "arena");
 }

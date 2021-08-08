@@ -4,7 +4,6 @@
 
 GameState::GameState()
     : m_requestedPopState(false),
-      m_requestedReplaceState(false),
       m_requestedExit(false)
 {
     m_ui = std::make_shared<UI::Manager>();
@@ -29,22 +28,22 @@ void GameState::update( uint32_t ticks, InputInterface& iinter, RenderInterface&
 }
 
 
-bool GameState::hasNextState() const
+bool GameState::hasPushedState() const
 {
     return !!m_nextState;
 }
 
-std::unique_ptr<GameState> GameState::getNextState()
+std::unique_ptr<GameState> GameState::getPushedState()
 {
     return std::move(m_nextState);
 }
 
-bool GameState::hasRequestedPopState() const
+bool GameState::hasPoppedState() const
 {
     return m_requestedPopState;
 }
 
-void GameState::requestPopState()
+void GameState::popState()
 {
     m_requestedPopState = true;
 }
@@ -52,11 +51,6 @@ void GameState::requestPopState()
 void GameState::requestExit()
 {
     m_requestedExit = true;
-}
-
-bool GameState::hasRequestedReplaceState() const
-{
-    return m_requestedReplaceState;
 }
 
 bool GameState::hasRequestedExit() const

@@ -41,7 +41,9 @@ void OverworldState::setupUI()
 void OverworldState::startLevel(int idx)
 {
     m_runState->overworld->data()->currentLocation = idx;
-    replaceNextState<LevelState>( m_runState, "arena" );
+
+    pushState<LevelState>(m_runState, "arena");
+    popState();
 }
 
 Overworld *OverworldState::overworld()
