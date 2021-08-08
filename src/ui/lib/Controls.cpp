@@ -11,12 +11,16 @@ using namespace UI;
 
 
 Label::Label(Manager* manager, Element* parent, TextStyle const &style)
-        : Element(manager, parent), m_style(style), m_noRerender(false)
-{
-}
+        : Element(manager, parent), m_style(style), m_noRerender(false) {}
 
 Label::Label(Manager* manager, Element* parent)
         : Label(manager, parent, {Colour::Black, ResourceManager::get().getDefaultFont(), 14}) {}
+
+Label::Label( Manager *manager, Element *parent, TextStyle const &style, std::string const &label )
+    : Label(manager, parent, style)
+{
+    setText(label);
+}
 
 Label::Label(Manager *manager, Element *parent, const std::string &label)
         : Label(manager, parent)
@@ -95,8 +99,6 @@ void Label::onSizeSelf()
 {
     renderText();
 }
-
-
 
 
 

@@ -42,6 +42,7 @@ public:
     Vector2i globalPosition() const;
     Vector2i localPosition();
     void setLocalPosition(Vector2i position);
+    void setLocalPosition(int x, int y);
     Vector2i contentOffset() const;
 
     // Sizing

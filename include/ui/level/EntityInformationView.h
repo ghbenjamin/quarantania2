@@ -12,14 +12,23 @@ class Label;
 class HorizontalRule;
 
 
+enum class EntityInformationSectionType
+{
+    Meta,
+    Stats
+};
+
 
 class EntityInformationContent : public Element
 {
 public:
-    EntityInformationContent( Manager* manager, Element* parent );
+    EntityInformationContent( Manager* manager, Element* parent, Level* level );
     ~EntityInformationContent() override = default;
     
     virtual void refresh(EntityRef entity) = 0;
+
+protected:
+    Level* m_level;
 };
 
 
@@ -50,6 +59,35 @@ private:
     std::shared_ptr<Label> m_nameLabel;
     std::vector<std::shared_ptr<EntityInformationSection>> m_sections;
 };
+
+
+namespace EntityInfoContent
+{
+
+class MetaView : public EntityInformationContent
+{
+public:
+    MetaView(Manager* manager, Element* parent, Level* level);
+    void refresh( EntityRef entity ) override;
+};
+
+class StatsView : public EntityInformationContent
+{
+public:
+    StatsView(Manager* manager, Element* parent, Level* level);
+    void refresh( EntityRef entity ) override;
+
+private:
+    std::shared_ptr<Label> m_lStrValue;
+    std::shared_ptr<Label> m_lDexValue;
+    std::shared_ptr<Label> m_lConValue;
+    std::shared_ptr<Label> m_lIntValue;
+    std::shared_ptr<Label> m_lWisValue;
+    std::shared_ptr<Label> m_lChaValue;
+};
+
+}
+
 
 
 }

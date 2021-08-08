@@ -117,6 +117,11 @@ void Element::setLocalPosition(Vector2i position)
     onMove();
 }
 
+void Element::setLocalPosition( int x, int y )
+{
+    setLocalPosition({x, y});
+}
+
 void Element::onMove()
 {
     recachePosition();
@@ -561,3 +566,5 @@ void Element::setLayout(std::unique_ptr<ElementLayout> &layout)
 {
     m_layout = std::move(layout);
 }
+
+
