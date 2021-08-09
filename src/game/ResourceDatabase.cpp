@@ -405,18 +405,18 @@ void ResourceDatabase::loadAllActionData()
 
 void ResourceDatabase::loadAllFeatData()
 {
-    auto doc = utils::json::loadFromPath("../resource/data/feats.json" );
-    for ( auto const& it : doc )
-    {
-        FeatData robj;
-
-        robj.id = it["id"];
-        robj.name = it["name"];
-        robj.benefit = it["benefit"];
-        robj.description = it["desc"];
-
-        m_featData.push_back(robj);
-    }
+//    auto doc = utils::json::loadFromPath("../resource/data/feats.json" );
+//    for ( auto const& it : doc )
+//    {
+//        FeatData robj;
+//
+//        robj.id = it["id"];
+//        robj.name = it["name"];
+//        robj.benefit = it["benefit"];
+//        robj.description = it["desc"];
+//
+//        m_featData.push_back(robj);
+//    }
 }
 
 void ResourceDatabase::loadAllChargenData()

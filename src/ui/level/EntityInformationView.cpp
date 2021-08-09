@@ -161,21 +161,21 @@ EntityInfoContent::StatsView::StatsView( Manager *manager, Element *parent, Leve
     auto lWisLabel = manager->createElement<Label>( this, ts, "WIS" );
     auto lChaLabel = manager->createElement<Label>( this, ts, "CHA" );
     
-    m_lStrValue = manager->createElement<Label>( this, ts );
-    m_lDexValue = manager->createElement<Label>( this, ts );
-    m_lConValue = manager->createElement<Label>( this, ts );
-    m_lIntValue = manager->createElement<Label>( this, ts );
-    m_lWisValue = manager->createElement<Label>( this, ts );
-    m_lChaValue = manager->createElement<Label>( this, ts );
+    m_lStrValue = manager->createElement<TaggedLabel>( this, ts );
+    m_lDexValue = manager->createElement<TaggedLabel>( this, ts );
+    m_lConValue = manager->createElement<TaggedLabel>( this, ts );
+    m_lIntValue = manager->createElement<TaggedLabel>( this, ts );
+    m_lWisValue = manager->createElement<TaggedLabel>( this, ts );
+    m_lChaValue = manager->createElement<TaggedLabel>( this, ts );
 
 
     auto lFortLabel = manager->createElement<Label>( this, ts, "FORT" );
     auto lRefLabel = manager->createElement<Label>( this, ts, "REF" );
     auto lWillLabel = manager->createElement<Label>( this, ts, "WILL" );
 
-    m_lFortValue = manager->createElement<Label>( this, ts );
-    m_lRefValue = manager->createElement<Label>( this, ts );
-    m_lWillValue = manager->createElement<Label>( this, ts );
+    m_lFortValue = manager->createElement<TaggedLabel>( this, ts );
+    m_lRefValue = manager->createElement<TaggedLabel>( this, ts );
+    m_lWillValue = manager->createElement<TaggedLabel>( this, ts );
 
 
     // Layout
@@ -221,16 +221,22 @@ void EntityInfoContent::StatsView::refresh( EntityRef entity )
 {
     auto& actor = m_level->ecs().getComponents<ActorComponent>( entity )->actor;
     
-    m_lStrValue->setText( std::to_string( actor.getAbilityScoreValue(AbilityScoreType::STR)) );
-    m_lDexValue->setText( std::to_string( actor.getAbilityScoreValue(AbilityScoreType::DEX)) );
-    m_lConValue->setText( std::to_string( actor.getAbilityScoreValue(AbilityScoreType::CON)) );
-    m_lIntValue->setText( std::to_string( actor.getAbilityScoreValue(AbilityScoreType::INT)) );
-    m_lWisValue->setText( std::to_string( actor.getAbilityScoreValue(AbilityScoreType::WIS)) );
-    m_lChaValue->setText( std::to_string( actor.getAbilityScoreValue(AbilityScoreType::CHA)) );
+    m_lStrValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::STR),
+        actor.getStaticModifier(ActorStaticModType::AttrStr) );
+    m_lDexValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::DEX),
+        actor.getStaticModifier(ActorStaticModType::AttrDex) );
+    m_lConValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::CON),
+        actor.getStaticModifier(ActorStaticModType::AttrCon) );
+    m_lIntValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::INT),
+        actor.getStaticModifier(ActorStaticModType::AttrInt) );
+    m_lWisValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::WIS),
+        actor.getStaticModifier(ActorStaticModType::AttrWis) );
+    m_lChaValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::CHA),
+        actor.getStaticModifier(ActorStaticModType::AttrCha) );
 
-    m_lFortValue->setText( std::to_string( actor.getFortSave()) );
-    m_lRefValue->setText( std::to_string( actor.getRefSave()) );
-    m_lWillValue->setText( std::to_string( actor.getWillSave()) );
+    m_lFortValue->refresh( actor.getFortSave(), actor.getStaticModifier(ActorStaticModType::SaveFort) );
+    m_lRefValue->refresh( actor.getRefSave(), actor.getStaticModifier(ActorStaticModType::SaveRef));
+    m_lWillValue->refresh( actor.getWillSave(), actor.getStaticModifier(ActorStaticModType::SaveWill) );
 }
 
 
@@ -243,4 +249,28 @@ EntityInfoContent::StatusView::StatusView(Manager *manager, Element *parent, Lev
 void EntityInfoContent::StatusView::refresh(EntityRef entity)
 {
 
+}
+
+EntityInfoContent::TaggedLabel::TaggedLabel( Manager *manager, Element *parent, TextStyle ts )
+    : Label(manager, parent, ts)
+{
+
+}
+
+void EntityInfoContent::TaggedLabel::refresh(int value, int modifier)
+{
+    setText( std::to_string(value) );
+    
+    if ( modifier > 0 )
+    {
+        setTextColour(Colour::Lime);
+    }
+    else if ( modifier < 0 )
+    {
+        setTextColour(Colour::Red);
+    }
+    else
+    {
+        setTextColour(Colour::White);
+    }
 }

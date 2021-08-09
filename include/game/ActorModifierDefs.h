@@ -8,7 +8,7 @@ namespace ActorMods
 {
 
 
-struct ModAttackRollStatic : public ActorStatModImpl<AttackRoll>
+struct ModAttackRollStatic : public ActorDynamicModImpl<AttackRoll>
 {
     ModAttackRollStatic( int modifier );
     ~ModAttackRollStatic() = default;
@@ -18,7 +18,7 @@ struct ModAttackRollStatic : public ActorStatModImpl<AttackRoll>
     int modifier;
 };
 
-struct ModSavingThrowStatic : public ActorStatModImpl<SavingThrowRoll>
+struct ModSavingThrowStatic : public ActorDynamicModImpl<SavingThrowRoll>
 {
     ModSavingThrowStatic( SavingThrowType type, int modifier );
     ~ModSavingThrowStatic() = default;
@@ -28,7 +28,7 @@ struct ModSavingThrowStatic : public ActorStatModImpl<SavingThrowRoll>
     int modifier;
 };
 
-struct ModSavingThrowStaticAll : public ActorStatModImpl<SavingThrowRoll>
+struct ModSavingThrowStaticAll : public ActorDynamicModImpl<SavingThrowRoll>
 {
     ModSavingThrowStaticAll( int modifier );
     ~ModSavingThrowStaticAll() = default;
@@ -38,7 +38,7 @@ struct ModSavingThrowStaticAll : public ActorStatModImpl<SavingThrowRoll>
 };
 
 
-struct ModAbilityScoreStatic : public ActorStatModImpl<AbilityScoreBonus>
+struct ModAbilityScoreStatic : public ActorDynamicModImpl<AbilityScoreBonus>
 {
     ModAbilityScoreStatic( AbilityScoreType type, int modifier );
     ~ModAbilityScoreStatic() = default;
@@ -48,7 +48,7 @@ struct ModAbilityScoreStatic : public ActorStatModImpl<AbilityScoreBonus>
     int modifier;
 };
 
-struct ModAbilityScoreStaticAll : public ActorStatModImpl<AbilityScoreBonus>
+struct ModAbilityScoreStaticAll : public ActorDynamicModImpl<AbilityScoreBonus>
 {
     ModAbilityScoreStaticAll( int modifier );
     ~ModAbilityScoreStaticAll() = default;
@@ -57,7 +57,7 @@ struct ModAbilityScoreStaticAll : public ActorStatModImpl<AbilityScoreBonus>
     int modifier;
 };
 
-struct ModMovementSpeedMultiplier : public ActorStatModImpl<MovementSpeedData>
+struct ModMovementSpeedMultiplier : public ActorDynamicModImpl<MovementSpeedData>
 {
     ModMovementSpeedMultiplier( float multiplier );
     ~ModMovementSpeedMultiplier() = default;
@@ -66,7 +66,7 @@ struct ModMovementSpeedMultiplier : public ActorStatModImpl<MovementSpeedData>
     float multiplier;
 };
 
-struct ModACDodgeBonus : public ActorStatModImpl<ArmourClassData>
+struct ModACDodgeBonus : public ActorDynamicModImpl<ArmourClassData>
 {
     ModACDodgeBonus( int bonus );
     ~ModACDodgeBonus() = default;

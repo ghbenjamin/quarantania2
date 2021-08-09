@@ -6,10 +6,16 @@ class ActorModFactory
 {
 public:
 
+    // API
     static ActorModGroup fromId( std::string const& id, int duration );
     static ActorModGroup fromId( std::string const& id );
 
 
+private:
+
+    // Debug
+    static ActorModGroup featDebug();
+    
 
     // Feats
     static ActorModGroup featPowerAttack();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ui/lib/Element.h>
+#include <ui/lib/Controls.h>
 #include <engine/Entity.h>
 
 class Level;
@@ -8,15 +9,12 @@ class Level;
 namespace UI
 {
 
-class Label;
-
 enum class EntityInformationSectionType
 {
     Meta,
     Stats,
     Statuses
 };
-
 
 class EntityInformationContent : public Element
 {
@@ -63,6 +61,16 @@ private:
 namespace EntityInfoContent
 {
 
+class TaggedLabel : public Label
+{
+public:
+    TaggedLabel( Manager* manager, Element* parent, TextStyle ts );
+    ~TaggedLabel() override = default;
+    
+    void refresh( int value, int modifier );
+};
+
+
 class MetaView : public EntityInformationContent
 {
 public:
@@ -81,15 +89,15 @@ public:
     void refresh( EntityRef entity ) override;
 
 private:
-    std::shared_ptr<Label> m_lStrValue;
-    std::shared_ptr<Label> m_lDexValue;
-    std::shared_ptr<Label> m_lConValue;
-    std::shared_ptr<Label> m_lIntValue;
-    std::shared_ptr<Label> m_lWisValue;
-    std::shared_ptr<Label> m_lChaValue;
-    std::shared_ptr<Label> m_lFortValue;
-    std::shared_ptr<Label> m_lRefValue;
-    std::shared_ptr<Label> m_lWillValue;
+    std::shared_ptr<TaggedLabel> m_lStrValue;
+    std::shared_ptr<TaggedLabel> m_lDexValue;
+    std::shared_ptr<TaggedLabel> m_lConValue;
+    std::shared_ptr<TaggedLabel> m_lIntValue;
+    std::shared_ptr<TaggedLabel> m_lWisValue;
+    std::shared_ptr<TaggedLabel> m_lChaValue;
+    std::shared_ptr<TaggedLabel> m_lFortValue;
+    std::shared_ptr<TaggedLabel> m_lRefValue;
+    std::shared_ptr<TaggedLabel> m_lWillValue;
 };
 
 class StatusView : public EntityInformationContent

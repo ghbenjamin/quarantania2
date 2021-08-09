@@ -362,7 +362,7 @@ void TextRenderObj::setColour( Colour colour )
 
 void TextRenderObj::setColourIdx(Colour colour, std::size_t idx)
 {
-    auto [r, b, g, a] = colour.asOpenGL();
+    auto [r, g, b, a] = colour.asOpenGL();
     m_renderObj.setColourVerts( idx, r, g, b, a );
 }
 

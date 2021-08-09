@@ -41,7 +41,6 @@ class Actor
 {
 
 public:
-
     Actor( Level* level, EntityRef ref, PlayerData const& pdata );
     Actor( Level* level, EntityRef ref, CreatureData const& data );
     ~Actor() = default;
@@ -53,7 +52,8 @@ public:
 
     // Stats
     int getAbilityScoreValue( AbilityScoreType type ) const;
-    int getAbilityScoreMod( AbilityScoreType type ) const;
+    static int abilityScoreToMod( int score );
+    
     int getModStr() const;
     int getModDex() const;
     int getModCon() const;
@@ -72,12 +72,10 @@ public:
     std::optional<CreatureEquipSlot> defaultSlotForItemSlot( ItemEquipSlot slot ) const;
     std::unordered_map<CreatureEquipSlot, ItemPtr> const& getAllEquippedItems() const;
     std::optional<CreatureEquipSlot> canEquipItem( ItemPtr item );
-    
     ItemPtr unequipItem( CreatureEquipSlot slot );
     ItemPtr equipItem( CreatureEquipSlot slot, ItemPtr item );
 
     // Weapons
-    
     std::pair<Weapon const*, Weapon const*> getEquippedWeapons() const;
     Weapon const& getNaturalWeapon() const;
     float getReach() const;
@@ -92,7 +90,6 @@ public:
     HealthLevel getHealthLevel() const;
     void setCurrentHp( int value );
     void acceptDamage( Damage const& dmg );
-    
     
     // Defense
     int getAC() const;
@@ -109,14 +106,15 @@ public:
     void addModifierGroup( ActorModGroup const& mod );
     void removeActorModGroup( std::string const& id );
     void applyAllModifiers(ModifiableStatObject roll ) const;
+    int getStaticModifier( ActorStaticModType mod ) const;
     
     template <typename T>
-    void modifyTypedRoll(ActorStatModType type, T* roll ) const
+    void modifyTypedRoll( ActorDynamicModType type, T* roll ) const
     {
-        auto range = m_statModifiers.equal_range(type);
+        auto range = m_dynamicModifiers.equal_range(type);
         for ( auto it = range.first; it != range.second; it++ )
         {
-            auto ptr = std::static_pointer_cast<ActorStatModImpl<T>>(it->second.impl);
+            auto ptr = std::static_pointer_cast<ActorDynamicModImpl<T>>(it->second.impl);
             ptr->modify(roll);
         }
     }
@@ -162,7 +160,8 @@ private:
 
     // Modifiers
     std::vector<ActorModGroup> m_modifierGroups;
-    std::multimap<ActorStatModType, ActorStatMod> m_statModifiers;
+    std::multimap<ActorDynamicModType, ActorDynamicMod> m_dynamicModifiers;
+    std::multimap<ActorStaticModType, ActorStaticMod> m_staticModifiers;
     std::vector<ActorActionMod> m_actionMods;
     
     // Actions

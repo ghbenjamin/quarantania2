@@ -30,6 +30,11 @@ ActorModGroup ActorModFactory::fromId( std::string const &id, int duration )
     {
         return featDodge();
     }
+    else if ( id == "feat.debug" )
+    {
+        return featDebug();
+    }
+    
 
     AssertAlwaysMsg( fmt::format( "Unknown mod id: '{}'", id ) );
     return statusExhausted(-1);
@@ -41,9 +46,9 @@ ActorModGroup ActorModFactory::statusSickened(int roundRemove)
 {
     ActorModGroup group { "status.sickened", "Sickened", roundRemove };
     
-    group.addStatMod<ActorMods::ModSavingThrowStaticAll>(ActorStatModType::AttackRolls, -2);
-    group.addStatMod<ActorMods::ModAttackRollStatic>(ActorStatModType::SavingThrows, -2);
-    group.addStatMod<ActorMods::ModAbilityScoreStaticAll>(ActorStatModType::AbilityScores, -2);
+    group.addDynamicMod<ActorMods::ModSavingThrowStaticAll>(ActorDynamicModType::AttackRolls, -2);
+    group.addDynamicMod<ActorMods::ModAttackRollStatic>(ActorDynamicModType::SavingThrows, -2);
+    group.addDynamicMod<ActorMods::ModAbilityScoreStaticAll>(ActorDynamicModType::AbilityScores, -2);
 
     return group;
 }
@@ -54,9 +59,9 @@ ActorModGroup ActorModFactory::statusFatigued(int roundRemove)
 
     // NO RUNNING OR CHARGING
     
-    group.addStatMod<ActorMods::ModAbilityScoreStatic>(ActorStatModType::AbilityScores, AbilityScoreType::STR, -2);
-    group.addStatMod<ActorMods::ModAbilityScoreStatic>(ActorStatModType::AbilityScores, AbilityScoreType::DEX, -2);
-
+    group.addStaticMod( ActorStaticModType::AttrStr, -2 );
+    group.addStaticMod( ActorStaticModType::AttrDex, -2 );
+    
     return group;
 }
 
@@ -65,9 +70,9 @@ ActorModGroup ActorModFactory::statusExhausted(int roundRemove)
 {
     ActorModGroup group { "status.exhausted", "Exhausted", roundRemove };
     
-    group.addStatMod<ActorMods::ModMovementSpeedMultiplier>(ActorStatModType::MovementSpeed, 0.5f);
-    group.addStatMod<ActorMods::ModAbilityScoreStatic>(ActorStatModType::AbilityScores, AbilityScoreType::STR, -6);
-    group.addStatMod<ActorMods::ModAbilityScoreStatic>(ActorStatModType::AbilityScores, AbilityScoreType::DEX, -6);
+    group.addDynamicMod<ActorMods::ModMovementSpeedMultiplier>(ActorDynamicModType::MovementSpeed, 0.5f);
+    group.addStaticMod( ActorStaticModType::AttrStr, -6 );
+    group.addStaticMod( ActorStaticModType::AttrDex, -6 );
 
     return group;
 }
@@ -87,7 +92,17 @@ ActorModGroup ActorModFactory::featPowerAttack()
 ActorModGroup ActorModFactory::featDodge()
 {
     ActorModGroup group { "feat.dodge", "Dodge", -1 };
-    group.addStatMod<ActorMods::ModACDodgeBonus>(ActorStatModType::ArmourClassData, 1);
+    group.addDynamicMod<ActorMods::ModACDodgeBonus>(ActorDynamicModType::ArmourClassData, 1);
 
+    return group;
+}
+
+ActorModGroup ActorModFactory::featDebug()
+{
+    ActorModGroup group { "feat.debug", "Debug", -1 };
+    
+    group.addStaticMod( ActorStaticModType::AttrStr, -6 );
+    group.addStaticMod( ActorStaticModType::SaveWill, +6 );
+    
     return group;
 }

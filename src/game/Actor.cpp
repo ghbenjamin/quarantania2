@@ -460,9 +460,14 @@ void Actor::addModifierGroup( ActorModGroup const &modGroup )
 {
     m_modifierGroups.push_back(modGroup);
     
-    for ( auto const& mod : modGroup.getStatMods() )
+    for ( auto const& mod : modGroup.getDynamicMods() )
     {
-        m_statModifiers.emplace( mod.type, mod );
+        m_dynamicModifiers.emplace(mod.type, mod );
+    }
+    
+    for ( auto const& mod : modGroup.getStaticMods() )
+    {
+        m_staticModifiers.emplace(mod.type, mod );
     }
     
     for (auto const& mod : modGroup.getActionMods())
@@ -470,6 +475,43 @@ void Actor::addModifierGroup( ActorModGroup const &modGroup )
         m_actionMods.push_back( mod );
     }
 }
+
+void Actor::removeActorModGroup( std::string const& id )
+{
+    // Remove the dynamic and static modifiers
+    
+    auto dynIt = m_dynamicModifiers.begin();
+    if ( ; dynIt != m_dynamicModifiers.end() )
+    {
+        if ( dynIt->second.id == id )
+        {
+            dynIt = m_dynamicModifiers.erase(dynIt);
+        }
+        else
+        {
+            dynIt++;
+        }
+    }
+    
+    auto statIt = m_staticModifiers.begin();
+    if ( ; statIt != m_staticModifiers.end() )
+    {
+        if ( statIt->second.id == id )
+        {
+            statIt = m_staticModifiers.erase(statIt);
+        }
+        else
+        {
+            statIt++;
+        }
+    }
+
+    // Remove the modifier group
+    m_modifierGroups.erase( std::remove_if( m_modifierGroups.begin(), m_modifierGroups.end(), [&id](auto const& item) {
+        return item.getId() == id;
+    }), m_modifierGroups.end() );
+}
+
 
 void Actor::applyAllModifiers(ModifiableStatObject roll ) const
 {
@@ -507,91 +549,51 @@ SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type) c
 
 int Actor::getModStr() const
 {
-    return getAbilityScoreMod( AbilityScoreType::STR );
+    return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::STR ) );
 }
 
 int Actor::getModDex() const
 {
-    return getAbilityScoreMod( AbilityScoreType::DEX );
+    return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::DEX ) );
 }
 
 int Actor::getModCon() const
 {
-    return getAbilityScoreMod( AbilityScoreType::CON );
+    return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::CON ) );
 }
 
 int Actor::getModInt() const
 {
-    return getAbilityScoreMod( AbilityScoreType::INT );
+    return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::INT ) );
 }
 
 int Actor::getModWis() const
 {
-    return getAbilityScoreMod( AbilityScoreType::WIS );
+    return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::WIS ) );
 }
 
 int Actor::getModCha() const
 {
-    return getAbilityScoreMod( AbilityScoreType::CHA );
+    return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::CHA ) );
 }
 
 int Actor::getAbilityScoreValue(AbilityScoreType type) const
 {
-    AbilityScoreBonus score;
-    score.type = type;
-
     switch(type)
     {
         case AbilityScoreType::STR:
-            score.natural = m_baseAbilityScoreStr;
-            break;
+            return m_baseAbilityScoreStr + getStaticModifier(ActorStaticModType::AttrStr);
         case AbilityScoreType::DEX:
-            score.natural = m_baseAbilityScoreDex;
-            break;
+            return m_baseAbilityScoreDex + getStaticModifier(ActorStaticModType::AttrDex);
         case AbilityScoreType::CON:
-            score.natural = m_baseAbilityScoreCon;
-            break;
+            return m_baseAbilityScoreCon + getStaticModifier(ActorStaticModType::AttrCon);
         case AbilityScoreType::INT:
-            score.natural = m_baseAbilityScoreInt;
-            break;
+            return m_baseAbilityScoreInt + getStaticModifier(ActorStaticModType::AttrInt);
         case AbilityScoreType::WIS:
-            score.natural = m_baseAbilityScoreWis;
-            break;
+            return m_baseAbilityScoreWis + getStaticModifier(ActorStaticModType::AttrWis);
         case AbilityScoreType::CHA:
-            score.natural = m_baseAbilityScoreCha;
-            break;
+            return m_baseAbilityScoreCha + getStaticModifier(ActorStaticModType::AttrCha);
     }
-
-    score.modified = score.natural;
-    applyAllModifiers( &score );
-
-    return score.modified;
-}
-
-int Actor::getAbilityScoreMod( AbilityScoreType type ) const
-{
-    return (getAbilityScoreValue( type ) - 10) / 2;
-}
-
-void Actor::removeActorModGroup( std::string const& id )
-{
-//    // Remove stat modifiers
-//    for ( auto it = m_modifiers.begin(); it != m_modifiers.end(); )
-//    {
-//        if ( it->second.id == id )
-//        {
-//            it = m_modifiers.erase(it);
-//        }
-//        else
-//        {
-//            it++;
-//        }
-//    }
-//
-//    // Remove the modifier group
-//    m_modifierGroups.erase( std::remove_if( m_modifierGroups.begin(), m_modifierGroups.end(), [&id](auto&& item) {
-//        return item.getId() == id;
-//    }), m_modifierGroups.end() );
 }
 
 std::vector<GameAction> Actor::getAllGameActions() const
@@ -657,17 +659,35 @@ std::optional<CreatureEquipSlot> Actor::canEquipItem( ItemPtr item )
 
 int Actor::getRefSave() const
 {
-    return m_baseReflex + getModDex();
+    return m_baseReflex + getModDex() + getStaticModifier(ActorStaticModType::SaveRef);
 }
 
 int Actor::getWillSave() const
 {
-    return m_baseWill + getModWis();
+    return m_baseWill + getModWis() + getStaticModifier(ActorStaticModType::SaveWill);
 }
 
 int Actor::getFortSave() const
 {
-    return m_baseFortitude + getModCon();
+    return m_baseFortitude + getModCon() + getStaticModifier(ActorStaticModType::SaveFort);
+}
+
+int Actor::getStaticModifier( ActorStaticModType mod ) const
+{
+    int total = 0;
+    auto range = m_staticModifiers.equal_range(mod);
+    
+    for ( auto it = range.first; it != range.second; it++ )
+    {
+        total += it->second.value;
+    }
+    
+    return total;
+}
+
+int Actor::abilityScoreToMod(int score)
+{
+    return (score - 10) / 2;
 }
 
 
@@ -676,40 +696,40 @@ ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
 
 void ModifiableRollVisitor::operator()( AttackRoll *roll )
 {
-    m_actor->modifyTypedRoll( ActorStatModType::AttackRolls, roll );
+    m_actor->modifyTypedRoll(ActorDynamicModType::AttackRolls, roll );
 }
 
 void ModifiableRollVisitor::operator()( DamageRoll *roll )
 {
-    m_actor->modifyTypedRoll( ActorStatModType::DamageRolls, roll );
+    m_actor->modifyTypedRoll(ActorDynamicModType::DamageRolls, roll );
 }
 
 void ModifiableRollVisitor::operator()( SavingThrowRoll *roll )
 {
-    m_actor->modifyTypedRoll( ActorStatModType::SavingThrows, roll );
+    m_actor->modifyTypedRoll(ActorDynamicModType::SavingThrows, roll );
 }
 
 void ModifiableRollVisitor::operator()(AbilityScoreBonus *roll)
 {
-    m_actor->modifyTypedRoll( ActorStatModType::AbilityScores, roll );
+    m_actor->modifyTypedRoll(ActorDynamicModType::AbilityScores, roll );
 }
 
 void ModifiableRollVisitor::operator()( MovementSpeedData *roll )
 {
-    m_actor->modifyTypedRoll( ActorStatModType::MovementSpeed, roll );
+    m_actor->modifyTypedRoll(ActorDynamicModType::MovementSpeed, roll );
 }
 
 void ModifiableRollVisitor::operator()(ArmourClassData *data)
 {
-    m_actor->modifyTypedRoll( ActorStatModType::ArmourClassData, data );
+    m_actor->modifyTypedRoll(ActorDynamicModType::ArmourClassData, data );
 }
 
 void ModifiableRollVisitor::operator()( ActionSpeedData *data )
 {
-    m_actor->modifyTypedRoll( ActorStatModType::ActionSpeedData, data );
+    m_actor->modifyTypedRoll(ActorDynamicModType::ActionSpeedData, data );
 }
 
 void ModifiableRollVisitor::operator()( MeleeAttackCountData *data )
 {
-    m_actor->modifyTypedRoll( ActorStatModType::MeleeAttackCountData, data );
+    m_actor->modifyTypedRoll(ActorDynamicModType::MeleeAttackCountData, data );
 }
