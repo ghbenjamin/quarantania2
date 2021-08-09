@@ -107,6 +107,7 @@ public:
     void removeActorModGroup( std::string const& id );
     void applyAllModifiers(ModifiableStatObject roll ) const;
     int getStaticModifier( ActorStaticModType mod ) const;
+    std::vector<ActorModGroup> const& getAllModifiers() const;
     
     template <typename T>
     void modifyTypedRoll( ActorDynamicModType type, T* roll ) const

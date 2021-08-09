@@ -31,6 +31,7 @@ struct FtCharPlacement
 };
 
 
+// A wrapper around a RenderObject to make it easier to construct/edit for a piece of text
 class TextRenderObj
 {
 public:

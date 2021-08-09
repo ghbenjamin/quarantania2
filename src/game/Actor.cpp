@@ -690,6 +690,11 @@ int Actor::abilityScoreToMod(int score)
     return (score - 10) / 2;
 }
 
+std::vector<ActorModGroup> const &Actor::getAllModifiers() const
+{
+    return m_modifierGroups;
+}
+
 
 ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
  : m_actor(actor) {}

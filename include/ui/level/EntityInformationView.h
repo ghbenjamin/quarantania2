@@ -13,7 +13,8 @@ enum class EntityInformationSectionType
 {
     Meta,
     Stats,
-    Statuses
+    Statuses,
+    Feats
 };
 
 class EntityInformationContent : public Element
@@ -71,6 +72,8 @@ public:
 };
 
 
+
+
 class MetaView : public EntityInformationContent
 {
 public:
@@ -106,6 +109,17 @@ public:
     StatusView(Manager* manager, Element* parent, Level* level);
     void refresh( EntityRef entity ) override;
 
+};
+
+
+class FeatsView : public EntityInformationContent
+{
+public:
+    FeatsView(Manager* manager, Element* parent, Level* level);
+    void refresh( EntityRef entity ) override;
+
+private:
+    std::vector<std::shared_ptr<Label>> m_feats;
 };
 
 

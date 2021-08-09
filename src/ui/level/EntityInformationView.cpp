@@ -74,6 +74,11 @@ EntityInformationView::EntityInformationView( Manager *manager, Element *parent,
             EntityInfoContent::StatusView>( manager, nullptr, level );
     auto statusView = manager->createElement<EntityInformationSection>( this, "Status",  statusContent );
     m_sections.push_back(statusView);
+    
+    auto featsContent = utils::make_shared_with_type<EntityInformationContent,
+            EntityInfoContent::FeatsView>( manager, nullptr, level );
+    auto featsView = manager->createElement<EntityInformationSection>( this, "Feats",  featsContent );
+    m_sections.push_back(featsView);
 }
 
 void EntityInformationView::refresh( EntityRef entity )
@@ -92,15 +97,18 @@ void EntityInformationView::refresh( EntityRef entity )
         if ( actorC->actorType == ActorType::PC )
         {
              m_sections[(int)EntityInformationSectionType::Stats]->show();
+             m_sections[(int)EntityInformationSectionType::Feats]->show();
         }
         else
         {
             m_sections[(int)EntityInformationSectionType::Stats]->hide();
+            m_sections[(int)EntityInformationSectionType::Feats]->hide();
         }
     }
     else
     {
         m_sections[(int)EntityInformationSectionType::Stats]->hide();
+        m_sections[(int)EntityInformationSectionType::Feats]->hide();
     }
     
 
@@ -248,7 +256,10 @@ EntityInfoContent::StatusView::StatusView(Manager *manager, Element *parent, Lev
 
 void EntityInfoContent::StatusView::refresh(EntityRef entity)
 {
-
+    if ( entity == EntityNull )
+    {
+        return;
+    }
 }
 
 EntityInfoContent::TaggedLabel::TaggedLabel( Manager *manager, Element *parent, TextStyle ts )
@@ -272,5 +283,34 @@ void EntityInfoContent::TaggedLabel::refresh(int value, int modifier)
     else
     {
         setTextColour(Colour::White);
+    }
+}
+
+EntityInfoContent::FeatsView::FeatsView( Manager *manager, Element *parent, Level *level ) : EntityInformationContent(
+        manager, parent, level)
+{
+    setLayout<VerticalLayout>( 4, HAlignment::Left );
+}
+
+void EntityInfoContent::FeatsView::refresh( EntityRef entity )
+{
+    if ( entity == EntityNull )
+    {
+        return;
+    }
+
+    for ( auto const& f : m_feats )
+    {
+        manager()->deleteElement(f);
+    }
+    
+    auto& actor = m_level->ecs().getComponents<ActorComponent>( entity )->actor;
+    
+    for ( auto const mod : actor.getAllModifiers() )
+    {
+        // TODO FEATS ONLY
+        auto label = manager()->createElement<Label>( this, mod.getName() );
+        label->setTextColour(Colour::White);
+        m_feats.push_back(label);
     }
 }
