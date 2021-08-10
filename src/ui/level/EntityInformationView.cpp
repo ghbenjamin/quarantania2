@@ -260,6 +260,23 @@ void EntityInfoContent::StatusView::refresh(EntityRef entity)
     {
         return;
     }
+    
+    for ( auto const& s : m_statuses )
+    {
+        manager()->deleteElement(s);
+    }
+    
+    auto& actor = m_level->ecs().getComponents<ActorComponent>( entity )->actor;
+    
+    for ( auto const mod : actor.getAllModifiers() )
+    {
+        if ( mod.getId().starts_with("status"))
+        {
+            auto label = manager()->createElement<Label>( this, mod.getName() );
+            label->setTextColour(Colour::White);
+            m_statuses.push_back(label);
+        }
+    }
 }
 
 EntityInfoContent::TaggedLabel::TaggedLabel( Manager *manager, Element *parent, TextStyle ts )
@@ -308,9 +325,11 @@ void EntityInfoContent::FeatsView::refresh( EntityRef entity )
     
     for ( auto const mod : actor.getAllModifiers() )
     {
-        // TODO FEATS ONLY
-        auto label = manager()->createElement<Label>( this, mod.getName() );
-        label->setTextColour(Colour::White);
-        m_feats.push_back(label);
+        if ( mod.getId().starts_with("feat"))
+        {
+            auto label = manager()->createElement<Label>( this, mod.getName() );
+            label->setTextColour(Colour::White);
+            m_feats.push_back(label);
+        }
     }
 }

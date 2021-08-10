@@ -594,6 +594,9 @@ int Actor::getAbilityScoreValue(AbilityScoreType type) const
         case AbilityScoreType::CHA:
             return m_baseAbilityScoreCha + getStaticModifier(ActorStaticModType::AttrCha);
     }
+    
+    AssertAlways();
+    return -1;
 }
 
 std::vector<GameAction> Actor::getAllGameActions() const

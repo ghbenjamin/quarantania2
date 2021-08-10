@@ -109,6 +109,8 @@ public:
     StatusView(Manager* manager, Element* parent, Level* level);
     void refresh( EntityRef entity ) override;
 
+private:
+    std::vector<std::shared_ptr<Label>> m_statuses;
 };
 
 

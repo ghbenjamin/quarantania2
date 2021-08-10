@@ -16,10 +16,10 @@ public:
 
     ~Matrix2() = default;
 
-    T getXX() const { return m_xx };
-    T getXY() const { return m_xy };
-    T getYX() const { return m_yx };
-    T getYY() const { return m_yy };
+    T getXX() const { return m_xx; };
+    T getXY() const { return m_xy; };
+    T getYX() const { return m_yx; };
+    T getYY() const { return m_yy; };
 
     Vector2<T> transform( Vector2<T> other ) const
     {

@@ -19,7 +19,7 @@
       "attributes": [10, 16, 10, 14, 10, 12],
       "starting_equipped_items": ["Dagger"],
       "starting_held_items": [],
-      "feats": ["feat.debug"]
+      "feats": ["feat.debug", "status.exhausted"]
     }
   ],
 
