@@ -44,7 +44,7 @@ struct GameAction
 {
     template <typename T>
     GameAction(std::string const& id, TargetingType ttype, const std::shared_ptr<T> &impl)
-    : data(ResourceDatabase::instance().actionFromId(id)),
+    : data(ResourceDatabase::get().actionFromId(id)),
       ttype(ttype),
       impl(std::static_pointer_cast<IActionTargeting>(impl)),
       enabled(true)

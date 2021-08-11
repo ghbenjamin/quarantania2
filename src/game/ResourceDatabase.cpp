@@ -11,7 +11,7 @@ ResourceDatabase::ResourceDatabase()
     loadAllCreatureData();
     loadAllObjectData();
     loadAllActionData();
-    loadAllFeatData();
+    loadAllModifierData();
     loadAllChargenData();
 }
 
@@ -69,13 +69,13 @@ ActionData ResourceDatabase::actionFromId(std::string_view id)
     return ActionData( *it );
 }
 
-FeatData ResourceDatabase::featFromId( std::string_view id )
+ModifierData ResourceDatabase::modifierFromId(std::string_view id )
 {
-    auto it = std::find_if( m_featData.begin(), m_featData.end(),
+    auto it = std::find_if( m_modifierData.begin(), m_modifierData.end(),
         [id](auto const& item){ return item.id == id; });
     
-    Assert( it != m_featData.end() );
-    return FeatData( *it );
+    Assert( it != m_modifierData.end() );
+    return ModifierData( *it );
 }
 
 ChargenData ResourceDatabase::chargenFromClassId( std::string_view id )
@@ -403,19 +403,19 @@ void ResourceDatabase::loadAllActionData()
     }
 }
 
-void ResourceDatabase::loadAllFeatData()
+void ResourceDatabase::loadAllModifierData()
 {
-    auto doc = utils::json::loadFromPath("../resource/data/feats.json" );
+    auto doc = utils::json::loadFromPath("../resource/data/modifiers.json" );
     for ( auto const& it : doc )
     {
-        FeatData robj;
+        ModifierData robj;
 
         robj.id = it["id"];
         robj.name = it["name"];
-        robj.benefit = it["benefit"];
+        robj.effect = it["effect"];
         robj.description = it["desc"];
 
-        m_featData.push_back(robj);
+        m_modifierData.push_back(robj);
     }
 }
 

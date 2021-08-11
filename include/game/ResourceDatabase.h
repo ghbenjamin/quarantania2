@@ -13,7 +13,7 @@ class ResourceDatabase
 {
 public:
 
-    static ResourceDatabase& instance()
+    static ResourceDatabase& get()
     {
         static ResourceDatabase s;
         return s;
@@ -27,7 +27,7 @@ public:
     CreatureData creatureFromName( std::string_view name );
     ObjectData objectFromName( std::string_view name );
     ActionData actionFromId(std::string_view id );
-    FeatData featFromId( std::string_view id );
+    ModifierData modifierFromId(std::string_view id );
     ChargenData chargenFromClassId( std::string_view id );
     
     std::vector<std::string> const& randomNames();
@@ -39,7 +39,7 @@ private:
     void loadAllItemData();
     void loadAllObjectData();
     void loadAllActionData();
-    void loadAllFeatData();
+    void loadAllModifierData();
     void loadAllChargenData();
 
     std::vector<CreatureData> m_creatureData;
@@ -48,7 +48,7 @@ private:
     std::vector<ArmourData> m_armourData;
     std::vector<ObjectData> m_objectData;
     std::vector<ActionData> m_actionData;
-    std::vector<FeatData> m_featData;
+    std::vector<ModifierData> m_modifierData;
     
     std::vector<ChargenData> m_chargenData;
     std::vector<std::string> m_randomNames;

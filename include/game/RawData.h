@@ -125,11 +125,11 @@ struct ActionData
     SpritesheetKey sprite;
 };
 
-struct FeatData
+struct ModifierData
 {
     std::string id;
     std::string name;
-    std::string benefit;
+    std::string effect;
     std::string description;
 };
 

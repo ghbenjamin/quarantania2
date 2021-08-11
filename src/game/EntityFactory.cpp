@@ -58,7 +58,7 @@ EntityRef EntityFactory::createPlayer(Vector2i pos, PlayerData const &data) cons
 EntityRef EntityFactory::createEnemy(Vector2i pos, std::string const &name) const
 {
     auto eref = m_parent->ecs().createEntity();
-    auto creatureData = ResourceDatabase::instance().creatureFromName( name );
+    auto creatureData = ResourceDatabase::get().creatureFromName( name );
     auto sprite = ResourceManager::get().getSprite( creatureData.sprite );
 
     m_parent->ecs().addComponent<PositionComponent>(eref, pos);
@@ -102,7 +102,7 @@ EntityRef EntityFactory::createItem(Vector2i pos, std::shared_ptr<Item> item) co
 EntityRef EntityFactory::createObject(Vector2i pos, std::string const &ptype) const
 {
     auto eref = m_parent->ecs().createEntity();
-    auto objData = ResourceDatabase::instance().objectFromName( ptype );
+    auto objData = ResourceDatabase::get().objectFromName( ptype );
     auto sprite = ResourceManager::get().getSprite( objData.sprites[0] );
 
     m_parent->ecs().addComponent<PositionComponent>(eref, pos);

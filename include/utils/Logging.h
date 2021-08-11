@@ -25,19 +25,22 @@ public:
     template <typename... Args>
     void error(Args... args)
     {
-        m_logger->error( std::forward<Args>(args)... );
+        std::string buf = fmt::format( std::forward<Args>(args)... );
+        m_logger->error( buf );
     }
     
     template <typename... Args>
     void debug(Args... args)
     {
-        m_logger->debug( std::forward<Args>(args)... );
+        std::string buf = fmt::format( std::forward<Args>(args)... );
+        m_logger->debug( buf );
     }
     
     template <typename... Args>
     void warn(Args... args)
     {
-        m_logger->warn( std::forward<Args>(args)... );
+        std::string buf = fmt::format( std::forward<Args>(args)... );
+        m_logger->warn( buf );
     }
 
 private:

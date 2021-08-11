@@ -329,6 +329,10 @@ void EntityInfoContent::FeatsView::refresh( EntityRef entity )
         {
             auto label = manager()->createElement<Label>( this, mod.getName() );
             label->setTextColour(Colour::White);
+            label->setTooltipSpawner( [mod, this] () {
+                auto data = ResourceDatabase::get().modifierFromId(mod.getId());
+                return manager()->createElement<SimpleTooltip>(nullptr, data.name, data.effect);
+            });
             m_feats.push_back(label);
         }
     }

@@ -100,10 +100,10 @@ std::shared_ptr<RunState> RunState::generateNewRun()
 
 PlayerData RunState::generateStartingCharacter( std::string const &pclassId )
 {
-    auto pcData = ResourceDatabase::instance().chargenFromClassId(pclassId);
+    auto pcData = ResourceDatabase::get().chargenFromClassId(pclassId);
     PlayerData player { pcData };
     
-    player.name = *randomState.randomElement( ResourceDatabase::instance().randomNames() );
+    player.name = *randomState.randomElement( ResourceDatabase::get().randomNames() );
     
     return player;
 }
