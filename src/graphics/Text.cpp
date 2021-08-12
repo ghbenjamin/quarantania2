@@ -112,7 +112,6 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, Co
 
     int lineCount = 1;
     
-//    for (int i = 0; i < (int) str.size(); i++)
     for ( auto it = bbDoc.begin(); it != bbDoc.end(); ++it )
     {
         auto char_val = it->first;
@@ -136,7 +135,8 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, Co
             float currGlyphWidth = (float) charVector[currentWordGlyphs.back().idx].advance;
             float rightWordEdge = currentWordGlyphs.back().x + currGlyphWidth;
 
-            if (rightWordEdge > maxWidth)
+            // Line break if the word extends too far, or if the current char is a newline literal
+            if (rightWordEdge > maxWidth || char_val == '\n')
             {
                 // The right-most edge of the current word extends beyond the wrap width - the current word needs
                 // to be moved to the beginning of the next line.
@@ -145,6 +145,12 @@ TextRenderObj FtFontFace::renderString( std::string const &str, int fontSize, Co
                 {
                     c.x -= leftWordEdge;
                     c.y += lineSpacing;
+                }
+
+                // Don't actually print the newline character
+                if ( char_val == '\n' )
+                {
+                    rightWordEdge -= currGlyphWidth;
                 }
 
                 currX = rightWordEdge - leftWordEdge;

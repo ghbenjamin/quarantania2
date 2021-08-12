@@ -86,7 +86,8 @@ void Label::setTextColour( Colour colour )
 
 void Label::onAlphaModChange(float newValue)
 {
-    m_text->setColour( m_style.textColour.withAlphaF(newValue) );
+    if (m_text)
+        m_text->setColour( m_style.textColour.withAlphaF(newValue) );
 }
 
 void Label::setTextSize(int size)
