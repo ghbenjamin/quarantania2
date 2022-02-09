@@ -245,7 +245,18 @@ protected:
     {
         return closestAncestor( [&](auto const& elem){ return elem->hasTag(tag); });
     }
-
+    
+    
+    template <typename T = Element>
+    std::shared_ptr<T> withId( std::string const& id )
+    {
+        auto ptr = firstDescMatchingCondition([&](auto const& e){
+            return e->id() == id;
+        });
+        
+        return ptr->asType<T>();
+    }
+    
     // Behaviour hooks to implement in children
     virtual void updateSelf(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
     virtual void onSizeSelf();

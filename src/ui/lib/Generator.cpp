@@ -13,7 +13,7 @@ using namespace UI;
 Generator::Generator( Manager *manager )
         : m_manager(manager) {}
 
-std::shared_ptr<Element> Generator::fromXML( std::string const& xmlstr )
+std::shared_ptr<Element> Generator::fromXML( std::string const& xmlstr, Element* existing )
 {
     std::string localXml = xmlstr;
     rapidxml::xml_document doc;
@@ -21,50 +21,37 @@ std::shared_ptr<Element> Generator::fromXML( std::string const& xmlstr )
     
     auto rootNode = doc.first_node( "element" );
     
-    auto ptr =  createElement( rootNode, nullptr );
-    
-    return ptr;
+    return createElement( rootNode, nullptr, existing );
 }
 
-std::shared_ptr<Element> Generator::createElement( rapidxml::xml_node<char>* node, Element* parent )
+std::shared_ptr<Element> Generator::createElement( rapidxml::xml_node<char>* node, Element* parent, Element* existing )
 {
+    std::shared_ptr<Element> created = std::shared_ptr<Element>();
+    Element* target;
+    
     auto attrs = attrsToMap( node );
-    std::shared_ptr<Element> out;
-
-    if ( attrs.contains( "type") )
+    
+    // If an existing pointer has been specified, just annotate the existing element rather than making a new one
+    if ( existing != nullptr  )
     {
-        auto const& nodeType = attrs["type"];
-        if ( nodeType == "button" )
-        {
-            auto btnLabel = attrs["text"];
-            auto btnElem =  m_manager->createElement<Button>( parent, btnLabel, [](){} );
-            
-            if ( attrs.contains("text-size") )
-            {
-                btnElem->getLabel().setTextSize( std::stoi( attrs["text-size"] ) );
-            }
-            
-            out = btnElem;
-        }
-        else if ( nodeType == "label" )
-        {
-        
-        }
-        else
-        {
-            AssertAlways();
-        }
+        target = existing;
     }
     else
     {
-        out = m_manager->createElement( parent );
+        created = nodeToElement( node, parent, attrs );
+        target = created.get();
     }
     
+    
+    if ( attrs.contains("id") )
+    {
+        target->setId( attrs["id"] );
+    }
     
     auto layout = node->first_node("layout");
     if ( layout != nullptr )
     {
-        out->setLayout( nodeToLayout(layout, out.get()) );
+        target->setLayout( nodeToLayout(layout, target) );
     }
     
     
@@ -72,7 +59,7 @@ std::shared_ptr<Element> Generator::createElement( rapidxml::xml_node<char>* nod
     if ( preferredSize != nullptr )
     {
         auto prefSizeAttrs = attrsToMap( preferredSize );
-        out->setPreferredContentSize({
+        target->setPreferredContentSize({
             std::stoi( prefSizeAttrs["width"] ),
             std::stoi( prefSizeAttrs["height"] )
         });
@@ -84,12 +71,12 @@ std::shared_ptr<Element> Generator::createElement( rapidxml::xml_node<char>* nod
     {
         for ( auto child = children->first_node("element"); child; child = child->next_sibling() )
         {
-            createElement( child, out.get() );
+            createElement( child, target );
         }
     }
     
-    out->doLayout();
-    return out;
+    target->doLayout();
+    return created;
 }
 
 std::map<std::string, std::string> Generator::attrsToMap( rapidxml::xml_node<char> *node )
@@ -178,4 +165,30 @@ std::unique_ptr<ElementLayout> Generator::nodeToLayout( rapidxml::xml_node<char>
     }
 }
 
-
+std::shared_ptr<Element>
+Generator::nodeToElement( rapidxml::xml_node<char> *node, Element* parent, std::map<std::string, std::string> const &attrs )
+{
+    if ( attrs.contains( "type") )
+    {
+        auto const& nodeType = attrs.at("type");
+        if ( nodeType == "button" )
+        {
+            auto btnLabel = attrs.at("text");
+            auto btnElem =  m_manager->createElement<Button>( parent, btnLabel );
+            
+            if ( attrs.contains("text-size") )
+            {
+                btnElem->getLabel().setTextSize( std::stoi( attrs.at("text-size") ) );
+            }
+            
+            return btnElem;
+        }
+        else if ( nodeType == "label" )
+        {
+        
+        }
+    }
+    
+    // Default case
+    return m_manager->createElement( parent );
+}

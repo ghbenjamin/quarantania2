@@ -2,19 +2,19 @@
 <element>
     <layout type="vertical" halign="fill" spacing="10"/>
     <children>
-        <element type="button" text="Resume" text-size="18">
+        <element type="button" id="level-menu-resume" text="Resume" text-size="18">
             <layout type="center"/>
             <preferred-size width="100" height="25"/>
         </element>
-        <element type="button" text="Options" text-size="18">
+        <element type="button" id="level-menu-options" text="Options" text-size="18">
             <layout type="center"/>
             <preferred-size width="100" height="25"/>
         </element>
-        <element type="button" text="Main Menu" text-size="18">
+        <element type="button" id="level-menu-main" text="Main Menu" text-size="18">
             <layout type="center"/>
             <preferred-size width="100" height="25"/>
         </element>
-        <element type="button" text="Quit" text-size="18">
+        <element type="button" id="level-menu-quit" text="Quit" text-size="18">
             <layout type="center"/>
             <preferred-size width="100" height="25"/>
         </element>

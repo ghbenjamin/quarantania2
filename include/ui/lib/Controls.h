@@ -44,6 +44,7 @@ private:
 class Button : public Element
 {
 public:
+    Button( Manager* manager, Element* parent, std::string const& text );
     Button( Manager* manager, Element* parent, std::string const& text, std::function<void()> const& callback );
     ~Button() override = default;
 

@@ -596,10 +596,10 @@ void Manager::displayTransientMessage(std::string message, float displayTime )
     });
 }
 
-ElementPtr Manager::generateFromXML( std::string const &xmlname )
+ElementPtr Manager::generateFromXML( std::string const &xmlname, Element* existing )
 {
     auto& doc = ResourceManager::get().getXMLDoc( xmlname );
-    return m_generator.fromXML( doc.data() );
+    return m_generator.fromXML( doc.data(), existing );
 }
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, Vector2i offset)

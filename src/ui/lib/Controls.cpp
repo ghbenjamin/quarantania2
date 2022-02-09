@@ -106,16 +106,15 @@ void Label::onSizeSelf()
 // Button
 // ---------------------------------------
 
-UI::Button::Button(Manager *manager, Element *parent, const std::string &text, std::function<void()> const& callback)
+
+Button::Button( Manager *manager, Element *parent, std::string const &text )
         : Element(manager, parent)
 {
     setPadding( 4 );
     setBackground( m_defaultColour );
-
+    
     m_label = manager->createElement<UI::Label>(this );
     m_label->setText( text );
-
-    setCallback( callback );
     
     addEventCallback( UEventType::MouseIn, [this](UEvent const& evt) {
         getBackground().setColourMod( m_mouseOverColour );
@@ -124,6 +123,12 @@ UI::Button::Button(Manager *manager, Element *parent, const std::string &text, s
     addEventCallback( UEventType::MouseOut, [this](UEvent const& evt) {
         getBackground().setColourMod( m_defaultColour );
     });
+}
+
+Button::Button(Manager *manager, Element *parent, const std::string &text, std::function<void()> const& callback)
+        : Button(manager, parent, text)
+{
+    setCallback( callback );
 }
 
 void Button::setCallback(const std::function<void()> &callback)
@@ -147,6 +152,8 @@ Label &Button::getLabel()
 {
     return *m_label;
 }
+
+
 
 
 // Icon

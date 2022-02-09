@@ -10,6 +10,7 @@
 #include <engine/InputInterface.h>
 #include <ui/lib/Tooltips.h>
 #include <ui/level/TileHighlights.h>
+#include <utils/Assert.h>
 
 struct IEvent;
 class Level;
@@ -93,6 +94,7 @@ public:
             return e->id() == id;
         });
 
+        Assert( !!ptr );
         return ptr->asType<T>();
     }
 
@@ -189,7 +191,7 @@ public:
         }
     }
 
-    ElementPtr generateFromXML( std::string const& xmlname );
+    ElementPtr generateFromXML( std::string const& xmlname, Element* existing = nullptr );
 
 
 private:
