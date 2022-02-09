@@ -252,6 +252,10 @@ GLuint ShaderResource::getHandle() const
     return m_handle;
 }
 
+
+// Shader Program Resource
+// -----------------------
+
 ShaderProgramResource::ShaderProgramResource( std::string const &name, std::string const &vertName, std::string const &fragName )
     : Resource(name), m_vertName(vertName), m_fragName(fragName) {}
 
@@ -275,3 +279,30 @@ GLuint ShaderProgramResource::getHandle() const
     return m_program->getHandle();
 }
 
+
+
+// Text Resource
+// -----------------------
+
+TextResource::TextResource( std::string const& name, std::string const& path)
+: Resource(name), m_path(path) {}
+
+void TextResource::load()
+{
+    std::ifstream fstream( m_path );
+    
+    std::stringstream buffer;
+    buffer << fstream.rdbuf();
+    
+    m_data = buffer.str();
+}
+
+void TextResource::unload()
+{
+    m_data.clear();
+}
+
+std::string const &TextResource::data() const
+{
+    return m_data;
+}

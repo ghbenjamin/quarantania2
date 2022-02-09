@@ -6,6 +6,7 @@
 #include <ui/lib/Layout.h>
 #include <ui/lib/UEvent.h>
 #include <ui/lib/ContextMenu.h>
+#include <ui/lib/Generator.h>
 #include <engine/InputInterface.h>
 #include <ui/lib/Tooltips.h>
 #include <ui/level/TileHighlights.h>
@@ -188,12 +189,17 @@ public:
         }
     }
 
+    ElementPtr generateFromXML( std::string const& xmlname );
+
+
 private:
     bool handleMouseMove( IEventMouseMove evt );
     bool handleMouseDown( IEventMouseDown evt );
     bool handleMouseUp( IEventMouseUp evt );
     bool handleKeyPress( IEventKeyPress evt );
     bool handleScrollwheel( IEventScrollWheel evt );
+
+    Generator m_generator;
 
     // Our root UI elements.
     std::vector<ElementPtr> m_roots;

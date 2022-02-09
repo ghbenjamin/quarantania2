@@ -562,7 +562,7 @@ bool Element::hasActiveAlphaTransition() const
     return m_alphaTransition.has_value() && !m_alphaTransition->isFinished();
 }
 
-void Element::setLayout(std::unique_ptr<ElementLayout> &layout)
+void Element::setLayout(std::unique_ptr<ElementLayout> && layout)
 {
     m_layout = std::move(layout);
 }

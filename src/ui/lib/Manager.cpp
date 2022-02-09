@@ -8,11 +8,12 @@
 #include <utils/GlobalConfig.h>
 #include <ui/lib/TransientMessage.h>
 #include <graphics/Primatives.h>
+#include <ui/lib/Generator.h>
 
 using namespace UI;
 
 Manager::Manager()
-    : m_isMidDrag(false), m_hasModalDialog(false)
+    : m_isMidDrag(false), m_hasModalDialog(false), m_generator(this)
 {
     auto windowSize = ResourceManager::get().getWindow()->getSize();
     m_modalSprite = createRectangle( windowSize, Colour::Black.withAlpha(150) );
@@ -593,6 +594,12 @@ void Manager::displayTransientMessage(std::string message, float displayTime )
             (wndSize.x() - dlgSize.x()) / 2,
             (wndSize.y() - dlgSize.y()) / 4
     });
+}
+
+ElementPtr Manager::generateFromXML( std::string const &xmlname )
+{
+    auto& doc = ResourceManager::get().getXMLDoc( xmlname );
+    return m_generator.fromXML( doc.data() );
 }
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, Vector2i offset)

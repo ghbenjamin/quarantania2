@@ -136,3 +136,20 @@ private:
     std::string m_vertName;
     std::string m_fragName;
 };
+
+
+class TextResource : public Resource
+{
+public:
+    TextResource( std::string const& name, std::string const& path );
+    ~TextResource() override = default;
+    
+    void load() override;
+    void unload() override;
+    
+    std::string const& data() const;
+
+private:
+    std::string m_path;
+    std::string m_data;
+};

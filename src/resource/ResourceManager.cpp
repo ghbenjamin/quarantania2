@@ -26,6 +26,7 @@ void ResourceManager::loadAll()
     auto surfacePath = resourceRoot / "surfaces";
     auto ninepatchPath = resourceRoot / "ninepatch";
     auto shaderPath = resourceRoot / "shaders";
+    auto uixmlPath = resourceRoot / "ui" / "defines";
 
     // Load all spritesheets
     for ( auto const& file : std::filesystem::directory_iterator(spritesheetPath) )
@@ -95,6 +96,16 @@ void ResourceManager::loadAll()
             }
         }
     }
+    
+    // Load all UI XMI docs
+    for ( auto const& file : std::filesystem::directory_iterator(uixmlPath) )
+    {
+        auto const& fpath = file.path();
+        if ( fpath.has_extension() && fpath.extension().string() == ".xml" )
+        {
+            addXMLDoc( fpath.stem().string(), fpath.string() );
+        }
+    }
 
     // Load all shader programs
     // TBD maybe load these in externally
@@ -131,6 +142,11 @@ void ResourceManager::loadAll()
     }
     
     for (auto const &[k, v] : m_shaderProgs )
+    {
+        v->load();
+    }
+    
+    for (auto const &[k, v] : m_xml )
     {
         v->load();
     }
@@ -268,6 +284,22 @@ SpritesheetResource const& ResourceManager::getSpritesheet( std::string const &s
 }
 
 
+TextResource &ResourceManager::getXMLDoc( std::string const &name )
+{
+    try
+    {
+        return *m_xml.at(name);
+    }
+    catch ( [[maybe_unused]] std::exception const& ex )
+    {
+        Logger::get().error( "Unknown xml doc program [{}]\n", name );
+        std::terminate();
+    }
+}
+
+
+
+
 
 std::shared_ptr<FtFontFace> ResourceManager::getDefaultFont()
 {
@@ -304,12 +336,17 @@ void ResourceManager::addShaderProgram( std::string const &name, std::string con
     m_shaderProgs.emplace( name, std::make_shared<ShaderProgramResource>(name, vertName, fragName));
 }
 
+void ResourceManager::addXMLDoc( std::string const &name, std::string const &path )
+{
+    m_xml.emplace( name, std::make_shared<TextResource>(name, path));
+}
+
+
 const std::string ResourceManager::getDefaultFontName()
 {
 //    return "robotoslab-regular";
     return "inconsolata-regular";
 }
-
 
 
 

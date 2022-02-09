@@ -266,6 +266,11 @@ void EntityInfoContent::StatusView::refresh(EntityRef entity)
         manager()->deleteElement(s);
     }
     
+    if (! m_level->ecs().entityHas<ActorComponent>(entity))
+    {
+        return;
+    }
+    
     auto& actor = m_level->ecs().getComponents<ActorComponent>( entity )->actor;
     
     for ( auto const mod : actor.getAllModifiers() )

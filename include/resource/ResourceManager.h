@@ -40,6 +40,7 @@ public:
     NinePatchResource const& getNinePatch( std::string const& name );
     ShaderResource const& getShader( std::string const& name );
     ShaderProgramResource& getShaderProgram ( std::string const& name );
+    TextResource& getXMLDoc ( std::string const& name );
 
 private:
 
@@ -51,6 +52,7 @@ private:
     void addNinepatchResource( std::string const& name );
     void addShaderResource( std::string const& name, GLuint type );
     void addShaderProgram( std::string const& name, std::string const& vertName, std::string const& fragName );
+    void addXMLDoc( std::string const& name, std::string const& path );
     
     static const std::string getDefaultFontName();
 
@@ -60,6 +62,7 @@ private:
     std::unordered_map<std::string, std::shared_ptr<NinePatchResource>> m_patches;
     std::unordered_map<std::string, std::shared_ptr<ShaderResource>> m_shaders;
     std::unordered_map<std::string, std::shared_ptr<ShaderProgramResource>> m_shaderProgs;
+    std::unordered_map<std::string, std::shared_ptr<TextResource>> m_xml;
 
     FtFontManager m_fontManager;
     WindowPtr m_context;

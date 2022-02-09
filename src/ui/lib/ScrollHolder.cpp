@@ -7,7 +7,7 @@ UI::ScrollHolder::ScrollHolder(UI::Manager *manager, UI::Element *parent)
     setBackground( Colour::Pink.withAlphaF(0.4f) );
 
     auto layout = utils::make_unique_with_type<ElementLayout, VScrollLayout>(this );
-    setLayout( layout );
+    setLayout( std::move(layout) );
     setBoundsScissoring(true);
 
     addEventCallback( UEventType::ScrollWheel, [this](UEvent const& evt) {

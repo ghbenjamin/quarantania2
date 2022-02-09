@@ -44,6 +44,11 @@ target_link_libraries(quarantania2_lib PRIVATE glm::glm)
 find_package(spdlog CONFIG REQUIRED)
 target_link_libraries(quarantania2_lib PRIVATE spdlog::spdlog spdlog::spdlog_header_only)
 
+find_path(RAPIDXML_INCLUDE_DIRS "rapidxml/rapidxml.hpp")
+target_include_directories(quarantania2_lib PRIVATE ${RAPIDXML_INCLUDE_DIRS})
+
+
+
 # Main executable
 
 add_executable(quarantania2 "src/main.cpp" )
