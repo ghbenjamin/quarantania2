@@ -6,6 +6,7 @@
 
 #include <rapidxml/rapidxml.hpp>
 #include <fmt/format.h>
+#include <resource/ResourceManager.h>
 
 using namespace UI;
 
@@ -48,12 +49,22 @@ std::shared_ptr<Element> Generator::createElement( rapidxml::xml_node<char>* nod
         target->setId( attrs["id"] );
     }
     
+    if ( attrs.contains("padding") )
+    {
+        target->setPadding( std::stoi( attrs.at("padding") ) );
+    }
+    
     auto layout = node->first_node("layout");
     if ( layout != nullptr )
     {
         target->setLayout( nodeToLayout(layout, target) );
     }
     
+    auto background = node->first_node("background");
+    if ( background != nullptr )
+    {
+        nodeToBackground( background, target );
+    }
     
     auto preferredSize = node->first_node("preferred-size");
     if ( preferredSize != nullptr )
@@ -64,7 +75,6 @@ std::shared_ptr<Element> Generator::createElement( rapidxml::xml_node<char>* nod
             std::stoi( prefSizeAttrs["height"] )
         });
     }
-    
     
     auto children = node->first_node("children");
     if ( children != nullptr )
@@ -191,4 +201,19 @@ Generator::nodeToElement( rapidxml::xml_node<char> *node, Element* parent, std::
     
     // Default case
     return m_manager->createElement( parent );
+}
+
+void Generator::nodeToBackground( rapidxml::xml_node<char> *node, Element *parent )
+{
+    auto attrs = attrsToMap( node );
+    
+    Assert( attrs.contains("type") );
+    auto const& bgType = attrs["type"];
+    
+    if ( bgType == "ninepatch" )
+    {
+        auto const& patch = ResourceManager::get().getNinePatch( attrs.at("name") ).getPatch();
+        parent->setBackground( patch );
+        parent->setBorderWidth( patch.getBorderWidth() );
+    }
 }

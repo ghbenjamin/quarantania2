@@ -106,7 +106,7 @@ void Manager::doLayout()
     }
 }
 
-void Manager::deleteElement(const ElementPtr& element)
+void Manager::deleteElement(Element* element)
 {
     if ( !element )
         return;
@@ -124,7 +124,9 @@ void Manager::deleteElement(const ElementPtr& element)
     }
     else
     {
-        m_roots.erase( std::remove(m_roots.begin(), m_roots.end(), element), m_roots.end() );
+        m_roots.erase( std::remove_if( m_roots.begin(), m_roots.end(), [&]( auto const& item ){
+            return item.get() == element;
+        }), m_roots.end() );
     }
 }
 
@@ -529,7 +531,7 @@ void Manager::closeTooltip()
 {
     if (m_tooltip)
     {
-        deleteElement( m_tooltip );
+        deleteElement( m_tooltip.get() );
     }
 }
 
@@ -537,7 +539,7 @@ void Manager::showSingleTileHighlight(Vector2i tile, SingleTileHighlightType typ
 {
     if (m_tileHighlight)
     {
-        deleteElement(m_tileHighlight);
+        deleteElement( m_tileHighlight.get() );
     }
 
     m_tileHighlight = createElement<UI::SingleTileHighlight>( nullptr, tile, type );
@@ -547,7 +549,7 @@ void Manager::removeSingleTileHighlight()
 {
     if (m_tileHighlight)
     {
-        deleteElement(m_tileHighlight);
+        deleteElement( m_tileHighlight.get() );
         m_tileHighlight.reset();
     }
 }
@@ -578,7 +580,7 @@ bool Manager::hasModalDialog() const
     return m_hasModalDialog;
 }
 
-void Manager::delayedDeleteElement(const ElementPtr &element)
+void Manager::delayedDeleteElement(Element* element)
 {
     m_delayedDeleteElems.push_back(element);
 }

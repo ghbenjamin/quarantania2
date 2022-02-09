@@ -447,8 +447,8 @@ void PlayerSelectedController::onExitImpl()
         m_ui->withId( "player-inventory" )->hide();
     }
     
-    m_ui->deleteElement(m_defaultMoveHighlight);
-    m_ui->deleteElement(m_defaultAttackHighlight);
+    m_ui->deleteElement( m_defaultMoveHighlight.get() );
+    m_ui->deleteElement( m_defaultAttackHighlight.get() );
     
     ResourceManager::get().getWindow()->cursor().resetCursor();
 }
@@ -548,8 +548,8 @@ bool ActionControllerSingleTile::onMouseDown(IEventMouseDown evt)
 
 void ActionControllerSingleTile::onExitImpl()
 {
-    m_ui->deleteElement(m_tileHighlight);
-    m_ui->deleteElement(m_pathHighlight);
+    m_ui->deleteElement( m_tileHighlight.get() );
+    m_ui->deleteElement( m_pathHighlight.get() );
 }
 
 void ActionControllerSingleTile::updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)
@@ -564,7 +564,7 @@ void ActionControllerSingleTile::onHoveredTileChange(Vector2i prev, Vector2i cur
         if ( m_targeting->tileIsValid(curr) )
         {
             m_tilePath = m_targeting->pathToTile(curr);
-            m_ui->deleteElement(m_pathHighlight);
+            m_ui->deleteElement( m_pathHighlight.get() );
 //            m_pathHighlight = m_ui->createElement<UI::TileRegionHighlight>(nullptr, m_tilePath, Colour::Red);
             m_pathHighlight = m_ui->createElement<UI::TileArrowHighlight>(nullptr, m_tilePath, Colour::Red, m_origin);
         }
@@ -627,7 +627,7 @@ void ActionControllerSingleEntity::onEnterImpl()
 
 void ActionControllerSingleEntity::onExitImpl()
 {
-    m_ui->deleteElement(m_tileHighlight);
+    m_ui->deleteElement( m_tileHighlight.get() );
 }
 
 void ActionControllerSingleEntity::updateImpl(std::uint32_t ticks, InputInterface &iinter, RenderInterface &rInter)

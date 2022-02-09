@@ -221,9 +221,12 @@ std::list<ElementPtr> const &Element::children()
     return m_children;
 }
 
-void Element::removeChild(ElementPtr const &child)
+void Element::removeChild(Element* child)
 {
-    m_children.erase( std::remove(m_children.begin(), m_children.end(), child), m_children.end() );
+    m_children.erase( std::remove_if(m_children.begin(), m_children.end(), [&]( auto const& item ){
+        return item.get() == child;
+    }), m_children.end() );
+    
     child->setParent( nullptr );
 }
 
@@ -554,7 +557,7 @@ void Element::addHotkey( SDL_Keycode key, std::function<void()> const &callback 
 
 void Element::deleteSelf()
 {
-    manager()->delayedDeleteElement( shared_from_this() );
+    manager()->delayedDeleteElement( this );
 }
 
 bool Element::hasActiveAlphaTransition() const

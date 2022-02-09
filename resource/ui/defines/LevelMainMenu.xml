@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<element>
+<element padding="8">
     <layout type="vertical" halign="fill" spacing="10"/>
+    <background type="ninepatch" name="simple-border-solid" />
     <children>
         <element type="button" id="level-menu-resume" text="Resume" text-size="18">
             <layout type="center"/>

@@ -76,8 +76,8 @@ public:
         return createElement<Element>( parent, std::forward<Args>(args)... );
     }
 
-    void deleteElement( const ElementPtr& element );
-    void delayedDeleteElement( const ElementPtr& element );
+    void deleteElement( Element* element );
+    void delayedDeleteElement( Element* element );
 
     void alignElementToWindow( const ElementPtr& element, UI::Alignment alignment, Vector2i offset);
     void alignElementToElement( ElementPtr const& desc, ElementPtr const& target, UI::Alignment alignment, Vector2i offset);
@@ -88,21 +88,21 @@ public:
     void unalignElements( ElementPtr const& desc, ElementPtr const& target );
 
     template <typename T = Element>
-    std::shared_ptr<T> withId( std::string const& id )
+    T* withId( std::string const& id )
     {
         auto ptr = firstElementMatching([&](auto const& e){
             return e->id() == id;
         });
 
         Assert( !!ptr );
-        return ptr->asType<T>();
+        return (T*) ptr;
     }
 
     template <typename Callable>
-    ElementPtr firstElementMatching( Callable&& callable ) const
+    Element* firstElementMatching( Callable&& callable ) const
     {
-        ElementPtr out = ElementPtr();
-        ElementPtr tmp;
+        Element* out = nullptr;
+        Element* tmp;
 
         for ( auto const& r : m_roots )
         {
@@ -175,7 +175,7 @@ public:
         
         if ( shouldDelete )
         {
-            deleteElement( m_exclusiveDialog.lock() );
+            deleteElement( m_exclusiveDialog.lock().get() );
             m_exclusiveDialog.reset();
             m_exclusiveDialogName.reset();
         }
@@ -227,7 +227,7 @@ private:
     Sprite m_modalSprite;
     bool m_hasModalDialog;
 
-    std::vector<ElementPtr> m_delayedDeleteElems;
+    std::vector<Element*> m_delayedDeleteElems;
 };
 
 }

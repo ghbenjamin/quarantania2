@@ -102,7 +102,7 @@ public:
 
     bool hasChildren();
     std::list<ElementPtr> const& children();
-    void removeChild( ElementPtr const& child );
+    void removeChild( Element* child );
     void removeAllChildren();
     
     void deleteSelf();
@@ -194,18 +194,17 @@ protected:
 
     // Recursively walk the children of this element, returning the first element which matches the supplied condition
     template <typename Callable>
-    ElementPtr firstDescMatchingCondition( Callable&& callable )
+    Element* firstDescMatchingCondition( Callable&& callable )
     {
-        ElementPtr out = ElementPtr();
-        ElementPtr s_this = shared_from_this();
+        Element* out = nullptr;
 
-        if ( callable(s_this) )
+        if ( callable(this) )
         {
-            out = s_this;
+            out = this;
         }
         else
         {
-            ElementPtr tmp;
+            Element* tmp;
             for ( auto const& c : m_children )
             {
                 tmp = c->firstDescMatchingCondition(callable);

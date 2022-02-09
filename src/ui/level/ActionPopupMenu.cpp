@@ -44,12 +44,12 @@ ActionMenuPopupMenu::ActionMenuPopupMenu(Manager *manager, Element *parent, Leve
             elem->addEventCallback(UEventType::Click, [manager, act, this](UEvent const& evt) {
             
                 auto actionMenu = manager->firstElementMatching(
-                         [](ElementPtr const& elem){ return elem->id() == "action-menu"; }
+                         [](Element* elem){ return elem->id() == "action-menu"; }
                 )->asType<ActionMenu>();
 
                 // TODO FIX CONTROLLER ACTIONS BROKEN ARGH
 //                m_level->controller()->pushActionController( actionMenu->currentEntity(), act );
-                manager->deleteElement( shared_from_this() );
+                manager->deleteElement( this );
             });
         }
         else
@@ -152,7 +152,7 @@ void ActionMenu::openMenu(RawActionDataType category)
     auto newMenu = manager()->createElement<ActionMenuPopupMenu>(nullptr, m_level, menuItems, category);
     
     // Find the position of the button we clicked so that we can align new menu to it
-    auto spawn = firstDescMatchingCondition([category]( ElementPtr const &elem ) {
+    auto spawn = firstDescMatchingCondition([category]( Element* elem ) {
         return (elem->hasTag("action-popup-spawn-icon") &&
                 elem->asType<ActionMenuSpawnItem>()->getCategory() == category);
     });
@@ -184,7 +184,7 @@ void ActionMenu::toggleMenu(RawActionDataType category)
     {
         auto existing = menu->getCategory();
         
-        manager()->deleteElement( menu );
+        manager()->deleteElement( menu.get() );
         m_menu.reset();
         
         if (existing == category)
@@ -202,7 +202,7 @@ void ActionMenu::closeMenu()
     
     if ( menu )
     {
-        manager()->deleteElement( menu );
+        manager()->deleteElement( menu.get() );
         m_menu.reset();
     }
 }

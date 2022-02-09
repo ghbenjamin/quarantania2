@@ -263,7 +263,7 @@ void EntityInfoContent::StatusView::refresh(EntityRef entity)
     
     for ( auto const& s : m_statuses )
     {
-        manager()->deleteElement(s);
+        manager()->deleteElement( s.get() );
     }
     
     if (! m_level->ecs().entityHas<ActorComponent>(entity))
@@ -327,8 +327,10 @@ void EntityInfoContent::FeatsView::refresh( EntityRef entity )
 
     for ( auto const& f : m_feats )
     {
-        manager()->deleteElement(f);
+        manager()->deleteElement( f.get() );
     }
+    
+    m_feats.clear();
     
     auto& actor = m_level->ecs().getComponents<ActorComponent>( entity )->actor;
     

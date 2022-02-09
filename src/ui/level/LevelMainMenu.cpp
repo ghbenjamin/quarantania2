@@ -1,6 +1,5 @@
 #include <ui/level/LevelMainMenu.h>
 #include <ui/lib/Manager.h>
-#include <resource/ResourceManager.h>
 #include <game/Level.h>
 
 using namespace UI;
@@ -10,22 +9,10 @@ LevelMainMenu::LevelMainMenu(Manager *manager, Element* parent, Level* level)
 {
     manager->generateFromXML( "LevelMainMenu", this );
     
-    auto const& patch = ResourceManager::get().getNinePatch( "simple-border-solid" ).getPatch();
-    setBackground( patch );
-    setBorderWidth( patch.getBorderWidth() );
-
-//    auto btnResume = manager->createElement<Button>( this, "Resume", [this](){ onBtnResume(); } );
-//    auto btnOptions = manager->createElement<Button>( this, "Options", [this](){ onBtnResume(); } );
-//    auto btnMainMenu = manager->createElement<Button>( this, "Main Menu", [this](){ onBtnExitMainMenu(); } );
-//    auto btnQuit = manager->createElement<Button>( this, "Quit", [this](){ onBtnQuit(); } );
-//
-    
-    
-//    withId<Button>( "level-menu-resume" )->setCallback( [this](){ onBtnResume(); } );
-//    withId( "level-menu-resume" );
-    
-
-    doLayout();
+    withId<Button>( "level-menu-resume" )->setCallback( [this](){ onBtnResume(); } );
+    withId<Button>( "level-menu-options" )->setCallback( [this](){ onBtnResume(); } );
+    withId<Button>( "level-menu-main" )->setCallback( [this](){ onBtnExitMainMenu(); } );
+    withId<Button>( "level-menu-quit" )->setCallback( [this](){ onBtnQuit(); } );
 }
 
 void LevelMainMenu::onBtnResume()

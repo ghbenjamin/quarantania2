@@ -45,7 +45,7 @@ Tooltip::Tooltip(Manager *manager, Element *parent )
     
     // Delete tooltips if someone manages to hover one
     addEventCallback( UEventType::MouseIn, [this](UEvent& evt) {
-        this->manager()->deleteElement( this->shared_from_this() );
+        this->manager()->deleteElement( this );
     });
 }
 
