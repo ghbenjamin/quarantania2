@@ -2,26 +2,24 @@
 #include <ui/lib/Manager.h>
 #include <ui/lib/ScrollHolder.h>
 #include <ui/shared/OverworldView.h>
-#include <resource/ResourceManager.h>
 
 using namespace UI;
 
 OverworldMapDialog::OverworldMapDialog( Manager *manager, Element *parent, Level *level, Overworld* overworld )
     : Element(manager, parent), m_level(level), m_overworld(overworld)
 {
-    setLayout<CenterLayout>();
-    setPreferredContentSize({1000, 800}); // TODO FIX ME
-    
-    auto const& patch = ResourceManager::get().getNinePatch( "simple-border" ).getPatch();
-    setBackground( patch );
-    setBorderWidth( patch.getBorderWidth() );
+    manager->generateFromXML( "OverworldMapDialog", this );
 
-    auto locationViewHolder = manager->createElement<UI::ScrollHolder>( this );
-    locationViewHolder->setPreferredContentSize({1, 700});
+    auto scrollHolder = withId<ScrollHolder>( "overworld-scroll" );
+    scrollHolder->scrollToBottom();
     
-    auto locationView = manager->createElement<UI::OverworldView>( locationViewHolder.get(), m_overworld, true );
+    auto locationView = manager->createElement<UI::OverworldView>( scrollHolder.get(), m_overworld, true );
     
     doLayout();
+    
+    
+    Logger::get().error( scrollHolder->outerBounds().right().to_string() );
+    Logger::get().error( outerBounds().right().to_string() );
     
     addHotkey( SDLK_ESCAPE, [this](){
         deleteSelf();

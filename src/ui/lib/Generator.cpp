@@ -1,6 +1,7 @@
 #include <ui/lib/Generator.h>
 #include <ui/lib/Element.h>
 #include <ui/lib/Manager.h>
+#include <ui/lib/ScrollHolder.h>
 #include <utils/Assert.h>
 #include <utils/Memory.h>
 
@@ -196,6 +197,10 @@ Generator::nodeToElement( rapidxml::xml_node<char> *node, Element* parent, std::
         else if ( nodeType == "label" )
         {
         
+        }
+        else if ( nodeType == "scroll" )
+        {
+            return m_manager->createElement<ScrollHolder>( parent );
         }
     }
     

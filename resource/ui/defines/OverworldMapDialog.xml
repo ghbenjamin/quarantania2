@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<element padding="8">
+    <layout type="center"/>
+    <background type="ninepatch" name="simple-border-solid" />
+<!--    <preferred-size width="1000" height="800"/>-->
+    <children>
+        <element type="scroll" id="overworld-scroll">
+            <preferred-size width="1" height="700"/>
+        </element>
+    </children>
+</element>

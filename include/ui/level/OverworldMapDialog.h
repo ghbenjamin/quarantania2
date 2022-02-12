@@ -12,12 +12,8 @@ class OverworldMapDialog : public Element
 {
 public:
     OverworldMapDialog(Manager* manager, Element* parent, Level* level, Overworld* overworld);
-//    ~OverworldMapDialog() override = default;
-    ~OverworldMapDialog() override
-    {
-        int t = 0;
-    }
-
+    ~OverworldMapDialog() override = default;
+    
 private:
     Level* m_level;
     Overworld* m_overworld;

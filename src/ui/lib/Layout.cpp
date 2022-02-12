@@ -298,6 +298,13 @@ Vector2i CenterLayout::doLayout()
 
     auto childBounds = child->outerBounds();
 
+
+    // If we have no preferred size, stretch to the size of our child 
+    if ( contentSize == Vector2i::Null() )
+    {
+        contentSize = childBounds.right();
+    }
+
     child->setLocalPosition({
         contentSize.x() / 2 - childBounds.w() / 2,
         contentSize.y() / 2 - childBounds.h() / 2,

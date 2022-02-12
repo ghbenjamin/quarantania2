@@ -12,9 +12,12 @@ public:
     ~ScrollHolder() override = default;
 
     float getScrollPercentage() const;
-    void setScrollPercentage(float percentage );
-
     int getScrollHeight() const;
+    
+    void setScrollPercentage( float percentage );
+    void scrollToBottom();
+    void scrollToTop();
+    
 
 private:
 
@@ -22,7 +25,6 @@ private:
 
     int m_scrollHeight;
     float m_scrollPercentage;
-
 };
 
 

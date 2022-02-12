@@ -19,6 +19,7 @@ void UI::ScrollHolder::setScrollPercentage(float percentage)
 {
     m_scrollPercentage = percentage;
 
+    // Clamp percentage to be between 0.0f and 1.0f
     if ( m_scrollPercentage > 1.0f )
     {
         m_scrollPercentage = 1.0f;
@@ -44,4 +45,14 @@ int UI::ScrollHolder::getScrollHeight() const
 void UI::ScrollHolder::onScroll(UI::UMouseScrollEvent evt)
 {
     setScrollPercentage(m_scrollPercentage - (float) evt.magnitude * 0.05f);
+}
+
+void UI::ScrollHolder::scrollToBottom()
+{
+    setScrollPercentage(1.0f);
+}
+
+void UI::ScrollHolder::scrollToTop()
+{
+    setScrollPercentage(0.0f);
 }

@@ -32,10 +32,13 @@ void OverworldState::setupUI()
 {
     auto locationViewHolder = m_ui->createElement<UI::ScrollHolder>( nullptr );
     locationViewHolder->setPreferredContentSize({1, 700});
-
+    locationViewHolder->scrollToBottom();
+    
     m_ui->alignElementToWindow( locationViewHolder, UI::Alignment::Centre, {0, 0} );
 
     auto locationView = m_ui->createElement<UI::OverworldView>(locationViewHolder.get(), m_overworld.get(), false);
+    
+    
 }
 
 void OverworldState::startLevel(int idx)

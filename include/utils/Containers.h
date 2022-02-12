@@ -119,6 +119,11 @@ public:
         return {i, i};
     }
 
+    static const Vector2<T> Null( )
+    {
+        return {0, 0};
+    }
+
     template <std::size_t N>
     decltype(auto) get() const
     {
