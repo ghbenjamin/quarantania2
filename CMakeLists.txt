@@ -1,6 +1,7 @@
 # Config
 
-cmake_minimum_required(VERSION 3.14)
+cmake_policy(SET CMP0127 OLD)
+cmake_minimum_required(VERSION 3.20)
 project(quarantania2)
 set(CMAKE_CXX_STANDARD 20)
 
@@ -47,6 +48,12 @@ target_link_libraries(quarantania2_lib PRIVATE spdlog::spdlog spdlog::spdlog_hea
 find_path(RAPIDXML_INCLUDE_DIRS "rapidxml/rapidxml.hpp")
 target_include_directories(quarantania2_lib PRIVATE ${RAPIDXML_INCLUDE_DIRS})
 
+find_package(Lua REQUIRED)
+target_include_directories(quarantania2_lib PRIVATE ${LUA_INCLUDE_DIR})
+target_link_libraries(quarantania2_lib PRIVATE ${LUA_LIBRARIES})
+
+find_package(sol2 CONFIG REQUIRED)
+target_link_libraries(quarantania2_lib PRIVATE sol2::sol2)
 
 
 # Main executable

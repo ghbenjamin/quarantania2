@@ -17,10 +17,6 @@ OverworldMapDialog::OverworldMapDialog( Manager *manager, Element *parent, Level
     
     doLayout();
     
-    
-    Logger::get().error( scrollHolder->outerBounds().right().to_string() );
-    Logger::get().error( outerBounds().right().to_string() );
-    
     addHotkey( SDLK_ESCAPE, [this](){
         deleteSelf();
     });

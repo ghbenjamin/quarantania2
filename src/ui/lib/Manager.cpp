@@ -13,7 +13,7 @@
 using namespace UI;
 
 Manager::Manager()
-    : m_isMidDrag(false), m_hasModalDialog(false), m_generator(this)
+    : m_isMidDrag(false), m_hasModalDialog(false), m_generator(this), m_lua(this)
 {
     auto windowSize = ResourceManager::get().getWindow()->getSize();
     m_modalSprite = createRectangle( windowSize, Colour::Black.withAlpha(150) );

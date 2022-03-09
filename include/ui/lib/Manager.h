@@ -5,6 +5,7 @@
 #include <ui/lib/Element.h>
 #include <ui/lib/Layout.h>
 #include <ui/lib/UEvent.h>
+#include <ui/lib/LuaInterface.h>
 #include <ui/lib/ContextMenu.h>
 #include <ui/lib/Generator.h>
 #include <engine/InputInterface.h>
@@ -201,6 +202,7 @@ private:
     bool handleKeyPress( IEventKeyPress evt );
     bool handleScrollwheel( IEventScrollWheel evt );
 
+    LuaInterface m_lua;
     Generator m_generator;
 
     // Our root UI elements.
