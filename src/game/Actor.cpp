@@ -3,45 +3,24 @@
 #include <game/Attack.h>
 #include <game/RunState.h>
 
-Actor::Actor(Level* level, EntityRef ref, CreatureData const& rcd)
-    : m_level(level),
-      m_entity(ref),
-      m_name(rcd.name),
-      m_baseAbilityScoreStr(rcd.attrStr),
-      m_baseAbilityScoreDex(rcd.attrDex),
-      m_baseAbilityScoreCon(rcd.attrCon),
-      m_baseAbilityScoreInt(rcd.attrInt),
-      m_baseAbilityScoreWis(rcd.attrWis),
-      m_baseAbilityScoreCha(rcd.attrCha),
-      m_baseFortitude(rcd.saveFort),
-      m_baseReflex(rcd.saveRef),
-      m_baseWill(rcd.saveWill),
-      m_HpMax(rcd.maxHP),
-      m_HpCurrent(rcd.maxHP),
-      m_baseSpeed(rcd.speed),
-      m_size(rcd.size),
-      m_creatureType(rcd.creatureType)
-{
-}
-
-Actor::Actor(Level* level, EntityRef ref, PlayerData const &pdata)
-    : m_level(level),
-      m_entity(ref),
-      m_name(pdata.name),
-      m_baseAbilityScoreStr(pdata.attrStr),
-      m_baseAbilityScoreDex(pdata.attrDex),
-      m_baseAbilityScoreCon(pdata.attrCon),
-      m_baseAbilityScoreInt(pdata.attrInt),
-      m_baseAbilityScoreWis(pdata.attrWis),
-      m_baseAbilityScoreCha(pdata.attrCha),
-      m_baseFortitude(pdata.saveFort),
-      m_baseReflex(pdata.saveRef),
-      m_baseWill(pdata.saveWill),
-      m_HpMax(pdata.maxHP),
-      m_HpCurrent(pdata.maxHP),
-      m_baseSpeed(pdata.baseSpeed),
-      m_size(CreatureSize::Medium),
-      m_creatureType("Humanoid")
+Actor::Actor( Level *level, EntityRef ref, ActorData const &pdata )
+        : m_level(level),
+          m_entity(ref),
+          m_name(pdata.name),
+          m_baseAbilityScoreStr(pdata.attrStr),
+          m_baseAbilityScoreDex(pdata.attrDex),
+          m_baseAbilityScoreCon(pdata.attrCon),
+          m_baseAbilityScoreInt(pdata.attrInt),
+          m_baseAbilityScoreWis(pdata.attrWis),
+          m_baseAbilityScoreCha(pdata.attrCha),
+          m_baseFortitude(pdata.saveFort),
+          m_baseReflex(pdata.saveRef),
+          m_baseWill(pdata.saveWill),
+          m_HpMax(pdata.maxHP),
+          m_HpCurrent(pdata.maxHP),
+          m_baseSpeed(pdata.baseSpeed),
+          m_size(pdata.size),
+          m_creatureType(pdata.creatureType)
 {
 }
 

@@ -1,61 +1,7 @@
 #include <game/RunState.h>
 #include <game/ResourceDatabase.h>
 #include <game/Overworld.h>
-#include <utils/Logging.h>
 #include <game/OverworldFactory.h>
-
-
-PlayerData::PlayerData( ChargenData &chargenData )
-{
-    this->sprite = chargenData.sprite;
-    
-    this->maxHP = chargenData.maxHP;
-    
-    this->attrStr = chargenData.attrStr;
-    this->attrDex = chargenData.attrDex;
-    this->attrCon = chargenData.attrCon;
-    this->attrInt = chargenData.attrInt;
-    this->attrWis = chargenData.attrWis;
-    this->attrCha = chargenData.attrCha;
-    
-    this->featIds = chargenData.feats;
-    this->equippedItems = chargenData.equippedItems;
-    this->heldItems = chargenData.heldItems;
-}
-
-utils::json::object PlayerData::serialize() const
-{
-    utils::json::object obj;
-    
-    obj["name"] = name;
-    obj["curr_xp"] = currHP;
-    obj["max_hp"] = maxHP;
-    obj["curr_hp"] = currHP;
-    
-    obj["attributes"] = { attrStr, attrDex, attrCon, attrInt, attrWis, attrCha };
-    obj["saves"] = { saveFort, saveRef, saveWill };
-    obj["bab"] = bab;
-    
-    obj["held_items"] = utils::json::object::array();
-    for ( auto const& i : heldItems )
-    {
-        obj["held_items"].push_back(i);
-    }
-    
-    obj["equipped_items"] = utils::json::object::array();
-    for ( auto const& i : equippedItems )
-    {
-        obj["equipped_items"].push_back(i);
-    }
-    
-    obj["feats"] = utils::json::object::array();
-    for ( auto const& i : featIds )
-    {
-        obj["feats"].push_back(i);
-    }
-    
-    return obj;
-}
 
 
 RunState::RunState()
@@ -91,8 +37,8 @@ std::shared_ptr<RunState> RunState::generateNewRun()
     OverworldFactory factory;
     state->overworld = factory.createOverworld( state );
 
-    auto p1 = state->generateStartingCharacter("fighter");
-    auto p2 = state->generateStartingCharacter("rogue");
+    auto p1 = state->generateStartingCharacter("Fighter");
+    auto p2 = state->generateStartingCharacter("Rogue");
     state->playerChars = { p1, p2 };
     
     return state;
@@ -100,7 +46,7 @@ std::shared_ptr<RunState> RunState::generateNewRun()
 
 PlayerData RunState::generateStartingCharacter( std::string const &pclassId )
 {
-    auto pcData = ResourceDatabase::get().chargenFromClassId(pclassId);
+    auto pcData = ResourceDatabase::get().chargenFromClass(pclassId);
     PlayerData player { pcData };
     
     player.name = *randomState.randomElement( ResourceDatabase::get().randomNames() );

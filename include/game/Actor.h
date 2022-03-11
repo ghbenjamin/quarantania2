@@ -41,8 +41,7 @@ class Actor
 {
 
 public:
-    Actor( Level* level, EntityRef ref, PlayerData const& pdata );
-    Actor( Level* level, EntityRef ref, CreatureData const& data );
+    Actor( Level* level, EntityRef ref, ActorData const& data );
     ~Actor() = default;
 
     // Meta

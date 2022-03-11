@@ -6,6 +6,7 @@
 #include <game/RawData.h>
 #include <utils/Assert.h>
 #include <utils/Random.h>
+#include <game/ActorData.h>
 
 class RandomState;
 
@@ -28,7 +29,7 @@ public:
     ObjectData objectFromName( std::string_view name );
     ActionData actionFromId(std::string_view id );
     ModifierData modifierFromId(std::string_view id );
-    ChargenData chargenFromClassId( std::string_view id );
+    PlayerData chargenFromClass( std::string_view id );
     
     std::vector<std::string> const& randomNames();
 
@@ -50,7 +51,7 @@ private:
     std::vector<ActionData> m_actionData;
     std::vector<ModifierData> m_modifierData;
     
-    std::vector<ChargenData> m_chargenData;
+    std::vector<PlayerData> m_chargenData;
     std::vector<std::string> m_randomNames;
     
 };

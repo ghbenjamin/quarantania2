@@ -15,7 +15,7 @@ ResourceDatabase::ResourceDatabase()
     loadAllChargenData();
 }
 
-ItemData ResourceDatabase::itemFromName(std::string_view name)
+ItemData ResourceDatabase::itemFromName( std::string_view name )
 {
     auto it = std::find_if( m_itemData.begin(), m_itemData.end(),
         [name](auto const& item){ return item.name == name; });
@@ -24,7 +24,7 @@ ItemData ResourceDatabase::itemFromName(std::string_view name)
     return ItemData( *it );
 }
 
-WeaponData ResourceDatabase::weaponFromName(std::string_view name)
+WeaponData ResourceDatabase::weaponFromName( std::string_view name )
 {
     auto it = std::find_if( m_weaponData.begin(), m_weaponData.end(),
         [name](auto const& item){ return item.itemName == name; });
@@ -33,7 +33,7 @@ WeaponData ResourceDatabase::weaponFromName(std::string_view name)
     return WeaponData( *it );
 }
 
-CreatureData ResourceDatabase::creatureFromName(std::string_view name)
+CreatureData ResourceDatabase::creatureFromName( std::string_view name)
 {
     auto it = std::find_if( m_creatureData.begin(), m_creatureData.end(),
         [name](auto const& item){ return item.name == name; });
@@ -42,7 +42,7 @@ CreatureData ResourceDatabase::creatureFromName(std::string_view name)
     return CreatureData( *it );
 }
 
-ArmourData ResourceDatabase::armourFromName(std::string_view name)
+ArmourData ResourceDatabase::armourFromName( std::string_view name)
 {
     auto it = std::find_if( m_armourData.begin(), m_armourData.end(),
         [name](auto const& item){ return item.itemName == name; });
@@ -60,7 +60,7 @@ ObjectData ResourceDatabase::objectFromName( std::string_view name)
     return ObjectData( *it );
 }
 
-ActionData ResourceDatabase::actionFromId(std::string_view id)
+ActionData ResourceDatabase::actionFromId( std::string_view id)
 {
     auto it = std::find_if( m_actionData.begin(), m_actionData.end(),
         [id](auto const& item){ return item.id == id; });
@@ -69,7 +69,7 @@ ActionData ResourceDatabase::actionFromId(std::string_view id)
     return ActionData( *it );
 }
 
-ModifierData ResourceDatabase::modifierFromId(std::string_view id )
+ModifierData ResourceDatabase::modifierFromId( std::string_view id )
 {
     auto it = std::find_if( m_modifierData.begin(), m_modifierData.end(),
         [id](auto const& item){ return item.id == id; });
@@ -78,10 +78,10 @@ ModifierData ResourceDatabase::modifierFromId(std::string_view id )
     return ModifierData( *it );
 }
 
-ChargenData ResourceDatabase::chargenFromClassId( std::string_view id )
+PlayerData ResourceDatabase::chargenFromClass( std::string_view name )
 {
     auto it = std::find_if( m_chargenData.begin(), m_chargenData.end(),
-                            [id](auto const& item){ return item.id == id; });
+                            [name](auto const& item){ return item.playerClass == name; });
     
     Assert( it != m_chargenData.end() );
     return *it;
@@ -99,7 +99,7 @@ void ResourceDatabase::loadAllCreatureData()
         rcd.alignment = EnumParse::alignment( cr["alignment"] );
         rcd.creatureType = cr["creature_type"];
         rcd.sprite = { cr["sprite"] };
-        rcd.experience = cr["xp"];
+        rcd.xp = cr["xp"];
         rcd.maxHP = cr["hp"];
         rcd.attrStr = cr["attr_str"];
         rcd.attrDex = cr["attr_dex"];
@@ -110,11 +110,7 @@ void ResourceDatabase::loadAllCreatureData()
         rcd.saveFort = cr["save_fort"];
         rcd.saveRef = cr["save_ref"];
         rcd.saveWill = cr["save_will"];
-        rcd.baseAttackBonus = cr["base_attack"];
-        rcd.combatManeuverBonus = cr["cmb"];
-        rcd.combatManeuverDefence = cr["cmd"];
-        rcd.initiative = cr["initative"];
-        rcd.speed = cr["speed"];
+        rcd.baseSpeed = cr["speed"];
 
         if ( cr.contains("description") )
         {
@@ -154,7 +150,7 @@ void ResourceDatabase::loadAllCreatureData()
         {
             for ( auto const& feat : cr["feats"].items() )
             {
-                rcd.feats.emplace_back( feat.value() );
+                rcd.featIds.emplace_back( feat.value() );
             }
         }
 
@@ -425,9 +421,9 @@ void ResourceDatabase::loadAllChargenData()
     
     for ( auto const& classObj : doc["classes"] )
     {
-        ChargenData cgdata;
-        cgdata.id = classObj["id"];
-        cgdata.name = classObj["name"];
+        PlayerData cgdata;
+        cgdata.playerClass = classObj["name"];
+        
         cgdata.sprite = classObj["sprite"].get<std::string>();
         cgdata.maxHP = classObj["max_hp"];
         
@@ -450,7 +446,7 @@ void ResourceDatabase::loadAllChargenData()
     
         for ( auto const& item : classObj["feats"] )
         {
-            cgdata.feats.push_back( item );
+            cgdata.featIds.push_back( item );
         }
         
         m_chargenData.push_back( std::move(cgdata) );

@@ -53,50 +53,6 @@ struct CreatureAttack
     int count;
 };
 
-struct CreatureData
-{
-    std::string name;
-    std::string description;
-
-    int experience;
-    int maxHP;
-    DnDAlignment alignment;
-    CreatureSize size;
-
-    std::string creatureType;
-    std::vector<std::string> creatureSubtypes;
-
-    int saveFort;
-    int saveRef;
-    int saveWill;
-    int attrStr;
-    int attrDex;
-    int attrCon;
-    int attrInt;
-    int attrWis;
-    int attrCha;
-
-    int reach;
-    int initiative;
-
-    std::unordered_map<std::string, int> damageResistance;
-    std::unordered_map<ElementalDamageType, int> elementalResistance;
-    std::vector<ElementalDamageType> weaknesses;
-    std::vector<std::string> feats;
-    std::vector<std::string> senses;
-    std::vector<std::string> immune;
-
-    std::vector<CreatureAttack> attacks;
-
-    int speed;
-
-    int combatManeuverDefence;
-    int combatManeuverBonus;
-    int baseAttackBonus;
-
-    SpritesheetKey sprite;
-};
-
 
 struct ObjectData
 {
@@ -131,18 +87,4 @@ struct ModifierData
     std::string name;
     std::string effect;
     std::string description;
-};
-
-
-struct ChargenData
-{
-    std::string id;
-    std::string name;
-    SpritesheetKey sprite;
-    int maxHP;
-    int attrStr, attrDex, attrCon, attrInt, attrWis, attrCha;
-    
-    std::vector<std::string> feats;
-    std::vector<std::string> equippedItems;
-    std::vector<std::string> heldItems;
 };
