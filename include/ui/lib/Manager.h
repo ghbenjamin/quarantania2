@@ -85,7 +85,7 @@ public:
 
     void centreElementInWindow( std::shared_ptr<Element> const& element );
 
-    void unalignElementFromWindow(ElementPtr element );
+    void unalignElementFromWindow( ElementPtr element );
     void unalignElements( ElementPtr const& desc, ElementPtr const& target );
 
     template <typename T = Element>
@@ -193,7 +193,10 @@ public:
     }
 
     ElementPtr generateFromXML( std::string const& xmlname, Element* existing = nullptr );
-
+    
+    void toggleConsoleWindow();
+    
+    void setFocusedElement( ElementPtr elem );
 
 private:
     bool handleMouseMove( IEventMouseMove evt );
@@ -201,6 +204,7 @@ private:
     bool handleMouseUp( IEventMouseUp evt );
     bool handleKeyPress( IEventKeyPress evt );
     bool handleScrollwheel( IEventScrollWheel evt );
+    bool handleTextInput( IEventTextInput evt );
 
     LuaInterface m_lua;
     Generator m_generator;
@@ -226,6 +230,9 @@ private:
     std::optional<Vector2i> m_lastMouseDownPos;
     
     std::weak_ptr<Element> m_modalDialog;
+    std::weak_ptr<Element> m_consoleDialog;
+    std::weak_ptr<Element> m_focusedElement;
+    
     Sprite m_modalSprite;
     bool m_hasModalDialog;
 

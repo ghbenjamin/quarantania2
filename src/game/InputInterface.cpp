@@ -101,6 +101,16 @@ void InputInterface::input(SDL_Event &sdlEvent)
             m_queue.push_back(evt);
             break;
         }
+        
+        case SDL_TEXTINPUT:
+        {
+            IEvent evt;
+            evt.type = IEventType::TextInput;
+            memset( evt.textInput.text, 0, 32 );
+            strncpy_s( evt.textInput.text, sdlEvent.text.text, 31 );
+            m_queue.push_back(evt);
+            break;
+        }
 
         case SDL_WINDOWEVENT:
         {
@@ -187,3 +197,11 @@ IEventScrollWheel::IEventScrollWheel()
 
 IEventScrollWheel::IEventScrollWheel(Vector2i screenPos, int magnitude )
     : screenPos(screenPos), magnitude(magnitude) {}
+
+IEventTextInput::IEventTextInput()
+{}
+
+IEventTextInput::IEventTextInput( char *text )
+{
+    strncpy( text, this->text, 32 );
+}

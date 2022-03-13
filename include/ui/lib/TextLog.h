@@ -8,7 +8,7 @@ class Level;
 namespace UI
 {
 
-class BetterTextLog;
+class EventLog;
 
 struct BTLLineData
 {
@@ -24,17 +24,17 @@ struct BTLLineData
 class BTLScrollArea : public Element
 {
 public:
-    BTLScrollArea(Manager* manager, Element* parent, Level* level);
+    BTLScrollArea(Manager* manager, Element* parent);
     ~BTLScrollArea() override = default;
     
     void addLine( std::string const& data, Colour colour = Colour::White );
     void setScrollPosition(float position);
-    
+
 private:
     static const int LineSpacing = 3;
-
+    
     void layoutLines();
-
+    
     Level* m_level;
     float m_scrollPosition;
     std::list<std::shared_ptr<Label>> m_lines;
@@ -54,11 +54,11 @@ protected:
 class BTLScrollBar : public Element
 {
 public:
-    BTLScrollBar(Manager* manager, Element* parent, Level* level);
+    BTLScrollBar(Manager* manager, Element* parent);
     ~BTLScrollBar() override = default;
     
     void setScrollPosition( float scrollPos );
-    
+
 protected:
     void onSizeSelf() override;
     void onMoveSelf() override;
@@ -79,22 +79,24 @@ private:
 };
 
 
-class BetterTextLog : public Element
+class TextLog : public Element
 {
 public:
-    BetterTextLog(Manager* manager, Element* parent, Level* level);
-    ~BetterTextLog() override = default;
-
+    TextLog( Manager* manager, Element* parent);
+    ~TextLog() override = default;
+    
     void addLine( std::string const& data, Colour colour = Colour::White );
     void setScrollPosition( float pos );
     void moveScrollPosition( float dy );
-    
+
+protected:
+    void onSizeSelf() override;
+
 private:
-    Level* m_level;
     float m_scrollPosition;
     std::shared_ptr<BTLScrollArea> m_scrollArea;
     std::shared_ptr<BTLScrollBar> m_scrollbar;
-
+    
 };
 
 }

@@ -13,7 +13,7 @@ enum class IEventType
     MouseUp,
     MouseMove,
     ScrollWheel,
-
+    TextInput,
     WindowResize
 };
 
@@ -23,6 +23,14 @@ struct IEventKeyPress
     explicit IEventKeyPress(SDL_Keycode key);
 
     SDL_Keycode keyCode;
+};
+
+struct IEventTextInput
+{
+    IEventTextInput();
+    explicit IEventTextInput( char text[32] );
+    
+    char text[32];
 };
 
 struct IEventMouseDown
@@ -83,6 +91,7 @@ struct IEvent
         IEventMouseUp mouseUp;
         IEventMouseMove mouseMove;
         IEventScrollWheel scrollWheel;
+        IEventTextInput textInput;
 
         IEventWindowResize windowResize;
     };

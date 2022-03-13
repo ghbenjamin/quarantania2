@@ -1,14 +1,15 @@
 #include <ui/lib/Manager.h>
 
-#include <graphics/RenderInterface.h>
-#include <graphics/Window.h>
-#include <resource/ResourceManager.h>
-
 #include <utility>
-#include <utils/GlobalConfig.h>
-#include <ui/lib/TransientMessage.h>
-#include <graphics/Primatives.h>
+
 #include <ui/lib/Generator.h>
+#include <ui/lib/TransientMessage.h>
+#include <ui/shared/ConsoleDialog.h>
+#include <graphics/RenderInterface.h>
+#include <graphics/Primatives.h>
+#include <resource/ResourceManager.h>
+#include <utils/GlobalConfig.h>
+
 
 using namespace UI;
 
@@ -39,6 +40,9 @@ bool Manager::input(IEvent &evt)
             break;
         case IEventType::ScrollWheel:
             out = handleScrollwheel(evt.scrollWheel);
+            break;
+        case IEventType::TextInput:
+            out = handleTextInput(evt.textInput);
             break;
         case IEventType::WindowResize:
             break;
@@ -439,19 +443,30 @@ bool Manager::handleMouseMove(IEventMouseMove evt)
 
 bool Manager::handleKeyPress(IEventKeyPress evt)
 {
-    // TODO: Consider other dialogs?
+    // TODO: Real hotkey map
+    if ( evt.keyCode == SDLK_BACKQUOTE )
+    {
+        toggleConsoleWindow();
+        return true;
+    }
+    
+    UEvent uevent;
+    uevent.type = UEventType::KeyPress;
+    uevent.keyEvent.keyCode = evt.keyCode;
+    
+    auto focused = m_focusedElement.lock();
+    if ( focused )
+    {
+        focused->acceptEvent( uevent );
+        return true;
+    }
     
     if ( m_hasModalDialog )
     {
         auto modal = m_modalDialog.lock();
         if ( modal->hasHotkey(evt.keyCode) )
         {
-            UEvent uevent;
-            uevent.type = UEventType::KeyPress;
-            uevent.keyEvent.keyCode = evt.keyCode;
-        
             modal->acceptEvent(uevent);
-            
             return true;
         }
     }
@@ -483,6 +498,21 @@ bool Manager::handleScrollwheel(IEventScrollWheel evt)
         return true;
     }
 
+
+    return false;
+}
+
+bool Manager::handleTextInput( IEventTextInput evt )
+{
+    auto focused = m_focusedElement.lock();
+    if ( focused )
+    {
+        UEvent uevent;
+        uevent.type = UEventType::TextInput;
+        memset( uevent.textInputEvent.text, 0, 32 );
+        strncpy_s( uevent.textInputEvent.text, evt.text, 31 );
+        focused->acceptEvent( uevent );
+    }
 
     return false;
 }
@@ -602,6 +632,33 @@ ElementPtr Manager::generateFromXML( std::string const &xmlname, Element* existi
 {
     auto& doc = ResourceManager::get().getXMLDoc( xmlname );
     return m_generator.fromXML( doc.data(), existing );
+}
+
+void Manager::toggleConsoleWindow()
+{
+    auto existing = m_consoleDialog.lock();
+    if ( existing )
+    {
+        deleteElement( existing.get() );
+        m_consoleDialog.reset();
+    }
+    else
+    {
+        auto console = createElement<ConsoleDialog>( nullptr );
+        m_consoleDialog = console;
+        
+        auto wndSize = ResourceManager::get().getWindow()->getSize();
+        float frac = 0.6f;
+        int height = 100;
+        
+        console->setPreferredContentSize({ (int)(wndSize.x() * frac), 1 });
+        console->setLocalPosition({ (int)((wndSize.x() * ( 1.0 -  frac ) / 2.0f)), wndSize.y() - 20 - height });
+    }
+}
+
+void Manager::setFocusedElement( ElementPtr elem )
+{
+    m_focusedElement = elem;
 }
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, Vector2i offset)

@@ -27,7 +27,8 @@ Window::Window(GlobalConfig::GlobalConfigInfo const& info)
         // If we've been forced into windowed mode by our config
         m_size = info.screenSize;
     }
-
+    
+    SDL_StartTextInput();
 
     m_window = SDL_CreateWindow(
         info.windowTitle.c_str(),

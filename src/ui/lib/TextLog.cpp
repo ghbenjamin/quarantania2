@@ -1,4 +1,4 @@
-#include <ui/level/BetterTextLog.h>
+#include <ui/lib/TextLog.h>
 #include <ui/lib/Manager.h>
 #include <resource/ResourceManager.h>
 
@@ -10,14 +10,14 @@ using namespace UI;
 
 
 BTLLineData::BTLLineData( std::string const &data, Colour colour )
-    : data(data), count(1), colour(colour) {}
-    
+        : data(data), count(1), colour(colour) {}
+
 
 // Scroll area
 // ------------------------------------
 
-BTLScrollArea::BTLScrollArea( Manager *manager, Element *parent, Level* level )
-     : Element(manager, parent), m_scrollPosition(1.0f), m_level(level)
+BTLScrollArea::BTLScrollArea( Manager *manager, Element *parent )
+        : Element(manager, parent), m_scrollPosition(1.0f)
 {
     setLayout<TriggeredLayout>([this](){ layoutLines(); });
     setBoundsScissoring(true);
@@ -43,7 +43,7 @@ void BTLScrollArea::layoutLines()
     
     maxY += (m_lines.size() - 1) * LineSpacing;
     
-
+    
     int currY = innerBounds().h();
     
     for (auto it = m_lines.rbegin(); it != m_lines.rend(); it++)
@@ -79,8 +79,8 @@ void BTLScrollBarLine::onSizeSelf()
 // ------------------------------------
 
 
-BTLScrollBar::BTLScrollBar( Manager *manager, Element *parent, Level* level )
-    : Element(manager, parent), m_scrollPosition(1.0f), m_level(level)
+BTLScrollBar::BTLScrollBar( Manager *manager, Element *parent )
+        : Element(manager, parent), m_scrollPosition(1.0f)
 {
     m_scrollbarLine = manager->createElement<BTLScrollBarLine>(this, "game_ui/scrollbar-line");
     m_scrollbarTop = manager->createElement<Icon>(this, "game_ui/scrollbar-top");
@@ -92,7 +92,7 @@ BTLScrollBar::BTLScrollBar( Manager *manager, Element *parent, Level* level )
         item->addEventCallback( UEventType::MouseIn, [item](UEvent& evt) {
             item->getSprite().setColourMod( Colour::Grey );
         });
-    
+        
         item->addEventCallback( UEventType::MouseOut, [item](UEvent& evt) {
             item->getSprite().resetColourMod();
         });
@@ -104,7 +104,7 @@ BTLScrollBar::BTLScrollBar( Manager *manager, Element *parent, Level* level )
     
     setPreferredContentWidth(m_scrollbarTop->outerBounds().w());
     setLayout<FreeLayout>();
-
+    
     layoutElements();
 }
 
@@ -138,7 +138,7 @@ void BTLScrollBar::placeScrollHandle()
 {
     auto size = preferredContentSize();
     auto scrollbarSize = m_scrollbarTop->outerBounds().right();
-
+    
     // Layout the scrollhandle
     int scrollableRegion = size.y() - (2 * scrollbarSize.y()) - m_scrollbarHandle->outerBounds().h();
     int handleOffset = (int)( m_scrollPosition * (float)scrollableRegion );
@@ -162,7 +162,7 @@ void BTLScrollBar::onClick( Vector2i pos )
     
     auto scrollParent = closestAncestorWithTag( "scroll-parent" );
     Assert(scrollParent != nullptr);
-    auto textLog = scrollParent->asType<BetterTextLog>();
+    auto textLog = scrollParent->asType<TextLog>();
     
     if ( localPos.y() >= topHandleHeight + scrollLineHeight )
     {
@@ -188,32 +188,22 @@ void BTLScrollBar::onClick( Vector2i pos )
 // Main text log
 // ------------------------------------
 
-BetterTextLog::BetterTextLog( Manager *manager, Element *parent, Level* level )
-    : Element(manager, parent), m_scrollPosition(1.0f), m_level(level)
+TextLog::TextLog( Manager *manager, Element *parent )
+        : Element(manager, parent), m_scrollPosition(1.0f)
 {
-    
-    setPreferredContentSize({350, 150});
     setLayout<HorizontalLayout>( 0, VAlignment::Fill );
-    
-    auto const& patch = ResourceManager::get().getNinePatch( "simple-border" ).getPatch();
-    setBackground( patch );
-    setBorderWidth( patch.getBorderWidth() );
-    
-    setId("main-text-log");
     addTag("scroll-parent");
     
-    m_scrollArea = manager->createElement<BTLScrollArea>(this, level);
-    m_scrollbar = manager->createElement<BTLScrollBar>(this, level);
-    
-    m_scrollArea->setPreferredContentWidth( preferredContentSize().x() - m_scrollbar->outerBounds().w() );
+    m_scrollArea = manager->createElement<BTLScrollArea>(this);
+    m_scrollbar = manager->createElement<BTLScrollBar>(this);
 }
 
-void BetterTextLog::addLine( std::string const &data, Colour colour )
+void TextLog::addLine( std::string const &data, Colour colour )
 {
     m_scrollArea->addLine(data, colour);
 }
 
-void BetterTextLog::setScrollPosition( float pos )
+void TextLog::setScrollPosition( float pos )
 {
     if (pos > 1.0f)
     {
@@ -229,7 +219,12 @@ void BetterTextLog::setScrollPosition( float pos )
     m_scrollArea->setScrollPosition(m_scrollPosition);
 }
 
-void BetterTextLog::moveScrollPosition( float dy )
+void TextLog::moveScrollPosition( float dy )
 {
     setScrollPosition( m_scrollPosition + dy );
+}
+
+void TextLog::onSizeSelf()
+{
+    m_scrollArea->setPreferredContentWidth( preferredContentSize().x() - m_scrollbar->outerBounds().w() );
 }

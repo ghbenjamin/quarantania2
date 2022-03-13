@@ -370,16 +370,15 @@ void Element::acceptEvent(UEvent &evt)
         if ( hasHotkey(evt.keyEvent.keyCode) )
         {
             m_hotkeys[evt.keyEvent.keyCode]();
+            return;
         }
     }
-    else
-    {
-        auto range = m_callbacks.equal_range(evt.type);
     
-        for ( auto it = range.first; it != range.second; it++ )
-        {
-            it->second(evt);
-        }
+    auto range = m_callbacks.equal_range(evt.type);
+
+    for ( auto it = range.first; it != range.second; it++ )
+    {
+        it->second(evt);
     }
 }
 

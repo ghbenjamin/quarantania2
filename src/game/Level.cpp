@@ -27,8 +27,21 @@ Level::Level(Vector2i size, RandomState* randomState)
 void Level::setReady()
 {
     m_tileRenderObj = generateTileRenderData();
+    loadScripts();
     m_gevents.broadcast<GameEvents::LevelReady>();
     centerCameraOnParty();
+}
+
+void Level::loadScripts()
+{
+    m_lua.open_libraries(sol::lib::base);
+    
+    auto levelType = m_lua.new_usertype<Level>("Level");
+    levelType["centerCamera"] = &Level::centerCameraOnParty;
+    
+    m_lua["level"] = this;
+    
+    m_lua.do_file( "../scripts/level/Level.lua" );
 }
 
 bool Level::input(IEvent &evt)
@@ -340,3 +353,4 @@ int Level::enemiesRemainingCount()
 
     return count;
 }
+

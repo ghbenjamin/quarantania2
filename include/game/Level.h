@@ -4,6 +4,8 @@
 #include <set>
 #include <vector>
 
+#include <sol/sol.hpp>
+
 #include <engine/Tiles.h>
 #include <engine/GridFeature.h>
 #include <engine/Camera.h>
@@ -90,10 +92,12 @@ private:
     void layoutWindows();                   // Re-layout our dependent UI windows if one of them moves
     RenderObject generateTileRenderData();  // Construct the render object for our tile data
     void centerCameraOnParty();             // Centre the camera on the centroid of the positions of all party members
+    void loadScripts();
 
     // Misc
     RandomState* m_randomState;
     LevelExitStatus m_exitStatus;
+    sol::state m_lua;
 
     // Map
     Tileset m_renderTileMap;

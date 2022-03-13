@@ -29,6 +29,8 @@ enum class UEventType
     KeyUp,
     KeyPress,
 
+    TextInput,
+
     ScrollWheel,
 };
 
@@ -57,13 +59,17 @@ struct UKeyEvent
     SDL_Keycode keyCode;
 };
 
+struct UTextInputEvent
+{
+    char text[32];
+};
+
 struct UDragEvent
 {
     Vector2i startPos;
     Vector2i currPos;
     Element* originalTarget;
 };
-
 
 struct UEvent
 {
@@ -82,6 +88,7 @@ struct UEvent
         UKeyEvent keyEvent;
         UDragEvent dragEvent;
         UMouseScrollEvent mouseScrollEvent;
+        UTextInputEvent textInputEvent;
     };
 };
 

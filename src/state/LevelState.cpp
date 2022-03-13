@@ -9,7 +9,7 @@
 #include <ui/level/CreatureEquipView.h>
 #include <ui/level/ContainerView.h>
 #include <ui/level/EntityInformationView.h>
-#include <ui/level/BetterTextLog.h>
+#include <ui/level/EventLog.h>
 #include <ui/level/Composites.h>
 #include <state/OverworldState.h>
 #include <graphics/RenderInterface.h>
@@ -108,7 +108,7 @@ void LevelState::setupUI()
     m_ui->alignElementToWindow( bottomMenubar, UI::Alignment::BottomCentre, {0, -20} );
     
     // Widget containing the global text log
-    auto textLog = m_ui->createElement<UI::BetterTextLog>(nullptr, m_level.get());
+    auto textLog = m_ui->createElement<UI::EventLog>(nullptr);
     m_ui->alignElementToWindow( textLog, UI::Alignment::BottomRight, {-20, -20} );
     
     
@@ -231,7 +231,7 @@ void LSUISystem::operator()(GameEvents::CombatMeleeAttack &evt)
 
 void LSUISystem::pushLogLine(const std::string &line, const Colour &colour)
 {
-    auto textLog = m_parent->ui()->withId<UI::BetterTextLog>("main-text-log");
+    auto textLog = m_parent->ui()->withId<UI::EventLog>("main-text-log");
     textLog->addLine(line, colour);
 }
 
