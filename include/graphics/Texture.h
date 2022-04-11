@@ -36,6 +36,9 @@ public:
 
     GLuint handle() const;
     Vector2i size() const;
+    
+    void bind();
+    void unbind();
 
     void dumpToImage( std::string const& path );
     

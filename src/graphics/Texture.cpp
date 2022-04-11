@@ -25,7 +25,8 @@ Texture::Texture( std::string const &path )
     m_size = {width, height};
     
     glGenTextures( 1, &m_handle );
-    glBindTexture( GL_TEXTURE_2D, m_handle );
+    
+    bind();
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
@@ -33,8 +34,8 @@ Texture::Texture( std::string const &path )
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_size.x(), m_size.y(), 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-    glBindTexture( GL_TEXTURE_2D, 0 );
     
+    unbind();
     stbi_image_free(data);
 }
 
@@ -45,7 +46,8 @@ Texture::Texture( Vector2i size )
 :   m_size(size)
 {
     glGenTextures( 1, &m_handle );
-    glBindTexture( GL_TEXTURE_2D, m_handle );
+    
+    bind();
     
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     
@@ -55,6 +57,8 @@ Texture::Texture( Vector2i size )
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_size.x(), m_size.y(), 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    
+    unbind();
 }
 
 
@@ -92,6 +96,16 @@ void Texture::dumpToImage( std::string const& path )
 
     stbi_write_bmp( path.c_str(), m_size.x(), m_size.y(), 4, pixels );
     delete[] pixels;
+}
+
+void Texture::bind()
+{
+    glBindTexture(GL_TEXTURE_2D, m_handle);
+}
+
+void Texture::unbind()
+{
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 
