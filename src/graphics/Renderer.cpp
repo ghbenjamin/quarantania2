@@ -37,9 +37,6 @@ Renderer::Renderer( Vector2f initWndSize )
     glEnable(GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // Uncomment me to turn on wireframe mode
-//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
     m_identity = glm::mat4(1.0f);
     m_cameraTransform = glm::mat4(1.0f);
 

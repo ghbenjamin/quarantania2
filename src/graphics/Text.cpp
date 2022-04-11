@@ -72,6 +72,8 @@ FtFontFace::FtFontFace( FT_Face const& face )
     generateFontData( 14 );
     generateFontData( 12 );
     generateFontData( 10 );
+
+    m_texture->dumpToImage( "text.bmp" );
 }
 
 FtFontFace::~FtFontFace()

@@ -2,6 +2,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb_image_write.h>
+
 #include <graphics/Texture.h>
 #include <utils/Assert.h>
 #include <utils/Logging.h>
@@ -73,6 +76,23 @@ Vector2i Texture::size() const
     return m_size;
 }
 
+void Texture::dumpToImage( std::string const& path )
+{
+    GLuint fbo;
+    glGenFramebuffers(1, &fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_handle, 0);
+
+    int data_size = m_size.x() * m_size.y() * 4;
+    GLubyte* pixels = new GLubyte[data_size];
+    glReadPixels(0, 0, m_size.x(), m_size.y(), GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glDeleteFramebuffers(1, &fbo);
+
+    stbi_write_bmp( path.c_str(), m_size.x(), m_size.y(), 4, pixels );
+    delete[] pixels;
+}
 
 
 Surface::Surface()
