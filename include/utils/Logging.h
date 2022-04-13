@@ -17,30 +17,31 @@ public:
     
     
     template <typename... Args>
-    void info(Args... args)
+    void info(Args&&... args)
     {
-        m_logger->info( std::forward<Args>(args)... );
+//        std::string buf = fmt::format( std::forward<Args>(args)... );
+//        m_logger->info( buf );
     }
     
     template <typename... Args>
-    void error(Args... args)
+    void error(Args&&... args)
     {
-        std::string buf = fmt::format( std::forward<Args>(args)... );
-        m_logger->error( buf );
+//        std::string buf = fmt::format( std::forward<Args>(args)... );
+//        m_logger->error( buf );
     }
     
     template <typename... Args>
-    void debug(Args... args)
+    void debug(Args&&... args)
     {
-        std::string buf = fmt::format( std::forward<Args>(args)... );
-        m_logger->debug( buf );
+//        std::string buf = fmt::format( std::forward<Args>(args)... );
+//        m_logger->debug( buf );
     }
     
     template <typename... Args>
-    void warn(Args... args)
+    void warn(Args&&... args)
     {
-        std::string buf = fmt::format( std::forward<Args>(args)... );
-        m_logger->warn( buf );
+//        std::string buf = fmt::format( std::forward<Args>(args)... );
+//        m_logger->warn( buf );
     }
 
 private:

@@ -636,6 +636,12 @@ ElementPtr Manager::generateFromXML( std::string const &xmlname, Element* existi
     return m_generator.fromXML( doc.data(), existing );
 }
 
+ElementPtr Manager::generateFromLua( std::string const &name, Element *existing )
+{
+    std::shared_ptr<Element> foo = m_lua.script( "" );
+    return ElementPtr();
+}
+
 void Manager::toggleConsoleWindow()
 {
     auto existing = m_consoleDialog.lock();
@@ -674,7 +680,16 @@ void Manager::loadScripts()
     m_lua.new_usertype<Element>( "Element",
         "globalPosition", &Element::globalPosition
     );
+    
+    m_lua.script( ResourceManager::get().getLuaScript( "ui/Manager" ).data() );
+    
+    for ( auto const& text : ResourceManager::get().getLuaScriptsInDir( "ui/elements" ) )
+    {
+        m_lua.script( text->data() );
+    }
 }
+
+
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, Vector2i offset)
 : element(std::move(element)), alignment(alignment), offset(offset) {}

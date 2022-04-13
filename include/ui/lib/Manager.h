@@ -193,6 +193,7 @@ public:
     }
 
     ElementPtr generateFromXML( std::string const& xmlname, Element* existing = nullptr );
+    ElementPtr generateFromLua( std::string const& name, Element* existing = nullptr );
     
     void toggleConsoleWindow();
     

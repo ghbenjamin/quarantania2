@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <filesystem>
+#include <algorithm>
 
 #include <resource/ResourceManager.h>
 #include <utils/Logging.h>
@@ -27,6 +28,8 @@ void ResourceManager::loadAll()
     auto ninepatchPath = resourceRoot / "ninepatch";
     auto shaderPath = resourceRoot / "shaders";
     auto uixmlPath = resourceRoot / "ui" / "defines";
+    
+    auto luaPath = std::filesystem::path( "../scripts/" );
 
     // Load all spritesheets
     for ( auto const& file : std::filesystem::directory_iterator(spritesheetPath) )
@@ -106,6 +109,21 @@ void ResourceManager::loadAll()
             addXMLDoc( fpath.stem().string(), fpath.string() );
         }
     }
+    
+    // Load all lua scripts:
+    for ( auto const& file : std::filesystem::recursive_directory_iterator(luaPath) )
+    {
+        if ( file.is_regular_file() )
+        {
+            auto const& fpath = file.path();
+            std::string relPath = std::filesystem::relative(fpath, luaPath).parent_path().string();
+            std::replace( relPath.begin(), relPath.end(), '\\', '/' );
+    
+            std::string fullName = relPath + "/" + fpath.stem().string();
+    
+            addLuaScript( fullName, fpath.string() );
+        }
+    }
 
     // Load all shader programs
     // TBD maybe load these in externally
@@ -147,6 +165,11 @@ void ResourceManager::loadAll()
     }
     
     for (auto const &[k, v] : m_xml )
+    {
+        v->load();
+    }
+    
+    for (auto const &[k, v] : m_lua )
     {
         v->load();
     }
@@ -278,7 +301,7 @@ SpritesheetResource const& ResourceManager::getSpritesheet( std::string const &s
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
-        Logger::get().error( "Unknown spritesheet program [{}]\n", sheetName );
+        Logger::get().error( "Unknown spritesheet [{}]\n", sheetName );
         std::terminate();
     }
 }
@@ -292,13 +315,39 @@ TextResource &ResourceManager::getXMLDoc( std::string const &name )
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
-        Logger::get().error( "Unknown xml doc program [{}]\n", name );
+        Logger::get().error( "Unknown xml doc [{}]\n", name );
         std::terminate();
     }
 }
 
+TextResource const &ResourceManager::getLuaScript( std::string const &name )
+{
+    try
+    {
+        return *m_lua.at(name);
+    }
+    catch ( [[maybe_unused]] std::exception const& ex )
+    {
+        Logger::get().error( "Unknown lua script [{}]\n", name );
+        std::terminate();
+    }
+}
 
-
+std::vector<TextResource *> ResourceManager::getLuaScriptsInDir( std::string const& dirName )
+{
+    std::vector<TextResource *> out;
+    
+    for ( auto const &[k, v] : m_lua )
+    {
+        if ( k.starts_with( dirName ) )
+        {
+            auto t = v;
+            out.push_back( v.get() );
+        }
+    }
+    
+    return out;
+}
 
 
 std::shared_ptr<FtFontFace> ResourceManager::getDefaultFont()
@@ -341,12 +390,20 @@ void ResourceManager::addXMLDoc( std::string const &name, std::string const &pat
     m_xml.emplace( name, std::make_shared<TextResource>(name, path));
 }
 
+void ResourceManager::addLuaScript( std::string const &name, std::string const &path )
+{
+    m_lua.emplace( name, std::make_shared<TextResource>(name, path) );
+}
+
+
 
 const std::string ResourceManager::getDefaultFontName()
 {
 //    return "robotoslab-regular";
     return "inconsolata-regular";
 }
+
+
 
 
 
