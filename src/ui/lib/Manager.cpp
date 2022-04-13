@@ -14,10 +14,12 @@
 using namespace UI;
 
 Manager::Manager()
-    : m_isMidDrag(false), m_hasModalDialog(false), m_generator(this), m_lua(this)
+    : m_isMidDrag(false), m_hasModalDialog(false), m_generator(this)
 {
     auto windowSize = ResourceManager::get().getWindow()->getSize();
     m_modalSprite = createRectangle( windowSize, Colour::Black.withAlpha(150) );
+
+    loadScripts();
 }
 
 bool Manager::input(IEvent &evt)
@@ -659,6 +661,19 @@ void Manager::toggleConsoleWindow()
 void Manager::setFocusedElement( ElementPtr elem )
 {
     m_focusedElement = elem;
+}
+
+void Manager::loadScripts()
+{
+    m_lua.open_libraries(sol::lib::base);
+
+    auto managerT = m_lua.new_usertype<Manager>( "Manager",
+         "deleteElement", &Manager::deleteElement
+         );
+
+    m_lua.new_usertype<Element>( "Element",
+        "globalPosition", &Element::globalPosition
+    );
 }
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, Vector2i offset)

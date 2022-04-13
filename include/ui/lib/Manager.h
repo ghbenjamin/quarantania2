@@ -5,13 +5,13 @@
 #include <ui/lib/Element.h>
 #include <ui/lib/Layout.h>
 #include <ui/lib/UEvent.h>
-#include <ui/lib/LuaInterface.h>
 #include <ui/lib/ContextMenu.h>
 #include <ui/lib/Generator.h>
 #include <engine/InputInterface.h>
 #include <ui/lib/Tooltips.h>
 #include <ui/level/TileHighlights.h>
 #include <utils/Assert.h>
+#include <sol/sol.hpp>
 
 struct IEvent;
 class Level;
@@ -199,6 +199,9 @@ public:
     void setFocusedElement( ElementPtr elem );
 
 private:
+
+    void loadScripts();
+
     bool handleMouseMove( IEventMouseMove evt );
     bool handleMouseDown( IEventMouseDown evt );
     bool handleMouseUp( IEventMouseUp evt );
@@ -206,7 +209,7 @@ private:
     bool handleScrollwheel( IEventScrollWheel evt );
     bool handleTextInput( IEventTextInput evt );
 
-    LuaInterface m_lua;
+    sol::state m_lua;
     Generator m_generator;
 
     // Our root UI elements.
