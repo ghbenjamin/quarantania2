@@ -209,6 +209,7 @@ public:
 private:
 
     void loadScripts();
+    void registerElement( std::string const& name, std::function<std::shared_ptr<Element>()> generator );
 
     bool handleMouseMove( IEventMouseMove evt );
     bool handleMouseDown( IEventMouseDown evt );
@@ -217,8 +218,10 @@ private:
     bool handleScrollwheel( IEventScrollWheel evt );
     bool handleTextInput( IEventTextInput evt );
 
+    // Element generation
     sol::state m_lua;
     Generator m_generator;
+    std::unordered_map<std::string, std::function<std::shared_ptr<Element>()>> m_elementGenerators;
 
     // Our root UI elements.
     std::vector<ElementPtr> m_roots;

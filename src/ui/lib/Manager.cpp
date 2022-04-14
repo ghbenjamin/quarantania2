@@ -674,10 +674,15 @@ void Manager::loadScripts()
     m_lua.open_libraries(sol::lib::base);
     m_lua["print"] = []( std::string const& arg ){ std::cout << arg << "\n"; };
 
-    auto managerT = m_lua.new_usertype<Manager>( "Manager",
+    auto managerT = m_lua.new_usertype<Manager>(
+         "Manager",
+         
          "deleteElement", &Manager::deleteElement,
          "withId", &Manager::withId<Element>,
-         "createElement", &Manager::createElementBlank
+         "registerElement", &Manager::registerElement,
+         "createElement", &Manager::createElementBlank,
+         
+         "elementGenerators", &Manager::m_elementGenerators
          );
 
     m_lua.new_usertype<Element>( "Element", sol::constructors<Element(Manager*, Element*)>() );
@@ -685,18 +690,19 @@ void Manager::loadScripts()
     m_lua.unsafe_script( ResourceManager::get().getLuaScript( "ui/Manager" ).data() );
 
     m_lua["ui_manager"] = this;
-    m_lua["ui_manager"]["init"]();
-    m_lua["ui_manager"]["register"]( "foo", "bar" );
-    m_lua["ui_manager"]["print_reg"].operator()();
-
-//    for ( auto const& text : ResourceManager::get().getLuaScriptsInDir( "ui/elements" ) )
-//    {
-//        m_lua.unsafe_script( text->data() );
-//    }
-//
-//    m_lua.safe_script( "print(ui_manager[\"registered_elements\"])" );
+    
+    for ( auto const& text : ResourceManager::get().getLuaScriptsInDir( "ui/elements" ) )
+    {
+        m_lua.unsafe_script( text->data() );
+    }
+    
+    m_lua.unsafe_script( "local foo = ui_manager.regs['LevelMainMenu']\n foo()" );
 }
 
+void Manager::registerElement( std::string const &name, std::function<std::shared_ptr<Element>()> generator )
+{
+    m_elementGenerators.emplace( name, generator );
+}
 
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, Vector2i offset)
