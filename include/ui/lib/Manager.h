@@ -11,6 +11,8 @@
 #include <ui/lib/Tooltips.h>
 #include <ui/level/TileHighlights.h>
 #include <utils/Assert.h>
+
+#define SOL_ALL_SAFETIES_ON 1
 #include <sol/sol.hpp>
 
 struct IEvent;
@@ -75,6 +77,11 @@ public:
     std::shared_ptr<Element> createElement( Element* parent, Args...args )
     {
         return createElement<Element>( parent, std::forward<Args>(args)... );
+    }
+
+    std::shared_ptr<Element> createElementBlank( Element* parent )
+    {
+        return createElement<Element>( parent );
     }
 
     void deleteElement( Element* element );

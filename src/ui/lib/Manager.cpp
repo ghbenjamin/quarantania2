@@ -672,21 +672,29 @@ void Manager::setFocusedElement( ElementPtr elem )
 void Manager::loadScripts()
 {
     m_lua.open_libraries(sol::lib::base);
+    m_lua["print"] = []( std::string const& arg ){ std::cout << arg << "\n"; };
 
     auto managerT = m_lua.new_usertype<Manager>( "Manager",
-         "deleteElement", &Manager::deleteElement
+         "deleteElement", &Manager::deleteElement,
+         "withId", &Manager::withId<Element>,
+         "createElement", &Manager::createElementBlank
          );
 
-    m_lua.new_usertype<Element>( "Element",
-        "globalPosition", &Element::globalPosition
-    );
-    
-    m_lua.script( ResourceManager::get().getLuaScript( "ui/Manager" ).data() );
-    
-    for ( auto const& text : ResourceManager::get().getLuaScriptsInDir( "ui/elements" ) )
-    {
-        m_lua.script( text->data() );
-    }
+    m_lua.new_usertype<Element>( "Element", sol::constructors<Element(Manager*, Element*)>() );
+
+    m_lua.unsafe_script( ResourceManager::get().getLuaScript( "ui/Manager" ).data() );
+
+    m_lua["ui_manager"] = this;
+    m_lua["ui_manager"]["init"]();
+    m_lua["ui_manager"]["register"]( "foo", "bar" );
+    m_lua["ui_manager"]["print_reg"].operator()();
+
+//    for ( auto const& text : ResourceManager::get().getLuaScriptsInDir( "ui/elements" ) )
+//    {
+//        m_lua.unsafe_script( text->data() );
+//    }
+//
+//    m_lua.safe_script( "print(ui_manager[\"registered_elements\"])" );
 }
 
 
