@@ -58,7 +58,7 @@ public:
     void doLayout();
 
     template <typename WT, typename ...Args>
-    std::shared_ptr<WT> createElement( Element* parent, Args...args )
+    std::shared_ptr<WT> createElement( Element* parent, Args&&... args )
     {
         auto ptr = std::make_shared<WT>( this, parent, std::forward<Args>(args)... );
         if ( parent == nullptr )
@@ -74,7 +74,7 @@ public:
     }
 
     template <typename ...Args>
-    std::shared_ptr<Element> createElement( Element* parent, Args...args )
+    std::shared_ptr<Element> createElement( Element* parent, Args&&... args )
     {
         return createElement<Element>( parent, std::forward<Args>(args)... );
     }
@@ -146,7 +146,7 @@ public:
     void displayTransientMessage( std::string message, float displayTime );
 
     template <typename T, typename ... Args>
-    void toggleExclusiveDialog( std::string const& name, Args... args )
+    void toggleExclusiveDialog( std::string const& name, Args&&... args )
     {
         bool shouldCreate;
         bool shouldDelete;
@@ -209,7 +209,7 @@ public:
 private:
 
     void loadScripts();
-    void registerElement( std::string const& name, std::function<std::shared_ptr<Element>()> generator );
+    void registerElement( std::string const& name, std::function<void(std::shared_ptr<Element>)> generator );
 
     bool handleMouseMove( IEventMouseMove evt );
     bool handleMouseDown( IEventMouseDown evt );
@@ -221,7 +221,7 @@ private:
     // Element generation
     sol::state m_lua;
     Generator m_generator;
-    std::unordered_map<std::string, std::function<std::shared_ptr<Element>()>> m_elementGenerators;
+    std::unordered_map<std::string, std::function<void(std::shared_ptr<Element>)>> m_elementGenerators;
 
     // Our root UI elements.
     std::vector<ElementPtr> m_roots;

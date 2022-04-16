@@ -1,5 +1,6 @@
 #include <memory>
 
+#include <state/GameState.h>
 #include <engine/Engine.h>
 #include <graphics/Window.h>
 #include <graphics/RenderInterface.h>
@@ -8,21 +9,18 @@
 #include <utils/GlobalConfig.h>
 #include <state/InitState.h>
 #include <engine/InputInterface.h>
+#include <utils/Memory.h>
+#include <engine/LuaState.h>
 
 void Engine::run()
 {
-//#define FPS_COUNTER
-#ifdef FPS_COUNTER
-    
-    double fpsTotal = 0;
-    double fpsTicks = 0;
-#endif
+    LuaState luaState;
 
-    GlobalConfig::GlobalConfigInfo globalConfig = GlobalConfig::load( "../config.json" );
-    const uint32_t msPerFrame = 1000 / globalConfig.maxFPS;
-    
+    GlobalConfig::GlobalConfigInfo globalConfig = GlobalConfig::load( "../config.lua", luaState );
+
+    // Load all of our resources - TODO defer loading if necessary
     auto window = std::make_shared<Window>( globalConfig );
-    
+
     ResourceManager::get().loadAll();
     ResourceManager::get().setWindow( window );
 
@@ -32,8 +30,11 @@ void Engine::run()
     RenderInterface renderInterface ( &renderer );
     InputInterface inputInterface;
 
-    auto initState = std::make_unique<InitState>();
-    m_states.push_back( std::unique_ptr<GameState>( initState.release() ));
+    auto initState = utils::make_unique_with_type<GameState, InitState>( luaState );
+    m_states.push_back( std::move(initState) );
+
+
+    // Start the main game loop
 
     auto timer = Timer();
     uint32_t ticks = 0;
@@ -91,12 +92,9 @@ void Engine::run()
         }
         else
         {
-            auto nextState = std::move(
-                    m_states.back()
-                            ->getPushedState() );
+            auto nextState = std::move( m_states.back()->getPushedState() );
 
-            if (m_states.back()
-                        ->hasPoppedState() )
+            if (m_states.back()->hasPoppedState() )
             {
                 // Clear the current state if we've been asked to
                 m_states.pop_back();
@@ -116,26 +114,8 @@ void Engine::run()
             }
         }
 
-
         // Rely on vsync for now to manage the framerate rather than hacking about with sleeps
         ticks = timer.elapsed();
-
-#ifdef FPS_COUNTER
-        fpsTicks++;
-        fpsTotal += ticks;
-        
-        
-        if (fpsTotal > 2000)
-        {
-            double ticksPerFrame = fpsTotal / fpsTicks;
-            double framesPerSecond = 1000 / ticksPerFrame;
-            
-            fpsTicks = 0;
-            fpsTotal = 0;
-            
-            Logging::log( fmt::format( "FPS: {}", framesPerSecond) );
-        }
-#endif
     }
 
     // Cleanup

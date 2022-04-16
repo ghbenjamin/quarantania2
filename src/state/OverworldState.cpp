@@ -3,14 +3,15 @@
 #include <memory>
 
 #include <game/Overworld.h>
+#include <engine/LuaState.h>
 #include <ui/lib/Manager.h>
 #include <ui/lib/ScrollHolder.h>
 #include <ui/shared/OverworldView.h>
 #include <state/LevelState.h>
 #include <game/RunState.h>
 
-OverworldState::OverworldState(std::shared_ptr<RunState> runState)
-    : m_runState(runState)
+OverworldState::OverworldState(LuaState& luaState, std::shared_ptr<RunState> runState)
+    : GameState(luaState), m_runState(runState)
 {
     m_overworld = runState->overworld;
     m_eventSub = std::make_unique<OverworldStateEventSub>( this );
@@ -45,7 +46,7 @@ void OverworldState::startLevel(int idx)
 {
     m_runState->overworld->data()->currentLocation = idx;
 
-    pushState<LevelState>(m_runState, "arena");
+    pushState<LevelState>(m_lua, m_runState, "arena");
     popState();
 }
 

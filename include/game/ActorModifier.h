@@ -111,7 +111,7 @@ public:
     std::vector<ActorStaticMod> const& getStaticMods() const;
     
     template <typename T, typename... Args>
-    void addDynamicMod( ActorDynamicModType type, Args... args )
+    void addDynamicMod( ActorDynamicModType type, Args&&... args )
     {
         m_dynamicMods.emplace_back(type, m_id,
                                    utils::make_shared_with_type<ActorStatDynamicImplBase, T>( std::forward<Args>(args)...) );

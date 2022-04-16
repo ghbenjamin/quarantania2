@@ -674,6 +674,13 @@ void Manager::loadScripts()
     m_lua.open_libraries(sol::lib::base);
     m_lua["print"] = []( std::string const& arg ){ std::cout << arg << "\n"; };
 
+    auto vector2iT = m_lua.new_usertype<Vector2i>(
+        "Vector2i",
+        sol::constructors<Vector2i(int, int)>(),
+        "x", sol::property( sol::resolve<int() const>(&Vector2i::x), sol::resolve<void(int)>(&Vector2i::x) ),
+        "y", sol::property( sol::resolve<int() const>(&Vector2i::y), sol::resolve<void(int)>(&Vector2i::y) )
+    );
+
     auto managerT = m_lua.new_usertype<Manager>(
          "Manager",
          
@@ -685,7 +692,10 @@ void Manager::loadScripts()
          "elementGenerators", &Manager::m_elementGenerators
          );
 
-    m_lua.new_usertype<Element>( "Element", sol::constructors<Element(Manager*, Element*)>() );
+    m_lua.new_usertype<Element>(
+        "Element",
+         sol::constructors<Element(Manager*, Element*)>()
+     );
 
     m_lua.unsafe_script( ResourceManager::get().getLuaScript( "ui/Manager" ).data() );
 
@@ -695,11 +705,11 @@ void Manager::loadScripts()
     {
         m_lua.unsafe_script( text->data() );
     }
-    
-    m_lua.unsafe_script( "local foo = ui_manager.regs['LevelMainMenu']\n foo()" );
+
+    m_elementGenerators["LevelMainMenu"]( ElementPtr() );
 }
 
-void Manager::registerElement( std::string const &name, std::function<std::shared_ptr<Element>()> generator )
+void Manager::registerElement( std::string const &name, std::function<void(std::shared_ptr<Element>)> generator )
 {
     m_elementGenerators.emplace( name, generator );
 }

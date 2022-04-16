@@ -2,11 +2,9 @@
 
 #include <iostream>
 #include <regex>
-#include <locale>
 
 #include <utils/Assert.h>
 #include <utils/Logging.h>
-#include <resource/ResourceManager.h>
 #include <utils/BBCode.h>
 
 
@@ -77,7 +75,6 @@ FtFontFace::FtFontFace( FT_Face const& face )
     generateFontData( 10 );
     
     m_texture->unbind();
-    m_texture->dumpToImage( "text.bmp" );
 }
 
 FtFontFace::~FtFontFace()

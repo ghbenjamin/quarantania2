@@ -12,7 +12,6 @@
 // Forward definitions
 class Overworld;
 
-
 class RunState
 {
 public:

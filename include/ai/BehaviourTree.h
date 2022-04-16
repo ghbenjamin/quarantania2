@@ -17,7 +17,7 @@ public:
     virtual std::shared_ptr<ReifiedGameAction> evaluate(Level* level, EntityRef actor) = 0;
     
     template <typename T, typename...Args>
-    void addChild( Args... args )
+    void addChild( Args&&... args )
     {
         static_assert(std::is_base_of_v<BTNode, T>);
         auto ptr = std::make_shared<T>( std::forward<Args>(args)... );

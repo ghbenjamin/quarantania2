@@ -16,5 +16,10 @@ void InitState::updateImpl(uint32_t ticks, InputInterface &iinter, RenderInterfa
     // OVERWORLD START
 //    pushState<OverworldState>( runState );
 
-    pushState<LevelState>(runState, "arena");
+    pushState<LevelState>(m_lua, runState, "arena");
+}
+
+InitState::InitState(LuaState &luaState) : GameState(luaState)
+{
+
 }

@@ -14,8 +14,8 @@
 #include <state/OverworldState.h>
 #include <graphics/RenderInterface.h>
 
-LevelState::LevelState( std::shared_ptr<RunState> const& runState, std::string levelName )
-    : m_runState(runState)
+LevelState::LevelState( LuaState& luaState, std::shared_ptr<RunState> const& runState, std::string levelName )
+    : GameState(luaState), m_runState(runState)
 {
     std::string levelPath = "../resource/maps/" + levelName + ".json";
 
@@ -77,7 +77,7 @@ void LevelState::updateImpl(uint32_t ticks, InputInterface& iinter, RenderInterf
         {
             case LevelExitStatus::Completed:
                 popState();
-                pushState<OverworldState>(m_runState);
+                pushState<OverworldState>(m_lua, m_runState);
                 break;
             case LevelExitStatus::MainMenu:
                 requestExit();

@@ -41,7 +41,7 @@ void Level::loadScripts()
     
     m_lua["level"] = this;
     
-    m_lua.do_file( "../scripts/level/Level.lua" );
+    m_lua.unsafe_script( ResourceManager::get().getLuaScript("level/Level").data() );
 }
 
 bool Level::input(IEvent &evt)

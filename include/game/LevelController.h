@@ -44,7 +44,7 @@ public:
     void pushActionController( EntityRef ref, GameAction const& action );
     
     template <typename T, typename... Args>
-    void pushController( Args... args)
+    void pushController( Args&&... args)
     {
         static_assert( std::is_base_of_v<LevelController, T> );
 
@@ -53,7 +53,7 @@ public:
     }
     
     template <typename T, typename... Args>
-    void replaceController( Args... args)
+    void replaceController( Args&&... args)
     {
         pushController<T>( std::forward<Args>(args)... );
         m_shouldPopController = true;

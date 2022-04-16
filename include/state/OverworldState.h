@@ -14,7 +14,7 @@ namespace UI { class Manager; }
 class OverworldState : public GameState
 {
 public:
-    OverworldState(std::shared_ptr<RunState>);
+    OverworldState(LuaState& luaState, std::shared_ptr<RunState>);
     ~OverworldState() override = default;
 
     Overworld* overworld();

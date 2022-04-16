@@ -8,7 +8,7 @@ class InitState : public GameState
 {
 
 public:
-    using GameState::GameState;
+    InitState( LuaState& luaState );
 
 protected:
     void updateImpl(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter) override;

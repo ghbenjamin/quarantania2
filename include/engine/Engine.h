@@ -1,6 +1,7 @@
-#include <state/GameState.h>
 #include <vector>
 #include <memory>
+
+#include <state/GameState.h>
 
 class Engine
 {

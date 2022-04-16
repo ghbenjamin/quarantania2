@@ -2,9 +2,10 @@
 #include <ui/lib/Manager.h>
 
 
-GameState::GameState()
+GameState::GameState( LuaState& luaState )
     : m_requestedPopState(false),
-      m_requestedExit(false)
+      m_requestedExit(false),
+      m_lua(luaState)
 {
     m_ui = std::make_shared<UI::Manager>();
 }

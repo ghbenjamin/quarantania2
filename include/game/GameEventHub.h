@@ -55,7 +55,7 @@ public:
     // Broadcast a game event to everyone who is subscribed to it. If more events are fired as a result of
     // this event, those events are queued and resolved in the order they were raised.
     template <typename EvtType, typename... Args>
-    void broadcast( Args... args )
+    void broadcast( Args&&... args )
     {
         static_assert( std::is_base_of_v<GEventBase, EvtType> );
 

@@ -18,7 +18,6 @@ public:
     EntityRef createPlayer(Vector2i pos, PlayerData const &data) const;
     EntityRef createEnemy(Vector2i pos, std::string const &name) const;
 
-    EntityRef createObject(Vector2i pos, std::string const &ptype) const;
     EntityRef createObject(Vector2i pos, std::string const& name, SpritesheetKey const& sprite,
             std::unordered_map<std::string, JSONValue> const& data) const;
 

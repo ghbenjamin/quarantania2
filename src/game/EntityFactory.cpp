@@ -99,46 +99,6 @@ EntityRef EntityFactory::createItem(Vector2i pos, std::shared_ptr<Item> item) co
     return eref;
 }
 
-EntityRef EntityFactory::createObject(Vector2i pos, std::string const &ptype) const
-{
-    auto eref = m_parent->ecs().createEntity();
-    auto objData = ResourceDatabase::get().objectFromName( ptype );
-    auto sprite = ResourceManager::get().getSprite( objData.sprites[0] );
-
-    m_parent->ecs().addComponent<PositionComponent>(eref, pos);
-    m_parent->ecs().addComponent<RenderComponent>(eref, sprite);
-
-    if ( objData.type == "door" )
-    {
-        m_parent->ecs().addComponent<ColliderComponent>(eref, true, true);
-        m_parent->ecs().addComponent<OpenableComponent>(eref);
-    }
-    else if ( objData.type == "level_entrance" )
-    {
-        m_parent->ecs().addComponent<ColliderComponent>(eref, true, true);
-    }
-    else if ( objData.type == "level_exit" )
-    {
-        m_parent->ecs().addComponent<ColliderComponent>(eref, true, true);
-
-//        auto actions = m_parent->ecs().addComponent<ActionComponent>(eref);
-//        actions->actions.push_back( std::make_shared<ExitLevelAction>(m_parent) );
-    }
-    else if ( objData.type == "container" )
-    {
-    }
-    else if ( objData.type == "decor" )
-    {
-    }
-    else
-    {
-        AssertAlways();
-    }
-
-    m_parent->ecs().entityReady(eref);
-    return eref;
-}
-
 EntityRef EntityFactory::createObject(Vector2i pos, std::string const& name, SpritesheetKey const& sprite,
         const std::unordered_map<std::string, JSONValue> &data) const
 {

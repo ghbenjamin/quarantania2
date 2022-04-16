@@ -59,7 +59,7 @@ public:
 
     // Layout
     template <typename LayoutType, typename... Args>
-    void setLayout( Args... args )
+    void setLayout( Args&&... args )
     {
         m_layout = std::make_unique<LayoutType>( this, std::forward<Args>(args)... );
     }
@@ -129,7 +129,7 @@ public:
     void setBorderWidth( int width );
 
     template <typename ... Args>
-    void setBackground( Args ... args )
+    void setBackground( Args&& ... args )
     {
         m_background = { std::forward<Args>(args)... };
         generateBackground();

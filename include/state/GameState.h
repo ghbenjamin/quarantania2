@@ -6,6 +6,7 @@
 class RenderInterface;
 class InputInterface;
 class GameState;
+class LuaState;
 struct IEvent;
 namespace UI { class Manager; }
 
@@ -13,7 +14,7 @@ class GameState
 {
 public:
 
-    GameState();
+    GameState( LuaState& luaState );
     virtual ~GameState() = default;
 
     bool input(IEvent& evt);
@@ -34,7 +35,7 @@ protected:
 
     // Request that a new state be pushed onto the stack
     template <typename T, typename... Args>
-    void pushState(Args... args)
+    void pushState(Args&&... args)
     {
         auto dptr = std::make_unique<T>(std::forward<Args>(args)...);
         m_nextState = std::unique_ptr<GameState>( dptr.release() );
@@ -48,8 +49,10 @@ protected:
     
     
     std::shared_ptr<UI::Manager> m_ui;
+    LuaState& m_lua;
 
 private:
+
     std::unique_ptr<GameState> m_nextState;
     bool m_requestedPopState;
     bool m_requestedExit;

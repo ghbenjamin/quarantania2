@@ -1,20 +1,23 @@
 #include <utils/GlobalConfig.h>
-#include <utils/Json.h>
+#include <sol/sol.hpp>
+#include <engine/LuaState.h>
 
 using namespace GlobalConfig;
 
-GlobalConfigInfo GlobalConfig::load(std::string const &path)
+GlobalConfigInfo GlobalConfig::load(std::string const &path, LuaState& lua)
 {
+    lua.runScriptFile( path );
+
     GlobalConfigInfo info;
-    auto doc = utils::json::loadFromPath(path );
+    auto const& luaConf = lua.state()["config"];
 
-    info.windowTitle = doc["windowTitle"];
-    info.maxFPS = doc["maxFPS"];
+    info.windowTitle = luaConf["windowTitle"];
+    info.maxFPS = luaConf["maxFPS"];
 
-    auto ssize = doc["screenSize"];
+    auto const& ssize = luaConf["screenSize"];
     info.screenSize = { ssize["w"], ssize["h"] };
 
-    info.sizeToScreen = doc["sizeToScreen"];
+    info.sizeToScreen = luaConf["sizeToScreen"];
 
     return info;
 }
