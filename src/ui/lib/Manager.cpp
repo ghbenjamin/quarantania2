@@ -671,29 +671,6 @@ void Manager::setFocusedElement( ElementPtr elem )
 
 void Manager::loadScripts()
 {
-//    auto vector2iT = m_lua.state().new_usertype<Vector2i>(
-//        "Vector2i",
-//        sol::constructors<Vector2i(int, int)>(),
-//        "x", sol::property( sol::resolve<int() const>(&Vector2i::x), sol::resolve<void(int)>(&Vector2i::x) ),
-//        "y", sol::property( sol::resolve<int() const>(&Vector2i::y), sol::resolve<void(int)>(&Vector2i::y) )
-//    );
-//
-//    auto managerT = m_lua.state().new_usertype<Manager>(
-//         "Manager",
-//
-//         "deleteElement", &Manager::deleteElement,
-//         "withId", &Manager::withId<Element>,
-//         "registerElement", &Manager::registerElement,
-//         "createElement", &Manager::createElementBlank,
-//
-//         "elementGenerators", &Manager::m_elementGenerators
-//         );
-//
-//    m_lua.state().new_usertype<Element>(
-//        "Element",
-//         sol::constructors<Element(Manager*, Element*)>()
-//     );
-
     m_lua.state().unsafe_script( ResourceManager::get().getLuaScript( "ui/Manager" ).data() );
 
     m_lua.state()["ui_manager"] = this;

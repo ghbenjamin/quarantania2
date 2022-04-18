@@ -13,7 +13,10 @@ public:
 
     sol::state& state();
 
+    void runLoadedScript( std::string const& key );
+
     void runScriptFile( std::string const& path );
+    void runScript( std::string const& script );
 
 private:
 
