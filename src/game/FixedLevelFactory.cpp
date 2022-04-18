@@ -5,13 +5,16 @@
 #include <resource/ResourceManager.h>
 #include <game/RunState.h>
 
-FixedLevelFactory::FixedLevelFactory(TiledMap const* map, std::shared_ptr<RunState> const& runState)
-    : LevelFactory(), m_map(map),  m_runState(runState) {}
+FixedLevelFactory::FixedLevelFactory(LuaState& lua, TiledMap const* map, std::shared_ptr<RunState> const& runState)
+    : LevelFactory(), m_lua(lua), m_map(map),  m_runState(runState) {}
 
 
 std::unique_ptr<Level> FixedLevelFactory::createLevel()
 {
-    m_level = std::make_unique<Level>( Vector2i{m_map->width, m_map->height}, &m_runState->randomState );
+    LevelInitData initData;
+    initData.size = Vector2i(m_map->width, m_map->height);
+
+    m_level = std::make_unique<Level>( initData, m_lua, &m_runState->randomState );
 
     constructTiles();
     constructObjects();
@@ -148,28 +151,8 @@ void FixedLevelFactory::constructSpawnPoints(TiledObjectLayer const& olayer)
 
             for ( auto const& [k, v] : object.props )
             {
-                if (k == "power")
-                {
-                    std::string power = std::get<std::string>(v);
-                
-                    if ( power == "small" )
-                    {
-                        spawn.power = RandomEnemyPower::SMALL;
-                    }
-                    else if (power == "medium")
-                    {
-                        spawn.power = RandomEnemyPower::MEDIUM;
-                    }
-                    else if (power == "large")
-                    {
-                        spawn.power = RandomEnemyPower::LARGE;
-                    }
-                    else
-                    {
-                        AssertAlwaysMsg( "Unknown enemy spawn power: '" + power + "'" );
-                    }
-                }
-                else if (k == "name")
+
+                if (k == "name")
                 {
                     spawn.name = std::get<std::string>(v);
                 }

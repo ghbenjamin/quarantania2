@@ -2,6 +2,7 @@
 
 #include <components/All.h>
 #include <engine/InputInterface.h>
+#include <engine/LuaState.h>
 #include <graphics/RenderInterface.h>
 #include <game/GameEventDefs.h>
 #include <game/ActionDefs.h>
@@ -10,10 +11,11 @@
 #include <utils/Math.h>
 
 
-Level::Level(Vector2i size, RandomState* randomState)
-: m_grid(size),
+Level::Level(LevelInitData& data, LuaState& lua, RandomState* randomState)
+: m_lua(lua),
+  m_grid(data.size),
   m_randomState(randomState),
-  m_camera( size * GlobalConfig::TileSizePx ),
+  m_camera( data.size * GlobalConfig::TileSizePx ),
   m_ecs(this),
   m_currentRound(0),
   m_isPlayerTurn(true),
@@ -24,24 +26,25 @@ Level::Level(Vector2i size, RandomState* randomState)
     layoutWindows();
 }
 
+void Level::setLuaType(LuaState &lua)
+{
+    auto levelType = lua.state().new_usertype<Level>("Level");
+    levelType["centerCamera"] = &Level::centerCameraOnParty;
+}
+
 void Level::setReady()
 {
     m_tileRenderObj = generateTileRenderData();
     loadScripts();
+
     m_gevents.broadcast<GameEvents::LevelReady>();
     centerCameraOnParty();
 }
 
 void Level::loadScripts()
 {
-    m_lua.open_libraries(sol::lib::base);
-    
-    auto levelType = m_lua.new_usertype<Level>("Level");
-    levelType["centerCamera"] = &Level::centerCameraOnParty;
-    
-    m_lua["level"] = this;
-    
-    m_lua.unsafe_script( ResourceManager::get().getLuaScript("level/Level").data() );
+    m_lua.state()["level"] = this;
+    m_lua.runLoadedScript( "level/Level" );
 }
 
 bool Level::input(IEvent &evt)

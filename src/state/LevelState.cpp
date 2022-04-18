@@ -14,7 +14,7 @@
 #include <state/OverworldState.h>
 #include <graphics/RenderInterface.h>
 
-LevelState::LevelState( LuaState& luaState, std::shared_ptr<RunState> const& runState, std::string levelName )
+LevelState::LevelState( LuaState& luaState, std::shared_ptr<RunState> const& runState, std::string const& levelName )
     : GameState(luaState), m_runState(runState)
 {
     std::string levelPath = "../resource/maps/" + levelName + ".json";
@@ -22,7 +22,7 @@ LevelState::LevelState( LuaState& luaState, std::shared_ptr<RunState> const& run
     TiledMapLoader loader;
     TiledMap tm = loader.load( levelPath );
 
-    FixedLevelFactory ffactory(&tm, runState);
+    FixedLevelFactory ffactory(m_lua, &tm, runState);
     m_level = ffactory.createLevel();
     
     setupUI();

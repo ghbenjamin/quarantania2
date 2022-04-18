@@ -4,9 +4,6 @@
 #include <set>
 #include <vector>
 
-#define SOL_ALL_SAFETIES_ON 1
-#include <sol/sol.hpp>
-
 #include <engine/Tiles.h>
 #include <engine/GridFeature.h>
 #include <engine/Camera.h>
@@ -22,6 +19,7 @@
 class RenderInterface;
 class InputInterface;
 struct IEvent;
+class LuaState;
 
 enum class LevelExitStatus
 {
@@ -31,12 +29,18 @@ enum class LevelExitStatus
     Desktop
 };
 
+struct LevelInitData
+{
+    Vector2i size;
+};
 
 class Level
 {
 public:
-    explicit Level(Vector2i size, RandomState* randomState);
+    Level(LevelInitData& data, LuaState& lua, RandomState* randomState);
     virtual ~Level() = default;
+    static void setLuaType( LuaState& lua );
+
 
     // Indicate that the level is constructed and ready to begin
     void setLayout(LevelLayout const& llayout);
@@ -97,8 +101,8 @@ private:
 
     // Misc
     RandomState* m_randomState;
+    LuaState& m_lua;
     LevelExitStatus m_exitStatus;
-    sol::state m_lua;
 
     // Map
     Tileset m_renderTileMap;

@@ -3,6 +3,7 @@
 #include <fmt/format.h>
 
 #include <resource/ResourceManager.h>
+#include <game/Level.h>
 #include <ui/lib/Manager.h>
 #include <utils/Assert.h>
 
@@ -10,6 +11,8 @@ LuaState::LuaState()
 {
     m_lua.open_libraries(sol::lib::base);
     m_lua["print"] = []( std::string const& arg ){ std::cout << arg << "\n"; };
+
+    addUserTypes();
 }
 
 sol::state& LuaState::state()
@@ -46,6 +49,8 @@ void LuaState::addUserTypes()
     LuaState::setVector2Type<int, 'i'>( *this );
     LuaState::setVector2Type<float, 'f'>( *this );
 
+    Level::setLuaType( *this );
+
     UI::Manager::setLuaType( *this );
     UI::Element::setLuaType( *this );
 }
@@ -65,6 +70,7 @@ void LuaState::setVector2Type(LuaState &lua)
 void LuaState::runLoadedScript( std::string const &key )
 {
     auto& data = ResourceManager::get().getLuaScript( key );
+    runScript( data.data() );
 }
 
 

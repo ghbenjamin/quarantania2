@@ -5,19 +5,11 @@
 struct TiledMap;
 struct TiledObjectLayer;
 class RunState;
-
-enum class RandomEnemyPower
-{
-    SMALL,
-    MEDIUM,
-    LARGE
-};
+class LuaState;
 
 struct EnemySpawnData
 {
     Vector2i pos;
-
-    RandomEnemyPower power;
     std::string name;
 };
 
@@ -31,7 +23,7 @@ class FixedLevelFactory : public LevelFactory
 {
 public:
 
-    FixedLevelFactory(TiledMap const* map, std::shared_ptr<RunState> const& runState);
+    FixedLevelFactory(LuaState& lua, TiledMap const* map, std::shared_ptr<RunState> const& runState);
     ~FixedLevelFactory() override = default;
     
     std::unique_ptr<Level> createLevel() override;
@@ -54,5 +46,6 @@ private:
     std::vector<EnemySpawnData> m_enemySpawns;
 
     TiledMap const* m_map;
+    LuaState& m_lua;
     std::shared_ptr<RunState> m_runState;
 };
