@@ -7,7 +7,7 @@ GameState::GameState( LuaState& luaState )
       m_requestedExit(false),
       m_lua(luaState)
 {
-    m_ui = std::make_shared<UI::Manager>();
+    m_ui = std::make_shared<UI::Manager>(m_lua);
 }
 
 bool GameState::input( IEvent &evt )

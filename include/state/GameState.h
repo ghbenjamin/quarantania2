@@ -46,10 +46,10 @@ protected:
 
     // Request that the program exit.
     void requestExit();
-    
-    
-    std::shared_ptr<UI::Manager> m_ui;
+
+
     LuaState& m_lua;
+    std::shared_ptr<UI::Manager> m_ui;
 
 private:
 

@@ -9,12 +9,12 @@
 #include <graphics/Primatives.h>
 #include <resource/ResourceManager.h>
 #include <utils/GlobalConfig.h>
-
+#include <engine/LuaState.h>
 
 using namespace UI;
 
-Manager::Manager()
-    : m_isMidDrag(false), m_hasModalDialog(false), m_generator(this)
+Manager::Manager(LuaState& luaState)
+    : m_lua(luaState), m_isMidDrag(false), m_hasModalDialog(false), m_generator(this)
 {
     auto windowSize = ResourceManager::get().getWindow()->getSize();
     m_modalSprite = createRectangle( windowSize, Colour::Black.withAlpha(150) );
@@ -638,7 +638,7 @@ ElementPtr Manager::generateFromXML( std::string const &xmlname, Element* existi
 
 ElementPtr Manager::generateFromLua( std::string const &name, Element *existing )
 {
-    std::shared_ptr<Element> foo = m_lua.script( "" );
+    std::shared_ptr<Element> foo = m_lua.state().script( "" );
     return ElementPtr();
 }
 
@@ -671,42 +671,37 @@ void Manager::setFocusedElement( ElementPtr elem )
 
 void Manager::loadScripts()
 {
-    m_lua.open_libraries(sol::lib::base);
-    m_lua["print"] = []( std::string const& arg ){ std::cout << arg << "\n"; };
+//    auto vector2iT = m_lua.state().new_usertype<Vector2i>(
+//        "Vector2i",
+//        sol::constructors<Vector2i(int, int)>(),
+//        "x", sol::property( sol::resolve<int() const>(&Vector2i::x), sol::resolve<void(int)>(&Vector2i::x) ),
+//        "y", sol::property( sol::resolve<int() const>(&Vector2i::y), sol::resolve<void(int)>(&Vector2i::y) )
+//    );
+//
+//    auto managerT = m_lua.state().new_usertype<Manager>(
+//         "Manager",
+//
+//         "deleteElement", &Manager::deleteElement,
+//         "withId", &Manager::withId<Element>,
+//         "registerElement", &Manager::registerElement,
+//         "createElement", &Manager::createElementBlank,
+//
+//         "elementGenerators", &Manager::m_elementGenerators
+//         );
+//
+//    m_lua.state().new_usertype<Element>(
+//        "Element",
+//         sol::constructors<Element(Manager*, Element*)>()
+//     );
 
-    auto vector2iT = m_lua.new_usertype<Vector2i>(
-        "Vector2i",
-        sol::constructors<Vector2i(int, int)>(),
-        "x", sol::property( sol::resolve<int() const>(&Vector2i::x), sol::resolve<void(int)>(&Vector2i::x) ),
-        "y", sol::property( sol::resolve<int() const>(&Vector2i::y), sol::resolve<void(int)>(&Vector2i::y) )
-    );
+    m_lua.state().unsafe_script( ResourceManager::get().getLuaScript( "ui/Manager" ).data() );
 
-    auto managerT = m_lua.new_usertype<Manager>(
-         "Manager",
-         
-         "deleteElement", &Manager::deleteElement,
-         "withId", &Manager::withId<Element>,
-         "registerElement", &Manager::registerElement,
-         "createElement", &Manager::createElementBlank,
-         
-         "elementGenerators", &Manager::m_elementGenerators
-         );
+    m_lua.state()["ui_manager"] = this;
 
-    m_lua.new_usertype<Element>(
-        "Element",
-         sol::constructors<Element(Manager*, Element*)>()
-     );
-
-    m_lua.unsafe_script( ResourceManager::get().getLuaScript( "ui/Manager" ).data() );
-
-    m_lua["ui_manager"] = this;
-    
-    for ( auto const& text : ResourceManager::get().getLuaScriptsInDir( "ui/elements" ) )
-    {
-        m_lua.unsafe_script( text->data() );
-    }
-
-    m_elementGenerators["LevelMainMenu"]( ElementPtr() );
+//    for ( auto const& text : ResourceManager::get().getLuaScriptsInDir( "ui/elements" ) )
+//    {
+//        m_lua.state().unsafe_script( text->data() );
+//    }
 }
 
 void Manager::registerElement( std::string const &name, std::function<void(std::shared_ptr<Element>)> generator )
@@ -720,3 +715,15 @@ WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, Vector
 
 ElementAlignment::ElementAlignment(ElementPtr dependent, ElementPtr target, Alignment alignment, Vector2i offset)
     : dependent(dependent), target(target), alignment(alignment), offset(offset) {}
+
+void Manager::setLuaType(LuaState &lua)
+{
+    auto userType = lua.state().new_usertype<UI::Manager>(
+        "Manager"
+    );
+
+    userType["deleteElement"] = &UI::Manager::deleteElement;
+    userType["withId"] = &UI::Manager::withId<UI::Element>;
+    userType["registerElement"] = &UI::Manager::registerElement;
+    userType["createElement"] = &UI::Manager::createElementBlank;
+}

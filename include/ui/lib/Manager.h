@@ -19,6 +19,7 @@ struct IEvent;
 class Level;
 class InputInterface;
 class RenderInterface;
+class LuaState;
 
 namespace UI
 {
@@ -49,8 +50,10 @@ class Manager
 {
 public:
 
-    Manager();
+    Manager(LuaState& luaState);
     ~Manager() = default;
+
+    static void setLuaType( LuaState& lua );
 
     bool input(IEvent &evt);
     void update(uint32_t ticks, InputInterface& iinter, RenderInterface &rInter);
@@ -205,11 +208,11 @@ public:
     void toggleConsoleWindow();
     
     void setFocusedElement( ElementPtr elem );
+    void registerElement( std::string const& name, std::function<void(std::shared_ptr<Element>)> generator );
 
 private:
 
     void loadScripts();
-    void registerElement( std::string const& name, std::function<void(std::shared_ptr<Element>)> generator );
 
     bool handleMouseMove( IEventMouseMove evt );
     bool handleMouseDown( IEventMouseDown evt );
@@ -219,9 +222,9 @@ private:
     bool handleTextInput( IEventTextInput evt );
 
     // Element generation
-    sol::state m_lua;
     Generator m_generator;
     std::unordered_map<std::string, std::function<void(std::shared_ptr<Element>)>> m_elementGenerators;
+    LuaState& m_lua;
 
     // Our root UI elements.
     std::vector<ElementPtr> m_roots;

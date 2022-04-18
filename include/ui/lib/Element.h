@@ -19,6 +19,7 @@
 
 class RenderInterface;
 class InputInterface;
+class LuaState;
 
 namespace UI
 {
@@ -35,8 +36,12 @@ class Element : public std::enable_shared_from_this<Element>
     friend class Manager;
 
 public:
+
+    // Meta
     Element(Manager* manager, Element* parent);
     virtual ~Element() = default;
+    static void setLuaType( LuaState& lua );
+
 
     // Positioning
     Vector2i globalPosition() const;

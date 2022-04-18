@@ -5,6 +5,7 @@
 #include <ui/lib/Manager.h>
 #include <graphics/RenderInterface.h>
 #include <utils/Assert.h>
+#include <engine/LuaState.h>
 #include <resource/ResourceManager.h>
 
 using namespace UI;
@@ -24,6 +25,79 @@ Element::Element(Manager* manager, Element* parent)
 {
     // Sensible default
     setLayout<UI::VerticalLayout>();
+}
+
+
+void Element::setLuaType(LuaState &lua)
+{
+    auto userType = lua.state().new_usertype<UI::Element>(
+        "Element",
+        sol::constructors<UI::Element(UI::Manager*, UI::Element*)>()
+    );
+
+    userType["globalPosition"] = &Element::globalPosition;
+    userType["localPosition"] = &Element::localPosition;
+    userType["setLocalPosition"] = sol::resolve<void(int, int)>(&Element::setLocalPosition);
+//    userType["setLocalPosition"] = &Element::setLocalPosition;
+    userType["contentOffset"] = &Element::contentOffset;
+    userType["preferredContentSize"] = &Element::preferredContentSize;
+    userType["maxOuterSize"] = &Element::maxOuterSize;
+    userType["setPreferredContentSize"] = &Element::setPreferredContentSize;
+    userType["setPreferredContentWidth"] = &Element::setPreferredContentWidth;
+    userType["setPreferredOuterSize"] = &Element::setPreferredOuterSize;
+    userType["setMaximumOuterSize"] = &Element::setMaximumOuterSize;
+    userType["hasMaximumOuterSize"] = &Element::hasMaximumOuterSize;
+    userType["outerBounds"] = &Element::outerBounds;
+    userType["innerBounds"] = &Element::innerBounds;
+//    userType["setLayout"] = &Element::setLayout;
+    userType["setHidden"] = &Element::setHidden;
+    userType["isHidden"] = &Element::isHidden;
+    userType["hide"] = &Element::hide;
+    userType["show"] = &Element::show;
+    userType["setDecorative"] = &Element::setDecorative;
+    userType["isDecorative"] = &Element::isDecorative;
+    userType["setId"] = &Element::setId;
+    userType["id"] = &Element::id;
+    userType["addTag"] = &Element::addTag;
+    userType["hasTag"] = &Element::hasTag;
+    userType["removeTag"] = &Element::removeTag;
+    userType["hasTooltipSpawner"] = &Element::hasTooltipSpawner;
+    userType["setTooltipSpawner"] = &Element::setTooltipSpawner;
+    userType["generateTooltip"] = &Element::generateTooltip;
+    userType["setParent"] = &Element::setParent;
+    userType["hasParent"] = &Element::hasParent;
+    userType["parent"] = &Element::parent;
+    userType["rootParent"] = &Element::rootParent;
+    userType["hasChildren"] = &Element::hasChildren;
+    userType["children"] = &Element::children;
+    userType["removeChild"] = &Element::removeChild;
+    userType["removeAllChildren"] = &Element::removeAllChildren;
+    userType["deleteSelf"] = &Element::deleteSelf;
+    userType["setBorder"] = &Element::setBorder;
+    userType["setBorderWidth"] = &Element::setBorderWidth;
+    userType["removeBackround"] = &Element::removeBackround;
+    userType["hasBackground"] = &Element::hasBackground;
+    userType["getBackground"] = &Element::getBackground;
+    userType["getAlphaMod"] = &Element::getAlphaMod;
+    userType["hasActiveAlphaTransition"] = &Element::hasActiveAlphaTransition;
+    userType["setAlphaMod"] = &Element::setAlphaMod;
+    userType["setAlphaTransition"] = &Element::setAlphaTransition;
+    userType["setFadeIn"] = &Element::setFadeIn;
+    userType["setBoundsScissoring"] = &Element::setBoundsScissoring;
+//    userType["setPadding"] = &Element::setPadding;
+//    userType["setPadding"] = &Element::setPadding;
+    userType["setPadding"] = sol::resolve<void(int)>(&Element::setPadding);
+    userType["setIsModal"] = &Element::setIsModal;
+    userType["isModal"] = &Element::isModal;
+    userType["addEventCallback"] = &Element::addEventCallback;
+    userType["removeEventCallbacks"] = &Element::removeEventCallbacks;
+    userType["acceptEvent"] = &Element::acceptEvent;
+    userType["addHotkey"] = &Element::addHotkey;
+    userType["hasHotkey"] = &Element::hasHotkey;
+    userType["removeHotkey"] = &Element::removeHotkey;
+    userType["update"] = &Element::update;
+    userType["doLayout"] = &Element::doLayout;
+
 }
 
 void Element::setId(std::string const &id)

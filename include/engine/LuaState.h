@@ -16,5 +16,11 @@ public:
     void runScriptFile( std::string const& path );
 
 private:
+
+    template <typename T, char L>
+    static void setVector2Type( LuaState& lua );
+
+    void addUserTypes();
+
     sol::state m_lua;
 };
