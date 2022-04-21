@@ -1,0 +1,53 @@
+return {
+
+    classes = {
+        fighter = {
+            name = "Fighter",
+            sprite = "dawnlike/Player_001",
+            max_hp = 12,
+            attributes = {16, 12, 14, 9, 10, 12},
+            starting_equipped_items = {"weapon.longsword"},
+            starting_held_items = {},
+            feats = {"feat.power_attack"}
+        },
+        rogue = {
+            name = "Rogue",
+            sprite = "dawnlike/Player_002",
+            max_hp = 8,
+            attributes = {10, 16, 10, 14, 10, 12},
+            starting_equipped_items = {"weapon.dagger"},
+            starting_held_items = {},
+            feats = {"feat.debug", "status.exhausted"}
+        }
+    },
+
+    names = {
+         "Adun Oakenshield",
+         "Angus Mackenzie",
+         "Arcades Sabboth",
+         "Axelrod Gunnarson",
+         "Ayesha Tanaka",
+         "Barktooth Warbeard",
+         "Bartel Runeaxe",
+         "Boris Devilboon",
+         "Gwendlyn Di Corci",
+         "Hazezon Tamar",
+         "Hunding Gjornersen",
+         "Jacques le Vert",
+         "Jasmine Boreal",
+         "Jedit Ojanen",
+         "Kei Takahashi",
+         "Livonya Silone",
+         "Marhault Elsdragon",
+         "Ragnar",
+         "Ramirez DePietro",
+         "Ramses Overdark",
+         "Rasputin Dreamweaver",
+         "Riven Turnbull",
+         "Tobias Andrion",
+         "Torsten Von Ursus",
+         "Tor Wauki",
+         "Tuknir Deathlock",
+         "Xira Arien"
+    }
+}

@@ -1,16 +1,13 @@
 #include <game/ResourceDatabase.h>
 #include <exception>
 #include <utils/Logging.h>
-#include <utils/Json.h>
 #include <utils/StringUtils.h>
 #include <game/GameParse.h>
-#include "resource/ResourceManager.h"
 
 ResourceDatabase::ResourceDatabase()
 {
     loadAllItemData();
     loadAllCreatureData();
-    loadAllObjectData();
     loadAllActionData();
     loadAllModifierData();
     loadAllChargenData();
@@ -52,15 +49,6 @@ ArmourData ResourceDatabase::armourFromId( std::string_view id )
     return { *it };
 }
 
-ObjectData ResourceDatabase::objectFromName( std::string_view name)
-{
-    auto it = std::find_if( m_objectData.begin(), m_objectData.end(),
-        [name](auto const& item){ return item.name == name; });
-
-    Assert( it != m_objectData.end() );
-    return { *it };
-}
-
 ActionData ResourceDatabase::actionFromId( std::string_view id)
 {
     auto it = std::find_if( m_actionData.begin(), m_actionData.end(),
@@ -91,117 +79,34 @@ PlayerData ResourceDatabase::chargenFromClass( std::string_view name )
 
 void ResourceDatabase::loadAllCreatureData()
 {
-    auto doc = utils::json::loadFromPath("../resource/data/creatures.json" );
-    for ( auto const& cr : doc )
+    sol::table mods = m_lua.runLoadedScript( "data/Creatures" );
+    for ( auto const& [k, v] : mods )
     {
+        sol::table const& data = v;
         CreatureData rcd;
-
-        rcd.name = cr["name"];
-        rcd.alignment = EnumParse::alignment( cr["alignment"] );
-        rcd.creatureType = cr["creature_type"];
-        rcd.sprite = { cr["sprite"] };
-        rcd.xp = cr["xp"];
-        rcd.maxHP = cr["hp"];
-        rcd.attrStr = cr["attr_str"];
-        rcd.attrDex = cr["attr_dex"];
-        rcd.attrCon = cr["attr_con"];
-        rcd.attrInt = cr["attr_int"];
-        rcd.attrWis = cr["attr_wis"];
-        rcd.attrCha = cr["attr_cha"];
-        rcd.saveFort = cr["save_fort"];
-        rcd.saveRef = cr["save_ref"];
-        rcd.saveWill = cr["save_will"];
-        rcd.baseSpeed = cr["speed"];
-
-        if ( cr.contains("description") )
-        {
-            rcd.description = cr["description"];
-        }
-
-        if ( cr.contains("creature_subtype") )
-        {
-            auto subtypeArr = cr["creature_subtype"];
-            for ( auto const& stype : subtypeArr.items() )
-            {
-                rcd.creatureSubtypes.emplace_back( stype.value().get<std::string>() );
-            }
-        }
-
-        if ( cr.contains("damage_resistance") )
-        {
-            for (auto const& dr : cr["damage_resistance"].items() )
-            {
-                std::string k = dr.key();
-                int v = dr.value();
-                rcd.damageResistance[k] = v;
-            }
-        }
-
-        if ( cr.contains("elemental_resistance") )
-        {
-            for (auto const& dr : cr["elemental_resistance"].items() )
-            {
-                ElementalDamageType k = EnumParse::elementalDamageType( dr.key() );
-                int v = dr.value();
-                rcd.elementalResistance[k] = v;
-            }
-        }
-
-        if ( cr.contains("feats") )
-        {
-            for ( auto const& feat : cr["feats"].items() )
-            {
-                rcd.featIds.emplace_back( feat.value() );
-            }
-        }
-
-        if ( cr.contains("immune") )
-        {
-            for ( auto const& immune : cr["immune"].items() )
-            {
-                rcd.immune.emplace_back( immune.value() );
-            }
-        }
-
-        if ( cr.contains("senses") )
-        {
-            for ( auto const& senses : cr["senses"].items() )
-            {
-                rcd.senses.emplace_back( senses.value() );
-            }
-        }
-
-        if ( cr.contains("weaknesses") )
-        {
-            for ( auto const& weakness : cr["weaknesses"].items() )
-            {
-                rcd.weaknesses.emplace_back( EnumParse::elementalDamageType( weakness.value() ) );
-            }
-        }
-
-        if ( cr.contains("melee") )
-        {
-            for ( auto const& melee : cr["melee"].items() )
-            {
-                auto meleeObj = melee.value();
-
-                CreatureAttack creatureAttack;
-
-                creatureAttack.name = meleeObj["name"];
-                creatureAttack.count = 1;
-                creatureAttack.toHit =  meleeObj["to_hit"];
-                creatureAttack.stats  = parseDiceRoll( meleeObj["damage"] );
-
-                if ( meleeObj.contains("count"))
-                {
-                    creatureAttack.count = meleeObj["count"];
-                }
-
-                rcd.attacks.push_back(creatureAttack);
-            }
-        }
-
-
+    
+        rcd.name = data["name"];
+        rcd.alignment = EnumParse::alignment( data["alignment"] );
+        rcd.creatureType = data["creature_type"];
+        rcd.sprite = data.get<std::string>( "sprite" );
+        rcd.xp = data["xp"];
+        rcd.maxHP = data["hp"];
+        rcd.attrStr = data["attr_str"];
+        rcd.attrDex = data["attr_dex"];
+        rcd.attrCon = data["attr_con"];
+        rcd.attrInt = data["attr_int"];
+        rcd.attrWis = data["attr_wis"];
+        rcd.attrCha = data["attr_cha"];
+        rcd.saveFort = data["save_fort"];
+        rcd.saveRef = data["save_ref"];
+        rcd.saveWill = data["save_will"];
+        rcd.baseSpeed = data["speed"];
+        rcd.description = data.get_or( "description", std::string() );
+        rcd.creatureSubtypes = data["subtype"].get_or<std::vector<std::string>>( {} );
+        rcd.featIds = data["feats"].get_or<std::vector<std::string>>( {} );
+        rcd.immune = data["immune"].get_or<std::vector<std::string>>( {} );
+        rcd.damageResistance = data["damage_resistance"].get_or<decltype(rcd.damageResistance)>( {} );
+       
         m_creatureData.push_back( std::move(rcd) );
     }
 }
@@ -235,6 +140,7 @@ void ResourceDatabase::loadAllItemData()
             rwd.critMult = tWeapon["crit_mult"];
             rwd.damage = { tWeapon["damage_dcount"], tWeapon["damage_dsize"] };
             rwd.damageType = tWeapon["damage_type"];
+            rwd.specials = item.get_or( "special", std::string() );
     
             std::string weaponClass = tWeapon["weapon_class"];
             if ( stringContains(weaponClass, "Melee") )
@@ -248,12 +154,6 @@ void ResourceDatabase::loadAllItemData()
             else
             {
                 AssertAlwaysMsg( fmt::format( "Unknown weapon class", weaponClass ) );
-            }
-    
-            auto vSpecial = item["Special"];
-            if ( vSpecial != sol::nil )
-            {
-                rwd.specials = vSpecial;
             }
     
             std::string profStr = tWeapon["proficiency"];
@@ -292,28 +192,6 @@ void ResourceDatabase::loadAllItemData()
         }
         
         m_itemData.push_back( std::move(rit) );
-    }
-}
-
-
-void ResourceDatabase::loadAllObjectData()
-{
-    auto doc = utils::json::loadFromPath("../resource/data/objects.json" );
-    for ( auto const& it : doc )
-    {
-        ObjectData robj;
-
-        robj.name = it["name"];
-        robj.description = it["description"];
-        robj.type = it["type"];
-
-        for ( auto const& sprite_obj : it["sprites"] )
-        {
-            robj.sprites.emplace_back( sprite_obj["sprite_sheet"].get<std::string>(),
-                    sprite_obj["sprite_name"].get<std::string>() );
-        }
-
-        m_objectData.push_back( robj );
     }
 }
 
@@ -372,45 +250,31 @@ void ResourceDatabase::loadAllModifierData()
 
 void ResourceDatabase::loadAllChargenData()
 {
-    auto doc = utils::json::loadFromPath("../resource/data/starting_chars.json" );
     
-    for ( auto const& classObj : doc["classes"] )
+    sol::table mods = m_lua.runLoadedScript( "data/Chargen" );
+    
+    for ( auto const& [k, v] : mods["classes"].get<sol::table>() )
     {
         PlayerData cgdata;
-        cgdata.playerClass = classObj["name"];
+        sol::table const& data = v;
         
-        cgdata.sprite = classObj["sprite"].get<std::string>();
-        cgdata.maxHP = classObj["max_hp"];
-        
-        cgdata.attrStr = classObj["attributes"][0];
-        cgdata.attrDex = classObj["attributes"][1];
-        cgdata.attrCon = classObj["attributes"][2];
-        cgdata.attrInt = classObj["attributes"][3];
-        cgdata.attrWis = classObj["attributes"][4];
-        cgdata.attrCha = classObj["attributes"][5];
-        
-        for ( auto const& item : classObj["starting_equipped_items"] )
-        {
-            cgdata.equippedItems.push_back( item );
-        }
-    
-        for ( auto const& item : classObj["starting_held_items"] )
-        {
-            cgdata.heldItems.push_back( item );
-        }
-    
-        for ( auto const& item : classObj["feats"] )
-        {
-            cgdata.featIds.push_back( item );
-        }
+        cgdata.playerClass = data["name"];
+        cgdata.sprite = data["sprite"].get<std::string>();
+        cgdata.maxHP = data["max_hp"];
+        cgdata.attrStr = data["attributes"][1];
+        cgdata.attrDex = data["attributes"][2];
+        cgdata.attrCon = data["attributes"][3];
+        cgdata.attrInt = data["attributes"][4];
+        cgdata.attrWis = data["attributes"][5];
+        cgdata.attrCha = data["attributes"][6];
+        cgdata.equippedItems =  data["starting_equipped_items"].get_or<std::vector<std::string>>( {} );
+        cgdata.heldItems =  data["starting_held_items"].get_or<std::vector<std::string>>( {} );
+        cgdata.featIds =  data["feats"].get_or<std::vector<std::string>>( {} );
         
         m_chargenData.push_back( std::move(cgdata) );
     }
-    
-    for ( auto const& name : doc["names"] )
-    {
-        m_randomNames.push_back(name);
-    }
+        
+    m_randomNames = mods["names"].get_or<std::vector<std::string>>( {} );
 }
 
 std::vector<std::string> const &ResourceDatabase::randomNames()

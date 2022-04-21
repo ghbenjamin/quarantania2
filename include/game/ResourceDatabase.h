@@ -27,7 +27,6 @@ public:
     WeaponData weaponFromId ( std::string_view id );
     ArmourData armourFromId( std::string_view id );
     CreatureData creatureFromName( std::string_view name );
-    ObjectData objectFromName( std::string_view name );
     ActionData actionFromId(std::string_view id );
     ModifierData modifierFromId(std::string_view id );
     PlayerData chargenFromClass( std::string_view id );
@@ -39,7 +38,6 @@ private:
 
     void loadAllCreatureData();
     void loadAllItemData();
-    void loadAllObjectData();
     void loadAllActionData();
     void loadAllModifierData();
     void loadAllChargenData();
@@ -48,7 +46,6 @@ private:
     std::vector<ItemData> m_itemData;
     std::vector<WeaponData> m_weaponData;
     std::vector<ArmourData> m_armourData;
-    std::vector<ObjectData> m_objectData;
     std::vector<ActionData> m_actionData;
     std::vector<ModifierData> m_modifierData;
     
