@@ -15,13 +15,13 @@ public:
     sol::state& state();
 
     // Run a script which has already been loaded from disk into the resource manager
-    void runLoadedScript( std::string const& key );
+    sol::object runLoadedScript( std::string const& key );
 
     // Run a script directly from disk
-    void runScriptFile( std::string const& path );
+    sol::object runScriptFile( std::string const& path );
 
     // Run a script from a string buffer
-    void runScript( std::string const& script );
+    sol::object runScript( std::string const& script );
 
 private:
 

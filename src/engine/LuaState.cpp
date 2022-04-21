@@ -20,27 +20,29 @@ sol::state& LuaState::state()
     return m_lua;
 }
 
-void LuaState::runScriptFile(std::string const& path)
+sol::object LuaState::runScriptFile(std::string const& path)
 {
     try
     {
-        m_lua.unsafe_script_file( path );
+        return m_lua.unsafe_script_file( path );
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
         AssertAlwaysMsg( fmt::format( "Error running script file '{}'", path ) );
+        std::terminate;
     }
 }
 
-void LuaState::runScript( std::string const& script )
+sol::object LuaState::runScript( std::string const& script )
 {
     try
     {
-        m_lua.unsafe_script( script );
+        return m_lua.unsafe_script( script );
     }
     catch ( [[maybe_unused]] std::exception const& ex )
     {
         AssertAlwaysMsg( "Error running script" );
+        std::terminate();
     }
 }
 
@@ -67,10 +69,10 @@ void LuaState::setVector2Type(LuaState &lua)
     userType["y"] = sol::property( sol::resolve<T() const>(&Vector2<T>::y), sol::resolve<void(T)>(&Vector2<T>::y) );
 }
 
-void LuaState::runLoadedScript( std::string const &key )
+sol::object LuaState::runLoadedScript( std::string const &key )
 {
     auto& data = ResourceManager::get().getLuaScript( key );
-    runScript( data.data() );
+    return runScript( data.data() );
 }
 
 

@@ -7,6 +7,7 @@
 #include <utils/Assert.h>
 #include <utils/Random.h>
 #include <game/ActorData.h>
+#include "engine/LuaState.h"
 
 class RandomState;
 
@@ -53,5 +54,7 @@ private:
     
     std::vector<PlayerData> m_chargenData;
     std::vector<std::string> m_randomNames;
+
+    LuaState m_lua;
     
 };

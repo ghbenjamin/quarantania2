@@ -4,6 +4,7 @@
 #include <utils/Json.h>
 #include <utils/StringUtils.h>
 #include <game/GameParse.h>
+#include "resource/ResourceManager.h"
 
 ResourceDatabase::ResourceDatabase()
 {
@@ -21,7 +22,7 @@ ItemData ResourceDatabase::itemFromName( std::string_view name )
         [name](auto const& item){ return item.name == name; });
 
     AssertMsg( it != m_itemData.end(), fmt::format( "Unexpected item: {}", name ) );
-    return ItemData( *it );
+    return { *it };
 }
 
 WeaponData ResourceDatabase::weaponFromName( std::string_view name )
@@ -30,7 +31,7 @@ WeaponData ResourceDatabase::weaponFromName( std::string_view name )
         [name](auto const& item){ return item.itemName == name; });
 
     Assert( it != m_weaponData.end() );
-    return WeaponData( *it );
+    return { *it };
 }
 
 CreatureData ResourceDatabase::creatureFromName( std::string_view name)
@@ -39,7 +40,7 @@ CreatureData ResourceDatabase::creatureFromName( std::string_view name)
         [name](auto const& item){ return item.name == name; });
 
     AssertMsg( it != m_creatureData.end(), fmt::format("Unknown creature '{}'", name)  );
-    return CreatureData( *it );
+    return { *it };
 }
 
 ArmourData ResourceDatabase::armourFromName( std::string_view name)
@@ -48,7 +49,7 @@ ArmourData ResourceDatabase::armourFromName( std::string_view name)
         [name](auto const& item){ return item.itemName == name; });
 
     Assert( it != m_armourData.end() );
-    return ArmourData( *it );
+    return { *it };
 }
 
 ObjectData ResourceDatabase::objectFromName( std::string_view name)
@@ -57,7 +58,7 @@ ObjectData ResourceDatabase::objectFromName( std::string_view name)
         [name](auto const& item){ return item.name == name; });
 
     Assert( it != m_objectData.end() );
-    return ObjectData( *it );
+    return { *it };
 }
 
 ActionData ResourceDatabase::actionFromId( std::string_view id)
@@ -66,7 +67,7 @@ ActionData ResourceDatabase::actionFromId( std::string_view id)
         [id](auto const& item){ return item.id == id; });
 
     Assert( it != m_actionData.end() );
-    return ActionData( *it );
+    return { *it };
 }
 
 ModifierData ResourceDatabase::modifierFromId( std::string_view id )
@@ -75,7 +76,7 @@ ModifierData ResourceDatabase::modifierFromId( std::string_view id )
         [id](auto const& item){ return item.id == id; });
     
     Assert( it != m_modifierData.end() );
-    return ModifierData( *it );
+    return { *it };
 }
 
 PlayerData ResourceDatabase::chargenFromClass( std::string_view name )
@@ -84,7 +85,7 @@ PlayerData ResourceDatabase::chargenFromClass( std::string_view name )
                             [name](auto const& item){ return item.playerClass == name; });
     
     Assert( it != m_chargenData.end() );
-    return *it;
+    return { *it };
 }
 
 
@@ -368,15 +369,16 @@ void ResourceDatabase::loadAllObjectData()
 
 void ResourceDatabase::loadAllActionData()
 {
-    auto doc = utils::json::loadFromPath("../resource/data/actions.json" );
-    for ( auto const& it : doc )
+    sol::table mods = m_lua.runLoadedScript( "data/Actions" );
+    for ( auto const& [k, v] : mods )
     {
+        sol::table const& data = v;
         ActionData robj;
 
-        robj.name = it["name"];
-        robj.id = it["id"];
+        robj.name = data["name"];
+        robj.id = k.as<sol::string_view>();
 
-        std::string typeStr = it["type"];
+        std::string typeStr = data["type"];
         if (typeStr == "move")
         {
             robj.type = RawActionDataType::Move;
@@ -390,10 +392,12 @@ void ResourceDatabase::loadAllActionData()
             AssertAlwaysMsg( fmt::format("Unknown action type: '{}'", typeStr) );
         }
 
-        robj.speed = EnumParse::actionSpeed( it["speed"] );
-        robj.provokes = it["provokes"];
-        robj.description = it["description"];
-        robj.sprite = SpritesheetKey{ it["icon"] };
+        robj.speed = EnumParse::actionSpeed( data["speed"] );
+        robj.provokes = data["provokes"];
+        robj.description = data["description"];
+
+        std::string spriteName = data["icon"];
+        robj.sprite = SpritesheetKey( spriteName );
 
         m_actionData.push_back(robj);
     }
@@ -401,15 +405,16 @@ void ResourceDatabase::loadAllActionData()
 
 void ResourceDatabase::loadAllModifierData()
 {
-    auto doc = utils::json::loadFromPath("../resource/data/modifiers.json" );
-    for ( auto const& it : doc )
+    sol::table mods = m_lua.runLoadedScript( "data/Modifiers" );
+
+    for ( auto const& [k, v] : mods )
     {
         ModifierData robj;
 
-        robj.id = it["id"];
-        robj.name = it["name"];
-        robj.effect = it["effect"];
-        robj.description = it["desc"];
+        robj.id = k.as<sol::string_view>();
+        robj.name = v.as<sol::table>()["name"];
+        robj.effect = v.as<sol::table>()["effect"];
+        robj.description = v.as<sol::table>()["desc"];
 
         m_modifierData.push_back(robj);
     }

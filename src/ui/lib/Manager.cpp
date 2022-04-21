@@ -675,13 +675,13 @@ void Manager::loadScripts()
 
     m_lua.state()["ui_manager"] = this;
 
-//    for ( auto const& text : ResourceManager::get().getLuaScriptsInDir( "ui/elements" ) )
-//    {
-//        m_lua.state().unsafe_script( text->data() );
-//    }
+    for ( auto const& text : ResourceManager::get().getLuaScriptsInDir( "ui/elements" ) )
+    {
+//        m_lua.runScript( text->data() );
+    }
 }
 
-void Manager::registerElement( std::string const &name, std::function<void(std::shared_ptr<Element>)> generator )
+void Manager::registerElement( std::string const &name, sol::function const& generator )
 {
     m_elementGenerators.emplace( name, generator );
 }

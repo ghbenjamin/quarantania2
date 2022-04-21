@@ -208,7 +208,7 @@ public:
     void toggleConsoleWindow();
     
     void setFocusedElement( ElementPtr elem );
-    void registerElement( std::string const& name, std::function<void(std::shared_ptr<Element>)> generator );
+    void registerElement( std::string const& name, sol::function const& generator );
 
 private:
 
@@ -223,8 +223,8 @@ private:
 
     // Element generation
     Generator m_generator;
-    std::unordered_map<std::string, std::function<void(std::shared_ptr<Element>)>> m_elementGenerators;
     LuaState& m_lua;
+    std::unordered_map<std::string, sol::function> m_elementGenerators;
 
     // Our root UI elements.
     std::vector<ElementPtr> m_roots;
