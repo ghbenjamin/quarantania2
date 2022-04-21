@@ -6,8 +6,18 @@
 #include <utils/Base64.h>
 #include <utils/Compression.h>
 #include <utils/Logging.h>
+#include <engine/LuaState.h>
 
-TiledMap TiledMapLoader::load(const std::string &path)
+
+TiledMap TiledMapLoader::loadLua( std::string const &path )
+{
+    LuaState lua;
+    
+    auto doc = lua.runScriptFile( path );
+}
+
+
+TiledMap TiledMapLoader::loadJson( const std::string &path)
 {
     auto doc = utils::json::loadFromPath(path );
 
@@ -201,6 +211,8 @@ void TiledMapLoader::calculateObjectTilePos()
         }
     }
 }
+
+
 
 bool TiledIdPair::operator==(const TiledIdPair &rhs) const
 {

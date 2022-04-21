@@ -136,42 +136,42 @@ void ResourceManager::loadAll()
 
     for ( auto const &[k, v] : m_spritesheets )
     {
-        v->load();
+        v->loadJson();
     }
 
     for ( auto const &[k, v] : m_images )
     {
-        v->load();
+        v->loadJson();
     }
     
     for ( auto const &[k, v] : m_surfaces )
     {
-        v->load();
+        v->loadJson();
     }
 
     for ( auto const &[k, v] : m_patches )
     {
-        v->load();
+        v->loadJson();
     }
     
     for (auto const &[k, v] : m_shaders )
     {
-        v->load();
+        v->loadJson();
     }
     
     for (auto const &[k, v] : m_shaderProgs )
     {
-        v->load();
+        v->loadJson();
     }
     
     for (auto const &[k, v] : m_xml )
     {
-        v->load();
+        v->loadJson();
     }
     
     for (auto const &[k, v] : m_lua )
     {
-        v->load();
+        v->loadJson();
     }
 }
 
