@@ -6,7 +6,7 @@
       "sprite": "dawnlike/Player_001",
       "max_hp": 12,
       "attributes": [16, 12, 14, 9, 10, 12],
-      "starting_equipped_items": ["Longsword"],
+      "starting_equipped_items": ["weapon.longsword"],
       "starting_held_items": [],
       "feats": ["feat.power_attack"]
     },
@@ -17,7 +17,7 @@
       "sprite": "dawnlike/Player_002",
       "max_hp": 8,
       "attributes": [10, 16, 10, 14, 10, 12],
-      "starting_equipped_items": ["Dagger"],
+      "starting_equipped_items": ["weapon.dagger"],
       "starting_held_items": [],
       "feats": ["feat.debug", "status.exhausted"]
     }

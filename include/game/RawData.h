@@ -8,6 +8,7 @@
 
 struct ItemData
 {
+    std::string id;
     std::string name;
     int weight;
     int value;
@@ -22,7 +23,7 @@ struct ItemData
 
 struct WeaponData
 {
-    std::string itemName;
+    std::string itemId;
     DiceRoll damage;
     WeaponProficiency proficiency;
     int critLower;
@@ -34,7 +35,7 @@ struct WeaponData
 
 struct ArmourData
 {
-    std::string itemName;
+    std::string itemId;
     int arcaneFailureChance;
     int armourBonus;
     int shieldBonus;

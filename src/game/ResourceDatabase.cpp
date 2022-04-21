@@ -16,19 +16,19 @@ ResourceDatabase::ResourceDatabase()
     loadAllChargenData();
 }
 
-ItemData ResourceDatabase::itemFromName( std::string_view name )
+ItemData ResourceDatabase::itemFromId( std::string_view id )
 {
     auto it = std::find_if( m_itemData.begin(), m_itemData.end(),
-        [name](auto const& item){ return item.name == name; });
+        [id](auto const& item){ return item.id == id; });
 
-    AssertMsg( it != m_itemData.end(), fmt::format( "Unexpected item: {}", name ) );
+    AssertMsg( it != m_itemData.end(), fmt::format( "Unexpected item: {}", id ) );
     return { *it };
 }
 
-WeaponData ResourceDatabase::weaponFromName( std::string_view name )
+WeaponData ResourceDatabase::weaponFromId( std::string_view id )
 {
     auto it = std::find_if( m_weaponData.begin(), m_weaponData.end(),
-        [name](auto const& item){ return item.itemName == name; });
+        [id]( auto const& item){ return item.itemId == id; });
 
     Assert( it != m_weaponData.end() );
     return { *it };
@@ -43,10 +43,10 @@ CreatureData ResourceDatabase::creatureFromName( std::string_view name)
     return { *it };
 }
 
-ArmourData ResourceDatabase::armourFromName( std::string_view name)
+ArmourData ResourceDatabase::armourFromId( std::string_view id )
 {
     auto it = std::find_if( m_armourData.begin(), m_armourData.end(),
-        [name](auto const& item){ return item.itemName == name; });
+        [id]( auto const& item){ return item.itemId == id; });
 
     Assert( it != m_armourData.end() );
     return { *it };
@@ -208,49 +208,35 @@ void ResourceDatabase::loadAllCreatureData()
 
 void ResourceDatabase::loadAllItemData()
 {
-    auto doc = utils::json::loadFromPath("../resource/data/items.json" );
-    for ( auto const& it : doc )
+    sol::table data = m_lua.runLoadedScript( "data/Items" );
+    
+    for ( auto const& [k, v] : data )
     {
+        sol::table const& item = v;
         ItemData rit;
-
-        rit.name = it["name"];
-        rit.weight = it["weight"];
-        rit.value = it["price"];
-        rit.description = it["description"];
-        rit.itemType = it["item_type"];
-        rit.sprite = { it["sprite_sheet"].get<std::string>(), it["sprite_name"].get<std::string>() };
-
-        if ( it.contains( "aura_strength" ) )
-        {
-            rit.auraStrength = it["aura_strength"];
-        }
-
-        if ( it.contains( "aura_value" ) )
-        {
-            rit.auraValue = it["aura_value"];
-        }
-
-        if ( it.contains( "slot" ) )
-        {
-            rit.slot = it["slot"];
-        }
-
-        if ( it.contains( "weapon" ) )
+    
+        rit.id = k.as<sol::string_view>();
+        rit.name = item["name"];
+        rit.weight = item["weight"];
+        rit.value = item["price"];
+        rit.description = item["description"];
+        rit.itemType = item["item_type"];
+        rit.sprite = item.get<std::string>( "sprite" );
+        rit.slot = item.get_or( "slot", std::string() );
+        
+        auto vWeapon = item["weapon"];
+        if ( vWeapon != sol::nil )
         {
             WeaponData rwd;
-            auto wObj = it["weapon"];
-
-            rwd.itemName = rit.name;
-            rwd.critLower = wObj["crit_lower"];
-            rwd.critMult = wObj["crit_mult"];
-            rwd.damage = {
-                    wObj[ "damage_dcount"],
-                    wObj[ "damage_dsize"],
-            };
-
-            rwd.damageType = wObj["damage_type"];
-
-            std::string weaponClass = wObj["weapon_class"];
+            sol::table const& tWeapon = vWeapon;
+            
+            rwd.itemId = rit.id;
+            rwd.critLower = tWeapon["crit_lower"];
+            rwd.critMult = tWeapon["crit_mult"];
+            rwd.damage = { tWeapon["damage_dcount"], tWeapon["damage_dsize"] };
+            rwd.damageType = tWeapon["damage_type"];
+    
+            std::string weaponClass = tWeapon["weapon_class"];
             if ( stringContains(weaponClass, "Melee") )
             {
                 rwd.weaponType = WeaponType::Melee;
@@ -263,13 +249,14 @@ void ResourceDatabase::loadAllItemData()
             {
                 AssertAlwaysMsg( fmt::format( "Unknown weapon class", weaponClass ) );
             }
-
-            if ( wObj.contains("Special") )
+    
+            auto vSpecial = item["Special"];
+            if ( vSpecial != sol::nil )
             {
-                rwd.specials = wObj["Special"];
+                rwd.specials = vSpecial;
             }
-
-            std::string profStr = wObj["proficiency"];
+    
+            std::string profStr = tWeapon["proficiency"];
             if ( profStr == "Simple" )
             {
                 rwd.proficiency = WeaponProficiency::Simple;
@@ -282,65 +269,28 @@ void ResourceDatabase::loadAllItemData()
             {
                 rwd.proficiency = WeaponProficiency::Exotic;
             }
-
+    
             m_weaponData.push_back( std::move(rwd) );
         }
-
-        if ( it.contains( "armour" ) )
+    
+        auto vArmour = item["armour"];
+        if ( vArmour != sol::nil )
         {
+            sol::table const& tArmour = vArmour;
             ArmourData rad;
-            auto aObj = it["armour"];
-
-            rad.itemName = rit.name;
-
-            if ( aObj.contains("Arcane Spell Failure Chance") )
-            {
-                rad.arcaneFailureChance = aObj[ "Arcane Spell Failure Chance" ];
-            }
-
-            if ( aObj.contains("Armour Bonus") )
-            {
-                rad.armourBonus = aObj[ "Armour Bonus" ];
-            }
-
-            if ( aObj.contains("Shield Bonus") )
-            {
-                rad.shieldBonus = aObj[ "Shield Bonus" ];
-            }
-
-            if ( aObj.contains("Armor Check Penalty") )
-            {
-                rad.armourCheck = aObj[ "Armor Check Penalty" ];
-            }
-
-            if ( aObj.contains("Maximum Dex Bonus") )
-            {
-                rad.maxDex = aObj[ "Maximum Dex Bonus" ];
-            }
-            else
-            {
-                rad.maxDex = std::numeric_limits<int>::max();
-            }
-
-            if ( aObj.contains("Speed 20") )
-            {
-                rad.speed20 = aObj[ "Speed 20" ];
-            }
-
-            if ( aObj.contains("Speed 30") )
-            {
-                rad.speed30 = aObj[ "Speed 30" ];
-            }
-
-            if ( aObj.contains("Armor Type") )
-            {
-                rad.armourType = aObj["Armor Type"];
-            }
-
+    
+            rad.itemId = rit.id;
+            rad.maxDex = tArmour.get_or( "max_dex", std::numeric_limits<int>::max() );
+            rad.speed30 = tArmour.get_or( "max_speed", std::numeric_limits<int>::max() );
+            rad.arcaneFailureChance = tArmour.get_or( "spell_failure", 0 );
+            rad.armourBonus = tArmour.get_or( "armour_bonus", 0 );
+            rad.armourCheck = tArmour.get_or( "armour_check", 0 );
+            rad.shieldBonus = tArmour.get_or( "shield_bonus", 0 );
+            rad.armourType = tArmour.get_or( "armour_type", std::string("") );
+            
             m_armourData.push_back( std::move(rad) );
         }
-
-
+        
         m_itemData.push_back( std::move(rit) );
     }
 }

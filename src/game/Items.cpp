@@ -16,9 +16,9 @@ Weapon::Weapon(WeaponData const& rawData)
 {
 }
 
-Weapon Weapon::fromName(std::string_view name)
+Weapon Weapon::fromId( std::string_view id )
 {
-    WeaponData rawData = ResourceDatabase::get().weaponFromName(name );
+    WeaponData rawData = ResourceDatabase::get().weaponFromId(id);
     return Weapon( rawData );
 }
 
@@ -100,12 +100,13 @@ Item::Item(ItemData const &rawData)
 
 std::shared_ptr<Item> Item::fromName(std::string_view name)
 {
-    ItemData rawData = ResourceDatabase::get().itemFromName(name );
+    ItemData rawData = ResourceDatabase::get().itemFromId(name);
     return std::make_shared<Item>( rawData );
 }
 
 void Item::initFromData(ItemData const &rawData)
 {
+    m_id = rawData.id;
     m_name = rawData.name;
     m_value = rawData.value;
     m_weight = rawData.weight;
@@ -136,12 +137,12 @@ void Item::initFromData(ItemData const &rawData)
     else if (rawData.itemType == "weapon" )
     {
         m_itemType = ItemType::Weapon;
-        m_weapon = Weapon::fromName( m_name );
+        m_weapon = Weapon::fromId( m_id );
     }
     else if (rawData.itemType == "armour" )
     {
         m_itemType = ItemType::Armour;
-        m_armour = Armour::fromName( m_name );
+        m_armour = Armour::fromId( m_id );
     }
     else
     {
@@ -189,9 +190,9 @@ Armour::Armour(ArmourData const &rawData)
     initFromData( rawData );
 }
 
-Armour Armour::fromName(std::string_view name)
+Armour Armour::fromId( std::string_view id )
 {
-    ArmourData rawData = ResourceDatabase::get().armourFromName(name );
+    ArmourData rawData = ResourceDatabase::get().armourFromId(id);
     return Armour( rawData );
 }
 

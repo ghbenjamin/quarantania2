@@ -29,7 +29,7 @@ sol::object LuaState::runScriptFile(std::string const& path)
     catch ( [[maybe_unused]] std::exception const& ex )
     {
         AssertAlwaysMsg( fmt::format( "Error running script file '{}'", path ) );
-        std::terminate;
+        std::terminate();
     }
 }
 

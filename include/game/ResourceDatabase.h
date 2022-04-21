@@ -23,9 +23,9 @@ public:
 
     ~ResourceDatabase() = default;
 
-    ItemData itemFromName( std::string_view name );
-    WeaponData weaponFromName (std::string_view name );
-    ArmourData armourFromName( std::string_view name );
+    ItemData itemFromId( std::string_view id );
+    WeaponData weaponFromId ( std::string_view id );
+    ArmourData armourFromId( std::string_view id );
     CreatureData creatureFromName( std::string_view name );
     ObjectData objectFromName( std::string_view name );
     ActionData actionFromId(std::string_view id );

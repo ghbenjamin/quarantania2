@@ -18,7 +18,7 @@ public:
     Armour( ArmourData const& rawData );
     ~Armour() = default;
 
-    static Armour fromName( std::string_view name );
+    static Armour fromId( std::string_view id );
 
     ArmourType armourType( ) const;
     int arcaneFailureChance( ) const;
@@ -50,7 +50,7 @@ public:
     Weapon( WeaponData const& rawData );
     ~Weapon() = default;
 
-    static Weapon fromName( std::string_view name );
+    static Weapon fromId( std::string_view id );
 
     WeaponHandedness handedness() const;
     WeaponType type() const;
@@ -100,9 +100,10 @@ public:
     Armour const& getArmour() const;
 
 private:
-    void initFromData(ItemData const& rawData );
+    void initFromData( ItemData const& rawData );
 
 private:
+    std::string m_id;
     std::string m_name;
     ItemType m_itemType;
     int m_value;
