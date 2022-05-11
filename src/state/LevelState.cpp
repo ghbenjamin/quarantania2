@@ -17,10 +17,11 @@
 LevelState::LevelState( LuaState& luaState, std::shared_ptr<RunState> const& runState, std::string const& levelName )
     : GameState(luaState), m_runState(runState)
 {
-    std::string levelPath = "../resource/maps/" + levelName + ".json";
+//    std::string levelPath = "../resource/maps/" + levelName + ".json";
+    std::string levelPath = "maps/" + levelName;
 
     TiledMapLoader loader;
-    TiledMap tm = loader.loadJson(levelPath);
+    TiledMap tm = loader.loadLua(levelPath);
 
     FixedLevelFactory ffactory(m_lua, &tm, runState);
     m_level = ffactory.createLevel();

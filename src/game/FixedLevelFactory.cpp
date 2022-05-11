@@ -154,7 +154,7 @@ void FixedLevelFactory::constructSpawnPoints(TiledObjectLayer const& olayer)
 
                 if (k == "name")
                 {
-                    spawn.name = std::get<std::string>(v);
+                    spawn.name = v;
                 }
                 else
                 {

@@ -100,7 +100,7 @@ EntityRef EntityFactory::createItem(Vector2i pos, std::shared_ptr<Item> item) co
 }
 
 EntityRef EntityFactory::createObject(Vector2i pos, std::string const& name, SpritesheetKey const& sprite,
-        const std::unordered_map<std::string, JSONValue> &data) const
+        const std::unordered_map<std::string, std::string> &data) const
 {
     auto eref = m_parent->ecs().createEntity();
 
@@ -124,19 +124,19 @@ EntityRef EntityFactory::createObject(Vector2i pos, std::string const& name, Spr
     auto lightIntensity = data.find("light-intensity");
     if ( lightIntensity != data.end() )
     {
-        float intensityVal = std::get<float>(lightIntensity->second);
+        float intensityVal = std::stof(lightIntensity->second);
         std::string colourVal;
-        
+
         auto lightColour = data.find("light-colour");
         if (lightColour != data.end())
         {
-            colourVal = std::get<std::string>(lightColour->second);
+            colourVal = lightColour->second;
         }
         else
         {
             colourVal = "#ffffffff";
         }
-    
+
         m_parent->ecs().addComponent<LightingComponent>(eref, intensityVal, Colour(colourVal));
     }
    

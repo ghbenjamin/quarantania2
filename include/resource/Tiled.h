@@ -5,6 +5,7 @@
 #include <variant>
 
 #include <resource/Spritesheet.h>
+#include <engine/LuaState.h>
 
 using TiledGid = std::uint32_t;
 
@@ -54,7 +55,7 @@ struct TiledObjectData
     Vector2i rawPos;
     Vector2i tilePos;
 
-    std::unordered_map<std::string, JSONValue> props;
+    std::unordered_map<std::string, std::string> props;
 };
 
 struct TiledObjectLayer
@@ -87,7 +88,7 @@ public:
     TiledMapLoader() = default;
     ~TiledMapLoader() = default;
 
-    TiledMap loadJson( std::string const& path );
+//    TiledMap loadJson( std::string const& path );
     TiledMap loadLua( std::string const& path );
 
 

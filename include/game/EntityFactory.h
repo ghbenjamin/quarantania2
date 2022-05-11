@@ -19,7 +19,7 @@ public:
     EntityRef createEnemy(Vector2i pos, std::string const &name) const;
 
     EntityRef createObject(Vector2i pos, std::string const& name, SpritesheetKey const& sprite,
-            std::unordered_map<std::string, JSONValue> const& data) const;
+            std::unordered_map<std::string, std::string> const& data) const;
 
     EntityRef createItem(Vector2i pos, std::string const &name) const;
     EntityRef createItem(Vector2i pos, std::shared_ptr<Item> item) const;
