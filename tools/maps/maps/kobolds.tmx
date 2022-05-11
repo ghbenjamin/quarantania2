@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.7.1" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="11">
+ <editorsettings>
+  <export target="../../../scripts/maps/kobolds.lua" format="lua"/>
+ </editorsettings>
  <tileset firstgid="1" source="../tilesets/dawnlike.tsx"/>
  <layer id="1" name="Floor" width="20" height="20">
   <data encoding="base64" compression="zlib">
@@ -16,25 +19,25 @@
   <object id="2" template="../templates/player-spawn.tx" x="362.925" y="307.778"/>
   <object id="5" name="enemy-spawn" x="128.179" y="144.574">
    <properties>
-    <property name="name" value="Kobold"/>
+    <property name="name" value="Poison Frog"/>
    </properties>
    <point/>
   </object>
   <object id="8" name="enemy-spawn" x="524.639" y="495.575">
    <properties>
-    <property name="name" value="Kobold"/>
+    <property name="name" value="Poison Frog"/>
    </properties>
    <point/>
   </object>
   <object id="9" name="enemy-spawn" x="555.939" y="147.555">
    <properties>
-    <property name="name" value="Kobold"/>
+    <property name="name" value="Poison Frog"/>
    </properties>
    <point/>
   </object>
   <object id="10" name="enemy-spawn" x="206.428" y="501.537">
    <properties>
-    <property name="name" value="Kobold"/>
+    <property name="name" value="Poison Frog"/>
    </properties>
    <point/>
   </object>

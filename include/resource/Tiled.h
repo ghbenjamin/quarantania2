@@ -88,7 +88,6 @@ public:
     TiledMapLoader() = default;
     ~TiledMapLoader() = default;
 
-//    TiledMap loadJson( std::string const& path );
     TiledMap loadLua( std::string const& path );
 
 

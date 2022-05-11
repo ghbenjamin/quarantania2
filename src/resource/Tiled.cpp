@@ -66,30 +66,57 @@ TiledMap TiledMapLoader::loadLua( std::string const &path )
                 {
                     for ( auto const& [k3, v3] : propsVal.get<sol::table>() )
                     {
-                        tod.props.emplace(k3.as<sol::string_view>(), v3.as<sol::string_view>());
+                        std::string casted;
+                        
+                        if ( v3.get_type() == sol::type::number )
+                        {
+                            casted = std::to_string( v3.as<float>() );
+                        }
+                        else if ( v3.get_type() == sol::type::boolean )
+                        {
+                            casted = std::to_string( v3.as<bool>() );
+                        }
+                        else
+                        {
+                            casted = v3.as<sol::string_view>();
+                        }
+                        
+                        tod.props.emplace( k3.as<sol::string_view>(), casted );
                     }
                 }
 
+
                 if ( object["gid"] != sol::nil )
                 {
-                    int x = object["x"];
-                    int y = object["y"];
-
-                    tod.rawPos = { x, y };
                     tod.gid = object["gid"];
                     tod.sprite = resolveGid(tod.gid);
                 }
+                
 
-                else if ( object["gid"] != sol::nil )
+                auto shapeVal = object["shape"];
+                if ( shapeVal != sol::nil )
                 {
-                    float x = object["x"];
-                    float y = object["y"];
-
-                    tod.rawPos = {
-                            (int) std::floorf(x),
-                            (int) std::floorf(y)
-                    };
+                    auto const& shapeStr = shapeVal.get<std::string_view>();
+                    
+                    if ( shapeStr == "rectangle" )
+                    {
+                        int x = object["x"];
+                        int y = object["y"];
+    
+                        tod.rawPos = { x, y };
+                    }
+                    else if ( shapeStr == "point" )
+                    {
+                        float x = object["x"];
+                        float y = object["y"];
+    
+                        tod.rawPos = {
+                                (int) std::floorf(x),
+                                (int) std::floorf(y)
+                        };
+                    }
                 }
+
 
                 tol.objects.push_back(tod);
             }
@@ -108,130 +135,6 @@ TiledMap TiledMapLoader::loadLua( std::string const &path )
     return m_map;
 }
 
-
-//TiledMap TiledMapLoader::loadJson( const std::string &path)
-//{
-//    auto doc = utils::json::loadFromPath(path );
-//
-//    m_map.width = doc["width"];
-//    m_map.height = doc["height"];
-//    m_map.tileHeight = doc["tileheight"];
-//    m_map.tileWidth = doc["tilewidth"];
-//
-//    for ( auto const& layer : doc["tilesets"] )
-//    {
-//        TiledTileset ts;
-//        ts.filename = layer["source"];
-//        ts.firstGid = layer["firstgid"];
-//        ts.sheetName = std::filesystem::path(ts.filename).stem().string();
-//        m_map.tilesets.push_back(ts);
-//    }
-//
-//    for ( auto const& layer : doc["layers"] )
-//    {
-//        std::string layerType = layer["type"];
-//        if ( layerType == "tilelayer" )
-//        {
-//            TiledTileLayer ttl;
-//
-//            ttl.width = layer["width"];
-//            ttl.height = layer["height"];
-//            ttl.xOffset = layer["x"];
-//            ttl.yOffset = layer["y"];
-//            ttl.name = layer["name"];
-//            ttl.rawData = layer["data"];
-//            ttl.encoding = layer["encoding"];
-//            ttl.compression = layer["compression"];
-//
-//            m_map.tileLayers.push_back(ttl);
-//        }
-//        else if ( layerType == "objectgroup" )
-//        {
-//            TiledObjectLayer tol;
-//
-//            tol.name = layer["name"];
-//            tol.xOffset = layer["x"];
-//            tol.yOffset = layer["y"];
-//
-//            for ( auto const& object : layer["objects"] )
-//            {
-//                TiledObjectData tod;
-//
-//                tod.name = object["name"];
-//
-//                if ( object.contains("properties") )
-//                {
-//                    for ( auto const& prop : object["properties"] )
-//                    {
-//                        std::string name = prop["name"];
-//                        std::string type = prop["type"];
-//                        JSONValue val;
-//
-//                        if ( type == "string" )
-//                        {
-//                            val = std::string(prop["value"]);
-//                        }
-//                        else if ( type == "bool" )
-//                        {
-//                            val = prop["value"].get<bool>();
-//                        }
-//                        else if ( type == "int" )
-//                        {
-//                            val = prop["value"].get<int>();
-//                        }
-//                        else if ( type == "color" )
-//                        {
-//                            val = std::string(prop["value"]);
-//                        }
-//                        else if ( type == "float" )
-//                        {
-//                            val = prop["value"].get<float>();
-//                        }
-//                        else
-//                        {
-//                            AssertAlwaysMsg( "unknown object prop type: " + type );
-//                        }
-//
-//                        tod.props.emplace(name, val);
-//                    }
-//                }
-//
-//                if ( object.contains("gid") )
-//                {
-//                    int x = object["x"];
-//                    int y = object["y"];
-//
-//                    tod.rawPos = { x, y };
-//                    tod.gid = object["gid"];
-//                    tod.sprite = resolveGid(tod.gid);
-//                }
-//                else if ( object.contains("point") )
-//                {
-//                    float x = object["x"];
-//                    float y = object["y"];
-//
-//                    tod.rawPos = {
-//                            (int) std::floorf(x),
-//                            (int) std::floorf(y)
-//                    };
-//                }
-//
-//                tol.objects.push_back(tod);
-//            }
-//
-//            m_map.objectLayers.push_back(tol);
-//        }
-//    }
-//
-//    for (auto& layer : m_map.tileLayers)
-//    {
-//        decodeLayer(&layer);
-//    }
-//
-//    calculateObjectTilePos();
-//
-//    return m_map;
-//}
 
 void TiledMapLoader::decodeLayer(TiledTileLayer *layer)
 {
