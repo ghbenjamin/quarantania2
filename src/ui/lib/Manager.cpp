@@ -14,7 +14,7 @@
 using namespace UI;
 
 Manager::Manager(LuaState& luaState)
-    : m_lua(luaState), m_isMidDrag(false), m_hasModalDialog(false), m_generator(this)
+    : m_lua(luaState), m_isMidDrag(false), m_hasModalDialog(false), m_generator(this, luaState)
 {
     auto windowSize = ResourceManager::get().getWindow()->getSize();
     m_modalSprite = createRectangle( windowSize, Colour::Black.withAlpha(150) );
@@ -630,16 +630,9 @@ void Manager::displayTransientMessage(std::string message, float displayTime )
     });
 }
 
-ElementPtr Manager::generateFromXML( std::string const &xmlname, Element* existing )
-{
-    auto& doc = ResourceManager::get().getXMLDoc( xmlname );
-    return m_generator.fromXML( doc.data(), existing );
-}
-
 ElementPtr Manager::generateFromLua( std::string const &name, Element *existing )
 {
-    std::shared_ptr<Element> foo = m_lua.state().script( "" );
-    return ElementPtr();
+    return m_generator.fromLua( name, existing );
 }
 
 void Manager::toggleConsoleWindow()
@@ -681,11 +674,6 @@ void Manager::loadScripts()
     }
 }
 
-void Manager::registerElement( std::string const &name, sol::function const& generator )
-{
-    m_elementGenerators.emplace( name, generator );
-}
-
 
 WindowAlignment::WindowAlignment(ElementPtr element, Alignment alignment, Vector2i offset)
 : element(std::move(element)), alignment(alignment), offset(offset) {}
@@ -701,6 +689,5 @@ void Manager::setLuaType(LuaState &lua)
 
     userType["deleteElement"] = &UI::Manager::deleteElement;
     userType["withId"] = &UI::Manager::withId<UI::Element>;
-    userType["registerElement"] = &UI::Manager::registerElement;
     userType["createElement"] = &UI::Manager::createElementBlank;
 }

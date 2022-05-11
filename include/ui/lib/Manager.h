@@ -202,13 +202,10 @@ public:
         }
     }
 
-    ElementPtr generateFromXML( std::string const& xmlname, Element* existing = nullptr );
     ElementPtr generateFromLua( std::string const& name, Element* existing = nullptr );
     
     void toggleConsoleWindow();
-    
     void setFocusedElement( ElementPtr elem );
-    void registerElement( std::string const& name, sol::function const& generator );
 
 private:
 
@@ -224,7 +221,6 @@ private:
     // Element generation
     Generator m_generator;
     LuaState& m_lua;
-    std::unordered_map<std::string, sol::function> m_elementGenerators;
 
     // Our root UI elements.
     std::vector<ElementPtr> m_roots;

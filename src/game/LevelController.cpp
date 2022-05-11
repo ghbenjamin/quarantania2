@@ -230,7 +230,6 @@ DefaultLController::DefaultLController(Level *level, UI::Manager* ui)
 
     addKeybinding( SDLK_ESCAPE, [this, level](){
         m_ui->toggleExclusiveDialog<UI::LevelMainMenu>( "levelMainMenu", level );
-//        m_ui->generateFromXML( "LevelMainMenu" );
     });
 }
 

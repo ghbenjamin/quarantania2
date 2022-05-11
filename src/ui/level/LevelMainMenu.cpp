@@ -7,7 +7,7 @@ using namespace UI;
 LevelMainMenu::LevelMainMenu(Manager *manager, Element* parent, Level* level)
     : Element(manager, parent), m_level(level)
 {
-    manager->generateFromXML( "LevelMainMenu", this );
+    manager->generateFromLua( "ui/elements/LevelMainMenu", this );
     
     withId<Button>( "level-menu-resume" )->setCallback( [this](){ onBtnResume(); } );
     withId<Button>( "level-menu-options" )->setCallback( [this](){ onBtnResume(); } );

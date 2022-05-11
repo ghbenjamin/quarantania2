@@ -4,11 +4,8 @@
 #include <string>
 #include <map>
 
+#include <engine/LuaState.h>
 
-namespace rapidxml
-{
-    template<class Ch> class xml_node;
-}
 
 namespace UI
 {
@@ -20,22 +17,19 @@ class ElementLayout;
 class Generator
 {
 public:
-    Generator( Manager* manager );
+    Generator( Manager* manager, LuaState& lua );
     
-    std::shared_ptr<Element> fromXML( std::string const& xmlstr, Element* existing = nullptr );
+    std::shared_ptr<Element> fromLua( std::string const& script, Element* existing = nullptr );
     
 private:
     
-    std::shared_ptr<Element> createElement( rapidxml::xml_node<char>* node, Element* parent, Element* existing = nullptr );
-    std::map<std::string, std::string> attrsToMap( rapidxml::xml_node<char>* node );
-    
-    
-    std::shared_ptr<Element> nodeToElement( rapidxml::xml_node<char>* node, Element* parent, std::map<std::string, std::string> const& attrs );
-    std::unique_ptr<ElementLayout> nodeToLayout( rapidxml::xml_node<char>* node, Element* parent );
-    void nodeToBackground( rapidxml::xml_node<char>* node, Element* parent );
-    
+    std::shared_ptr<Element> createElement( sol::table const& node, Element* parent, Element* existing = nullptr );
+    std::shared_ptr<Element> nodeToElement( sol::table const& node, Element* parent );
+    std::unique_ptr<ElementLayout> nodeToLayout( sol::table const& node, Element* parent );
+    void nodeToBackground( sol::table const& node, Element* parent );
     
     Manager* m_manager;
+    LuaState& m_lua;
 };
 
 

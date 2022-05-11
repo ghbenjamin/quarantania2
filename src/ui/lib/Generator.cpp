@@ -1,37 +1,32 @@
 #include <ui/lib/Generator.h>
+
+#include <fmt/format.h>
+
 #include <ui/lib/Element.h>
 #include <ui/lib/Manager.h>
 #include <ui/lib/ScrollHolder.h>
 #include <utils/Assert.h>
 #include <utils/Memory.h>
-
-#include <rapidxml/rapidxml.hpp>
-#include <fmt/format.h>
 #include <resource/ResourceManager.h>
 
 using namespace UI;
 
 
-Generator::Generator( Manager *manager )
-        : m_manager(manager) {}
+Generator::Generator( Manager *manager, LuaState& lua )
+        : m_manager(manager), m_lua(lua) {}
+        
 
-std::shared_ptr<Element> Generator::fromXML( std::string const& xmlstr, Element* existing )
+std::shared_ptr<Element> Generator::fromLua( std::string const &script, Element *existing )
 {
-    std::string localXml = xmlstr;
-    rapidxml::xml_document doc;
-    doc.parse<0>( localXml.data() );
+    sol::table luagen = m_lua.runLoadedScript( script );
     
-    auto rootNode = doc.first_node( "element" );
-    
-    return createElement( rootNode, nullptr, existing );
+    return createElement( luagen, nullptr, existing );
 }
 
-std::shared_ptr<Element> Generator::createElement( rapidxml::xml_node<char>* node, Element* parent, Element* existing )
+std::shared_ptr<Element> Generator::createElement( sol::table const& node, Element *parent, Element *existing )
 {
     std::shared_ptr<Element> created = std::shared_ptr<Element>();
     Element* target;
-    
-    auto attrs = attrsToMap( node );
     
     // If an existing pointer has been specified, just annotate the existing element rather than making a new one
     if ( existing != nullptr  )
@@ -40,49 +35,49 @@ std::shared_ptr<Element> Generator::createElement( rapidxml::xml_node<char>* nod
     }
     else
     {
-        created = nodeToElement( node, parent, attrs );
+        created = nodeToElement( node, parent );
         target = created.get();
     }
     
-    
-    if ( attrs.contains("id") )
+    auto idNode = node["id"];
+    if ( idNode != sol::nil )
     {
-        target->setId( attrs["id"] );
+        target->setId( idNode.get<std::string>() );
     }
     
-    if ( attrs.contains("padding") )
+    auto paddingNode = node["padding"];
+    if ( paddingNode != sol::nil )
     {
-        target->setPadding( std::stoi( attrs.at("padding") ) );
+        target->setPadding( paddingNode.get<int>() );
     }
     
-    auto layout = node->first_node("layout");
-    if ( layout != nullptr )
+    auto layoutNode = node["layout"];
+    if ( layoutNode != sol::nil )
     {
-        target->setLayout( nodeToLayout(layout, target) );
+        target->setLayout( nodeToLayout(layoutNode, target) );
     }
     
-    auto background = node->first_node("background");
-    if ( background != nullptr )
+    auto backgroundNode = node["background"];
+    if ( backgroundNode != sol::nil )
     {
-        nodeToBackground( background, target );
+        nodeToBackground( backgroundNode, target );
     }
     
-    auto preferredSize = node->first_node("preferred-size");
-    if ( preferredSize != nullptr )
+    auto preferredSizeNode = node["preferred_size"];
+    if ( preferredSizeNode != sol::nil )
     {
-        auto prefSizeAttrs = attrsToMap( preferredSize );
         target->setPreferredContentSize({
-            std::stoi( prefSizeAttrs["width"] ),
-            std::stoi( prefSizeAttrs["height"] )
+            preferredSizeNode["width"].get<int>(),
+            preferredSizeNode["height"].get<int>()
         });
     }
     
-    auto children = node->first_node("children");
-    if ( children != nullptr )
+    auto childrenNode = node["children"];
+    if ( childrenNode != sol::nil )
     {
-        for ( auto child = children->first_node("element"); child; child = child->next_sibling() )
+        for ( auto const&[k, v] : childrenNode.get<sol::table>() )
         {
-            createElement( child, target );
+            createElement( v.as<sol::table>(), target );
         }
     }
     
@@ -90,37 +85,26 @@ std::shared_ptr<Element> Generator::createElement( rapidxml::xml_node<char>* nod
     return created;
 }
 
-std::map<std::string, std::string> Generator::attrsToMap( rapidxml::xml_node<char> *node )
+std::unique_ptr<ElementLayout> Generator::nodeToLayout( sol::table const &node, Element *parent )
 {
-    std::map<std::string, std::string> out;
-    
-    for (auto *attr = node->first_attribute(); attr; attr = attr->next_attribute() )
-    {
-        out.emplace( attr->name(), attr->value() );
-    }
-    
-    return out;
-}
-
-std::unique_ptr<ElementLayout> Generator::nodeToLayout( rapidxml::xml_node<char> *node, Element* parent )
-{
-    auto attrs = attrsToMap( node );
-    
-    Assert( attrs.contains("type") );
-    auto const& layoutType = attrs["type"];
+    std::string const& layoutType = node["type"];
     
     if ( layoutType == "vertical" )
     {
-        int spacing = 0; // Default
-        if ( attrs.contains("spacing"))
+        // Default values
+        HAlignment halign = HAlignment::Left;
+        int spacing = 0;
+        
+        auto const& spacingNode = node["spacing"];
+        if ( spacingNode != sol::nil )
         {
-            spacing = std::stoi( attrs["spacing"] );
+            spacing = spacingNode;
         }
         
-        HAlignment halign = HAlignment::Left; // Default
-        if ( attrs.contains("halign") )
+        auto const& halignNode = node["halign"];
+        if ( halignNode != sol::nil )
         {
-            auto halignStr = attrs["halign"];
+            std::string const& halignStr = halignNode;
             if ( halignStr == "right" )
             {
                 halign = HAlignment::Right;
@@ -140,20 +124,27 @@ std::unique_ptr<ElementLayout> Generator::nodeToLayout( rapidxml::xml_node<char>
     else if ( layoutType == "horizontal" )
     {
         int spacing = 0; // Default
-        if ( attrs.contains("spacing"))
-        {
-            spacing = std::stoi( attrs["spacing"] );
-        }
-    
         VAlignment valign = VAlignment::Top; // Default
-        if ( attrs.contains("halign") )
+    
+        auto const& spacingNode = node["spacing"];
+        if ( spacingNode != sol::nil )
         {
-            auto valignStr = attrs["valign"];
-            if ( valignStr == "right" )
+            spacing = spacingNode;
+        }
+        
+        auto const& valignNode = node["valign"];
+        if ( valignNode != sol::nil )
+        {
+            std::string const& valignStr = valignNode;
+            if ( valignStr == "top" )
+            {
+                valign = VAlignment::Top;
+            }
+            else if ( valignStr == "centre" )
             {
                 valign = VAlignment::Centre;
             }
-            else if ( valignStr == "centre" )
+            else if ( valignStr == "bottom" )
             {
                 valign = VAlignment::Bottom;
             }
@@ -162,7 +153,7 @@ std::unique_ptr<ElementLayout> Generator::nodeToLayout( rapidxml::xml_node<char>
                 valign = VAlignment::Fill;
             }
         }
-    
+        
         return utils::make_unique_with_type<ElementLayout, HorizontalLayout>( parent, spacing, valign );
     }
     else if ( layoutType == "center" )
@@ -176,29 +167,30 @@ std::unique_ptr<ElementLayout> Generator::nodeToLayout( rapidxml::xml_node<char>
     }
 }
 
-std::shared_ptr<Element>
-Generator::nodeToElement( rapidxml::xml_node<char> *node, Element* parent, std::map<std::string, std::string> const &attrs )
+std::shared_ptr<Element> Generator::nodeToElement( sol::table const& node, Element *parent )
 {
-    if ( attrs.contains( "type") )
+    auto typeElem = node["type"];
+    if ( typeElem != sol::nil )
     {
-        auto const& nodeType = attrs.at("type");
-        if ( nodeType == "button" )
+        std::string const& typeval = typeElem.get<std::string>();
+        
+        if ( typeval == "button" )
         {
-            auto btnLabel = attrs.at("text");
+            auto btnLabel = node["text"].get<std::string>();
             auto btnElem =  m_manager->createElement<Button>( parent, btnLabel );
-            
-            if ( attrs.contains("text-size") )
+    
+            if ( node["text_size"] != sol::nil )
             {
-                btnElem->getLabel().setTextSize( std::stoi( attrs.at("text-size") ) );
+                btnElem->getLabel().setTextSize( node["text_size"].get<int>() );
             }
             
             return btnElem;
         }
-        else if ( nodeType == "label" )
+        else if ( typeval == "label" )
         {
-        
+    
         }
-        else if ( nodeType == "scroll" )
+        else if ( typeval == "scroll" )
         {
             return m_manager->createElement<ScrollHolder>( parent );
         }
@@ -208,16 +200,13 @@ Generator::nodeToElement( rapidxml::xml_node<char> *node, Element* parent, std::
     return m_manager->createElement( parent );
 }
 
-void Generator::nodeToBackground( rapidxml::xml_node<char> *node, Element *parent )
+void Generator::nodeToBackground( sol::table const &node, Element *parent )
 {
-    auto attrs = attrsToMap( node );
-    
-    Assert( attrs.contains("type") );
-    auto const& bgType = attrs["type"];
+    std::string const bgType = node["type"];
     
     if ( bgType == "ninepatch" )
     {
-        auto const& patch = ResourceManager::get().getNinePatch( attrs.at("name") ).getPatch();
+        auto const& patch = ResourceManager::get().getNinePatch( node["name"].get<std::string>() ).getPatch();
         parent->setBackground( patch );
         parent->setBorderWidth( patch.getBorderWidth() );
     }

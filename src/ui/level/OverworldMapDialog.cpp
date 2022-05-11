@@ -8,7 +8,7 @@ using namespace UI;
 OverworldMapDialog::OverworldMapDialog( Manager *manager, Element *parent, Level *level, Overworld* overworld )
     : Element(manager, parent), m_level(level), m_overworld(overworld)
 {
-    manager->generateFromXML( "OverworldMapDialog", this );
+    manager->generateFromLua( "ui/elements/OverworldMapDialog", this );
 
     auto scrollHolder = withId<ScrollHolder>( "overworld-scroll" );
     scrollHolder->scrollToBottom();
