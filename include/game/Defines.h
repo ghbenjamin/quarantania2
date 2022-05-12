@@ -74,20 +74,6 @@ enum class HealthLevel
     Near_Death
 };
 
-
-// Action Properties
-// --------------------------------------
-
-enum class ActionSpeed
-{
-    Standard,
-    Move,
-    FullRound,
-    Swift,
-    Free
-};
-
-
 // Item Properties
 // --------------------------------------
 
@@ -140,8 +126,6 @@ enum class CreatureEquipSlot
     RightHand
 };
 
-
-
 enum class WeaponHandedness
 {
     OneHanded,
@@ -153,33 +137,6 @@ enum class WeaponType
     Melee,
     Ranged
 };
-
-enum class WeaponProficiency
-{
-    Simple,
-    Martial,
-    Exotic
-};
-
-enum class PhysDamageType
-{
-    Piercing    = 0x1,
-    Bludgeoning = 0x2,
-    Slashing    = 0x4
-};
-
-enum class WeaponSpecials
-{
-    Trip        = 0x01,
-    Reach       = 0x02,
-    Nonlethal   = 0x04,
-    Double      = 0x08,
-    Disarm      = 0x10,
-    Brace       = 0x20,
-};
-
-using PhysDamageMask = std::uint8_t;
-using WeaponSpecialMask = std::uint8_t;
 
 enum class ArmourType
 {

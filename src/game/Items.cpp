@@ -11,7 +11,6 @@ Weapon::Weapon(WeaponData const& rawData)
     :   m_critRange(rawData.critLower),
         m_critMultiplier(rawData.critMult),
         m_baseDamage(rawData.damage),
-        m_proficiency(rawData.proficiency),
         m_weaponType(rawData.weaponType)
 {
 }
@@ -30,11 +29,6 @@ WeaponHandedness Weapon::handedness() const
 WeaponType Weapon::type() const
 {
     return m_weaponType;
-}
-
-WeaponProficiency Weapon::proficiency() const
-{
-    return m_proficiency;
 }
 
 DiceRoll const &Weapon::damage() const
@@ -56,11 +50,8 @@ int Weapon::critRange() const
 const Weapon WeaponUnarmedAttack = { WeaponData {
     "Unarmed",
     DiceRoll{1, 3},
-    WeaponProficiency::Simple,
     20,
     2,
-    "",
-    "",
     WeaponType::Melee
 }};
 

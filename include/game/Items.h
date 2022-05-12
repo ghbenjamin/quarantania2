@@ -54,22 +54,16 @@ public:
 
     WeaponHandedness handedness() const;
     WeaponType type() const;
-    WeaponProficiency proficiency() const;
     DiceRoll const& damage() const;
     int critRange() const;
     int critMultiplier() const;
 
 private:
-
     int m_critRange;
     int m_critMultiplier;
-
     WeaponHandedness m_handedness;
     WeaponType m_weaponType;
-    WeaponProficiency m_proficiency;
     DiceRoll m_baseDamage;
-    PhysDamageMask m_damageType;
-    WeaponSpecialMask m_specials;
 };
 
 

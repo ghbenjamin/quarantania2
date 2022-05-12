@@ -10,8 +10,3 @@ void MeleeAttackPowerAttack::modifyDamageRoll( DamageRoll &roll )
 {
 
 }
-
-void MeleeAttackVitalStrike::modifyDamageRoll( DamageRoll &roll )
-{
-
-}

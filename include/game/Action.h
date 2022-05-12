@@ -72,35 +72,7 @@ struct ActionSpeedData
     ActionSpeedData( GameAction* action );
     
     GameAction const* action = nullptr;
-    ActionSpeed modified = ActionSpeed::Free;
-};
-
-
-class ActionsUsedInfo
-{
-public:
-    ActionsUsedInfo() = default;
-    ~ActionsUsedInfo() = default;
-
-    // Can this actor perform the specified action? This will depend on the actions the actor has already
-    // taken this round.
-    bool canUseAction( ActionSpeed speed ) const;
-
-    // Return a three-member array of bools describing whether or not the actor has used his move, standard, and
-    // swift actions this turn.
-    std::array<bool, 3> getUsedActions() const;
-
-
-    // Mark that the actor has used the specified action.
-    void useAction( ActionSpeed speed );
-
-    // Reset the actions used info, re-enabling all actions.
-    void reset();
-
-private:
-    bool m_usedStandard = false;
-    bool m_usedMove = false;
-    bool m_usedSwift = false;
+    int modified = 0;
 };
 
 class SingleTileTargeting : public IActionTargeting

@@ -2,7 +2,6 @@
 
 #include <game/Level.h>
 #include <game/LevelData.h>
-#include <game/LevelConfig.h>
 
 class LevelFactory
 {

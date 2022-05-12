@@ -30,7 +30,7 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
         singleAttack.weapon = atk.weapon;
     
         // Make independent attack and damage rolls for each attack instance
-        auto attackRoll = attacker.makeMeleeAttackRoll(singleAttack, evt.attack, false);
+        auto attackRoll = attacker.makeMeleeAttackRoll( singleAttack, evt.attack );
     
         Logger::get().info( "Attack roll: natural={}, modified={}, target={}", attackRoll.naturalRoll, attackRoll.modifiedRoll, attackRoll.targetValue );
     

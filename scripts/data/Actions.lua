@@ -3,7 +3,7 @@ return {
         name = "Short Step",
         id = "short-step",
         type = "move",
-        speed = "Move",
+        speed = 1,
         provokes = false,
         description = "Take a single step in any direction. Does not provoke attacks of opportunity.",
         icon = "game_ui/w-24-walking-boot"
@@ -12,7 +12,7 @@ return {
         name = "Move",
         id = "move",
         type = "move",
-        speed = "Move",
+        speed = 1,
         provokes = true,
         description = "Walk to a new position.",
         icon = "game_ui/w-24-walk"
@@ -21,7 +21,7 @@ return {
         name = "Strike",
         id = "strike",
         type = "attack",
-        speed = "Standard",
+        speed = 1,
         provokes = false,
         description = "Strike a single enemy with your primary melee weapon.",
         icon = "game_ui/w-24-sword-brandish"
@@ -30,7 +30,7 @@ return {
         name = "Full Attack",
         id = "full-attack",
         type = "attack",
-        speed = "FullRound",
+        speed = 3,
         provokes = false,
         description = "Spend the turn attacking with all available weapons.",
         icon = "game_ui/w-24-sword-array"
@@ -39,7 +39,7 @@ return {
         name = "Power Attack",
         id = "power-attack",
         type = "attack",
-        speed = "Standard",
+        speed = 1,
         provokes = false,
         description = "A melee strike which sacrifices accuracy for damage.",
         icon = "game_ui/w-24-axe-swing"

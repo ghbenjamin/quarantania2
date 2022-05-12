@@ -25,11 +25,8 @@ struct WeaponData
 {
     std::string itemId;
     DiceRoll damage;
-    WeaponProficiency proficiency;
     int critLower;
     int critMult;
-    std::string damageType;
-    std::string specials;
     WeaponType weaponType;  // Ranged or Melee
 };
 
@@ -76,7 +73,7 @@ struct ActionData
     std::string id;
     std::string name;
     RawActionDataType type;
-    ActionSpeed speed;
+    int speed;
     bool provokes;
     std::string description;
     SpritesheetKey sprite;

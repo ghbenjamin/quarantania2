@@ -98,10 +98,11 @@ public:
     int getCritRangeForAttack( SingleMeleeAttackInstance& attack ) const;
     MeleeAttackCountData getAttackCountForMeleeAttack( std::shared_ptr<MeleeAttack> attackImpl ) const;
     DamageRoll makeMeleeDamageRoll( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl, AttackRoll const& roll ) const;
-    int getAcForMeleeAttack( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl ) const;
-    AttackRoll makeMeleeAttackRoll( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl, bool isCritConfirm ) const;
+    AttackRoll makeMeleeAttackRoll( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl ) const;
 
     // Modifiers
+    // ---------------------
+    
     void addModifierGroup( ActorModGroup const& mod );
     void removeActorModGroup( std::string const& id );
     void applyAllModifiers(ModifiableStatObject roll ) const;
@@ -120,10 +121,25 @@ public:
     }
     
     // Actions
+    // -------------------------
+    
+    // Return all the game actions this actor is allowed to take
     std::vector<GameAction> getAllGameActions() const;
-    ActionsUsedInfo& actionInfo();
-    ActionsUsedInfo const& actionInfo() const;
+    
+    // This actor peform the specified action?
     bool canPerformAction( GameAction const& action ) const;
+    
+    // How many actions does this actor have remaining this round?
+    int getActionsRemaining() const;
+    
+    // How many actions total can this entity perform by default?
+    int getMaxActions() const;
+    
+    // Mark this actor as having used [count] actions from their available pool
+    void useActions( int count );
+    
+    // Reset the available action count back to the maximum
+    void resetActions();
 
 private:
 
@@ -165,5 +181,6 @@ private:
     std::vector<ActorActionMod> m_actionMods;
     
     // Actions
-    ActionsUsedInfo m_actionInfo;
+    int m_maxActions;
+    int m_usedActions;
 };

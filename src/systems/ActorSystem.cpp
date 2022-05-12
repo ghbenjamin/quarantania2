@@ -28,7 +28,7 @@ void ActorSystem::operator()( GameEvents::RoundChange &evt)
 {
     for (auto const& [actor] : m_level->ecs().entitiesWith<ActorComponent>() )
     {
-        actor->actor.actionInfo().reset();
+        actor->actor.resetActions();
 
         // Do something with expired modifiers here
     }
@@ -41,7 +41,7 @@ void ActorSystem::operator()(GameEvents::EntityAction &evt)
     ActionSpeedData speedData(&evt.speed);
     actorC.applyAllModifiers( &speedData );
     
-    actorC.actionInfo().useAction( speedData.modified );
+    actorC.useActions( speedData.modified );
 }
 
 

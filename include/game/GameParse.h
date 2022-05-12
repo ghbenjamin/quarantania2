@@ -10,7 +10,6 @@ namespace EnumParse
     CreatureSize creatureType( std::string const& input );
     ElementalDamageType elementalDamageType( std::string const& input );
     Skill skill( std::string const& input );
-    ActionSpeed actionSpeed( std::string const& input );
 }
 
 namespace EnumToString

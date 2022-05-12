@@ -1,7 +1,7 @@
 #pragma once
 
 #include <engine/Component.h>
-#include <game/Actor.h>
+#include <utils/Colour.h>
 
 
 struct LightingComponent : public Component<LightingComponent>

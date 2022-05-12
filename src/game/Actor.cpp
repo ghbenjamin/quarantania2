@@ -20,7 +20,9 @@ Actor::Actor( Level *level, EntityRef ref, ActorData const &pdata )
           m_HpCurrent(pdata.maxHP),
           m_baseSpeed(pdata.baseSpeed),
           m_size(pdata.size),
-          m_creatureType(pdata.creatureType)
+          m_creatureType(pdata.creatureType),
+          m_usedActions(0),
+          m_maxActions(3)
 {
 }
 
@@ -332,18 +334,12 @@ DamageRoll Actor::makeMeleeDamageRoll( SingleMeleeAttackInstance &attack, std::s
     return damageRoll;
 }
 
-int Actor::getAcForMeleeAttack( SingleMeleeAttackInstance &attack, std::shared_ptr<MeleeAttack> attackImpl) const
-{
-    // TODO: All the modifiers
-    return getAC();
-}
-
-AttackRoll Actor::makeMeleeAttackRoll( SingleMeleeAttackInstance &attack, std::shared_ptr<MeleeAttack> attackImpl, bool isCritConfirm ) const
+AttackRoll Actor::makeMeleeAttackRoll( SingleMeleeAttackInstance &attack, std::shared_ptr<MeleeAttack> attackImpl ) const
 {
     AttackRoll result;
     result.ctx = &attack;
     result.naturalRoll = m_level->random()->diceRoll(20);
-    result.targetValue = attack.defender->getAcForMeleeAttack(attack, attackImpl);
+    result.targetValue = attack.defender->getAC();
     int critRange = getCritRangeForAttack( attack );
 
     // Start with the natural roll
@@ -360,26 +356,8 @@ AttackRoll Actor::makeMeleeAttackRoll( SingleMeleeAttackInstance &attack, std::s
 
     if ( result.naturalRoll >= critRange )
     {
-        // Potential crit
-        if ( !isCritConfirm )
-        {
-            // TODO: look up whether crit confirms are made with the same attack feat as the original attack
-            auto confirmResult = makeMeleeAttackRoll(attack, attackImpl, true);
-            if ( confirmResult.isHit )
-            {
-                // Confirmed crit - a hit and crit
-                // Trigger: crit confirmed
-                result.isCrit = true;
-                result.isHit = true;
-            }
-        }
-        else
-        {
-            // Crit confirmation failed, but still a guaranteed hit
-            // Trigger: crit confirmation failed
-            result.isHit = true;
-            result.isCrit = false;
-        }
+        result.isCrit = true;
+        result.isHit = true;
     }
     else
     {
@@ -423,15 +401,7 @@ void Actor::acceptDamage( Damage const &dmg )
     
     if ( getCurrentHp() <= 0 )
     {
-        if ( /*getCurrentHp() > -getAbilityScoreValue(AbilityScoreType::CON)*/ false )
-        {
-            // Unconscious! TODO
-        }
-        else
-        {
-            // The entity died
-            m_level->events().broadcast<GameEvents::EntityDeath>( m_entity );
-        }
+        m_level->events().broadcast<GameEvents::EntityDeath>( m_entity );
     }
 }
 
@@ -591,22 +561,12 @@ std::vector<GameAction> Actor::getAllGameActions() const
     return out;
 }
 
-ActionsUsedInfo& Actor::actionInfo()
-{
-    return m_actionInfo;
-}
-
-ActionsUsedInfo const &Actor::actionInfo() const
-{
-    return m_actionInfo;
-}
-
 bool Actor::canPerformAction( GameAction const& action ) const
 {
     ActionSpeedData speedData(&action);
     applyAllModifiers( &speedData );
     
-    return actionInfo().canUseAction( speedData.modified );
+    return (m_maxActions - m_usedActions) >= speedData.modified;
 }
 
 MeleeAttackCountData Actor::getAttackCountForMeleeAttack( std::shared_ptr<MeleeAttack> attackImpl ) const
@@ -677,6 +637,26 @@ std::vector<ActorModGroup> const &Actor::getAllModifiers() const
     return m_modifierGroups;
 }
 
+int Actor::getMaxActions() const
+{
+    return m_maxActions;
+}
+
+void Actor::resetActions()
+{
+    m_usedActions = 0;
+}
+
+int Actor::getActionsRemaining() const
+{
+    return m_maxActions - m_usedActions;
+}
+
+void Actor::useActions( int count )
+{
+    m_usedActions += count;
+    AssertMsg( m_usedActions <= m_maxActions, "More actions used than possible" );
+}
 
 ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
  : m_actor(actor) {}

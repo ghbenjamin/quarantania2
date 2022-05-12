@@ -21,11 +21,3 @@ public:
     void modifyAttackRoll( AttackRoll &roll ) override;
     void modifyDamageRoll( DamageRoll &roll ) override;
 };
-
-
-class MeleeAttackVitalStrike : public MeleeAttack
-{
-    // Make a single attack with increased damage
-public:
-    void modifyDamageRoll( DamageRoll &roll ) override;
-};

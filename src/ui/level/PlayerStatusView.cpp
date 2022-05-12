@@ -152,11 +152,11 @@ PlayerStatusActionSpeedBar::PlayerStatusActionSpeedBar( Manager *manager, Elemen
 void PlayerStatusActionSpeedBar::refresh()
 {
     auto& actorC = m_level->ecs().getComponents<ActorComponent>(m_entity)->actor;
-    auto used = actorC.actionInfo().getUsedActions();
+    int used = actorC.getActionsRemaining();
     
     for (int i = 0; i < 3; i++)
     {
-        if (!used[i])
+        if ( used <= i )
         {
             m_icons[i]->setSprite( m_unusedSprites[i] );
         }

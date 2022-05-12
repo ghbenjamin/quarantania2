@@ -139,8 +139,6 @@ void ResourceDatabase::loadAllItemData()
             rwd.critLower = tWeapon["crit_lower"];
             rwd.critMult = tWeapon["crit_mult"];
             rwd.damage = { tWeapon["damage_dcount"], tWeapon["damage_dsize"] };
-            rwd.damageType = tWeapon["damage_type"];
-            rwd.specials = item.get_or( "special", std::string() );
     
             std::string weaponClass = tWeapon["weapon_class"];
             if ( stringContains(weaponClass, "Melee") )
@@ -155,21 +153,7 @@ void ResourceDatabase::loadAllItemData()
             {
                 AssertAlwaysMsg( fmt::format( "Unknown weapon class", weaponClass ) );
             }
-    
-            std::string profStr = tWeapon["proficiency"];
-            if ( profStr == "Simple" )
-            {
-                rwd.proficiency = WeaponProficiency::Simple;
-            }
-            else if ( profStr == "Martial" )
-            {
-                rwd.proficiency = WeaponProficiency::Martial;
-            }
-            else
-            {
-                rwd.proficiency = WeaponProficiency::Exotic;
-            }
-    
+            
             m_weaponData.push_back( std::move(rwd) );
         }
     
@@ -220,7 +204,7 @@ void ResourceDatabase::loadAllActionData()
             AssertAlwaysMsg( fmt::format("Unknown action type: '{}'", typeStr) );
         }
 
-        robj.speed = EnumParse::actionSpeed( data["speed"] );
+        robj.speed = data["speed"];
         robj.provokes = data["provokes"];
         robj.description = data["description"];
 
