@@ -134,7 +134,7 @@ EntityRef ActionMenu::currentEntity() const
 void ActionMenu::openMenu(RawActionDataType category)
 {
     std::vector<GameAction> menuItems;
-    auto actions = m_level->actionsForActor(m_currEntity);
+    auto actions = m_level->ecs().getComponents<ActorComponent>(m_currEntity)->actor.getAllGameActions();
     
     for ( auto& action : actions )
     {

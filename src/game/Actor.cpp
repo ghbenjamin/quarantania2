@@ -2,6 +2,8 @@
 #include <game/Level.h>
 #include <game/Attack.h>
 #include <game/RunState.h>
+#include <game/ActionDefs.h>
+
 
 Actor::Actor( Level *level, EntityRef ref, ActorData const &pdata )
         : m_level(level),
@@ -485,7 +487,7 @@ SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type) c
     }
 
 
-    SavingThrowRoll roll;
+    SavingThrowRoll roll {};
     roll.source = source;
     roll.defender = m_entity;
     roll.natural = m_level->random()->diceRoll(20);
@@ -551,13 +553,34 @@ int Actor::getAbilityScoreValue(AbilityScoreType type) const
 std::vector<GameAction> Actor::getAllGameActions() const
 {
     std::vector<GameAction> out;
-    out.reserve( m_actionMods.size() );
-    
+
+    // Add the actions which all actors have access to by default
+
+    out.emplace_back(
+            "move", TargetingType::SingleTile,
+            std::make_shared<ActionMoveStride>()
+    );
+
+    out.emplace_back(
+            "short-step", TargetingType::SingleTile,
+            std::make_shared<ActionMoveStep>()
+    );
+
+    out.emplace_back(
+            "strike", TargetingType::SingleEntity,
+            std::make_shared<ActionMeleeAttack>()
+    );
+
     for (auto const& mod : m_actionMods)
     {
         out.push_back( mod.action );
     }
-    
+
+    for ( auto& act : out )
+    {
+        act.enabled = canPerformAction( act );
+    }
+
     return out;
 }
 

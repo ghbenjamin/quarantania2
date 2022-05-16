@@ -70,9 +70,6 @@ public:
     int squaredEntityDistance(EntityRef a, EntityRef b);
     float entityDistance(EntityRef a, EntityRef b);
 
-    // Actions
-    std::vector<GameAction> actionsForActor(EntityRef actor);
-
     // State
     bool isPlayerTurn() const;          // Is the player or the computer taking its turn?
     int getCurrentRound() const;        // The current turn count.

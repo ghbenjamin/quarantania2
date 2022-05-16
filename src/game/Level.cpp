@@ -5,7 +5,6 @@
 #include <engine/LuaState.h>
 #include <graphics/RenderInterface.h>
 #include <game/GameEventDefs.h>
-#include <game/ActionDefs.h>
 #include <resource/ResourceManager.h>
 #include <utils/GlobalConfig.h>
 #include <utils/Math.h>
@@ -230,52 +229,6 @@ void Level::setLayout(LevelLayout const& llayout)
     m_mapRendering = llayout.mapData;
 }
 
-
-std::vector<GameAction> Level::actionsForActor(EntityRef actor)
-{
-    auto actorC = ecs().getComponents<ActorComponent>(actor);
-    std::vector<GameAction> out;
-
-    // Add the actions which all actors have access to by default
-    // TODO: Action costs. Action limits per turn. Enable/disable actions which cannot be performed.
-
-    out.emplace_back(
-        "move", TargetingType::SingleTile,
-        std::make_shared<ActionMoveStride>()
-    );
-
-    out.emplace_back(
-        "short-step", TargetingType::SingleTile,
-        std::make_shared<ActionMoveStep>()
-    );
-
-    out.emplace_back(
-        "strike", TargetingType::SingleEntity,
-        std::make_shared<ActionMeleeAttack>()
-    );
-    
-    out.emplace_back(
-        "full-attack", TargetingType::SingleEntity,
-        std::make_shared<ActionFullAttack>()
-    );
-
-    // Grab our custom actions, e.g. actions which have been added by feats, items, etc.
-    for ( auto const& action : actorC->actor.getAllGameActions() )
-    {
-        out.push_back(action);
-    }
-
-
-    // For each of our potential actions, work out if our actor can currently perfom them. If not,
-    // mark them as disabled.
-
-    for ( auto& act : out )
-    {
-        act.enabled = actorC->actor.canPerformAction( act );
-    }
-
-    return out;
-}
 
 void Level::centerCameraOnParty()
 {

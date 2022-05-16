@@ -48,7 +48,7 @@ void AnimationSystem::operator()( GameEvents::EntityDamage &evt )
     {
         auto [renderC, animC] = m_level->ecs().getComponents<RenderComponent, AnimationComponent>(evt.target);
 
-        m_level->animation().pushAnimation(utils::make_unique_with_type<Animation, AnimColourMod>(m_level, evt.target,
-                                                                                                  Colour::Red, renderC->sprite.getColour(), 0.5f) );
+        m_level->animation().pushAnimation(utils::make_unique_with_type<Animation, AnimColourMod>(
+                m_level, evt.target, Colour::Red, renderC->sprite.getColour(), 0.5f) );
     }
 }
