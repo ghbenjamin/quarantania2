@@ -9,6 +9,8 @@
 #include <game/Action.h>
 #include <utils/Memory.h>
 
+class Actor;
+class Weapon;
 class Level;
 
 // The type of calculation which can be modified by affects and abilities
@@ -24,6 +26,7 @@ enum class ActorDynamicModType
     MeleeAttackCountData,
 };
 
+// The attributes of an actor that we allow to be statically modified
 enum class ActorStaticModType
 {
     AttrStr,
@@ -36,6 +39,94 @@ enum class ActorStaticModType
     SaveRef,
     SaveWill
 };
+
+// Data which will be used by all rolls & opposed rolls
+struct ActorRollData
+{
+    // Either source or target may be null
+    EntityRef source = EntityNull;   // Where did this action originate?
+    EntityRef target = EntityNull;   // What is the target of this action?
+
+    int naturalRoll = -1;    // What was the actual number rolled?
+    int finalRoll = -1;      // The final value after all modifiers have been considered
+};
+
+
+// A bonus to an Ability Score, e.g. STR or DEX. Always given as a raw number, not as a +- modifier
+struct AbilityScoreBonus
+{
+    ActorRollData ctx;
+    AbilityScoreType type = AbilityScoreType::CHA;
+};
+
+// A bonus to a saving throw, e.g. REF or WILL.
+struct SavingThrowRoll
+{
+    ActorRollData ctx;
+    SavingThrowType type {};
+};
+
+// A single instance of a melee attack, e.g. one half of a double attack.
+struct SingleMeleeAttackInstance
+{
+    ActorRollData ctx;
+    Actor* attacker;
+    Actor* defender;
+    Weapon const* weapon;
+};
+
+// A single weapon - attack mod pair to help describe how many attacks an attacker gets for a given attack type
+struct MeleeAttackCountItem
+{
+    MeleeAttackCountItem(Weapon const* weapon, int naturalAttackMod);
+
+    Weapon const* weapon;
+    int naturalAttackMod;
+};
+
+struct MeleeAttackCountData
+{
+    std::vector<MeleeAttackCountItem> attacks;
+};
+
+// A single attack roll to hit, made vs a single attacker.
+struct AttackRoll
+{
+    ActorRollData ctx;
+
+    int targetValue = -1;
+    bool isHit = false;
+    bool isCrit = false;
+};
+
+struct DamageRoll
+{
+    int naturalRoll = -1;
+    int modifiedRoll = -1;
+};
+
+struct MovementSpeedData
+{
+    ActorRollData ctx;
+
+    int moveSpeedLimit = -1;
+    float multiplier = 1.0f;
+};
+
+struct ArmourClassData
+{
+    int shieldBonus = 0;
+    int armourBonus = 0;
+
+    int dexBonus = 0;
+    std::optional<int> maxDexToAc = {};
+
+    int dodgeBonus = 0;
+    int staticBonus = 10;
+
+    int modifiedAC = 0;
+};
+
 
 // Union type of the kinds of game stat that can be modified by effects and abilities
 using ModifiableStatObject = std::variant<
@@ -104,7 +195,7 @@ public:
 
     std::string const& getId() const;
     std::string const& getName() const;
-    const int getExpiryRound() const;
+    int getExpiryRound() const;
     
     std::vector<ActorDynamicMod> const& getDynamicMods() const;
     std::vector<ActorActionMod> const& getActionMods() const;

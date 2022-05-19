@@ -1,9 +1,9 @@
 #include <game/AttackDefs.h>
-#include <game/Combat.h>
+#include <game/ActorModifier.h>
 
 void MeleeAttackPowerAttack::modifyAttackRoll( AttackRoll &roll )
 {
-    roll.modifiedRoll -= 1;
+    roll.ctx.finalRoll -= 1;
 }
 
 void MeleeAttackPowerAttack::modifyDamageRoll( DamageRoll &roll )

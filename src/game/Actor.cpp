@@ -236,12 +236,12 @@ int Actor::getAC() const
 int Actor::getSpeed() const
 {
     MovementSpeedData data;
-    data.natural = m_baseSpeed;
-    data.modified = m_baseSpeed;
+    data.ctx.naturalRoll = m_baseSpeed;
+    data.ctx.finalRoll = m_baseSpeed;
     
     applyAllModifiers(&data);
     
-    int speed = data.modified;
+    int speed = data.ctx.finalRoll;
     
     if ( data.moveSpeedLimit >= 0 )
     {
@@ -339,16 +339,15 @@ DamageRoll Actor::makeMeleeDamageRoll( SingleMeleeAttackInstance &attack, std::s
 AttackRoll Actor::makeMeleeAttackRoll( SingleMeleeAttackInstance &attack, std::shared_ptr<MeleeAttack> attackImpl ) const
 {
     AttackRoll result;
-    result.ctx = &attack;
-    result.naturalRoll = m_level->random()->diceRoll(20);
+    result.ctx.naturalRoll = m_level->random()->diceRoll(20);
     result.targetValue = attack.defender->getAC();
     int critRange = getCritRangeForAttack( attack );
 
     // Start with the natural roll
-    result.modifiedRoll = result.naturalRoll;
+    result.ctx.finalRoll = result.ctx.naturalRoll;
     
     // Add STR mod to the attack roll (TODO: This should be modifible, e.g. Weapon Finesse)
-    result.modifiedRoll += getModStr();
+    result.ctx.finalRoll += getModStr();
     
     // Apply any modifiers from the type of attack, e.g. reduce to hit from a Power Attack
     attackImpl->modifyAttackRoll( result );
@@ -356,7 +355,7 @@ AttackRoll Actor::makeMeleeAttackRoll( SingleMeleeAttackInstance &attack, std::s
     // Apply any modifiers from the actors, e.g. Weapon Focus feats or status affects
     applyAllModifiers( &result );
 
-    if ( result.naturalRoll >= critRange )
+    if ( result.ctx.naturalRoll >= critRange )
     {
         result.isCrit = true;
         result.isHit = true;
@@ -364,7 +363,7 @@ AttackRoll Actor::makeMeleeAttackRoll( SingleMeleeAttackInstance &attack, std::s
     else
     {
         // Not a crit - compare the roll against the target value
-        if ( result.modifiedRoll >= result.targetValue )
+        if ( result.ctx.finalRoll >= result.targetValue )
         {
             // A hit!
             // Trigger: successful attack roll
@@ -487,11 +486,12 @@ SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type) c
     }
 
 
-    SavingThrowRoll roll {};
-    roll.source = source;
-    roll.defender = m_entity;
-    roll.natural = m_level->random()->diceRoll(20);
-    roll.modified = roll.natural + abilityScoreMod;
+    SavingThrowRoll roll;
+
+    roll.ctx.source = source;
+    roll.ctx.target = m_entity;
+    roll.ctx.naturalRoll = m_level->random()->diceRoll(20);
+    roll.ctx.finalRoll = roll.ctx.naturalRoll + abilityScoreMod;
 
     applyAllModifiers( &roll );
 

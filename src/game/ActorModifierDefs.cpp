@@ -10,7 +10,7 @@ void ActorMods::ModSavingThrowStatic::modify( SavingThrowRoll* roll )
 {
     if (roll->type == type)
     {
-        roll->modified += modifier;
+        roll->ctx.finalRoll += modifier;
     }
 }
 
@@ -20,7 +20,7 @@ ActorMods::ModAttackRollStatic::ModAttackRollStatic( int modifier )
 
 void ActorMods::ModAttackRollStatic::modify( AttackRoll* roll )
 {
-    roll->modifiedRoll += modifier;
+    roll->ctx.finalRoll += modifier;
 }
 
 
@@ -29,7 +29,7 @@ ActorMods::ModSavingThrowStaticAll::ModSavingThrowStaticAll( int modifier )
 
 void ActorMods::ModSavingThrowStaticAll::modify( SavingThrowRoll* roll )
 {
-    roll->modified += modifier;
+    roll->ctx.finalRoll += modifier;
 }
 
 ActorMods::ModAbilityScoreStatic::ModAbilityScoreStatic(AbilityScoreType type, int modifier)
@@ -39,7 +39,7 @@ void ActorMods::ModAbilityScoreStatic::modify(AbilityScoreBonus *roll)
 {
     if ( roll->type == type )
     {
-        roll->modified += modifier;
+        roll->ctx.finalRoll += modifier;
     }
 }
 
@@ -48,7 +48,7 @@ ActorMods::ModAbilityScoreStaticAll::ModAbilityScoreStaticAll(int modifier)
 
 void ActorMods::ModAbilityScoreStaticAll::modify(AbilityScoreBonus *roll)
 {
-    roll->modified += modifier;
+    roll->ctx.finalRoll += modifier;
 }
 
 

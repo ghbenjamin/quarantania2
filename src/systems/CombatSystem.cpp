@@ -23,8 +23,8 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
     for ( auto const& atk : attackList.attacks )
     {
         SingleMeleeAttackInstance singleAttack;
-        singleAttack.attackerRef = evt.attacker;
-        singleAttack.defenderRef = evt.defender;
+        singleAttack.ctx.source = evt.attacker;
+        singleAttack.ctx.target = evt.defender;
         singleAttack.attacker = &attacker;
         singleAttack.defender = &defender;
         singleAttack.weapon = atk.weapon;
@@ -32,7 +32,7 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
         // Make independent attack and damage rolls for each attack instance
         auto attackRoll = attacker.makeMeleeAttackRoll( singleAttack, evt.attack );
     
-        Logger::get().info( "Attack roll: natural={}, modified={}, target={}", attackRoll.naturalRoll, attackRoll.modifiedRoll, attackRoll.targetValue );
+        Logger::get().info( "Attack roll: natural={}, modified={}, target={}", attackRoll.ctx.naturalRoll, attackRoll.ctx.finalRoll, attackRoll.targetValue );
     
         if ( attackRoll.isHit )
         {

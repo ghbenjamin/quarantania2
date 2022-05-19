@@ -1,5 +1,8 @@
 #include <game/ActorModifier.h>
 
+MeleeAttackCountItem::MeleeAttackCountItem( Weapon const *weapon, int naturalAttackMod )
+        : weapon(weapon), naturalAttackMod(naturalAttackMod) {}
+
 ActorModGroup::ActorModGroup( std::string const& id, const std::string &name, int expiryRound)
     : m_id(id), m_name(name), m_expiryRound(expiryRound) {}
 
@@ -8,7 +11,7 @@ std::string const &ActorModGroup::getName() const
     return m_name;
 }
 
-const int ActorModGroup::getExpiryRound() const
+int ActorModGroup::getExpiryRound() const
 {
     return m_expiryRound;
 }
