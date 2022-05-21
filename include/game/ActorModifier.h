@@ -13,6 +13,26 @@ class Actor;
 class Weapon;
 class Level;
 
+
+// Mod Components - the basic numerical processes by which modifiers can change specific attributes and rolls
+
+enum class ModComponentType
+{
+    Add,        // A fixed additive (or subtractive) bonus to a roll
+    Multiply,   // A fixed multiplicative bonus to a roll (e.g. halving or doubling)
+    Limit,      // Limit the final value to this value
+    Floor       // Raise the final value to this floor value if it would be below it
+};
+
+struct ModComponent
+{
+    ModComponentType type;
+    double value;
+};
+
+
+// Dynamic Mods
+
 // The type of calculation which can be modified by affects and abilities
 enum class ActorDynamicModType
 {
@@ -26,20 +46,6 @@ enum class ActorDynamicModType
     MeleeAttackCountData,
 };
 
-// The attributes of an actor that we allow to be statically modified
-enum class ActorStaticModType
-{
-    AttrStr,
-    AttrDex,
-    AttrCon,
-    AttrInt,
-    AttrWis,
-    AttrCha,
-    SaveFort,
-    SaveRef,
-    SaveWill
-};
-
 // Data which will be used by all rolls & opposed rolls
 struct ActorRollData
 {
@@ -49,6 +55,8 @@ struct ActorRollData
 
     int naturalRoll = -1;    // What was the actual number rolled?
     int finalRoll = -1;      // The final value after all modifiers have been considered
+
+    std::vector<ModComponent> modComponents;
 };
 
 
@@ -78,10 +86,8 @@ struct SingleMeleeAttackInstance
 // A single weapon - attack mod pair to help describe how many attacks an attacker gets for a given attack type
 struct MeleeAttackCountItem
 {
-    MeleeAttackCountItem(Weapon const* weapon, int naturalAttackMod);
-
-    Weapon const* weapon;
-    int naturalAttackMod;
+    Weapon const* weapon = nullptr;
+    int naturalAttackMod = -1;
 };
 
 struct MeleeAttackCountData
@@ -151,17 +157,6 @@ struct ActorDynamicModImpl : ActorStatDynamicImplBase
 };
 
 
-// A modifier which applies a fixed static modifier to a single stat, like an attribute or saving throw buff
-struct ActorStaticMod
-{
-    ActorStaticMod(std::string const &id, ActorStaticModType type, int value);
-    
-    std::string id;
-    ActorStaticModType type;
-    int value;
-};
-
-
 // A modifier which changes a thing which is happening dynamically like an attack roll or a saving throw (possibly conditionally applied)
 // As opposed to a static attack or saving throw modifier which always applied
 struct ActorDynamicMod
@@ -174,11 +169,40 @@ struct ActorDynamicMod
     std::shared_ptr<ActorStatDynamicImplBase> impl;
 };
 
+
+// Static mods
+// ----------------------------
+
+// The attributes of an actor that we allow to be statically modified
+enum class ActorStaticModType
+{
+    AttrStr,
+    AttrDex,
+    AttrCon,
+    AttrInt,
+    AttrWis,
+    AttrCha,
+    SaveFort,
+    SaveRef,
+    SaveWill
+};
+
+// A modifier which applies a fixed static modifier to a single stat, like an attribute or saving throw buff
+struct ActorStaticMod
+{
+    ActorStaticMod(std::string const &id, ActorStaticModType type, int value);
+
+    std::string id;
+    ActorStaticModType type;
+    int value;
+};
+
+
 // A new action granted by a modifier
 struct ActorActionMod
 {
     ActorActionMod( std::string const &id, GameAction const &action );
-    
+
     std::string id;
     GameAction action;
 };
