@@ -31,7 +31,6 @@ public:
     void operator()( MovementSpeedData* data );
     void operator()( ArmourClassData* data );
     void operator()( ActionSpeedData* data );
-    void operator()( MeleeAttackCountData* data );
 
 private:
     Actor const* m_actor;
@@ -96,7 +95,6 @@ public:
 
     // Combat
     int getCritRangeForAttack( SingleMeleeAttackInstance& attack ) const;
-    MeleeAttackCountData getAttackCountForMeleeAttack( std::shared_ptr<MeleeAttack> attackImpl ) const;
     DamageRoll makeMeleeDamageRoll( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl, AttackRoll const& roll ) const;
     AttackRoll makeMeleeAttackRoll( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl ) const;
 

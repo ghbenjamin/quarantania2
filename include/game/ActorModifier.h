@@ -15,6 +15,7 @@ class Level;
 
 
 // Mod Components - the basic numerical processes by which modifiers can change specific attributes and rolls
+// ----------------------------------
 
 enum class ModComponentType
 {
@@ -26,12 +27,14 @@ enum class ModComponentType
 
 struct ModComponent
 {
-    ModComponentType type;
-    double value;
+    ModComponentType type {};
+    double value = 0;
 };
 
 
+
 // Dynamic Mods
+// ---------------------------------
 
 // The type of calculation which can be modified by affects and abilities
 enum class ActorDynamicModType
@@ -43,7 +46,6 @@ enum class ActorDynamicModType
     MovementSpeed,
     ArmourClassData,
     ActionSpeedData,
-    MeleeAttackCountData,
 };
 
 // Data which will be used by all rolls & opposed rolls
@@ -64,7 +66,7 @@ struct ActorRollData
 struct AbilityScoreBonus
 {
     ActorRollData ctx;
-    AbilityScoreType type = AbilityScoreType::CHA;
+    AbilityScoreType type {};
 };
 
 // A bonus to a saving throw, e.g. REF or WILL.
@@ -78,21 +80,9 @@ struct SavingThrowRoll
 struct SingleMeleeAttackInstance
 {
     ActorRollData ctx;
-    Actor* attacker;
-    Actor* defender;
-    Weapon const* weapon;
-};
-
-// A single weapon - attack mod pair to help describe how many attacks an attacker gets for a given attack type
-struct MeleeAttackCountItem
-{
+    Actor* attacker = nullptr;
+    Actor* defender = nullptr;
     Weapon const* weapon = nullptr;
-    int naturalAttackMod = -1;
-};
-
-struct MeleeAttackCountData
-{
-    std::vector<MeleeAttackCountItem> attacks;
 };
 
 // A single attack roll to hit, made vs a single attacker.
@@ -142,8 +132,7 @@ using ModifiableStatObject = std::variant<
     AbilityScoreBonus*,
     MovementSpeedData*,
     ArmourClassData*,
-    ActionSpeedData*,
-    MeleeAttackCountData*
+    ActionSpeedData*
         >;
 
 

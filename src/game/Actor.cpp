@@ -592,30 +592,6 @@ bool Actor::canPerformAction( GameAction const& action ) const
     return (m_maxActions - m_usedActions) >= speedData.modified;
 }
 
-MeleeAttackCountData Actor::getAttackCountForMeleeAttack( std::shared_ptr<MeleeAttack> attackImpl ) const
-{
-    MeleeAttackCountData data;
-    auto [mainWeapon, offWeapon] = getEquippedWeapons();
-    
-    if ( attackImpl->isFullAttack() )
-    {
-        data.attacks.emplace_back( mainWeapon, 0 );
-        
-        if (offWeapon != nullptr)
-        {
-            data.attacks.emplace_back( offWeapon, 0 );
-        }
-    }
-    else
-    {
-        data.attacks.emplace_back( mainWeapon, 0 );
-    }
-    
-    applyAllModifiers(&data);
-    
-    return data;
-}
-
 std::optional<CreatureEquipSlot> Actor::canEquipItem( ItemPtr item )
 {
     // For now, always return true.
@@ -717,9 +693,4 @@ void ModifiableRollVisitor::operator()(ArmourClassData *data)
 void ModifiableRollVisitor::operator()( ActionSpeedData *data )
 {
     m_actor->modifyTypedRoll(ActorDynamicModType::ActionSpeedData, data );
-}
-
-void ModifiableRollVisitor::operator()( MeleeAttackCountData *data )
-{
-    m_actor->modifyTypedRoll(ActorDynamicModType::MeleeAttackCountData, data );
 }
