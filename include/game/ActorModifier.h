@@ -180,17 +180,6 @@ enum class ActorStaticModType
     SaveWill
 };
 
-// A modifier which applies a fixed static modifier to a single stat, like an attribute or saving throw buff
-struct ActorStaticMod
-{
-    ActorStaticMod(std::string const &id, ActorStaticModType type, int value);
-
-    std::string id;
-    ActorStaticModType type;
-    int value;
-};
-
-
 // A new action granted by a modifier
 struct ActorActionMod
 {
@@ -216,7 +205,6 @@ public:
     
     std::vector<ActorDynamicMod> const& getDynamicMods() const;
     std::vector<ActorActionMod> const& getActionMods() const;
-    std::vector<ActorStaticMod> const& getStaticMods() const;
     
     template <typename T, typename... Args>
     void addDynamicMod( ActorDynamicModType type, Args&&... args )
@@ -229,11 +217,6 @@ public:
     {
         m_actionMods.emplace_back( m_id, action );
     }
-    
-    void addStaticMod( ActorStaticModType type, int value )
-    {
-        m_staticMods.emplace_back( m_id, type, value );
-    }
 
 private:
     std::string m_id;       // The ID of this effect. This will be used to clean up after this effect expires.
@@ -242,5 +225,4 @@ private:
     
     std::vector<ActorDynamicMod> m_dynamicMods;
     std::vector<ActorActionMod> m_actionMods;
-    std::vector<ActorStaticMod> m_staticMods;
 };

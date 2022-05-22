@@ -198,7 +198,7 @@ void Actor::setCurrentHp(int value)
     m_HpCurrent = value;
 }
 
-int Actor::getAC() const
+int Actor::getAC()
 {
     ArmourClassData data;
     data.dexBonus = getModDex();
@@ -291,13 +291,13 @@ std::unordered_map<CreatureEquipSlot, ItemPtr> const &Actor::getAllEquippedItems
     return m_equippedItems;
 }
 
-int Actor::getCritRangeForAttack( AttackRoll &attack ) const
+int Actor::getCritRangeForAttack( AttackRoll &attack )
 {
     // TODO: Modifiers.
     return attack.weapon->critRange();
 }
 
-DamageRoll Actor::makeMeleeDamageRoll( AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl ) const
+DamageRoll Actor::makeMeleeDamageRoll( AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl )
 {
     DamageRoll damageRoll;
     
@@ -360,11 +360,6 @@ void Actor::addModifierGroup( ActorModGroup const &modGroup )
         m_dynamicModifiers.emplace(mod.type, mod );
     }
     
-    for ( auto const& mod : modGroup.getStaticMods() )
-    {
-        m_staticModifiers.emplace(mod.type, mod );
-    }
-    
     for (auto const& mod : modGroup.getActionMods())
     {
         m_actionMods.push_back( mod );
@@ -385,19 +380,6 @@ void Actor::removeActorModGroup( std::string const& id )
         else
         {
             dynIt++;
-        }
-    }
-    
-    auto statIt = m_staticModifiers.begin();
-    if ( ; statIt != m_staticModifiers.end() )
-    {
-        if ( statIt->second.id == id )
-        {
-            statIt = m_staticModifiers.erase(statIt);
-        }
-        else
-        {
-            statIt++;
         }
     }
 
@@ -440,56 +422,62 @@ SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type)
     return roll;
 }
 
-int Actor::getModStr() const
+int Actor::getModStr()
 {
     return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::STR ) );
 }
 
-int Actor::getModDex() const
+int Actor::getModDex()
 {
     return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::DEX ) );
 }
 
-int Actor::getModCon() const
+int Actor::getModCon()
 {
     return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::CON ) );
 }
 
-int Actor::getModInt() const
+int Actor::getModInt()
 {
     return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::INT ) );
 }
 
-int Actor::getModWis() const
+int Actor::getModWis()
 {
     return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::WIS ) );
 }
 
-int Actor::getModCha() const
+int Actor::getModCha()
 {
     return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::CHA ) );
 }
 
-int Actor::getAbilityScoreValue(AbilityScoreType type) const
+int Actor::getBaseAbilityScore( AbilityScoreType type ) const
 {
     switch(type)
     {
         case AbilityScoreType::STR:
-            return m_baseAbilityScoreStr + getStaticModifier(ActorStaticModType::AttrStr);
+            return m_baseAbilityScoreStr;
         case AbilityScoreType::DEX:
-            return m_baseAbilityScoreDex + getStaticModifier(ActorStaticModType::AttrDex);
+            return m_baseAbilityScoreDex;
         case AbilityScoreType::CON:
-            return m_baseAbilityScoreCon + getStaticModifier(ActorStaticModType::AttrCon);
+            return m_baseAbilityScoreCon;
         case AbilityScoreType::INT:
-            return m_baseAbilityScoreInt + getStaticModifier(ActorStaticModType::AttrInt);
+            return m_baseAbilityScoreInt;
         case AbilityScoreType::WIS:
-            return m_baseAbilityScoreWis + getStaticModifier(ActorStaticModType::AttrWis);
+            return m_baseAbilityScoreWis;
         case AbilityScoreType::CHA:
-            return m_baseAbilityScoreCha + getStaticModifier(ActorStaticModType::AttrCha);
+            return m_baseAbilityScoreCha;
     }
-    
-    AssertAlways();
-    return -1;
+}
+
+int Actor::getAbilityScoreValue( AbilityScoreType type )
+{
+    AbilityScoreBonus bonus { this, getBaseAbilityScore(type) };
+    bonus.type = type;
+    applyAllModifiers( &bonus );
+
+    return bonus.calculate();
 }
 
 std::vector<GameAction> Actor::getAllGameActions() const
@@ -540,32 +528,31 @@ std::optional<CreatureEquipSlot> Actor::canEquipItem( ItemPtr item )
     return defaultSlotForItemSlot( item->getEquipSlot() );
 }
 
-int Actor::getRefSave() const
+int Actor::getRefSave()
 {
-    return m_baseReflex + getModDex() + getStaticModifier(ActorStaticModType::SaveRef);
+    SavingThrowRoll roll { this, m_baseReflex };
+    roll.type = SavingThrowType::Reflex;
+    roll.addModComponent( ModComponentType::Add, getModDex());
+    applyAllModifiers( &roll );
+    return roll.calculate();
 }
 
-int Actor::getWillSave() const
+int Actor::getWillSave()
 {
-    return m_baseWill + getModWis() + getStaticModifier(ActorStaticModType::SaveWill);
+    SavingThrowRoll roll { this, m_baseWill };
+    roll.type = SavingThrowType::Will;
+    roll.addModComponent( ModComponentType::Add, getModWis());
+    applyAllModifiers( &roll );
+    return roll.calculate();
 }
 
-int Actor::getFortSave() const
+int Actor::getFortSave()
 {
-    return m_baseFortitude + getModCon() + getStaticModifier(ActorStaticModType::SaveFort);
-}
-
-int Actor::getStaticModifier( ActorStaticModType mod ) const
-{
-    int total = 0;
-    auto range = m_staticModifiers.equal_range(mod);
-    
-    for ( auto it = range.first; it != range.second; it++ )
-    {
-        total += it->second.value;
-    }
-    
-    return total;
+    SavingThrowRoll roll { this, m_baseFortitude };
+    roll.type = SavingThrowType::Fortitude;
+    roll.addModComponent( ModComponentType::Add, getModCon());
+    applyAllModifiers( &roll );
+    return roll.calculate();
 }
 
 int Actor::abilityScoreToMod(int score)
@@ -603,6 +590,8 @@ EntityRef Actor::getRef() const
 {
     return m_entity;
 }
+
+
 
 ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
  : m_actor(actor) {}

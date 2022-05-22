@@ -50,20 +50,21 @@ public:
     std::string const& getCreatureType() const;
 
     // Stats
-    int getAbilityScoreValue( AbilityScoreType type ) const;
+    int getAbilityScoreValue( AbilityScoreType type );
+    int getBaseAbilityScore( AbilityScoreType type ) const;
     static int abilityScoreToMod( int score );
     
-    int getModStr() const;
-    int getModDex() const;
-    int getModCon() const;
-    int getModInt() const;
-    int getModWis() const;
-    int getModCha() const;
+    int getModStr();
+    int getModDex();
+    int getModCon();
+    int getModInt();
+    int getModWis();
+    int getModCha();
 
     // Saves
-    int getFortSave() const;
-    int getRefSave() const;
-    int getWillSave() const;
+    int getFortSave();
+    int getRefSave();
+    int getWillSave();
 
     // Items
     bool hasEquipped( CreatureEquipSlot slot ) const;
@@ -91,20 +92,19 @@ public:
     void acceptDamage( Damage const& dmg );
     
     // Defense
-    int getAC() const;
+    int getAC();
     SavingThrowRoll makeSavingThrow( EntityRef source, SavingThrowType type );
 
     // Combat
-    int getCritRangeForAttack( AttackRoll& attack ) const;
-    DamageRoll makeMeleeDamageRoll( AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl ) const;
+    int getCritRangeForAttack( AttackRoll& attack );
+    DamageRoll makeMeleeDamageRoll( AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl );
 
     // Modifiers
     // ---------------------
     
     void addModifierGroup( ActorModGroup const& mod );
     void removeActorModGroup( std::string const& id );
-    void applyAllModifiers(ModifiableStatObject roll ) const;
-    int getStaticModifier( ActorStaticModType mod ) const;
+    void applyAllModifiers( ModifiableStatObject roll ) const;
     std::vector<ActorModGroup> const& getAllModifiers() const;
     
     template <typename T>
@@ -175,7 +175,6 @@ private:
     // Modifiers
     std::vector<ActorModGroup> m_modifierGroups;
     std::multimap<ActorDynamicModType, ActorDynamicMod> m_dynamicModifiers;
-    std::multimap<ActorStaticModType, ActorStaticMod> m_staticModifiers;
     std::vector<ActorActionMod> m_actionMods;
     
     // Actions

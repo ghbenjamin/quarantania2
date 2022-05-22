@@ -227,24 +227,24 @@ EntityInfoContent::StatsView::StatsView( Manager *manager, Element *parent, Leve
 
 void EntityInfoContent::StatsView::refresh( EntityRef entity )
 {
-    auto& actor = m_level->ecs().getComponents<ActorComponent>( entity )->actor;
-    
-    m_lStrValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::STR),
-        actor.getStaticModifier(ActorStaticModType::AttrStr) );
-    m_lDexValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::DEX),
-        actor.getStaticModifier(ActorStaticModType::AttrDex) );
-    m_lConValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::CON),
-        actor.getStaticModifier(ActorStaticModType::AttrCon) );
-    m_lIntValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::INT),
-        actor.getStaticModifier(ActorStaticModType::AttrInt) );
-    m_lWisValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::WIS),
-        actor.getStaticModifier(ActorStaticModType::AttrWis) );
-    m_lChaValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::CHA),
-        actor.getStaticModifier(ActorStaticModType::AttrCha) );
-
-    m_lFortValue->refresh( actor.getFortSave(), actor.getStaticModifier(ActorStaticModType::SaveFort) );
-    m_lRefValue->refresh( actor.getRefSave(), actor.getStaticModifier(ActorStaticModType::SaveRef));
-    m_lWillValue->refresh( actor.getWillSave(), actor.getStaticModifier(ActorStaticModType::SaveWill) );
+//    auto& actor = m_level->ecs().getComponents<ActorComponent>( entity )->actor;
+//
+//    m_lStrValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::STR),
+//        actor.getStaticModifier(ActorStaticModType::AttrStr) );
+//    m_lDexValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::DEX),
+//        actor.getStaticModifier(ActorStaticModType::AttrDex) );
+//    m_lConValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::CON),
+//        actor.getStaticModifier(ActorStaticModType::AttrCon) );
+//    m_lIntValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::INT),
+//        actor.getStaticModifier(ActorStaticModType::AttrInt) );
+//    m_lWisValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::WIS),
+//        actor.getStaticModifier(ActorStaticModType::AttrWis) );
+//    m_lChaValue->refresh( actor.getAbilityScoreValue(AbilityScoreType::CHA),
+//        actor.getStaticModifier(ActorStaticModType::AttrCha) );
+//
+//    m_lFortValue->refresh( actor.getFortSave(), actor.getStaticModifier(ActorStaticModType::SaveFort) );
+//    m_lRefValue->refresh( actor.getRefSave(), actor.getStaticModifier(ActorStaticModType::SaveRef));
+//    m_lWillValue->refresh( actor.getWillSave(), actor.getStaticModifier(ActorStaticModType::SaveWill) );
 }
 
 

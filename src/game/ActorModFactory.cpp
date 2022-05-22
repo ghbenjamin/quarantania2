@@ -59,8 +59,8 @@ ActorModGroup ActorModFactory::statusFatigued(int roundRemove)
 
     // NO RUNNING OR CHARGING
     
-    group.addStaticMod( ActorStaticModType::AttrStr, -2 );
-    group.addStaticMod( ActorStaticModType::AttrDex, -2 );
+    group.addDynamicMod<ActorMods::ModAbilityScoreStatic>(ActorDynamicModType::AbilityScores, AbilityScoreType::STR, -2);
+    group.addDynamicMod<ActorMods::ModAbilityScoreStatic>(ActorDynamicModType::AbilityScores, AbilityScoreType::DEX, -2);
     
     return group;
 }
@@ -71,8 +71,8 @@ ActorModGroup ActorModFactory::statusExhausted(int roundRemove)
     ActorModGroup group { "status.exhausted", "Exhausted", roundRemove };
     
     group.addDynamicMod<ActorMods::ModMovementSpeedMultiplier>(ActorDynamicModType::MovementSpeed, 0.5f);
-    group.addStaticMod( ActorStaticModType::AttrStr, -6 );
-    group.addStaticMod( ActorStaticModType::AttrDex, -6 );
+    group.addDynamicMod<ActorMods::ModAbilityScoreStatic>(ActorDynamicModType::AbilityScores, AbilityScoreType::STR, -6);
+    group.addDynamicMod<ActorMods::ModAbilityScoreStatic>(ActorDynamicModType::AbilityScores, AbilityScoreType::DEX, -6);
 
     return group;
 }
@@ -100,9 +100,6 @@ ActorModGroup ActorModFactory::featDodge()
 ActorModGroup ActorModFactory::featDebug()
 {
     ActorModGroup group { "feat.debug", "Debug", -1 };
-    
-    group.addStaticMod( ActorStaticModType::AttrStr, -6 );
-    group.addStaticMod( ActorStaticModType::SaveWill, +6 );
     
     return group;
 }
