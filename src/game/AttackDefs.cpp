@@ -3,7 +3,7 @@
 
 void MeleeAttackPowerAttack::modifyAttackRoll( AttackRoll &roll )
 {
-    roll.ctx.finalRoll -= 1;
+    roll.addModComponent( ModComponentType::Add, -1 );
 }
 
 void MeleeAttackPowerAttack::modifyDamageRoll( DamageRoll &roll )

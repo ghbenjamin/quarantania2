@@ -48,48 +48,61 @@ enum class ActorDynamicModType
     ActionSpeedData,
 };
 
-// Data which will be used by all rolls & opposed rolls
-struct ActorRollData
+struct ActorModifiableData
 {
-    // Either source or target may be null
-    EntityRef source = EntityNull;   // Where did this action originate?
-    EntityRef target = EntityNull;   // What is the target of this action?
+public:
+    
+    ActorModifiableData( Actor* target, int baseValue );
+    ActorModifiableData( Actor* target, int baseValue, EntityRef source );
+    virtual ~ActorModifiableData() = default;
+    
+    int baseValue() const;
+    
+    EntityRef target() const;
+    EntityRef source() const;
+    
+    void addModComponent( ModComponentType type, double value );
+    void addModComponent( ModComponentType type, int value );
+    
+    // Calcualate the final value after all modifiers have been considered
+    double calculate() const;
 
-    int naturalRoll = -1;    // What was the actual number rolled?
-    int finalRoll = -1;      // The final value after all modifiers have been considered
-
-    std::vector<ModComponent> modComponents;
+protected:
+    int m_baseValue;
+    Actor* m_actor;
+    EntityRef  m_target;
+    EntityRef m_other;
+    std::vector<ModComponent> m_modComponents;
 };
 
 
 // A bonus to an Ability Score, e.g. STR or DEX. Always given as a raw number, not as a +- modifier
-struct AbilityScoreBonus
+struct AbilityScoreBonus : public ActorModifiableData
 {
-    ActorRollData ctx;
+    using ActorModifiableData::ActorModifiableData;
     AbilityScoreType type {};
 };
 
 // A bonus to a saving throw, e.g. REF or WILL.
-struct SavingThrowRoll
+struct SavingThrowRoll : public ActorModifiableData
 {
-    ActorRollData ctx;
+    using ActorModifiableData::ActorModifiableData;
     SavingThrowType type {};
 };
 
 // A single instance of a melee attack, e.g. one half of a double attack.
-struct SingleMeleeAttackInstance
+struct SingleMeleeAttackInstance : public ActorModifiableData
 {
-    ActorRollData ctx;
+    using ActorModifiableData::ActorModifiableData;
     Actor* attacker = nullptr;
     Actor* defender = nullptr;
     Weapon const* weapon = nullptr;
 };
 
 // A single attack roll to hit, made vs a single attacker.
-struct AttackRoll
+struct AttackRoll : public ActorModifiableData
 {
-    ActorRollData ctx;
-
+    using ActorModifiableData::ActorModifiableData;
     int targetValue = -1;
     bool isHit = false;
     bool isCrit = false;
@@ -101,12 +114,9 @@ struct DamageRoll
     int modifiedRoll = -1;
 };
 
-struct MovementSpeedData
+struct MovementSpeedData : public ActorModifiableData
 {
-    ActorRollData ctx;
-
-    int moveSpeedLimit = -1;
-    float multiplier = 1.0f;
+    using ActorModifiableData::ActorModifiableData;
 };
 
 struct ArmourClassData

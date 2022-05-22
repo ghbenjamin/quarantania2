@@ -44,6 +44,7 @@ public:
     ~Actor() = default;
 
     // Meta
+    EntityRef getRef() const;
     std::string const& getName() const;
     CreatureSize getSize();
     std::string const& getCreatureType() const;
@@ -80,7 +81,7 @@ public:
     Armour const* tryGetActiveShield() const;
 
     // Movement
-    int getSpeed() const;
+    int getSpeed();
 
     // Health
     int getCurrentHp() const;
@@ -91,7 +92,7 @@ public:
     
     // Defense
     int getAC() const;
-    SavingThrowRoll makeSavingThrow( EntityRef source, SavingThrowType type ) const;
+    SavingThrowRoll makeSavingThrow( EntityRef source, SavingThrowType type );
 
     // Combat
     int getCritRangeForAttack( SingleMeleeAttackInstance& attack ) const;

@@ -233,24 +233,13 @@ int Actor::getAC() const
 }
 
 
-int Actor::getSpeed() const
+int Actor::getSpeed()
 {
-    MovementSpeedData data;
-    data.ctx.naturalRoll = m_baseSpeed;
-    data.ctx.finalRoll = m_baseSpeed;
+    MovementSpeedData data {this, m_baseSpeed};
     
     applyAllModifiers(&data);
     
-    int speed = data.ctx.finalRoll;
-    
-    if ( data.moveSpeedLimit >= 0 )
-    {
-        speed = std::min( speed, data.moveSpeedLimit );
-    }
-    
-    speed = (int)(speed * data.multiplier);
-    
-    return speed;
+    return (int) data.calculate();
 }
 
 CreatureSize Actor::getSize()
@@ -338,16 +327,13 @@ DamageRoll Actor::makeMeleeDamageRoll( SingleMeleeAttackInstance &attack, std::s
 
 AttackRoll Actor::makeMeleeAttackRoll( SingleMeleeAttackInstance &attack, std::shared_ptr<MeleeAttack> attackImpl ) const
 {
-    AttackRoll result;
-    result.ctx.naturalRoll = m_level->random()->diceRoll(20);
+    AttackRoll result { attack.attacker, attack.baseValue() };
     result.targetValue = attack.defender->getAC();
+    
     int critRange = getCritRangeForAttack( attack );
-
-    // Start with the natural roll
-    result.ctx.finalRoll = result.ctx.naturalRoll;
     
     // Add STR mod to the attack roll (TODO: This should be modifible, e.g. Weapon Finesse)
-    result.ctx.finalRoll += getModStr();
+    result.addModComponent( ModComponentType::Add, getModStr() );
     
     // Apply any modifiers from the type of attack, e.g. reduce to hit from a Power Attack
     attackImpl->modifyAttackRoll( result );
@@ -355,7 +341,9 @@ AttackRoll Actor::makeMeleeAttackRoll( SingleMeleeAttackInstance &attack, std::s
     // Apply any modifiers from the actors, e.g. Weapon Focus feats or status affects
     applyAllModifiers( &result );
 
-    if ( result.ctx.naturalRoll >= critRange )
+    int final = result.calculate();
+
+    if ( result.baseValue() >= critRange )
     {
         result.isCrit = true;
         result.isHit = true;
@@ -363,7 +351,7 @@ AttackRoll Actor::makeMeleeAttackRoll( SingleMeleeAttackInstance &attack, std::s
     else
     {
         // Not a crit - compare the roll against the target value
-        if ( result.ctx.finalRoll >= result.targetValue )
+        if ( final >= result.targetValue )
         {
             // A hit!
             // Trigger: successful attack roll
@@ -468,7 +456,7 @@ void Actor::applyAllModifiers(ModifiableStatObject roll ) const
     std::visit( ModifiableRollVisitor{this}, roll );
 }
 
-SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type) const
+SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type)
 {
     int abilityScoreMod;
 
@@ -486,12 +474,9 @@ SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type) c
     }
 
 
-    SavingThrowRoll roll;
-
-    roll.ctx.source = source;
-    roll.ctx.target = m_entity;
-    roll.ctx.naturalRoll = m_level->random()->diceRoll(20);
-    roll.ctx.finalRoll = roll.ctx.naturalRoll + abilityScoreMod;
+    SavingThrowRoll roll { this, m_level->random()->diceRoll(20), source };
+    
+    roll.addModComponent( ModComponentType::Add, abilityScoreMod );
 
     applyAllModifiers( &roll );
 
@@ -655,6 +640,11 @@ void Actor::useActions( int count )
 {
     m_usedActions += count;
     AssertMsg( m_usedActions <= m_maxActions, "More actions used than possible" );
+}
+
+EntityRef Actor::getRef() const
+{
+    return m_entity;
 }
 
 ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )

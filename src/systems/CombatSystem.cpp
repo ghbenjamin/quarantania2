@@ -11,32 +11,30 @@ CombatSystem::CombatSystem(Level *parent)
 
 void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
 {
-    auto attacker = m_level->ecs().getComponents<ActorComponent>(evt.attacker)->actor;
-    auto defender = m_level->ecs().getComponents<ActorComponent>(evt.defender)->actor;
+    Actor* attacker = &m_level->ecs().getComponents<ActorComponent>(evt.attacker)->actor;
+    Actor* defender = &m_level->ecs().getComponents<ActorComponent>(evt.defender)->actor;
 
-    auto [mainWeapon, offWeapon] = attacker.getEquippedWeapons();
+    auto [mainWeapon, offWeapon] = attacker->getEquippedWeapons();
     bool missedAll = true;
     
     Damage damage;
     
 
-    SingleMeleeAttackInstance singleAttack;
-    singleAttack.ctx.source = evt.attacker;
-    singleAttack.ctx.target = evt.defender;
-    singleAttack.attacker = &attacker;
-    singleAttack.defender = &defender;
+    SingleMeleeAttackInstance singleAttack { attacker,  m_level->random()->diceRoll(20), defender->getRef() };
+    singleAttack.attacker = attacker;
+    singleAttack.defender = defender;
     singleAttack.weapon = mainWeapon;
 
     // Make independent attack and damage rolls for each attack instance
-    auto attackRoll = attacker.makeMeleeAttackRoll( singleAttack, evt.attack );
+    auto attackRoll = attacker->makeMeleeAttackRoll( singleAttack, evt.attack );
 
-    Logger::get().info( "Attack roll: natural={}, modified={}, target={}", attackRoll.ctx.naturalRoll, attackRoll.ctx.finalRoll, attackRoll.targetValue );
+    Logger::get().info("Attack roll: natural={}, modified={}, target={}", attackRoll.baseValue(), attackRoll.calculate(), attackRoll.targetValue );
 
     if ( attackRoll.isHit )
     {
         missedAll = false;
 
-        auto damageRoll = attacker.makeMeleeDamageRoll(singleAttack, evt.attack, attackRoll);
+        auto damageRoll = attacker->makeMeleeDamageRoll(singleAttack, evt.attack, attackRoll);
 
         DamageInstance dmgInstance{ DamageType::Untyped, DamageSuperType::Physical, damageRoll.modifiedRoll };
         damage.instances.push_back( dmgInstance );
