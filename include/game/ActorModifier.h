@@ -57,20 +57,20 @@ public:
     virtual ~ActorModifiableData() = default;
     
     int baseValue() const;
-    
     EntityRef target() const;
     EntityRef source() const;
-    
+    Actor* actor() const;
+
     void addModComponent( ModComponentType type, double value );
     void addModComponent( ModComponentType type, int value );
     
     // Calcualate the final value after all modifiers have been considered
-    double calculate() const;
+    int calculate() const;
 
 protected:
     int m_baseValue;
     Actor* m_actor;
-    EntityRef  m_target;
+    EntityRef m_target;
     EntityRef m_other;
     std::vector<ModComponent> m_modComponents;
 };
@@ -90,19 +90,13 @@ struct SavingThrowRoll : public ActorModifiableData
     SavingThrowType type {};
 };
 
-// A single instance of a melee attack, e.g. one half of a double attack.
-struct SingleMeleeAttackInstance : public ActorModifiableData
-{
-    using ActorModifiableData::ActorModifiableData;
-    Actor* attacker = nullptr;
-    Actor* defender = nullptr;
-    Weapon const* weapon = nullptr;
-};
-
 // A single attack roll to hit, made vs a single attacker.
 struct AttackRoll : public ActorModifiableData
 {
     using ActorModifiableData::ActorModifiableData;
+
+    Actor* defender = nullptr;
+    Weapon const* weapon = nullptr;
     int targetValue = -1;
     bool isHit = false;
     bool isCrit = false;

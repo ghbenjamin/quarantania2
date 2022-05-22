@@ -1,6 +1,7 @@
 #include <systems/CombatSystem.h>
 #include <game/Level.h>
 #include <components/ActorComponent.h>
+#include <game/Attack.h>
 
 
 CombatSystem::CombatSystem(Level *parent)
@@ -16,25 +17,57 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
 
     auto [mainWeapon, offWeapon] = attacker->getEquippedWeapons();
     bool missedAll = true;
-    
-    Damage damage;
-    
 
-    SingleMeleeAttackInstance singleAttack { attacker,  m_level->random()->diceRoll(20), defender->getRef() };
-    singleAttack.attacker = attacker;
-    singleAttack.defender = defender;
-    singleAttack.weapon = mainWeapon;
+    AttackRoll result { attacker, m_level->random()->diceRoll(20), defender->getRef() };
+    result.defender = defender;
+    result.weapon = mainWeapon;
 
     // Make independent attack and damage rolls for each attack instance
-    auto attackRoll = attacker->makeMeleeAttackRoll( singleAttack, evt.attack );
+    int critRange = attacker->getCritRangeForAttack( result );
 
-    Logger::get().info("Attack roll: natural={}, modified={}, target={}", attackRoll.baseValue(), attackRoll.calculate(), attackRoll.targetValue );
+    // Add STR mod to the attack roll (TODO: This should be modifible, e.g. Weapon Finesse)
+    result.addModComponent( ModComponentType::Add, attacker->getModStr() );
 
-    if ( attackRoll.isHit )
+    // Apply any modifiers from the type of attack, e.g. reduce to hit from a Power Attack
+    evt.attack->modifyAttackRoll( result );
+
+    // Apply any modifiers from the actors, e.g. Weapon Focus feats or status affects
+    attacker->applyAllModifiers( &result );
+
+    int final = result.calculate();
+
+    if ( result.baseValue() >= critRange )
+    {
+        result.isCrit = true;
+        result.isHit = true;
+    }
+    else
+    {
+        // Not a crit - compare the roll against the target value
+        if ( final >= result.targetValue )
+        {
+            // A hit!
+            // Trigger: successful attack roll
+            result.isHit = true;
+        }
+        else
+        {
+            // A miss
+            // Trigger: unsuccessful attack roll
+            result.isHit = false;
+        }
+    }
+
+    Logger::get().info("Attack roll: natural={}, modified={}, target={}", result.baseValue(), result.calculate(), result.targetValue );
+
+    Damage damage;
+
+
+    if ( result.isHit )
     {
         missedAll = false;
 
-        auto damageRoll = attacker->makeMeleeDamageRoll(singleAttack, evt.attack, attackRoll);
+        auto damageRoll = attacker->makeMeleeDamageRoll(result, evt.attack);
 
         DamageInstance dmgInstance{ DamageType::Untyped, DamageSuperType::Physical, damageRoll.modifiedRoll };
         damage.instances.push_back( dmgInstance );

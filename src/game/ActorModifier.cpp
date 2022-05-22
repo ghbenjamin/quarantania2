@@ -2,7 +2,7 @@
 #include <game/Actor.h>
 
 
-double ActorModifiableData::calculate() const
+int ActorModifiableData::calculate() const
 {
     double addBonus = 0;
     double multBonus = 1;
@@ -58,7 +58,7 @@ double ActorModifiableData::calculate() const
         final = std::max( final, *floor );
     }
     
-    return final;
+    return (int)final;
 }
 
 void ActorModifiableData::addModComponent( ModComponentType type, int value )
@@ -90,6 +90,11 @@ EntityRef ActorModifiableData::target() const
 EntityRef ActorModifiableData::source() const
 {
     return m_other;
+}
+
+Actor *ActorModifiableData::actor() const
+{
+    return m_actor;
 }
 
 ActorModGroup::ActorModGroup( std::string const& id, const std::string &name, int expiryRound)

@@ -67,7 +67,7 @@ public:
 
     // Items
     bool hasEquipped( CreatureEquipSlot slot ) const;
-    const ItemPtr getEquipped( CreatureEquipSlot slot ) const;
+    ItemPtr getEquipped( CreatureEquipSlot slot ) const;
     std::optional<CreatureEquipSlot> defaultSlotForItemSlot( ItemEquipSlot slot ) const;
     std::unordered_map<CreatureEquipSlot, ItemPtr> const& getAllEquippedItems() const;
     std::optional<CreatureEquipSlot> canEquipItem( ItemPtr item );
@@ -95,9 +95,8 @@ public:
     SavingThrowRoll makeSavingThrow( EntityRef source, SavingThrowType type );
 
     // Combat
-    int getCritRangeForAttack( SingleMeleeAttackInstance& attack ) const;
-    DamageRoll makeMeleeDamageRoll( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl, AttackRoll const& roll ) const;
-    AttackRoll makeMeleeAttackRoll( SingleMeleeAttackInstance& attack, std::shared_ptr<MeleeAttack> attackImpl ) const;
+    int getCritRangeForAttack( AttackRoll& attack ) const;
+    DamageRoll makeMeleeDamageRoll( AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl ) const;
 
     // Modifiers
     // ---------------------

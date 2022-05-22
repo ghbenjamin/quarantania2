@@ -43,7 +43,7 @@ bool Actor::hasEquipped(CreatureEquipSlot slot) const
     return m_equippedItems.find(slot) != m_equippedItems.end();
 }
 
-const ItemPtr Actor::getEquipped(CreatureEquipSlot slot) const
+ItemPtr Actor::getEquipped(CreatureEquipSlot slot) const
 {
     auto it = m_equippedItems.find(slot);
     if (it != m_equippedItems.end() )
@@ -239,12 +239,11 @@ int Actor::getSpeed()
     
     applyAllModifiers(&data);
     
-    return (int) data.calculate();
+    return data.calculate();
 }
 
 CreatureSize Actor::getSize()
 {
-    // TODO Modifiers
     return m_size;
 }
 
@@ -292,13 +291,13 @@ std::unordered_map<CreatureEquipSlot, ItemPtr> const &Actor::getAllEquippedItems
     return m_equippedItems;
 }
 
-int Actor::getCritRangeForAttack( SingleMeleeAttackInstance &attack ) const
+int Actor::getCritRangeForAttack( AttackRoll &attack ) const
 {
     // TODO: Modifiers.
     return attack.weapon->critRange();
 }
 
-DamageRoll Actor::makeMeleeDamageRoll( SingleMeleeAttackInstance &attack, std::shared_ptr<MeleeAttack> attackImpl, AttackRoll const &roll ) const
+DamageRoll Actor::makeMeleeDamageRoll( AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl ) const
 {
     DamageRoll damageRoll;
     
@@ -317,7 +316,7 @@ DamageRoll Actor::makeMeleeDamageRoll( SingleMeleeAttackInstance &attack, std::s
     applyAllModifiers( &damageRoll );
     
     // If this is a critical hit, modify the damage
-    if ( roll.isCrit )
+    if ( attack.isCrit )
     {
         damageRoll.modifiedRoll *= attack.weapon->critMultiplier();
     }
@@ -325,48 +324,6 @@ DamageRoll Actor::makeMeleeDamageRoll( SingleMeleeAttackInstance &attack, std::s
     return damageRoll;
 }
 
-AttackRoll Actor::makeMeleeAttackRoll( SingleMeleeAttackInstance &attack, std::shared_ptr<MeleeAttack> attackImpl ) const
-{
-    AttackRoll result { attack.attacker, attack.baseValue() };
-    result.targetValue = attack.defender->getAC();
-    
-    int critRange = getCritRangeForAttack( attack );
-    
-    // Add STR mod to the attack roll (TODO: This should be modifible, e.g. Weapon Finesse)
-    result.addModComponent( ModComponentType::Add, getModStr() );
-    
-    // Apply any modifiers from the type of attack, e.g. reduce to hit from a Power Attack
-    attackImpl->modifyAttackRoll( result );
-
-    // Apply any modifiers from the actors, e.g. Weapon Focus feats or status affects
-    applyAllModifiers( &result );
-
-    int final = result.calculate();
-
-    if ( result.baseValue() >= critRange )
-    {
-        result.isCrit = true;
-        result.isHit = true;
-    }
-    else
-    {
-        // Not a crit - compare the roll against the target value
-        if ( final >= result.targetValue )
-        {
-            // A hit!
-            // Trigger: successful attack roll
-            result.isHit = true;
-        }
-        else
-        {
-            // A miss
-            // Trigger: unsuccessful attack roll
-            result.isHit = false;
-        }
-    }
-    
-    return result;
-}
 
 void Actor::acceptDamage( Damage const &dmg )
 {
