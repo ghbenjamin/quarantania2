@@ -26,7 +26,7 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
     int critRange = attacker->getCritRangeForAttack( result );
 
     // Add STR mod to the attack roll (TODO: This should be modifible, e.g. Weapon Finesse)
-    result.modList().addModComponent( ModComponentType::Add, attacker->getModStr() );
+    result.modList().addItem(ActorCalcOperation::Add, attacker->getModStr());
 
     // Apply any modifiers from the type of attack, e.g. reduce to hit from a Power Attack
     evt.attack->modifyAttackRoll( result );

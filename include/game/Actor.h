@@ -108,7 +108,7 @@ public:
     std::vector<ActorModGroup> const& getAllModifiers() const;
     
     template <typename T>
-    void modifyTypedRoll( ActorDynamicModType type, T* roll ) const
+    void modifyTypedRoll( ActorCalculationType type, T* roll ) const
     {
         auto range = m_dynamicModifiers.equal_range(type);
         for ( auto it = range.first; it != range.second; it++ )
@@ -174,7 +174,7 @@ private:
 
     // Modifiers
     std::vector<ActorModGroup> m_modifierGroups;
-    std::multimap<ActorDynamicModType, ActorDynamicMod> m_dynamicModifiers;
+    std::multimap<ActorCalculationType, ActorDynamicMod> m_dynamicModifiers;
     std::vector<ActorActionMod> m_actionMods;
     
     // Actions

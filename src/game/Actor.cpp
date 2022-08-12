@@ -415,7 +415,7 @@ SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type)
 
     SavingThrowRoll roll { this, m_level->random()->diceRoll(20), source };
     
-    roll.modList().addModComponent( ModComponentType::Add, abilityScoreMod );
+    roll.modList().addItem(ActorCalcOperation::Add, abilityScoreMod);
 
     applyAllModifiers( &roll );
 
@@ -532,7 +532,7 @@ int Actor::getRefSave()
 {
     SavingThrowRoll roll { this, m_baseReflex };
     roll.type = SavingThrowType::Reflex;
-    roll.modList().addModComponent( ModComponentType::Add, getModDex());
+    roll.modList().addItem(ActorCalcOperation::Add, getModDex());
     applyAllModifiers( &roll );
     return roll.modList().calculate();
 }
@@ -541,7 +541,7 @@ int Actor::getWillSave()
 {
     SavingThrowRoll roll { this, m_baseWill };
     roll.type = SavingThrowType::Will;
-    roll.modList().addModComponent( ModComponentType::Add, getModWis());
+    roll.modList().addItem(ActorCalcOperation::Add, getModWis());
     applyAllModifiers( &roll );
     return roll.modList().calculate();
 }
@@ -550,7 +550,7 @@ int Actor::getFortSave()
 {
     SavingThrowRoll roll { this, m_baseFortitude };
     roll.type = SavingThrowType::Fortitude;
-    roll.modList().addModComponent( ModComponentType::Add, getModCon());
+    roll.modList().addItem(ActorCalcOperation::Add, getModCon());
     applyAllModifiers( &roll );
     return roll.modList().calculate();
 }
@@ -598,35 +598,35 @@ ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
 
 void ModifiableRollVisitor::operator()( AttackRoll *roll )
 {
-    m_actor->modifyTypedRoll(ActorDynamicModType::AttackRolls, roll );
+    m_actor->modifyTypedRoll(ActorCalculationType::AttackRoll, roll );
 }
 
 void ModifiableRollVisitor::operator()( DamageRoll *roll )
 {
-    m_actor->modifyTypedRoll(ActorDynamicModType::DamageRolls, roll );
+    m_actor->modifyTypedRoll(ActorCalculationType::DamageRoll, roll );
 }
 
 void ModifiableRollVisitor::operator()( SavingThrowRoll *roll )
 {
-    m_actor->modifyTypedRoll(ActorDynamicModType::SavingThrows, roll );
+    m_actor->modifyTypedRoll(ActorCalculationType::SavingThrow, roll );
 }
 
 void ModifiableRollVisitor::operator()(AbilityScoreBonus *roll)
 {
-    m_actor->modifyTypedRoll(ActorDynamicModType::AbilityScores, roll );
+    m_actor->modifyTypedRoll(ActorCalculationType::AbilityScore, roll );
 }
 
 void ModifiableRollVisitor::operator()( MovementSpeedData *roll )
 {
-    m_actor->modifyTypedRoll(ActorDynamicModType::MovementSpeed, roll );
+    m_actor->modifyTypedRoll(ActorCalculationType::MovementSpeed, roll );
 }
 
 void ModifiableRollVisitor::operator()(ArmourClassData *data)
 {
-    m_actor->modifyTypedRoll(ActorDynamicModType::ArmourClassData, data );
+    m_actor->modifyTypedRoll(ActorCalculationType::ArmourClass, data );
 }
 
 void ModifiableRollVisitor::operator()( ActionSpeedData *data )
 {
-    m_actor->modifyTypedRoll(ActorDynamicModType::ActionSpeedData, data );
+    m_actor->modifyTypedRoll(ActorCalculationType::ActionSpeed, data );
 }

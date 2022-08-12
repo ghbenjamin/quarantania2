@@ -1,8 +1,18 @@
 #include <game/ActorModifier.h>
 #include <game/Actor.h>
 
+// Actor Calc Item
+// ---------------------------------------------------------
 
-int ModComponentList::calculate() const
+ActorCalcItem::ActorCalcItem( ActorCalcOperation type, double value )
+        : type(type), value(value) {}
+
+
+// Actor Calc List
+// ---------------------------------------------------------
+
+
+int ActorCalcList::calculate() const
 {
     double addBonus = 0;
     double multBonus = 1;
@@ -14,13 +24,13 @@ int ModComponentList::calculate() const
     {
         switch (item.type)
         {
-        case ModComponentType::Add:
+        case ActorCalcOperation::Add:
             addBonus += item.value;
             break;
-        case ModComponentType::Multiply:
+        case ActorCalcOperation::Multiply:
             addBonus *= item.value;
             break;
-        case ModComponentType::Limit:
+        case ActorCalcOperation::Limit:
             if (limit.has_value())
             {
                 limit = std::min(*limit, item.value);
@@ -30,7 +40,7 @@ int ModComponentList::calculate() const
                 limit = item.value;
             }
             break;
-        case ModComponentType::Floor:
+        case ActorCalcOperation::Floor:
             if (floor.has_value())
             {
                 floor = std::max(*floor, item.value);
@@ -62,46 +72,61 @@ int ModComponentList::calculate() const
 }
 
 
-void ModComponentList::addModComponent( ModComponentType type, int value )
+void ActorCalcList::addItem( ActorCalcOperation type, int value )
 {
-    addModComponent( type, (double) value );
+    addItem(type, (double) value);
 }
 
-void ModComponentList::addModComponent( ModComponentType type, double value )
+void ActorCalcList::addItem( ActorCalcOperation type, double value )
 {
-    m_modList.push_back({ type, value });
+    m_modList.emplace_back( type, value );
 }
 
-ActorModifiableData::ActorModifiableData( Actor *target, int baseValue, EntityRef source )
+
+
+
+// Actor Calc Data
+// ---------------------------------------------------------
+
+
+ActorCalcData::ActorCalcData( Actor *target, int baseValue, EntityRef source )
     : m_actor(target), m_baseValue(baseValue), m_target(target->getRef()), m_other(source) {}
 
-ActorModifiableData::ActorModifiableData( Actor *target, int baseValue )
- : ActorModifiableData( target, baseValue, EntityNull ) {}
+ActorCalcData::ActorCalcData( Actor *target, int baseValue )
+ : ActorCalcData(target, baseValue, EntityNull ) {}
 
-int ActorModifiableData::baseValue() const
+int ActorCalcData::baseValue() const
 {
     return m_baseValue;
 }
 
-EntityRef ActorModifiableData::target() const
+EntityRef ActorCalcData::target() const
 {
     return m_target;
 }
 
-EntityRef ActorModifiableData::source() const
+EntityRef ActorCalcData::source() const
 {
     return m_other;
 }
 
-Actor *ActorModifiableData::actor() const
+Actor *ActorCalcData::actor() const
 {
     return m_actor;
 }
 
-ModComponentList &ActorModifiableData::modList()
+ActorCalcList &ActorCalcData::modList()
 {
     return m_modList;
 }
+
+
+
+
+
+// Actor Mod Group
+// ---------------------------------------------------------
+
 
 
 ActorModGroup::ActorModGroup( std::string const& id, const std::string &name, int expiryRound)
@@ -132,8 +157,15 @@ std::string const &ActorModGroup::getId() const
     return m_id;
 }
 
-ActorDynamicMod::ActorDynamicMod( ActorDynamicModType type, std::string const& id, std::shared_ptr<ActorStatDynamicImplBase> impl )
+
+
+// Actor Dynamic Mod
+// ---------------------------------------------------------
+
+
+ActorDynamicMod::ActorDynamicMod( ActorCalculationType type, std::string const& id, std::shared_ptr<ActorStatDynamicImplBase> impl )
  : type(type), id(id), impl(impl) {}
 
 ActorActionMod::ActorActionMod( std::string const &id, GameAction const &action )
  : id(id), action(action) {}
+
