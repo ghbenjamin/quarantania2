@@ -31,6 +31,19 @@ struct ModComponent
     double value = 0;
 };
 
+class ModComponentList
+{
+public:
+
+    void addModComponent(ModComponentType type, double value);
+    void addModComponent(ModComponentType type, int value);
+
+    int calculate() const;
+
+private:
+    std::vector<ModComponent> m_modList; 
+};
+
 
 
 // Dynamic Mods
@@ -60,19 +73,14 @@ public:
     EntityRef target() const;
     EntityRef source() const;
     Actor* actor() const;
-
-    void addModComponent( ModComponentType type, double value );
-    void addModComponent( ModComponentType type, int value );
+    ModComponentList& modList();
     
-    // Calcualate the final value after all modifiers have been considered
-    int calculate() const;
-
 protected:
     int m_baseValue;
     Actor* m_actor;
     EntityRef m_target;
     EntityRef m_other;
-    std::vector<ModComponent> m_modComponents;
+    ModComponentList m_modList;
 };
 
 

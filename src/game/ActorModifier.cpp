@@ -2,73 +2,74 @@
 #include <game/Actor.h>
 
 
-int ActorModifiableData::calculate() const
+int ModComponentList::calculate() const
 {
     double addBonus = 0;
     double multBonus = 1;
-    
+
     std::optional<double> limit;
     std::optional<double> floor;
-    
-    for ( auto const& item : m_modComponents )
+
+    for (auto const& item : m_modList)
     {
-        switch ( item.type )
+        switch (item.type)
         {
-            case ModComponentType::Add:
-                addBonus += item.value;
-                break;
-            case ModComponentType::Multiply:
-                addBonus *= item.value;
-                break;
-            case ModComponentType::Limit:
-                if ( limit.has_value() )
-                {
-                    limit = std::min( *limit, item.value );
-                }
-                else
-                {
-                    limit = item.value;
-                }
-                break;
-            case ModComponentType::Floor:
-                if ( floor.has_value() )
-                {
-                    floor = std::max( *floor, item.value );
-                }
-                else
-                {
-                    floor = item.value;
-                }
-                break;
+        case ModComponentType::Add:
+            addBonus += item.value;
+            break;
+        case ModComponentType::Multiply:
+            addBonus *= item.value;
+            break;
+        case ModComponentType::Limit:
+            if (limit.has_value())
+            {
+                limit = std::min(*limit, item.value);
+            }
+            else
+            {
+                limit = item.value;
+            }
+            break;
+        case ModComponentType::Floor:
+            if (floor.has_value())
+            {
+                floor = std::max(*floor, item.value);
+            }
+            else
+            {
+                floor = item.value;
+            }
+            break;
         }
     }
-    
-    
-    double final = m_baseValue;
+
+
+    double final = 0;
     final += addBonus;
     final *= multBonus;
-    
-    if ( limit.has_value() )
+
+    if (limit.has_value())
     {
-        final = std::min( final, *limit );
+        final = std::min(final, *limit);
     }
-    
-    if ( floor.has_value() )
+
+    if (floor.has_value())
     {
-        final = std::max( final, *floor );
+        final = std::max(final, *floor);
     }
-    
-    return (int)final;
+
+    return (int) final;
 }
 
-void ActorModifiableData::addModComponent( ModComponentType type, int value )
+
+void ModComponentList::addModComponent( ModComponentType type, int value )
 {
     addModComponent( type, (double) value );
 }
 
-void ActorModifiableData::addModComponent( ModComponentType type, double value )
+void ModComponentList::addModComponent( ModComponentType type, double value )
 {
-    m_modComponents.push_back({ type, value });
+    m_modList.push_back({ type, value });
 }
 
 ActorModifiableData::ActorModifiableData( Actor *target, int baseValue, EntityRef source )
@@ -96,6 +97,12 @@ Actor *ActorModifiableData::actor() const
 {
     return m_actor;
 }
+
+ModComponentList &ActorModifiableData::modList()
+{
+    return m_modList;
+}
+
 
 ActorModGroup::ActorModGroup( std::string const& id, const std::string &name, int expiryRound)
     : m_id(id), m_name(name), m_expiryRound(expiryRound) {}

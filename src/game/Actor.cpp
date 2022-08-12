@@ -239,7 +239,7 @@ int Actor::getSpeed()
     
     applyAllModifiers(&data);
     
-    return data.calculate();
+    return data.modList().calculate();
 }
 
 CreatureSize Actor::getSize()
@@ -415,7 +415,7 @@ SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type)
 
     SavingThrowRoll roll { this, m_level->random()->diceRoll(20), source };
     
-    roll.addModComponent( ModComponentType::Add, abilityScoreMod );
+    roll.modList().addModComponent( ModComponentType::Add, abilityScoreMod );
 
     applyAllModifiers( &roll );
 
@@ -477,7 +477,7 @@ int Actor::getAbilityScoreValue( AbilityScoreType type )
     bonus.type = type;
     applyAllModifiers( &bonus );
 
-    return bonus.calculate();
+    return bonus.modList().calculate();
 }
 
 std::vector<GameAction> Actor::getAllGameActions() const
@@ -532,27 +532,27 @@ int Actor::getRefSave()
 {
     SavingThrowRoll roll { this, m_baseReflex };
     roll.type = SavingThrowType::Reflex;
-    roll.addModComponent( ModComponentType::Add, getModDex());
+    roll.modList().addModComponent( ModComponentType::Add, getModDex());
     applyAllModifiers( &roll );
-    return roll.calculate();
+    return roll.modList().calculate();
 }
 
 int Actor::getWillSave()
 {
     SavingThrowRoll roll { this, m_baseWill };
     roll.type = SavingThrowType::Will;
-    roll.addModComponent( ModComponentType::Add, getModWis());
+    roll.modList().addModComponent( ModComponentType::Add, getModWis());
     applyAllModifiers( &roll );
-    return roll.calculate();
+    return roll.modList().calculate();
 }
 
 int Actor::getFortSave()
 {
     SavingThrowRoll roll { this, m_baseFortitude };
     roll.type = SavingThrowType::Fortitude;
-    roll.addModComponent( ModComponentType::Add, getModCon());
+    roll.modList().addModComponent( ModComponentType::Add, getModCon());
     applyAllModifiers( &roll );
-    return roll.calculate();
+    return roll.modList().calculate();
 }
 
 int Actor::abilityScoreToMod(int score)

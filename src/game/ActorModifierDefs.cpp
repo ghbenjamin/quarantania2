@@ -10,7 +10,7 @@ void ActorMods::ModSavingThrowStatic::modify( SavingThrowRoll* roll )
 {
     if (roll->type == type)
     {
-        roll->addModComponent( ModComponentType::Add, modifier );
+        roll->modList().addModComponent( ModComponentType::Add, modifier );
     }
 }
 
@@ -20,7 +20,7 @@ ActorMods::ModAttackRollStatic::ModAttackRollStatic( int modifier )
 
 void ActorMods::ModAttackRollStatic::modify( AttackRoll* roll )
 {
-    roll->addModComponent( ModComponentType::Add, modifier );
+    roll->modList().addModComponent( ModComponentType::Add, modifier );
 }
 
 
@@ -29,7 +29,7 @@ ActorMods::ModSavingThrowStaticAll::ModSavingThrowStaticAll( int modifier )
 
 void ActorMods::ModSavingThrowStaticAll::modify( SavingThrowRoll* roll )
 {
-    roll->addModComponent( ModComponentType::Add, modifier );
+    roll->modList().addModComponent( ModComponentType::Add, modifier );
 }
 
 ActorMods::ModAbilityScoreStatic::ModAbilityScoreStatic(AbilityScoreType type, int modifier)
@@ -39,7 +39,7 @@ void ActorMods::ModAbilityScoreStatic::modify(AbilityScoreBonus *roll)
 {
     if ( roll->type == type )
     {
-        roll->addModComponent( ModComponentType::Add, modifier );
+        roll->modList().addModComponent( ModComponentType::Add, modifier );
     }
 }
 
@@ -48,7 +48,7 @@ ActorMods::ModAbilityScoreStaticAll::ModAbilityScoreStaticAll(int modifier)
 
 void ActorMods::ModAbilityScoreStaticAll::modify(AbilityScoreBonus *roll)
 {
-    roll->addModComponent( ModComponentType::Add, modifier );
+    roll->modList().addModComponent( ModComponentType::Add, modifier );
 }
 
 
@@ -57,7 +57,7 @@ ActorMods::ModMovementSpeedMultiplier::ModMovementSpeedMultiplier( float multipl
 
 void ActorMods::ModMovementSpeedMultiplier::modify( MovementSpeedData *data )
 {
-    data->addModComponent( ModComponentType::Multiply, multiplier );
+    data->modList().addModComponent( ModComponentType::Multiply, multiplier );
 }
 
 ActorMods::ModACDodgeBonus::ModACDodgeBonus(int bonus)

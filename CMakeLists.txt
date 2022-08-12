@@ -56,6 +56,7 @@ target_link_libraries(quarantania2_lib PRIVATE sol2::sol2)
 
 add_executable(quarantania2 "src/main.cpp" )
 target_link_libraries( quarantania2 PRIVATE quarantania2_lib )
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
 
 
 # Test executable

@@ -26,7 +26,7 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
     int critRange = attacker->getCritRangeForAttack( result );
 
     // Add STR mod to the attack roll (TODO: This should be modifible, e.g. Weapon Finesse)
-    result.addModComponent( ModComponentType::Add, attacker->getModStr() );
+    result.modList().addModComponent( ModComponentType::Add, attacker->getModStr() );
 
     // Apply any modifiers from the type of attack, e.g. reduce to hit from a Power Attack
     evt.attack->modifyAttackRoll( result );
@@ -34,7 +34,7 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
     // Apply any modifiers from the actors, e.g. Weapon Focus feats or status affects
     attacker->applyAllModifiers( &result );
 
-    int final = result.calculate();
+    int final = result.modList().calculate();
 
     if ( result.baseValue() >= critRange )
     {
@@ -58,7 +58,7 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
         }
     }
 
-    Logger::get().info("Attack roll: natural={}, modified={}, target={}", result.baseValue(), result.calculate(), result.targetValue );
+    Logger::get().info("Attack roll: natural={}, modified={}, target={}", result.baseValue(), result.modList().calculate(), result.targetValue );
 
     Damage damage;
 

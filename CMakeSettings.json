@@ -19,7 +19,8 @@
           "value": "x86-windows",
           "type": "STRING"
         }
-      ]
+      ],
+      "cmakeCommandArgs": "-G Ninja"
     }
   ]
 }
