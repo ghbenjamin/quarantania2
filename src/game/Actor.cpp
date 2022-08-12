@@ -200,7 +200,7 @@ void Actor::setCurrentHp(int value)
 
 int Actor::getAC()
 {
-    ArmourClassData data;
+    ActorCalc::ArmourClassData data;
     data.dexBonus = getModDex();
 
     if ( hasEquipped(CreatureEquipSlot::Armour) )
@@ -235,7 +235,7 @@ int Actor::getAC()
 
 int Actor::getSpeed()
 {
-    MovementSpeedData data {this, m_baseSpeed};
+    ActorCalc::MovementSpeedData data {this, m_baseSpeed};
     
     applyAllModifiers(&data);
     
@@ -291,15 +291,15 @@ std::unordered_map<CreatureEquipSlot, ItemPtr> const &Actor::getAllEquippedItems
     return m_equippedItems;
 }
 
-int Actor::getCritRangeForAttack( AttackRoll &attack )
+int Actor::getCritRangeForAttack( ActorCalc::AttackRoll &attack )
 {
     // TODO: Modifiers.
     return attack.weapon->critRange();
 }
 
-DamageRoll Actor::makeMeleeDamageRoll( AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl )
+ActorCalc::DamageRoll Actor::makeMeleeDamageRoll( ActorCalc::AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl )
 {
-    DamageRoll damageRoll;
+    ActorCalc::DamageRoll damageRoll;
     
     // Roll the natural roll
     damageRoll.naturalRoll =  m_level->random()->diceRoll( attack.weapon->damage() );
@@ -395,7 +395,7 @@ void Actor::applyAllModifiers(ModifiableStatObject roll ) const
     std::visit( ModifiableRollVisitor{this}, roll );
 }
 
-SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type)
+ActorCalc::SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type)
 {
     int abilityScoreMod;
 
@@ -411,9 +411,9 @@ SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type)
             abilityScoreMod = getModWis();
             break;
     }
-
-
-    SavingThrowRoll roll { this, m_level->random()->diceRoll(20), source };
+    
+    
+    ActorCalc::SavingThrowRoll roll { this, m_level->random()->diceRoll(20), source };
     
     roll.modList().addItem(ActorCalcOperation::Add, abilityScoreMod);
 
@@ -473,7 +473,7 @@ int Actor::getBaseAbilityScore( AbilityScoreType type ) const
 
 int Actor::getAbilityScoreValue( AbilityScoreType type )
 {
-    AbilityScoreBonus bonus { this, getBaseAbilityScore(type) };
+    ActorCalc::AbilityScoreBonus bonus { this, getBaseAbilityScore(type) };
     bonus.type = type;
     applyAllModifiers( &bonus );
 
@@ -516,7 +516,7 @@ std::vector<GameAction> Actor::getAllGameActions() const
 
 bool Actor::canPerformAction( GameAction const& action ) const
 {
-    ActionSpeedData speedData(&action);
+    ActorCalc::ActionSpeedData speedData {&action, 0};
     applyAllModifiers( &speedData );
     
     return (m_maxActions - m_usedActions) >= speedData.modified;
@@ -530,7 +530,7 @@ std::optional<CreatureEquipSlot> Actor::canEquipItem( ItemPtr item )
 
 int Actor::getRefSave()
 {
-    SavingThrowRoll roll { this, m_baseReflex };
+    ActorCalc::SavingThrowRoll roll { this, m_baseReflex };
     roll.type = SavingThrowType::Reflex;
     roll.modList().addItem(ActorCalcOperation::Add, getModDex());
     applyAllModifiers( &roll );
@@ -539,7 +539,7 @@ int Actor::getRefSave()
 
 int Actor::getWillSave()
 {
-    SavingThrowRoll roll { this, m_baseWill };
+    ActorCalc::SavingThrowRoll roll { this, m_baseWill };
     roll.type = SavingThrowType::Will;
     roll.modList().addItem(ActorCalcOperation::Add, getModWis());
     applyAllModifiers( &roll );
@@ -548,7 +548,7 @@ int Actor::getWillSave()
 
 int Actor::getFortSave()
 {
-    SavingThrowRoll roll { this, m_baseFortitude };
+    ActorCalc::SavingThrowRoll roll { this, m_baseFortitude };
     roll.type = SavingThrowType::Fortitude;
     roll.modList().addItem(ActorCalcOperation::Add, getModCon());
     applyAllModifiers( &roll );
@@ -592,41 +592,3 @@ EntityRef Actor::getRef() const
 }
 
 
-
-ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
- : m_actor(actor) {}
-
-void ModifiableRollVisitor::operator()( AttackRoll *roll )
-{
-    m_actor->modifyTypedRoll(ActorCalculationType::AttackRoll, roll );
-}
-
-void ModifiableRollVisitor::operator()( DamageRoll *roll )
-{
-    m_actor->modifyTypedRoll(ActorCalculationType::DamageRoll, roll );
-}
-
-void ModifiableRollVisitor::operator()( SavingThrowRoll *roll )
-{
-    m_actor->modifyTypedRoll(ActorCalculationType::SavingThrow, roll );
-}
-
-void ModifiableRollVisitor::operator()(AbilityScoreBonus *roll)
-{
-    m_actor->modifyTypedRoll(ActorCalculationType::AbilityScore, roll );
-}
-
-void ModifiableRollVisitor::operator()( MovementSpeedData *roll )
-{
-    m_actor->modifyTypedRoll(ActorCalculationType::MovementSpeed, roll );
-}
-
-void ModifiableRollVisitor::operator()(ArmourClassData *data)
-{
-    m_actor->modifyTypedRoll(ActorCalculationType::ArmourClass, data );
-}
-
-void ModifiableRollVisitor::operator()( ActionSpeedData *data )
-{
-    m_actor->modifyTypedRoll(ActorCalculationType::ActionSpeed, data );
-}

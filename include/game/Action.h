@@ -66,14 +66,6 @@ struct ReifiedGameAction
     void perform( Level* level, EntityRef actor );
 };
 
-struct ActionSpeedData
-{
-    ActionSpeedData( GameAction const* action );
-    ActionSpeedData( GameAction* action );
-    
-    GameAction const* action = nullptr;
-    int modified = 0;
-};
 
 class SingleTileTargeting : public IActionTargeting
 {

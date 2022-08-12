@@ -18,6 +18,6 @@ class MeleeAttackPowerAttack : public MeleeAttack
 {
     // Exchange attack bonus for damage
 public:
-    void modifyAttackRoll( AttackRoll &roll ) override;
-    void modifyDamageRoll( DamageRoll &roll ) override;
+    void modifyAttackRoll( ActorCalc::AttackRoll &roll ) override;
+    void modifyDamageRoll( ActorCalc::DamageRoll &roll ) override;
 };

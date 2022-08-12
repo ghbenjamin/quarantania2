@@ -1,7 +1,7 @@
 #include <game/Attack.h>
 
-void MeleeAttack::modifyAttackRoll( AttackRoll &roll ) {}
-void MeleeAttack::modifyDamageRoll( DamageRoll &roll ) {}
+void MeleeAttack::modifyAttackRoll( ActorCalc::AttackRoll &roll ) {}
+void MeleeAttack::modifyDamageRoll( ActorCalc::DamageRoll &roll ) {}
 void MeleeAttack::onHit() {}
 
 bool MeleeAttack::isFullAttack()

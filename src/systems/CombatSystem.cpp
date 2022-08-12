@@ -18,7 +18,7 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
     auto [mainWeapon, offWeapon] = attacker->getEquippedWeapons();
     bool missedAll = true;
 
-    AttackRoll result { attacker, m_level->random()->diceRoll(20), defender->getRef() };
+    ActorCalc::AttackRoll result { attacker, m_level->random()->diceRoll(20), defender->getRef() };
     result.defender = defender;
     result.weapon = mainWeapon;
 

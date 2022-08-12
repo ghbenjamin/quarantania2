@@ -8,61 +8,61 @@ namespace ActorMods
 {
 
 
-struct ModAttackRollStatic : public ActorDynamicModImpl<AttackRoll>
+struct ModAttackRollStatic : public ActorDynamicModImpl<ActorCalc::AttackRoll>
 {
     ModAttackRollStatic( int modifier );
-    void modify( AttackRoll* roll ) override;
+    void modify( ActorCalc::AttackRoll* roll ) override;
 
     int modifier;
 };
 
-struct ModSavingThrowStatic : public ActorDynamicModImpl<SavingThrowRoll>
+struct ModSavingThrowStatic : public ActorDynamicModImpl<ActorCalc::SavingThrowRoll>
 {
     ModSavingThrowStatic( SavingThrowType type, int modifier );
-    void modify( SavingThrowRoll* roll ) override;
+    void modify( ActorCalc::SavingThrowRoll* roll ) override;
 
     SavingThrowType type;
     int modifier;
 };
 
-struct ModSavingThrowStaticAll : public ActorDynamicModImpl<SavingThrowRoll>
+struct ModSavingThrowStaticAll : public ActorDynamicModImpl<ActorCalc::SavingThrowRoll>
 {
     ModSavingThrowStaticAll( int modifier );
-    void modify( SavingThrowRoll* roll ) override;
+    void modify( ActorCalc::SavingThrowRoll* roll ) override;
 
     int modifier;
 };
 
 
-struct ModAbilityScoreStatic : public ActorDynamicModImpl<AbilityScoreBonus>
+struct ModAbilityScoreStatic : public ActorDynamicModImpl<ActorCalc::AbilityScoreBonus>
 {
     ModAbilityScoreStatic( AbilityScoreType type, int modifier );
-    void modify( AbilityScoreBonus* roll ) override;
+    void modify( ActorCalc::AbilityScoreBonus* roll ) override;
 
     AbilityScoreType type;
     int modifier;
 };
 
-struct ModAbilityScoreStaticAll : public ActorDynamicModImpl<AbilityScoreBonus>
+struct ModAbilityScoreStaticAll : public ActorDynamicModImpl<ActorCalc::AbilityScoreBonus>
 {
     ModAbilityScoreStaticAll( int modifier );
-    void modify( AbilityScoreBonus* roll ) override;
+    void modify( ActorCalc::AbilityScoreBonus* roll ) override;
 
     int modifier;
 };
 
-struct ModMovementSpeedMultiplier : public ActorDynamicModImpl<MovementSpeedData>
+struct ModMovementSpeedMultiplier : public ActorDynamicModImpl<ActorCalc::MovementSpeedData>
 {
     ModMovementSpeedMultiplier( float multiplier );
-    void modify( MovementSpeedData* data ) override;
+    void modify( ActorCalc::MovementSpeedData* data ) override;
     
     float multiplier;
 };
 
-struct ModACDodgeBonus : public ActorDynamicModImpl<ArmourClassData>
+struct ModACDodgeBonus : public ActorDynamicModImpl<ActorCalc::ArmourClassData>
 {
     ModACDodgeBonus( int bonus );
-    void modify( ArmourClassData* data ) override;
+    void modify( ActorCalc::ArmourClassData* data ) override;
 
     int bonus;
 };

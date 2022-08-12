@@ -18,24 +18,6 @@ class RandomState;
 class MeleeAttack;
 
 
-class ModifiableRollVisitor
-{
-public:
-    ModifiableRollVisitor( Actor const* actor );
-    ~ModifiableRollVisitor() = default;
-    
-    void operator()( AttackRoll* roll );
-    void operator()( DamageRoll* roll );
-    void operator()( SavingThrowRoll* roll );
-    void operator()( AbilityScoreBonus* roll );
-    void operator()( MovementSpeedData* data );
-    void operator()( ArmourClassData* data );
-    void operator()( ActionSpeedData* data );
-
-private:
-    Actor const* m_actor;
-};
-
 class Actor
 {
 
@@ -93,11 +75,11 @@ public:
     
     // Defense
     int getAC();
-    SavingThrowRoll makeSavingThrow( EntityRef source, SavingThrowType type );
+    ActorCalc::SavingThrowRoll makeSavingThrow( EntityRef source, SavingThrowType type );
 
     // Combat
-    int getCritRangeForAttack( AttackRoll& attack );
-    DamageRoll makeMeleeDamageRoll( AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl );
+    int getCritRangeForAttack( ActorCalc::AttackRoll& attack );
+    ActorCalc::DamageRoll makeMeleeDamageRoll( ActorCalc::AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl );
 
     // Modifiers
     // ---------------------

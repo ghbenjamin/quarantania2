@@ -61,9 +61,3 @@ void ReifiedGameAction::perform(Level* level, EntityRef actor)
 ReifiedGameAction::ReifiedGameAction(const GameAction &action, const ActionTarget &target)
         : action(action), target(target)
 {}
-
-ActionSpeedData::ActionSpeedData( GameAction const* action )
-: action(action), modified(action->data.speed) {}
-
-ActionSpeedData::ActionSpeedData( GameAction *action )
-: action(action), modified(action->data.speed) {}

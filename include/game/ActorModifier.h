@@ -87,68 +87,102 @@ protected:
 };
 
 
-// A bonus to an Ability Score, e.g. STR or DEX. Always given as a raw number, not as a +- modifier
-struct AbilityScoreBonus : public ActorCalcData
+namespace ActorCalc
 {
-    using ActorCalcData::ActorCalcData;
-    AbilityScoreType type {};
-};
+    // A single attack roll to hit, made vs a single attacker.
+    struct AttackRoll : public ActorCalcData
+    {
+        using ActorCalcData::ActorCalcData;
+        
+        Actor* defender = nullptr;
+        Weapon const* weapon = nullptr;
+        int targetValue = -1;
+        bool isHit = false;
+        bool isCrit = false;
+    };
+    
+    struct DamageRoll
+    {
+        int naturalRoll = -1;
+        int modifiedRoll = -1;
+    };
 
-// A bonus to a saving throw, e.g. REF or WILL.
-struct SavingThrowRoll : public ActorCalcData
-{
-    using ActorCalcData::ActorCalcData;
-    SavingThrowType type {};
-};
 
-// A single attack roll to hit, made vs a single attacker.
-struct AttackRoll : public ActorCalcData
-{
-    using ActorCalcData::ActorCalcData;
+    // A bonus to an Ability Score, e.g. STR or DEX. Always given as a raw number, not as a +- modifier
+    struct AbilityScoreBonus : public ActorCalcData
+    {
+        using ActorCalcData::ActorCalcData;
+        AbilityScoreType type {};
+    };
+    
+    // A bonus to a saving throw, e.g. REF or WILL.
+    struct SavingThrowRoll : public ActorCalcData
+    {
+        using ActorCalcData::ActorCalcData;
+        SavingThrowType type {};
+    };
+    
+  
+    
+    struct MovementSpeedData : public ActorCalcData
+    {
+        using ActorCalcData::ActorCalcData;
+    };
+    
+    struct ArmourClassData
+    {
+        int shieldBonus = 0;
+        int armourBonus = 0;
+        
+        int dexBonus = 0;
+        std::optional<int> maxDexToAc = {};
+        
+        int dodgeBonus = 0;
+        int staticBonus = 10;
+        
+        int modifiedAC = 0;
+    };
 
-    Actor* defender = nullptr;
-    Weapon const* weapon = nullptr;
-    int targetValue = -1;
-    bool isHit = false;
-    bool isCrit = false;
-};
+    struct ActionSpeedData
+    {
+        GameAction const* action = nullptr;
+        int modified = 0;
+    };
+}
 
-struct DamageRoll
-{
-    int naturalRoll = -1;
-    int modifiedRoll = -1;
-};
 
-struct MovementSpeedData : public ActorCalcData
-{
-    using ActorCalcData::ActorCalcData;
-};
-
-struct ArmourClassData
-{
-    int shieldBonus = 0;
-    int armourBonus = 0;
-
-    int dexBonus = 0;
-    std::optional<int> maxDexToAc = {};
-
-    int dodgeBonus = 0;
-    int staticBonus = 10;
-
-    int modifiedAC = 0;
-};
 
 
 // Union type of the kinds of game stat that can be modified by effects and abilities
 using ModifiableStatObject = std::variant<
-    SavingThrowRoll*,
-    AttackRoll*,
-    DamageRoll*,
-    AbilityScoreBonus*,
-    MovementSpeedData*,
-    ArmourClassData*,
-    ActionSpeedData*
+        ActorCalc::SavingThrowRoll*,
+        ActorCalc::AttackRoll*,
+        ActorCalc::DamageRoll*,
+        ActorCalc::AbilityScoreBonus*,
+        ActorCalc::MovementSpeedData*,
+        ActorCalc::ArmourClassData*,
+        ActorCalc::ActionSpeedData*
         >;
+
+class ModifiableRollVisitor
+{
+public:
+    ModifiableRollVisitor( Actor const* actor );
+    ~ModifiableRollVisitor() = default;
+    
+    void operator()( ActorCalc::AttackRoll* roll );
+    void operator()( ActorCalc::DamageRoll* roll );
+    void operator()( ActorCalc::SavingThrowRoll* roll );
+    void operator()( ActorCalc::AbilityScoreBonus* roll );
+    void operator()( ActorCalc::MovementSpeedData* data );
+    void operator()( ActorCalc::ArmourClassData* data );
+    void operator()( ActorCalc::ActionSpeedData* data );
+
+private:
+    Actor const* m_actor;
+};
+
+
 
 
 // A function which can modify exactly one of the calculation types enumerated above
