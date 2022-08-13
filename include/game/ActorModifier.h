@@ -41,7 +41,7 @@ public:
     void addItem( ActorCalcOperation type, double value );
     void addItem( ActorCalcOperation type, int value );
 
-    int calculate() const;
+    int calculate( int baseValue ) const;
 
 private:
     std::vector<ActorCalcItem> m_modList;
@@ -66,9 +66,9 @@ enum class ActorCalculationType
 
 struct ActorCalcData
 {
-    Actor* actor;
-    EntityRef actorRef;
+    const Actor* actor;
     EntityRef other;
+    
     ActorCalcList mods;
 };
 
@@ -80,15 +80,11 @@ namespace ActorCalc
     {
         Actor* defender = nullptr;
         Weapon const* weapon = nullptr;
-        int targetValue = -1;
-        bool isHit = false;
-        bool isCrit = false;
     };
     
-    struct DamageRoll
+    struct DamageRoll : public ActorCalcData
     {
-        int naturalRoll = -1;
-        int modifiedRoll = -1;
+    
     };
 
     // A bonus to an Ability Score, e.g. STR or DEX. Always given as a raw number, not as a +- modifier
@@ -107,18 +103,8 @@ namespace ActorCalc
     {
     };
     
-    struct ArmourClassData
+    struct ArmourClassData : public ActorCalcData
     {
-        int shieldBonus = 0;
-        int armourBonus = 0;
-        
-        int dexBonus = 0;
-        std::optional<int> maxDexToAc = {};
-        
-        int dodgeBonus = 0;
-        int staticBonus = 10;
-        
-        int modifiedAC = 0;
     };
 
     struct ActionSpeedData : public ActorCalcData
@@ -126,8 +112,6 @@ namespace ActorCalc
         GameAction const* action = nullptr;
     };
 }
-
-
 
 
 // Union type of the kinds of game stat that can be modified by effects and abilities

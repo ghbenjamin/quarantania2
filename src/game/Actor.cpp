@@ -198,48 +198,9 @@ void Actor::setCurrentHp(int value)
     m_HpCurrent = value;
 }
 
-int Actor::getAC()
-{
-    ActorCalc::ArmourClassData data;
-    data.dexBonus = getModDex();
-
-    if ( hasEquipped(CreatureEquipSlot::Armour) )
-    {
-        auto const& armour = getEquipped( CreatureEquipSlot::Armour )->getArmour();
-
-        data.maxDexToAc = armour.maxDex();
-        data.armourBonus = armour.armourBonus();
-    }
-
-    auto shield = tryGetActiveShield();
-
-    if ( shield != nullptr )
-    {
-        if (data.maxDexToAc.has_value())
-        {
-            data.maxDexToAc = std::min( *data.maxDexToAc, shield->maxDex() );
-        }
-        else
-        {
-            data.maxDexToAc = shield->maxDex();
-        }
-
-        data.shieldBonus = shield->armourBonus();
-    }
-
-    applyAllModifiers( &data );
-
-    return data.armourBonus + data.shieldBonus + data.staticBonus + data.dexBonus + data.dodgeBonus;
-}
-
-
 int Actor::getSpeed()
 {
-    ActorCalc::MovementSpeedData data {this, m_baseSpeed};
-    
-    applyAllModifiers(&data);
-    
-    return data.mods.calculate();
+    return getModifiersMovementSpeed().calculate( m_baseSpeed );
 }
 
 CreatureSize Actor::getSize()
@@ -291,37 +252,36 @@ std::unordered_map<CreatureEquipSlot, ItemPtr> const &Actor::getAllEquippedItems
     return m_equippedItems;
 }
 
-int Actor::getCritRangeForAttack( ActorCalc::AttackRoll &attack )
+int Actor::getCritRangeForAttack( ActorCalc::AttackRoll &attack ) const
 {
     // TODO: Modifiers.
     return attack.weapon->critRange();
 }
 
-ActorCalc::DamageRoll Actor::makeMeleeDamageRoll( ActorCalc::AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl )
+ActorCalcList Actor::getModifiersMeleeDamage( ActorCalc::AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl ) const
 {
     ActorCalc::DamageRoll damageRoll;
     
-    // Roll the natural roll
-    damageRoll.naturalRoll =  m_level->random()->diceRoll( attack.weapon->damage() );
-    damageRoll.modifiedRoll = damageRoll.naturalRoll;
-    
-    // Add STR mod to the damage roll (TODO: This should be modifible)
-    damageRoll.modifiedRoll += getModStr();
-    
+    damageRoll.mods.addItem( ActorCalcOperation::Add, getAbilityScoreMod(AbilityScoreType::STR) );
     
     // Apply modifiers from the attack type if any (e.g. +dmg from a power attack)
     attackImpl->modifyDamageRoll(damageRoll);
     
-    // Apply modifiers from the actors
+    // Apply modifiers from the actor
     applyAllModifiers( &damageRoll );
     
-    // If this is a critical hit, modify the damage
-    if ( attack.isCrit )
-    {
-        damageRoll.modifiedRoll *= attack.weapon->critMultiplier();
-    }
+    return damageRoll.mods;
+}
+
+ActorCalcList
+Actor::getModifiersMovementSpeed() const
+{
+    ActorCalc::MovementSpeedData data;
+    data.actor = this;
     
-    return damageRoll;
+    applyAllModifiers(&data);
+    
+    return data.mods;
 }
 
 
@@ -390,98 +350,82 @@ void Actor::removeActorModGroup( std::string const& id )
 }
 
 
-void Actor::applyAllModifiers(ModifiableStatObject roll ) const
+void Actor::applyAllModifiers( ModifiableStatObject roll ) const
 {
     std::visit( ModifiableRollVisitor{this}, roll );
 }
 
-ActorCalc::SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowType type)
+
+ActorCalcList Actor::getModifiersSavingThrow( SavingThrowType type, EntityRef source ) const
 {
-    int abilityScoreMod;
+    AbilityScoreType abilityScore;
 
     switch (type)
     {
         case SavingThrowType::Reflex:
-            abilityScoreMod = getModDex();
+            abilityScore = AbilityScoreType::DEX;
             break;
         case SavingThrowType::Fortitude:
-            abilityScoreMod = getModCon();
+            abilityScore = AbilityScoreType::CON;
             break;
         case SavingThrowType::Will:
-            abilityScoreMod = getModWis();
+            abilityScore = AbilityScoreType::WIS;
             break;
     }
     
+    int abilityScoreMod = getAbilityScoreMod( abilityScore );
     
-    ActorCalc::SavingThrowRoll roll { this, source };
     
-    roll.mods.addItem(ActorCalcOperation::Add, m_level->random()->diceRoll(20));
+    ActorCalc::SavingThrowRoll roll;
+    
+    roll.actor = this;
+    roll.other = source;
+    
     roll.mods.addItem(ActorCalcOperation::Add, abilityScoreMod);
 
     applyAllModifiers( &roll );
 
-    return roll;
+    return roll.mods;
 }
 
-int Actor::getModStr()
+int Actor::getAbilityScoreMod( AbilityScoreType type ) const
 {
-    return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::STR ) );
+    return std::floor( ( getAbilityScoreValue( type ) - 10 ) / 2 );
 }
 
-int Actor::getModDex()
+int Actor::getAbilityScoreValue( AbilityScoreType type ) const
 {
-    return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::DEX ) );
-}
-
-int Actor::getModCon()
-{
-    return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::CON ) );
-}
-
-int Actor::getModInt()
-{
-    return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::INT ) );
-}
-
-int Actor::getModWis()
-{
-    return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::WIS ) );
-}
-
-int Actor::getModCha()
-{
-    return abilityScoreToMod( getAbilityScoreValue( AbilityScoreType::CHA ) );
-}
-
-int Actor::getBaseAbilityScore( AbilityScoreType type ) const
-{
+    int base;
+    
     switch(type)
     {
         case AbilityScoreType::STR:
-            return m_baseAbilityScoreStr;
+            base = m_baseAbilityScoreStr;
+            break;
         case AbilityScoreType::DEX:
-            return m_baseAbilityScoreDex;
+            base = m_baseAbilityScoreDex;
+            break;
         case AbilityScoreType::CON:
-            return m_baseAbilityScoreCon;
+            base = m_baseAbilityScoreCon;
+            break;
         case AbilityScoreType::INT:
-            return m_baseAbilityScoreInt;
+            base = m_baseAbilityScoreInt;
+            break;
         case AbilityScoreType::WIS:
-            return m_baseAbilityScoreWis;
-        case AbilityScoreType::CHA:
-            return m_baseAbilityScoreCha;
+            base = m_baseAbilityScoreWis;
+            break;
         default:
-            AssertAlways();
-            return 0;
+            base = m_baseAbilityScoreCha;
+            break;
     }
-}
-
-int Actor::getAbilityScoreValue( AbilityScoreType type )
-{
-    ActorCalc::AbilityScoreBonus bonus { this, getBaseAbilityScore(type) };
+    
+    ActorCalc::AbilityScoreBonus bonus;
+    bonus.actor = this;
     bonus.type = type;
+    
     applyAllModifiers( &bonus );
 
-    return bonus.mods.calculate();
+    return bonus.mods.calculate( base );
 }
 
 std::vector<GameAction> Actor::getAllGameActions() const
@@ -540,42 +484,6 @@ std::optional<CreatureEquipSlot> Actor::canEquipItem( ItemPtr item )
     return defaultSlotForItemSlot( item->getEquipSlot() );
 }
 
-int Actor::getRefSave()
-{
-    ActorCalc::SavingThrowRoll roll;
-    roll.actor = this;
-    roll.type = SavingThrowType::Reflex;
-    roll.mods.addItem(ActorCalcOperation::Add, getModDex());
-    applyAllModifiers( &roll );
-    
-    return m_baseReflex + roll.mods.calculate();
-}
-
-int Actor::getWillSave()
-{
-    ActorCalc::SavingThrowRoll roll;
-    roll.actor = this;
-    roll.type = SavingThrowType::Will;
-    roll.mods.addItem(ActorCalcOperation::Add, getModWis());
-    applyAllModifiers( &roll );
-    return m_baseWill + roll.mods.calculate();
-}
-
-int Actor::getFortSave()
-{
-    ActorCalc::SavingThrowRoll roll;
-    roll.type = SavingThrowType::Fortitude;
-    roll.actor = this;
-    roll.mods.addItem(ActorCalcOperation::Add, getModCon());
-    applyAllModifiers( &roll );
-    return m_baseFortitude + roll.mods.calculate();
-}
-
-int Actor::abilityScoreToMod(int score)
-{
-    return (score - 10) / 2;
-}
-
 std::vector<ActorModGroup> const &Actor::getAllModifierGroups() const
 {
     return m_modifierGroups;
@@ -606,5 +514,11 @@ EntityRef Actor::getRef() const
 {
     return m_entity;
 }
+
+
+
+
+
+
 
 

@@ -59,13 +59,6 @@ struct ModMovementSpeedMultiplier : public ActorDynamicModImpl<ActorCalc::Moveme
     float multiplier;
 };
 
-struct ModACDodgeBonus : public ActorDynamicModImpl<ActorCalc::ArmourClassData>
-{
-    ModACDodgeBonus( int bonus );
-    void modify( ActorCalc::ArmourClassData* data ) override;
-
-    int bonus;
-};
 
 
 }

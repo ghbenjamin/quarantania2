@@ -26,10 +26,6 @@ ActorModGroup ActorModFactory::fromId( std::string const &id, int duration )
     {
         return featPowerAttack();
     }
-    else if ( id == "feat.dodge" )
-    {
-        return featDodge();
-    }
     else if ( id == "feat.debug" )
     {
         return featDebug();
@@ -86,14 +82,6 @@ ActorModGroup ActorModFactory::featPowerAttack()
         std::make_shared<ActionPowerAttack>())
     );
     
-    return group;
-}
-
-ActorModGroup ActorModFactory::featDodge()
-{
-    ActorModGroup group { "feat.dodge", "Dodge", -1 };
-    group.addDynamicMod<ActorMods::ModACDodgeBonus>(ActorCalculationType::ArmourClass, 1);
-
     return group;
 }
 

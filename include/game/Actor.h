@@ -32,21 +32,9 @@ public:
     std::string const& getCreatureType() const;
 
     // Stats
-    int getAbilityScoreValue( AbilityScoreType type );
-    int getBaseAbilityScore( AbilityScoreType type ) const;
-    static int abilityScoreToMod( int score );
-    
-    int getModStr();
-    int getModDex();
-    int getModCon();
-    int getModInt();
-    int getModWis();
-    int getModCha();
+    int getAbilityScoreValue( AbilityScoreType type ) const;
+    int getAbilityScoreMod( AbilityScoreType type ) const;
 
-    // Saves
-    int getFortSave();
-    int getRefSave();
-    int getWillSave();
 
     // Items
     bool hasEquipped( CreatureEquipSlot slot ) const;
@@ -73,16 +61,17 @@ public:
     void setCurrentHp( int value );
     void acceptDamage( Damage const& dmg );
     
-    // Defense
-    int getAC();
-    ActorCalc::SavingThrowRoll makeSavingThrow( EntityRef source, SavingThrowType type );
-
-    // Combat
-    int getCritRangeForAttack( ActorCalc::AttackRoll& attack );
-    ActorCalc::DamageRoll makeMeleeDamageRoll( ActorCalc::AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl );
 
     // Modifiers
     // ---------------------
+    
+    
+    int getCritRangeForAttack( ActorCalc::AttackRoll& attack ) const;
+    ActorCalcList getModifiersSavingThrow( SavingThrowType type, EntityRef source ) const;
+    ActorCalcList getModifiersMeleeDamage( ActorCalc::AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl ) const;
+    ActorCalcList getModifiersMovementSpeed() const;
+    
+    
     
     void addModifierGroup( ActorModGroup const& mod );
     void removeActorModGroup( std::string const& id );

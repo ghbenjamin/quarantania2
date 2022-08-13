@@ -15,11 +15,9 @@ private:
 
     // Debug
     static ActorModGroup featDebug();
-    
 
     // Feats
     static ActorModGroup featPowerAttack();
-    static ActorModGroup featDodge();
 
     // Statuses
     static ActorModGroup statusExhausted(int roundRemove);

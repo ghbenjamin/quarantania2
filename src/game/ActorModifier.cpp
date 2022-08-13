@@ -12,13 +12,15 @@ ActorCalcItem::ActorCalcItem( ActorCalcOperation type, double value )
 // ---------------------------------------------------------
 
 
-int ActorCalcList::calculate() const
+int ActorCalcList::calculate( int baseValue ) const
 {
     double addBonus = 0;
     double multBonus = 1;
 
     std::optional<double> limit;
     std::optional<double> floor;
+
+    // TODO: Consider when a floor is added which is higher than a limit or vice versa
 
     for (auto const& item : m_modList)
     {
@@ -28,7 +30,7 @@ int ActorCalcList::calculate() const
             addBonus += item.value;
             break;
         case ActorCalcOperation::Multiply:
-            addBonus *= item.value;
+            multBonus *= item.value;
             break;
         case ActorCalcOperation::Limit:
             if (limit.has_value())
@@ -54,7 +56,7 @@ int ActorCalcList::calculate() const
     }
 
 
-    double final = 0;
+    double final = baseValue;
     final += addBonus;
     final *= multBonus;
 

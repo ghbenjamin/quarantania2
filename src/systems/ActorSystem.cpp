@@ -43,7 +43,7 @@ void ActorSystem::operator()(GameEvents::EntityAction &evt)
     
     actorC.applyAllModifiers( &speedData );
     
-    int total = evt.speed.data.speed + speedData.mods.calculate();
+    int total = speedData.mods.calculate( evt.speed.data.speed );
     actorC.useActions( total );
 }
 
