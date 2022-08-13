@@ -239,7 +239,7 @@ int Actor::getSpeed()
     
     applyAllModifiers(&data);
     
-    return data.modList().calculate();
+    return data.mods.calculate();
 }
 
 CreatureSize Actor::getSize()
@@ -413,9 +413,10 @@ ActorCalc::SavingThrowRoll Actor::makeSavingThrow(EntityRef source, SavingThrowT
     }
     
     
-    ActorCalc::SavingThrowRoll roll { this, m_level->random()->diceRoll(20), source };
+    ActorCalc::SavingThrowRoll roll { this, source };
     
-    roll.modList().addItem(ActorCalcOperation::Add, abilityScoreMod);
+    roll.mods.addItem(ActorCalcOperation::Add, m_level->random()->diceRoll(20));
+    roll.mods.addItem(ActorCalcOperation::Add, abilityScoreMod);
 
     applyAllModifiers( &roll );
 
@@ -468,6 +469,9 @@ int Actor::getBaseAbilityScore( AbilityScoreType type ) const
             return m_baseAbilityScoreWis;
         case AbilityScoreType::CHA:
             return m_baseAbilityScoreCha;
+        default:
+            AssertAlways();
+            return 0;
     }
 }
 
@@ -477,7 +481,7 @@ int Actor::getAbilityScoreValue( AbilityScoreType type )
     bonus.type = type;
     applyAllModifiers( &bonus );
 
-    return bonus.modList().calculate();
+    return bonus.mods.calculate();
 }
 
 std::vector<GameAction> Actor::getAllGameActions() const
@@ -516,10 +520,18 @@ std::vector<GameAction> Actor::getAllGameActions() const
 
 bool Actor::canPerformAction( GameAction const& action ) const
 {
-    ActorCalc::ActionSpeedData speedData {&action, 0};
-    applyAllModifiers( &speedData );
+
+    // TODO REFACTOR
+//    ActorCalc::ActionSpeedData speedData { this };
+//
+//    speedData.action = &action;
+//
+//
+//    applyAllModifiers( &speedData );
     
-    return (m_maxActions - m_usedActions) >= speedData.modified;
+//    return (m_maxActions - m_usedActions) >= speedData.modified;
+    
+    return (m_maxActions - m_usedActions) > 1;
 }
 
 std::optional<CreatureEquipSlot> Actor::canEquipItem( ItemPtr item )
@@ -530,29 +542,33 @@ std::optional<CreatureEquipSlot> Actor::canEquipItem( ItemPtr item )
 
 int Actor::getRefSave()
 {
-    ActorCalc::SavingThrowRoll roll { this, m_baseReflex };
+    ActorCalc::SavingThrowRoll roll;
+    roll.actor = this;
     roll.type = SavingThrowType::Reflex;
-    roll.modList().addItem(ActorCalcOperation::Add, getModDex());
+    roll.mods.addItem(ActorCalcOperation::Add, getModDex());
     applyAllModifiers( &roll );
-    return roll.modList().calculate();
+    
+    return m_baseReflex + roll.mods.calculate();
 }
 
 int Actor::getWillSave()
 {
-    ActorCalc::SavingThrowRoll roll { this, m_baseWill };
+    ActorCalc::SavingThrowRoll roll;
+    roll.actor = this;
     roll.type = SavingThrowType::Will;
-    roll.modList().addItem(ActorCalcOperation::Add, getModWis());
+    roll.mods.addItem(ActorCalcOperation::Add, getModWis());
     applyAllModifiers( &roll );
-    return roll.modList().calculate();
+    return m_baseWill + roll.mods.calculate();
 }
 
 int Actor::getFortSave()
 {
-    ActorCalc::SavingThrowRoll roll { this, m_baseFortitude };
+    ActorCalc::SavingThrowRoll roll;
     roll.type = SavingThrowType::Fortitude;
-    roll.modList().addItem(ActorCalcOperation::Add, getModCon());
+    roll.actor = this;
+    roll.mods.addItem(ActorCalcOperation::Add, getModCon());
     applyAllModifiers( &roll );
-    return roll.modList().calculate();
+    return m_baseFortitude + roll.mods.calculate();
 }
 
 int Actor::abilityScoreToMod(int score)
@@ -560,7 +576,7 @@ int Actor::abilityScoreToMod(int score)
     return (score - 10) / 2;
 }
 
-std::vector<ActorModGroup> const &Actor::getAllModifiers() const
+std::vector<ActorModGroup> const &Actor::getAllModifierGroups() const
 {
     return m_modifierGroups;
 }

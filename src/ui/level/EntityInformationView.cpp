@@ -273,7 +273,7 @@ void EntityInfoContent::StatusView::refresh(EntityRef entity)
     
     auto& actor = m_level->ecs().getComponents<ActorComponent>( entity )->actor;
     
-    for ( auto const mod : actor.getAllModifiers() )
+    for ( auto const mod : actor.getAllModifierGroups() )
     {
         if ( mod.getId().starts_with("status"))
         {
@@ -334,7 +334,7 @@ void EntityInfoContent::FeatsView::refresh( EntityRef entity )
     
     auto& actor = m_level->ecs().getComponents<ActorComponent>( entity )->actor;
     
-    for ( auto const mod : actor.getAllModifiers() )
+    for ( auto const mod : actor.getAllModifierGroups() )
     {
         if ( mod.getId().starts_with("feat"))
         {

@@ -84,46 +84,6 @@ void ActorCalcList::addItem( ActorCalcOperation type, double value )
 
 
 
-
-// Actor Calc Data
-// ---------------------------------------------------------
-
-
-ActorCalcData::ActorCalcData( Actor *target, int baseValue, EntityRef source )
-    : m_actor(target), m_baseValue(baseValue), m_target(target->getRef()), m_other(source) {}
-
-ActorCalcData::ActorCalcData( Actor *target, int baseValue )
- : ActorCalcData(target, baseValue, EntityNull ) {}
-
-int ActorCalcData::baseValue() const
-{
-    return m_baseValue;
-}
-
-EntityRef ActorCalcData::target() const
-{
-    return m_target;
-}
-
-EntityRef ActorCalcData::source() const
-{
-    return m_other;
-}
-
-Actor *ActorCalcData::actor() const
-{
-    return m_actor;
-}
-
-ActorCalcList &ActorCalcData::modList()
-{
-    return m_modList;
-}
-
-
-
-
-
 // Actor Mod Group
 // ---------------------------------------------------------
 

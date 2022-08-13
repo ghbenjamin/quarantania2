@@ -3,7 +3,7 @@
 
 void MeleeAttackPowerAttack::modifyAttackRoll( ActorCalc::AttackRoll &roll )
 {
-    roll.modList().addItem(ActorCalcOperation::Add, -1);
+    roll.mods.addItem(ActorCalcOperation::Add, -1);
 }
 
 void MeleeAttackPowerAttack::modifyDamageRoll( ActorCalc::DamageRoll &roll )

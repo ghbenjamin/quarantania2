@@ -66,24 +66,10 @@ enum class ActorCalculationType
 
 struct ActorCalcData
 {
-public:
-    
-    ActorCalcData( Actor* target, int baseValue );
-    ActorCalcData( Actor* target, int baseValue, EntityRef source );
-    virtual ~ActorCalcData() = default;
-    
-    int baseValue() const;
-    EntityRef target() const;
-    EntityRef source() const;
-    Actor* actor() const;
-    ActorCalcList& modList();
-    
-protected:
-    int m_baseValue;
-    Actor* m_actor;
-    EntityRef m_target;
-    EntityRef m_other;
-    ActorCalcList m_modList;
+    Actor* actor;
+    EntityRef actorRef;
+    EntityRef other;
+    ActorCalcList mods;
 };
 
 
@@ -92,8 +78,6 @@ namespace ActorCalc
     // A single attack roll to hit, made vs a single attacker.
     struct AttackRoll : public ActorCalcData
     {
-        using ActorCalcData::ActorCalcData;
-        
         Actor* defender = nullptr;
         Weapon const* weapon = nullptr;
         int targetValue = -1;
@@ -107,26 +91,20 @@ namespace ActorCalc
         int modifiedRoll = -1;
     };
 
-
     // A bonus to an Ability Score, e.g. STR or DEX. Always given as a raw number, not as a +- modifier
     struct AbilityScoreBonus : public ActorCalcData
     {
-        using ActorCalcData::ActorCalcData;
         AbilityScoreType type {};
     };
     
     // A bonus to a saving throw, e.g. REF or WILL.
     struct SavingThrowRoll : public ActorCalcData
     {
-        using ActorCalcData::ActorCalcData;
         SavingThrowType type {};
     };
     
-  
-    
     struct MovementSpeedData : public ActorCalcData
     {
-        using ActorCalcData::ActorCalcData;
     };
     
     struct ArmourClassData
@@ -143,10 +121,9 @@ namespace ActorCalc
         int modifiedAC = 0;
     };
 
-    struct ActionSpeedData
+    struct ActionSpeedData : public ActorCalcData
     {
         GameAction const* action = nullptr;
-        int modified = 0;
     };
 }
 
@@ -208,22 +185,6 @@ struct ActorDynamicMod
 };
 
 
-// Static mods
-// ----------------------------
-
-// The attributes of an actor that we allow to be statically modified
-enum class ActorStaticModType
-{
-    AttrStr,
-    AttrDex,
-    AttrCon,
-    AttrInt,
-    AttrWis,
-    AttrCha,
-    SaveFort,
-    SaveRef,
-    SaveWill
-};
 
 // A new action granted by a modifier
 struct ActorActionMod

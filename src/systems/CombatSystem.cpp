@@ -17,16 +17,20 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
 
     auto [mainWeapon, offWeapon] = attacker->getEquippedWeapons();
     bool missedAll = true;
+    
+    int naturalRoll = m_level->random()->diceRoll(20);
 
-    ActorCalc::AttackRoll result { attacker, m_level->random()->diceRoll(20), defender->getRef() };
+    ActorCalc::AttackRoll result { attacker, defender->getRef() };
     result.defender = defender;
     result.weapon = mainWeapon;
+
+    result.mods.addItem( ActorCalcOperation::Add, naturalRoll );
 
     // Make independent attack and damage rolls for each attack instance
     int critRange = attacker->getCritRangeForAttack( result );
 
     // Add STR mod to the attack roll (TODO: This should be modifible, e.g. Weapon Finesse)
-    result.modList().addItem(ActorCalcOperation::Add, attacker->getModStr());
+    result.mods.addItem(ActorCalcOperation::Add, attacker->getModStr());
 
     // Apply any modifiers from the type of attack, e.g. reduce to hit from a Power Attack
     evt.attack->modifyAttackRoll( result );
@@ -34,9 +38,9 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
     // Apply any modifiers from the actors, e.g. Weapon Focus feats or status affects
     attacker->applyAllModifiers( &result );
 
-    int final = result.modList().calculate();
+    int final = result.mods.calculate();
 
-    if ( result.baseValue() >= critRange )
+    if ( naturalRoll >= critRange )
     {
         result.isCrit = true;
         result.isHit = true;
@@ -58,7 +62,7 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
         }
     }
 
-    Logger::get().info("Attack roll: natural={}, modified={}, target={}", result.baseValue(), result.modList().calculate(), result.targetValue );
+    Logger::get().info("Attack roll: natural={}, modified={}, target={}", naturalRoll, result.mods.calculate(), result.targetValue );
 
     Damage damage;
 
