@@ -85,9 +85,9 @@ void ResourceDatabase::loadAllCreatureData()
         sol::table const& data = v;
         CreatureData rcd;
     
-        rcd.name = data["name"];
+        rcd.name = data["name"].get<sol::string_view>();
         rcd.alignment = EnumParse::alignment( data["alignment"] );
-        rcd.creatureType = data["creature_type"];
+        rcd.creatureType = data["creature_type"].get<sol::string_view>();
         rcd.sprite = data.get<std::string>( "sprite" );
         rcd.xp = data["xp"];
         rcd.maxHP = data["hp"];
@@ -121,11 +121,11 @@ void ResourceDatabase::loadAllItemData()
         ItemData rit;
     
         rit.id = k.as<sol::string_view>();
-        rit.name = item["name"];
+        rit.name = item["name"].get<sol::string_view>();
         rit.weight = item["weight"];
         rit.value = item["price"];
-        rit.description = item["description"];
-        rit.itemType = item["item_type"];
+        rit.description = item["description"].get<sol::string_view>();
+        rit.itemType = item["item_type"].get<sol::string_view>();
         rit.sprite = item.get<std::string>( "sprite" );
         rit.slot = item.get_or( "slot", std::string() );
         
@@ -187,7 +187,7 @@ void ResourceDatabase::loadAllActionData()
         sol::table const& data = v;
         ActionData robj;
 
-        robj.name = data["name"];
+        robj.name = data["name"].get<sol::string_view>();
         robj.id = k.as<sol::string_view>();
 
         std::string typeStr = data["type"];
@@ -206,9 +206,9 @@ void ResourceDatabase::loadAllActionData()
 
         robj.speed = data["speed"];
         robj.provokes = data["provokes"];
-        robj.description = data["description"];
+        robj.description = data["description"].get<sol::string_view>();;
 
-        std::string spriteName = data["icon"];
+        std::string spriteName = data["icon"].get<std::string>();
         robj.sprite = SpritesheetKey( spriteName );
 
         m_actionData.push_back(robj);
@@ -224,9 +224,9 @@ void ResourceDatabase::loadAllModifierData()
         ModifierData robj;
 
         robj.id = k.as<sol::string_view>();
-        robj.name = v.as<sol::table>()["name"];
-        robj.effect = v.as<sol::table>()["effect"];
-        robj.description = v.as<sol::table>()["desc"];
+        robj.name = v.as<sol::table>()["name"].get<sol::string_view>();
+        robj.effect = v.as<sol::table>()["effect"].get<sol::string_view>();
+        robj.description = v.as<sol::table>()["desc"].get<sol::string_view>();
 
         m_modifierData.push_back(robj);
     }
@@ -242,7 +242,7 @@ void ResourceDatabase::loadAllChargenData()
         PlayerData cgdata;
         sol::table const& data = v;
         
-        cgdata.playerClass = data["name"];
+        cgdata.playerClass = data["name"].get<sol::string_view>();
         cgdata.sprite = data["sprite"].get<std::string>();
         cgdata.maxHP = data["max_hp"];
         cgdata.attrStr = data["attributes"][1];

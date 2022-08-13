@@ -11,7 +11,7 @@ GlobalConfigInfo GlobalConfig::load(std::string const &path, LuaState& lua)
     GlobalConfigInfo info;
     auto const& luaConf = lua.state()["config"];
 
-    info.windowTitle = luaConf["windowTitle"];
+    info.windowTitle = luaConf["windowTitle"].get<sol::string_view>();;
     info.maxFPS = luaConf["maxFPS"];
 
     auto const& ssize = luaConf["screenSize"];

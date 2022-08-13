@@ -21,7 +21,7 @@ TiledMap TiledMapLoader::loadLua( std::string const &path )
     {
         sol::table const& obj = v;
         TiledTileset ts;
-        ts.filename = obj["filename"];
+        ts.filename = obj["filename"].get<sol::string_view>();
         ts.firstGid = obj["firstgid"];
         ts.sheetName = std::filesystem::path(ts.filename).stem().string();
         m_map.tilesets.push_back(ts);
@@ -39,10 +39,10 @@ TiledMap TiledMapLoader::loadLua( std::string const &path )
             ttl.height = layer["height"];
             ttl.xOffset = layer["x"];
             ttl.yOffset = layer["y"];
-            ttl.name = layer["name"];
-            ttl.rawData = layer["data"];
-            ttl.encoding = layer["encoding"];
-            ttl.compression = layer["compression"];
+            ttl.name = layer["name"].get<sol::string_view>();
+            ttl.rawData = layer["data"].get<sol::string_view>();
+            ttl.encoding = layer["encoding"].get<sol::string_view>();
+            ttl.compression = layer["compression"].get<sol::string_view>();
 
             m_map.tileLayers.push_back(ttl);
         }
@@ -50,7 +50,7 @@ TiledMap TiledMapLoader::loadLua( std::string const &path )
         {
             TiledObjectLayer tol;
 
-            tol.name = layer["name"];
+            tol.name = layer["name"].get<sol::string_view>();;
             tol.xOffset = int(layer["offsetx"].get<float>());
             tol.yOffset = int(layer["offsety"].get<float>());
 
@@ -59,7 +59,7 @@ TiledMap TiledMapLoader::loadLua( std::string const &path )
                 TiledObjectData tod;
                 sol::table const& object = v2;
 
-                tod.name = object["name"];
+                tod.name = object["name"].get<sol::string_view>();
 
                 auto propsVal = object["properties"];
                 if ( propsVal != sol::nil )
