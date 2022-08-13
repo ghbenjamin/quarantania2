@@ -350,7 +350,7 @@ void Actor::removeActorModGroup( std::string const& id )
 }
 
 
-void Actor::applyAllModifiers( ModifiableStatObject roll ) const
+void Actor::applyAllModifiers( ActorCalcObject roll ) const
 {
     std::visit( ModifiableRollVisitor{this}, roll );
 }
@@ -379,7 +379,7 @@ ActorCalcList Actor::getModifiersSavingThrow( SavingThrowType type, EntityRef so
     ActorCalc::SavingThrowRoll roll;
     
     roll.actor = this;
-    roll.other = source;
+    roll.source = source;
     
     roll.mods.addItem(ActorCalcOperation::Add, abilityScoreMod);
 

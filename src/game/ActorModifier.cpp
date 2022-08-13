@@ -154,12 +154,12 @@ void ModifiableRollVisitor::operator()( ActorCalc::MovementSpeedData *roll )
     m_actor->modifyTypedRoll(ActorCalculationType::MovementSpeed, roll );
 }
 
-void ModifiableRollVisitor::operator()(ActorCalc::ArmourClassData *data)
+void ModifiableRollVisitor::operator()(ActorCalc::ArmourClass *data)
 {
     m_actor->modifyTypedRoll(ActorCalculationType::ArmourClass, data );
 }
 
-void ModifiableRollVisitor::operator()( ActorCalc::ActionSpeedData *data )
+void ModifiableRollVisitor::operator()( ActorCalc::ActionSpeed *data )
 {
     m_actor->modifyTypedRoll(ActorCalculationType::ActionSpeed, data );
 }

@@ -67,8 +67,6 @@ enum class ActorCalculationType
 struct ActorCalcData
 {
     const Actor* actor;
-    EntityRef other;
-    
     ActorCalcList mods;
 };
 
@@ -84,7 +82,6 @@ namespace ActorCalc
     
     struct DamageRoll : public ActorCalcData
     {
-    
     };
 
     // A bonus to an Ability Score, e.g. STR or DEX. Always given as a raw number, not as a +- modifier
@@ -97,17 +94,18 @@ namespace ActorCalc
     struct SavingThrowRoll : public ActorCalcData
     {
         SavingThrowType type {};
+        EntityRef source = EntityNull;
     };
     
     struct MovementSpeedData : public ActorCalcData
     {
     };
     
-    struct ArmourClassData : public ActorCalcData
+    struct ArmourClass : public ActorCalcData
     {
     };
 
-    struct ActionSpeedData : public ActorCalcData
+    struct ActionSpeed : public ActorCalcData
     {
         GameAction const* action = nullptr;
     };
@@ -115,14 +113,14 @@ namespace ActorCalc
 
 
 // Union type of the kinds of game stat that can be modified by effects and abilities
-using ModifiableStatObject = std::variant<
+using ActorCalcObject = std::variant<
         ActorCalc::SavingThrowRoll*,
         ActorCalc::AttackRoll*,
         ActorCalc::DamageRoll*,
         ActorCalc::AbilityScoreBonus*,
         ActorCalc::MovementSpeedData*,
-        ActorCalc::ArmourClassData*,
-        ActorCalc::ActionSpeedData*
+        ActorCalc::ArmourClass*,
+        ActorCalc::ActionSpeed*
         >;
 
 class ModifiableRollVisitor
@@ -136,8 +134,8 @@ public:
     void operator()( ActorCalc::SavingThrowRoll* roll );
     void operator()( ActorCalc::AbilityScoreBonus* roll );
     void operator()( ActorCalc::MovementSpeedData* data );
-    void operator()( ActorCalc::ArmourClassData* data );
-    void operator()( ActorCalc::ActionSpeedData* data );
+    void operator()( ActorCalc::ArmourClass* data );
+    void operator()( ActorCalc::ActionSpeed* data );
 
 private:
     Actor const* m_actor;
@@ -199,8 +197,8 @@ public:
     template <typename T, typename... Args>
     void addDynamicMod( ActorCalculationType type, Args&&... args )
     {
-        m_dynamicMods.emplace_back(type, m_id,
-                                   utils::make_shared_with_type<ActorStatDynamicImplBase, T>( std::forward<Args>(args)...) );
+        m_dynamicMods.emplace_back(type, m_id, utils::make_shared_with_type<ActorStatDynamicImplBase, T>(
+            std::forward<Args>(args)...) );
     }
     
     void addActionMod( GameAction const& action )

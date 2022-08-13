@@ -77,7 +77,7 @@ public:
     void removeActorModGroup( std::string const& id );
     std::vector<ActorModGroup> const& getAllModifierGroups() const;
     
-    void applyAllModifiers( ModifiableStatObject roll ) const;
+    void applyAllModifiers( ActorCalcObject roll ) const;
     
     
     template <typename T>

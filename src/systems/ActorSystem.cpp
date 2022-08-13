@@ -38,7 +38,8 @@ void ActorSystem::operator()(GameEvents::EntityAction &evt)
 {
     auto& actorC = m_level->ecs().getComponents<ActorComponent>( evt.entity )->actor;
     
-    ActorCalc::ActionSpeedData speedData { &actorC };
+    ActorCalc::ActionSpeed speedData { &actorC };
+    speedData.actor = &actorC;
     speedData.action = &evt.speed;
     
     actorC.applyAllModifiers( &speedData );
