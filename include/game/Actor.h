@@ -65,31 +65,18 @@ public:
     // Modifiers
     // ---------------------
     
-    
-    int getCritRangeForAttack( ActorCalc::AttackRoll& attack ) const;
-    ActorCalcList getModifiersSavingThrow( SavingThrowType type, EntityRef source ) const;
-    ActorCalcList getModifiersMeleeDamage( ActorCalc::AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl ) const;
-    ActorCalcList getModifiersMovementSpeed() const;
-    
+    ActorCalcData getModifiersCritRange( Actor* defender, const Weapon* weapon ) const;
+    ActorCalcData getModifiersSavingThrow( SavingThrowType type, EntityRef source ) const;
+    ActorCalcData getModifiersMeleeDamage( ActorCalc::DamageRoll const& ctx, std::shared_ptr<MeleeAttack> attackImpl ) const;
+    ActorCalcData getModifiersAttackRoll( Actor* defender, const Weapon* weapon, std::shared_ptr<MeleeAttack> attackImpl ) const;
+    ActorCalcData getModifiersMovementSpeed() const;
+    ActorCalcData getModifiersActionSpeed( const GameAction* action ) const;
     
     
     void addModifierGroup( ActorModGroup const& mod );
     void removeActorModGroup( std::string const& id );
     std::vector<ActorModGroup> const& getAllModifierGroups() const;
     
-    void applyAllModifiers( ActorCalcObject roll ) const;
-    
-    
-    template <typename T>
-    void modifyTypedRoll( ActorCalculationType type, T* roll ) const
-    {
-        auto range = m_dynamicModifiers.equal_range(type);
-        for ( auto it = range.first; it != range.second; it++ )
-        {
-            auto ptr = std::static_pointer_cast<ActorDynamicModImpl<T>>(it->second.impl);
-            ptr->modify(roll);
-        }
-    }
     
     // Actions
     // -------------------------
@@ -113,6 +100,10 @@ public:
     void resetActions();
 
 private:
+
+    // Accept an actor calculation data object and apply to it all of our modifiers which are applicable
+    void applyAllModifiers( ActorCalcData& data ) const;
+    
 
     // Meta
     EntityRef m_entity;

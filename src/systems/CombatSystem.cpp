@@ -22,28 +22,17 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
     bool isHit = false;
    
     int targetValue = 10; // TODO: Actually perform an AC calculation for the defender
-
-    ActorCalc::AttackRoll attackRoll;
-    attackRoll.actor = attacker;
-    attackRoll.defender = defender;
-    attackRoll.weapon = mainWeapon;
+    
+    auto attackData = attacker->getModifiersAttackRoll( defender, mainWeapon, evt.attack );
     
     // Make independent attack and damage rolls for each attack instance
-    int critRange = attacker->getCritRangeForAttack( attackRoll );
-
-    // Add STR mod to the attack roll (TODO: This should be modifible, e.g. Weapon Finesse)
-    attackRoll.mods.addItem(ActorCalcOperation::Add, attacker->getAbilityScoreValue(AbilityScoreType::STR));
-
-    // Apply any modifiers from the type of attack, e.g. reduce to hit from a Power Attack
-    evt.attack->modifyAttackRoll( attackRoll );
-
-    // Apply any modifiers from the actors, e.g. Weapon Focus feats or status affects
-    attacker->applyAllModifiers( &attackRoll );
+    auto critRangeData = attacker->getModifiersCritRange( defender, mainWeapon );
+    int finalCritRange = critRangeData.mods.calculate( mainWeapon->critRange() );
     
     int naturalRoll = m_level->random()->diceRoll(20);
-    int final = attackRoll.mods.calculate( naturalRoll );
+    int final = attackData.mods.calculate( naturalRoll );
 
-    if ( naturalRoll >= critRange )
+    if ( naturalRoll >= finalCritRange )
     {
         isCrit = true;
         isHit = true;
@@ -74,15 +63,16 @@ void CombatSystem::operator()(GameEvents::CombatMeleeAttack& evt)
     {
         missedAll = false;
         
-        auto damageModifiers = attacker->getModifiersMeleeDamage(attackRoll, evt.attack);
+        ActorCalc::DamageRoll damageRollCtx { defender };
+        auto damageModifiers = attacker->getModifiersMeleeDamage(damageRollCtx, evt.attack);
         
-        int damageRoll = m_level->random()->diceRoll( attackRoll.weapon->damage() );
-        int damageValue = damageModifiers.calculate( damageRoll );
+        int damageRoll = m_level->random()->diceRoll( mainWeapon->damage() );
+        int damageValue = damageModifiers.mods.calculate( damageRoll );
 
         // If this is a critical hit, modify the damage
         if ( isCrit )
         {
-            damageValue *= attackRoll.weapon->critMultiplier();
+            damageValue *= mainWeapon->critMultiplier();
         }
         
         DamageInstance dmgInstance{ DamageType::Untyped, DamageSuperType::Physical, damageValue };

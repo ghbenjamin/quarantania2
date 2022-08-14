@@ -200,7 +200,7 @@ void Actor::setCurrentHp(int value)
 
 int Actor::getSpeed()
 {
-    return getModifiersMovementSpeed().calculate( m_baseSpeed );
+    return getModifiersMovementSpeed().mods.calculate( m_baseSpeed );
 }
 
 CreatureSize Actor::getSize()
@@ -252,37 +252,62 @@ std::unordered_map<CreatureEquipSlot, ItemPtr> const &Actor::getAllEquippedItems
     return m_equippedItems;
 }
 
-int Actor::getCritRangeForAttack( ActorCalc::AttackRoll &attack ) const
+ActorCalcData Actor::getModifiersCritRange(  Actor* defender, const Weapon* weapon  ) const
 {
-    // TODO: Modifiers.
-    return attack.weapon->critRange();
+    ActorCalc::CritRange critRangeCtx { defender, weapon };
+    
+    ActorCalcData critData;
+    critData.actor = this;
+    critData.type = ActorCalculationType::CritRange;
+    critData.data = critRangeCtx;
+    
+    applyAllModifiers( critData );
+    
+    return critData;
 }
 
-ActorCalcList Actor::getModifiersMeleeDamage( ActorCalc::AttackRoll& attack, std::shared_ptr<MeleeAttack> attackImpl ) const
+ActorCalcData Actor::getModifiersMeleeDamage( ActorCalc::DamageRoll const& ctx, std::shared_ptr<MeleeAttack> attackImpl ) const
 {
-    ActorCalc::DamageRoll damageRoll;
+    ActorCalcData data;
+    data.actor = this;
+    data.type = ActorCalculationType::DamageRoll;
+    data.data = ctx;
     
-    damageRoll.mods.addItem( ActorCalcOperation::Add, getAbilityScoreMod(AbilityScoreType::STR) );
+    data.mods.addItem( ActorCalcOperation::Add, getAbilityScoreMod(AbilityScoreType::STR) );
     
     // Apply modifiers from the attack type if any (e.g. +dmg from a power attack)
-    attackImpl->modifyDamageRoll(damageRoll);
+    attackImpl->modifyDamageRoll( data );
     
     // Apply modifiers from the actor
-    applyAllModifiers( &damageRoll );
+    applyAllModifiers( data );
     
-    return damageRoll.mods;
+    return data;
 }
 
-ActorCalcList
-Actor::getModifiersMovementSpeed() const
+
+ActorCalcData Actor::getModifiersMovementSpeed() const
 {
-    ActorCalc::MovementSpeedData data;
+    ActorCalcData data;
     data.actor = this;
+    data.type = ActorCalculationType::MovementSpeed;
+    data.data = ActorCalc::MovementSpeed();
     
-    applyAllModifiers(&data);
+    applyAllModifiers(data);
     
-    return data.mods;
+    return data;
 }
+
+ActorCalcData Actor::getModifiersActionSpeed( const GameAction* action ) const
+{
+    ActorCalcData data;
+    data.actor = this;
+    data.data = ActorCalc::ActionSpeed { action };
+    
+    applyAllModifiers( data );
+    
+    return data;
+}
+
 
 
 void Actor::acceptDamage( Damage const &dmg )
@@ -350,13 +375,16 @@ void Actor::removeActorModGroup( std::string const& id )
 }
 
 
-void Actor::applyAllModifiers( ActorCalcObject roll ) const
+void Actor::applyAllModifiers( ActorCalcData& data ) const
 {
-    std::visit( ModifiableRollVisitor{this}, roll );
-}
+    auto range = m_dynamicModifiers.equal_range( data.type );
+    for ( auto it = range.first; it != range.second; it++ )
+    {
+        it->second.impl->modify( data );
+    }}
 
 
-ActorCalcList Actor::getModifiersSavingThrow( SavingThrowType type, EntityRef source ) const
+ActorCalcData Actor::getModifiersSavingThrow( SavingThrowType type, EntityRef source ) const
 {
     AbilityScoreType abilityScore;
 
@@ -376,17 +404,40 @@ ActorCalcList Actor::getModifiersSavingThrow( SavingThrowType type, EntityRef so
     int abilityScoreMod = getAbilityScoreMod( abilityScore );
     
     
-    ActorCalc::SavingThrowRoll roll;
+    ActorCalcData data;
+    data.actor = this;
+    data.type = ActorCalculationType::SavingThrow;
+    data.data = ActorCalc::SavingThrowRoll{ type, source };
     
-    roll.actor = this;
-    roll.source = source;
-    
-    roll.mods.addItem(ActorCalcOperation::Add, abilityScoreMod);
+    data.mods.addItem(ActorCalcOperation::Add, abilityScoreMod);
 
-    applyAllModifiers( &roll );
+    applyAllModifiers( data );
 
-    return roll.mods;
+    return data;
 }
+
+
+ActorCalcData Actor::getModifiersAttackRoll( Actor *defender, const Weapon *weapon, std::shared_ptr<MeleeAttack> attackImpl ) const
+{
+    ActorCalc::AttackRoll attackRollCtx { defender, weapon };
+    
+    ActorCalcData attackData;
+    attackData.actor = this;
+    attackData.type = ActorCalculationType::AttackRoll;
+    attackData.data = attackRollCtx;
+    
+    // Add STR mod to the attack roll (TODO: This should be modifible, e.g. Weapon Finesse)
+    attackData.mods.addItem(ActorCalcOperation::Add, getAbilityScoreValue(AbilityScoreType::STR));
+    
+    // Apply any modifiers from the type of attack, e.g. reduce to hit from a Power Attack
+    attackImpl->modifyAttackRoll( attackData );
+    
+    // Apply any modifiers from the actors, e.g. Weapon Focus feats or status affects
+    applyAllModifiers( attackData );
+    
+    return attackData;
+}
+
 
 int Actor::getAbilityScoreMod( AbilityScoreType type ) const
 {
@@ -419,13 +470,14 @@ int Actor::getAbilityScoreValue( AbilityScoreType type ) const
             break;
     }
     
-    ActorCalc::AbilityScoreBonus bonus;
-    bonus.actor = this;
-    bonus.type = type;
+    ActorCalcData data;
+    data.actor = this;
+    data.type = ActorCalculationType::AbilityScore;
+    data.data = ActorCalc::AbilityScoreBonus { type };
     
-    applyAllModifiers( &bonus );
+    applyAllModifiers( data );
 
-    return bonus.mods.calculate( base );
+    return data.mods.calculate( base );
 }
 
 std::vector<GameAction> Actor::getAllGameActions() const
@@ -514,7 +566,6 @@ EntityRef Actor::getRef() const
 {
     return m_entity;
 }
-
 
 
 

@@ -8,53 +8,53 @@ namespace ActorMods
 {
 
 
-struct ModAttackRollStatic : public ActorDynamicModImpl<ActorCalc::AttackRoll>
+struct ModAttackRollStatic : public ActorDynamicModImpl
 {
     ModAttackRollStatic( int modifier );
-    void modify( ActorCalc::AttackRoll* roll ) override;
-
+    void modify( ActorCalcData& data ) override;
+    
     int modifier;
 };
 
-struct ModSavingThrowStatic : public ActorDynamicModImpl<ActorCalc::SavingThrowRoll>
+struct ModSavingThrowStatic : public ActorDynamicModImpl
 {
     ModSavingThrowStatic( SavingThrowType type, int modifier );
-    void modify( ActorCalc::SavingThrowRoll* roll ) override;
-
+    void modify( ActorCalcData& data ) override;
+    
     SavingThrowType type;
     int modifier;
 };
 
-struct ModSavingThrowStaticAll : public ActorDynamicModImpl<ActorCalc::SavingThrowRoll>
+struct ModSavingThrowStaticAll : public ActorDynamicModImpl
 {
     ModSavingThrowStaticAll( int modifier );
-    void modify( ActorCalc::SavingThrowRoll* roll ) override;
-
+    void modify( ActorCalcData& data ) override;
+    
     int modifier;
 };
 
 
-struct ModAbilityScoreStatic : public ActorDynamicModImpl<ActorCalc::AbilityScoreBonus>
+struct ModAbilityScoreStatic : public ActorDynamicModImpl
 {
     ModAbilityScoreStatic( AbilityScoreType type, int modifier );
-    void modify( ActorCalc::AbilityScoreBonus* roll ) override;
-
+    void modify( ActorCalcData& data ) override;
+    
     AbilityScoreType type;
     int modifier;
 };
 
-struct ModAbilityScoreStaticAll : public ActorDynamicModImpl<ActorCalc::AbilityScoreBonus>
+struct ModAbilityScoreStaticAll : public ActorDynamicModImpl
 {
     ModAbilityScoreStaticAll( int modifier );
-    void modify( ActorCalc::AbilityScoreBonus* roll ) override;
-
+    void modify( ActorCalcData& data ) override;
+    
     int modifier;
 };
 
-struct ModMovementSpeedMultiplier : public ActorDynamicModImpl<ActorCalc::MovementSpeedData>
+struct ModMovementSpeedMultiplier : public ActorDynamicModImpl
 {
     ModMovementSpeedMultiplier( float multiplier );
-    void modify( ActorCalc::MovementSpeedData* data ) override;
+    void modify( ActorCalcData& data ) override;
     
     float multiplier;
 };

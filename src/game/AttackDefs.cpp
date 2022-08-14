@@ -1,12 +1,16 @@
 #include <game/AttackDefs.h>
 #include <game/ActorModifier.h>
 
-void MeleeAttackPowerAttack::modifyAttackRoll( ActorCalc::AttackRoll &roll )
+
+// MeleeAttackPowerAttack
+// ------------------------------------------------
+
+void MeleeAttackPowerAttack::modifyAttackRoll( ActorCalcData& data )
 {
-    roll.mods.addItem(ActorCalcOperation::Add, -1);
+    data.mods.addItem(ActorCalcOperation::Add, -2);
 }
 
-void MeleeAttackPowerAttack::modifyDamageRoll( ActorCalc::DamageRoll &roll )
+void MeleeAttackPowerAttack::modifyDamageRoll( ActorCalcData& data )
 {
-
+    data.mods.addItem(ActorCalcOperation::Add, 2);
 }

@@ -25,7 +25,7 @@ enum class ActorCalcOperation
     Floor       // Raise the final value to this floor value if it would be below it
 };
 
-
+// A single modification - a value and an operation (e.g. +5, x2)
 struct ActorCalcItem
 {
     ActorCalcItem( ActorCalcOperation type, double value );
@@ -35,12 +35,14 @@ struct ActorCalcItem
 };
 
 
+// A list of modifications which are to be combined to a single final result
 class ActorCalcList
 {
 public:
     void addItem( ActorCalcOperation type, double value );
     void addItem( ActorCalcOperation type, int value );
 
+    // Calculate the final effect of the modifiers, for the given base value
     int calculate( int baseValue ) const;
 
 private:
@@ -62,95 +64,85 @@ enum class ActorCalculationType
     MovementSpeed,
     ArmourClass,
     ActionSpeed,
+    CritRange
 };
 
-struct ActorCalcData
-{
-    const Actor* actor;
-    ActorCalcList mods;
-};
 
 
 namespace ActorCalc
 {
     // A single attack roll to hit, made vs a single attacker.
-    struct AttackRoll : public ActorCalcData
+    struct AttackRoll
     {
         Actor* defender = nullptr;
         Weapon const* weapon = nullptr;
     };
     
-    struct DamageRoll : public ActorCalcData
+    struct DamageRoll
     {
+        Actor* defender = nullptr;
     };
 
     // A bonus to an Ability Score, e.g. STR or DEX. Always given as a raw number, not as a +- modifier
-    struct AbilityScoreBonus : public ActorCalcData
+    struct AbilityScoreBonus
     {
         AbilityScoreType type {};
     };
     
     // A bonus to a saving throw, e.g. REF or WILL.
-    struct SavingThrowRoll : public ActorCalcData
+    struct SavingThrowRoll
     {
         SavingThrowType type {};
         EntityRef source = EntityNull;
     };
     
-    struct MovementSpeedData : public ActorCalcData
+    struct MovementSpeed
     {
     };
     
-    struct ArmourClass : public ActorCalcData
+    struct ArmourClass
     {
     };
 
-    struct ActionSpeed : public ActorCalcData
+    struct ActionSpeed
     {
         GameAction const* action = nullptr;
+    };
+
+    struct CritRange
+    {
+        Actor* defender = nullptr;
+        Weapon const* weapon = nullptr;
     };
 }
 
 
 // Union type of the kinds of game stat that can be modified by effects and abilities
 using ActorCalcObject = std::variant<
-        ActorCalc::SavingThrowRoll*,
-        ActorCalc::AttackRoll*,
-        ActorCalc::DamageRoll*,
-        ActorCalc::AbilityScoreBonus*,
-        ActorCalc::MovementSpeedData*,
-        ActorCalc::ArmourClass*,
-        ActorCalc::ActionSpeed*
-        >;
+        ActorCalc::SavingThrowRoll,
+        ActorCalc::AttackRoll,
+        ActorCalc::DamageRoll,
+        ActorCalc::AbilityScoreBonus,
+        ActorCalc::MovementSpeed,
+        ActorCalc::ArmourClass,
+        ActorCalc::ActionSpeed,
+        ActorCalc::CritRange
+    >;
 
-class ModifiableRollVisitor
+struct ActorCalcData
 {
-public:
-    ModifiableRollVisitor( Actor const* actor );
-    ~ModifiableRollVisitor() = default;
+    const Actor* actor;
     
-    void operator()( ActorCalc::AttackRoll* roll );
-    void operator()( ActorCalc::DamageRoll* roll );
-    void operator()( ActorCalc::SavingThrowRoll* roll );
-    void operator()( ActorCalc::AbilityScoreBonus* roll );
-    void operator()( ActorCalc::MovementSpeedData* data );
-    void operator()( ActorCalc::ArmourClass* data );
-    void operator()( ActorCalc::ActionSpeed* data );
-
-private:
-    Actor const* m_actor;
+    ActorCalculationType type;
+    ActorCalcObject data;
+    
+    ActorCalcList mods;
 };
 
 
-
-
-// A function which can modify exactly one of the calculation types enumerated above
-struct ActorStatDynamicImplBase {};
-
-template <typename T>
-struct ActorDynamicModImpl : ActorStatDynamicImplBase
+struct ActorDynamicModImpl
 {
-    virtual void modify( T* roll ) = 0;
+    virtual void modify( ActorCalcData& data ) = 0;
 };
 
 
@@ -158,12 +150,12 @@ struct ActorDynamicModImpl : ActorStatDynamicImplBase
 // As opposed to a static attack or saving throw modifier which always applied
 struct ActorDynamicMod
 {
-    ActorDynamicMod( ActorCalculationType type, std::string const& id, std::shared_ptr<ActorStatDynamicImplBase> impl );
+    ActorDynamicMod( ActorCalculationType type, std::string const& id, std::shared_ptr<ActorDynamicModImpl> impl );
     ~ActorDynamicMod() = default;
     
     ActorCalculationType type;
     std::string id;
-    std::shared_ptr<ActorStatDynamicImplBase> impl;
+    std::shared_ptr<ActorDynamicModImpl> impl;
 };
 
 
@@ -197,7 +189,7 @@ public:
     template <typename T, typename... Args>
     void addDynamicMod( ActorCalculationType type, Args&&... args )
     {
-        m_dynamicMods.emplace_back(type, m_id, utils::make_shared_with_type<ActorStatDynamicImplBase, T>(
+        m_dynamicMods.emplace_back(type, m_id, utils::make_shared_with_type<ActorDynamicModImpl, T>(
             std::forward<Args>(args)...) );
     }
     

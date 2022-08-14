@@ -125,53 +125,53 @@ std::string const &ActorModGroup::getId() const
 // Actor Modifiable Roll Visitor
 // ---------------------------------------------------------
 
-
-ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
-        : m_actor(actor) {}
-
-void ModifiableRollVisitor::operator()( ActorCalc::AttackRoll *roll )
-{
-    m_actor->modifyTypedRoll(ActorCalculationType::AttackRoll, roll );
-}
-
-void ModifiableRollVisitor::operator()( ActorCalc::DamageRoll *roll )
-{
-    m_actor->modifyTypedRoll(ActorCalculationType::DamageRoll, roll );
-}
-
-void ModifiableRollVisitor::operator()( ActorCalc::SavingThrowRoll *roll )
-{
-    m_actor->modifyTypedRoll(ActorCalculationType::SavingThrow, roll );
-}
-
-void ModifiableRollVisitor::operator()( ActorCalc::AbilityScoreBonus *roll )
-{
-    m_actor->modifyTypedRoll(ActorCalculationType::AbilityScore, roll );
-}
-
-void ModifiableRollVisitor::operator()( ActorCalc::MovementSpeedData *roll )
-{
-    m_actor->modifyTypedRoll(ActorCalculationType::MovementSpeed, roll );
-}
-
-void ModifiableRollVisitor::operator()(ActorCalc::ArmourClass *data)
-{
-    m_actor->modifyTypedRoll(ActorCalculationType::ArmourClass, data );
-}
-
-void ModifiableRollVisitor::operator()( ActorCalc::ActionSpeed *data )
-{
-    m_actor->modifyTypedRoll(ActorCalculationType::ActionSpeed, data );
-}
-
-
+//
+//ModifiableRollVisitor::ModifiableRollVisitor( Actor const* actor )
+//        : m_actor(actor) {}
+//
+//void ModifiableRollVisitor::operator()( ActorCalc::AttackRoll *roll )
+//{
+//    m_actor->modifyTypedRoll(ActorCalculationType::AttackRoll, roll );
+//}
+//
+//void ModifiableRollVisitor::operator()( ActorCalc::DamageRoll *roll )
+//{
+//    m_actor->modifyTypedRoll(ActorCalculationType::DamageRoll, roll );
+//}
+//
+//void ModifiableRollVisitor::operator()( ActorCalc::SavingThrowRoll *roll )
+//{
+//    m_actor->modifyTypedRoll(ActorCalculationType::SavingThrow, roll );
+//}
+//
+//void ModifiableRollVisitor::operator()( ActorCalc::AbilityScoreBonus *roll )
+//{
+//    m_actor->modifyTypedRoll(ActorCalculationType::AbilityScore, roll );
+//}
+//
+//void ModifiableRollVisitor::operator()( ActorCalc::MovementSpeedData *roll )
+//{
+//    m_actor->modifyTypedRoll(ActorCalculationType::MovementSpeed, roll );
+//}
+//
+//void ModifiableRollVisitor::operator()(ActorCalc::ArmourClass *data)
+//{
+//    m_actor->modifyTypedRoll(ActorCalculationType::ArmourClass, data );
+//}
+//
+//void ModifiableRollVisitor::operator()( ActorCalc::ActionSpeed *data )
+//{
+//    m_actor->modifyTypedRoll(ActorCalculationType::ActionSpeed, data );
+//}
+//
+//
 
 
 // Actor Dynamic Mod
 // ---------------------------------------------------------
 
 
-ActorDynamicMod::ActorDynamicMod( ActorCalculationType type, std::string const& id, std::shared_ptr<ActorStatDynamicImplBase> impl )
+ActorDynamicMod::ActorDynamicMod( ActorCalculationType type, std::string const& id, std::shared_ptr<ActorDynamicModImpl> impl )
  : type(type), id(id), impl(impl) {}
 
 ActorActionMod::ActorActionMod( std::string const &id, GameAction const &action )

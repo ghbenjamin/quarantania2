@@ -37,14 +37,8 @@ void ActorSystem::operator()( GameEvents::RoundChange &evt)
 void ActorSystem::operator()(GameEvents::EntityAction &evt)
 {
     auto& actorC = m_level->ecs().getComponents<ActorComponent>( evt.entity )->actor;
-    
-    ActorCalc::ActionSpeed speedData { &actorC };
-    speedData.actor = &actorC;
-    speedData.action = &evt.speed;
-    
-    actorC.applyAllModifiers( &speedData );
-    
-    int total = speedData.mods.calculate( evt.speed.data.speed );
+    auto data = actorC.getModifiersActionSpeed( &evt.speed );
+    int total = data.mods.calculate( evt.speed.data.speed );
     actorC.useActions( total );
 }
 

@@ -1,11 +1,6 @@
 #pragma once
 
-namespace ActorCalc
-{
-struct AttackRoll;
-struct DamageRoll;
-}
-
+struct ActorCalcData;
 
 class MeleeAttack
 {
@@ -13,8 +8,8 @@ public:
     MeleeAttack() = default;
     virtual ~MeleeAttack() = default;
     
-    virtual void modifyAttackRoll( ActorCalc::AttackRoll& roll );
-    virtual void modifyDamageRoll( ActorCalc::DamageRoll& roll );
+    virtual void modifyAttackRoll( ActorCalcData& data );
+    virtual void modifyDamageRoll( ActorCalcData& data );
     virtual void onHit();
     virtual bool isFullAttack();
 };

@@ -2,22 +2,16 @@
 
 #include <game/Attack.h>
 
+// Normal behaviour, no modifications
+class MeleeAttackStandard : public MeleeAttack {};
 
-class MeleeAttackStandard : public MeleeAttack
-{
-    // Normal behaviour, no modifications
-};
+// Additional attacks with weapons in exchange for no movement
+class MeleeAttackFullAttack : public MeleeAttack {};
 
-class MeleeAttackFullAttack : public MeleeAttack
-{
-    // Additional attacks with weapons in exchange for no movement
-};
-
-
+// Exchange attack bonus for damage
 class MeleeAttackPowerAttack : public MeleeAttack
 {
-    // Exchange attack bonus for damage
 public:
-    void modifyAttackRoll( ActorCalc::AttackRoll &roll ) override;
-    void modifyDamageRoll( ActorCalc::DamageRoll &roll ) override;
+    void modifyAttackRoll( ActorCalcData& data ) override;
+    void modifyDamageRoll( ActorCalcData& data ) override;
 };
