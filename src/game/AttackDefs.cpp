@@ -7,10 +7,10 @@
 
 void MeleeAttackPowerAttack::modifyAttackRoll( ActorCalcData& data )
 {
-    data.mods.addItem(ActorCalcOperation::Add, -2);
+    data.mods.addItem(ActorCalcOperation::Add, "Power Attack", -2);
 }
 
 void MeleeAttackPowerAttack::modifyDamageRoll( ActorCalcData& data )
 {
-    data.mods.addItem(ActorCalcOperation::Add, 2);
+    data.mods.addItem(ActorCalcOperation::Add, "Power Attack", 2);
 }

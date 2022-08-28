@@ -211,6 +211,20 @@ std::shared_ptr<Element> Generator::nodeToElement( sol::table const& node, Eleme
         {
             return m_manager->createElement<ScrollHolder>( parent );
         }
+        else if ( typeval == "horizontal_rule" )
+        {
+            Colour hrule_colour;
+            if ( node["colour"] != sol::nil )
+            {
+                hrule_colour = Colour(node["colour"].get<std::string>());
+            }
+            else
+            {
+                hrule_colour = Colour::Green;
+            }
+            
+            return m_manager->createElement<HorizontalRule>( parent, hrule_colour );
+        }
     }
     
     // Default case

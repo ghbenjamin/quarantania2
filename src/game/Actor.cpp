@@ -273,7 +273,7 @@ ActorCalcData Actor::getModifiersMeleeDamage( ActorCalc::DamageRoll const& ctx, 
     data.type = ActorCalculationType::DamageRoll;
     data.data = ctx;
     
-    data.mods.addItem( ActorCalcOperation::Add, getAbilityScoreMod(AbilityScoreType::STR) );
+    data.mods.addItem( ActorCalcOperation::Add, "Strength Bonus", getAbilityScoreMod(AbilityScoreType::STR) );
     
     // Apply modifiers from the attack type if any (e.g. +dmg from a power attack)
     attackImpl->modifyDamageRoll( data );
@@ -409,7 +409,7 @@ ActorCalcData Actor::getModifiersSavingThrow( SavingThrowType type, EntityRef so
     data.type = ActorCalculationType::SavingThrow;
     data.data = ActorCalc::SavingThrowRoll{ type, source };
     
-    data.mods.addItem(ActorCalcOperation::Add, abilityScoreMod);
+    data.mods.addItem(ActorCalcOperation::Add, "Ability Score", abilityScoreMod);
 
     applyAllModifiers( data );
 
@@ -427,7 +427,7 @@ ActorCalcData Actor::getModifiersAttackRoll( Actor *defender, const Weapon *weap
     attackData.data = attackRollCtx;
     
     // Add STR mod to the attack roll (TODO: This should be modifible, e.g. Weapon Finesse)
-    attackData.mods.addItem(ActorCalcOperation::Add, getAbilityScoreValue(AbilityScoreType::STR));
+    attackData.mods.addItem(ActorCalcOperation::Add, "Strength Bonus", getAbilityScoreValue(AbilityScoreType::STR));
     
     // Apply any modifiers from the type of attack, e.g. reduce to hit from a Power Attack
     attackImpl->modifyAttackRoll( attackData );

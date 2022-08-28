@@ -4,8 +4,8 @@
 // Actor Calc Item
 // ---------------------------------------------------------
 
-ActorCalcItem::ActorCalcItem( ActorCalcOperation type, double value )
-        : type(type), value(value) {}
+ActorCalcItem::ActorCalcItem( ActorCalcOperation type,std::string_view source, double value )
+        : type(type), source(source), value(value) {}
 
 
 // Actor Calc List
@@ -74,14 +74,14 @@ int ActorCalcList::calculate( int baseValue ) const
 }
 
 
-void ActorCalcList::addItem( ActorCalcOperation type, int value )
+void ActorCalcList::addItem( ActorCalcOperation type, std::string_view source, int value )
 {
-    addItem(type, (double) value);
+    addItem(type, source, (double) value);
 }
 
-void ActorCalcList::addItem( ActorCalcOperation type, double value )
+void ActorCalcList::addItem( ActorCalcOperation type, std::string_view source, double value )
 {
-    m_modList.emplace_back( type, value );
+    m_modList.emplace_back( type, source, value );
 }
 
 std::span<const ActorCalcItem> ActorCalcList::items() const

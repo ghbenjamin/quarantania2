@@ -18,7 +18,30 @@ ModifierOverlay::ModifierOverlay(Manager *manager, Element* parent, Level* level
 
     for ( auto const& mod : data.mods.items() )
     {
-        manager->createElement<Label>( tableContainer.get(), std::to_string((int)mod.value) );
+        int value = (int) mod.value;
+        std::string prefix;
+        
+        if ( value < 0 )
+        {
+            prefix = "-";
+        }
+        else if ( value > 0 )
+        {
+            prefix = "+";
+        }
+        else
+        {
+            prefix = "";
+        }
+        
+        std::string modifierText = prefix + std::to_string(value);
+    
+        
+        auto rowElement = manager->createElement( tableContainer.get() );
+        rowElement->setLayout<HorizontalLayout>(4, VAlignment::Centre);
+        
+        manager->createElement<Label>( rowElement.get(), std::string(mod.source) );
+        manager->createElement<Label>( rowElement.get(), modifierText );
     }
 
     doLayout();

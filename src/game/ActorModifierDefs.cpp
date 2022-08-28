@@ -11,7 +11,7 @@ void ActorMods::ModSavingThrowStatic::modify( ActorCalcData& data )
     auto& ctx = std::get<ActorCalc::SavingThrowRoll>( data.data );
     if (ctx.type == type)
     {
-        data.mods.addItem(ActorCalcOperation::Add, modifier);
+        data.mods.addItem(ActorCalcOperation::Add, "foo", modifier);
     }
 }
 
@@ -21,7 +21,7 @@ ActorMods::ModAttackRollStatic::ModAttackRollStatic( int modifier )
 
 void ActorMods::ModAttackRollStatic::modify( ActorCalcData& data )
 {
-    data.mods.addItem(ActorCalcOperation::Add, modifier);
+    data.mods.addItem(ActorCalcOperation::Add, "foo", modifier);
 }
 
 
@@ -30,7 +30,7 @@ ActorMods::ModSavingThrowStaticAll::ModSavingThrowStaticAll( int modifier )
 
 void ActorMods::ModSavingThrowStaticAll::modify( ActorCalcData& data )
 {
-    data.mods.addItem(ActorCalcOperation::Add, modifier);
+    data.mods.addItem(ActorCalcOperation::Add, "foo", modifier);
 }
 
 ActorMods::ModAbilityScoreStatic::ModAbilityScoreStatic(AbilityScoreType type, int modifier)
@@ -42,7 +42,7 @@ void ActorMods::ModAbilityScoreStatic::modify( ActorCalcData& data )
 
     if ( ctx.type == type )
     {
-        data.mods.addItem(ActorCalcOperation::Add, modifier);
+        data.mods.addItem(ActorCalcOperation::Add, "foo", modifier);
     }
 }
 
@@ -51,7 +51,7 @@ ActorMods::ModAbilityScoreStaticAll::ModAbilityScoreStaticAll(int modifier)
 
 void ActorMods::ModAbilityScoreStaticAll::modify( ActorCalcData& data )
 {
-    data.mods.addItem(ActorCalcOperation::Add, modifier);
+    data.mods.addItem(ActorCalcOperation::Add, "foo", modifier);
 }
 
 
@@ -60,6 +60,6 @@ ActorMods::ModMovementSpeedMultiplier::ModMovementSpeedMultiplier( float multipl
 
 void ActorMods::ModMovementSpeedMultiplier::modify( ActorCalcData& data )
 {
-    data.mods.addItem(ActorCalcOperation::Multiply, multiplier);
+    data.mods.addItem(ActorCalcOperation::Multiply, "foo", multiplier);
 }
 

@@ -21,6 +21,10 @@ return {
         text_colour = "#444444"
      },
      {
+        type = "horizontal_rule",
+        colour = "Grey"
+     },
+     {
         id = "modifier-list-container",
         layout = {
             type = "vertical",

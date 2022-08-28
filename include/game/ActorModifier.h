@@ -29,9 +29,10 @@ enum class ActorCalcOperation
 // A single modification - a value and an operation (e.g. +5, x2)
 struct ActorCalcItem
 {
-    ActorCalcItem( ActorCalcOperation type, double value );
+    ActorCalcItem( ActorCalcOperation type, std::string_view source, double value );
     
     ActorCalcOperation type {};
+    std::string_view source {};
     double value = 0;
 };
 
@@ -40,8 +41,8 @@ struct ActorCalcItem
 class ActorCalcList
 {
 public:
-    void addItem( ActorCalcOperation type, double value );
-    void addItem( ActorCalcOperation type, int value );
+    void addItem( ActorCalcOperation type, std::string_view source, double value );
+    void addItem( ActorCalcOperation type, std::string_view source, int value );
 
     // Calculate the final effect of the modifiers, for the given base value
     int calculate( int baseValue ) const;
