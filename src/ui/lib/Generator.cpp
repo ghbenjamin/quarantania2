@@ -188,7 +188,24 @@ std::shared_ptr<Element> Generator::nodeToElement( sol::table const& node, Eleme
         }
         else if ( typeval == "label" )
         {
+            auto labelElem =  m_manager->createElement<Label>( parent );
+            
+            if ( node["text_size"] != sol::nil )
+            {
+                labelElem->setTextSize( node["text_size"].get<int>() );
+            }
     
+            if ( node["text_colour"] != sol::nil )
+            {
+                labelElem->setTextColour( Colour(node["text_colour"].get<std::string>()) );
+            }
+    
+            if ( node["text"] != sol::nil )
+            {
+                labelElem->setText( node["text"].get<std::string>() );
+            }
+            
+            return labelElem;
         }
         else if ( typeval == "scroll" )
         {

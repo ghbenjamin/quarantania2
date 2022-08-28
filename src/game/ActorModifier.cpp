@@ -84,6 +84,11 @@ void ActorCalcList::addItem( ActorCalcOperation type, double value )
     m_modList.emplace_back( type, value );
 }
 
+std::span<const ActorCalcItem> ActorCalcList::items() const
+{
+    return m_modList;
+}
+
 
 
 // Actor Mod Group

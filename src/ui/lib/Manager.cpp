@@ -136,6 +136,11 @@ void Manager::deleteElement(Element* element)
     }
 }
 
+void Manager::deleteElement( std::shared_ptr<Element> element )
+{
+    deleteElement( element.get() );
+}
+
 void Manager::alignElementToWindow(const ElementPtr& element, UI::Alignment alignment, Vector2i offset)
 {
     unalignElementFromWindow(element);
@@ -687,7 +692,9 @@ void Manager::setLuaType(LuaState &lua)
         "Manager"
     );
 
-    userType["deleteElement"] = &UI::Manager::deleteElement;
+//    userType["deleteElement"] = &UI::Manager::deleteElement;
     userType["withId"] = &UI::Manager::withId<UI::Element>;
     userType["createElement"] = &UI::Manager::createElementBlank;
 }
+
+

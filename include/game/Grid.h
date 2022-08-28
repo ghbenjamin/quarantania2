@@ -6,6 +6,7 @@
 #include <game/Defines.h>
 #include <utils/Colour.h>
 
+
 // Something which contributes to the shared field of view of the team, normally a player charatcter.
 struct FOVObserver
 {
@@ -19,7 +20,6 @@ struct LightSource
     float intensity;
     Colour colour;
 };
-
 
 using PathMap = std::unordered_map<Vector2i, std::pair<Vector2i, float>, Vector2iHash>;
 
@@ -43,6 +43,7 @@ public:
 
     // Cache of which entities are currently in which tile
     std::vector<EntityRef> entitiesAtTile( Vector2i pos ) const;
+    EntityRef firstEntityAtTile( Vector2i pos ) const;
     void addEntToTile( Vector2i pos, EntityRef ent );
     void removeEntFromTile( Vector2i pos, EntityRef ent );
 

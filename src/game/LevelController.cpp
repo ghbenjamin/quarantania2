@@ -9,6 +9,8 @@
 #include <game/ActionDefs.h>
 #include <resource/ResourceManager.h>
 #include <ui/level/LevelMainMenu.h>
+#include <ui/level/ModifierOverlay.h>
+#include <game/AttackDefs.h>
 
 LevelController::LevelController(Level *level, UI::Manager* ui)
 : m_level(level), m_ui(ui), m_shouldPopController(false)
@@ -416,11 +418,26 @@ bool PlayerSelectedController::onMouseDown(IEventMouseDown evt)
 void PlayerSelectedController::onHoveredTileChange(Vector2i prev, Vector2i curr)
 {
     // As we move over possible attack/move/examine targets, update our cursor to match
+    
+    m_ui->deleteElement( m_tileHoverOverlay );
 
     auto idx = std::find( m_defAttackTiles.begin(), m_defAttackTiles.end(), curr );
     if ( idx != m_defAttackTiles.end() )
     {
         ResourceManager::get().getWindow()->cursor().setCursorType( CursorType::Attack );
+        
+        EntityRef target = m_level->grid().firstEntityAtTile( curr  );
+        auto targetActor = m_level->ecs().getComponents<ActorComponent>( target )->actor;
+        
+        auto& actor = m_level->ecs().getComponents<ActorComponent>( m_entity )->actor;
+        auto [mainWeapon, offWeapon] = actor.getEquippedWeapons();
+        
+        
+        auto modifiers = actor.getModifiersAttackRoll( &targetActor, mainWeapon, std::make_shared<MeleeAttackStandard>() );
+        
+        m_tileHoverOverlay = m_ui->createElement<UI::ModifierOverlay>( nullptr, m_level, modifiers );
+        m_tileHoverOverlay->setLocalPosition( m_level->tileCoordsToScreen(curr) + Vector2i{ -100, -100 } );
+        
         return;
     }
     
@@ -446,8 +463,9 @@ void PlayerSelectedController::onExitImpl()
         m_ui->withId( "player-inventory" )->hide();
     }
     
-    m_ui->deleteElement( m_defaultMoveHighlight.get() );
-    m_ui->deleteElement( m_defaultAttackHighlight.get() );
+    m_ui->deleteElement( m_tileHoverOverlay );
+    m_ui->deleteElement( m_defaultMoveHighlight );
+    m_ui->deleteElement( m_defaultAttackHighlight);
     
     ResourceManager::get().getWindow()->cursor().resetCursor();
 }

@@ -138,6 +138,9 @@ private:
     std::shared_ptr<UI::Element> m_defaultMoveHighlight;
     std::shared_ptr<UI::Element> m_defaultAttackHighlight;
     
+    
+    std::shared_ptr<UI::Element> m_tileHoverOverlay;
+    
     GameAction m_defMoveAction;
     GameAction m_defAttackAction;
     

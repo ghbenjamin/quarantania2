@@ -88,6 +88,7 @@ public:
     }
 
     void deleteElement( Element* element );
+    void deleteElement( std::shared_ptr<Element> element );
     void delayedDeleteElement( Element* element );
 
     void alignElementToWindow( const ElementPtr& element, UI::Alignment alignment, Vector2i offset);

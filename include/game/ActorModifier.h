@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include <variant>
+#include <span>
 
 #include <game/Combat.h>
 #include <game/Action.h>
@@ -44,6 +45,8 @@ public:
 
     // Calculate the final effect of the modifiers, for the given base value
     int calculate( int baseValue ) const;
+    
+    std::span<const ActorCalcItem> items() const;
 
 private:
     std::vector<ActorCalcItem> m_modList;

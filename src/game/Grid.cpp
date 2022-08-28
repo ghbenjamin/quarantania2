@@ -264,6 +264,21 @@ std::vector<EntityRef> Grid::entitiesAtTile(Vector2i pos) const
     return out;
 }
 
+
+EntityRef Grid::firstEntityAtTile( Vector2i pos ) const
+{
+    auto range = m_entitiesAtTiles.equal_range( pos );
+    
+    for ( auto it = range.first; it != range.second; it++ )
+    {
+        return it->second;
+    }
+    
+    return EntityNull;
+}
+
+
+
 void Grid::addEntToTile(Vector2i pos, EntityRef ent)
 {
     m_entitiesAtTiles.emplace(pos, ent);
