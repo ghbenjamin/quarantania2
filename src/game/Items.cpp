@@ -193,7 +193,6 @@ void Armour::initFromData(ArmourData const &rawData)
     m_shieldBonus = rawData.shieldBonus;
     m_armourBonus = rawData.armourBonus;
     m_maxDex = rawData.maxDex;
-    m_speed20 = rawData.speed20;
     m_speed30 = rawData.speed30;
     m_armourCheck = rawData.armourCheck;
     m_armourType = EnumParse::armourType(rawData.armourType);
@@ -227,11 +226,6 @@ int Armour::armourCheck() const
 int Armour::maxDex() const
 {
     return m_maxDex;
-}
-
-int Armour::speed20() const
-{
-    return m_speed20;
 }
 
 int Armour::speed30() const

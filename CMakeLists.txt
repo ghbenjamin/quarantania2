@@ -35,8 +35,11 @@ target_link_libraries(quarantania2_lib PRIVATE ZLIB::ZLIB)
 find_package(glad CONFIG REQUIRED)
 target_link_libraries(quarantania2_lib PRIVATE glad::glad)
 
-find_path(STB_INCLUDE_DIRS "stb.h")
-target_include_directories(quarantania2_lib PRIVATE ${STB_INCLUDE_DIRS})
+find_package(Stb REQUIRED)
+target_include_directories(quarantania2_lib PRIVATE ${Stb_INCLUDE_DIR})
+
+#find_path(STB_INCLUDE_DIRS "stb.h")
+#target_include_directories(quarantania2_lib PRIVATE ${STB_INCLUDE_DIRS})
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(quarantania2_lib PRIVATE glm::glm)
@@ -49,7 +52,7 @@ target_include_directories(quarantania2_lib PRIVATE ${LUA_INCLUDE_DIR})
 target_link_libraries(quarantania2_lib PRIVATE ${LUA_LIBRARIES})
 
 find_package(sol2 CONFIG REQUIRED)
-target_link_libraries(quarantania2_lib PRIVATE sol2::sol2)
+target_link_libraries(quarantania2_lib PRIVATE sol2)
 
 
 # Main executable

@@ -4,19 +4,19 @@
       "name": "x64-Debug",
       "generator": "Ninja",
       "configurationType": "Debug",
-      "inheritEnvironments": [ "msvc_x86" ],
+      "inheritEnvironments": [ "msvc_x64" ],
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
       "ctestCommandArgs": "",
       "variables": [
         {
           "name": "CMAKE_TOOLCHAIN_FILE",
-          "value": "C:\\Users\\brh\\Docs\\Programming\\Utils\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake",
+          "value": "C:/Users/brh/Docs/Programming/Utility/vcpkg/scripts/buildsystems/vcpkg.cmake",
           "type": "STRING"
         },
         {
           "name": "VCPKG_TARGET_TRIPLET",
-          "value": "x86-windows",
+          "value": "x64-windows",
           "type": "STRING"
         }
       ],

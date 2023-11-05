@@ -12,7 +12,6 @@ public:
 
     void operator()(GameEvents::EntityMove& evt);
     void operator()(GameEvents::EntityReady& evt);
-    void operator()(GameEvents::EntityOpenClose& evt);
     void operator()(GameEvents::EntityDeath& evt);
 
     template <typename T>

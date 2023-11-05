@@ -26,7 +26,6 @@ public:
     int shieldBonus( ) const;
     int armourCheck( ) const;
     int maxDex( ) const;
-    int speed20( ) const;
     int speed30( ) const;
 
 private:
@@ -38,7 +37,6 @@ private:
     int m_shieldBonus;
     int m_armourCheck;
     int m_maxDex;
-    int m_speed20;
     int m_speed30;
     ArmourType m_armourType;
 };

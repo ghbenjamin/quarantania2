@@ -44,15 +44,6 @@ struct EntityReady : public GameEvent<EntityReady>
     EntityRef ent;
 };
 
-struct EntityOpenClose : public GameEvent<EntityOpenClose>
-{
-    EntityOpenClose(EntityRef ent, bool isOpen);
-    ~EntityOpenClose() override = default;
-
-    EntityRef ent;
-    bool isOpen;
-};
-
 struct LevelReady : public GameEvent<LevelReady>
 {
     LevelReady() = default;

@@ -10,9 +10,6 @@ GameEvents::EntityMove::EntityMove(EntityRef ent, const Vector2i &oldPos,
 GameEvents::EntityReady::EntityReady(EntityRef ent)
     : ent(ent) {}
 
-GameEvents::EntityOpenClose::EntityOpenClose(EntityRef ent, bool isOpen)
-    : ent(ent), isOpen(isOpen) {}
-
 GameEvents::ItemPickup::ItemPickup(EntityRef actor, EntityRef item)
     : actor(actor), item(item) {}
 

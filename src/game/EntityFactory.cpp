@@ -114,7 +114,6 @@ EntityRef EntityFactory::createObject(Vector2i pos, std::string const& name, Spr
     if ( name == "door" )
     {
         m_parent->ecs().addComponent<ColliderComponent>(eref, true, true);
-        m_parent->ecs().addComponent<OpenableComponent>(eref);
     }
    
    

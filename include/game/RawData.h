@@ -38,7 +38,6 @@ struct ArmourData
     int shieldBonus;
     int armourCheck;
     int maxDex;
-    int speed20;
     int speed30;
     std::string armourType;
 };

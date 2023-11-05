@@ -2,13 +2,11 @@
 #include <components/ColliderComponent.h>
 #include <components/PositionComponent.h>
 #include <game/Level.h>
-#include <components/OpenableComponent.h>
 
 CollisionSystem::CollisionSystem(Level *parent) : System(parent)
 {
     m_level->events().subscribe<GameEvents::EntityMove>(this );
     m_level->events().subscribe<GameEvents::EntityReady>(this );
-    m_level->events().subscribe<GameEvents::EntityOpenClose>(this );
     m_level->events().subscribe<GameEvents::EntityDeath>(this );
 }
 
@@ -39,39 +37,6 @@ void CollisionSystem::operator()(GameEvents::EntityReady& evt)
         if ( collider->blocksMovement )
         {
             m_level->grid().pass().setDynamic( tilePos->tilePosition, evt.ent, Passibility::Impassable );
-        }
-    }
-}
-
-void CollisionSystem::operator()(GameEvents::EntityOpenClose& evt)
-{
-    auto [openable, collider, position] = m_level->ecs().getComponents<
-            OpenableComponent,
-            ColliderComponent,
-            PositionComponent
-            >(evt.ent);
-
-    openable->isOpen = evt.isOpen;
-    if ( evt.isOpen )
-    {
-        // This is an 'open' event
-        collider->blocksLight = false;
-
-        if ( !openable->lightOnly )
-        {
-            collider->blocksMovement = false;
-            m_level->grid().pass().removeDynamic(position->tilePosition, evt.ent, Passibility::Impassable);
-        }
-    }
-    else
-    {
-        // This is a 'close' event
-        collider->blocksLight = true;
-
-        if ( !openable->lightOnly )
-        {
-            collider->blocksMovement = true;
-            m_level->grid().pass().setDynamic(position->tilePosition, evt.ent, Passibility::Impassable);
         }
     }
 }

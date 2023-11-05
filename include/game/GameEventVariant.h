@@ -6,7 +6,6 @@ namespace GameEvents
 {
     struct EntityMove;
     struct EntityReady;
-    struct EntityOpenClose;
     struct LevelReady;
     struct TurnChange;
     struct RoundChange;
@@ -28,7 +27,6 @@ namespace GameEvents
 using GameEventVariant = std::variant<
         GameEvents::EntityMove,
         GameEvents::EntityReady,
-        GameEvents::EntityOpenClose,
         GameEvents::LevelReady,
         GameEvents::TurnChange,
         GameEvents::RoundChange,

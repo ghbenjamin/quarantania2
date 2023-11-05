@@ -15,7 +15,6 @@ FOVSystem::FOVSystem(Level *parent) : System(parent),
 {
     m_level->events().subscribe<GameEvents::EntityMove>(this );
     m_level->events().subscribe<GameEvents::LevelReady>(this );
-    m_level->events().subscribe<GameEvents::EntityOpenClose>(this );
 }
 
 void FOVSystem::operator()(GameEvents::EntityMove& evt)
@@ -101,9 +100,4 @@ void FOVSystem::recalculateFOV()
 
     // Mark that we need to push the new render overlay data to the renderer
     m_renderDirtyBit = true;
-}
-
-void FOVSystem::operator()(GameEvents::EntityOpenClose& evt)
-{
-    recalculateFOV();
 }

@@ -15,7 +15,6 @@ public:
 
     void operator()(GameEvents::EntityMove& evt);
     void operator()(GameEvents::LevelReady& evt);
-    void operator()(GameEvents::EntityOpenClose& evt);
 
     template <typename T>
     void operator()(T&& t)
